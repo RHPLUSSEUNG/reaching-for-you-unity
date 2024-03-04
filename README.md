@@ -60,3 +60,11 @@ footer (꼬리말)
 - 참고사항
 
   
+
+# 3. Branch Rule
+- Ref: [Git Branch & Naming](https://ej-developer.tistory.com/75)
+### 크게 3가지 유형의 브랜치로 분기하여 사용
+
+- ```main``` : 유저에게 배포가능한 상태를 관리하는 브랜치. 절대 함부로 병합 시키지 말것
+- ```develop``` : 기능개발을 위한 브랜들을 병합시키는 브랜치. feature/... 브랜치는 이곳에서 분기하여 병합, 안정적인 상태일때, main에 병합
+- ```feature/...``` : 새로운 기능 및 버그 수정이 필요할 때 사용하는 브랜치. develop 브랜치에서 분기하여 병합, 더 이상 필요가 없다면 삭제 naming ex) feature/dialogue
