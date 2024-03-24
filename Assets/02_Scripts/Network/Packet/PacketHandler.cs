@@ -1,6 +1,7 @@
-﻿using DummyClient;
+﻿using Client;
 using ServerCore;
 using System;
+using UnityEngine;
 
 
 class PacketHandler
@@ -21,6 +22,16 @@ class PacketHandler
         S_Chat chatPacket = packet as S_Chat;
         ServerSession serverSession = session as ServerSession;
 
-        //Console.WriteLine($"{chatPacket.playerId} : {chatPacket.chat}");
+        Debug.Log(chatPacket.chat);
+
+        GameObject go = GameObject.Find("Player");
+        if (go != null)
+        {
+            Debug.Log($"Player found : {go.transform.position}");
+        }
+        else
+        {
+            Debug.Log("Player not found");
+        }
     }
 }

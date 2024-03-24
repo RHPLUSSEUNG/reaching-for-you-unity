@@ -3,7 +3,7 @@ using System;
 using System.Net;
 using System.Text;
 
-namespace DummyClient
+namespace Client
 {
     class ServerSession : PacketSession
     {
@@ -19,7 +19,7 @@ namespace DummyClient
 
         public override void OnReceivePacket(ArraySegment<byte> buffer)
         {
-            PacketManager.Instance.OnRecvPacket(this, buffer);
+            PacketManager.Instance.OnRecvPacket(this, buffer, (session, packet)=>PacketQueue.Instance.Push(packet));
         }
 
         public override void OnSend(int numOfBytes)
