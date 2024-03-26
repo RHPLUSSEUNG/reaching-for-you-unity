@@ -14,9 +14,22 @@ public class CharacterBattle : MonoBehaviour
         _spec = _go.GetComponent<CharacterSpec>();
     }
 
-    public void GetDamaged(int damage)
+    public void GetDamaged(int damage, ElementType element)
     {
-        _spec.hp = _spec.hp - damage;
+        //Disadvantage
+        if(_spec.elementType - element == 1 || _spec.elementType - element == -4)
+        {
+            _spec.hp -= damage * 2;
+        }
+        //Advantage
+        else if(_spec.elementType - element == -1 || _spec.elementType - element == 4)
+        {
+            _spec.hp -= damage / 2;
+        }
+        else
+        {
+            _spec.hp -= damage;
+        }
     }
 
     public void Dead()
@@ -35,6 +48,6 @@ public class CharacterBattle : MonoBehaviour
         {
             return;
         }
-        t_battle.GetDamaged(damage);
+        t_battle.GetDamaged(damage, _spec.elementType);
     }
 }

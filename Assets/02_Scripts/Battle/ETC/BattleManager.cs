@@ -5,11 +5,24 @@ using UnityEngine;
 public class BattleManager : MonoBehaviour
 {
     #region singleton
-    static BattleManager _instance = new BattleManager();
+    static BattleManager _instance;
     public static BattleManager Instance {  get { return _instance; } }
+    public static Inventory inven = new Inventory();
     #endregion
     GameObject player;
     List<GameObject> playerParty = new List<GameObject>();
+
+    public void Init()
+    {
+        GameObject go = GameObject.Find("BattleManager");
+        if (go == null)
+        {
+            go = new GameObject { name = "BattleManager" };
+            go.GetComponent<BattleManager>();
+        }
+        DontDestroyOnLoad(go);
+        _instance = go.GetComponent<BattleManager>();
+    }
 
     public void Start()
     {

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class CharacterSpec : MonoBehaviour
 {
-    public bool is_mine;
+    [SerializeField]
     public int hp;
     public int attack;
     public int shield;
-    public float speed;
+    public short stamina;
+
+    public ElementType elementType;
 }

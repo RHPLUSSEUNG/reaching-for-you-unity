@@ -1,18 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Active : MonoBehaviour
+public abstract class Active : Skill
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public short cooltime;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public abstract bool Activate();
+    
 }
