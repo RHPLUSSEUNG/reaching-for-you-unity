@@ -2,6 +2,7 @@ using NUnit.Framework.Constraints;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Permissions;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.MPE;
@@ -15,6 +16,9 @@ public class DialogueEditor : EditorWindow
     [NonSerialized] DialogueNode draggingNode = null;
     [NonSerialized] Vector2 draggingOffset;
     [NonSerialized] DialogueNode creatingNode = null;
+    [NonSerialized] DialogueNode deletingNode = null;
+    [NonSerialized] DialogueNode linkingParentNode = null;
+    Vector2 scrollPosition;
 
     [MenuItem("Window/Dialogue Editor")] //Callback
     public static void ShowEditorWindow()
@@ -67,6 +71,8 @@ public class DialogueEditor : EditorWindow
         {
             ProcessEvents();
 
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+            
             foreach (DialogueNode node in selectedDialogue.GetAllNodes())
             {
                 DrawConnections(node);
@@ -74,6 +80,21 @@ public class DialogueEditor : EditorWindow
             foreach (DialogueNode node in selectedDialogue.GetAllNodes())
             {
                 DrawNode(node);
+            }
+
+            EditorGUILayout.EndScrollView();
+
+            if (creatingNode != null)
+            {
+                Undo.RecordObject(selectedDialogue, "Added Dialogue Node");
+                selectedDialogue.CreateNode(creatingNode);
+                creatingNode = null;
+            }
+            if (deletingNode != null)
+            {
+                Undo.RecordObject(selectedDialogue, "Deleted Dialogue Node");
+                selectedDialogue.DeleteNode(deletingNode);
+                deletingNode = null;
             }
         }
     }
@@ -98,13 +119,7 @@ public class DialogueEditor : EditorWindow
         else if (Event.current.type == EventType.MouseUp && draggingNode != null)
         {
             draggingNode = null;
-        }
-        if (creatingNode != null)
-        {
-            Undo.RecordObject(selectedDialogue, "Added Dialogue Node");
-            selectedDialogue.CreateNode(creatingNode);
-            creatingNode = null;
-        }
+        }        
     }
 
     void DrawNode(DialogueNode node)
@@ -118,11 +133,60 @@ public class DialogueEditor : EditorWindow
             Undo.RecordObject(selectedDialogue, "Update Dialogue Text");
             node.text = newText;
         }
+
+        GUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("x"))
+        {
+            deletingNode = node;
+        }
+
+        DrawLinkButtons(node);
+
         if (GUILayout.Button("+"))
         {
             creatingNode = node;
         }
+
+        GUILayout.EndHorizontal();
+
         GUILayout.EndArea();
+    }
+
+    void DrawLinkButtons(DialogueNode node)
+    {
+        if (linkingParentNode == null)
+        {
+            if (GUILayout.Button("link"))
+            {
+                linkingParentNode = node;
+            }
+        }
+        else if(linkingParentNode == node)
+        {
+            if (GUILayout.Button("cancel"))
+            {
+                linkingParentNode = null;
+            }
+        }
+        else if(linkingParentNode.children.Contains(node.uniqueID))
+        {
+            if (GUILayout.Button("unlink"))
+            {
+                Undo.RecordObject(selectedDialogue, "Remove Dialogue Link");
+                linkingParentNode.children.Remove(node.uniqueID);
+                linkingParentNode = null;
+            }
+        }
+        else
+        {
+            if (GUILayout.Button("child"))
+            {
+                Undo.RecordObject(selectedDialogue, "Add Dialogue Link");
+                linkingParentNode.children.Add(node.uniqueID);
+                linkingParentNode = null;
+            }
+        }
     }
 
     void DrawConnections(DialogueNode node)

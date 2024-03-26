@@ -54,6 +54,21 @@ public class Dialogue : ScriptableObject
         OnValidate();
     }
 
+    public void DeleteNode(DialogueNode nodeToDelete)
+    {
+        nodes.Remove(nodeToDelete);
+        OnValidate();
+        CleanDanglingChildren(nodeToDelete);
+    }
+
+    public void CleanDanglingChildren(DialogueNode nodeToDialogue)
+    {
+        foreach(DialogueNode node in GetAllNodes())
+        {
+            node.children.Remove(nodeToDialogue.uniqueID);
+        }
+    }
+
     public IEnumerable<DialogueNode> GetAllNodes()
     {
         return nodes;
