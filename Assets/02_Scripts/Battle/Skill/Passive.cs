@@ -4,6 +4,6 @@ using UnityEngine;
 
 public abstract class Passive : Skill
 {
-    public abstract bool Activate();
-    public abstract bool UnActivate();
+    public abstract bool Activate(); //equip passive
+    public abstract bool UnActivate(); //unequip passive
 }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class Consume : Item
 {
-    public abstract bool Activate();
+    public abstract bool Activate(); //consume item
 }

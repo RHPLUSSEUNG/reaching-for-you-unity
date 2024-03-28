@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class CharacterBattle : MonoBehaviour
@@ -30,6 +29,11 @@ public class CharacterBattle : MonoBehaviour
         {
             _spec.hp -= damage;
         }
+
+        if(_spec.hp <= 0)
+        {
+            Dead();
+        }
     }
 
     public void Dead()
@@ -49,5 +53,12 @@ public class CharacterBattle : MonoBehaviour
             return;
         }
         t_battle.GetDamaged(damage, _spec.elementType);
+        _spec.remainStamina--;
+    }
+
+    public void UseSkill(Active skill)
+    {
+        skill.Activate();
+        _spec.remainStamina--;
     }
 }

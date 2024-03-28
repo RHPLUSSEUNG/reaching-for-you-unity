@@ -7,13 +7,14 @@ using UnityEngine;
 public class PlayerSpec : CharacterSpec
 {
     public int uid;
-
+    public int pid;
     public Skill[] _equipSkills = new Skill[3];
     public Equipment[] _equipItems = new Equipment[5];
 
-    public PlayerSpec(int uid)
+    public PlayerSpec(int uid, int pid=0) //0 = user partycharacter = 1~
     {
         this.uid = uid;
+        this.pid = pid;
         for(int i = 0; i < 5; i++)
         {
             if(i < 3)
