@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rigid;
@@ -9,8 +8,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float rotateSpeed = 5.0f;
 
-    public Animator animator;
-    public Vector3 inputVec;
+    private Animator animator;
+    private Vector3 inputVec;
 
     enum State
     {
@@ -43,7 +42,6 @@ public class PlayerController : MonoBehaviour
         {
             Inventory();
         }
-
     }
     private void FixedUpdate()
     {
@@ -135,5 +133,4 @@ private void Interact()
     {
         Debug.Log("Open Inventory");
     }
-
 }
