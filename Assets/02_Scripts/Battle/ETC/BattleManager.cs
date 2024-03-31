@@ -6,7 +6,7 @@ public class BattleManager : MonoBehaviour
 {
     #region singleton
     static BattleManager _instance;
-    public static BattleManager Instance {  get { return _instance; } }
+    public static BattleManager Instance { get { return _instance; } }
     public static Inventory inven = new Inventory();
     public void Init()
     {
@@ -22,7 +22,9 @@ public class BattleManager : MonoBehaviour
     #endregion
     List<GameObject> playerParty = new List<GameObject>();
     List<GameObject> monsterParty = new List<GameObject>();
-    
+    public BattleState battleState;
+    public short playerLive;
+    public short monsterLive;
     public void Start()
     {
         //client's player find
@@ -32,7 +34,7 @@ public class BattleManager : MonoBehaviour
     //player party increase
     public void AddParty(GameObject character)
     {
-        if(playerParty.Count > 4)
+        if (playerParty.Count > 4)
         {
             Debug.Log("Too many character in your party");
             return;
@@ -42,7 +44,7 @@ public class BattleManager : MonoBehaviour
     //player party decrease
     public void RemoveParty(GameObject character)
     {
-        if(playerParty.Count == 1)
+        if (playerParty.Count == 1)
         {
             Debug.Log("You don't have any other character in your party");
             return;
@@ -52,33 +54,44 @@ public class BattleManager : MonoBehaviour
 
     public void BattleStart()
     {
-        foreach(GameObject character in playerParty)
+        foreach (GameObject character in playerParty)
         {
             //Generate Character on Map
-            Instantiate(character, new Vector3() , new Quaternion());
+            Instantiate(character, new Vector3(), new Quaternion());
+        }
+        foreach (GameObject character in monsterParty)
+        {
+            //Generate Character on Map
+            Instantiate(character, new Vector3(), new Quaternion());
+        }
+        playerLive = (short)playerParty.Count;
+        monsterLive = (short)monsterParty.Count;
+        battleState = BattleState.PlayerTurn;
+    }
+
+    public void NextTurn(List<GameObject> party)
+    {
+        foreach (GameObject g in party)
+        {
+            Debuff debuff = g.GetComponent<Debuff>();
+            if (debuff != null)
+            {
+                debuff.Active();
+            }
+            g.GetComponent<CharacterSpec>().remainStamina = g.GetComponent<CharacterSpec>().stamina;
         }
     }
 
-    public void NextTurn()
+    public void Result()
     {
-        foreach(GameObject g in playerParty)
+        if (playerLive == 0)
         {
-            Debuff debuff = g.GetComponent<Debuff>();
-            if (debuff != null)
-            {
-                debuff.Active();
-            }
-            g.GetComponent<CharacterSpec>().remainStamina = g.GetComponent<CharacterSpec>().stamina;
+            battleState = BattleState.Victory;
         }
-        //TODO Monster Active time
-        foreach (GameObject g in monsterParty)
+        else if (monsterLive == 0)
         {
-            Debuff debuff = g.GetComponent<Debuff>();
-            if (debuff != null)
-            {
-                debuff.Active();
-            }
-            g.GetComponent<CharacterSpec>().remainStamina = g.GetComponent<CharacterSpec>().stamina;
+            battleState = BattleState.Defeat;
         }
+        else return;
     }
 }

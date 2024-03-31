@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CharacterBattle : MonoBehaviour
+public class PlayerBattle : MonoBehaviour
 {
     CharacterSpec _spec;
     GameObject _go;
@@ -36,8 +36,16 @@ public abstract class CharacterBattle : MonoBehaviour
         }
     }
 
-    public abstract void Dead();
-    
+    public void Dead()
+    {
+        if(_spec.hp > 0)
+        {
+            return;
+        }
+        BattleManager.Instance.playerLive--;
+        Destroy(_go);
+    }
+
     public void Attack(GameObject target, int damage)
     {
         if(_spec.stamina <= 0)

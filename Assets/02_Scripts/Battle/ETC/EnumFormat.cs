@@ -28,3 +28,12 @@ public enum EquipPart
     Globe = 4,
     Weapon = 5,
 };
+
+public enum BattleState
+{
+    Start =0,
+    PlayerTurn = 1,
+    EnemyTurn =2,
+    Victory = 3,
+    Defeat = 4,
+};
