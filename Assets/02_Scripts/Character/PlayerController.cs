@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
+
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rigid;
@@ -9,6 +11,9 @@ public class PlayerController : MonoBehaviour
     float rotateSpeed = 5.0f;
 
     private Animator animator;
+    private Transform character;
+    private Transform colider;
+    
     private Vector3 inputVec;
 
     enum State
@@ -29,8 +34,10 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        character = this.transform.GetChild(0);
         rigid = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        animator = character.GetComponent<Animator>();
+        colider = this.transform.GetChild(1);
     }
     void Update()
     {
@@ -96,8 +103,8 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator RotateTo(float targetAngleY)
     {
-        float startAngleX = transform.eulerAngles.x;
-        float startAngleY = transform.eulerAngles.y;
+        float startAngleX = character.transform.eulerAngles.x;
+        float startAngleY = character.transform.eulerAngles.y;
         float t = 0f;
         float speed = 0f;
         float targetAngleX;
@@ -119,7 +126,7 @@ public class PlayerController : MonoBehaviour
             float xRotation = Mathf.LerpAngle(startAngleX, targetAngleX, speed);
             float yRotation = Mathf.LerpAngle(startAngleY, targetAngleY, speed);
 
-            transform.eulerAngles = new Vector3(xRotation, yRotation, transform.eulerAngles.z);
+            character.transform.eulerAngles = new Vector3(xRotation, yRotation, character.transform.eulerAngles.z);
 
             yield return null;
         }
