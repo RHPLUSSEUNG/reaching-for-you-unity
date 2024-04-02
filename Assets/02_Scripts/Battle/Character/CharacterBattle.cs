@@ -53,13 +53,13 @@ public abstract class CharacterBattle : MonoBehaviour
         _spec.remainStamina--;
     }
 
-    public void UseSkill(Active skill)
+    public void UseSkill(Active skill, Vector3 pos)
     {
         if (_spec.stamina <= 0)
         {
             return;
         }
-        skill.Activate();
+        skill.Activate(pos);
         _spec.remainStamina--;
     }
 }

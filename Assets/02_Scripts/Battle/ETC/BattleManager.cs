@@ -69,8 +69,18 @@ public class BattleManager : MonoBehaviour
         battleState = BattleState.PlayerTurn;
     }
 
-    public void NextTurn(List<GameObject> party)
+    public void NextTurn()
     {
+        List<GameObject> party;
+        if (battleState == BattleState.PlayerTurn)
+        {
+            party = playerParty;
+        }
+        else
+        {
+            party = monsterParty;
+
+        }
         foreach (GameObject g in party)
         {
             Debuff debuff = g.GetComponent<Debuff>();
