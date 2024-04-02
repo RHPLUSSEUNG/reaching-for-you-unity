@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Inventory
 {
-    public Dictionary<int, int> consumeInven = new Dictionary<int, int>();
-    public List<Equipment> equipmentInven = new List<Equipment>();
+    Dictionary<int, int> consumeInven = new Dictionary<int, int>();
+    List<Equipment> equipmentInven = new List<Equipment>();
     short inventoryCnt =  0;
     short inventoryMaxCnt = 100;
     int gold = 0;
