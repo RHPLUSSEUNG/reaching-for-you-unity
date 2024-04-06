@@ -6,6 +6,7 @@ public class CharacterSpec : MonoBehaviour
 {
     [SerializeField]
     public int hp; //character hp
+    public int mp;
     public int attack; //character attack damage
     public int shield; //character shield damage
     public short stamina; //active per turn
