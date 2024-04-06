@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIButtonConnector : MonoBehaviour
+public class BattleUIButtonConnector : MonoBehaviour
 {
     public void NextTurnButton()
     {
@@ -14,11 +14,11 @@ public class UIButtonConnector : MonoBehaviour
         BattleManager.Instance.NextTurn();
     }
 
-    public void UseActiveButton()
+    public void UseActiveSkillButton()
     {
         Vector3 pos = Vector3.zero;
         Active active = this.GetComponent<Active>();
-        //TODO input position that use skill
+        //TODO input position UI that use skill
         if(Input.GetMouseButtonDown(0))
         {
             pos = Input.mousePosition;
@@ -57,5 +57,13 @@ public class UIButtonConnector : MonoBehaviour
     {
         //TODO select character
         BattleManager.inven.EquipItem(this.GetComponent<Equipment>(), new PlayerSpec(1, 0));
+    }
+
+    public void UseConsumeItemButton(Consume item, GameObject target)
+    {
+        if (item.Activate(target))
+        {
+            BattleManager.Inven.ConsumeItem(item);
+        }
     }
 }

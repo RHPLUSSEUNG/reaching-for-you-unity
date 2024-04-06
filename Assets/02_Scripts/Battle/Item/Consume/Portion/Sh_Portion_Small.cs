@@ -7,7 +7,10 @@ public class Sh_Portion_Small : Consume
     public override bool Activate(GameObject target)
     {
         if(target == null) return false;
-        target.GetComponent<CharacterSpec>().shield += 5;
+
+        IncreaseShield buff = new IncreaseShield();
+        buff.SetBuff(3, target, 5);
+        buff.Active();
         return true;
     }
 }

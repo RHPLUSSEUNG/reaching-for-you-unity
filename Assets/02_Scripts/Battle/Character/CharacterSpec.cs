@@ -12,4 +12,7 @@ public class CharacterSpec : MonoBehaviour
     public short stamina; //active per turn
     public short remainStamina;
     public ElementType elementType;
+
+    public List<Debuff> debuffs;
+    public List<Buff> buffs;
 }

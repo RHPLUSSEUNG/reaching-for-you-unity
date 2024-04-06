@@ -7,7 +7,9 @@ public class BattleManager : MonoBehaviour
     #region singleton
     static BattleManager _instance;
     public static BattleManager Instance { get { return _instance; } }
+
     public static Inventory inven = new Inventory();
+    public static Inventory Inven { get { return inven; } }
     public void Init()
     {
         GameObject go = GameObject.Find("BattleManager");
@@ -75,20 +77,26 @@ public class BattleManager : MonoBehaviour
         if (battleState == BattleState.PlayerTurn)
         {
             party = playerParty;
+            battleState = BattleState.EnemyTurn;
         }
         else
         {
             party = monsterParty;
+            battleState = BattleState.PlayerTurn;
 
         }
         foreach (GameObject g in party)
         {
-            Debuff debuff = g.GetComponent<Debuff>();
-            if (debuff != null)
+            CharacterSpec spec = g.GetComponent<CharacterSpec>();
+            foreach(Buff buff in spec.buffs)
             {
-                debuff.Active();
+                buff.TimeCheck();
             }
-            g.GetComponent<CharacterSpec>().remainStamina = g.GetComponent<CharacterSpec>().stamina;
+            foreach (Debuff debuff in spec.debuffs)
+            {
+                debuff.TimeCheck();
+            }
+            spec.remainStamina = spec.stamina;
         }
     }
 

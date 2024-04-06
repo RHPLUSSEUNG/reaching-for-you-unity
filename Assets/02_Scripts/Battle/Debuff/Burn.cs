@@ -5,7 +5,7 @@ using UnityEngine;
 public class Burn : Debuff
 {
     private short tickDmg;
-    public override void Effect()
+    public override void TimeCheck()
     {
         remainTurn--;
         this.gameObject.GetComponent<CharacterBattle>().GetDamaged(remainTurn, ElementType.Fire);
@@ -15,10 +15,17 @@ public class Burn : Debuff
         }
     }
 
-    public override void SetDebuff(short turn, GameObject target, short tickDMG)
+    public override void SetDebuff(short turn, GameObject target, short attribute)
     {
         remainTurn = turn;
-        tickDmg = tickDMG;
-        target.AddComponent<Burn>();
+        tickDmg = attribute;
+    }
+
+    public override bool StartEffect()
+    {
+        if (this.gameObject == null)
+            return false;
+        TimeCheck();
+        return true;
     }
 }
