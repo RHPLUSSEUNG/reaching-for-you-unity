@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,13 +12,15 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private Transform character;
     private Transform colider;
-    
+    private bool isActive;
+
+
     private Vector3 inputVec;
 
     enum State
     {
-        Idle = 1,
-        Move = 2
+        Idle,
+        Move
     }
     enum Direction
     {
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        isActive = true;
         character = this.transform.GetChild(0);
         rigid = GetComponent<Rigidbody>();
         animator = character.GetComponent<Animator>();
@@ -41,18 +43,24 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (isActive)
         {
-            Interact();
-        }
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            Inventory();
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Interact();
+            }
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                Inventory();
+            }
         }
     }
     private void FixedUpdate()
     {
-       Move();
+        if (isActive)
+        {
+            Move();
+        }
     }
     private void LateUpdate()
     {
@@ -131,8 +139,22 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
     }
+
+    public void ChangeActive()
+    {
+        if (isActive)
+        {
+            isActive =false;
+            Debug.Log("InActive");
+        }
+        else
+        {
+            isActive = true;
+            Debug.Log("Active");
+        }
+    }
     
-private void Interact()
+    private void Interact()
     {
         Debug.Log("Interact");
     }
