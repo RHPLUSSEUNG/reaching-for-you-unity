@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rigid;
@@ -9,12 +10,17 @@ public class PlayerController : MonoBehaviour
     float rotateSpeed = 5.0f;
 
     private Animator animator;
+    private Transform character;
+    private Transform colider;
+    private bool isActive;
+
+
     private Vector3 inputVec;
 
     enum State
     {
-        Idle = 1,
-        Move = 2
+        Idle,
+        Move
     }
     enum Direction
     {
@@ -29,23 +35,32 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        isActive = true;
+        character = this.transform.GetChild(0);
         rigid = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        animator = character.GetComponent<Animator>();
+        colider = this.transform.GetChild(1);
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (isActive)
         {
-            Interact();
-        }
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            Inventory();
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Interact();
+            }
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                Inventory();
+            }
         }
     }
     private void FixedUpdate()
     {
-       Move();
+        if (isActive)
+        {
+            Move();
+        }
     }
     private void LateUpdate()
     {
@@ -96,8 +111,8 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator RotateTo(float targetAngleY)
     {
-        float startAngleX = transform.eulerAngles.x;
-        float startAngleY = transform.eulerAngles.y;
+        float startAngleX = character.transform.eulerAngles.x;
+        float startAngleY = character.transform.eulerAngles.y;
         float t = 0f;
         float speed = 0f;
         float targetAngleX;
@@ -119,13 +134,27 @@ public class PlayerController : MonoBehaviour
             float xRotation = Mathf.LerpAngle(startAngleX, targetAngleX, speed);
             float yRotation = Mathf.LerpAngle(startAngleY, targetAngleY, speed);
 
-            transform.eulerAngles = new Vector3(xRotation, yRotation, transform.eulerAngles.z);
+            character.transform.eulerAngles = new Vector3(xRotation, yRotation, character.transform.eulerAngles.z);
 
             yield return null;
         }
     }
+
+    public void ChangeActive()
+    {
+        if (isActive)
+        {
+            isActive =false;
+            Debug.Log("InActive");
+        }
+        else
+        {
+            isActive = true;
+            Debug.Log("Active");
+        }
+    }
     
-private void Interact()
+    private void Interact()
     {
         Debug.Log("Interact");
     }
