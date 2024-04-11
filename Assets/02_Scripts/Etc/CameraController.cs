@@ -1,12 +1,10 @@
-using System;
-using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    GameObject[] targets;
+    GameObject target;
 
     [SerializeField]
     float offsetX = 0.0f;
@@ -20,14 +18,10 @@ public class CameraController : MonoBehaviour
     float cameraSpeed = 10.0f;
 
     private Vector3 setPos;
-    private GameObject target;
-    private int index;
 
     private void Awake()
     {
         transform.eulerAngles = new Vector3(rotateX, 0, 0);
-        index = 0;
-        target = targets[index];
     }
     void FixedUpdate()
     {
@@ -57,15 +51,9 @@ public class CameraController : MonoBehaviour
         }
         Debug.DrawRay(transform.position, direction* distance, Color.red);
     }
-
-
-    public void ChangeTarget()
+    void OnDrawGizmos()
     {
-        if (++index >= targets.Length)
-        {
-            index = 0;
-        }
-        target = targets[index];
-        Debug.Log("Changed Target To " + index);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(this.transform.position, (target.transform.position - transform.position).normalized * Vector3.Distance(transform.position, target.transform.position));
     }
 }
