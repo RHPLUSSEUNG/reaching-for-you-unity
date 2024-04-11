@@ -8,66 +8,41 @@ public class BattleManager : MonoBehaviour
     static BattleManager _instance;
     public static BattleManager Instance { get { return _instance; } }
 
-    public static Inventory inven = new Inventory();
-    public static Inventory Inven { get { return inven; } }
     public void Init()
     {
-        GameObject go = GameObject.Find("BattleManager");
+        GameObject go = GameObject.Find("Manager");
         if (go == null)
         {
-            go = new GameObject { name = "BattleManager" };
-            go.GetComponent<BattleManager>();
+            go = new GameObject { name = "Manager" };
+            go.AddComponent<BattleManager>();
+        }
+        if(go.GetComponent<BattleManager>() == null)
+        {
+            go.AddComponent<BattleManager>();
         }
         DontDestroyOnLoad(go);
         _instance = go.GetComponent<BattleManager>();
     }
     #endregion
-    List<GameObject> playerParty = new List<GameObject>();
-    List<GameObject> monsterParty = new List<GameObject>();
+    
     public BattleState battleState;
     public short playerLive;
     public short monsterLive;
-    public void Start()
-    {
-        //client's player find
-        playerParty.Add(FindObjectOfType<PlayerSpec>().gameObject);
-    }
-
-    //player party increase
-    public void AddParty(GameObject character)
-    {
-        if (playerParty.Count > 4)
-        {
-            Debug.Log("Too many character in your party");
-            return;
-        }
-        playerParty.Add(character);
-    }
-    //player party decrease
-    public void RemoveParty(GameObject character)
-    {
-        if (playerParty.Count == 1)
-        {
-            Debug.Log("You don't have any other character in your party");
-            return;
-        }
-        playerParty.Remove(character);
-    }
-
+    
     public void BattleStart()
     {
-        foreach (GameObject character in playerParty)
+        foreach (GameObject character in GameParty.party.playerParty)
         {
             //Generate Character on Map
             Instantiate(character, new Vector3(), new Quaternion());
         }
-        foreach (GameObject character in monsterParty)
+        foreach (GameObject character in GameParty.party.monsterParty)
         {
             //Generate Character on Map
             Instantiate(character, new Vector3(), new Quaternion());
         }
-        playerLive = (short)playerParty.Count;
-        monsterLive = (short)monsterParty.Count;
+        playerLive = (short)GameParty.party.playerParty.Count;
+        monsterLive = (short)GameParty.party.monsterParty.Count;
         battleState = BattleState.PlayerTurn;
     }
 
@@ -76,12 +51,12 @@ public class BattleManager : MonoBehaviour
         List<GameObject> party;
         if (battleState == BattleState.PlayerTurn)
         {
-            party = playerParty;
+            party = GameParty.party.playerParty;
             battleState = BattleState.EnemyTurn;
         }
         else
         {
-            party = monsterParty;
+            party = GameParty.party.monsterParty;
             battleState = BattleState.PlayerTurn;
 
         }

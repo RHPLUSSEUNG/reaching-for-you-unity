@@ -38,32 +38,32 @@ public class BattleUIButtonConnector : MonoBehaviour
     {
         if(character2!=null)
         {
-            BattleManager.Instance.RemoveParty(character2);
-            BattleManager.Instance.AddParty(character1);
+            GameParty.party.RemoveParty(character2);
+            GameParty.party.AddParty(character1);
         }
         else
         {
-            BattleManager.Instance.AddParty(character1);
+            GameParty.party.AddParty(character1);
         }
     }
 
     public void OpenEquipmentButton()
     {
-        List<Equipment> inven = BattleManager.inven.equipmentInven;
+        List<Equipment> inven = Inventory.inven.equipmentInven;
         //TODO show in UI
     }
 
     public void EquipButton()
     {
         //TODO select character
-        BattleManager.inven.EquipItem(this.GetComponent<Equipment>(), new PlayerSpec(1, 0));
+        Inventory.inven.EquipItem(this.GetComponent<Equipment>(), new PlayerSpec(1, 0));
     }
 
     public void UseConsumeItemButton(Consume item, GameObject target)
     {
         if (item.Activate(target))
         {
-            BattleManager.Inven.ConsumeItem(item);
+            Inventory.Inven.ConsumeItem(item);
         }
     }
 }
