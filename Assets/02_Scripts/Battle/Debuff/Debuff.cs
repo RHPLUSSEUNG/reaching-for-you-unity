@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Debuff : MonoBehaviour
+public abstract class Debuff
 {
+    public GameObject target;
     public short remainTurn;
 
     public abstract void TimeCheck();
@@ -15,7 +16,7 @@ public abstract class Debuff : MonoBehaviour
             return false;
         }
 
-        Destroy(this.gameObject.GetComponent<Buff>());
+        target.GetComponent<CharacterSpec>().debuffs.Remove(this);
         return true;
     }
 

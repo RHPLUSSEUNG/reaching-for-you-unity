@@ -8,7 +8,7 @@ public class Burn : Debuff
     public override void TimeCheck()
     {
         remainTurn--;
-        this.gameObject.GetComponent<CharacterBattle>().GetDamaged(remainTurn, ElementType.Fire);
+        target.GetComponent<CharacterBattle>().GetDamaged(tickDmg, ElementType.Fire);
         if(remainTurn == 0)
         {
             DeleteEffect();
@@ -17,13 +17,14 @@ public class Burn : Debuff
 
     public override void SetDebuff(short turn, GameObject target, short attribute)
     {
+        this.target = target;
         remainTurn = turn;
         tickDmg = attribute;
     }
 
     public override bool StartEffect()
     {
-        if (this.gameObject == null)
+        if (target == null)
             return false;
         TimeCheck();
         return true;
