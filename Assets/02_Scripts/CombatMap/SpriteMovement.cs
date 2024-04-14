@@ -23,13 +23,21 @@ public class SpriteDrag : MonoBehaviour
         {
             Vector3 mouseWorldPosition = GetMouseWorldPosition();
             float xMovement = mouseWorldPosition.x - transform.position.x;
-            float zMovement = mouseWorldPosition.y - transform.position.y; // y 이동량에 따라 z 이동량 설정
             float yMovement = 0;
-            if (zMovement < 0) // y 이동량이 음수일 때 z 이동량을 음수로 설정
+            float zMovement = 0;
+            
+            // y 이동량이 양수면 zMovement에 양수를, 음수면 음수를 할당
+            if (mouseWorldPosition.y > transform.position.y)
             {
-                yMovement = zMovement;
+                zMovement = mouseWorldPosition.y - transform.position.y;
             }
-            transform.Translate(new Vector3(xMovement, 0f, yMovement) * moveSpeed * Time.deltaTime, Space.World);
+            else if (mouseWorldPosition.y < transform.position.y)
+            {
+                zMovement = -(transform.position.y - mouseWorldPosition.y);
+            }
+            
+            // y 이동량은 무시하기 위해 0으로 설정
+            transform.position += new Vector3(xMovement, yMovement, zMovement) * moveSpeed * Time.deltaTime;
         }
     }
 
@@ -39,4 +47,8 @@ public class SpriteDrag : MonoBehaviour
         mousePosition.z = -Camera.main.transform.position.z;
         return Camera.main.ScreenToWorldPoint(mousePosition);
     }
+
+   private void OnTriggerEnter(Collider other) {
+        Debug.Log("1");
+   }
 }
