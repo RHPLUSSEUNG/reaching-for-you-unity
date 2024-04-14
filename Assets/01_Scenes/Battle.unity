@@ -246,6 +246,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f7bc95aff8cb749a7272be2a0cba66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  battleState: 0
+  playerLive: 0
+  monsterLive: 0
 --- !u!4 &828638763
 Transform:
   m_ObjectHideFlags: 0
@@ -489,11 +492,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 0
+  mp: 0
   attack: 0
   shield: 0
   stamina: 0
+  remainStamina: 0
   elementType: 5
+  buffs: []
   uid: 0
+  pid: 0
   _equipSkills: []
   _equipItems:
   - {fileID: 0}
@@ -512,6 +519,7 @@ GameObject:
   - component: {fileID: 1622542260}
   - component: {fileID: 1622542259}
   - component: {fileID: 1622542258}
+  - component: {fileID: 1622542261}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -593,6 +601,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1622542261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622542257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a66e5055b201d2043bec38ccdaf7547e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
