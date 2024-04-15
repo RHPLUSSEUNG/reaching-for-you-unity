@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class BattleUIButtonConnector : MonoBehaviour
 {
+    Button button;
+
     public void NextTurnButton()
     {
         if(BattleManager.Instance.battleState != BattleState.PlayerTurn)
@@ -59,11 +61,22 @@ public class BattleUIButtonConnector : MonoBehaviour
         Inventory.inven.EquipItem(this.GetComponent<Equipment>(), new PlayerSpec(1, 0));
     }
 
+    public void OpenConsumeButton()
+    {
+        Dictionary<Consume, int> inven = Inventory.inven.consumeInven;
+        //TODO show in UI
+    }
+
     public void UseConsumeItemButton(Consume item, GameObject target)
     {
         if (item.Activate(target))
         {
             Inventory.Inven.ConsumeItem(item);
         }
+    }
+
+    public void SelectCharacterButton()
+    {
+        return;
     }
 }

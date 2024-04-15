@@ -8,7 +8,7 @@ public class Inventory : MonoBehaviour
     public static Inventory inven;
     public static Inventory Inven { get { return inven; } }
     #endregion
-    public Dictionary<int, int> consumeInven = new Dictionary<int, int>();
+    public Dictionary<Consume, int> consumeInven = new Dictionary<Consume, int>();
     public List<Equipment> equipmentInven = new List<Equipment>();
     short inventoryCnt =  0;
     short inventoryMaxCnt = 100;
@@ -34,14 +34,14 @@ public class Inventory : MonoBehaviour
     {
         if (item.type == ItemType.Consume)
         {
-            if (consumeInven.ContainsKey(item.itemId))
+            if (consumeInven.ContainsKey(item as Consume))
             {
-                consumeInven[item.itemId]++;
+                consumeInven[item as Consume]++;
                 return true;
             }
             else if (inventoryCnt < inventoryMaxCnt)
             {
-                consumeInven.Add(item.itemId, 1);
+                consumeInven.Add(item as Consume, 1);
                 inventoryCnt++;
                 return true;
             }
@@ -61,12 +61,12 @@ public class Inventory : MonoBehaviour
 
     public bool ConsumeItem(Consume item)
     {
-        if (consumeInven.ContainsKey(item.itemId))
+        if (consumeInven.ContainsKey(item as Consume))
         {
-            consumeInven[item.itemId]--;
-            if (consumeInven[item.itemId] == 0)
+            consumeInven[item as Consume]--;
+            if (consumeInven[item as Consume] == 0)
             {
-                consumeInven.Remove(item.itemId);
+                consumeInven.Remove(item as Consume);
                 inventoryCnt--;
             }
             return true;

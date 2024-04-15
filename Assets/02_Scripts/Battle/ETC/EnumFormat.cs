@@ -37,3 +37,9 @@ public enum BattleState
     Victory = 3,
     Defeat = 4,
 };
+
+public enum ButtonState
+{
+    Idle = 0,
+    Skill =1,
+}
