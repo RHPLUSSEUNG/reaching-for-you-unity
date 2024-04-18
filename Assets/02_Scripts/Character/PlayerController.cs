@@ -1,11 +1,13 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rigid;
     [SerializeField]
-    float moveSpeed = 5.0f;
+    float basicSpeed = 5.0f;
+    [SerializeField]
+    float runSpeed = 8.0f;
     [SerializeField]
     float rotateSpeed = 5.0f;
 
@@ -13,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private Transform character;
     private Transform colider;
     private bool isActive;
+    float moveSpeed;
 
 
     private Vector3 inputVec;
@@ -20,7 +23,9 @@ public class PlayerController : MonoBehaviour
     enum State
     {
         Idle,
-        Move
+        Move,
+        Hit,
+        Roll
     }
     enum Direction
     {
@@ -40,11 +45,24 @@ public class PlayerController : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         animator = character.GetComponent<Animator>();
         colider = this.transform.GetChild(1);
+        moveSpeed = basicSpeed;
     }
     void Update()
     {
         if (isActive)
         {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                moveSpeed = runSpeed;
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                moveSpeed = basicSpeed;
+            }
+            //if(Input.GetKey(KeyCode.Space))
+            //{
+            //    Roll();
+            //}
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Interact();
@@ -144,7 +162,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isActive)
         {
-            isActive =false;
+            isActive = false;
             Debug.Log("InActive");
         }
         else
@@ -153,7 +171,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Active");
         }
     }
-    
+
     private void Interact()
     {
         Debug.Log("Interact");
@@ -161,5 +179,23 @@ public class PlayerController : MonoBehaviour
     private void Inventory()
     {
         Debug.Log("Open Inventory");
+    }
+    public void Hit()
+    {
+        isActive = false;
+        this.animator.SetInteger("State", (int)State.Hit);
+    }
+
+    public void Roll()
+    {
+        isActive = false;
+        this.animator.SetInteger("State", (int)State.Roll);
+        StartCoroutine(WaitForAnimation((int)State.Roll));
+    }
+
+    IEnumerator WaitForAnimation (int state)
+    {
+        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f);
+        isActive = true;
     }
 }

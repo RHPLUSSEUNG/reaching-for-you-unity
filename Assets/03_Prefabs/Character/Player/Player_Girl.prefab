@@ -74,7 +74,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1060dbb0b71a8643a177dc1ce40b6c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  basicSpeed: 5
+  runSpeed: 8
   rotateSpeed: 5
 --- !u!1 &3020289889979404006
 GameObject:
@@ -140,6 +141,7 @@ GameObject:
   - component: {fileID: 5809204059136574164}
   - component: {fileID: 3131360866470450810}
   - component: {fileID: 3330477251500428571}
+  - component: {fileID: 8413186647235301812}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -235,3 +237,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8413186647235301812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8150895426976285256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffc20ad36ce4b3046b2462be73d31230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
