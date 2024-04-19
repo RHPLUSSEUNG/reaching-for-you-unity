@@ -1,25 +1,31 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rigid;
     [SerializeField]
-    float moveSpeed = 5.0f;
+    float basicSpeed = 5.0f;
+    [SerializeField]
+    float runSpeed = 8.0f;
     [SerializeField]
     float rotateSpeed = 5.0f;
 
     private Animator animator;
     private Transform character;
     private Transform colider;
-    
+    private bool isActive;
+    float moveSpeed;
+
+
     private Vector3 inputVec;
 
     enum State
     {
-        Idle = 1,
-        Move = 2
+        Idle,
+        Move,
+        Hit,
+        Roll
     }
     enum Direction
     {
@@ -34,25 +40,45 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        isActive = true;
         character = this.transform.GetChild(0);
         rigid = GetComponent<Rigidbody>();
         animator = character.GetComponent<Animator>();
         colider = this.transform.GetChild(1);
+        moveSpeed = basicSpeed;
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (isActive)
         {
-            Interact();
-        }
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            Inventory();
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                moveSpeed = runSpeed;
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                moveSpeed = basicSpeed;
+            }
+            //if(Input.GetKey(KeyCode.Space))
+            //{
+            //    Roll();
+            //}
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Interact();
+            }
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                Inventory();
+            }
         }
     }
     private void FixedUpdate()
     {
-       Move();
+        if (isActive)
+        {
+            Move();
+        }
     }
     private void LateUpdate()
     {
@@ -131,13 +157,45 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
     }
-    
-private void Interact()
+
+    public void ChangeActive()
+    {
+        if (isActive)
+        {
+            isActive = false;
+            Debug.Log("InActive");
+        }
+        else
+        {
+            isActive = true;
+            Debug.Log("Active");
+        }
+    }
+
+    private void Interact()
     {
         Debug.Log("Interact");
     }
     private void Inventory()
     {
         Debug.Log("Open Inventory");
+    }
+    public void Hit()
+    {
+        isActive = false;
+        this.animator.SetInteger("State", (int)State.Hit);
+    }
+
+    public void Roll()
+    {
+        isActive = false;
+        this.animator.SetInteger("State", (int)State.Roll);
+        StartCoroutine(WaitForAnimation((int)State.Roll));
+    }
+
+    IEnumerator WaitForAnimation (int state)
+    {
+        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f);
+        isActive = true;
     }
 }
