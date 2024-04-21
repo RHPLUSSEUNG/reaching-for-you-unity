@@ -2,12 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class ItemManager
 {
-    #region singleton
-    public static Inventory inven;
-    public static Inventory Inven { get { return inven; } }
-    #endregion
     public Dictionary<Consume, int> consumeInven = new Dictionary<Consume, int>();
     public List<Equipment> equipmentInven = new List<Equipment>();
     short inventoryCnt =  0;

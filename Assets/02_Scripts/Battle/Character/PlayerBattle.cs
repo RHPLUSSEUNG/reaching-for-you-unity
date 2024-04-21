@@ -42,7 +42,7 @@ public class PlayerBattle : MonoBehaviour
         {
             return;
         }
-        BattleManager.Instance.playerLive--;
+        Managers.Battle.playerLive--;
         Destroy(_go);
     }
 

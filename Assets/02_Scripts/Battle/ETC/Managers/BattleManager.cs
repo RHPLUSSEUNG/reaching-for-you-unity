@@ -2,28 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleManager : MonoBehaviour
+public class BattleManager
 {
-    #region singleton
-    static BattleManager _instance;
-    public static BattleManager Instance { get { return _instance; } }
-
-    public void Init()
-    {
-        GameObject go = GameObject.Find("Manager");
-        if (go == null)
-        {
-            go = new GameObject { name = "Manager" };
-            go.AddComponent<BattleManager>();
-        }
-        if(go.GetComponent<BattleManager>() == null)
-        {
-            go.AddComponent<BattleManager>();
-        }
-        DontDestroyOnLoad(go);
-        _instance = go.GetComponent<BattleManager>();
-    }
-    #endregion
     
     public BattleState battleState;
     public short playerLive;
@@ -31,18 +11,16 @@ public class BattleManager : MonoBehaviour
     
     public void BattleStart()
     {
-        foreach (GameObject character in GameParty.party.playerParty)
+        foreach (GameObject character in Managers.Party.playerParty)
         {
             //Generate Character on Map
-            Instantiate(character, new Vector3(), new Quaternion());
         }
-        foreach (GameObject character in GameParty.party.monsterParty)
+        foreach (GameObject character in Managers.Party.monsterParty)
         {
             //Generate Character on Map
-            Instantiate(character, new Vector3(), new Quaternion());
         }
-        playerLive = (short)GameParty.party.playerParty.Count;
-        monsterLive = (short)GameParty.party.monsterParty.Count;
+        playerLive = (short)Managers.Party.playerParty.Count;
+        monsterLive = (short)Managers.Party.monsterParty.Count;
         battleState = BattleState.PlayerTurn;
     }
 
@@ -51,12 +29,12 @@ public class BattleManager : MonoBehaviour
         List<GameObject> party;
         if (battleState == BattleState.PlayerTurn)
         {
-            party = GameParty.party.playerParty;
+            party = Managers.Party.playerParty;
             battleState = BattleState.EnemyTurn;
         }
         else
         {
-            party = GameParty.party.monsterParty;
+            party = Managers.Party.monsterParty;
             battleState = BattleState.PlayerTurn;
 
         }

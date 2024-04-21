@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerButton : MonoBehaviour
+public class PlayerButtonManager
 {
-    #region singleton
-    static PlayerButton _instance;
-    public static PlayerButton playerButton { get { return _instance; } }
-    #endregion
     public ButtonState state = ButtonState.Idle;
     public GameObject player;
     public PlayerSpec spec;
@@ -16,39 +13,16 @@ public class PlayerButton : MonoBehaviour
     public Button button1;
     public Button button2;
     public Button button3;
-    public Button button4;
-
 
     public Vector3 skillPos = Vector3.zero;
     Active skill = null;
-    void Update()
+
+    public void Bind()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.transform.gameObject.CompareTag("Character"))
-                {
-                    Debug.Log("Character Selected : " + hit.collider.gameObject.name);
-
-                    //TODO UI
-                    UpdateButton(hit.collider.gameObject);
-                }
-                else if (hit.transform.gameObject.CompareTag("Monster"))
-                {
-                    Debug.Log("Monster Selected");
-                    //TODO UI
-                }
-            }else if (state == ButtonState.Skill)
-            {
-                skillPos = Input.mousePosition;
-                skill.Activate(skillPos);
-                state = ButtonState.Idle;
-            }
-        }
+        GameObject go = GameObject.Find("BattleUI");
+        button1 = go.transform.GetChild(0).GetComponent<Button>();
+        button2= go.transform.GetChild(1).GetComponent<Button>();
+        button3 = go.transform.GetChild(2).GetComponent<Button>();
     }
 
     public void UpdateButton(GameObject player)
@@ -64,13 +38,6 @@ public class PlayerButton : MonoBehaviour
         button2.onClick.AddListener(Skill2);
         button3.onClick.AddListener(Skill3);
     }
-
-    public void TestClick()
-    {
-        PlayerSpec spec = player.GetComponent<PlayerSpec>();
-        Debug.Log(spec.name);
-    }
-
 
     public void Skill1()
     {
@@ -95,6 +62,13 @@ public class PlayerButton : MonoBehaviour
 
     public void Cancle()
     {
+        state = ButtonState.Idle;
+    }
+
+    public void SetSkillPos()
+    {
+        skillPos = Input.mousePosition;
+        skill.Activate(skillPos);
         state = ButtonState.Idle;
     }
 }

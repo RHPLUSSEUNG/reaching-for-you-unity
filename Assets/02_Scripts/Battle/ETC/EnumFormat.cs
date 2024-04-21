@@ -43,3 +43,11 @@ public enum ButtonState
     Idle = 0,
     Skill =1,
 }
+
+public enum Buttons
+{
+    button1,
+    button2,
+    button3,
+    button4,
+}
