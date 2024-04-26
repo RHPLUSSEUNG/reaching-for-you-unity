@@ -13,6 +13,11 @@ public abstract class CharacterBattle : MonoBehaviour
         _spec = _go.GetComponent<CharacterSpec>();
     }
 
+    public void Spawn()
+    {
+        Instantiate(_go, _spec.pos, Quaternion.identity);
+    }
+
     public void GetDamaged(int damage, ElementType element)
     {
         //Disadvantage

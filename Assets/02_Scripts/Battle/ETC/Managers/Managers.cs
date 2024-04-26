@@ -36,6 +36,8 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             _manager = gameObject.GetComponent<Managers>();
         }
+        _playerButton.Bind();
+        _battle.BattleReady();
     }
     #endregion
     public void Update()

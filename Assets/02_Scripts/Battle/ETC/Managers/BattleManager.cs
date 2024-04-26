@@ -4,19 +4,25 @@ using UnityEngine;
 
 public class BattleManager
 {
-    
     public BattleState battleState;
     public short playerLive;
     public short monsterLive;
     
+    public void BattleReady() {
+        //Make Monster Party
+        Managers.PlayerButton.UpdateStartButton();
+        battleState = BattleState.Start;
+    }
+
     public void BattleStart()
     {
         foreach (GameObject character in Managers.Party.playerParty)
         {
-            //Generate Character on Map
+            character.GetComponent<CharacterBattle>().Spawn();
         }
         foreach (GameObject character in Managers.Party.monsterParty)
         {
+            character.GetComponent<CharacterBattle>().Spawn();
             //Generate Character on Map
         }
         playerLive = (short)Managers.Party.playerParty.Count;

@@ -36,12 +36,14 @@ public enum BattleState
     EnemyTurn =2,
     Victory = 3,
     Defeat = 4,
+    Wait = 5,
 };
 
 public enum ButtonState
 {
     Idle = 0,
     Skill =1,
+    PlayerSet =2,
 }
 
 public enum Buttons
