@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Skill1 : Active
+public class Electric_Shock : Active
 {
+    
     public override bool Activate(Vector3 pos)
     {
         Debug.Log("Skill1");
@@ -15,5 +16,12 @@ public class Skill1 : Active
     {
         Debug.Log("Skill1");
         return true;
+    }
+
+    public override void setSkill()
+    {
+        skillName = "Electric_Shock";
+        this.type = skillType.Active;
+        this.element = ElementType.Electric;
     }
 }

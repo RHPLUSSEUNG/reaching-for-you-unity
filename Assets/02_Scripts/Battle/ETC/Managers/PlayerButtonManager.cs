@@ -149,9 +149,10 @@ public class PlayerButtonManager
         state = ButtonState.PlayerSet;
     }
 
-    public void SetPosition(Vector3 pos)
+    public void SetPosition(GameObject pos)
     {
         player.GetComponent<CharacterSpec>().pos = pos;
+        state = ButtonState.Idle;
     }
     #endregion
 

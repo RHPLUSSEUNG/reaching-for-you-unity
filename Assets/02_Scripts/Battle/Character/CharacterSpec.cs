@@ -16,5 +16,5 @@ public class CharacterSpec : MonoBehaviour
     public List<Debuff> debuffs;
     public List<Buff> buffs;
 
-    public Vector3 pos;
+    public GameObject pos;
 }

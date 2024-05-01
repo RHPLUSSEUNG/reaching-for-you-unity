@@ -24,12 +24,13 @@ public class RaycastManager
                     Debug.Log("Monster Selected");
                     //TODO UI
                 }
+                else if (Managers.PlayerButton.state == ButtonState.PlayerSet && hit.transform.gameObject.CompareTag("Field"))
+                {
+                    Managers.PlayerButton.SetPosition(hit.collider.gameObject);
+                }
             }
             //set character position
-            else if (Managers.PlayerButton.state == ButtonState.PlayerSet)
-            {
-                Managers.PlayerButton.SetPosition(Input.mousePosition);
-            }
+            
             //using skill
             else if (Managers.PlayerButton.state == ButtonState.Skill)
             {
