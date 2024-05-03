@@ -8,12 +8,13 @@ public class Define
     {
         Enter,
         Exit,
-        Click
+        Click,
+        Drag
     }
 
     public enum Buttons
     {
-        QuickSlot
+        // QuickSlot
     }
 
     public enum Texts

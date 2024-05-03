@@ -9,32 +9,27 @@ public class UI_Hud : UI_Scene
 {
     enum GameObjects
     {
-        QuickLayout
+        QuickLayout,
+        BuffLayout,
+        DeBuffLayout,
+        Status_EffectLayout,
+        HP,
+        MP
     }
 
-    Image Buff;
-    Image Debuff;
-    Image Status_Effect;
+    Image profileImage;
+
     public override void Init()
     {
         base.Init();
 
         Bind<GameObject>(typeof(GameObjects));
-        Bind<Image>(typeof(Define.Images));
 
-        Buff = GetImage((int)Define.Images.Buff);
-        Debuff = GetImage((int)Define.Images.Debuff);
-        Status_Effect = GetImage((int)Define.Images.Status_Effect);
-        Image status = Buff;
-        BindEvent(status.gameObject, OnStatusEnter, Define.UIEvent.Enter);
-        BindEvent(status.gameObject, OnStatusExit, Define.UIEvent.Exit);
-        status = Debuff;
-        BindEvent(status.gameObject, OnStatusEnter, Define.UIEvent.Enter);
-        BindEvent(status.gameObject, OnStatusExit, Define.UIEvent.Exit);
-        status = Status_Effect;
-        BindEvent(status.gameObject, OnStatusEnter, Define.UIEvent.Enter);
-        BindEvent(status.gameObject, OnStatusExit, Define.UIEvent.Exit);
-        GameObject quickLayout = Get<GameObject>((int)GameObjects.QuickLayout);
+        GameObject quickLayout = GetObject((int)GameObjects.QuickLayout);
+        GameObject hp = GetObject((int)GameObjects.HP);
+        GameObject mp = GetObject((int)GameObjects.MP);
+        hp.GetOrAddComponent<UI_CircleBar>();
+        mp.GetOrAddComponent<UI_CircleBar>();
         foreach (Transform slot in quickLayout.transform)
         {
             Managers.Resource.Destroy(slot.gameObject);
@@ -46,30 +41,48 @@ public class UI_Hud : UI_Scene
             UI_QuickSlot quickSlot = slot.GetOrAddComponent<UI_QuickSlot>();
         }
 
+        // TEMP
+        for (int i = 0; i < 5; i++)
+        {
+            CreateBuff();
+            CreateDebuff();
+            CreateStatusEffect();
+        }
 
+        profileImage = Util.FindChild<Image>(gameObject, "Profile", true);
     }
 
-    public void OnStatusEnter(PointerEventData data)
+    public void CreateBuff()
     {
-        foreach (Transform child in Buff.gameObject.transform)
-        {
-            if (child == null)
-            {
-                break;
-            }
-            child.gameObject.SetActive(true);
-        }
+        GameObject buffLayout = Get<GameObject>((int)GameObjects.BuffLayout);
+
+        GameObject buff = Managers.UI.MakeSubItem<UI_Status>(buffLayout.transform, "Status").gameObject;
+        UI_Status status = buff.GetOrAddComponent<UI_Status>();
+        // status.SetInfo();
     }
 
-    public void OnStatusExit(PointerEventData data)
+    public void CreateDebuff()
     {
-        foreach (Transform child in Buff.gameObject.transform)
-        {
-            if (child == null)
-            {
-                break;
-            }
-            child.gameObject.SetActive(false);
-        }
+        GameObject DebuffLayout = Get<GameObject>((int)GameObjects.DeBuffLayout);
+
+        GameObject debuff = Managers.UI.MakeSubItem<UI_Status>(DebuffLayout.transform, "Status").gameObject;
+        UI_Status status = debuff.GetOrAddComponent<UI_Status>();
+    }
+
+    public void CreateStatusEffect()
+    {
+        GameObject Status_effect_Layout = Get<GameObject>((int)GameObjects.Status_EffectLayout);
+
+        GameObject status_effect = Managers.UI.MakeSubItem<UI_Status>(Status_effect_Layout.transform, "Status").gameObject;
+        UI_Status status = status_effect.GetOrAddComponent<UI_Status>();
+    }
+
+    public void ChangeProfile()
+    {
+        // Need : PlayerInfo(동료 이미지, HP, MP, 가지고 있는 상태 리스트)
+        // profileImage.sprite = changeProfile.sprite;
+        // hp.SetPlayerStat(int _hp);
+        // status.SetInfo();
+        // PlayerStat 설정 (HP, MP Circle Bar) 잡는거 생각
     }
 }

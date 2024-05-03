@@ -6,11 +6,12 @@ using UnityEngine.EventSystems;
 using System.Threading;
 using System;
 
-public class UI_Event : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class UI_Event : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IDragHandler
 {
     public Action<PointerEventData> OnEnterHandler = null;
     public Action<PointerEventData> OnExitHandler = null;
     public Action<PointerEventData> OnClickHandler = null;
+    public Action<PointerEventData> OnDragHandler = null;
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -33,6 +34,14 @@ public class UI_Event : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (OnExitHandler != null)
         {
             OnExitHandler.Invoke(eventData);
+        }
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (OnDragHandler != null)
+        {
+            OnDragHandler.Invoke(eventData);
         }
     }
 

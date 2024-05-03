@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class UI_QuickSlot : UI_Base
 {
-    enum MagicInfo
+    enum GameObjects
     {
         MagicIcon,
 
@@ -14,10 +14,10 @@ public class UI_QuickSlot : UI_Base
 
     public override void Init()
     {
-        Bind<GameObject>(typeof(MagicInfo));
+        Bind<GameObject>(typeof(GameObjects));
 
-        GameObject magicIcon = Get<GameObject>((int)MagicInfo.MagicIcon).gameObject;
-        BindEvent(magicIcon, ClickButton, Define.UIEvent.Click);
+        GameObject magicIcon = Get<GameObject>((int)GameObjects.MagicIcon).gameObject;
+        BindEvent(gameObject, ClickButton, Define.UIEvent.Click);
         UI_Magic = Util.FindChild(gameObject, "UI_Magic");
     }
 
@@ -35,6 +35,7 @@ public class UI_QuickSlot : UI_Base
 
     public void ChangeMagic()
     {
-
+        // sprite 변경
+        // 마법에 들어가는 스크립트 변경
     }
 }

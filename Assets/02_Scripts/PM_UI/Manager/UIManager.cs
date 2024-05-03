@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 using UnityEngine.UI;
 
 public class UIManager
@@ -69,6 +67,7 @@ public class UIManager
         popupStack.Push(popup);
 
         go.transform.SetParent(Root.transform);
+
         return popup;
     }
 
