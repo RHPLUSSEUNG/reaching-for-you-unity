@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class TempController : MonoBehaviour
 {
+    // public Canvas worldUI;
+    public Canvas _pause;
     int _speed = 10;
-    public Canvas worldUI;
-    UI_Pause pause = null;
+    UI_Pause pause;
     private void Start()
     {
         // temp
-        Managers.UI.CreateSceneUI<UI_Hud>();
-        pause = Managers.UI.CreatePopupUI<UI_Pause>();
+        // Managers.UI.CreateSceneUI<UI_Hud>();
+        // pause = Managers.UI.CreatePopupUI<UI_Pause>();
+        pause = _pause.GetComponent<UI_Pause>();
         pause.gameObject.SetActive(false);
     }
     void Update()
@@ -45,13 +47,13 @@ public class TempController : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        worldUI.gameObject.SetActive(true);
-    }
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    worldUI.gameObject.SetActive(true);
+    //}
 
-    private void OnTriggerExit(Collider other)
-    {
-        worldUI.gameObject.SetActive(false);
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    worldUI.gameObject.SetActive(false);
+    //}
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DestroyMagic : Magic
 {
+    [SerializeField]
     GameObject range;
     Transform rangePos;
     Vector3 pos;
@@ -12,7 +13,7 @@ public class DestroyMagic : Magic
     // Range 위치 조정
     private void Start()
     {
-        range = Managers.Resource.Instantiate("Range");
+        // range = Managers.Resource.Instantiate("Range");
         range.SetActive(false);
         rangePos = range.GetComponent<Transform>();
     }
