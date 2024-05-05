@@ -13,6 +13,7 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] Transform choiceRoot;
     [SerializeField] GameObject choicePrefab;
     [SerializeField] Button quitButton;
+    [SerializeField] TextMeshProUGUI conversantName;
 
     void Start()
     {
@@ -33,6 +34,7 @@ public class DialogueUI : MonoBehaviour
             return;
         }
 
+        conversantName.text = playerConversant.GetCurrentConversantName();
         NPCResponse.SetActive(!playerConversant.IsChoosing());
         choiceRoot.gameObject.SetActive(playerConversant.IsChoosing());
 

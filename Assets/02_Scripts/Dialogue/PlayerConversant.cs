@@ -6,7 +6,9 @@ using System.Linq;
 using UnityEngine;
 
 public class PlayerConversant : MonoBehaviour
-{    
+{
+    [SerializeField] string playerName;
+
     Dialogue currentDialogue;
     DialogueNode currentNode = null;
     NPCConversant currentConversant = null;
@@ -57,6 +59,18 @@ public class PlayerConversant : MonoBehaviour
         }
 
         return currentNode.GetText();
+    }
+
+    public string GetCurrentConversantName()
+    {
+        if(isChoosing)
+        {
+            return playerName;
+        }
+        else
+        {
+            return currentConversant.GetName();
+        }
     }
 
     public IEnumerable<DialogueNode> GetChoices()

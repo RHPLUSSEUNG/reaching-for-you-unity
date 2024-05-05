@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NPCConversant : MonoBehaviour
 {
+    [SerializeField] string conversantName;
     [SerializeField] Dialogue dialogue = null;
     
     public bool StartDialogue(PlayerConversant playerConversant)
@@ -17,5 +18,10 @@ public class NPCConversant : MonoBehaviour
             playerConversant.GetComponent<PlayerConversant>().StartDialogue(this, dialogue);
             return true;
         }        
+    }
+
+    public string GetName()
+    {
+        return conversantName;
     }
 }
