@@ -1,5 +1,52 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8988359180118465957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: ddd6107c-6ebc-4a2d-a32a-f95c89e3ce9b
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: "\uAC10\uC0AC"
+  children:
+  - 11de61d0-ae9c-4684-9ff1-10e0160f0c34
+  rect:
+    serializedVersion: 2
+    x: 1251.1998
+    y: 5.6000137
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+--- !u!114 &-8783963950679309653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 11de61d0-ae9c-4684-9ff1-10e0160f0c34
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uC798\uAC00"
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1526.3999
+    y: 100.00002
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: NPCExit
 --- !u!114 &-7231544485777316905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,15 +60,17 @@ MonoBehaviour:
   m_Name: c9c12edc-26a1-416e-b4b9-3f641d74760a
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 1
-  text: "\uC544\uB2C8 \uBA85\uCC30 \uC548\uBCF4\uC774\uB2C8? \uB208\uAE54 \uC885\uBC94?"
+  text: "\uBA4B\uC9C4 \uC774\uB984\uC774\uAD70"
   children:
   - 0cedc776-cf4e-4eb2-8cdb-ea7a3839a2a3
   rect:
     serializedVersion: 2
-    x: 704.7999
+    x: 703.9999
     y: 115.20001
     width: 200
     height: 100
+  onEnterAction: 
+  onExitAction: 
 --- !u!114 &-4942947859173053374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35,15 +84,42 @@ MonoBehaviour:
   m_Name: 9e58181b-e2bf-48f2-851a-4856cd8fe7ac
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 0
-  text: "\uC608\uC05C \uC774\uB984\uC774\uAD6C\uB098~"
+  text: "\uBA4B\uC9C4 \uC774\uB984\uC774\uAD70"
   children:
   - 261cd871-18f6-40a7-b651-d492a6627867
+  - ddd6107c-6ebc-4a2d-a32a-f95c89e3ce9b
   rect:
     serializedVersion: 2
     x: 942.39996
     y: 4.800003
     width: 200
     height: 100
+  onEnterAction: 
+  onExitAction: 
+--- !u!114 &-4892387039204164555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 46d54efe-8e6f-4fc5-9439-6ab7e2697142
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: "\uC54C\uBE60\uB178"
+  children:
+  - 11de61d0-ae9c-4684-9ff1-10e0160f0c34
+  rect:
+    serializedVersion: 2
+    x: 1265.5999
+    y: 234.39995
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
 --- !u!114 &-1288875940445136106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,15 +133,17 @@ MonoBehaviour:
   m_Name: 6201e545-ac9a-47d4-9c7d-1361e0ac8caa
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 0
-  text: "\uB098\uB294 \uCB4C, \uBC34\uB4DC\uBD80\uC57C \uD558\uD558!"
+  text: "\uC548\uB155"
   children:
   - 3faf989c-a437-4957-9774-63f73c50ad15
   rect:
     serializedVersion: 2
-    x: 0
-    y: -0.79999924
+    x: 20
+    y: 0.80000305
     width: 200
     height: 100
+  onEnterAction: RootEntry
+  onExitAction: 
 --- !u!114 &-1157303170943233810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,15 +157,18 @@ MonoBehaviour:
   m_Name: 0cedc776-cf4e-4eb2-8cdb-ea7a3839a2a3
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 0
-  text: "\uB098\uB300\uC9C0\uB9C8"
+  text: "\uBB50\uD558\uACE0 \uC9C0\uB0B4\uB2C8"
   children:
   - 261cd871-18f6-40a7-b651-d492a6627867
+  - 46d54efe-8e6f-4fc5-9439-6ab7e2697142
   rect:
     serializedVersion: 2
-    x: 940.79987
-    y: 114.39999
+    x: 940.7999
+    y: 113.6
     width: 200
     height: 100
+  onEnterAction: 
+  onExitAction: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +190,9 @@ MonoBehaviour:
   - {fileID: -4942947859173053374}
   - {fileID: -1157303170943233810}
   - {fileID: 2880300606318580890}
+  - {fileID: -4892387039204164555}
+  - {fileID: -8988359180118465957}
+  - {fileID: -8783963950679309653}
 --- !u!114 &2090885056005473556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,9 +212,11 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 228.80002
-    y: -0.0000076293945
+    y: -0.8000107
     width: 200
     height: 100
+  onEnterAction: 
+  onExitAction: 
 --- !u!114 &2880300606318580890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,14 +230,17 @@ MonoBehaviour:
   m_Name: 261cd871-18f6-40a7-b651-d492a6627867
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 1
-  text: "\uADF8\uB798\uB3C4 \uBC18\uAC00\uC6CC"
-  children: []
+  text: "\uB108\uB294"
+  children:
+  - 46675844-c9d0-436e-b14b-ab6809033b30
   rect:
     serializedVersion: 2
-    x: 1235.2
-    y: 60.00001
+    x: 1243.2001
+    y: 116.80005
     width: 200
     height: 100
+  onEnterAction: 
+  onExitAction: 
 --- !u!114 &3929773883598405951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,15 +254,17 @@ MonoBehaviour:
   m_Name: 956c67f0-e1f2-4b2e-9abf-583b49876bb1
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 1
-  text: "\uC751"
+  text: "\uB09C \uD589\uAD50\uC218\uC758\uCF67\uD138\uC871\uC9D1\uAC8C"
   children:
   - 9e58181b-e2bf-48f2-851a-4856cd8fe7ac
   rect:
     serializedVersion: 2
-    x: 703.99994
-    y: 3.2000046
+    x: 697.5999
+    y: 0.0000076293945
     width: 200
     height: 100
+  onEnterAction: 
+  onExitAction: 
 --- !u!114 &7090129013975155076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,13 +278,15 @@ MonoBehaviour:
   m_Name: 46675844-c9d0-436e-b14b-ab6809033b30
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 0
-  text: "\uB098\uB3C4 \uBC18\uAC00\uC6CC \uC774\uB984\uC774 \uC9C0\uD6C8?"
+  text: "\uB09C \uAD8C\uD76C\uC900"
   children:
   - 956c67f0-e1f2-4b2e-9abf-583b49876bb1
   - c9c12edc-26a1-416e-b4b9-3f641d74760a
   rect:
     serializedVersion: 2
-    x: 448.8
-    y: 0.80000305
+    x: 447.99997
+    y: 0
     width: 200
     height: 100
+  onEnterAction: 
+  onExitAction: 
