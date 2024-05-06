@@ -13,7 +13,7 @@ public class DialogueTriggerFunction : MonoBehaviour
 {
     [SerializeField] NPCType type;
     [SerializeField]int friendShipLevel = 0;
-
+    
     public void RiseFriendShipLevel(int level)
     {
         friendShipLevel += level;

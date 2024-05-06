@@ -15,13 +15,17 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] Button quitButton;
     [SerializeField] TextMeshProUGUI conversantName;
 
+    float typingSpeed = 0.01f;
+    bool isSkip = false;
+
     void Start()
     {
         playerConversant = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerConversant>();
         playerConversant.onConversationUpdated += UpdateUI;
         nextButton.onClick.AddListener(() => playerConversant.Next());
         quitButton.onClick.AddListener(() => playerConversant.Quit());
-
+        nextButton.gameObject.SetActive(false);
+        quitButton.gameObject.SetActive(false);
         UpdateUI();
     }    
     
@@ -33,7 +37,8 @@ public class DialogueUI : MonoBehaviour
         {
             return;
         }
-
+        nextButton.gameObject.SetActive(false);
+        quitButton.gameObject.SetActive(false);
         conversantName.text = playerConversant.GetCurrentConversantName();
         NPCResponse.SetActive(!playerConversant.IsChoosing());
         choiceRoot.gameObject.SetActive(playerConversant.IsChoosing());
@@ -44,8 +49,11 @@ public class DialogueUI : MonoBehaviour
         }        
         else
         {
-            NPCText.text = playerConversant.GetText();
-            nextButton.gameObject.SetActive(playerConversant.HasNext());
+            //NPCText.text = playerConversant.GetText();
+            NPCText.text = "";
+            StartCoroutine(TypingScript(playerConversant.GetText(), typingSpeed));
+            //nextButton.gameObject.SetActive(playerConversant.HasNext());
+            //quitButton.gameObject.SetActive(!playerConversant.HasNext());
         }
     }
 
@@ -68,5 +76,29 @@ public class DialogueUI : MonoBehaviour
                 playerConversant.SelectChoice(choice);                
             });
         }
+    }
+
+    IEnumerator TypingScript(string text, float typingSpeed)
+    {
+        NPCText.text = "";
+        foreach (char character in text)
+        {            
+            NPCText.text += character;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        if (NPCText.text.Length == text.Length && playerConversant.HasNext())
+        {
+            nextButton.gameObject.SetActive(true);
+        }
+        else if (NPCText.text.Length == text.Length && !playerConversant.HasNext())
+        {
+            quitButton.gameObject.SetActive(true);
+        }
+    }
+
+    public void SkipTyping()
+    {
+        //[TODO]
     }
 }
