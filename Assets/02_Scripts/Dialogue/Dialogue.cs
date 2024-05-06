@@ -14,10 +14,15 @@ public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
     Dictionary<string, DialogueNode> nodeLookUp = new Dictionary<string, DialogueNode>();
 
     private void OnValidate()
-    {        
+    {
+        if (nodes[0] == null)
+        {
+            return;
+        }
+
         nodeLookUp.Clear();
 
-        foreach(DialogueNode node in nodes) 
+        foreach (DialogueNode node in GetAllNodes())
         {
             nodeLookUp[node.name] = node;
         }
@@ -102,8 +107,30 @@ public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
                 yield return nodeLookUp[childID];
             }
         }
-
     }
+
+    public IEnumerable<DialogueNode> GetPlayerChildren(DialogueNode currentNode)
+    {
+        foreach(DialogueNode node in GetAllChildren(currentNode))
+        {
+            if(node.IsPlayerSpeaking())
+            {
+                yield return node;
+            }
+        }
+    }
+
+    public IEnumerable<DialogueNode> GetNPCChildren(DialogueNode currentNode)
+    {
+        foreach (DialogueNode node in GetAllChildren(currentNode))
+        {
+            if (!node.IsPlayerSpeaking())
+            {
+                yield return node;
+            }
+        }
+    }
+
 #endif
 
     public void OnBeforeSerialize()
@@ -117,13 +144,18 @@ public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
 
         if (AssetDatabase.GetAssetPath(this) != "")
         {
-            foreach(DialogueNode node in GetAllNodes())
+            foreach (DialogueNode node in GetAllNodes())
             {
-                if(AssetDatabase.GetAssetPath(node) == "")
-                {
+                if (AssetDatabase.GetAssetPath(node) == "")
                     AssetDatabase.AddObjectToAsset(node, this);
-                }
             }
+
+            if (nodes.Count == 0)
+            {
+                DialogueNode newNode = MakeNode(null);
+                AddNode(newNode);
+            }
+
         }
 #endif
     }

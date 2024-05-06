@@ -2,6 +2,7 @@ using NUnit.Framework.Constraints;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Permissions;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -83,7 +84,11 @@ public class DialogueEditor : EditorWindow
         {
             ProcessEvents();
 
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+            if (selectedDialogue.GetAllNodes().Count() == 0)
+            {
+                selectedDialogue.CreateNode(null);
+            }
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);            
 
             Rect canvas = GUILayoutUtility.GetRect(canvasSize, canvasSize);
             Texture2D backgroundTexture = Resources.Load("background") as Texture2D;
