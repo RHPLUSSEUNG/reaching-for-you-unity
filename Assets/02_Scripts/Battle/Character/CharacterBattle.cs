@@ -4,13 +4,18 @@ using UnityEngine;
 
 public abstract class CharacterBattle : MonoBehaviour
 {
-    CharacterSpec _spec;
-    GameObject _go;
+    public CharacterSpec _spec;
+    public GameObject _go;
     
     void Start()
     {
         _go = this.gameObject;
         _spec = _go.GetComponent<CharacterSpec>();
+    }
+
+    public void Spawn()
+    {
+        Instantiate(_go, _spec.pos.transform.position, Quaternion.identity);
     }
 
     public void GetDamaged(int damage, ElementType element)
@@ -53,13 +58,13 @@ public abstract class CharacterBattle : MonoBehaviour
         _spec.remainStamina--;
     }
 
-    public void UseSkill(Active skill)
+    public void UseSkill(Active skill, GameObject target)
     {
         if (_spec.stamina <= 0)
         {
             return;
         }
-        skill.Activate();
+        skill.SetTarget(target);
         _spec.remainStamina--;
     }
 }

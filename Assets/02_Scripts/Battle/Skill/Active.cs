@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class Active : Skill
 {
     public short cooltime; //skill cool time
-    bool[,] skillRange = new bool[11, 11]; //[6][6] player position
+    bool[,] skillRange = new bool[11, 11]; //[6][6] activate pos
     public abstract bool Activate(); //use skill
-    public abstract bool SetRange(); //setting skill range
+    public abstract bool SetTarget(GameObject target); //setting skill target
 }
