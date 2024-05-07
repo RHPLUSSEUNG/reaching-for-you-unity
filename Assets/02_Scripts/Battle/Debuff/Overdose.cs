@@ -16,7 +16,6 @@ public class Overdose : Debuff
     {
         if(target == null)
             return false;
-        TimeCheck();
         return true;
     }
 

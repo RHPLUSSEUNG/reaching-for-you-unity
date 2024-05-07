@@ -1,6 +1,5 @@
-using Unity.VisualScripting;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class RaycastManager
 {
@@ -13,11 +12,15 @@ public class RaycastManager
             //while battle
             if (Physics.Raycast(ray, out hit) && Managers.Battle.battleState == BattleState.PlayerTurn)
             {
-                if (hit.transform.gameObject.CompareTag("Character"))
+                //using skill
+                if (Managers.PlayerButton.state == ButtonState.Skill)
+                {
+                    Managers.PlayerButton.player.GetComponent<CharacterBattle>().UseSkill(Managers.PlayerButton.GetSkill(), hit.collider.gameObject);
+                }
+                else if (hit.transform.gameObject.CompareTag("Character"))
                 {
                     Debug.Log("Character Selected : " + hit.collider.gameObject.name);
                     //TODO UI
-                    Managers.PlayerButton.UpdateSkillButton(hit.collider.gameObject);
                 }
                 else if (hit.transform.gameObject.CompareTag("Monster"))
                 {
@@ -28,13 +31,6 @@ public class RaycastManager
                 {
                     Managers.PlayerButton.SetPosition(hit.collider.gameObject);
                 }
-            }
-            //set character position
-            
-            //using skill
-            else if (Managers.PlayerButton.state == ButtonState.Skill)
-            {
-                Managers.PlayerButton.SetSkillPos(Input.mousePosition);
             }
         }
     }

@@ -15,7 +15,7 @@ public class Shock : Debuff
     {
         if(target == null)
             return false;
-        TimeCheck();
+        target.GetComponent<CharacterSpec>().remainStamina = 0;
         return true;
     }
 
@@ -25,15 +25,6 @@ public class Shock : Debuff
         if(remainTurn == 0)
         {
             DeleteEffect();
-        }
-    }
-
-    public void IncreaseStack()
-    {
-        stack++;
-        if(stack== 2)
-        {
-            target.GetComponent<CharacterSpec>().remainStamina = 0;
         }
     }
 }

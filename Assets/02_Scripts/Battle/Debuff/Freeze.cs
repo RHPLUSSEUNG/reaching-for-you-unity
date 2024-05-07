@@ -17,7 +17,6 @@ public class Freeze : Debuff
         if (target == null)
             return false;
         target.GetComponent<CharacterSpec>().shield -= decrease;
-        TimeCheck();
         return true;
     }
 

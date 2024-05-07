@@ -26,7 +26,6 @@ public class Burn : Debuff
     {
         if (target == null)
             return false;
-        TimeCheck();
         return true;
     }
 }

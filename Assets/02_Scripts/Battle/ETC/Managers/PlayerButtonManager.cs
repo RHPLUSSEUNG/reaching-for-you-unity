@@ -106,10 +106,10 @@ public class PlayerButtonManager
         state = ButtonState.Skill;
     }
 
-    public void SetSkillPos(Vector3 pos)
+    public Active GetSkill()
     {
-        skill.Activate(pos);
-        state = ButtonState.Idle;
+        if (skill == null) return null;
+        return skill;
     }
     #endregion
 

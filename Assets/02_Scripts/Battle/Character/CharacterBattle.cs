@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class CharacterBattle : MonoBehaviour
 {
-    CharacterSpec _spec;
-    GameObject _go;
+    public CharacterSpec _spec;
+    public GameObject _go;
     
     void Start()
     {
@@ -58,13 +58,13 @@ public abstract class CharacterBattle : MonoBehaviour
         _spec.remainStamina--;
     }
 
-    public void UseSkill(Active skill, Vector3 pos)
+    public void UseSkill(Active skill, GameObject target)
     {
         if (_spec.stamina <= 0)
         {
             return;
         }
-        skill.Activate(pos);
+        skill.SetTarget(target);
         _spec.remainStamina--;
     }
 }

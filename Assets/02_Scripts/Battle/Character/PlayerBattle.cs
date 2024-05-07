@@ -2,18 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBattle : MonoBehaviour
+public class PlayerBattle : CharacterBattle
 {
-    CharacterSpec _spec;
-    GameObject _go;
-    
-    void Start()
-    {
-        _go = this.gameObject;
-        _spec = _go.GetComponent<CharacterSpec>();
-    }
-
-    public void GetDamaged(int damage, ElementType element)
+    public new void GetDamaged(int damage, ElementType element)
     {
         //Disadvantage
         if(_spec.elementType - element == 1 || _spec.elementType - element == -4)
@@ -36,7 +27,7 @@ public class PlayerBattle : MonoBehaviour
         }
     }
 
-    public void Dead()
+    public override void Dead()
     {
         if(_spec.hp > 0)
         {
@@ -46,7 +37,7 @@ public class PlayerBattle : MonoBehaviour
         Destroy(_go);
     }
 
-    public void Attack(GameObject target, int damage)
+    public new void Attack(GameObject target, int damage)
     {
         if(_spec.stamina <= 0)
         {
@@ -61,13 +52,13 @@ public class PlayerBattle : MonoBehaviour
         _spec.remainStamina--;
     }
 
-    public void UseSkill(Active skill, Vector3 pos)
+    public new void UseSkill(Active skill, GameObject target)
     {
         if (_spec.stamina <= 0)
         {
             return;
         }
-        skill.Activate(pos);
+        skill.SetTarget(target);
         _spec.remainStamina--;
     }
 }

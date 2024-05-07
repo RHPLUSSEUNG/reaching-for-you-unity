@@ -24,9 +24,7 @@ public enum EquipPart
     Head = 0,
     UpBody = 1,
     DownBody = 2,
-    Shoe = 3,
-    Globe = 4,
-    Weapon = 5,
+    Weapon = 3,
 };
 
 public enum BattleState
