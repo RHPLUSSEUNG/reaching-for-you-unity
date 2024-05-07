@@ -24,9 +24,7 @@ public enum EquipPart
     Head = 0,
     UpBody = 1,
     DownBody = 2,
-    Shoe = 3,
-    Globe = 4,
-    Weapon = 5,
+    Weapon = 3,
 };
 
 public enum BattleState
@@ -36,4 +34,20 @@ public enum BattleState
     EnemyTurn =2,
     Victory = 3,
     Defeat = 4,
+    Wait = 5,
 };
+
+public enum ButtonState
+{
+    Idle = 0,
+    Skill =1,
+    PlayerSet =2,
+}
+
+public enum Buttons
+{
+    button1,
+    button2,
+    button3,
+    button4,
+}

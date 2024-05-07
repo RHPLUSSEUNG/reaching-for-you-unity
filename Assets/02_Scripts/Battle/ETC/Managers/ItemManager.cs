@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory
+public class ItemManager
 {
-    Dictionary<int, int> consumeInven = new Dictionary<int, int>();
-    List<Equipment> equipmentInven = new List<Equipment>();
+    public Dictionary<Consume, int> consumeInven = new Dictionary<Consume, int>();
+    public List<Equipment> equipmentInven = new List<Equipment>();
     short inventoryCnt =  0;
     short inventoryMaxCnt = 100;
     int gold = 0;
@@ -30,14 +30,14 @@ public class Inventory
     {
         if (item.type == ItemType.Consume)
         {
-            if (consumeInven.ContainsKey(item.itemId))
+            if (consumeInven.ContainsKey(item as Consume))
             {
-                consumeInven[item.itemId]++;
+                consumeInven[item as Consume]++;
                 return true;
             }
             else if (inventoryCnt < inventoryMaxCnt)
             {
-                consumeInven.Add(item.itemId, 1);
+                consumeInven.Add(item as Consume, 1);
                 inventoryCnt++;
                 return true;
             }
@@ -57,12 +57,12 @@ public class Inventory
 
     public bool ConsumeItem(Consume item)
     {
-        if (consumeInven.ContainsKey(item.itemId))
+        if (consumeInven.ContainsKey(item as Consume))
         {
-            consumeInven[item.itemId]--;
-            if (consumeInven[item.itemId] == 0)
+            consumeInven[item as Consume]--;
+            if (consumeInven[item as Consume] == 0)
             {
-                consumeInven.Remove(item.itemId);
+                consumeInven.Remove(item as Consume);
                 inventoryCnt--;
             }
             return true;
