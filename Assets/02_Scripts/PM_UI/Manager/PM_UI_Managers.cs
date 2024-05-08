@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Managers : MonoBehaviour
+public class PM_UI_Managers : MonoBehaviour
 {
-    static Managers s_Instance;
-    static Managers Instance { get { Init(); return s_Instance; } }
+    static PM_UI_Managers s_Instance;
+    static PM_UI_Managers Instance { get { Init(); return s_Instance; } }
 
     ResourcesManager resource = new ResourcesManager();
     UIManager ui = new UIManager();
@@ -31,10 +31,10 @@ public class Managers : MonoBehaviour
             if (go == null)
             {
                 go = new GameObject { name = "@Managers" };
-                go.AddComponent<Managers>();
+                go.AddComponent<PM_UI_Managers>();
             }
             DontDestroyOnLoad(go);
-            s_Instance = go.GetComponent<Managers>();
+            s_Instance = go.GetComponent<PM_UI_Managers>();
         }
     }
 }

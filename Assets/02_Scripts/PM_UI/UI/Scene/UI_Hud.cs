@@ -32,12 +32,12 @@ public class UI_Hud : UI_Scene
         mp.GetOrAddComponent<UI_CircleBar>();
         //foreach (Transform slot in quickLayout.transform)
         //{
-        //    Managers.Resource.Destroy(slot.gameObject);
+        //    PM_UI_Managers.Resource.Destroy(slot.gameObject);
         //}
 
         for (int i = 0; i < 5; i++)
         {
-            //GameObject slot = Managers.UI.MakeSubItem<UI_QuickSlot>(quickLayout.transform, "QuickSlot").gameObject;
+            //GameObject slot = PM_UI_Managers.UI.MakeSubItem<UI_QuickSlot>(quickLayout.transform, "QuickSlot").gameObject;
             //UI_QuickSlot quickSlot = slot.GetOrAddComponent<UI_QuickSlot>();
         }
 
@@ -56,7 +56,7 @@ public class UI_Hud : UI_Scene
     {
         GameObject buffLayout = Get<GameObject>((int)GameObjects.BuffLayout);
 
-        // GameObject buff = Managers.UI.MakeSubItem<UI_Status>(buffLayout.transform, "Status").gameObject;
+        // GameObject buff = PM_UI_Managers.UI.MakeSubItem<UI_Status>(buffLayout.transform, "Status").gameObject;
         // UI_Status status = buff.GetOrAddComponent<UI_Status>();
         // status.SetInfo();
     }
@@ -65,7 +65,7 @@ public class UI_Hud : UI_Scene
     {
         GameObject DebuffLayout = Get<GameObject>((int)GameObjects.DeBuffLayout);
 
-        // GameObject debuff = Managers.UI.MakeSubItem<UI_Status>(DebuffLayout.transform, "Status").gameObject;
+        // GameObject debuff = PM_UI_Managers.UI.MakeSubItem<UI_Status>(DebuffLayout.transform, "Status").gameObject;
         // UI_Status status = debuff.GetOrAddComponent<UI_Status>();
     }
 
@@ -73,7 +73,7 @@ public class UI_Hud : UI_Scene
     {
         GameObject Status_effect_Layout = Get<GameObject>((int)GameObjects.Status_EffectLayout);
 
-        //GameObject status_effect = Managers.UI.MakeSubItem<UI_Status>(Status_effect_Layout.transform, "Status").gameObject;
+        //GameObject status_effect = PM_UI_Managers.UI.MakeSubItem<UI_Status>(Status_effect_Layout.transform, "Status").gameObject;
         //UI_Status status = status_effect.GetOrAddComponent<UI_Status>();
     }
 
