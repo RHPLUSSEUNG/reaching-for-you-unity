@@ -12,7 +12,7 @@ public class TempController : MonoBehaviour
     {
         // temp
         // Managers.UI.CreateSceneUI<UI_Hud>();
-        // pause = PM_UI_Managers.UI.CreatePopupUI<UI_Pause>();
+        // pause = Managers.UI.CreatePopupUI<UI_Pause>();
         pause = _pause.GetComponent<UI_Pause>();
         pause.gameObject.SetActive(false);
     }
