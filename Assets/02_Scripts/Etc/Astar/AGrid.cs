@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 public class AGrid : MonoBehaviour
@@ -13,6 +11,10 @@ public class AGrid : MonoBehaviour
     Vector2 gridWorldSize;
     [SerializeField]
     int nodesize = 1;
+
+    public bool dontCrossCorner;
+
+    Vector3 mapBottomLeft;
 
     int gridsizeX;
     int gridsizeY;
@@ -27,7 +29,7 @@ public class AGrid : MonoBehaviour
     void CreateGrid()
     {
         grid = new Node[gridsizeX, gridsizeY];
-        Vector3 mapBottomLeft = transform.position - (Vector3.right * gridsizeX / 2 * nodesize) - (Vector3.forward * gridsizeY / 2 * nodesize);
+        mapBottomLeft = transform.position - (Vector3.right * gridsizeX / 2 * nodesize) - (Vector3.forward * gridsizeY / 2 * nodesize);
         Vector3 wordlPoint;
 
 
@@ -35,27 +37,26 @@ public class AGrid : MonoBehaviour
         {
             for (int y = 0; y < gridsizeY; y++)
             {
-                wordlPoint = mapBottomLeft + Vector3.right * (x * nodesize + (float)nodesize / 2) + Vector3.forward * (y * nodesize + (float)nodesize / 2);
-                bool walkable = true;
-                // raycast 또는 checkbox로 오브젝트 검사 후 walkble 수정
+                wordlPoint = GetWorldPositionFromNode(x, y);
+                bool walkable = !Physics.CheckSphere(wordlPoint, nodesize/2, unwalkableMask);
                 grid[x, y] = new Node(walkable, wordlPoint, x, y);
             }
         }
     }
 
-    public List<Node> GetNeighbours(Node node)
+    public List<Node> GetNeighbours(Node node, int radius)  //radius 크기만큼 떨어져 있는 노드만 검색
     {
         List<Node> neigbours = new List<Node>();
-        for (int x = -1; x <= 1; x++)
+        for (int x = -radius; x <= radius; x ++) 
         {
-            for (int y = -1; y <= 1; y++)
+            for (int y = -radius; y <= radius; y ++)
             {
-                if (x==0 && y==0) continue;
+                if (Mathf.Abs(x) != radius && Mathf.Abs(y) != radius) continue;
 
                 int checkX = node.gridX + x;
                 int checkY = node.gridY + y;
 
-                if (checkX >= 0 && checkX < gridsizeX && checkY >= 0 && checkY < gridsizeY)
+                if(CheckGridBound(checkX,checkY))
                 {
                     neigbours.Add(grid[checkX, checkY]);
                 }
@@ -63,7 +64,34 @@ public class AGrid : MonoBehaviour
         }
         return neigbours;
     }
-
+    public bool CheckWalkable(int gridX, int gridY)
+    {
+        return grid[gridX, gridY].walkable;
+    }
+    public bool CheckGridBound(int gridX, int gridY)
+    {
+        if (gridX >= 0 && gridX < gridsizeX && gridY >= 0 && gridY < gridsizeY)
+        {
+           return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool CheckTag(int gridX, int gridY, string tag)  //노드 위치에 태그 매치되는 대상 유무 검사
+    {
+        Vector3 wordlPoint = GetWorldPositionFromNode(gridX, gridY);
+        foreach (Collider col in Physics.OverlapSphere(wordlPoint, nodesize / 2))
+        {
+            if (col.gameObject.CompareTag(tag))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+   
     public Node GetNodeFromWorldPosition(Vector3 worldPosition)
     {
         float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
@@ -75,6 +103,11 @@ public class AGrid : MonoBehaviour
         int x = Mathf.RoundToInt((gridsizeX - 1) * percentX);
         int y = Mathf.RoundToInt((gridsizeY - 1) * percentY);
         return grid[x, y];
+    }
+    public Vector3 GetWorldPositionFromNode(int gridX, int gridY)
+    {
+        Vector3 wordlPoint = mapBottomLeft + Vector3.right * (gridX * nodesize + (float)nodesize / 2) + Vector3.forward * (gridY * nodesize + (float)nodesize / 2);
+        return wordlPoint;
     }
 
     private void OnDrawGizmos()
@@ -88,5 +121,13 @@ public class AGrid : MonoBehaviour
                 Gizmos.DrawCube(node.worldPosition, new Vector3(nodesize, nodesize, nodesize));
             }
         }
+    }
+    public int GetGridSizeX()
+    {
+        return gridsizeX;
+    }
+    public int GetGridSizeY()
+    {
+        return gridsizeY;
     }
 }
