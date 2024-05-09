@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class UI_CircleBar : UI_Scene
 {
-    Image bar;  
+    Image bar;
+    int stat;
     // PlayerStat stat;
     public override void Init()
     {
@@ -19,12 +20,11 @@ public class UI_CircleBar : UI_Scene
 
     public void SetRadio()
     {
-        bar.fillAmount = 0.5f;
-        // bar.fillAmount = stat;
+        bar.fillAmount = stat;
     }
 
-    public void SetPlayerStat()
+    public void SetPlayerStat(int changeStat)
     {
-        // stat.hp or mp
+        stat = changeStat;
     }
 }

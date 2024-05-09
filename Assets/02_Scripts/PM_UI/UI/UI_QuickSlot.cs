@@ -2,21 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UI_QuickSlot : UI_Base
 {
-    enum GameObjects
-    {
-        MagicIcon,
-
-    }
     GameObject UI_Magic;
 
     public override void Init()
     {
-        Bind<GameObject>(typeof(GameObjects));
-
-        GameObject magicIcon = Get<GameObject>((int)GameObjects.MagicIcon).gameObject;
         BindEvent(gameObject, ClickButton, Define.UIEvent.Click);
         UI_Magic = Util.FindChild(gameObject, "UI_Magic");
     }
@@ -35,7 +28,11 @@ public class UI_QuickSlot : UI_Base
 
     public void ChangeMagic()
     {
-        // sprite 변경
+        Image magicIcon = UI_Magic.GetComponent<Image>();
+        // sprite 변경 : magicIcon.sprite;
         // 마법에 들어가는 스크립트 변경
+        Magic curMagic = UI_Magic.GetComponent<Magic>();
+        TempMagic changeMagic = UI_Magic.AddComponent<TempMagic>();
+        Destroy(curMagic);
     }
 }

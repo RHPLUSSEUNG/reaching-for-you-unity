@@ -1,20 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TempController : MonoBehaviour
 {
     // public Canvas worldUI;
+    public Canvas _hud;
     public Canvas _pause;
+    
     int _speed = 10;
     UI_Pause pause;
+    UI_Hud hud;
+    PlayerSpec curInfo;
+
+    //temp
+    public GameObject temp;
+    PlayerSpec[] playerList = new PlayerSpec[3];
+    Image tempImage;
+    int tempTurn = 0;
     private void Start()
     {
-        // temp
-        // PM_UI_Manager.UI.CreateSceneUI<UI_Hud>();
-        // pause = PM_UI_Manager.UI.CreatePopupUI<UI_Pause>();
+        hud = _hud.GetComponent<UI_Hud>();
         pause = _pause.GetComponent<UI_Pause>();
         pause.gameObject.SetActive(false);
+
+        // temp
+        Buff temp1 = null;
+        Buff temp2 = null;
+        Buff temp3 = null;
+        playerList[0].buffs.Add(temp1);
+        playerList[1].buffs.Add(temp1);
+        playerList[1].buffs.Add(temp2);
+        playerList[2].buffs.Add(temp1);
+        playerList[2].buffs.Add(temp2);
+        playerList[2].buffs.Add(temp3);
+
+        hud.ChangeProfile(playerList[0], tempImage);
     }
     void Update()
     {
@@ -36,14 +58,26 @@ public class TempController : MonoBehaviour
             transform.position += transform.TransformDirection(Vector3.right * Time.deltaTime * _speed);
         }
 
-        if (Input.GetKey(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            // ChangeProfile
+            tempTurn++;
+            if (tempTurn == 3)
+            {
+                tempTurn = 0;
+            }
+            hud.ChangeProfile(playerList[tempTurn], tempImage);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             pause.ManagerPopUI();
+        }
+
+        if (Input.GetKey(KeyCode.R))
+        {
+            // Äü½½·Ô ¸¶¹ý º¯°æ ½Ã : ¾î¶² Äü½½·Ô¿¡ ¾ðÁ¦ ¹Ù²ãÁö´ÂÁö ÇÊ¿ä
+            UI_QuickSlot quick = temp.GetComponent<UI_QuickSlot>();
+            quick.ChangeMagic();
         }
     }
 

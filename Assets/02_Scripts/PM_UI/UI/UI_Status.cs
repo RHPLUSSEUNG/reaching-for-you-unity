@@ -22,7 +22,6 @@ public class UI_Status : UI_Base
         BindEvent(statusIcon, OnStatusExit, Define.UIEvent.Exit);
         BindEvent(statusIcon, OnClick, Define.UIEvent.Click);
         status = gameObject;
-        // icon.sprite = ???;
         status.SetActive(false);
         Transform layout = status.transform.parent;
         for (int i = 0; i < Max_Display_Child; i++)
@@ -32,7 +31,7 @@ public class UI_Status : UI_Base
 
     }
 
-    public void SetInfo(Image icon)
+    public void SetStatusImage(Image icon)
     {
         Image status_icon = Util.FindChild<Image>(status, "StatusIcon");
         status_icon.sprite = icon.sprite;

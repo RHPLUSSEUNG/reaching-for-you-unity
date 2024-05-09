@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UI_Hud : UI_Scene
 {
-    enum GameObjects
+    public enum HUD_UI
     {
         QuickLayout,
         BuffLayout,
@@ -17,72 +17,143 @@ public class UI_Hud : UI_Scene
         MP
     }
 
+    public GameObject _status;
+
     Image profileImage;
+    UI_CircleBar hpBar;
+    UI_CircleBar mpBar;
+    GameObject buffLayout;
+    GameObject debuffLayout;
+    GameObject status_effectLayout;
 
     public override void Init()
     {
         base.Init();
 
-        Bind<GameObject>(typeof(GameObjects));
+        Bind<GameObject>(typeof(HUD_UI));
 
-        GameObject quickLayout = GetObject((int)GameObjects.QuickLayout);
-        GameObject hp = GetObject((int)GameObjects.HP);
-        GameObject mp = GetObject((int)GameObjects.MP);
-        hp.GetOrAddComponent<UI_CircleBar>();
-        mp.GetOrAddComponent<UI_CircleBar>();
-        //foreach (Transform slot in quickLayout.transform)
-        //{
-        //    PM_UI_Manager.Resource.Destroy(slot.gameObject);
-        //}
-
-        for (int i = 0; i < 5; i++)
-        {
-            //GameObject slot = PM_UI_Manager.UI.MakeSubItem<UI_QuickSlot>(quickLayout.transform, "QuickSlot").gameObject;
-            //UI_QuickSlot quickSlot = slot.GetOrAddComponent<UI_QuickSlot>();
-        }
-
-        // TEMP
-        for (int i = 0; i < 5; i++)
-        {
-            CreateBuff();
-            CreateDebuff();
-            CreateStatusEffect();
-        }
-
+        GameObject quickLayout = GetObject((int)HUD_UI.QuickLayout);
+        GameObject hp = GetObject((int)HUD_UI.HP);
+        GameObject mp = GetObject((int)HUD_UI.MP);
+        buffLayout = Get<GameObject>((int)HUD_UI.BuffLayout);
+        hpBar = hp.GetOrAddComponent<UI_CircleBar>();
+        mpBar = mp.GetOrAddComponent<UI_CircleBar>();
         profileImage = Util.FindChild<Image>(gameObject, "Profile", true);
     }
 
-    public void CreateBuff()
-    {
-        GameObject buffLayout = Get<GameObject>((int)GameObjects.BuffLayout);
 
-        // GameObject buff = PM_UI_Manager.UI.MakeSubItem<UI_Status>(buffLayout.transform, "Status").gameObject;
-        // UI_Status status = buff.GetOrAddComponent<UI_Status>();
-        // status.SetInfo();
+    public void CreateStatus(Image icon, HUD_UI type)
+    {
+        GameObject status;
+        UI_Status ui_status;
+        switch(type)
+        {
+            case HUD_UI.BuffLayout:
+                status = Instantiate(_status, buffLayout.transform);
+                ui_status = status.GetOrAddComponent<UI_Status>();
+                ui_status.SetStatusImage(icon);
+                break;
+            case HUD_UI.DeBuffLayout:
+                status = Instantiate(_status, debuffLayout.transform);
+                ui_status = status.GetOrAddComponent<UI_Status>();
+                ui_status.SetStatusImage(icon);
+                break;
+            case HUD_UI.Status_EffectLayout:
+                status = Instantiate(_status, status_effectLayout.transform);
+                ui_status = status.GetOrAddComponent<UI_Status>();
+                ui_status.SetStatusImage(icon);
+                break;
+            default:
+                Debug.Log("Incorrect Access");
+                break;
+        }
     }
 
-    public void CreateDebuff()
+    public void ChangeProfile(PlayerSpec curInfo, Image changeProfile)
     {
-        GameObject DebuffLayout = Get<GameObject>((int)GameObjects.DeBuffLayout);
-
-        // GameObject debuff = PM_UI_Manager.UI.MakeSubItem<UI_Status>(DebuffLayout.transform, "Status").gameObject;
-        // UI_Status status = debuff.GetOrAddComponent<UI_Status>();
+        hpBar.SetPlayerStat(curInfo.hp);
+        mpBar.SetPlayerStat(curInfo.mp);
+        profileImage.sprite = changeProfile.sprite;
+        SetStatusLayout(curInfo, buffLayout, HUD_UI.BuffLayout);
+        SetStatusLayout(curInfo, debuffLayout, HUD_UI.DeBuffLayout);
+        SetStatusLayout(curInfo, status_effectLayout, HUD_UI.Status_EffectLayout);
     }
 
-    public void CreateStatusEffect()
+    void SetStatusLayout(PlayerSpec curInfo, GameObject layout, HUD_UI type)
     {
-        GameObject Status_effect_Layout = Get<GameObject>((int)GameObjects.Status_EffectLayout);
-
-        //GameObject status_effect = PM_UI_Manager.UI.MakeSubItem<UI_Status>(Status_effect_Layout.transform, "Status").gameObject;
-        //UI_Status status = status_effect.GetOrAddComponent<UI_Status>();
-    }
-
-    public void ChangeProfile()
-    {
-        // Need : PlayerInfo(동료 이미지, HP, MP, 가지고 있는 상태 리스트)
-        // profileImage.sprite = changeProfile.sprite;
-        // hp.SetPlayerStat(int _hp);
-        // status.SetInfo();
-        // PlayerStat 설정 (HP, MP Circle Bar) 잡는거 생각
+        int count, curCount;
+        switch(type)
+        {
+            case HUD_UI.BuffLayout:
+                count = layout.transform.childCount;
+                curCount = curInfo.buffs.Count;
+                for (int i = 0; i < curCount; i++)
+                {
+                    Transform status = layout.transform.GetChild(i);
+                    if (status == null)
+                    {
+                        status = Instantiate(_status, layout.transform).transform;
+                    }
+                    UI_Status ui_status = status.gameObject.GetComponent<UI_Status>();
+                    Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
+                    ui_status.SetStatusImage(changeIcon);
+                }
+                if (count > curCount)
+                {
+                    for (int i = curCount; i < count; i++)
+                    {
+                        Transform status = layout.transform.GetChild(i);
+                        Destroy(status.gameObject);
+                    }
+                }
+                break;
+            case HUD_UI.DeBuffLayout:
+                //count = layout.transform.childCount;
+                //curCount = curInfo.debuffs.Count;
+                //for (int i = 0; i < curCount; i++)
+                //{
+                //    Transform status = layout.transform.GetChild(i);
+                //    if (status == null)
+                //    {
+                //        status = Instantiate(_status, layout.transform).transform;
+                //    }
+                //    UI_Status ui_status = status.gameObject.GetComponent<UI_Status>();
+                //    Image changeIcon = curInfo.debuffs[i].gameObject.GetComponent<Image>();
+                //    ui_status.SetStatusImage(changeIcon);
+                //}
+                //if (count > curCount)
+                //{
+                //    for (int i = curCount; i < count; i++)
+                //    {
+                //        Transform status = layout.transform.GetChild(i);
+                //        Destroy(status.gameObject);
+                //    }
+                //}
+                break;
+            case HUD_UI.Status_EffectLayout:
+                //count = layout.transform.childCount;
+                //curCount = curInfo.status_effect.Count;
+                //for (int i = 0; i < curCount; i++)
+                //{
+                //    Transform status = layout.transform.GetChild(i);
+                //    if (status == null)
+                //    {
+                //        status = Instantiate(_status, layout.transform).transform;
+                //    }
+                //    UI_Status ui_status = status.gameObject.GetComponent<UI_Status>();
+                //    Image changeIcon = curInfo.status_effectLayout[i].gameObject.GetComponent<Image>();
+                //    ui_status.SetStatusImage(changeIcon);
+                //}
+                //if (count > curCount)
+                //{
+                //    for (int i = curCount; i < count; i++)
+                //    {
+                //        Transform status = layout.transform.GetChild(i);
+                //        Destroy(status.gameObject);
+                //    }
+                //}
+                break;
+        }
+        
     }
 }
