@@ -15,7 +15,8 @@ public class BattleManager
     int turnCnt = 0;
     public void BattleReady() {
         //TOOD make monster party
-
+        Managers.Party.AddMonster(GameObject.Find("Enemy"));
+        Managers.Party.AddParty(GameObject.Find("Player_Girl"));
         Managers.PlayerButton.UpdateStartButton();
         battleState = BattleState.Start;
     }
@@ -36,7 +37,7 @@ public class BattleManager
         playerLive = (short)Managers.Party.playerParty.Count;
         monsterLive = (short)Managers.Party.monsterParty.Count;
         battleState = BattleState.PlayerTurn;
-
+        NextTurn();
         //TODO Object Turn order sorting
     }
 
@@ -50,16 +51,24 @@ public class BattleManager
         {
             GameObject Character = ObjectList[turnCnt % ObjectList.Count];
             CharacterSpec spec = ObjectList[turnCnt % ObjectList.Count].GetComponent<CharacterSpec>();
-            foreach (Buff buff in spec.buffs)
+            /*
+            if(spec.buffs.Count != 0)
             {
-                buff.TimeCheck();
+                foreach (Buff buff in spec.buffs)
+                {
+                    buff.TimeCheck();
+                }
             }
-            foreach (Debuff debuff in spec.debuffs)
+            if(spec.debuffs.Count != 0)
             {
-                debuff.TimeCheck();
+                foreach (Debuff debuff in spec.debuffs)
+                {
+                    debuff.TimeCheck();
+                }
             }
+            */
             spec.remainStamina = spec.stamina;
-            turnCnt++;
+            
             if (ObjectList[turnCnt % ObjectList.Count].CompareTag("Player"))
             {
                 battleState = BattleState.PlayerTurn;
@@ -71,6 +80,7 @@ public class BattleManager
                 Character.GetComponent<EnemyAI_Test>().ProceedTurn();
                 NextTurn();
             }
+            turnCnt++;
         }
     }
 

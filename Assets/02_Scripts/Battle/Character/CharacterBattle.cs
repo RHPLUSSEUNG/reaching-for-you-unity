@@ -15,7 +15,7 @@ public abstract class CharacterBattle : MonoBehaviour
 
     public void Spawn()
     {
-        Instantiate(_go, _spec.pos.transform.position, Quaternion.identity);
+        Instantiate(_go, _spec.pos.transform.position + Vector3.up, Quaternion.identity);
     }
 
     public void GetDamaged(int damage, ElementType element)

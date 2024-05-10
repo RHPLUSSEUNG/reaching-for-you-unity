@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -56,7 +57,7 @@ public class EnemyAI_Test : MonoBehaviour
             Debug.Log("search Failed, Move To Random Location");
             PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
         }
-    }
+    }  
     public void OnRandomLoc(Vector3 newTargetPos)
     {
         Debug.Log("Get RandomLoc");

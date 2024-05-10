@@ -123,7 +123,7 @@ public class PlayerButtonManager
 
     public void Player2()
     {
-        player = Managers.Party.playerParty[1];
+        player = Managers.Party.monsterParty[0];
 
         state = ButtonState.PlayerSet;
     }

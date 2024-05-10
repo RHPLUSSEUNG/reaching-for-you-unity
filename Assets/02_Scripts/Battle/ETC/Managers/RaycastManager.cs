@@ -12,6 +12,7 @@ public class RaycastManager
             
             if (Physics.Raycast(ray, out hit))
             {
+                /*
                 if (hit.transform.gameObject.CompareTag("Character"))
                 {
                     Debug.Log("Character Selected : " + hit.collider.gameObject.name);
@@ -22,6 +23,7 @@ public class RaycastManager
                     Debug.Log("Monster Selected");
                     //TODO Monster Info UI
                 }
+                */
                 //Player Turn
                 if (Managers.Battle.battleState == BattleState.PlayerTurn)
                 {
@@ -40,7 +42,6 @@ public class RaycastManager
                 else if (Managers.PlayerButton.state == ButtonState.PlayerSet && hit.transform.gameObject.name == "CombatMap(Clone)")
                 {
                     Managers.PlayerButton.SetPosition(hit.collider.gameObject);
-
                 }
             }
         }
