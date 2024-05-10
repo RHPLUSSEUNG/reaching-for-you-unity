@@ -11,7 +11,7 @@ public abstract class UI_Base : MonoBehaviour
     protected Dictionary<Type, UnityEngine.Object[]> object_type = new Dictionary<Type, UnityEngine.Object[]>();
     public abstract void Init();
 
-    private void Start()
+    private void Awake()
     {
         Init();
     }

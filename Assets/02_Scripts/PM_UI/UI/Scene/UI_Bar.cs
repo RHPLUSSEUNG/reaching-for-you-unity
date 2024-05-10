@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_CircleBar : UI_Scene
+public class UI_Bar : UI_Scene
 {
     Image bar;
     int stat;
-    // PlayerStat stat;
+    float ratio;
+
+    int tempMax = 100;
     public override void Init()
     {
         bar = Util.FindChild<Image>(gameObject, "Bar");
@@ -15,16 +17,17 @@ public class UI_CircleBar : UI_Scene
 
     private void Update()
     {
-        SetRadio();
+        SetRatio();
     }
 
-    public void SetRadio()
+    public void SetRatio()
     {
-        bar.fillAmount = stat;
+        bar.fillAmount = ratio;
     }
 
     public void SetPlayerStat(int changeStat)
     {
         stat = changeStat;
+        ratio = stat / (float)tempMax;
     }
 }

@@ -16,8 +16,9 @@ public class TempController : MonoBehaviour
 
     //temp
     public GameObject temp;
-    PlayerSpec[] playerList = new PlayerSpec[3];
-    Image tempImage;
+    public Buff tempBuff;
+    public PlayerSpec[] playerList = new PlayerSpec[3];
+    public Image tempImage;
     int tempTurn = 0;
     private void Start()
     {
@@ -25,18 +26,7 @@ public class TempController : MonoBehaviour
         pause = _pause.GetComponent<UI_Pause>();
         pause.gameObject.SetActive(false);
 
-        // temp
-        Buff temp1 = null;
-        Buff temp2 = null;
-        Buff temp3 = null;
-        playerList[0].buffs.Add(temp1);
-        playerList[1].buffs.Add(temp1);
-        playerList[1].buffs.Add(temp2);
-        playerList[2].buffs.Add(temp1);
-        playerList[2].buffs.Add(temp2);
-        playerList[2].buffs.Add(temp3);
-
-        hud.ChangeProfile(playerList[0], tempImage);
+        hud.ChangeProfile(playerList[0], tempImage);  // test
     }
     void Update()
     {

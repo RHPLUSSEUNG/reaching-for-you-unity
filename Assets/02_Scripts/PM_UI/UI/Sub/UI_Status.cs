@@ -21,19 +21,11 @@ public class UI_Status : UI_Base
         // BindEvent(statusIcon, OnStatusEnter, Define.UIEvent.Enter);
         BindEvent(statusIcon, OnStatusExit, Define.UIEvent.Exit);
         BindEvent(statusIcon, OnClick, Define.UIEvent.Click);
-        status = gameObject;
-        status.SetActive(false);
-        Transform layout = status.transform.parent;
-        for (int i = 0; i < Max_Display_Child; i++)
-        {
-            layout.GetChild(i).gameObject.SetActive(true);
-        }
-
     }
 
     public void SetStatusImage(Image icon)
     {
-        Image status_icon = Util.FindChild<Image>(status, "StatusIcon");
+        Image status_icon = Util.FindChild<Image>(gameObject, "StatusIcon");
         status_icon.sprite = icon.sprite;
     }
 

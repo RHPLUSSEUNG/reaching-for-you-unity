@@ -13,18 +13,20 @@ public class UI_Hud : UI_Scene
         BuffLayout,
         DeBuffLayout,
         Status_EffectLayout,
-        HP,
-        MP
+        HPBar,
+        MPBar
     }
 
     public GameObject _status;
 
     Image profileImage;
-    UI_CircleBar hpBar;
-    UI_CircleBar mpBar;
+    UI_Bar hpBar;
+    UI_Bar mpBar;
     GameObject buffLayout;
     GameObject debuffLayout;
     GameObject status_effectLayout;
+
+    public Image tempImage;     // test
 
     public override void Init()
     {
@@ -33,12 +35,13 @@ public class UI_Hud : UI_Scene
         Bind<GameObject>(typeof(HUD_UI));
 
         GameObject quickLayout = GetObject((int)HUD_UI.QuickLayout);
-        GameObject hp = GetObject((int)HUD_UI.HP);
-        GameObject mp = GetObject((int)HUD_UI.MP);
+        GameObject hp = GetObject((int)HUD_UI.HPBar);
+        GameObject mp = GetObject((int)HUD_UI.MPBar);
         buffLayout = Get<GameObject>((int)HUD_UI.BuffLayout);
-        hpBar = hp.GetOrAddComponent<UI_CircleBar>();
-        mpBar = mp.GetOrAddComponent<UI_CircleBar>();
-        profileImage = Util.FindChild<Image>(gameObject, "Profile", true);
+        hpBar = hp.GetComponent<UI_Bar>();
+        mpBar = mp.GetComponent<UI_Bar>();
+        profileImage = Util.FindChild<Image>(gameObject, "CharacterImage", true);
+
     }
 
 
@@ -71,7 +74,7 @@ public class UI_Hud : UI_Scene
 
     public void ChangeProfile(PlayerSpec curInfo, Image changeProfile)
     {
-        hpBar.SetPlayerStat(curInfo.hp);
+        hpBar.SetPlayerStat(curInfo.hp);            // Max HP ÇÊ¿ä    
         mpBar.SetPlayerStat(curInfo.mp);
         profileImage.sprite = changeProfile.sprite;
         SetStatusLayout(curInfo, buffLayout, HUD_UI.BuffLayout);
@@ -87,15 +90,19 @@ public class UI_Hud : UI_Scene
             case HUD_UI.BuffLayout:
                 count = layout.transform.childCount;
                 curCount = curInfo.buffs.Count;
+                if(count < curCount)
+                {
+                    for (int i = count; i < curCount; i++)
+                    {
+                        Instantiate(_status, layout.transform);
+                    }
+                }
                 for (int i = 0; i < curCount; i++)
                 {
                     Transform status = layout.transform.GetChild(i);
-                    if (status == null)
-                    {
-                        status = Instantiate(_status, layout.transform).transform;
-                    }
                     UI_Status ui_status = status.gameObject.GetComponent<UI_Status>();
                     Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
+                    changeIcon = tempImage; // test
                     ui_status.SetStatusImage(changeIcon);
                 }
                 if (count > curCount)
