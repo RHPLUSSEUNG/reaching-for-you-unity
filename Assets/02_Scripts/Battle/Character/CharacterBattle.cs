@@ -13,9 +13,10 @@ public abstract class CharacterBattle : MonoBehaviour
         _spec = _go.GetComponent<CharacterSpec>();
     }
 
-    public void Spawn()
+    public GameObject Spawn()
     {
-        Instantiate(_go, _spec.pos.transform.position + Vector3.up, Quaternion.identity);
+        GameObject go = Instantiate(_go, _spec.pos.transform.position + Vector3.up, Quaternion.identity);
+        return go;
     }
 
     public void GetDamaged(int damage, ElementType element)

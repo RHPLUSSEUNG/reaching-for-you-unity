@@ -92,6 +92,8 @@ public class EnemyAI_Test : MonoBehaviour
             
         }
         isTurnEnd = true;   // 턴 종료
+        Debug.Log("Enemy Turn end");
+        Managers.Battle.NextTurn();
         // 여기에 턴 종료 추가
 
     }
@@ -117,6 +119,7 @@ public class EnemyAI_Test : MonoBehaviour
                     if (targetIndex >= path.Length || targetIndex >= stat.MovePoint)
                     {
                         isMoving = false;
+                        Attack();
                         yield break;
                     }
                     currentWaypoint = path[targetIndex];
@@ -141,6 +144,7 @@ public class EnemyAI_Test : MonoBehaviour
                     else if (targetIndex >= stat.MovePoint) // 이동거리 초과 시
                     {
                         isMoving = false;
+                        Attack();
                         yield break;
                     }
                     targetIndex++;

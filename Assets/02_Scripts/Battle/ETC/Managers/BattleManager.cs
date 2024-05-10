@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 
 // 1. Character TurnSpeed에 따라서 턴 순서가 정해진다 (세나 결투장)
@@ -26,19 +27,49 @@ public class BattleManager
         ObjectList.Clear();
         foreach (GameObject character in Managers.Party.playerParty)
         {
-            character.GetComponent<CharacterBattle>().Spawn();
-            ObjectList.Add(character);
+            GameObject go = character.GetComponent<CharacterBattle>().Spawn();
+            ObjectList.Add(go);
         }
         foreach (GameObject character in Managers.Party.monsterParty)
         {
-            character.GetComponent<CharacterBattle>().Spawn();
-            ObjectList.Add(character);
+            GameObject go = character.GetComponent<CharacterBattle>().Spawn();
+            ObjectList.Add(go);
         }
         playerLive = (short)Managers.Party.playerParty.Count;
         monsterLive = (short)Managers.Party.monsterParty.Count;
         battleState = BattleState.PlayerTurn;
+        for(int i = 0; i < ObjectList.Count; i++)
+        {
+            Debug.Log(ObjectList[i].name);
+        }
         NextTurn();
         //TODO Object Turn order sorting
+    }
+
+    public void CalcTurn()
+    {
+        turnCnt++;
+        turnCnt %= ObjectList.Count;
+    }
+
+    public void PlayerTurn()
+    {
+        battleState = BattleState.PlayerTurn;
+        Managers.PlayerButton.UpdateSkillButton(ObjectList[turnCnt % ObjectList.Count]);
+        Debug.Log("PlayerTurn Start");
+    }
+
+    public void EnemyTurn(GameObject character)
+    {
+        Debug.Log(character.name);
+        if(character.GetComponent<EnemyAI_Test>() == null)
+        {
+            Debug.Log("Component Error");
+            return;
+        }
+        Debug.Log("EnemyTurn Start");
+        battleState = BattleState.EnemyTurn;
+        character.GetComponent<EnemyAI_Test>().ProceedTurn();
     }
 
     public void NextTurn()
@@ -49,8 +80,9 @@ public class BattleManager
         }
         else
         {
-            GameObject Character = ObjectList[turnCnt % ObjectList.Count];
-            CharacterSpec spec = ObjectList[turnCnt % ObjectList.Count].GetComponent<CharacterSpec>();
+            CalcTurn();
+            GameObject character = ObjectList[turnCnt];
+            CharacterSpec spec = ObjectList[turnCnt].GetComponent<CharacterSpec>();
             /*
             if(spec.buffs.Count != 0)
             {
@@ -68,19 +100,15 @@ public class BattleManager
             }
             */
             spec.remainStamina = spec.stamina;
-            
-            if (ObjectList[turnCnt % ObjectList.Count].CompareTag("Player"))
+            Debug.Log(turnCnt);
+            if (ObjectList[turnCnt].CompareTag("Player"))
             {
-                battleState = BattleState.PlayerTurn;
-                Managers.PlayerButton.UpdateSkillButton(ObjectList[turnCnt % ObjectList.Count]);
+                PlayerTurn();
             }
             else
             {
-                battleState = BattleState.EnemyTurn;
-                Character.GetComponent<EnemyAI_Test>().ProceedTurn();
-                NextTurn();
+                EnemyTurn(character);
             }
-            turnCnt++;
         }
     }
 

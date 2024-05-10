@@ -55,7 +55,7 @@ public class PlayerButtonManager
 
     public void UpdateSkillButton(GameObject player)
     {
-        Debug.Log("clear");
+        Debug.Log("Update Skill Button");
         this.player = player;
         this.spec = this.player.GetComponent<PlayerSpec>();
         button1.onClick.RemoveAllListeners();
@@ -166,6 +166,7 @@ public class PlayerButtonManager
         if(Managers.Battle.battleState == BattleState.PlayerTurn)
         {
             Managers.Battle.NextTurn();
+            Debug.Log("PlayerTurn end");
         }
         else if(Managers.Battle.battleState == BattleState.Start)
         {
