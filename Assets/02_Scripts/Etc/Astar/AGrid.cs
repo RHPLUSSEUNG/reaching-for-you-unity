@@ -29,7 +29,8 @@ public class AGrid : MonoBehaviour
     void CreateGrid()
     {
         grid = new Node[gridsizeX, gridsizeY];
-        mapBottomLeft = transform.position - (Vector3.right * gridsizeX / 2 * nodesize) - (Vector3.forward * gridsizeY / 2 * nodesize);
+        //mapBottomLeft = transform.position - (Vector3.right * gridsizeX / 2 * nodesize) - (Vector3.forward * gridsizeY / 2 * nodesize);
+        mapBottomLeft = new Vector3((float)-0.5,1, (float)-0.5);    //임시 위치 맞추기
         Vector3 wordlPoint;
 
 

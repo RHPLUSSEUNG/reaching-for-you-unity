@@ -17,7 +17,8 @@ public class EnemyAI_Test : MonoBehaviour
     bool isMoving;
     bool canAttack;
     bool isTargetEmpty;
-    bool isTurnEnd;
+
+    public bool isTurnEnd;
 
     public void ProceedTurn()
     {
