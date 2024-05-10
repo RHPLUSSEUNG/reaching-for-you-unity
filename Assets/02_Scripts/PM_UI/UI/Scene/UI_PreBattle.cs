@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UI_PreBattle : UI_Scene
 {
-    public GameObject SavelPanel;
+    public GameObject SavePanel;
     public GameObject RepairPanel;
     enum PreBattleButtons
     {
@@ -48,14 +48,13 @@ public class UI_PreBattle : UI_Scene
 
     public void OnRepairButton(PointerEventData data)
     {
-        // Blocker ¼³Ä¡ ¹× ²¨Áü ±¸Çö
         RepairPanel.SetActive(true);
     }
 
     public void OnSaveButton(PointerEventData data)
     {
         // Blocker ¼³Ä¡ ¹× ²¨Áü ±¸Çö
-        SavelPanel.SetActive(true);
+        SavePanel.SetActive(true);
     }
 
     public void OnSystemButton(PointerEventData data)
