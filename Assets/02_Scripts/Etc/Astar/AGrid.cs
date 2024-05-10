@@ -8,7 +8,7 @@ public class AGrid : MonoBehaviour
     [SerializeField]
     LayerMask unwalkableMask;
     [SerializeField]
-    Vector2 gridWorldSize;
+    Vector2 gridWorldSize = new Vector2(10,10);
     [SerializeField]
     int nodesize = 1;
 
