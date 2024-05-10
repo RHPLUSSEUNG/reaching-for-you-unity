@@ -25,7 +25,7 @@ public class EnemyAI_Test : MonoBehaviour
         //시야 범위 검색 > 찾으면 이동 > 사거리 닿을 시 공격
         //못찾으면 범위 내 랜덤 위치 받은 후 이동
         isTurnEnd = false;
-        canAttack = true;
+        canAttack = false;
         Search(stat.Sight);
     }
 
@@ -61,7 +61,7 @@ public class EnemyAI_Test : MonoBehaviour
     }  
     public void OnRandomLoc(Vector3 newTargetPos)
     {
-        Debug.Log("Get RandomLoc");
+        Debug.Log(newTargetPos);
         targetPos = newTargetPos;
         isTargetEmpty = true;
         Move();
@@ -103,6 +103,8 @@ public class EnemyAI_Test : MonoBehaviour
         if (path.Length == 0 || (path.Length == 1 && !isTargetEmpty))   // 이미 도착
         {
             Debug.Log("Already At The Position");
+            if (!isTargetEmpty)
+                canAttack= true;
             isMoving = false;
             Attack();
             yield break;
