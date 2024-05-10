@@ -26,4 +26,14 @@ public class PartyManager
         }
         playerParty.Remove(character);
     }
+
+    public void AddMonster(GameObject character)
+    {
+        monsterParty.Add(character);
+    }
+
+    public void ClearMonster() 
+    {
+        monsterParty.Clear();
+    }
 }

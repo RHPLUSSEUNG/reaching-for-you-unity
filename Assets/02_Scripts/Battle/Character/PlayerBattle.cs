@@ -34,6 +34,7 @@ public class PlayerBattle : CharacterBattle
             return;
         }
         Managers.Battle.playerLive--;
+        Managers.Battle.ObjectList.Remove(this.gameObject);
         Destroy(_go);
     }
 

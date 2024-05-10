@@ -17,4 +17,5 @@ public class CharacterSpec : MonoBehaviour
     public List<Buff> buffs;
 
     public GameObject pos;
+
 }

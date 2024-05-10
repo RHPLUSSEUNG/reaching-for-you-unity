@@ -9,7 +9,12 @@ public class RaycastManager
         {   
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+            if (Physics.Raycast(ray, out hit) && hit.transform.gameObject.name == "CombatMap(Clone)")
+            {
+                Debug.Log(hit.collider.gameObject.name);
+            }
             //while battle
+
             if (Physics.Raycast(ray, out hit) && Managers.Battle.battleState == BattleState.PlayerTurn)
             {
                 //using skill
@@ -27,9 +32,10 @@ public class RaycastManager
                     Debug.Log("Monster Selected");
                     //TODO UI
                 }
-                else if (Managers.PlayerButton.state == ButtonState.PlayerSet && hit.transform.gameObject.CompareTag("Field"))
+                else if (Managers.PlayerButton.state == ButtonState.PlayerSet && hit.transform.gameObject.name == "CombatMap(Clone)")
                 {
                     Managers.PlayerButton.SetPosition(hit.collider.gameObject);
+                    //TODO Player Move
                 }
             }
         }
