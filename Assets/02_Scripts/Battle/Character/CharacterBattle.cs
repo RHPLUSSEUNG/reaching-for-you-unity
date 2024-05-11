@@ -61,10 +61,6 @@ public abstract class CharacterBattle : MonoBehaviour
 
     public void UseSkill(Active skill, GameObject target)
     {
-        if (_spec.stamina <= 0)
-        {
-            return;
-        }
         skill.SetTarget(target);
         _spec.remainStamina--;
     }

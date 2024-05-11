@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class PartyManager
 {
@@ -32,8 +34,41 @@ public class PartyManager
         monsterParty.Add(character);
     }
 
-    public void ClearMonster() 
+    public void ClearMonster()
     {
         monsterParty.Clear();
+    }
+
+    public void Damage(GameObject target)
+    {
+        GameObject character = Managers.Battle.currentCharacter;
+        target.GetComponent<CharacterSpec>().hp -= character.GetComponent<CharacterSpec>().attack;
+        if(target.GetComponent<CharacterSpec>().hp <= 0)
+        {
+            Dead(target);
+        }
+    }
+
+    public void Damage(GameObject target, int damage)
+    {
+        target.GetComponent<CharacterSpec>().hp -= damage;
+        if (target.GetComponent<CharacterSpec>().hp <= 0)
+        {
+            Dead(target);
+        }
+    }
+
+    public void Dead(GameObject character)
+    {
+        if (character.CompareTag("Player"))
+        {
+            Managers.Battle.playerLive--;
+        }
+        else
+        {
+            Managers.Battle.monsterLive--;
+        }
+        Managers.Battle.ObjectList.Remove(character);
+        character.SetActive(false);
     }
 }

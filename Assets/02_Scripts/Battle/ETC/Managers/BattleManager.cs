@@ -13,11 +13,13 @@ public class BattleManager
     public short playerLive;
     public short monsterLive;
     public List<GameObject> ObjectList = new List<GameObject>();
+    public GameObject currentCharacter;
     int turnCnt = 0;
     public void BattleReady() {
         //TOOD make monster party
         Managers.Party.AddMonster(GameObject.Find("Enemy"));
         Managers.Party.AddParty(GameObject.Find("Player_Girl"));
+        
         Managers.PlayerButton.UpdateStartButton();
         battleState = BattleState.Start;
     }
@@ -42,6 +44,8 @@ public class BattleManager
         {
             Debug.Log(ObjectList[i].name);
         }
+        GameObject.Find("Enemy").SetActive(false);
+        GameObject.Find("Player_Girl").SetActive(false);
         NextTurn();
         //TODO Object Turn order sorting
     }
@@ -50,6 +54,10 @@ public class BattleManager
     {
         turnCnt++;
         turnCnt %= ObjectList.Count;
+        if(playerLive == 0 || monsterLive == 0)
+        {
+            Result();
+        }
     }
 
     public void PlayerTurn()
@@ -81,8 +89,8 @@ public class BattleManager
         else
         {
             CalcTurn();
-            GameObject character = ObjectList[turnCnt];
-            CharacterSpec spec = ObjectList[turnCnt].GetComponent<CharacterSpec>();
+            currentCharacter = ObjectList[turnCnt];
+            CharacterSpec spec = currentCharacter.GetComponent<CharacterSpec>();
             /*
             if(spec.buffs.Count != 0)
             {
@@ -107,20 +115,22 @@ public class BattleManager
             }
             else
             {
-                EnemyTurn(character);
+                EnemyTurn(currentCharacter);
             }
         }
     }
 
     public void Result()
     {
-        if (playerLive == 0)
+        if (monsterLive == 0)
         {
             battleState = BattleState.Victory;
+            Debug.Log("Victory");
         }
-        else if (monsterLive == 0)
+        else if (playerLive == 0)
         {
             battleState = BattleState.Defeat;
+            Debug.Log("Defeat");
         }
         else return;
     }

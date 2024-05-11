@@ -5,9 +5,9 @@ using UnityEngine;
 public class CharacterSpec : MonoBehaviour
 {
     [SerializeField]
-    public int hp; //character hp
-    public int mp;
-    public int attack; //character attack damage
+    public int hp = 100; //character hp
+    public int mp = 50;
+    public int attack = 50; //character attack damage
     public int shield; //character shield damage
     public short stamina; //active per turn
     public short remainStamina;
