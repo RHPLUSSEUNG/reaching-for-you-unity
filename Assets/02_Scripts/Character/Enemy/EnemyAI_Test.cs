@@ -13,6 +13,7 @@ public class EnemyAI_Test : MonoBehaviour
 
     Vector3 targetPos;
     int targetIndex;
+    GameObject targetObj;
     Vector3[] path;
     bool isMoving;
     bool canAttack;
@@ -42,12 +43,13 @@ public class EnemyAI_Test : MonoBehaviour
             Debug.Log("Move Failed");
         }
     }
-    public void OnTargetFound(Vector3 newTargetPos, bool succsess)
+    public void OnTargetFound(Vector3 newTargetPos, GameObject newTargetObj, bool succsess)
     {
         if (succsess)
         {
             Debug.Log("Search Succsess, Move to Target");
             targetPos = newTargetPos;
+            targetObj = newTargetObj;
             isTargetEmpty = false;
             Move();
         }
@@ -88,6 +90,7 @@ public class EnemyAI_Test : MonoBehaviour
         if (canAttack)
         {
             Debug.Log("Attack");    // 공격 실행
+            Managers.Party.Damage(targetObj, stat.BaseDamage);
             canAttack = false;
             
         }

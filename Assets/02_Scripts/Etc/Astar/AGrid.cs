@@ -80,17 +80,17 @@ public class AGrid : MonoBehaviour
             return false;
         }
     }
-    public bool CheckTag(int gridX, int gridY, string tag)  //노드 위치에 태그 매치되는 대상 유무 검사
+    public GameObject CheckTag(int gridX, int gridY, string tag)  //노드 위치에 태그 매치되는 대상 유무 검사, 있으면 해당 오브젝트 반환
     {
         Vector3 wordlPoint = GetWorldPositionFromNode(gridX, gridY);
         foreach (Collider col in Physics.OverlapSphere(wordlPoint, nodesize / 2))
         {
             if (col.gameObject.CompareTag(tag))
             {
-                return true;
+                return col.gameObject;
             }
         }
-        return false;
+        return null;
     }
    
     public Node GetNodeFromWorldPosition(Vector3 worldPosition)
