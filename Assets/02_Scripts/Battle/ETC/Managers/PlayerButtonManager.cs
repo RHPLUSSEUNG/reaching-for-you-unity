@@ -165,6 +165,7 @@ public class PlayerButtonManager
     {
         if(Managers.Battle.battleState == BattleState.PlayerTurn)
         {
+            Managers.Battle.ui.gameObject.SetActive(false);
             Managers.Battle.NextTurn();
             Debug.Log("PlayerTurn end");
         }

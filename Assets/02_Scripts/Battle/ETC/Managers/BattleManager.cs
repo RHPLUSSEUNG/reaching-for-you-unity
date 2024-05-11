@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 
 // 1. Character TurnSpeed에 따라서 턴 순서가 정해진다 (세나 결투장)
@@ -14,9 +15,12 @@ public class BattleManager
     public short monsterLive;
     public List<GameObject> ObjectList = new List<GameObject>();
     public GameObject currentCharacter;
+    public UI_ActPanel ui;
     int turnCnt = 0;
     public void BattleReady()
     {
+        ui = GameObject.Find("BattleUI").transform.GetChild(7).GetComponent<UI_ActPanel>();
+        ui.gameObject.SetActive(false);
         //TOOD make monster party
         Managers.Party.AddMonster(GameObject.Find("Enemy"));
         Managers.Party.AddParty(GameObject.Find("Player_Girl"));
@@ -65,6 +69,7 @@ public class BattleManager
     {
         battleState = BattleState.PlayerTurn;
         Managers.PlayerButton.UpdateSkillButton(currentCharacter);
+        ui.ShowActPanel(currentCharacter.GetComponent<PlayerSpec>());
         Debug.Log("PlayerTurn Start");
     }
 
