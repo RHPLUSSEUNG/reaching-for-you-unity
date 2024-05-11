@@ -15,11 +15,12 @@ public class BattleManager
     public List<GameObject> ObjectList = new List<GameObject>();
     public GameObject currentCharacter;
     int turnCnt = 0;
-    public void BattleReady() {
+    public void BattleReady()
+    {
         //TOOD make monster party
         Managers.Party.AddMonster(GameObject.Find("Enemy"));
         Managers.Party.AddParty(GameObject.Find("Player_Girl"));
-        
+
         Managers.PlayerButton.UpdateStartButton();
         battleState = BattleState.Start;
     }
@@ -40,7 +41,7 @@ public class BattleManager
         playerLive = (short)Managers.Party.playerParty.Count;
         monsterLive = (short)Managers.Party.monsterParty.Count;
         battleState = BattleState.PlayerTurn;
-        for(int i = 0; i < ObjectList.Count; i++)
+        for (int i = 0; i < ObjectList.Count; i++)
         {
             Debug.Log(ObjectList[i].name);
         }
@@ -54,7 +55,7 @@ public class BattleManager
     {
         turnCnt++;
         turnCnt %= ObjectList.Count;
-        if(playerLive == 0 || monsterLive == 0)
+        if (playerLive == 0 || monsterLive == 0)
         {
             Result();
         }
@@ -63,14 +64,14 @@ public class BattleManager
     public void PlayerTurn()
     {
         battleState = BattleState.PlayerTurn;
-        Managers.PlayerButton.UpdateSkillButton(ObjectList[turnCnt % ObjectList.Count]);
+        Managers.PlayerButton.UpdateSkillButton(currentCharacter);
         Debug.Log("PlayerTurn Start");
     }
 
     public void EnemyTurn(GameObject character)
     {
         Debug.Log(character.name);
-        if(character.GetComponent<EnemyAI_Test>() == null)
+        if (character.GetComponent<EnemyAI_Test>() == null)
         {
             Debug.Log("Component Error");
             return;
@@ -82,41 +83,35 @@ public class BattleManager
 
     public void NextTurn()
     {
-        if (playerLive == 0 || monsterLive == 0)
+
+        CalcTurn();
+        currentCharacter = ObjectList[turnCnt];
+        CharacterSpec spec = currentCharacter.GetComponent<CharacterSpec>();
+        /*
+        if(spec.buffs.Count != 0)
         {
-            Result();
+            foreach (Buff buff in spec.buffs)
+            {
+                buff.TimeCheck();
+            }
+        }
+        if(spec.debuffs.Count != 0)
+        {
+            foreach (Debuff debuff in spec.debuffs)
+            {
+                debuff.TimeCheck();
+            }
+        }
+        */
+        spec.remainStamina = spec.stamina;
+        Debug.Log(turnCnt);
+        if (ObjectList[turnCnt].CompareTag("Player"))
+        {
+            PlayerTurn();
         }
         else
         {
-            CalcTurn();
-            currentCharacter = ObjectList[turnCnt];
-            CharacterSpec spec = currentCharacter.GetComponent<CharacterSpec>();
-            /*
-            if(spec.buffs.Count != 0)
-            {
-                foreach (Buff buff in spec.buffs)
-                {
-                    buff.TimeCheck();
-                }
-            }
-            if(spec.debuffs.Count != 0)
-            {
-                foreach (Debuff debuff in spec.debuffs)
-                {
-                    debuff.TimeCheck();
-                }
-            }
-            */
-            spec.remainStamina = spec.stamina;
-            Debug.Log(turnCnt);
-            if (ObjectList[turnCnt].CompareTag("Player"))
-            {
-                PlayerTurn();
-            }
-            else
-            {
-                EnemyTurn(currentCharacter);
-            }
+            EnemyTurn(currentCharacter);
         }
     }
 

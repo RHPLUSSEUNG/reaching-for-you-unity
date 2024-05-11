@@ -70,5 +70,6 @@ public class PartyManager
         }
         Managers.Battle.ObjectList.Remove(character);
         character.SetActive(false);
+        Managers.Battle.Result();
     }
 }
