@@ -18,6 +18,8 @@ public class UI_MagicPanel : UI_Popup
     [SerializeField] GameObject ActPanel;
     [SerializeField] Image descriptPanel;
 
+    Active testSkill;
+
     public override void Init()
     {
         Bind<Button>(typeof(MagicButton));
@@ -44,8 +46,14 @@ public class UI_MagicPanel : UI_Popup
         BindEvent(magicBtn5.gameObject, MagicButton5Exit, Define.UIEvent.Exit);
     }
 
+    public void SetSkillList(PlayerSpec info)
+    {
+        info._equipSkills[0] = testSkill;
+    }
+
     public void MagicButton1Click(PointerEventData data)
     {
+        testSkill.Activate();
         Debug.Log("Magic1 Use");
         ActPanel.SetActive(false);
         gameObject.SetActive(false);

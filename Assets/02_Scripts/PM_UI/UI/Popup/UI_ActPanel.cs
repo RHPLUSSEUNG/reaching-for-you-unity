@@ -19,6 +19,8 @@ public class UI_ActPanel : UI_Popup
     PlayerSpec playerInfo;
     RectTransform pos;
     Vector2 mousePos;
+    bool magicUI = false;
+    bool itemUI = false;
  
     public override void Init()
     {
@@ -57,16 +59,27 @@ public class UI_ActPanel : UI_Popup
 
     public void MagicButtonClick(PointerEventData data)
     {
-        magicPanel.SetActive(true);
+        magicUI = !magicUI;
+        itemUI = false;
+        magicPanel.SetActive(magicUI);
+        itemPanel.SetActive(false);
     }
 
     public void ItemButtonClick(PointerEventData data)
     {
-        itemPanel.SetActive(true);
+        itemUI = !itemUI;
+        magicUI = false;
+        itemPanel.SetActive(itemUI);
+        magicPanel.SetActive(false);
     }
 
     public void DefenseButtonClick(PointerEventData data)
     {
-
+        itemUI = false;
+        magicUI = false;
+        Debug.Log("¹æ¾î");
+        gameObject.SetActive(false);
+        magicPanel.SetActive(false);
+        itemPanel.SetActive(false);
     }
 }
