@@ -18,6 +18,7 @@ public class UI_MagicPanel : UI_Popup
     [SerializeField] GameObject ActPanel;
     [SerializeField] Image descriptPanel;
 
+    public ButtonState state = ButtonState.Idle;
     Active testSkill;
 
     public override void Init()
@@ -48,7 +49,7 @@ public class UI_MagicPanel : UI_Popup
 
     public void SetSkillList(PlayerSpec info)
     {
-        info._equipSkills[0] = testSkill;
+        testSkill = info._equipSkills[0] as Active;
     }
 
     public void MagicButton1Click(PointerEventData data)
@@ -58,6 +59,8 @@ public class UI_MagicPanel : UI_Popup
         ActPanel.SetActive(false);
         gameObject.SetActive(false);
         descriptPanel.gameObject.SetActive(false);
+
+        state = ButtonState.Skill;
     }
 
     public void MagicButton2Click(PointerEventData data)
@@ -66,6 +69,8 @@ public class UI_MagicPanel : UI_Popup
         ActPanel.SetActive(false);
         gameObject.SetActive(false);
         descriptPanel.gameObject.SetActive(false);
+
+        state = ButtonState.Skill;
     }
 
     public void MagicButton3Click(PointerEventData data)
@@ -74,6 +79,8 @@ public class UI_MagicPanel : UI_Popup
         ActPanel.SetActive(false);
         gameObject.SetActive(false);
         descriptPanel.gameObject.SetActive(false);
+
+        state = ButtonState.Skill;
     }
 
     public void MagicButton4Click(PointerEventData data)
@@ -82,6 +89,8 @@ public class UI_MagicPanel : UI_Popup
         ActPanel.SetActive(false);
         gameObject.SetActive(false);
         descriptPanel.gameObject.SetActive(false);
+
+        state = ButtonState.Skill;
     }
 
     public void MagicButton5Click(PointerEventData data)
@@ -90,6 +99,8 @@ public class UI_MagicPanel : UI_Popup
         ActPanel.SetActive(false);
         gameObject.SetActive(false);
         descriptPanel.gameObject.SetActive(false);
+
+        state = ButtonState.Skill;
     }
 
     public void MagicButton1Enter(PointerEventData data)
