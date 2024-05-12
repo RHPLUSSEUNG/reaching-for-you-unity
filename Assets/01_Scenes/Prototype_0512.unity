@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2780,6 +2780,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8829c96a44e3ff43b25737cfada94d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 2020073140}
   Width: 10
   Height: 10
   cubePrefab: {fileID: 4306025221179246836, guid: bb67a52debe88e9419e4afbc7f5e7e34, type: 3}
@@ -3477,6 +3478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActPanel: {fileID: 69516967}
   descriptPanel: {fileID: 761632230}
+  state: 0
 --- !u!1 &978193073
 GameObject:
   m_ObjectHideFlags: 0
@@ -6996,7 +6998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2020073141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7062,10 +7064,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unwalkableMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   gridWorldSize: {x: 10, y: 10}
   nodesize: 1
-  dontCrossCorner: 0
+  dontCrossCorner: 1
 --- !u!1 &2045368517
 GameObject:
   m_ObjectHideFlags: 0
