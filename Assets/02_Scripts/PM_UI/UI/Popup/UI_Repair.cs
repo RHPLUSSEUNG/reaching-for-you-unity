@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UI_Repair : UI_Popup
 {
+    [SerializeField] TestPlayerInfo[] tempPlayer = new TestPlayerInfo[4];       // test
     enum repairUI
     {
         CharList,
@@ -24,6 +25,19 @@ public class UI_Repair : UI_Popup
         BindEvent(close, OnCloseButton, Define.UIEvent.Click);
 
         SetInventory();
+        SetPlayerInfo();
+    }
+
+    void SetPlayerInfo()
+    {
+        GameObject child;
+        for(int i = 0; i < tempPlayer.Length; i++)
+        {
+            child = charList.transform.GetChild(i).gameObject;
+            UI_CharInfo childInfo = child.GetComponent<UI_CharInfo>();
+            childInfo.SetCharInfo(tempPlayer[i]);
+        }
+        gameObject.SetActive(false);
     }
 
     void SetInventory()

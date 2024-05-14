@@ -11,26 +11,4 @@ public class Define
         Click,
         Drag
     }
-
-    public enum Buttons
-    {
-        // QuickSlot
-    }
-
-    public enum Texts
-    {
-
-    }
-
-    public enum Images
-    {
-        Buff,
-        Debuff,
-        Status_Effect
-    }
-
-    public enum GameObjects
-    {
-
-    }
 }

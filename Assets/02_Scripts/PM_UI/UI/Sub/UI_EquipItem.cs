@@ -23,7 +23,7 @@ public class UI_EquipItem : UI_Base
 
     public void SetInfo(Equipment equip)
     {
-
+        // Equip 정보 반영
     }
 
     public void ItemButtonClick(PointerEventData data)
