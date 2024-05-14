@@ -1,25 +1,37 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class EnemyAI_Test : MonoBehaviour
 {
-    
-    public EntityStat stat;
     [SerializeField]
     float speed = 10;
     [SerializeField]
     string targetTag = "Player";
 
+    EnemyStat stat;
+    GameObject targetObj;
+    SpriteController spriteController;
+
+    Vector3[] path;
     Vector3 targetPos;
     int targetIndex;
-    GameObject targetObj;
-    Vector3[] path;
+
+
     bool isMoving;
     bool canAttack;
     bool isTargetEmpty;
 
     public bool isTurnEnd;
+
+    private void Awake()
+    {
+        stat = GetComponent<EnemyStat>();
+        spriteController= GetComponent<SpriteController>();
+    }
+    private void LateUpdate()
+    {
+        spriteController.SetAnimState(AnimState.Idle);
+    }
 
     public void ProceedTurn()
     {
@@ -90,9 +102,10 @@ public class EnemyAI_Test : MonoBehaviour
         if (canAttack)
         {
             Debug.Log("Attack");    // 공격 실행
+            spriteController.SetAnimState(AnimState.Attack);
+            // 텀 추가?
             Managers.Party.Damage(targetObj, stat.BaseDamage);
             canAttack = false;
-            
         }
         isTurnEnd = true;   // 턴 종료
         Debug.Log("Enemy Turn end");
@@ -129,6 +142,16 @@ public class EnemyAI_Test : MonoBehaviour
                     }
                     currentWaypoint = path[targetIndex];
                 }
+
+                if (transform.position.x > currentWaypoint.x)   //현재 위치와 이동 대상 x 좌표 비교해 스프라이트 회전
+                {
+                    spriteController.Flip(Direction.Left);
+                }
+                else if (transform.position.x < currentWaypoint.x)
+                {
+                    spriteController.Flip(Direction.Right);
+                }
+
                 transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
                 yield return null;
             }
@@ -155,6 +178,16 @@ public class EnemyAI_Test : MonoBehaviour
                     targetIndex++;
                     currentWaypoint = path[targetIndex];
                 }
+
+                if (transform.position.x > currentWaypoint.x)   //현재 위치와 이동 대상 x 좌표 비교해 스프라이트 회전
+                {
+                    spriteController.Flip(Direction.Left);
+                }
+                else if (transform.position.x < currentWaypoint.x)
+                {
+                    spriteController.Flip(Direction.Right);
+                }
+
                 transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
                 yield return null;
             }

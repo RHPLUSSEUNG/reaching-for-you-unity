@@ -1,6 +1,3 @@
-using System;
-using System.Reflection;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour

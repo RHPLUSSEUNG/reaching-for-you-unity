@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2764794905245754139}
   - component: {fileID: 8334785553150780714}
   - component: {fileID: 6638946480990700866}
+  - component: {fileID: 7377828389276418614}
   m_Layer: 0
   m_Name: Player_Boy
   m_TagString: Player
@@ -74,8 +75,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1060dbb0b71a8643a177dc1ce40b6c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetCamera: {fileID: 0}
   basicSpeed: 5
   runSpeed: 8
+  rotateSpeed: 5
+--- !u!114 &7377828389276418614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632515156684126824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87cf5eb9663271b439f291a9d8120d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   rotateSpeed: 5
 --- !u!1 &3020289889979404006
 GameObject:
@@ -88,7 +103,7 @@ GameObject:
   - component: {fileID: 8458188612570236184}
   - component: {fileID: 4026211808115640429}
   m_Layer: 0
-  m_Name: Colider
+  m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,7 +158,7 @@ GameObject:
   - component: {fileID: 8047786775697843137}
   - component: {fileID: 4943076050057571068}
   m_Layer: 0
-  m_Name: Character
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

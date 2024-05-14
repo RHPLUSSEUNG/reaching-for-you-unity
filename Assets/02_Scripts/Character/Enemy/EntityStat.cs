@@ -1,7 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EntityStat", menuName = "Scriptable Object/EntityStat")]
-public class EntityStat : ScriptableObject
+public class EntityStat : MonoBehaviour
 {
     [SerializeField]
     int _level;

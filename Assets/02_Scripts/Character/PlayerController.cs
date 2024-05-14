@@ -1,51 +1,27 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rigid;
+
     [SerializeField]
     float basicSpeed = 5.0f;
     [SerializeField]
     float runSpeed = 8.0f;
-    [SerializeField]
-    float rotateSpeed = 5.0f;
 
-    private Animator animator;
-    private Transform character;
+    private SpriteController spriteController;
     private Transform colider;
     private bool isActive;
-    float moveSpeed;
-
-
+    private float moveSpeed;
     private Vector3 inputVec;
-
-    enum State
-    {
-        Idle,
-        Move,
-        Hit,
-        Roll
-    }
-    enum Direction
-    {
-        Left = 0,
-        Right = 180
-    }
-    enum xRotate
-    {
-        Left = 30,
-        Right = -30
-    }
 
     void Awake()
     {
         isActive = true;
-        character = this.transform.GetChild(0);
         rigid = GetComponent<Rigidbody>();
-        animator = character.GetComponent<Animator>();
         colider = this.transform.GetChild(1);
         moveSpeed = basicSpeed;
+        spriteController = GetComponent<SpriteController>();
     }
     void Update()
     {
@@ -96,65 +72,24 @@ public class PlayerController : MonoBehaviour
 
     void UpdateState()
     {
+        
         if (inputVec.x > 0)
         {
-            Flip(Direction.Right);
-            this.animator.SetInteger("State", (int)State.Move);
+            spriteController.Flip(Direction.Right);
+            spriteController.SetAnimState(AnimState.Move);
         }
         else if (inputVec.x < 0)
         {
-            Flip(Direction.Left);
-            this.animator.SetInteger("State", (int)State.Move);
+            spriteController.Flip(Direction.Left);
+            spriteController.SetAnimState(AnimState.Move);
         }
         else if (inputVec.z != 0)
         {
-            this.animator.SetInteger("State", (int)State.Move);
+            spriteController.SetAnimState(AnimState.Move);
         }
         else
         {
-            this.animator.SetInteger("State", (int)State.Idle);
-        }
-    }
-
-    void Flip(Direction direction)
-    {
-        if (direction == Direction.Left)
-        {
-            StartCoroutine(RotateTo((float)Direction.Left));
-        }
-        else if (direction == Direction.Right)
-        {
-            StartCoroutine(RotateTo((float)Direction.Right));
-        }
-    }
-    IEnumerator RotateTo(float targetAngleY)
-    {
-        float startAngleX = character.transform.eulerAngles.x;
-        float startAngleY = character.transform.eulerAngles.y;
-        float t = 0f;
-        float speed = 0f;
-        float targetAngleX;
-
-        if (targetAngleY == (float)Direction.Left)
-        {
-            targetAngleX = (float)xRotate.Left;
-        }
-        else
-        {
-            targetAngleX = (float)xRotate.Right;
-        }
-
-        while (speed < 1.0f)
-        {
-            t += Time.deltaTime;
-            speed = rotateSpeed * t;
-
-            float xRotation = Mathf.LerpAngle(startAngleX, targetAngleX, speed);
-            float yRotation = Mathf.LerpAngle(startAngleY, targetAngleY, speed);
-
-            character.transform.eulerAngles = new Vector3(xRotation, yRotation, character.transform.eulerAngles.z);
-
-            yield return null;
+            spriteController.SetAnimState(AnimState.Idle);
         }
     }
 
@@ -183,19 +118,12 @@ public class PlayerController : MonoBehaviour
     public void Hit()
     {
         isActive = false;
-        this.animator.SetInteger("State", (int)State.Hit);
+        spriteController.SetAnimState(AnimState.Hit);
     }
 
-    public void Roll()
-    {
-        isActive = false;
-        this.animator.SetInteger("State", (int)State.Roll);
-        StartCoroutine(WaitForAnimation((int)State.Roll));
-    }
-
-    IEnumerator WaitForAnimation (int state)
-    {
-        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f);
-        isActive = true;
-    }
+    //public void Roll()
+    //{
+    //    isActive = false;
+    //    spriteController.SetAnimState(AnimState.Roll);
+    //}
 }

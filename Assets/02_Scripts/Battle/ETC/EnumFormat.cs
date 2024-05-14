@@ -51,3 +51,17 @@ public enum Buttons
     button3,
     button4,
 }
+
+public enum AnimState
+{
+    Idle,
+    Move,
+    Attack,
+    Hit,
+    Roll
+}
+public enum Direction
+{
+    Left,
+    Right
+}

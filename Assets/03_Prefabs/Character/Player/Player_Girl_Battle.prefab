@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7806068701733502387}
   - component: {fileID: 8360459364463678366}
   m_Layer: 0
-  m_Name: Colider
+  m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 2837329503385574446}
   - component: {fileID: 6171259600424918076}
   - component: {fileID: 5371783436127155392}
+  - component: {fileID: 6692716674019007284}
   m_Layer: 0
   m_Name: Player_Girl_Battle
   m_TagString: Player
@@ -130,7 +131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basicSpeed: 5
   runSpeed: 8
-  rotateSpeed: 5
 --- !u!136 &5371783436127155392
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -154,6 +154,20 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6692716674019007284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207317292621610819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87cf5eb9663271b439f291a9d8120d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeed: 5
+  targetCamera: {fileID: 0}
 --- !u!1 &8089688456380059842
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +181,7 @@ GameObject:
   - component: {fileID: 7212897627540129439}
   - component: {fileID: 3665744779513521934}
   m_Layer: 0
-  m_Name: Character
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
