@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -16,53 +17,77 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     float cameraSpeed = 10.0f;
 
+    [SerializeField]
+    bool isFollowMode;
+
     private Vector3 setPos;
+    private Transform targetTransform;
     private GameObject target;
     private int index;
 
     private void Awake()
     {
-        transform.eulerAngles = new Vector3(rotateX, 0, 0);
-        index = 0;
-        target = targets[index];
+        if (isFollowMode )
+        {
+            transform.eulerAngles = new Vector3(rotateX, 0, 0);
+            index = 0;
+            target = targets[index];
+        }
     }
     void FixedUpdate()
     {
-        setPos = new Vector3(
-            target.transform.position.x + offsetX,
-            target.transform.position.y + offsetY,
-            target.transform.position.z + offsetZ
-            );
-
+        if(isFollowMode)
+        {
+            setPos = new Vector3(
+           target.transform.position.x + offsetX,
+           target.transform.position.y + offsetY,
+           target.transform.position.z + offsetZ
+           );
+        }
         transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, Time.deltaTime * cameraSpeed);
     }
     void LateUpdate()
     {
-        Vector3 direction = (target.transform.position - transform.position).normalized;
-        float distance = Vector3.Distance(transform.position, target.transform.position);
-        RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, distance,
-                            1 << LayerMask.NameToLayer("EnvironmentObject"));
-
-        for (int i = 0; i < hits.Length; i++)
+        if (isFollowMode)
         {
-            EnvironmentObject[] obj = hits[i].transform.GetComponentsInChildren<EnvironmentObject>();
+            Vector3 direction = (target.transform.position - transform.position).normalized;
+            float distance = Vector3.Distance(transform.position, target.transform.position);
+            RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, distance,
+                                1 << LayerMask.NameToLayer("EnvironmentObject"));
 
-            for (int j = 0; j < obj.Length; j++)
+            for (int i = 0; i < hits.Length; i++)
             {
-                obj[j].Transparent();
+                EnvironmentObject[] obj = hits[i].transform.GetComponentsInChildren<EnvironmentObject>();
+
+                for (int j = 0; j < obj.Length; j++)
+                {
+                    obj[j].Transparent();
+                }
             }
+            Debug.DrawRay(transform.position, direction * distance, Color.red);
         }
-        Debug.DrawRay(transform.position, direction* distance, Color.red);
     }
-
-
-    public void ChangeTarget()
+    public void ChangeMode(CameraMode mode)
     {
-        if (++index >= targets.Length)
+        if (mode == CameraMode.Follow)
         {
-            index = 0;
+            isFollowMode = true;
         }
-        target = targets[index];
+        else if (mode == CameraMode.Static)
+        {
+            isFollowMode = false;
+        }
+    }
+    public void ChangeTarget(int targetIndex)
+    {
+        target = targets[targetIndex];
         Debug.Log("Changed Target To " + index);
+    }
+    public void ChangePos(Transform target)
+    {
+        targetTransform = target;
+        setPos = target.position;
+        Debug.Log("Changed pos To " + setPos);
     }
 }

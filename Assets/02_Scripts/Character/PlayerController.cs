@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     float basicSpeed = 5.0f;
     [SerializeField]
     float runSpeed = 8.0f;
+    [SerializeField]
+    GameObject mainCamera;
+    [SerializeField]
+    GameObject[] targetCameras;
 
     private SpriteController spriteController;
     private Transform colider;
@@ -22,6 +26,7 @@ public class PlayerController : MonoBehaviour
         colider = this.transform.GetChild(1);
         moveSpeed = basicSpeed;
         spriteController = GetComponent<SpriteController>();
+        spriteController.SetMainCamera(mainCamera, targetCameras);
     }
     void Update()
     {
@@ -63,16 +68,16 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        inputVec.x = Input.GetAxisRaw("Horizontal");
-        inputVec.z = Input.GetAxisRaw("Vertical");
+        inputVec = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        Vector3 nextVec = inputVec.normalized * moveSpeed * Time.fixedDeltaTime;
+        Vector3 facingDirectrion = new Vector3(mainCamera.transform.forward.x, 0f, mainCamera.transform.forward.z).normalized;
+        Vector3 sideDirection = new Vector3(mainCamera.transform.right.x, 0f, mainCamera.transform.right.z).normalized;
+        Vector3 nextVec = (facingDirectrion * inputVec.y + sideDirection * inputVec.x) * moveSpeed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
     }
 
     void UpdateState()
     {
-        
         if (inputVec.x > 0)
         {
             spriteController.Flip(Direction.Right);
@@ -83,7 +88,7 @@ public class PlayerController : MonoBehaviour
             spriteController.Flip(Direction.Left);
             spriteController.SetAnimState(AnimState.Move);
         }
-        else if (inputVec.z != 0)
+        else if (inputVec.y != 0)
         {
             spriteController.SetAnimState(AnimState.Move);
         }
