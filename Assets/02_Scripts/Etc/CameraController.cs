@@ -4,8 +4,9 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    GameObject[] targets;
+    GameObject targetList;
 
+    Transform[] targets;
     [SerializeField]
     float offsetX = 0.0f;
     [SerializeField]
@@ -20,25 +21,27 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     bool isFollowMode;
 
+    private bool isSmoothMove = true;
     private Vector3 setPos;
     private Transform targetTransform;
-    private int index;
+    private int targetIndex;
 
     private void Awake()
     {
-        
+        targets = targetList.GetComponentsInChildren<Transform>();
+        targetIndex = 1;     // GetComponentsInChildren 사용 시 0번엔 부모 오브젝트 정보가 위치함으로 Index를 1부터
+
         if (isFollowMode )
         {
             ChangeMode(CameraMode.Follow);
             transform.eulerAngles = new Vector3(rotateX, 0, 0);
-            index = 0;
-            targetTransform = targets[index].transform;
+            targetTransform = targets[targetIndex];
         }
         else
         {
             ChangeMode(CameraMode.Static);
         }
-        ChangeTarget(0);
+        ChangeTarget(targetIndex, false);
     }
     void FixedUpdate()
     {
@@ -50,8 +53,17 @@ public class CameraController : MonoBehaviour
            targetTransform.position.z + offsetZ
            );
         }
-        transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, Time.deltaTime * cameraSpeed);
+        if (!isSmoothMove) 
+        {
+            transform.position = setPos;
+            transform.rotation = targetTransform.rotation;
+        }
+        else
+        {
+            transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, Time.deltaTime * cameraSpeed);
+        }
+        
     }
 
     void LateUpdate()
@@ -86,11 +98,12 @@ public class CameraController : MonoBehaviour
             isFollowMode = false;
         }
     }
-    public void ChangeTarget(int targetIndex)
+    public void ChangeTarget(int targetIndex, bool _isSmoothMove)
     {
-        targetTransform = targets[targetIndex].transform;
+        isSmoothMove = _isSmoothMove;
+        targetTransform = targets[targetIndex];
         ChangePos(targetTransform);
-        Debug.Log("Changed Target To " + index);
+        Debug.Log("Changed Target To " + targetIndex);
     }
     public void ChangePos(Transform target)
     {
