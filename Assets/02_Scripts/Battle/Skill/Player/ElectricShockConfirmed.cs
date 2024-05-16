@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Electric_Shock : Active
+public class ElectricShockConfirmed : Active
 {
     GameObject target;
     public override bool Activate()
@@ -10,7 +10,7 @@ public class Electric_Shock : Active
         //TODO Effect
         Debug.Log("Electric Shock");
         
-        Shock shock = new Shock();
+        Shock shock = new();
         shock.SetDebuff(1, target);
         shock.StartEffect();
         target.GetComponent<CharacterSpec>().debuffs.Add(shock);
@@ -27,12 +27,5 @@ public class Electric_Shock : Active
         this.target = target;
         Activate();
         return true;
-    }
-
-    public override void setSkill()
-    {
-        skillName = "Electric_Shock";
-        this.type = skillType.Active;
-        this.element = ElementType.Electric;
     }
 }

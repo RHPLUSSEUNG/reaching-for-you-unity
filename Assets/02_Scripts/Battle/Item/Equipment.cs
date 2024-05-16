@@ -8,4 +8,9 @@ public abstract class Equipment : Item
     public ElementType elementType;
     public abstract bool Equip();
     public abstract bool UnEquip();
+
+    public override void Start()
+    {
+        Managers.Data.SetItem(itemId, this);
+    }
 }

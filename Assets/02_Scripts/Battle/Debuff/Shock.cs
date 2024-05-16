@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shock : Debuff
 {
-    short stack;
+    int stack;
     public override void SetDebuff(short turn, GameObject target, short attribute = 0)
     {
         this.target = target;

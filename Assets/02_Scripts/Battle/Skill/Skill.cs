@@ -9,5 +9,6 @@ public abstract class Skill : MonoBehaviour
     public int skillId; //skill id
     public skillType type; //skill type (passive / active)
     public ElementType element;
-    public abstract void setSkill();// Db 받아 올때 용
+    
+    public abstract void Start();
 }

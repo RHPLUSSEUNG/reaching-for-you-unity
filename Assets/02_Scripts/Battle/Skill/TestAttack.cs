@@ -13,11 +13,6 @@ public class TestAttack : Active
         return true;
     }
 
-    public override void setSkill()
-    {
-        
-    }
-
     public override bool SetTarget(GameObject target)
     {
         this.target = target;

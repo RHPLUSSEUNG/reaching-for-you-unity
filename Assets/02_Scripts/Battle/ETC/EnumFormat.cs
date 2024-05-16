@@ -5,12 +5,14 @@ public enum ElementType
     Grass = 2,
     Ground = 3,
     Electric = 4,
+    None = 5,
 };
 
 public enum skillType
 {
     Passive = 0,
     Active = 1,
+    Travel = 2,
 };
 
 public enum ItemType
@@ -21,10 +23,11 @@ public enum ItemType
 
 public enum EquipPart
 {
-    Head = 0,
-    UpBody = 1,
-    DownBody = 2,
-    Weapon = 3,
+    None = 0,
+    Head = 1,
+    UpBody = 2,
+    DownBody = 3,
+    Weapon = 4,
 };
 
 public enum BattleState

@@ -6,9 +6,15 @@ public class ItemManager
 {
     public Dictionary<Consume, int> consumeInven = new Dictionary<Consume, int>();
     public List<Equipment> equipmentInven = new List<Equipment>();
+    public List<ItemData> dataList = new List<ItemData>();
     short inventoryCnt =  0;
     short inventoryMaxCnt = 100;
     int gold = 0;
+
+    public void SetData()
+    {
+
+    }
 
     public bool getGold(short gold)
     {

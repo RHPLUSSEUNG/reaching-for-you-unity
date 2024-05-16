@@ -19,6 +19,8 @@ public class Managers : MonoBehaviour
     public static PartyManager Party { get { return _party; } }
     static ItemManager _item = new();
     public static ItemManager Item { get { return _item; } }
+    static DataManager _data = new();
+    public static DataManager Data { get { return _data; } }
 
     public void Awake()
     {
@@ -36,7 +38,7 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             _manager = gameObject.GetComponent<Managers>();
         }
-        _playerButton.Bind();
+        _data.OnAwake();
         _battle.BattleReady();
     }
     #endregion
