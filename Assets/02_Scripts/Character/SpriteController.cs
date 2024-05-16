@@ -8,8 +8,6 @@ public class SpriteController : MonoBehaviour
     [SerializeField]
     float rotateSpeed = 5.0f;
 
-    GameObject[] targetCameras;
-    [SerializeField]
     GameObject mainCamera;
 
     int carmeraIndex;
@@ -26,14 +24,14 @@ public class SpriteController : MonoBehaviour
         anim = sprite.GetComponent<Animator>();
         isIdle = true;
         direction = Direction.Left;
-        carmeraIndex = 0;
+        mainCamera = GameObject.Find("Main Camera");
     }
-    public void SetMainCamera(GameObject _mainCamera, GameObject[] _targetCameras)
-    {
-        mainCamera = _mainCamera;
-        targetCameras = _targetCameras;
-        mainCamera.GetComponent<CameraController>().ChangePos(targetCameras[carmeraIndex].transform);
-    }
+    //public void SetMainCamera(GameObject _mainCamera, GameObject[] _targetCameras)
+    //{
+    //    mainCamera = _mainCamera;
+    //    targetCameras = _targetCameras;
+    //    mainCamera.GetComponent<CameraController>().ChangePos(targetCameras[carmeraIndex].transform);
+    //}
     private void LateUpdate()
     {
         SetRotation(mainCamera.transform.eulerAngles.x, mainCamera.transform.eulerAngles.y);
@@ -47,24 +45,6 @@ public class SpriteController : MonoBehaviour
             {
                 StartCoroutine(RotateSprite(Direction.Right));
             }
-        }
-    }
-    private void OnTriggerEnter(Collider other)  //임시 카메라 변경
-    {
-        Debug.Log("collider Enter");
-        if (other.gameObject.name == "Camera1Zone")
-        {
-            carmeraIndex = 1;
-            mainCamera.GetComponent<CameraController>().ChangePos(targetCameras[carmeraIndex].transform);
-        }
-    }
-    private void OnTriggerExit(Collider other)  //임시 카메라 변경
-    {
-        Debug.Log("collider Exit");
-        if (other.gameObject.name == "Camera1Zone")
-        {
-            carmeraIndex = 0;
-            mainCamera.GetComponent<CameraController>().ChangePos(targetCameras[carmeraIndex].transform);
         }
     }
     public void SetAnimState(AnimState state)
@@ -104,7 +84,6 @@ public class SpriteController : MonoBehaviour
     {
         angleX = _angleX;
         angleY = _angleY;
-        Debug.Log(angleY);
     }
     IEnumerator RotateSprite(Direction direction)
     {
@@ -139,23 +118,4 @@ public class SpriteController : MonoBehaviour
         }
         isIdle = true;
     }
-    //public int UpdateMoveDirection()
-    //{
-    //    if (targetCameras[carmeraIndex].transform.rotation.y < 60 && targetCameras[carmeraIndex].transform.rotation.y < 120)
-    //    {
-
-    //    }
-    //    if (targetCameras[carmeraIndex].transform.rotation.y < 150 && targetCameras[carmeraIndex].transform.rotation.y < 210)
-    //    {
-
-    //    }
-    //    if (targetCameras[carmeraIndex].transform.rotation.y < 240 && targetCameras[carmeraIndex].transform.rotation.y < 300)
-    //    {
-
-    //    }
-    //    else
-    //    {
-
-    //    }
-    //}
 }

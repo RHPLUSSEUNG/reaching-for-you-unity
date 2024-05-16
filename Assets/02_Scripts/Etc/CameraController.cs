@@ -22,37 +22,44 @@ public class CameraController : MonoBehaviour
 
     private Vector3 setPos;
     private Transform targetTransform;
-    private GameObject target;
     private int index;
 
     private void Awake()
     {
+        
         if (isFollowMode )
         {
+            ChangeMode(CameraMode.Follow);
             transform.eulerAngles = new Vector3(rotateX, 0, 0);
             index = 0;
-            target = targets[index];
+            targetTransform = targets[index].transform;
         }
+        else
+        {
+            ChangeMode(CameraMode.Static);
+        }
+        ChangeTarget(0);
     }
     void FixedUpdate()
     {
         if(isFollowMode)
         {
             setPos = new Vector3(
-           target.transform.position.x + offsetX,
-           target.transform.position.y + offsetY,
-           target.transform.position.z + offsetZ
+           targetTransform.position.x + offsetX,
+           targetTransform.position.y + offsetY,
+           targetTransform.position.z + offsetZ
            );
         }
         transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, Time.deltaTime * cameraSpeed);
     }
+
     void LateUpdate()
     {
         if (isFollowMode)
         {
-            Vector3 direction = (target.transform.position - transform.position).normalized;
-            float distance = Vector3.Distance(transform.position, target.transform.position);
+            Vector3 direction = (targetTransform.position - transform.position).normalized;
+            float distance = Vector3.Distance(transform.position, targetTransform.position);
             RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, distance,
                                 1 << LayerMask.NameToLayer("EnvironmentObject"));
 
@@ -81,7 +88,8 @@ public class CameraController : MonoBehaviour
     }
     public void ChangeTarget(int targetIndex)
     {
-        target = targets[targetIndex];
+        targetTransform = targets[targetIndex].transform;
+        ChangePos(targetTransform);
         Debug.Log("Changed Target To " + index);
     }
     public void ChangePos(Transform target)

@@ -116,7 +116,7 @@ public class EnemyAI_Test : MonoBehaviour
     IEnumerator FollowPath()
     {
         targetIndex = 0;
-        if (path.Length == 0 || (path.Length == 1 && !isTargetEmpty))   // 이미 도착
+        if (path.Length == 0 || (path.Length <= stat.AttackRange && !isTargetEmpty))   // 이동할 필요 X
         {
             Debug.Log("Already At The Position");
             if (!isTargetEmpty)
@@ -134,7 +134,7 @@ public class EnemyAI_Test : MonoBehaviour
                 if (transform.position == currentWaypoint)
                 {
                     targetIndex++;
-                    if (targetIndex >= path.Length || targetIndex >= stat.MovePoint)
+                    if (targetIndex >= path.Length || targetIndex + 1 >= stat.MovePoint) 
                     {
                         isMoving = false;
                         Attack();
@@ -162,14 +162,14 @@ public class EnemyAI_Test : MonoBehaviour
             {
                 if (transform.position == currentWaypoint)
                 {
-                    if (targetIndex + stat.AttackRange +1 >= path.Length)  // 사거리 닿을 시
+                    if (targetIndex + stat.AttackRange + 1 >= path.Length)  // 사거리 닿을 시
                     {
                         isMoving = false;
                         canAttack = true;
                         Attack();
                         yield break;
                     }
-                    else if (targetIndex >= stat.MovePoint) // 이동거리 초과 시
+                    else if (targetIndex + 1 >= stat.MovePoint)  // 이동거리 초과 시
                     {
                         isMoving = false;
                         Attack();
