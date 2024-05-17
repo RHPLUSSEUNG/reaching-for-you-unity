@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4479568, g: 0.4979583, b: 0.5754906, a: 1}
+  m_IndirectSpecularColor: {r: 0.43688446, g: 0.48453724, b: 0.5647939, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -269,7 +269,7 @@ Transform:
   m_GameObject: {fileID: 248026211}
   serializedVersion: 2
   m_LocalRotation: {x: 0.075541995, y: -0, z: -0, w: 0.9971426}
-  m_LocalPosition: {x: -0.36, y: -1.28, z: -7.26}
+  m_LocalPosition: {x: -20.5, y: -1.28, z: -7.26}
   m_LocalScale: {x: 0.36264, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -600,13 +600,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1583947393}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38897312, y: -0.06439525, z: 0.027267866, w: 0.91859114}
-  m_LocalPosition: {x: -2, y: 3.24, z: -6.08}
+  m_LocalRotation: {x: 0, y: -0.7372774, z: 0.67559016, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.57, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 45.9, y: -8.02, z: 0}
+  m_LocalEulerAnglesHint: {x: 85, y: -180, z: 0}
 --- !u!114 &1583947396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -698,6 +698,14 @@ PrefabInstance:
     - target: {fileID: 661181104214797051, guid: bb6dbcc009553b6418fab130015a5066, type: 3}
       propertyPath: m_Name
       value: ' FF1'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783975104732554929, guid: bb6dbcc009553b6418fab130015a5066, type: 3}
+      propertyPath: m_SpotAngle
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2783975104732554929, guid: bb6dbcc009553b6418fab130015a5066, type: 3}
+      propertyPath: m_InnerSpotAngle
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4669419514549747141, guid: bb6dbcc009553b6418fab130015a5066, type: 3}
       propertyPath: m_LocalPosition.x
@@ -976,6 +984,10 @@ PrefabInstance:
       value: class
       objectReference: {fileID: 0}
     - target: {fileID: 7773604183072573442, guid: 53636efdc871a4a4f88cf45b705f2b16, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9062798178728899100, guid: 53636efdc871a4a4f88cf45b705f2b16, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
