@@ -11,11 +11,6 @@ public class ItemManager
     short inventoryMaxCnt = 100;
     int gold = 0;
 
-    public void SetData()
-    {
-
-    }
-
     public bool getGold(short gold)
     {
         this.gold += gold;

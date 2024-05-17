@@ -7,22 +7,11 @@ public class DataManager
     List<ItemData> itemList;
     List<SkillData> skillList;
 
-    int compareItem(ItemData item1, ItemData item2)
-    {
-        return item1.ItemID < item2.ItemID ? -1 : 1;
-    }
-
-    int compareSkill(SkillData skill1, SkillData skill2)
-    {
-        return skill1.SkillId < skill2.SkillId ? -1 : 1;
-    }
-
     public void OnAwake()
     {
-        DataList data = Managers.Manager.gameObject.GetComponent<DataList>();
+        DataList data = GameObject.Find("DataList").GetComponent<DataList>();
         itemList = data.itemList;
         skillList = data.skillList;
-        Debug.Log(skillList);
     }
 
     public void SetItem(int itemid, Consume item)

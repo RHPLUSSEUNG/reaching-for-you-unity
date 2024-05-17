@@ -22,8 +22,18 @@ public class BattleManager
         ui = GameObject.Find("BattleUI").transform.GetChild(7).GetComponent<UI_ActPanel>();
         ui.gameObject.SetActive(false);
         //TOOD make monster party
-        Managers.Party.AddMonster(GameObject.Find("Enemy"));
-        Managers.Party.AddParty(GameObject.Find("Player_Girl"));
+        Managers.Party.AddMonster(Managers.Prefab.Instantiate($"Monster/Enemy_Crab"));
+        Managers.Party.AddParty(Managers.Prefab.Instantiate($"Character/Player_Girl_Battle"));
+
+        ObjectList.Clear();
+        foreach (GameObject character in Managers.Party.playerParty)
+        {
+            ObjectList.Add(character);
+        }
+        foreach (GameObject character in Managers.Party.monsterParty)
+        {
+            ObjectList.Add(character);
+        }
 
         Managers.PlayerButton.UpdateStartButton();
         battleState = BattleState.Start;
@@ -31,24 +41,10 @@ public class BattleManager
 
     public void BattleStart()
     {
-        ObjectList.Clear();
-        foreach (GameObject character in Managers.Party.playerParty)
-        {
-            GameObject go = character.GetComponent<CharacterBattle>().Spawn();
-            ObjectList.Add(go);
-        }
-        foreach (GameObject character in Managers.Party.monsterParty)
-        {
-            GameObject go = character.GetComponent<CharacterBattle>().Spawn();
-            ObjectList.Add(go);
-        }
         playerLive = (short)Managers.Party.playerParty.Count;
         monsterLive = (short)Managers.Party.monsterParty.Count;
         battleState = BattleState.PlayerTurn;
-        for (int i = 0; i < ObjectList.Count; i++)
-        {
-            Debug.Log(ObjectList[i].name);
-        }
+        
         GameObject.Find("Enemy").SetActive(false);
         GameObject.Find("Player_Girl").SetActive(false);
         NextTurn();
@@ -91,24 +87,7 @@ public class BattleManager
 
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
-        CharacterSpec spec = currentCharacter.GetComponent<CharacterSpec>();
-        /*
-        if(spec.buffs.Count != 0)
-        {
-            foreach (Buff buff in spec.buffs)
-            {
-                buff.TimeCheck();
-            }
-        }
-        if(spec.debuffs.Count != 0)
-        {
-            foreach (Debuff debuff in spec.debuffs)
-            {
-                debuff.TimeCheck();
-            }
-        }
-        */
-        spec.remainStamina = spec.stamina;
+        
         Debug.Log(turnCnt);
         if (ObjectList[turnCnt].CompareTag("Player"))
         {

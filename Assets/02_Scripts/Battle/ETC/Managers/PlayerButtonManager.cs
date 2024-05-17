@@ -10,6 +10,7 @@ public class PlayerButtonManager
     public ButtonState state = ButtonState.Idle;
     public GameObject player;
     public PlayerSpec spec;
+    //public PlayerStat spec;
 
     public Button button1;
     public Button button2;
@@ -58,6 +59,7 @@ public class PlayerButtonManager
         Debug.Log("Update Skill Button");
         this.player = player;
         this.spec = this.player.GetComponent<PlayerSpec>();
+        //this.spec = this.player.GetComponent<PlayerStat>();
         button1.onClick.RemoveAllListeners();
         button2.onClick.RemoveAllListeners();
         button3.onClick.RemoveAllListeners();
@@ -151,7 +153,7 @@ public class PlayerButtonManager
 
     public void SetPosition(GameObject pos)
     {
-        player.GetComponent<CharacterSpec>().pos = pos;
+        player.transform.position = pos.transform.position + Vector3.up;
         state = ButtonState.Idle;
     }
     #endregion

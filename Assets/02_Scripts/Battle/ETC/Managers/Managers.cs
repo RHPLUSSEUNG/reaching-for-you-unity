@@ -21,6 +21,8 @@ public class Managers : MonoBehaviour
     public static ItemManager Item { get { return _item; } }
     static DataManager _data = new();
     public static DataManager Data { get { return _data; } }
+    static PrefabManager _prefab = new();
+    public static PrefabManager Prefab { get {  return _prefab; } }
 
     public void Awake()
     {
@@ -38,6 +40,7 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             _manager = gameObject.GetComponent<Managers>();
         }
+        _playerButton.Bind();
         _data.OnAwake();
         _battle.BattleReady();
     }
