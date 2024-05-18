@@ -1,23 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NPCConversant : MonoBehaviour
 {
     [SerializeField] string conversantName;
     [SerializeField] Dialogue dialogue = null;
-    
-    public bool StartDialogue(PlayerConversant playerConversant)
+    [SerializeField] Button actionButton;
+    [SerializeField] Dialogue endDialgoue = null;
+
+    PlayerConversant playerConversant;
+    bool isDialogueAction = false;
+
+    private void Start()
     {
-        if(dialogue == null)
+        actionButton.onClick.AddListener(StartDialogue);
+        actionButton.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F) && isDialogueAction)
         {
-            return false;
+            StartDialogue();
+            isDialogueAction = false;
+            playerConversant = null;
+        }
+    }
+
+    public void StartDialogue()
+    {
+        if (dialogue == null)
+        {
+            Debug.Log("Empty Dialogue");
         }
         else
         {
+            isDialogueAction = false;
             playerConversant.GetComponent<PlayerConversant>().StartDialogue(this, dialogue);
-            return true;
-        }        
+            actionButton.gameObject.SetActive(false);
+            playerConversant = null;            
+        }
+    }
+
+    public void SetActionButton(PlayerConversant _playerConversant)
+    {
+        isDialogueAction = true;
+        playerConversant = _playerConversant;
+        actionButton.gameObject.SetActive(true);
+    }
+
+    public void OffButton()
+    {
+        isDialogueAction = false;
+        actionButton.gameObject.SetActive(false);
+        playerConversant = null;
     }
 
     public string GetName()
