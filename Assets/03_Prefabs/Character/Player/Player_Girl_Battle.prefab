@@ -63,10 +63,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2787565220152401799}
   - component: {fileID: 2837329503385574446}
-  - component: {fileID: 6171259600424918076}
   - component: {fileID: 5371783436127155392}
   - component: {fileID: 6692716674019007284}
   - component: {fileID: 2197238396879168293}
+  - component: {fileID: 8710036392914496330}
   m_Layer: 0
   m_Name: Player_Girl_Battle
   m_TagString: Player
@@ -118,22 +118,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &6171259600424918076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7207317292621610819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1060dbb0b71a8643a177dc1ce40b6c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  basicSpeed: 5
-  runSpeed: 8
-  fadeEffect: {fileID: 0}
-  spwanPointList: {fileID: 0}
 --- !u!136 &5371783436127155392
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -183,6 +167,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   list: []
+--- !u!114 &8710036392914496330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207317292621610819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b498d207a7f7b4487ee460e16bfe4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _level: 1
+  _maxHp: 100
+  _hp: 100
+  _maxMp: 100
+  _mp: 100
+  _baseDamage: 10
+  _attackRange: 1
+  _movePoint: 5
+  _sight: 10
+  _defense: 0
+  _healReciveMultiply: 1
+  _hidden: 0
+  _burn: 0
+  _oxygen: 0
+  _bind: 0
+  _shock: 0
 --- !u!1 &8089688456380059842
 GameObject:
   m_ObjectHideFlags: 0

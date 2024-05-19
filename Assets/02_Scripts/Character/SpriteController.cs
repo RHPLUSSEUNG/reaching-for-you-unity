@@ -25,6 +25,7 @@ public class SpriteController : MonoBehaviour
         isIdle = true;
         direction = Direction.Left;
         mainCamera = GameObject.Find("Main Camera");
+        SetAnimState(AnimState.Idle);
     }
     //public void SetMainCamera(GameObject _mainCamera, GameObject[] _targetCameras)
     //{
