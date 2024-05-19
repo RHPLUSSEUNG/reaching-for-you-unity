@@ -216,18 +216,28 @@ public class PlayerController : MonoBehaviour
         movement = transform.TransformDirection(movement);
 
         List<Vector3> rayPositions = new List<Vector3>();
-        rayPositions.Add(transform.position + Vector3.up * 0.2f);
-        rayPositions.Add(transform.position + Vector3.up * colider.radius * 0.5f);
+        rayPositions.Add(transform.position);
         rayPositions.Add(transform.position + Vector3.up * colider.radius);
 
-        foreach (Vector3 pos in rayPositions)
+        float rayScopeValue;
+
+        if (inputVec.x > 0 && inputVec.y >0)
         {
-            Debug.DrawRay(pos, movement * rayScope, Color.red);
+            rayScopeValue = rayScope * (float)1.4;
+        }
+        else
+        {
+            rayScopeValue = rayScope;
         }
 
         foreach (Vector3 pos in rayPositions)
         {
-            if (Physics.Raycast(pos, movement, out RaycastHit hit, rayScope))
+            Debug.DrawRay(pos, movement, Color.red);
+        }
+
+        foreach (Vector3 pos in rayPositions)
+        {
+            if (Physics.Raycast(pos, movement, out RaycastHit hit, rayScopeValue))
             {
                 if (hit.collider.CompareTag("Wall"))
                     return true;
