@@ -23,11 +23,10 @@ public enum ItemType
 
 public enum EquipPart
 {
-    None = 0,
-    Head = 1,
-    UpBody = 2,
-    DownBody = 3,
-    Weapon = 4,
+    Head = 0,
+    UpBody = 1,
+    DownBody = 2,
+    Weapon = 3,
 };
 
 public enum BattleState
