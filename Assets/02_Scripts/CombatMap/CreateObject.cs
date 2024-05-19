@@ -65,16 +65,16 @@ public class CreateObject : MonoBehaviour
                 float gridHeight = Mathf.PerlinNoise(xFloat / xSizeFloat * frequency + xRandom, zFloat / zSizeFloat * frequency + zRandom) * 10;
 
 
-                if (gridHeight > 2.6f && gridHeight < 5.6f)
+                if (gridHeight > 3.3f && gridHeight < 5.5f)
                 {
                     map[x, z].eObstacle = EObstacle.Obstacle;
                 }
-                else if (gridHeight >= 5.6f)
+                else if (gridHeight >= 5.5f)
                 {
                     map[x, z].eObstacle = EObstacle.Wall;
                     Debug.Log(IsObstacleAround(x, z));
                 }
-                else if (gridHeight <= 2.6f)
+                else if (gridHeight <= 3.3f)
                 {
                     // Debug.Log(gridHeight);
 
