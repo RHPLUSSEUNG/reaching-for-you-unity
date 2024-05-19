@@ -5,8 +5,8 @@ using UnityEngine.EventSystems;
 
 public class Maze : MonoBehaviour
 {
-	public MazeCell cellPrefab;
-    public MazeWall wallPrefab;
+	public GameObject cellPrefab;
+    public GameObject wallPrefab;
 	private MazeCell[,] cells;
     public float generationStepDelay;
 
@@ -24,12 +24,13 @@ public class Maze : MonoBehaviour
 		for(int i = 0; i < size.x * size.z; i++) {
 			yield return delay;
 			DoNextGenerationStep(activeCells);
+            
 		}
         PlaceWallsInEmptySpaces();
 	}
 
     private void DoFirstGenerationStep (List<MazeCell> activeCells) {
-		activeCells.Add(CreateCell(RandomCoordinates));
+		// activeCells.Add(CreateCell(RandomCoordinates));
 	}
     
 
@@ -45,7 +46,7 @@ public class Maze : MonoBehaviour
 		if (ContainsCoordinates(coordinates)) {
 			MazeCell neighbor = GetCell(coordinates);
 			if (neighbor == null) {
-				neighbor = CreateCell(coordinates);
+				// neighbor = CreateCell(coordinates);
 				// CreatePassage(currentCell, neighbor, direction);
                 // CreateWall(currentCell, neighbor, direction);
 				activeCells.Add(neighbor);
@@ -61,16 +62,16 @@ public class Maze : MonoBehaviour
 		}
 	}
 
-    private MazeCell CreateCell (IntVector2 coordinates) {
-		MazeCell newCell = Instantiate(cellPrefab) as MazeCell;
-		cells[coordinates.x, coordinates.z] = newCell;
-		newCell.coordinates = coordinates;
-		newCell.name = "Maze Cell " + coordinates.x + ", " + coordinates.z;
-		newCell.transform.parent = transform;
-		newCell.transform.localPosition =
-			new Vector3(coordinates.x - size.x * 0.5f + 0.5f, 0f, coordinates.z - size.z * 0.5f + 0.5f);
-		return newCell;
-	}
+    // private MazeCell CreateCell (IntVector2 coordinates) {
+	// 	MazeCell newCell = Instantiate(cellPrefab) as MazeCell;
+	// 	cells[coordinates.x, coordinates.z] = newCell;
+	// 	newCell.coordinates = coordinates;
+	// 	newCell.name = "Maze Cell " + coordinates.x + ", " + coordinates.z;
+	// 	newCell.transform.parent = transform;
+	// 	newCell.transform.localPosition =
+	// 		new Vector3(coordinates.x - size.x * 0.5f + 0.5f, 0f, coordinates.z - size.z * 0.5f + 0.5f);
+	// 	return newCell;
+	// }
 
     private void PlaceWallsInEmptySpaces() {
         for (int x = 0; x < size.x; x++) {

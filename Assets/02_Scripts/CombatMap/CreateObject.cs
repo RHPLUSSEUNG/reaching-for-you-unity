@@ -101,8 +101,9 @@ public class CreateObject : MonoBehaviour
                         // 선택된 인덱스에 해당하는 coverData 사용
                         CoverData selectedCoverData = coverDataArray[randomIndex];
                         // 선택된 coverData에 해당하는 cube 생성
-                        map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
-                        map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
+                        // map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
+                        // map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
+                        // map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 1f, 0);
                         map[x, z].CanWalk = false;
                         break;
                 }
