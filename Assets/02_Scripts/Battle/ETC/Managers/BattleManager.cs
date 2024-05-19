@@ -48,7 +48,7 @@ public class BattleManager
         battleState = BattleState.PlayerTurn;
         
         GameObject.Find("Enemy").SetActive(false);
-        GameObject.Find("Player_Girl").SetActive(false);
+        GameObject.Find("Player_Girl_Battle").SetActive(false);
         NextTurn();
         //TODO Object Turn order sorting
     }
@@ -86,6 +86,10 @@ public class BattleManager
 
     public void NextTurn()
     {
+        if(battleState == BattleState.Defeat || battleState == BattleState.Start)
+        {
+            return;
+        }
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
         
