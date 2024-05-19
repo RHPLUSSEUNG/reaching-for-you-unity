@@ -10,6 +10,7 @@ public class TestAttack : Active
     {
         Managers.Party.Damage(target);
         Debug.Log("Player Attack");
+        Managers.Battle.NextTurn();
         return true;
     }
 
