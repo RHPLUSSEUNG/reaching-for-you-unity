@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 public class FadeEffect : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class FadeEffect : MonoBehaviour
     [Range(0.01f, 10f)]
     public float waitTime = 1.0f;
     Image img;
-
+    [SerializeField]
+    GameObject player;
     private void Awake()
     {
         img = GetComponent<Image>();
@@ -18,6 +20,7 @@ public class FadeEffect : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         img.color = Color.black;
+        player.GetComponent<PlayerController>().ChangeActive();
         Invoke("StartFade", waitTime);
     }
     void StartFade()
@@ -41,6 +44,7 @@ public class FadeEffect : MonoBehaviour
 
             yield return null;
         }
+        player.GetComponent<PlayerController>().ChangeActive();
         this.gameObject.SetActive(false);
     }
 

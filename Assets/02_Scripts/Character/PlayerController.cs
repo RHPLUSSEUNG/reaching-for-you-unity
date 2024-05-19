@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
@@ -14,6 +15,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     GameObject spwanPointList;
 
+    [SerializeField]
+    float rayScope=1.0f;
+
     CameraController cameraController;
 
     Transform[] spwanPoint;
@@ -22,11 +26,15 @@ public class PlayerController : MonoBehaviour
     private int spwanPointIndex;
 
     private SpriteController spriteController;
-    private Transform colider;
+    private CapsuleCollider colider;
 
     private bool isActive;
     private float moveSpeed;
     private Vector3 inputVec;
+
+    Vector3 facingDirectrion;
+    Vector3 sideDirection;
+    Vector3 nextVec;
 
 
     void Awake()
@@ -35,7 +43,7 @@ public class PlayerController : MonoBehaviour
         spwanPointIndex = 1;    // GetComponentsInChildren 사용 시 0번엔 부모 오브젝트 정보가 위치함으로 Index를 1부터
 
         rigid = GetComponent<Rigidbody>();
-        colider = this.transform.GetChild(1);
+        colider = this.transform.GetChild(1).GetComponent<CapsuleCollider>();
         moveSpeed = basicSpeed;
         spriteController = GetComponent<SpriteController>();
         mainCamera = GameObject.Find("Main Camera");
@@ -170,9 +178,14 @@ public class PlayerController : MonoBehaviour
     {
         inputVec = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        Vector3 facingDirectrion = new Vector3(mainCamera.transform.forward.x, 0f, mainCamera.transform.forward.z).normalized;
-        Vector3 sideDirection = new Vector3(mainCamera.transform.right.x, 0f, mainCamera.transform.right.z).normalized;
-        Vector3 nextVec = (facingDirectrion * inputVec.y + sideDirection * inputVec.x) * moveSpeed * Time.fixedDeltaTime;
+        facingDirectrion = new Vector3(mainCamera.transform.forward.x, 0f, mainCamera.transform.forward.z).normalized;
+        sideDirection = new Vector3(mainCamera.transform.right.x, 0f, mainCamera.transform.right.z).normalized;
+        float speed = Mathf.Min((facingDirectrion * inputVec.y + sideDirection * inputVec.x).magnitude, 1.0f) * moveSpeed;
+        nextVec = (facingDirectrion * inputVec.y + sideDirection * inputVec.x) * speed * Time.fixedDeltaTime;
+        if (CheckHitWall(nextVec))
+        {
+            nextVec = Vector3.zero;
+        }
         rigid.MovePosition(rigid.position + nextVec);
     }
 
@@ -198,6 +211,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    bool CheckHitWall(Vector3 movement)
+    {
+        movement = transform.TransformDirection(movement);
+
+        List<Vector3> rayPositions = new List<Vector3>();
+        rayPositions.Add(transform.position + Vector3.up * 0.2f);
+        rayPositions.Add(transform.position + Vector3.up * colider.radius * 0.5f);
+        rayPositions.Add(transform.position + Vector3.up * colider.radius);
+
+        foreach (Vector3 pos in rayPositions)
+        {
+            Debug.DrawRay(pos, movement * rayScope, Color.red);
+        }
+
+        foreach (Vector3 pos in rayPositions)
+        {
+            if (Physics.Raycast(pos, movement, out RaycastHit hit, rayScope))
+            {
+                if (hit.collider.CompareTag("Wall"))
+                    return true;
+            }
+        }
+        return false;
+    }
     public void ChangeActive()
     {
         if (isActive)
@@ -227,10 +264,7 @@ public class PlayerController : MonoBehaviour
     private void StartFadeEffect()
     {
         fadeEffect.GetComponent<FadeEffect>().OnEnable();
-        ChangeActive();
-        Invoke("ChangeActive", fadeEffect.GetComponent<FadeEffect>().fadeTime + fadeEffect.GetComponent<FadeEffect>().waitTime+0.1f);
     }
-
     //public void Roll()
     //{
     //    isActive = false;
