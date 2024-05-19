@@ -47,7 +47,7 @@ public class UI_ActPanel : UI_Popup
     //    }
     //}
 
-    public void ShowActPanel(PlayerSpec info)
+    public void ShowActPanel(SkillList info)
     {
         gameObject.SetActive(true);
         SetPlayerInfo(info);
@@ -56,12 +56,12 @@ public class UI_ActPanel : UI_Popup
         Debug.Log(mousePos);
     }
 
-    public void SetPlayerInfo(PlayerSpec info)
+    public void SetPlayerInfo(SkillList info)
     {
         UI_MagicPanel magicList = magicPanel.GetComponent<UI_MagicPanel>();
         UI_ItemPanel itemList = itemPanel.GetComponent<UI_ItemPanel>();
         magicList.SetSkillList(info);
-        itemList.SetItemList(info);
+        itemList.SetItemList();
     }
 
     public void MagicButtonClick(PointerEventData data)

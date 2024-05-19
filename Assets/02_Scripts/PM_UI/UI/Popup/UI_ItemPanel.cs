@@ -23,7 +23,7 @@ public class UI_ItemPanel : UI_Popup
         BindEvent(itemBtn.gameObject, ItemButtonExit, Define.UIEvent.Exit);
     }
 
-    public void SetItemList(PlayerSpec info)
+    public void SetItemList()
     {
 
     }

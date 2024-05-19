@@ -33,21 +33,21 @@ public class UI_ActTurn : UI_Scene
         }
     }
 
-    public void Update()            // Test
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            TurnUpdate();
-        }
-        if(Input.GetMouseButtonDown(1))
-        {
-            DestroyTurnUI();
-        }
-        if(Input.GetMouseButtonDown(2))
-        {
-            MakeTurnUI(newTest);
-        }
-    }
+    //public void Update()            // Test
+    //{
+    //    if(Input.GetMouseButtonDown(0))
+    //    {
+    //        TurnUpdate();
+    //    }
+    //    if(Input.GetMouseButtonDown(1))
+    //    {
+    //        DestroyTurnUI();
+    //    }
+    //    if(Input.GetMouseButtonDown(2))
+    //    {
+    //        MakeTurnUI(newTest);
+    //    }
+    //}
 
     public void Test()
     {

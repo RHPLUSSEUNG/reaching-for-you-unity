@@ -47,20 +47,17 @@ public class UI_MagicPanel : UI_Popup
         BindEvent(magicBtn5.gameObject, MagicButton5Exit, Define.UIEvent.Exit);
     }
 
-    public void SetSkillList(PlayerSpec info)
+    public void SetSkillList(SkillList info)
     {
-        testSkill = info._equipSkills[0] as Active;
+        testSkill = info.list[0].GetComponent<Active>();
     }
 
     public void MagicButton1Click(PointerEventData data)
     {
-        testSkill.Activate();
-        Debug.Log("Magic1 Use");
+        state = ButtonState.Skill;
         ActPanel.SetActive(false);
         gameObject.SetActive(false);
         descriptPanel.gameObject.SetActive(false);
-
-        state = ButtonState.Skill;
     }
 
     public void MagicButton2Click(PointerEventData data)

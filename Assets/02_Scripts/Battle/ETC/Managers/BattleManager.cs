@@ -64,7 +64,7 @@ public class BattleManager
     {
         battleState = BattleState.PlayerTurn;
         Managers.PlayerButton.UpdateSkillButton(currentCharacter);
-        ui.ShowActPanel(currentCharacter.GetComponent<PlayerSpec>());
+        ui.ShowActPanel(currentCharacter.GetComponent<SkillList>());
         Debug.Log("PlayerTurn Start");
     }
 
