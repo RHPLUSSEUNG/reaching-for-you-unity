@@ -90,7 +90,7 @@ public class BattleManager
 
     public void NextTurn()
     {
-        if(battleState == BattleState.Defeat || battleState == BattleState.Start)
+        if (battleState == BattleState.Defeat || battleState == BattleState.Start || battleState == BattleState.Victory)
         {
             return;
         }
