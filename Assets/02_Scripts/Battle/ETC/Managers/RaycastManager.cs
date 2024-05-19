@@ -43,7 +43,7 @@ public class RaycastManager
                     else if(Managers.PlayerButton.state == ButtonState.Idle && hit.collider.gameObject.name == "CombatMap(Clone)")
                     {
                         //player ¿Ãµø
-                        Managers.PlayerButton.player.transform.position = hit.collider.transform.position;
+                        Managers.PlayerButton.player.transform.position = hit.collider.transform.position + Vector3.up;
                     }
                     
                 }
