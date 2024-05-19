@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
@@ -121,6 +122,6 @@ public class BattleManager
             battleState = BattleState.Defeat;
             Debug.Log("Defeat");
         }
-        else return;
+        SceneManager.LoadScene("model_test");
     }
 }

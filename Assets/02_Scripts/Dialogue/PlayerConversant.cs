@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerConversant : MonoBehaviour
@@ -20,6 +17,11 @@ public class PlayerConversant : MonoBehaviour
     private void Awake()
     {        
         playerController = GetComponentInParent<PlayerController>();
+    }
+
+    public IEnumerable<DialogueNode> GetChoices()
+    {
+        return currentDialogue.GetPlayerChildren(currentNode);
     }
 
     public event Action onConversationUpdated;
@@ -78,10 +80,7 @@ public class PlayerConversant : MonoBehaviour
         }
     }
 
-    public IEnumerable<DialogueNode> GetChoices()
-    {
-        return currentDialogue.GetPlayerChildren(currentNode);
-    }
+
 
     public void SelectChoice(DialogueNode chosenNode)
     {

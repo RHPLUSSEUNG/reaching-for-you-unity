@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 
 [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue", order = 0)]
@@ -12,6 +10,49 @@ public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
     [SerializeField] List<DialogueNode> nodes = new List<DialogueNode>();
 
     Dictionary<string, DialogueNode> nodeLookUp = new Dictionary<string, DialogueNode>();
+
+    public IEnumerable<DialogueNode> GetAllNodes()
+    {
+        return nodes;
+    }
+
+    public DialogueNode GetRootNode()
+    {
+        return nodes[0];
+    }
+
+    public IEnumerable<DialogueNode> GetAllChildren(DialogueNode parentNode)
+    {
+        foreach (string childID in parentNode.GetChildren())
+        {
+            if (nodeLookUp.ContainsKey(childID))
+            {
+                yield return nodeLookUp[childID];
+            }
+        }
+    }
+
+    public IEnumerable<DialogueNode> GetPlayerChildren(DialogueNode currentNode)
+    {
+        foreach (DialogueNode node in GetAllChildren(currentNode))
+        {
+            if (node.IsPlayerSpeaking())
+            {
+                yield return node;
+            }
+        }
+    }
+
+    public IEnumerable<DialogueNode> GetNPCChildren(DialogueNode currentNode)
+    {
+        foreach (DialogueNode node in GetAllChildren(currentNode))
+        {
+            if (!node.IsPlayerSpeaking())
+            {
+                yield return node;
+            }
+        }
+    }
 
     private void OnValidate()
     {
@@ -88,48 +129,9 @@ public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
         }
     }
 
-    public IEnumerable<DialogueNode> GetAllNodes()
-    {
-        return nodes;
-    }
 
-    public DialogueNode GetRootNode()
-    {
-        return nodes[0];
-    }
 
-    public IEnumerable<DialogueNode> GetAllChildren(DialogueNode parentNode)
-    {
-        foreach (string childID in parentNode.GetChildren())
-        {
-            if (nodeLookUp.ContainsKey(childID))
-            {
-                yield return nodeLookUp[childID];
-            }
-        }
-    }
-
-    public IEnumerable<DialogueNode> GetPlayerChildren(DialogueNode currentNode)
-    {
-        foreach(DialogueNode node in GetAllChildren(currentNode))
-        {
-            if(node.IsPlayerSpeaking())
-            {
-                yield return node;
-            }
-        }
-    }
-
-    public IEnumerable<DialogueNode> GetNPCChildren(DialogueNode currentNode)
-    {
-        foreach (DialogueNode node in GetAllChildren(currentNode))
-        {
-            if (!node.IsPlayerSpeaking())
-            {
-                yield return node;
-            }
-        }
-    }
+   
 
 #endif
 

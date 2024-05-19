@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -171,6 +171,9 @@ public class PlayerController : MonoBehaviour
                 carmeraIndex = 1;
                 cameraController.ChangeTarget(carmeraIndex, false);
                 break;
+            case "ETDNPC":
+                SceneManager.LoadScene("Prototype_0512");
+                break;
         }   
     }
 
@@ -273,7 +276,9 @@ public class PlayerController : MonoBehaviour
     }
     private void StartFadeEffect()
     {
+        ChangeActive();
         fadeEffect.GetComponent<FadeEffect>().OnEnable();
+        Invoke("ChangeActive", fadeEffect.GetComponent<FadeEffect>().fadeTime + fadeEffect.GetComponent<FadeEffect>().waitTime + 0.5f);
     }
     //public void Roll()
     //{

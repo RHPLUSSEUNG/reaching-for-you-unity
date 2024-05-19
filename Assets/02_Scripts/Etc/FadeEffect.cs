@@ -20,7 +20,6 @@ public class FadeEffect : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         img.color = Color.black;
-        player.GetComponent<PlayerController>().ChangeActive();
         Invoke("StartFade", waitTime);
     }
     void StartFade()
@@ -44,7 +43,6 @@ public class FadeEffect : MonoBehaviour
 
             yield return null;
         }
-        player.GetComponent<PlayerController>().ChangeActive();
         this.gameObject.SetActive(false);
     }
 
