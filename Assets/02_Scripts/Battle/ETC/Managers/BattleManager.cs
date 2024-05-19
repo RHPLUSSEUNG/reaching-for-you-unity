@@ -46,9 +46,6 @@ public class BattleManager
         playerLive = (short)Managers.Party.playerParty.Count;
         monsterLive = (short)Managers.Party.monsterParty.Count;
         battleState = BattleState.PlayerTurn;
-        
-        GameObject.Find("Enemy").SetActive(false);
-        GameObject.Find("Player_Girl_Battle").SetActive(false);
         NextTurn();
         //TODO Object Turn order sorting
     }
