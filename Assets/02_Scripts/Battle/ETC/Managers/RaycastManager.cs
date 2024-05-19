@@ -12,7 +12,7 @@ public class RaycastManager
 
     public void OnUpdate()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == false)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -40,7 +40,7 @@ public class RaycastManager
                         battleUI.GetSkill().SetTarget(hit.collider.gameObject);
                         // Managers.PlayerButton.GetSkill().SetTarget(hit.collider.gameObject);
                     }
-                    else if(Managers.PlayerButton.state == ButtonState.Idle && hit.collider.gameObject.name == "CombatMap(Clone)")
+                    else if (Managers.PlayerButton.state == ButtonState.Idle && hit.collider.gameObject.CompareTag("Cube"))
                     {
                         //player ¿Ãµø
                         Managers.PlayerButton.player.transform.position = hit.collider.transform.position + Vector3.up;
@@ -48,7 +48,7 @@ public class RaycastManager
                     
                 }
                 //Battle Setting
-                else if (Managers.PlayerButton.state == ButtonState.PlayerSet && hit.transform.gameObject.name == "CombatMap(Clone)")
+                else if (Managers.PlayerButton.state == ButtonState.PlayerSet && hit.transform.gameObject.CompareTag("Cube"))
                 {
                     Managers.PlayerButton.SetPosition(hit.collider.gameObject);
                 }
