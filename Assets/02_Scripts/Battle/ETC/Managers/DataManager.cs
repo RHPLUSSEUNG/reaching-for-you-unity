@@ -41,8 +41,7 @@ public class DataManager
 
     public void SetSkill(int skillid, Active skill)
     {
-        Debug.Log(skill);
-        Debug.Log(skillid);
+        Debug.Log($"{skill} Setting");
         skill.skillName = skillList[skillid].name;
         skill.type = skillList[skillid].SkillType;
         skill.element = skillList[skillid].element;

@@ -16,7 +16,7 @@ public abstract class Debuff
             return false;
         }
 
-        target.GetComponent<CharacterSpec>().debuffs.Remove(this);
+        target.GetComponent<SkillList>().debuffs.Remove(this);
         return true;
     }
 

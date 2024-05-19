@@ -66,6 +66,7 @@ GameObject:
   - component: {fileID: 6171259600424918076}
   - component: {fileID: 5371783436127155392}
   - component: {fileID: 6692716674019007284}
+  - component: {fileID: 2197238396879168293}
   m_Layer: 0
   m_Name: Player_Girl_Battle
   m_TagString: Player
@@ -131,6 +132,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basicSpeed: 5
   runSpeed: 8
+  fadeEffect: {fileID: 0}
+  spwanPointList: {fileID: 0}
 --- !u!136 &5371783436127155392
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -167,7 +170,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 5
-  targetCamera: {fileID: 0}
+--- !u!114 &2197238396879168293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207317292621610819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaebb0d372c712e44ae4730bd0ec4f86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  list: []
 --- !u!1 &8089688456380059842
 GameObject:
   m_ObjectHideFlags: 0

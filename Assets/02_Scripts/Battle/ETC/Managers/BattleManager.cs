@@ -28,6 +28,7 @@ public class BattleManager
         ObjectList.Clear();
         foreach (GameObject character in Managers.Party.playerParty)
         {
+            character.GetComponent<SkillList>().AddSkill(Managers.Prefab.Instantiate($"Skill/TestAttack"));
             ObjectList.Add(character);
         }
         foreach (GameObject character in Managers.Party.monsterParty)
@@ -37,6 +38,7 @@ public class BattleManager
 
         Managers.PlayerButton.UpdateStartButton();
         battleState = BattleState.Start;
+        turnCnt = -1;
     }
 
     public void BattleStart()
@@ -84,7 +86,6 @@ public class BattleManager
 
     public void NextTurn()
     {
-
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
         

@@ -66,6 +66,8 @@ GameObject:
   - component: {fileID: 6171259600424918076}
   - component: {fileID: 5371783436127155392}
   - component: {fileID: 6692716674019007284}
+  - component: {fileID: 1491754643592686775}
+  - component: {fileID: -1864858502484396345}
   m_Layer: 0
   m_Name: Player_Girl_Battle
   m_TagString: Player
@@ -169,6 +171,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 5
+--- !u!114 &1491754643592686775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207317292621610819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaebb0d372c712e44ae4730bd0ec4f86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  list: []
+--- !u!114 &-1864858502484396345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7207317292621610819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3da7ec3350db24ab13761d97b5cd33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _level: 0
+  _maxHp: 0
+  _hp: 0
+  _maxMp: 0
+  _mp: 0
+  _baseDamage: 0
+  _attackRange: 0
+  _movePoint: 0
+  _sight: 0
+  _defense: 0
+  _healReciveMultiply: 0
+  _hidden: 0
+  _burn: 0
+  _oxygen: 0
+  _bind: 0
+  _shock: 0
 --- !u!1 &8089688456380059842
 GameObject:
   m_ObjectHideFlags: 0

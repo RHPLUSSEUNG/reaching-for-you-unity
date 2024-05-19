@@ -30,7 +30,7 @@ public class RaycastManager
                 {
                     if (Managers.PlayerButton.state == ButtonState.Skill)
                     {
-                        Managers.PlayerButton.player.GetComponent<PlayerBattle>().UseSkill(Managers.PlayerButton.GetSkill(), hit.collider.gameObject);
+                        Managers.PlayerButton.GetSkill().SetTarget(hit.collider.gameObject);
                     }
                     else if(Managers.PlayerButton.state == ButtonState.Idle && hit.collider.gameObject.name == "CombatMap(Clone)")
                     {
