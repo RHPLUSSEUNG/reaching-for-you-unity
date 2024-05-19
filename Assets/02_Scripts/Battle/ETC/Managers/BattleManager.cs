@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 
 // 1. Character TurnSpeed에 따라서 턴 순서가 정해진다 (세나 결투장)
