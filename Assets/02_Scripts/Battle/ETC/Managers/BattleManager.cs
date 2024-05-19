@@ -1,14 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.TextCore.Text;
-using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 
-// 1. Character TurnSpeed¿¡ µû¶ó¼­ ÅÏ ¼ø¼­°¡ Á¤ÇØÁø´Ù (¼¼³ª °áÅõÀå)
-// 2. Player Turn -> Enemy Turn (¸ðµç Ä³¸¯ÅÍ ÇÕÃÄ¼­ ´Ù ½ÇÇà)
+// 1. Character TurnSpeedï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+// 2. Player Turn -> Enemy Turn (ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ä¼ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 
 public class BattleManager
 {
