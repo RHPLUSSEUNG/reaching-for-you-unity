@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 
 // 1. Character TurnSpeed에 따라서 턴 순서가 정해진다 (세나 결투장)
@@ -52,6 +53,11 @@ public class BattleManager
 
     public void CalcTurn()
     {
+        if(currentCharacter != null && currentCharacter.GetComponent<SkillList>() != null)
+        {
+            currentCharacter.GetComponent<SkillList>().CalcTurn();
+        }
+
         turnCnt++;
         turnCnt %= ObjectList.Count;
         if (playerLive == 0 || monsterLive == 0)
@@ -66,6 +72,7 @@ public class BattleManager
         Managers.PlayerButton.UpdateSkillButton(currentCharacter);
         ui.ShowActPanel(currentCharacter.GetComponent<SkillList>());
         Debug.Log("PlayerTurn Start");
+
     }
 
     public void EnemyTurn(GameObject character)
@@ -87,6 +94,7 @@ public class BattleManager
         {
             return;
         }
+        
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
         

@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,7 +57,6 @@ public class PlayerButtonManager
         Debug.Log("Update Skill Button");
         this.player = player;
         this.skills = this.player.GetComponent<SkillList>();
-        //this.spec = this.player.GetComponent<PlayerStat>();
         button1.onClick.RemoveAllListeners();
         button2.onClick.RemoveAllListeners();
         button3.onClick.RemoveAllListeners();

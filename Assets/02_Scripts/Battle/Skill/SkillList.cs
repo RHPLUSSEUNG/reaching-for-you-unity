@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class SkillList : MonoBehaviour
@@ -37,5 +38,40 @@ public class SkillList : MonoBehaviour
         }
     }
 
+    public void AddDebuff(Debuff debuff)
+    {
+        Debuff cur = FindDebuff(debuff);
+        if(cur != null)
+        {
+            cur.count++;
+        }
+        debuffs.Add(debuff);
+    }
 
+    public void DelDebuff(Debuff debuff)
+    {
+        debuffs.Remove(debuff);
+    }
+
+    public void CalcTurn()
+    {
+        if(debuffs.Count > 0)
+        {
+            foreach(Debuff debuff in debuffs)
+            {
+                debuff.TimeCheck();
+            }
+        }
+    }
+
+    public Debuff FindDebuff(Debuff debuff)
+    {
+        if (debuff == null) return null;
+        foreach(Debuff de in debuffs)
+        {
+            if (de.GetType() == typeof(Debuff))
+                return de;
+        }
+        return null;
+    }
 }

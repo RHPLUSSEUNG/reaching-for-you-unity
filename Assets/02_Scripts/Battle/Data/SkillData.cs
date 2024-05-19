@@ -9,7 +9,9 @@ public class SkillData : ScriptableObject
     public string SkillName;
     public skillType SkillType;
     public int reqLev;
+
     public ElementType element;
     public int stamina;
     public int mp;
+    public int range;
 }

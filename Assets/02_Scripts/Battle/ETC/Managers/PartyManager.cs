@@ -59,6 +59,11 @@ public class PartyManager
         }
     }
 
+    public void Heal(GameObject target, int heal)
+    {
+        target.GetComponent<EntityStat>().Hp += heal;
+    }
+
     public void Dead(GameObject character)
     {
         if (character.CompareTag("Player"))

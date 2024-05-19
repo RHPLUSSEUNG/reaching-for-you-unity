@@ -10,7 +10,7 @@ public class IncreaseAtk : Buff
         remainTurn--;
         if(remainTurn ==  0)
         {
-            target.GetComponent<SkillList>().buffs.Remove(this);
+            target.GetComponent<EntityStat>().BaseDamage -= incAtk;
             DeleteEffect();
         }
     }
@@ -27,7 +27,7 @@ public class IncreaseAtk : Buff
     {
         if (this.target == null)
             return false;
-        this.target.GetComponent<CharacterSpec>().attack += incAtk;
+        this.target.GetComponent<EntityStat>().BaseDamage += incAtk;
         TimeCheck();
         return true;
     }
