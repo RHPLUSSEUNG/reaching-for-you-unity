@@ -35,18 +35,18 @@ public class UI_MagicPanel : UI_Popup
         BindEvent(magicBtn1.gameObject, MagicButton1Click, Define.UIEvent.Click);
         BindEvent(magicBtn1.gameObject, MagicButton1Enter, Define.UIEvent.Enter);
         BindEvent(magicBtn1.gameObject, MagicButton1Exit, Define.UIEvent.Exit);
-        BindEvent(magicBtn2.gameObject, MagicButton2Click, Define.UIEvent.Click);
-        BindEvent(magicBtn2.gameObject, MagicButton2Enter, Define.UIEvent.Enter);
-        BindEvent(magicBtn2.gameObject, MagicButton2Exit, Define.UIEvent.Exit);
-        BindEvent(magicBtn3.gameObject, MagicButton3Click, Define.UIEvent.Click);
-        BindEvent(magicBtn3.gameObject, MagicButton3Enter, Define.UIEvent.Enter);
-        BindEvent(magicBtn3.gameObject, MagicButton3Exit, Define.UIEvent.Exit);
-        BindEvent(magicBtn4.gameObject, MagicButton4Click, Define.UIEvent.Click);
-        BindEvent(magicBtn4.gameObject, MagicButton4Enter, Define.UIEvent.Enter);
-        BindEvent(magicBtn4.gameObject, MagicButton4Exit, Define.UIEvent.Exit);
-        BindEvent(magicBtn5.gameObject, MagicButton5Click, Define.UIEvent.Click);
-        BindEvent(magicBtn5.gameObject, MagicButton5Enter, Define.UIEvent.Enter);
-        BindEvent(magicBtn5.gameObject, MagicButton5Exit, Define.UIEvent.Exit);
+        //BindEvent(magicBtn2.gameObject, MagicButton2Click, Define.UIEvent.Click);
+        //BindEvent(magicBtn2.gameObject, MagicButton2Enter, Define.UIEvent.Enter);
+        //BindEvent(magicBtn2.gameObject, MagicButton2Exit, Define.UIEvent.Exit);
+        //BindEvent(magicBtn3.gameObject, MagicButton3Click, Define.UIEvent.Click);
+        //BindEvent(magicBtn3.gameObject, MagicButton3Enter, Define.UIEvent.Enter);
+        //BindEvent(magicBtn3.gameObject, MagicButton3Exit, Define.UIEvent.Exit);
+        //BindEvent(magicBtn4.gameObject, MagicButton4Click, Define.UIEvent.Click);
+        //BindEvent(magicBtn4.gameObject, MagicButton4Enter, Define.UIEvent.Enter);
+        //BindEvent(magicBtn4.gameObject, MagicButton4Exit, Define.UIEvent.Exit);
+        //BindEvent(magicBtn5.gameObject, MagicButton5Click, Define.UIEvent.Click);
+        //BindEvent(magicBtn5.gameObject, MagicButton5Enter, Define.UIEvent.Enter);
+        //BindEvent(magicBtn5.gameObject, MagicButton5Exit, Define.UIEvent.Exit);
     }
 
     public void SetSkillList(SkillList info)

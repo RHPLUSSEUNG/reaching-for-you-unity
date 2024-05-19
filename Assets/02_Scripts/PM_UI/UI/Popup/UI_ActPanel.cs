@@ -30,8 +30,8 @@ public class UI_ActPanel : UI_Popup
         Button defenseBtn = GetButton((int)ActButton.DefenseButton);
 
         BindEvent(magicBtn.gameObject, MagicButtonClick, Define.UIEvent.Click);
-        BindEvent(itemBtn.gameObject, ItemButtonClick, Define.UIEvent.Click);
-        BindEvent(defenseBtn.gameObject, DefenseButtonClick, Define.UIEvent.Click);
+        //BindEvent(itemBtn.gameObject, ItemButtonClick, Define.UIEvent.Click);
+        //BindEvent(defenseBtn.gameObject, DefenseButtonClick, Define.UIEvent.Click);
 
         pos = GetComponent<RectTransform>();
     }
