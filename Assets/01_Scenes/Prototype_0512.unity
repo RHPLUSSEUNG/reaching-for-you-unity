@@ -2506,6 +2506,7 @@ GameObject:
   m_Component:
   - component: {fileID: 592267355}
   - component: {fileID: 592267354}
+  - component: {fileID: 592267356}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -2590,6 +2591,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &592267356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592267353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &660181809 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 108118757045500913, guid: f99cac4fde7ec5c42a4896bd97578e7d, type: 3}
@@ -2782,8 +2806,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Width: 10
   Height: 10
-  cubePrefab: {fileID: 4306025221179246836, guid: bb67a52debe88e9419e4afbc7f5e7e34, type: 3}
-  wallPrefab: {fileID: 4699319070939659910, guid: 6bfb7a27b9b4bb945969cd67fa901f1c, type: 3}
+  cubePrefab: {fileID: 6785417001764853506, guid: 5306b8c5a269622429ea925817ba53ff, type: 3}
+  wallPrefab: {fileID: 8500243326062172743, guid: 067d0fb8aecf9ee46ab4f7e8541adb34, type: 3}
   coverDataArray:
   - {fileID: 11400000, guid: 6b7345c524daa9e45962a4263bb32996, type: 2}
   - {fileID: 11400000, guid: 057702ab90bcd9d49b3cd412be7842b4, type: 2}
