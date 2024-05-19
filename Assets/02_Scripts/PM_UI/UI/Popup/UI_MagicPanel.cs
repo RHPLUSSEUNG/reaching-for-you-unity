@@ -19,7 +19,9 @@ public class UI_MagicPanel : UI_Popup
     [SerializeField] Image descriptPanel;
 
     public ButtonState state = ButtonState.Idle;
-    Active testSkill;
+
+    public GameObject skill;
+    public SkillList skillList;
 
     public override void Init()
     {
@@ -49,12 +51,25 @@ public class UI_MagicPanel : UI_Popup
 
     public void SetSkillList(SkillList info)
     {
-        testSkill = info.list[0].GetComponent<Active>();
+        Managers.PlayerButton.state = ButtonState.Idle;
+        skillList = info;
+        Debug.Log(info);
+    }
+
+    public Active GetSkill()
+    {
+        if (skill == null || skill.GetComponent<Active>() == null)
+        {
+            return null;
+        }
+        return skill.GetComponent<Active>();
     }
 
     public void MagicButton1Click(PointerEventData data)
     {
+        skill = skillList.list[0];
         state = ButtonState.Skill;
+        Managers.PlayerButton.state = ButtonState.Skill;
         ActPanel.SetActive(false);
         gameObject.SetActive(false);
         descriptPanel.gameObject.SetActive(false);

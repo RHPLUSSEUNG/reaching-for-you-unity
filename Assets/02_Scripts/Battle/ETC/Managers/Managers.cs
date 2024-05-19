@@ -43,6 +43,7 @@ public class Managers : MonoBehaviour
         _playerButton.Bind();
         _data.OnAwake();
         _battle.BattleReady();
+        raycast.TestInit();         // Temp
     }
     #endregion
     public void Update()
