@@ -9,13 +9,12 @@ public class CharacterSpec : MonoBehaviour
     public int mp = 50;
     public int attack = 50; //character attack damage
     public int shield; //character shield damage
-    public short stamina; //active per turn
-    public short remainStamina;
-    public ElementType elementType;
+    public int stamina = 100; //active per turn
+    public int remainStamina;
+    public ElementType elementType = ElementType.None;
 
-    public List<Debuff> debuffs;
-    public List<Buff> buffs;
-
+    public List<Buff> buffs = new();
+    public List<Debuff> debuffs = new();
     public GameObject pos;
 
 }

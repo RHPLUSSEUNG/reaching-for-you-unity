@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class Debuff
 {
     public GameObject target;
-    public short remainTurn;
+    public int remainTurn;
+    public int count;
 
     public abstract void TimeCheck();
 
@@ -16,13 +17,15 @@ public abstract class Debuff
             return false;
         }
 
-        target.GetComponent<CharacterSpec>().debuffs.Remove(this);
+        target.GetComponent<SkillList>().debuffs.Remove(this);
         return true;
     }
 
     public abstract bool StartEffect();
 
-    public abstract void SetDebuff(short turn, GameObject target, short attribute = 0);
+    public abstract void SetDebuff(int turn, GameObject target, short attribute = 0);
+
+    public abstract void AddDebuff(Debuff debuff);
 
     public void Active()
     {

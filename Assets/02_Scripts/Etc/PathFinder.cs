@@ -23,6 +23,7 @@ public class PathFinder : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Active");
         instance = this;
         pathFinding = GetComponent<PathFinding>();
     }

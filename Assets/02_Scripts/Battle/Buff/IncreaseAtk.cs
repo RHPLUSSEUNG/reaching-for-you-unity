@@ -10,23 +10,24 @@ public class IncreaseAtk : Buff
         remainTurn--;
         if(remainTurn ==  0)
         {
-            this.gameObject.GetComponent<CharacterSpec>().attack -= incAtk;
+            target.GetComponent<EntityStat>().BaseDamage -= incAtk;
             DeleteEffect();
         }
     }
 
     public override void SetBuff(short turn, GameObject target, short attribute = 0)
     {
+        this.target = target;
         this.remainTurn = turn;
         incAtk = attribute;
-        target.GetComponent<PlayerSpec>().buffs.Add(this);
+        target.GetComponent<SkillList>().buffs.Add(this);
     }
 
     public override bool StartEffect()
     {
-        if (this.gameObject == null)
+        if (this.target == null)
             return false;
-        this.gameObject.GetComponent<CharacterSpec>().attack += incAtk;
+        this.target.GetComponent<EntityStat>().BaseDamage += incAtk;
         TimeCheck();
         return true;
     }

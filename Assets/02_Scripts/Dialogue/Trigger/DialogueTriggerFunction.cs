@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; //[Prototype2SH]
 
 public enum NPCType
 {
@@ -24,5 +25,10 @@ public class DialogueTriggerFunction : MonoBehaviour
     {
         friendShipLevel -= level;
         Debug.Log("Fall Friendship Level " + level);
+    }
+
+    public void EnterTheDungeon()
+    {
+        SceneManager.LoadScene("Prototype_0512");
     }
 }

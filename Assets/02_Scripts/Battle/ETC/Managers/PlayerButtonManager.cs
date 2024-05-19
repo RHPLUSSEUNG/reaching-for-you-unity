@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +7,8 @@ public class PlayerButtonManager
 {
     public ButtonState state = ButtonState.Idle;
     public GameObject player;
-    public PlayerSpec spec;
+    public SkillList skills;
+    //public PlayerStat spec;
 
     public Button button1;
     public Button button2;
@@ -19,7 +18,7 @@ public class PlayerButtonManager
     public Button nextTurn;
     public Button cancle;
 
-    Active skill = null;
+    GameObject skill = null;
 
     public void Bind()
     {
@@ -57,7 +56,7 @@ public class PlayerButtonManager
     {
         Debug.Log("Update Skill Button");
         this.player = player;
-        this.spec = this.player.GetComponent<PlayerSpec>();
+        this.skills = this.player.GetComponent<SkillList>();
         button1.onClick.RemoveAllListeners();
         button2.onClick.RemoveAllListeners();
         button3.onClick.RemoveAllListeners();
@@ -73,43 +72,44 @@ public class PlayerButtonManager
     #region Skill
     public void Skill1()
     {
-        skill = spec._equipSkills[0] as Active;
+        skill = skills.list[0];
         
         state = ButtonState.Skill;
     }
 
     public void Skill2()
     {
-        skill = spec._equipSkills[1] as Active;
-        
+        skill = skills.list[1];
+
         state = ButtonState.Skill;
     }
 
     public void Skill3()
     {
-        skill = spec._equipSkills[2] as Active;
+        skill = skills.list[2];
         
         state = ButtonState.Skill;
     }
 
     public void Skill4()
     {
-        skill = spec._equipSkills[3] as Active;
+        skill = skills.list[3];
 
         state = ButtonState.Skill;
     }
 
     public void Skill5()
     {
-        skill = spec._equipSkills[4] as Active;
+        skill = skills.list[4];
 
         state = ButtonState.Skill;
     }
 
     public Active GetSkill()
     {
-        if (skill == null) return null;
-        return skill;
+        Debug.Log(skill.name);
+        if (skill == null || skill.GetComponent<Active>() == null) return null;
+        return skill.GetComponent<Active>();
     }
     #endregion
 
@@ -151,7 +151,7 @@ public class PlayerButtonManager
 
     public void SetPosition(GameObject pos)
     {
-        player.GetComponent<CharacterSpec>().pos = pos;
+        player.transform.position = pos.transform.position + Vector3.up;
         state = ButtonState.Idle;
     }
     #endregion
@@ -165,6 +165,7 @@ public class PlayerButtonManager
     {
         if(Managers.Battle.battleState == BattleState.PlayerTurn)
         {
+            Managers.Battle.ui.gameObject.SetActive(false);
             Managers.Battle.NextTurn();
             Debug.Log("PlayerTurn end");
         }

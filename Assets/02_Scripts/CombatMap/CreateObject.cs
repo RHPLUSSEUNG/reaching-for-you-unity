@@ -18,6 +18,7 @@ public struct Map
 
 public class CreateObject : MonoBehaviour
 {
+    public GameObject manager;  // 맵 생성 후 활성화할 매니저
     public Map[,] map;
 
     public float Width = 1f; // 가로 길이
@@ -43,6 +44,9 @@ public class CreateObject : MonoBehaviour
         // PlaceWalls();
 
         RandomObstacle(Width, Height, 1);
+
+        manager.active = true;
+
     }
 
     public void RandomObstacle(float Width, float Height, int cellSize) 

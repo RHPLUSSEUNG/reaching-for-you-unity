@@ -1,76 +1,82 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rigid;
+
     [SerializeField]
     float basicSpeed = 5.0f;
     [SerializeField]
     float runSpeed = 8.0f;
     [SerializeField]
-    float rotateSpeed = 5.0f;
+    GameObject fadeEffect;
+    [SerializeField]
+    GameObject spwanPointList;
 
-    private Animator animator;
-    private Transform character;
-    private Transform colider;
+    [SerializeField]
+    float rayScope=1.0f;
+
+    CameraController cameraController;
+
+    Transform[] spwanPoint;
+    GameObject mainCamera;
+    private int carmeraIndex;
+    private int spwanPointIndex;
+
+    private SpriteController spriteController;
+    private CapsuleCollider colider;
+
     private bool isActive;
-    float moveSpeed;
-
-
+    private float moveSpeed;
     private Vector3 inputVec;
 
-    enum State
-    {
-        Idle,
-        Move,
-        Hit,
-        Roll
-    }
-    enum Direction
-    {
-        Left = 0,
-        Right = 180
-    }
-    enum xRotate
-    {
-        Left = 30,
-        Right = -30
-    }
+    Vector3 facingDirectrion;
+    Vector3 sideDirection;
+    Vector3 nextVec;
+
 
     void Awake()
     {
-        isActive = true;
-        character = this.transform.GetChild(0);
+        spwanPoint = spwanPointList.GetComponentsInChildren<Transform>();
+        spwanPointIndex = 1;    // GetComponentsInChildren 사용 시 0번엔 부모 오브젝트 정보가 위치함으로 Index를 1부터
+
         rigid = GetComponent<Rigidbody>();
-        animator = character.GetComponent<Animator>();
-        colider = this.transform.GetChild(1);
+        colider = this.transform.GetChild(1).GetComponent<CapsuleCollider>();
         moveSpeed = basicSpeed;
+        spriteController = GetComponent<SpriteController>();
+        mainCamera = GameObject.Find("Main Camera");
+        cameraController = mainCamera.GetComponent<CameraController>();
+
+        isActive = true;
     }
     void Update()
     {
-        if (isActive)
+        if(!isActive)
         {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                moveSpeed = runSpeed;
-            }
-            if (Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                moveSpeed = basicSpeed;
-            }
-            //if(Input.GetKey(KeyCode.Space))
-            //{
-            //    Roll();
-            //}
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Interact();
-            }
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                Inventory();
-            }
+            spriteController.SetAnimState(AnimState.Idle);
+            return;
+        }
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            moveSpeed = runSpeed;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            moveSpeed = basicSpeed;
+        }
+        //if(Input.GetKey(KeyCode.Space))
+        //{
+        //    Roll();
+        //}
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Interact();
+        }
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            Inventory();
         }
     }
     private void FixedUpdate()
@@ -85,12 +91,101 @@ public class PlayerController : MonoBehaviour
         UpdateState();
     }
 
+    private void OnTriggerEnter(Collider other)  //임시 카메라 변경
+    {
+        Debug.Log("collider Enter");
+        string objName = other.gameObject.name;
+        switch(objName)
+        {
+            case "Camera1Zone":
+                carmeraIndex = 1;
+                cameraController.ChangeTarget(carmeraIndex,true);
+                break;
+            case "Camera2Zone":
+                carmeraIndex = 2;
+                cameraController.ChangeTarget(carmeraIndex, true);
+                break;
+            case "Camera3Zone":
+                carmeraIndex = 3;
+                cameraController.ChangeTarget(carmeraIndex, true);
+                break;
+            case "Camera4Zone":
+                carmeraIndex = 4;   
+                cameraController.ChangeTarget(carmeraIndex, true);
+                break;
+            case "Camera5Zone":
+                carmeraIndex = 5;
+                cameraController.ChangeTarget(carmeraIndex, true);
+                break;
+            case "Camera6Zone":
+                carmeraIndex = 6;
+                cameraController.ChangeTarget(carmeraIndex, true);
+                break;
+            case "Camera7Zone":
+                carmeraIndex = 7;
+                cameraController.ChangeTarget(carmeraIndex, true);
+                break;
+            case "Camera8Zone":
+                carmeraIndex = 8;
+                cameraController.ChangeTarget(carmeraIndex, true);
+                break;
+            case "ToFloor1":
+                StartFadeEffect();
+                spwanPointIndex = 1;
+                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
+                carmeraIndex = 2;
+                cameraController.ChangeTarget(carmeraIndex, false);
+                break;
+            case "ToFloor2":
+                StartFadeEffect();
+                spwanPointIndex = 2;
+                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
+                carmeraIndex = 4;
+                cameraController.ChangeTarget(carmeraIndex, false);
+                break;
+            case "ToFloor3":
+                StartFadeEffect();
+                spwanPointIndex = 3;
+                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
+                carmeraIndex = 6;
+                cameraController.ChangeTarget(carmeraIndex, false);
+                break;
+            case "ToFloor4":
+                StartFadeEffect();
+                spwanPointIndex = 4;
+                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
+                carmeraIndex = 7;
+                cameraController.ChangeTarget(carmeraIndex, false);
+                break;
+            case "ToClass1":
+                StartFadeEffect();
+                spwanPointIndex = 5;
+                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
+                carmeraIndex = 8;
+                cameraController.ChangeTarget(carmeraIndex, false);
+                break;
+            case "Class1ToFloor1":
+                StartFadeEffect();
+                spwanPointIndex = 6;
+                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
+                carmeraIndex = 1;
+                cameraController.ChangeTarget(carmeraIndex, false);
+                break;
+        }   
+    }
+
     void Move()
     {
-        inputVec.x = Input.GetAxisRaw("Horizontal");
-        inputVec.z = Input.GetAxisRaw("Vertical");
+        inputVec = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        Vector3 nextVec = inputVec.normalized * moveSpeed * Time.fixedDeltaTime;
+        facingDirectrion = new Vector3(mainCamera.transform.forward.x, 0f, mainCamera.transform.forward.z).normalized;
+        sideDirection = new Vector3(mainCamera.transform.right.x, 0f, mainCamera.transform.right.z).normalized;
+        float speed = Mathf.Min((facingDirectrion * inputVec.y + sideDirection * inputVec.x).magnitude, 1.0f) * moveSpeed;
+        nextVec = (facingDirectrion * inputVec.y + sideDirection * inputVec.x) * speed * Time.fixedDeltaTime;
+        if (CheckHitWall(nextVec))
+        {
+            nextVec = Vector3.zero;
+        }
         rigid.MovePosition(rigid.position + nextVec);
     }
 
@@ -98,66 +193,48 @@ public class PlayerController : MonoBehaviour
     {
         if (inputVec.x > 0)
         {
-            Flip(Direction.Right);
-            this.animator.SetInteger("State", (int)State.Move);
+            spriteController.Flip(Direction.Right);
+            spriteController.SetAnimState(AnimState.Move);
         }
         else if (inputVec.x < 0)
         {
-            Flip(Direction.Left);
-            this.animator.SetInteger("State", (int)State.Move);
+            spriteController.Flip(Direction.Left);
+            spriteController.SetAnimState(AnimState.Move);
         }
-        else if (inputVec.z != 0)
+        else if (inputVec.y != 0)
         {
-            this.animator.SetInteger("State", (int)State.Move);
+            spriteController.SetAnimState(AnimState.Move);
         }
         else
         {
-            this.animator.SetInteger("State", (int)State.Idle);
+            spriteController.SetAnimState(AnimState.Idle);
         }
     }
 
-    void Flip(Direction direction)
+    bool CheckHitWall(Vector3 movement)
     {
-        if (direction == Direction.Left)
+        movement = transform.TransformDirection(movement);
+
+        List<Vector3> rayPositions = new List<Vector3>();
+        rayPositions.Add(transform.position + Vector3.up * 0.2f);
+        rayPositions.Add(transform.position + Vector3.up * colider.radius * 0.5f);
+        rayPositions.Add(transform.position + Vector3.up * colider.radius);
+
+        foreach (Vector3 pos in rayPositions)
         {
-            StartCoroutine(RotateTo((float)Direction.Left));
+            Debug.DrawRay(pos, movement * rayScope, Color.red);
         }
-        else if (direction == Direction.Right)
+
+        foreach (Vector3 pos in rayPositions)
         {
-            StartCoroutine(RotateTo((float)Direction.Right));
+            if (Physics.Raycast(pos, movement, out RaycastHit hit, rayScope))
+            {
+                if (hit.collider.CompareTag("Wall"))
+                    return true;
+            }
         }
+        return false;
     }
-    IEnumerator RotateTo(float targetAngleY)
-    {
-        float startAngleX = character.transform.eulerAngles.x;
-        float startAngleY = character.transform.eulerAngles.y;
-        float t = 0f;
-        float speed = 0f;
-        float targetAngleX;
-
-        if (targetAngleY == (float)Direction.Left)
-        {
-            targetAngleX = (float)xRotate.Left;
-        }
-        else
-        {
-            targetAngleX = (float)xRotate.Right;
-        }
-
-        while (speed < 1.0f)
-        {
-            t += Time.deltaTime;
-            speed = rotateSpeed * t;
-
-            float xRotation = Mathf.LerpAngle(startAngleX, targetAngleX, speed);
-            float yRotation = Mathf.LerpAngle(startAngleY, targetAngleY, speed);
-
-            character.transform.eulerAngles = new Vector3(xRotation, yRotation, character.transform.eulerAngles.z);
-
-            yield return null;
-        }
-    }
-
     public void ChangeActive()
     {
         if (isActive)
@@ -171,7 +248,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Active");
         }
     }
-
     private void Interact()
     {
         Debug.Log("Interact");
@@ -183,19 +259,15 @@ public class PlayerController : MonoBehaviour
     public void Hit()
     {
         isActive = false;
-        this.animator.SetInteger("State", (int)State.Hit);
+        spriteController.SetAnimState(AnimState.Hit);
     }
-
-    public void Roll()
+    private void StartFadeEffect()
     {
-        isActive = false;
-        this.animator.SetInteger("State", (int)State.Roll);
-        StartCoroutine(WaitForAnimation((int)State.Roll));
+        fadeEffect.GetComponent<FadeEffect>().OnEnable();
     }
-
-    IEnumerator WaitForAnimation (int state)
-    {
-        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f);
-        isActive = true;
-    }
+    //public void Roll()
+    //{
+    //    isActive = false;
+    //    spriteController.SetAnimState(AnimState.Roll);
+    //}
 }

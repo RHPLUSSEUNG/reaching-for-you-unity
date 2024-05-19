@@ -5,12 +5,14 @@ public enum ElementType
     Grass = 2,
     Ground = 3,
     Electric = 4,
+    None = 5,
 };
 
 public enum skillType
 {
     Passive = 0,
     Active = 1,
+    Travel = 2,
 };
 
 public enum ItemType
@@ -50,4 +52,23 @@ public enum Buttons
     button2,
     button3,
     button4,
+}
+
+public enum AnimState
+{
+    Idle,
+    Move,
+    Attack,
+    Hit,
+    Roll
+}
+public enum Direction
+{
+    Left,
+    Right
+}
+public enum CameraMode
+{
+    Follow,
+    Static
 }

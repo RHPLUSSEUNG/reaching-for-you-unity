@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class RaycastManager
 {
+    UI_Battle battleUI;
+    public void TestInit()
+    {
+        GameObject UI = GameObject.Find("BattleUI");
+        battleUI = UI.GetComponent<UI_Battle>();
+    }
+
     public void OnUpdate()
     {
         if (Input.GetMouseButtonDown(0))
@@ -12,6 +19,7 @@ public class RaycastManager
             
             if (Physics.Raycast(ray, out hit))
             {
+                Debug.Log("ray :" + hit.collider.gameObject);
                 /*
                 if (hit.transform.gameObject.CompareTag("Character"))
                 {
@@ -29,7 +37,8 @@ public class RaycastManager
                 {
                     if (Managers.PlayerButton.state == ButtonState.Skill)
                     {
-                        Managers.PlayerButton.player.GetComponent<CharacterBattle>().UseSkill(Managers.PlayerButton.GetSkill(), hit.collider.gameObject);
+                        battleUI.GetSkill().SetTarget(hit.collider.gameObject);
+                        // Managers.PlayerButton.GetSkill().SetTarget(hit.collider.gameObject);
                     }
                     else if(Managers.PlayerButton.state == ButtonState.Idle && hit.collider.gameObject.name == "CombatMap(Clone)")
                     {

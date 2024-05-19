@@ -1,0 +1,189 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6529098379948163978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 62cae265-9255-497e-99ba-b3081f47128c
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: "\uC544\uB2C8"
+  children:
+  - 5f881f09-3a8c-4680-93f4-ab23a9cd45cd
+  rect:
+    serializedVersion: 2
+    x: 770
+    y: 172
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+--- !u!114 &-6150470012363073162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 0821c30b-46a7-48d9-a420-d188367df94c
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uC88B\uC544 \uAC00\uBCF4\uC790\uAD6C"
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1062
+    y: 52
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: EnterTheDungeon
+--- !u!114 &-4094275795962826345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 5f881f09-3a8c-4680-93f4-ab23a9cd45cd
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uB2E4\uC74C\uC5D0 \uB2E4\uC2DC \uBD10"
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1008
+    y: 214
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f00cc4d1c5b96842abc1f50692b7245, type: 3}
+  m_Name: EnterTheDungeon
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 6311758384072250367}
+  - {fileID: 5524262208357630034}
+  - {fileID: 7529931900770075949}
+  - {fileID: 3377653522423554992}
+  - {fileID: -6529098379948163978}
+  - {fileID: -6150470012363073162}
+  - {fileID: -4094275795962826345}
+--- !u!114 &3377653522423554992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: ff52cc8a-4102-4da9-83a9-8a0e7edb26d8
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: "\uC751"
+  children:
+  - 0821c30b-46a7-48d9-a420-d188367df94c
+  rect:
+    serializedVersion: 2
+    x: 817
+    y: 26
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+--- !u!114 &5524262208357630034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: d69d4aa3-ba2b-4cbc-ad6b-91a9be072415
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: "\uBC18\uAC00\uC6CC"
+  children:
+  - 9d2993e9-0c8a-4310-8070-c5a52da34cce
+  rect:
+    serializedVersion: 2
+    x: 271
+    y: 35
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+--- !u!114 &6311758384072250367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: bd7810e6-edaa-4ab8-a75b-45c29a8d8331
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uC548\uB155? \uB09C \uD76C\uC900\uC774\uB77C\uACE0\uD574."
+  children:
+  - d69d4aa3-ba2b-4cbc-ad6b-91a9be072415
+  rect:
+    serializedVersion: 2
+    x: 21
+    y: 34
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+--- !u!114 &7529931900770075949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 9d2993e9-0c8a-4310-8070-c5a52da34cce
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uC2F8\uC6B8 \uC900\uBE44 \uB410\uC5B4?"
+  children:
+  - ff52cc8a-4102-4da9-83a9-8a0e7edb26d8
+  - 62cae265-9255-497e-99ba-b3081f47128c
+  rect:
+    serializedVersion: 2
+    x: 562
+    y: 40
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 

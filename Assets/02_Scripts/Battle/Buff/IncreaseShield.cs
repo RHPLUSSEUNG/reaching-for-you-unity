@@ -10,7 +10,7 @@ public class IncreaseShield : Buff
         remainTurn--;
         if (remainTurn == 0)
         {
-            this.gameObject.GetComponent<CharacterSpec>().attack -= incShd;
+            target.GetComponent<EntityStat>().BaseDamage -= incShd;
             DeleteEffect();
         }
     }
@@ -19,14 +19,14 @@ public class IncreaseShield : Buff
     {
         this.remainTurn = turn;
         incShd = attribute;
-        target.GetComponent<CharacterSpec>().buffs.Add(this);
+        target.GetComponent<SkillList>().buffs.Add(this);
     }
 
     public override bool StartEffect()
     {
-        if (this.gameObject == null)
+        if (target == null)
             return false;
-        this.gameObject.GetComponent<CharacterSpec>().attack += incShd;
+        target.GetComponent<EntityStat>().BaseDamage += incShd;
         TimeCheck();
         return true;
     }

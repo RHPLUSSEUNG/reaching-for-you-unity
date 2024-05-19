@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
@@ -42,8 +43,8 @@ public class PartyManager
     public void Damage(GameObject target)
     {
         GameObject character = Managers.Battle.currentCharacter;
-        target.GetComponent<CharacterSpec>().hp -= character.GetComponent<CharacterSpec>().attack;
-        if(target.GetComponent<CharacterSpec>().hp <= 0)
+        target.GetComponent<EntityStat>().Hp -= character.GetComponent<EntityStat>().BaseDamage;
+        if(target.GetComponent<EntityStat>().Hp <= 0)
         {
             Dead(target);
         }
@@ -51,11 +52,16 @@ public class PartyManager
 
     public void Damage(GameObject target, int damage)
     {
-        target.GetComponent<CharacterSpec>().hp -= damage;
-        if (target.GetComponent<CharacterSpec>().hp <= 0)
+        target.GetComponent<EntityStat>().Hp -= damage;
+        if (target.GetComponent<EntityStat>().Hp <= 0)
         {
             Dead(target);
         }
+    }
+
+    public void Heal(GameObject target, int heal)
+    {
+        target.GetComponent<EntityStat>().Hp += heal;
     }
 
     public void Dead(GameObject character)
@@ -70,5 +76,6 @@ public class PartyManager
         }
         Managers.Battle.ObjectList.Remove(character);
         character.SetActive(false);
+        Managers.Battle.Result();
     }
 }
