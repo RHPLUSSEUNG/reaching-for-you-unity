@@ -117,6 +117,6 @@ public class BattleManager
             battleState = BattleState.Defeat;
             Debug.Log("Defeat");
         }
-        SceneManager.LoadScene("model_test");
+        //SceneManager.LoadScene("model_test");
     }
 }
