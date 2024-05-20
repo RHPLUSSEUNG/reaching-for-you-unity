@@ -11,6 +11,26 @@ public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
 
     Dictionary<string, DialogueNode> nodeLookUp = new Dictionary<string, DialogueNode>();
 
+    private void Awake()
+    {
+        OnValidate();
+    }
+    
+    private void OnValidate()
+    {
+        if (nodes[0] == null)
+        {
+            return;
+        }
+
+        nodeLookUp.Clear();
+
+        foreach (DialogueNode node in GetAllNodes())
+        {
+            nodeLookUp[node.name] = node;
+        }
+    }
+
     public IEnumerable<DialogueNode> GetAllNodes()
     {
         return nodes;
@@ -51,21 +71,6 @@ public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
             {
                 yield return node;
             }
-        }
-    }
-
-    private void OnValidate()
-    {
-        if (nodes[0] == null)
-        {
-            return;
-        }
-
-        nodeLookUp.Clear();
-
-        foreach (DialogueNode node in GetAllNodes())
-        {
-            nodeLookUp[node.name] = node;
         }
     }
 
