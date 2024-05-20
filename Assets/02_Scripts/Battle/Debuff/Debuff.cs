@@ -15,7 +15,7 @@ public abstract class Debuff
             return false;
         }
 
-        target.GetComponent<SkillList>().debuffs.Remove(this);
+        target.GetComponent<SkillList>().DelDebuff(this);
         return true;
     }
 
@@ -23,11 +23,11 @@ public abstract class Debuff
 
     public abstract void SetDebuff(int turn, GameObject target, short attribute = 0);
 
-    public abstract void AddDebuff(Debuff debuff);
+    public abstract void Duplicate_Debuff(Debuff debuff);
+    
 
-    public void Active()
+    public void AddDeBuff(GameObject target)
     {
-        StartEffect();
+        target.GetComponent<SkillList>().debuffs.Add(this);
     }
-
 }

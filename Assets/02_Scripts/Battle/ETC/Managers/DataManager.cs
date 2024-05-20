@@ -33,7 +33,7 @@ public class DataManager
 
     public void SetSkill(int skillid, Passive skill)
     {
-        skill.skillName = skillList[skillid].name;
+        skill.skillName = skillList[skillid].SkillName;
         skill.type = skillList[skillid].SkillType;
         skill.element = skillList[skillid].element;
     }
@@ -41,7 +41,7 @@ public class DataManager
     public void SetSkill(int skillid, Active skill)
     {
         Debug.Log($"{skill} Setting");
-        skill.skillName = skillList[skillid].name;
+        skill.skillName = skillList[skillid].SkillName;
         skill.type = skillList[skillid].SkillType;
         skill.element = skillList[skillid].element;
         skill.stamina = skillList[skillid].stamina;

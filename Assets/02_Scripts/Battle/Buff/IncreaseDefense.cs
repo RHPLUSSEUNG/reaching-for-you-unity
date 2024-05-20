@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class IncreaseShield : Buff
+public class IncreaseDefense : Buff
 {
     private short incShd;
     public override void TimeCheck()
@@ -8,23 +8,25 @@ public class IncreaseShield : Buff
         remainTurn--;
         if (remainTurn == 0)
         {
-            target.GetComponent<EntityStat>().Defense -= incShd;
+            Managers.Active.ModifyDefense(target, -1 * incShd);
             DeleteEffect();
         }
     }
 
     public override void SetBuff(short turn, GameObject target, short attribute = 0)
     {
+        this.target = target;
         this.remainTurn = turn;
         incShd = attribute;
-        target.GetComponent<SkillList>().buffs.Add(this);
+        AddBuff(target);
+        StartEffect();
     }
 
     public override bool StartEffect()
     {
         if (target == null)
             return false;
-        target.GetComponent<EntityStat>().Defense += incShd;
+        Managers.Active.ModifyDefense(target, incShd);
         TimeCheck();
         return true;
     }

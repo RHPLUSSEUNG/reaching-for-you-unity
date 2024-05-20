@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class IncreaseAtk : Buff
+public class IncreaseSpeed : Buff
 {
-    private short incAtk;
+    private short incMove;
     public override void TimeCheck()
     {
         remainTurn--;
         if (remainTurn == 0)
         {
-            Managers.Active.ModifyAtk(target, -1 * incAtk);
+            Managers.Active.ModifySpeed(target, -1 * incMove);
             DeleteEffect();
         }
     }
@@ -17,16 +17,16 @@ public class IncreaseAtk : Buff
     {
         this.target = target;
         this.remainTurn = turn;
-        incAtk = attribute;
+        incMove = attribute;
         AddBuff(target);
         StartEffect();
     }
 
     public override bool StartEffect()
     {
-        if (this.target == null)
+        if (target == null)
             return false;
-        Managers.Active.ModifyAtk(target, incAtk);
+        Managers.Active.ModifySpeed(target, incMove);
         TimeCheck();
         return true;
     }

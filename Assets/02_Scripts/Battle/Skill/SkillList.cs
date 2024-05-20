@@ -3,17 +3,32 @@ using UnityEngine;
 
 public class SkillList : MonoBehaviour
 {
+    private GameObject usingSkill;
     public List<GameObject> list = new();
     public List<Buff> buffs = new();
     public List<Debuff> debuffs = new();
+
+    private List<Buff> deleteBuffList = new();
+    private List<Debuff> deleteDebuffList = new();
     int count = 5;
+
+    public void Start()
+    {
+       usingSkill = GameObject.Find("UsingSkill");
+    }
+
+
+    #region Skill
     public void AddSkill(GameObject skill)
     {
+        Debug.Log(usingSkill);
         if (skill == null || list.Count == count)
         {
             return;
         }
-        list.Add(skill);
+        GameObject instance = Managers.Prefab.Instantiate($"Skill/{skill.GetComponent<Skill>().skillName}", usingSkill.transform);
+        Debug.Log(instance.name);
+        list.Add(instance);
 
         if(skill.GetComponent<Passive>()!= null)
         {
@@ -35,7 +50,9 @@ public class SkillList : MonoBehaviour
             skill.GetComponent<Passive>().UnActivate(this.gameObject);
         }
     }
+    #endregion
 
+    #region Buff & Debuff
     public void AddDebuff(Debuff debuff)
     {
         Debuff cur = FindDebuff(debuff);
@@ -48,7 +65,28 @@ public class SkillList : MonoBehaviour
 
     public void DelDebuff(Debuff debuff)
     {
-        debuffs.Remove(debuff);
+        deleteDebuffList.Add(debuff);
+    }
+
+    public void DelBuff(Buff buff)
+    {
+        deleteBuffList.Add(buff);
+    }
+
+    public void ClearBuff_Debuff()
+    {
+        foreach(Debuff debuff in deleteDebuffList)
+        {
+            debuffs.Remove(debuff);
+        }
+
+        foreach (Buff buff in deleteBuffList)
+        {
+            buffs.Remove(buff);
+        }
+
+        deleteBuffList.Clear();
+        deleteDebuffList.Clear();
     }
 
     public void CalcTurn()
@@ -60,6 +98,16 @@ public class SkillList : MonoBehaviour
                 debuff.TimeCheck();
             }
         }
+
+        if (buffs.Count > 0)
+        {
+            foreach (Buff buff in buffs)
+            {
+                buff.TimeCheck();
+            }
+        }
+
+        ClearBuff_Debuff();
     }
 
     public Debuff FindDebuff(Debuff debuff)
@@ -72,4 +120,5 @@ public class SkillList : MonoBehaviour
         }
         return null;
     }
+    #endregion
 }

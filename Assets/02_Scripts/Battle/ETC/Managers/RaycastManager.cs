@@ -3,6 +3,7 @@ using UnityEngine;
 public class RaycastManager
 {
     UI_Battle battleUI;
+    GameObject go;
     public void TestInit()
     {
         GameObject UI = GameObject.Find("BattleUI");
@@ -18,7 +19,8 @@ public class RaycastManager
             
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.Log("ray :" + hit.collider.gameObject);
+                go = hit.collider.gameObject;
+                Debug.Log("ray :" + go);
                 /*
                 if (hit.transform.gameObject.CompareTag("Character"))
                 {
@@ -32,6 +34,7 @@ public class RaycastManager
                 }
                 */
                 //Player Turn
+
                 if (Managers.Battle.battleState == BattleState.PlayerTurn)
                 {
                     switch(Managers.PlayerButton.state)
@@ -40,8 +43,12 @@ public class RaycastManager
                             //TODO current Character Move
                             break;
                         case (ButtonState)1:
-                            if(hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Monster")){
-                                battleUI.GetSkill().SetTarget(hit.collider.gameObject);
+                            if(battleUI.GetSkill().target_object == TargetObject.Character && (go.CompareTag("Player") || go.CompareTag("Monster"))){
+                                battleUI.GetSkill().SetTarget(go);
+                            }
+                            else if (battleUI.GetSkill().target_object == TargetObject.Tile && go.CompareTag("Cube"))
+                            {
+                                battleUI.GetSkill().SetTarget(go);
                             }
                             break;
                         case (ButtonState)2:

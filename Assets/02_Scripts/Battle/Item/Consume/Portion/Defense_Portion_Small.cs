@@ -6,9 +6,8 @@ public class Sh_Portion_Small : Consume
     {
         if(target == null) return false;
 
-        IncreaseShield buff = new IncreaseShield();
+        IncreaseDefense buff = new();
         buff.SetBuff(3, target, 5);
-        buff.Active();
         return true;
     }
 }

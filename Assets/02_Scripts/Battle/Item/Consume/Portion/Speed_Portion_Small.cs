@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class St_Portion_Small : Consume
+public class Speed_Portion_Small : Consume
 {
     public override bool Activate(GameObject target)
     {
         if(target == null) return false;
-        target.GetComponent<CharacterSpec>().remainStamina += 1;
+        IncreaseSpeed buff = new();
+        buff.SetBuff(5, target, 3);
         return true;
     }
 }
