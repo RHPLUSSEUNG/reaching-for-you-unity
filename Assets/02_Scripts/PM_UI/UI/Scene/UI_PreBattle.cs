@@ -53,8 +53,8 @@ public class UI_PreBattle : UI_Scene
 
     public void OnSaveButton(PointerEventData data)
     {
-        // Blocker ¼³Ä¡ ¹× ²¨Áü ±¸Çö
-        SavePanel.SetActive(true);
+        SavePanel.GetComponent<UI_Save>().panelState = !SavePanel.GetComponent<UI_Save>().panelState;
+        SavePanel.SetActive(SavePanel.GetComponent<UI_Save>().panelState);
     }
 
     public void OnSystemButton(PointerEventData data)

@@ -26,6 +26,7 @@ public class UI_Repair : UI_Popup
 
         SetInventory();
         SetPlayerInfo();
+        gameObject.SetActive(false);
     }
 
     void SetPlayerInfo()
