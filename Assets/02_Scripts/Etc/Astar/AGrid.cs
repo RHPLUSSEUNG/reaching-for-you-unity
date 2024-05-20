@@ -8,7 +8,7 @@ public class AGrid : MonoBehaviour
     [SerializeField]
     LayerMask unwalkableMask;
     [SerializeField]
-    Vector2 gridWorldSize;
+    Vector2 gridWorldSize = new Vector2(10,10);
     [SerializeField]
     int nodesize = 1;
 
@@ -29,15 +29,16 @@ public class AGrid : MonoBehaviour
     void CreateGrid()
     {
         grid = new Node[gridsizeX, gridsizeY];
-        mapBottomLeft = transform.position - (Vector3.right * gridsizeX / 2 * nodesize) - (Vector3.forward * gridsizeY / 2 * nodesize);
+        // mapBottomLeft = transform.position - (Vector3.right * gridsizeX / 2 * nodesize) - (Vector3.forward * gridsizeY / 2 * nodesize);
+        mapBottomLeft = transform.position;
         Vector3 wordlPoint;
-
 
         for (int x = 0; x < gridsizeX; x++) 
         {
             for (int y = 0; y < gridsizeY; y++)
             {
-                wordlPoint = GetWorldPositionFromNode(x, y);
+                //wordlPoint = mapBottomLeft + Vector3.right * (x * nodesize + (float)nodesize / 2) + Vector3.forward * (y * nodesize + (float)nodesize / 2);
+                wordlPoint = mapBottomLeft + Vector3.right * (x * nodesize + (float)nodesize / 2) + Vector3.forward * (y * nodesize + (float)nodesize / 2);
                 bool walkable = !Physics.CheckSphere(wordlPoint, nodesize/2, unwalkableMask);
                 grid[x, y] = new Node(walkable, wordlPoint, x, y);
             }
@@ -79,23 +80,23 @@ public class AGrid : MonoBehaviour
             return false;
         }
     }
-    public bool CheckTag(int gridX, int gridY, string tag)  //노드 위치에 태그 매치되는 대상 유무 검사
+    public GameObject CheckTag(int gridX, int gridY, string tag)  //노드 위치에 태그 매치되는 대상 유무 검사, 있으면 해당 오브젝트 반환
     {
         Vector3 wordlPoint = GetWorldPositionFromNode(gridX, gridY);
         foreach (Collider col in Physics.OverlapSphere(wordlPoint, nodesize / 2))
         {
             if (col.gameObject.CompareTag(tag))
             {
-                return true;
+                return col.gameObject;
             }
         }
-        return false;
+        return null;
     }
    
     public Node GetNodeFromWorldPosition(Vector3 worldPosition)
     {
-        float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
-        float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
+        float percentX = ( worldPosition.x - mapBottomLeft.x) / gridWorldSize.x;
+        float percentY = ( worldPosition.z - mapBottomLeft.z) / gridWorldSize.y;
 
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
@@ -106,8 +107,7 @@ public class AGrid : MonoBehaviour
     }
     public Vector3 GetWorldPositionFromNode(int gridX, int gridY)
     {
-        Vector3 wordlPoint = mapBottomLeft + Vector3.right * (gridX * nodesize + (float)nodesize / 2) + Vector3.forward * (gridY * nodesize + (float)nodesize / 2);
-        return wordlPoint;
+        return grid[gridX,gridY].GetPosition();
     }
 
     private void OnDrawGizmos()

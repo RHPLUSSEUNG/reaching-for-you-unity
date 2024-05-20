@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Managers : MonoBehaviour
 {
@@ -19,6 +16,10 @@ public class Managers : MonoBehaviour
     public static PartyManager Party { get { return _party; } }
     static ItemManager _item = new();
     public static ItemManager Item { get { return _item; } }
+    static DataManager _data = new();
+    public static DataManager Data { get { return _data; } }
+    static PrefabManager _prefab = new();
+    public static PrefabManager Prefab { get {  return _prefab; } }
 
     public void Awake()
     {
@@ -37,7 +38,9 @@ public class Managers : MonoBehaviour
             _manager = gameObject.GetComponent<Managers>();
         }
         _playerButton.Bind();
+        _data.OnAwake();
         _battle.BattleReady();
+        raycast.TestInit();         // Temp
     }
     #endregion
     public void Update()

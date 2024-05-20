@@ -1,33 +1,53 @@
-using System.Collections;
 using UnityEngine;
 
 public class RaycastManager
 {
+    UI_Battle battleUI;
+    public void TestInit()
+    {
+        GameObject UI = GameObject.Find("BattleUI");
+        battleUI = UI.GetComponent<UI_Battle>();
+    }
+
     public void OnUpdate()
     {
-        if (Input.GetMouseButtonDown(0))
-        {   
+        if (Input.GetMouseButtonDown(0) && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == false)
+        {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            //while battle
-            if (Physics.Raycast(ray, out hit) && Managers.Battle.battleState == BattleState.PlayerTurn)
+            
+            if (Physics.Raycast(ray, out hit))
             {
-                //using skill
-                if (Managers.PlayerButton.state == ButtonState.Skill)
-                {
-                    Managers.PlayerButton.player.GetComponent<CharacterBattle>().UseSkill(Managers.PlayerButton.GetSkill(), hit.collider.gameObject);
-                }
-                else if (hit.transform.gameObject.CompareTag("Character"))
+                Debug.Log("ray :" + hit.collider.gameObject);
+                /*
+                if (hit.transform.gameObject.CompareTag("Character"))
                 {
                     Debug.Log("Character Selected : " + hit.collider.gameObject.name);
-                    //TODO UI
+                    //TODO Charcter Info UI
                 }
                 else if (hit.transform.gameObject.CompareTag("Monster"))
                 {
                     Debug.Log("Monster Selected");
-                    //TODO UI
+                    //TODO Monster Info UI
                 }
-                else if (Managers.PlayerButton.state == ButtonState.PlayerSet && hit.transform.gameObject.CompareTag("Field"))
+                */
+                //Player Turn
+                if (Managers.Battle.battleState == BattleState.PlayerTurn)
+                {
+                    if (Managers.PlayerButton.state == ButtonState.Skill)
+                    {
+                        battleUI.GetSkill().SetTarget(hit.collider.gameObject);
+                        // Managers.PlayerButton.GetSkill().SetTarget(hit.collider.gameObject);
+                    }
+                    else if (Managers.PlayerButton.state == ButtonState.Idle && hit.collider.gameObject.CompareTag("Cube"))
+                    {
+                        //player ¿Ãµø
+                        Managers.PlayerButton.player.transform.position = hit.collider.transform.position + Vector3.up;
+                    }
+                    
+                }
+                //Battle Setting
+                else if (Managers.PlayerButton.state == ButtonState.PlayerSet && hit.transform.gameObject.CompareTag("Cube"))
                 {
                     Managers.PlayerButton.SetPosition(hit.collider.gameObject);
                 }

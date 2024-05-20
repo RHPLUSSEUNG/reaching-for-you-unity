@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Buff : MonoBehaviour
+public abstract class Buff
 {
+    public GameObject target;
     public short remainTurn;
 
     public abstract void TimeCheck();
@@ -14,8 +13,7 @@ public abstract class Buff : MonoBehaviour
         {
             return false;
         }
-
-        Destroy(this.gameObject.GetComponent<Buff>());
+        target.GetComponent<SkillList>().buffs.Remove(this);
         return true;
     }
 

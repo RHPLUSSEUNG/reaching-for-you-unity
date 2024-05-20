@@ -3,27 +3,42 @@ using UnityEngine;
 
 public class EnemyAI_Test : MonoBehaviour
 {
-    
-    public EntityStat stat;
     [SerializeField]
     float speed = 10;
     [SerializeField]
     string targetTag = "Player";
 
+    EnemyStat stat;
+    GameObject targetObj;
+    SpriteController spriteController;
+
+    Vector3[] path;
     Vector3 targetPos;
     int targetIndex;
-    Vector3[] path;
+
+
     bool isMoving;
     bool canAttack;
     bool isTargetEmpty;
-    bool isTurnEnd;
+
+    public bool isTurnEnd;
+
+    private void Awake()
+    {
+        stat = GetComponent<EnemyStat>();
+        spriteController= GetComponent<SpriteController>();
+    }
+    private void LateUpdate()
+    {
+        spriteController.SetAnimState(AnimState.Idle);
+    }
 
     public void ProceedTurn()
     {
         //시야 범위 검색 > 찾으면 이동 > 사거리 닿을 시 공격
         //못찾으면 범위 내 랜덤 위치 받은 후 이동
         isTurnEnd = false;
-        canAttack = true;
+        canAttack = false;
         Search(stat.Sight);
     }
 
@@ -40,12 +55,13 @@ public class EnemyAI_Test : MonoBehaviour
             Debug.Log("Move Failed");
         }
     }
-    public void OnTargetFound(Vector3 newTargetPos, bool succsess)
+    public void OnTargetFound(Vector3 newTargetPos, GameObject newTargetObj, bool succsess)
     {
         if (succsess)
         {
             Debug.Log("Search Succsess, Move to Target");
             targetPos = newTargetPos;
+            targetObj = newTargetObj;
             isTargetEmpty = false;
             Move();
         }
@@ -56,10 +72,10 @@ public class EnemyAI_Test : MonoBehaviour
             Debug.Log("search Failed, Move To Random Location");
             PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
         }
-    }
+    }  
     public void OnRandomLoc(Vector3 newTargetPos)
     {
-        Debug.Log("Get RandomLoc");
+        Debug.Log(newTargetPos);
         targetPos = newTargetPos;
         isTargetEmpty = true;
         Move();
@@ -83,21 +99,30 @@ public class EnemyAI_Test : MonoBehaviour
 
     public void Attack()
     {
-        Debug.Log("Attack");    // 공격 실행
-        canAttack = false;
+        if (canAttack)
+        {
+            Debug.Log("Attack");    // 공격 실행
+            spriteController.SetAnimState(AnimState.Attack);
+            // 텀 추가?
+            Managers.Party.Damage(targetObj, stat.BaseDamage);
+            canAttack = false;
+        }
         isTurnEnd = true;   // 턴 종료
+        Debug.Log("Enemy Turn end");
+        Managers.Battle.NextTurn();
+        // 여기에 턴 종료 추가
+
     }
     IEnumerator FollowPath()
     {
         targetIndex = 0;
-        if (path.Length == 0 || (path.Length == 1 && !isTargetEmpty))   // 이미 도착
+        if (path.Length == 0 || (path.Length <= stat.AttackRange && !isTargetEmpty))   // 이동할 필요 X
         {
             Debug.Log("Already At The Position");
+            if (!isTargetEmpty)
+                canAttack= true;
             isMoving = false;
-            if (canAttack)
-            {
-                Attack();
-            }
+            Attack();
             yield break;
         }
         Vector3 currentWaypoint = path[targetIndex];
@@ -109,13 +134,24 @@ public class EnemyAI_Test : MonoBehaviour
                 if (transform.position == currentWaypoint)
                 {
                     targetIndex++;
-                    if (targetIndex >= path.Length || targetIndex >= stat.MovePoint)
+                    if (targetIndex >= path.Length || targetIndex + 1 >= stat.MovePoint) 
                     {
                         isMoving = false;
+                        Attack();
                         yield break;
                     }
                     currentWaypoint = path[targetIndex];
                 }
+
+                if (transform.position.x > currentWaypoint.x)   //현재 위치와 이동 대상 x 좌표 비교해 스프라이트 회전
+                {
+                    spriteController.Flip(Direction.Left);
+                }
+                else if (transform.position.x < currentWaypoint.x)
+                {
+                    spriteController.Flip(Direction.Right);
+                }
+
                 transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
                 yield return null;
             }
@@ -126,24 +162,32 @@ public class EnemyAI_Test : MonoBehaviour
             {
                 if (transform.position == currentWaypoint)
                 {
-                    if (targetIndex + stat.AttackRange +1 >= path.Length)  // 사거리 닿을 시
+                    if (targetIndex + stat.AttackRange + 1 >= path.Length)  // 사거리 닿을 시
                     {
                         isMoving = false;
                         canAttack = true;
-                        if (canAttack)
-                        {
-                            Attack();
-                        }
+                        Attack();
                         yield break;
                     }
-                    else if (targetIndex >= stat.MovePoint) // 이동거리 초과 시
+                    else if (targetIndex + 1 >= stat.MovePoint)  // 이동거리 초과 시
                     {
                         isMoving = false;
+                        Attack();
                         yield break;
                     }
                     targetIndex++;
                     currentWaypoint = path[targetIndex];
                 }
+
+                if (transform.position.x > currentWaypoint.x)   //현재 위치와 이동 대상 x 좌표 비교해 스프라이트 회전
+                {
+                    spriteController.Flip(Direction.Left);
+                }
+                else if (transform.position.x < currentWaypoint.x)
+                {
+                    spriteController.Flip(Direction.Right);
+                }
+
                 transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
                 yield return null;
             }

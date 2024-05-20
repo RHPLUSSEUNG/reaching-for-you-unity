@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 public abstract class Skill : MonoBehaviour 
 {
@@ -10,5 +7,6 @@ public abstract class Skill : MonoBehaviour
     public int skillId; //skill id
     public skillType type; //skill type (passive / active)
     public ElementType element;
-    public abstract void setSkill();
+    
+    public abstract void Start();
 }

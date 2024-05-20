@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 
@@ -12,18 +10,26 @@ public class PlayerConversant : MonoBehaviour
     Dialogue currentDialogue;
     DialogueNode currentNode = null;
     NPCConversant currentConversant = null;
-    bool isChoosing = false;
 
-    //private void Awake()
-    //{
-    //    currentNode = currentDialogue.GetRootNode();
-    //}
+    bool isChoosing = false;    
+    PlayerController playerController;
+
+    private void Awake()
+    {        
+        playerController = GetComponentInParent<PlayerController>();
+    }
+
+    public IEnumerable<DialogueNode> GetChoices()
+    {
+        return currentDialogue.GetPlayerChildren(currentNode);
+    }
 
     public event Action onConversationUpdated;
   
 
     public void StartDialogue(NPCConversant newConversant, Dialogue newDialogue)
     {
+        playerController.ChangeActive();
         currentConversant = newConversant;
         currentDialogue = newDialogue;
         currentNode = currentDialogue.GetRootNode();
@@ -32,7 +38,8 @@ public class PlayerConversant : MonoBehaviour
     }
 
     public void Quit()
-    {        
+    {
+        playerController.ChangeActive();
         currentDialogue = null;
         TriggerExitAction();
         currentNode = null;
@@ -73,10 +80,7 @@ public class PlayerConversant : MonoBehaviour
         }
     }
 
-    public IEnumerable<DialogueNode> GetChoices()
-    {
-        return currentDialogue.GetPlayerChildren(currentNode);
-    }
+
 
     public void SelectChoice(DialogueNode chosenNode)
     {
@@ -144,7 +148,15 @@ public class PlayerConversant : MonoBehaviour
     {
         if(other.gameObject.CompareTag("NPC"))
         {
-            other.GetComponent<NPCConversant>().StartDialogue(this);
+            other.GetComponent<NPCConversant>().SetActionButton(this);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("NPC"))
+        {
+            other.GetComponent<NPCConversant>().OffButton();
         }
     }
 }

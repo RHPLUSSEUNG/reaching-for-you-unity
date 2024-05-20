@@ -1,9 +1,3 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-
 public class PlayerSpec : CharacterSpec
 {
     public int uid;

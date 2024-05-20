@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBattle : CharacterBattle
@@ -34,6 +32,7 @@ public class PlayerBattle : CharacterBattle
             return;
         }
         Managers.Battle.playerLive--;
+        Managers.Battle.ObjectList.Remove(this.gameObject);
         Destroy(_go);
     }
 

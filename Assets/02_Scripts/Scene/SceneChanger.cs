@@ -5,7 +5,6 @@ public class SceneChanger : MonoBehaviour
 {
     public void ChangeScene()
     {
-        SceneManager.LoadScene("Prototype_0414");
+        SceneManager.LoadScene("model_test");
     }
-    
 }

@@ -147,11 +147,13 @@ public class PathFinding : MonoBehaviour
         Node startNode = grid.GetNodeFromWorldPosition(startPos);
         bool success = false;
         Vector3 targetPos = startPos;
+        GameObject targetObj = null;
         for (int i = 1; i <= radius; i++)
         {
             foreach (Node node in grid.GetNeighbours(startNode, i))
             {
-                if (grid.CheckTag(node.gridX, node.gridY, tag))
+                targetObj = grid.CheckTag(node.gridX, node.gridY, tag);
+                if (targetObj != null) 
                 {
                     success = true;
                     targetPos = node.worldPosition;
@@ -162,7 +164,7 @@ public class PathFinding : MonoBehaviour
                 break;
         }
         yield return null;
-        pathfinder.FinishProcessingSearch(targetPos, success);
+        pathfinder.FinishProcessingSearch(targetPos, targetObj, success);
     }
     IEnumerator RandomLoc(Vector3 startPos, int radius)
     {

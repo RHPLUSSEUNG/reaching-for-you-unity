@@ -23,6 +23,7 @@ public class PathFinder : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Active");
         instance = this;
         pathFinding = GetComponent<PathFinding>();
     }
@@ -33,7 +34,7 @@ public class PathFinder : MonoBehaviour
         instance.pathRequestQueue.Enqueue(newPathRequest);
         instance.TryProcessNextPathRequest();
     }
-    public static void RequestSearch(Vector3 start, int radius, string tag, UnityAction<Vector3, bool> callback)
+    public static void RequestSearch(Vector3 start, int radius, string tag, UnityAction<Vector3, GameObject, bool> callback)
     {
         SearchRequest newSearchRequest = new SearchRequest(start, radius, tag, callback);
         instance.searchRequestQueue.Enqueue(newSearchRequest);
@@ -80,9 +81,9 @@ public class PathFinder : MonoBehaviour
         isProcessingPath=false;
         TryProcessNextPathRequest();
     }
-    public void FinishProcessingSearch(Vector3 targetPos, bool succsess)
+    public void FinishProcessingSearch(Vector3 targetPos, GameObject targetObj,bool succsess)
     {
-        currentSearchRequest.callback(targetPos, succsess);
+        currentSearchRequest.callback(targetPos, targetObj, succsess);
         isProcessingSearch = false;
         TryProcessNextRandomLocRequest();
     }
@@ -94,7 +95,6 @@ public class PathFinder : MonoBehaviour
         TryProcessNextRandomLocRequest();
     }
 }
-
 struct PathRequest
 {
     public Vector3 start;
@@ -112,8 +112,8 @@ struct SearchRequest
     public Vector3 start;
     public int radius;
     public string tag;
-    public UnityAction<Vector3, bool> callback;
-    public SearchRequest(Vector3 _start, int _radius, string _tag, UnityAction<Vector3, bool> _callback)
+    public UnityAction<Vector3, GameObject, bool> callback;
+    public SearchRequest(Vector3 _start, int _radius, string _tag, UnityAction<Vector3, GameObject, bool> _callback)
     {
         start = _start;
         radius = _radius;

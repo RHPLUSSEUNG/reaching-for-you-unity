@@ -15,12 +15,12 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] Button quitButton;
     [SerializeField] TextMeshProUGUI conversantName;
 
-    float typingSpeed = 0.01f;
+    float typingSpeed = 0.02f;
     bool isSkip = false;
 
     void Start()
     {
-        playerConversant = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerConversant>();
+        playerConversant = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerConversant>();
         playerConversant.onConversationUpdated += UpdateUI;
         nextButton.onClick.AddListener(() => playerConversant.Next());
         quitButton.onClick.AddListener(() => playerConversant.Quit());
