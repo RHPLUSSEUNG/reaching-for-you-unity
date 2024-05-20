@@ -9,7 +9,7 @@ public class UI_Status : UI_Base
         StatusIcon,
 
     }
-    int Max_Display_Child = 3;
+    public int Max_Display_Child = 3;
     GameObject statusIcon;
     public override void Init()
     {

@@ -101,6 +101,10 @@ public class UI_Hud : UI_Scene
             Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
             changeIcon = tempImage;      // Test
             uI_Status.SetStatusImage(changeIcon);
+            if(i > uI_Status.Max_Display_Child - 1)
+            {
+                status.gameObject.SetActive(false);
+            }
         }
         if(buffLayout.transform.childCount > curInfo.buffs.Count)
         {
