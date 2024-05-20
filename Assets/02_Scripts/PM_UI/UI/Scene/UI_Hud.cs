@@ -37,7 +37,9 @@ public class UI_Hud : UI_Scene
         GameObject quickLayout = GetObject((int)HUD_UI.QuickLayout);
         GameObject hp = GetObject((int)HUD_UI.HPBar);
         GameObject mp = GetObject((int)HUD_UI.MPBar);
-        buffLayout = Get<GameObject>((int)HUD_UI.BuffLayout);
+        buffLayout = GetObject((int)HUD_UI.BuffLayout);
+        debuffLayout = GetObject((int)HUD_UI.DeBuffLayout);
+        status_effectLayout = GetObject((int)HUD_UI.Status_EffectLayout);
         hpBar = hp.GetComponent<UI_Bar>();
         mpBar = mp.GetComponent<UI_Bar>();
         profileImage = Util.FindChild<Image>(gameObject, "CharacterImage", true);
@@ -74,12 +76,41 @@ public class UI_Hud : UI_Scene
 
     public void ChangeProfile(PlayerSpec curInfo, Image changeProfile)
     {
-        hpBar.SetPlayerStat(curInfo.hp);            // Max HP 필요    
+        hpBar.SetPlayerStat(curInfo.hp);
         mpBar.SetPlayerStat(curInfo.mp);
         profileImage.sprite = changeProfile.sprite;
-        SetStatusLayout(curInfo, buffLayout, HUD_UI.BuffLayout);
-        SetStatusLayout(curInfo, debuffLayout, HUD_UI.DeBuffLayout);
-        SetStatusLayout(curInfo, status_effectLayout, HUD_UI.Status_EffectLayout);
+        //SetStatusLayout(curInfo, buffLayout, HUD_UI.BuffLayout);
+        //SetStatusLayout(curInfo, debuffLayout, HUD_UI.DeBuffLayout);
+        //SetStatusLayout(curInfo, status_effectLayout, HUD_UI.Status_EffectLayout);
+        ChangeStatus(curInfo);
+    }
+
+    public void ChangeStatus(PlayerSpec curInfo)
+    {
+        if (buffLayout.transform.childCount < curInfo.buffs.Count)
+        {
+            for(int i = buffLayout.transform.childCount; i < curInfo.buffs.Count; i++)
+            {
+                Instantiate(_status, buffLayout.transform);
+            }
+        }
+        for (int i = 0; i < curInfo.buffs.Count; i++)
+        {
+            Transform status = buffLayout.transform.GetChild(i);
+            UI_Status uI_Status = status.gameObject.GetComponent<UI_Status>();
+            Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
+            changeIcon = tempImage;      // Test
+            uI_Status.SetStatusImage(changeIcon);
+        }
+        if(buffLayout.transform.childCount > curInfo.buffs.Count)
+        {
+            for (int i = curInfo.buffs.Count; i < buffLayout.transform.childCount; i++)
+            {
+                GameObject status = buffLayout.transform.GetChild(i).gameObject;
+                Destroy(status);
+            }
+        }
+        // Debuff, Status_Effect도 동일하게
     }
 
     void SetStatusLayout(PlayerSpec curInfo, GameObject layout, HUD_UI type)

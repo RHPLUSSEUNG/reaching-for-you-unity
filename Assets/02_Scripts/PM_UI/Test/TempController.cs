@@ -5,17 +5,16 @@ using UnityEngine.UI;
 
 public class TempController : MonoBehaviour
 {
-    // public Canvas worldUI;
     public Canvas _hud;
     public Canvas _pause;
-    
-    int _speed = 10;
+    public Canvas _world;
     UI_Pause pause;
     UI_Hud hud;
+
+    int _speed = 10;
     PlayerSpec curInfo;
 
     //temp
-    public GameObject temp;
     public Buff tempBuff;
     public PlayerSpec[] playerList = new PlayerSpec[3];
     public Image tempImage;
@@ -25,7 +24,7 @@ public class TempController : MonoBehaviour
         hud = _hud.GetComponent<UI_Hud>();
         pause = _pause.GetComponent<UI_Pause>();
         pause.gameObject.SetActive(false);
-
+        _world.gameObject.SetActive(false);
         hud.ChangeProfile(playerList[0], tempImage);  // test
     }
     void Update()
@@ -62,22 +61,25 @@ public class TempController : MonoBehaviour
         {
             pause.ManagerPopUI();
         }
-
-        if (Input.GetKey(KeyCode.R))
-        {
-            // Äü½½·Ô ¸¶¹ý º¯°æ ½Ã : ¾î¶² Äü½½·Ô¿¡ ¾ðÁ¦ ¹Ù²ãÁö´ÂÁö ÇÊ¿ä
-            UI_QuickSlot quick = temp.GetComponent<UI_QuickSlot>();
-            quick.ChangeMagic();
-        }
     }
 
-    //private void OnTriggerStay(Collider other)
+    //private void OnCollisionStay(Collision collision)
     //{
-    //    worldUI.gameObject.SetActive(true);
+    //    _world.gameObject.SetActive(true);
     //}
 
-    //private void OnTriggerExit(Collider other)
+    //private void OnCollisionExit(Collision collision)
     //{
-    //    worldUI.gameObject.SetActive(false);
+    //    _world.gameObject.SetActive(false);
     //}
+
+    private void OnTriggerStay(Collider other)
+    {
+        _world.gameObject.SetActive(true);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        _world.gameObject.SetActive(false);
+    }
 }

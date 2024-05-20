@@ -15,19 +15,10 @@ public class UI_Bar : UI_Scene
         bar = Util.FindChild<Image>(gameObject, "Bar");
     }
 
-    private void Update()
-    {
-        SetRatio();
-    }
-
-    public void SetRatio()
-    {
-        bar.fillAmount = ratio;
-    }
-
     public void SetPlayerStat(int changeStat)
     {
         stat = changeStat;
         ratio = stat / (float)tempMax;
+        bar.fillAmount = ratio;
     }
 }

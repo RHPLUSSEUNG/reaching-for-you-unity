@@ -1,38 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_Status : UI_Base
 {
-    enum GameObjects
+    enum StatusUI
     {
         StatusIcon,
 
     }
-    GameObject status;
     int Max_Display_Child = 3;
+    GameObject statusIcon;
     public override void Init()
     {
-        Bind<GameObject>(typeof(GameObjects));
+        Bind<GameObject>(typeof(StatusUI));
 
-        GameObject statusIcon = GetObject((int)GameObjects.StatusIcon).gameObject;
-        // BindEvent(statusIcon, OnStatusEnter, Define.UIEvent.Enter);
-        BindEvent(statusIcon, OnStatusExit, Define.UIEvent.Exit);
-        BindEvent(statusIcon, OnClick, Define.UIEvent.Click);
+        statusIcon = GetObject((int)StatusUI.StatusIcon).gameObject;
+        // BindEvent(statusIcon, StatusEnter, Define.UIEvent.Enter);
+        BindEvent(statusIcon, StatusExit, Define.UIEvent.Exit);
+        BindEvent(statusIcon, StatusClick, Define.UIEvent.Click);
     }
 
     public void SetStatusImage(Image icon)
     {
-        Image status_icon = Util.FindChild<Image>(gameObject, "StatusIcon");
-        status_icon.sprite = icon.sprite;
+        Image statusImage = statusIcon.GetComponent<Image>();
+        statusImage.sprite = icon.sprite;
     }
 
-    public void OnClick(PointerEventData data)
+    public void StatusClick(PointerEventData data)
     {
-        Debug.Log("Mouse Click");
-        GameObject layout = status.transform.parent.gameObject;
+        GameObject layout = gameObject.transform.parent.gameObject;
         for (int i = 0; i < layout.transform.childCount; i++)
         {
             Transform childStatus = layout.transform.GetChild(i);
@@ -40,10 +37,9 @@ public class UI_Status : UI_Base
         }
     }
 
-    public void OnStatusEnter(PointerEventData data)
+    public void StatusEnter(PointerEventData data)
     {
-        Debug.Log("Mouse Enter");
-        GameObject layout = status.transform.parent.gameObject;
+        GameObject layout = gameObject.transform.parent.gameObject;
         for (int i = 1; i < layout.transform.childCount; i++)
         {
             Transform childStatus = layout.transform.GetChild(i);
@@ -51,10 +47,9 @@ public class UI_Status : UI_Base
         }
     }
 
-    public void OnStatusExit(PointerEventData data)
+    public void StatusExit(PointerEventData data)
     {
-        Debug.Log("Mouse Enter");
-        GameObject layout = status.transform.parent.gameObject;
+        GameObject layout = gameObject.transform.parent.gameObject;
         for (int i = Max_Display_Child; i < layout.transform.childCount; i++)
         {
             Transform childStatus = layout.transform.GetChild(i);
