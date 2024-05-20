@@ -8,7 +8,7 @@ public class IncreaseShield : Buff
         remainTurn--;
         if (remainTurn == 0)
         {
-            target.GetComponent<EntityStat>().BaseDamage -= incShd;
+            target.GetComponent<EntityStat>().Defense -= incShd;
             DeleteEffect();
         }
     }
@@ -24,7 +24,7 @@ public class IncreaseShield : Buff
     {
         if (target == null)
             return false;
-        target.GetComponent<EntityStat>().BaseDamage += incShd;
+        target.GetComponent<EntityStat>().Defense += incShd;
         TimeCheck();
         return true;
     }

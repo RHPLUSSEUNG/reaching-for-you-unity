@@ -10,4 +10,6 @@ public class ItemData : ScriptableObject
 
     public EquipPart part;
     public ElementType element;
+
+    public TargetObject target;
 }

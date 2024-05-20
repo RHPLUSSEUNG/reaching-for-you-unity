@@ -34,15 +34,19 @@ public class RaycastManager
                 //Player Turn
                 if (Managers.Battle.battleState == BattleState.PlayerTurn)
                 {
-                    if (Managers.PlayerButton.state == ButtonState.Skill)
+                    switch(Managers.PlayerButton.state)
                     {
-                        battleUI.GetSkill().SetTarget(hit.collider.gameObject);
-                        // Managers.PlayerButton.GetSkill().SetTarget(hit.collider.gameObject);
-                    }
-                    else if (Managers.PlayerButton.state == ButtonState.Idle && hit.collider.gameObject.CompareTag("Cube"))
-                    {
-                        //player ¿Ãµø
-                        Managers.PlayerButton.player.transform.position = hit.collider.transform.position + Vector3.up;
+                        case 0:
+                            //TODO current Character Move
+                            break;
+                        case (ButtonState)1:
+                            if(hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Monster")){
+                                battleUI.GetSkill().SetTarget(hit.collider.gameObject);
+                            }
+                            break;
+                        case (ButtonState)2:
+                            //TODO Item Use
+                            break;
                     }
                     
                 }

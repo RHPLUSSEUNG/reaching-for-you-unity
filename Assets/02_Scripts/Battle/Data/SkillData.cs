@@ -12,4 +12,6 @@ public class SkillData : ScriptableObject
     public int stamina;
     public int mp;
     public int range;
+
+    public TargetObject target;
 }
