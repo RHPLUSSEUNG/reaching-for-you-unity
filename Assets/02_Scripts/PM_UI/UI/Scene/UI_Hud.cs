@@ -95,8 +95,8 @@ public class UI_Hud : UI_Scene
         {
             Transform status = buffLayout.transform.GetChild(i);
             UI_Status uI_Status = status.gameObject.GetComponent<UI_Status>();
-            Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
-            changeIcon = tempImage;      // Test
+            // Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
+            // changeIcon = tempImage;      // Test
             // uI_Status.SetStatusImage(changeIcon);
             //if(i > uI_Status.Max_Display_Child - 1)
             //{
@@ -133,8 +133,8 @@ public class UI_Hud : UI_Scene
                 {
                     Transform status = layout.transform.GetChild(i);
                     UI_Status ui_status = status.gameObject.GetComponent<UI_Status>();
-                    Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
-                    changeIcon = tempImage; // test
+                    // Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
+                    // changeIcon = tempImage; // test
                     // ui_status.SetStatusImage(changeIcon);
                 }
                 if (count > curCount)
