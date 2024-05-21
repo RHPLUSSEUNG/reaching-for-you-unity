@@ -1,6 +1,6 @@
 using UnityEngine.UI;
 
-public class UI_CircleBar : UI_Scene
+public class UI_Bar : UI_Scene
 {
     Image bar;
     // PlayerStat stat;
