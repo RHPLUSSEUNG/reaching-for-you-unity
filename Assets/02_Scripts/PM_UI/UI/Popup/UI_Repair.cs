@@ -51,7 +51,7 @@ public class UI_Repair : UI_Popup
         
 
         int i = 0;
-        foreach (KeyValuePair<Consume, int> consume in Managers.Item.consumeInven)
+        foreach (KeyValuePair<GameObject, int> consume in Managers.Item.consumeInven)
         {
             Transform item = itemContent.transform.GetChild(i);
             UI_ConsumeItem itemInfo = item.gameObject.GetComponent<UI_ConsumeItem>();
