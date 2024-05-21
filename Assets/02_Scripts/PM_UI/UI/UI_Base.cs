@@ -1,17 +1,16 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public abstract class UI_Base : MonoBehaviour
 {
+    GameObject go;
     protected Dictionary<Type, UnityEngine.Object[]> object_type = new Dictionary<Type, UnityEngine.Object[]>();
     public abstract void Init();
 
-    private void Awake()
+    private void Start()
     {
         Init();
     }
