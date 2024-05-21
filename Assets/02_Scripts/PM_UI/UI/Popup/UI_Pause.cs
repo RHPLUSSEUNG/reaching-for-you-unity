@@ -17,8 +17,6 @@ public class UI_Pause : UI_Popup
 
     public override void Init()
     {
-        base.Init();
-
         Bind<Button>(typeof(PauseButtons));
 
         Util.GetOrAddComponent<UI_Pause>(gameObject);
@@ -70,7 +68,6 @@ public class UI_Pause : UI_Popup
     {
         status = !status;
         gameObject.SetActive(status);
-        Debug.Log($"{status}");
         if (status == true)
         {
             // Time.timeScale = 0;

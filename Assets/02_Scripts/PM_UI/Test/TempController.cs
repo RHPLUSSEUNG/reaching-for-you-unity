@@ -1,20 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TempController : MonoBehaviour
 {
-    // public Canvas worldUI;
+    public Canvas _hud;
     public Canvas _pause;
-    int _speed = 10;
+    public Canvas _world;
     UI_Pause pause;
+    UI_Hud hud;
+
+    int _speed = 10;
+    PlayerSpec curInfo;
+
+    //temp
+    public Buff tempBuff;
+    public PlayerSpec[] playerList = new PlayerSpec[3];
+    public Image tempImage;
+    int tempTurn = 0;
     private void Start()
     {
-        // temp
-        // PM_UI_Manager.UI.CreateSceneUI<UI_Hud>();
-        // pause = PM_UI_Manager.UI.CreatePopupUI<UI_Pause>();
+        hud = _hud.GetComponent<UI_Hud>();
         pause = _pause.GetComponent<UI_Pause>();
         pause.gameObject.SetActive(false);
+        _world.gameObject.SetActive(false);
+        hud.ChangeProfile(playerList[0], tempImage);  // test
     }
     void Update()
     {
@@ -36,9 +47,14 @@ public class TempController : MonoBehaviour
             transform.position += transform.TransformDirection(Vector3.right * Time.deltaTime * _speed);
         }
 
-        if (Input.GetKey(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            // ChangeProfile
+            tempTurn++;
+            if (tempTurn == 3)
+            {
+                tempTurn = 0;
+            }
+            hud.ChangeProfile(playerList[tempTurn], tempImage);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -47,13 +63,23 @@ public class TempController : MonoBehaviour
         }
     }
 
-    //private void OnTriggerStay(Collider other)
+    //private void OnCollisionStay(Collision collision)
     //{
-    //    worldUI.gameObject.SetActive(true);
+    //    _world.gameObject.SetActive(true);
     //}
 
-    //private void OnTriggerExit(Collider other)
+    //private void OnCollisionExit(Collision collision)
     //{
-    //    worldUI.gameObject.SetActive(false);
+    //    _world.gameObject.SetActive(false);
     //}
+
+    private void OnTriggerStay(Collider other)
+    {
+        _world.gameObject.SetActive(true);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        _world.gameObject.SetActive(false);
+    }
 }
