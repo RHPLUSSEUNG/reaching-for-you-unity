@@ -17,8 +17,8 @@ public class UI_Hud : UI_Scene
     public GameObject _status;
 
     Image profileImage;
-    UI_Bar hpBar;
-    UI_Bar mpBar;
+    UI_CircleBar hpBar;
+    UI_CircleBar mpBar;
     GameObject buffLayout;
     GameObject debuffLayout;
     GameObject status_effectLayout;
@@ -37,8 +37,8 @@ public class UI_Hud : UI_Scene
         buffLayout = GetObject((int)HUD_UI.BuffLayout);
         debuffLayout = GetObject((int)HUD_UI.DeBuffLayout);
         status_effectLayout = GetObject((int)HUD_UI.Status_EffectLayout);
-        hpBar = hp.GetComponent<UI_Bar>();
-        mpBar = mp.GetComponent<UI_Bar>();
+        hpBar = hp.GetComponent<UI_CircleBar>();
+        mpBar = mp.GetComponent<UI_CircleBar>();
         profileImage = Util.FindChild<Image>(gameObject, "CharacterImage", true);
 
     }
@@ -53,17 +53,17 @@ public class UI_Hud : UI_Scene
             case HUD_UI.BuffLayout:
                 status = Instantiate(_status, buffLayout.transform);
                 ui_status = status.GetOrAddComponent<UI_Status>();
-                ui_status.SetStatusImage(icon);
+                // ui_status.SetStatusImage(icon);
                 break;
             case HUD_UI.DeBuffLayout:
                 status = Instantiate(_status, debuffLayout.transform);
                 ui_status = status.GetOrAddComponent<UI_Status>();
-                ui_status.SetStatusImage(icon);
+                // ui_status.SetStatusImage(icon);
                 break;
             case HUD_UI.Status_EffectLayout:
                 status = Instantiate(_status, status_effectLayout.transform);
                 ui_status = status.GetOrAddComponent<UI_Status>();
-                ui_status.SetStatusImage(icon);
+                // ui_status.SetStatusImage(icon);
                 break;
             default:
                 Debug.Log("Incorrect Access");
@@ -73,8 +73,8 @@ public class UI_Hud : UI_Scene
 
     public void ChangeProfile(PlayerSpec curInfo, Image changeProfile)
     {
-        hpBar.SetPlayerStat(curInfo.hp);
-        mpBar.SetPlayerStat(curInfo.mp);
+        // hpBar.SetPlayerStat(curInfo.hp);
+        // mpBar.SetPlayerStat(curInfo.mp);
         profileImage.sprite = changeProfile.sprite;
         //SetStatusLayout(curInfo, buffLayout, HUD_UI.BuffLayout);
         //SetStatusLayout(curInfo, debuffLayout, HUD_UI.DeBuffLayout);
@@ -97,11 +97,11 @@ public class UI_Hud : UI_Scene
             UI_Status uI_Status = status.gameObject.GetComponent<UI_Status>();
             Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
             changeIcon = tempImage;      // Test
-            uI_Status.SetStatusImage(changeIcon);
-            if(i > uI_Status.Max_Display_Child - 1)
-            {
-                status.gameObject.SetActive(false);
-            }
+            // uI_Status.SetStatusImage(changeIcon);
+            //if(i > uI_Status.Max_Display_Child - 1)
+            //{
+            //    status.gameObject.SetActive(false);
+            //}
         }
         if(buffLayout.transform.childCount > curInfo.buffs.Count)
         {
@@ -135,7 +135,7 @@ public class UI_Hud : UI_Scene
                     UI_Status ui_status = status.gameObject.GetComponent<UI_Status>();
                     Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
                     changeIcon = tempImage; // test
-                    ui_status.SetStatusImage(changeIcon);
+                    // ui_status.SetStatusImage(changeIcon);
                 }
                 if (count > curCount)
                 {
