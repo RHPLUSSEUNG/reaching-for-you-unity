@@ -96,85 +96,19 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)  //임시 카메라 변경
     {
         Debug.Log("collider Enter");
-        string objName = other.gameObject.name;
-        switch(objName)
+        string objTag = other.gameObject.tag;
+        switch(objTag)
         {
-            case "Camera1Zone":
-                carmeraIndex = 1;
-                cameraController.ChangeTarget(carmeraIndex,true);
-                break;
-            case "Camera2Zone":
-                carmeraIndex = 2;
+            case "Cameras":
+                carmeraIndex = other.GetComponent<CameraZone>().cameraIndex;
                 cameraController.ChangeTarget(carmeraIndex, true);
                 break;
-            case "Camera3Zone":
-                carmeraIndex = 3;
-                cameraController.ChangeTarget(carmeraIndex, true);
-                break;
-            case "Camera4Zone":
-                carmeraIndex = 4;   
-                cameraController.ChangeTarget(carmeraIndex, true);
-                break;
-            case "Camera5Zone":
-                carmeraIndex = 5;
-                cameraController.ChangeTarget(carmeraIndex, true);
-                break;
-            case "Camera6Zone":
-                carmeraIndex = 6;
-                cameraController.ChangeTarget(carmeraIndex, true);
-                break;
-            case "Camera7Zone":
-                carmeraIndex = 7;
-                cameraController.ChangeTarget(carmeraIndex, true);
-                break;
-            case "Camera8Zone":
-                carmeraIndex = 8;
-                cameraController.ChangeTarget(carmeraIndex, true);
-                break;
-            case "ToFloor1":
+            case "Teleport":
                 StartFadeEffect();
-                spwanPointIndex = 1;
+                spwanPointIndex = other.GetComponent<CameraZone>().spwanIndex; ;
                 gameObject.transform.position = spwanPoint[spwanPointIndex].position;
-                carmeraIndex = 2;
+                carmeraIndex = other.GetComponent<CameraZone>().cameraIndex;
                 cameraController.ChangeTarget(carmeraIndex, false);
-                break;
-            case "ToFloor2":
-                StartFadeEffect();
-                spwanPointIndex = 2;
-                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
-                carmeraIndex = 4;
-                cameraController.ChangeTarget(carmeraIndex, false);
-                break;
-            case "ToFloor3":
-                StartFadeEffect();
-                spwanPointIndex = 3;
-                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
-                carmeraIndex = 6;
-                cameraController.ChangeTarget(carmeraIndex, false);
-                break;
-            case "ToFloor4":
-                StartFadeEffect();
-                spwanPointIndex = 4;
-                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
-                carmeraIndex = 7;
-                cameraController.ChangeTarget(carmeraIndex, false);
-                break;
-            case "ToClass1":
-                StartFadeEffect();
-                spwanPointIndex = 5;
-                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
-                carmeraIndex = 8;
-                cameraController.ChangeTarget(carmeraIndex, false);
-                break;
-            case "Class1ToFloor1":
-                StartFadeEffect();
-                spwanPointIndex = 6;
-                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
-                carmeraIndex = 1;
-                cameraController.ChangeTarget(carmeraIndex, false);
-                break;
-            case "ETDNPC":
-                SceneManager.LoadScene("Prototype_0512");
                 break;
         }   
     }

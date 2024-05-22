@@ -445,9 +445,10 @@ GameObject:
   m_Component:
   - component: {fileID: 99854484}
   - component: {fileID: 99854485}
+  - component: {fileID: 99854486}
   m_Layer: 0
   m_Name: ToFloor2
-  m_TagString: Untagged
+  m_TagString: Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -488,6 +489,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: -0.15, y: -0.05, z: 0.15}
+--- !u!114 &99854486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99854483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 4
+  spwanIndex: 2
 --- !u!1 &118099304
 GameObject:
   m_ObjectHideFlags: 0
@@ -582,9 +597,10 @@ GameObject:
   m_Component:
   - component: {fileID: 206602367}
   - component: {fileID: 206602368}
+  - component: {fileID: 206602369}
   m_Layer: 0
   m_Name: ToFloor3
-  m_TagString: Untagged
+  m_TagString: Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -625,6 +641,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: 0, y: -0.05, z: -0.1}
+--- !u!114 &206602369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206602366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 6
+  spwanIndex: 3
 --- !u!1 &248026211
 GameObject:
   m_ObjectHideFlags: 0
@@ -2556,9 +2586,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1136396957}
   - component: {fileID: 1136396958}
+  - component: {fileID: 1136396959}
   m_Layer: 0
   m_Name: ToFloor3
-  m_TagString: Untagged
+  m_TagString: Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2599,6 +2630,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: -0.15, y: 0.05, z: 0.2}
+--- !u!114 &1136396959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136396956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 6
+  spwanIndex: 3
 --- !u!1 &1152144382
 GameObject:
   m_ObjectHideFlags: 0
@@ -2795,9 +2840,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1253200543}
   - component: {fileID: 1253200544}
+  - component: {fileID: 1253200545}
   m_Layer: 0
   m_Name: Camera3Zone
-  m_TagString: Untagged
+  m_TagString: Cameras
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2838,6 +2884,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.2, y: 0.2, z: 0.4}
   m_Center: {x: 0.1, y: 0, z: -0.1}
+--- !u!114 &1253200545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253200542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 3
+  spwanIndex: 0
 --- !u!1 &1264097501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2848,9 +2908,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1264097502}
   - component: {fileID: 1264097503}
+  - component: {fileID: 1264097504}
   m_Layer: 0
   m_Name: ToFloor1
-  m_TagString: Untagged
+  m_TagString: Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2891,6 +2952,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: -0.15, y: -0.05, z: 0.15}
+--- !u!114 &1264097504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264097501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 2
+  spwanIndex: 1
 --- !u!1 &1273976983
 GameObject:
   m_ObjectHideFlags: 0
@@ -2901,9 +2976,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1273976984}
   - component: {fileID: 1273976985}
+  - component: {fileID: 1273976986}
   m_Layer: 0
   m_Name: Camera1Zone
-  m_TagString: Untagged
+  m_TagString: Cameras
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2944,6 +3020,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.2, y: 0.2, z: 0.4}
   m_Center: {x: 0.1, y: 0, z: -0.1}
+--- !u!114 &1273976986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273976983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 1
+  spwanIndex: 0
 --- !u!4 &1274881562 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
@@ -3070,9 +3160,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1420200164}
   - component: {fileID: 1420200165}
+  - component: {fileID: 1420200166}
   m_Layer: 0
   m_Name: ToFloor2
-  m_TagString: Untagged
+  m_TagString: Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3113,6 +3204,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: -0.15, y: 0.05, z: 0.2}
+--- !u!114 &1420200166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420200163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 4
+  spwanIndex: 2
 --- !u!1 &1437780436
 GameObject:
   m_ObjectHideFlags: 0
@@ -3403,9 +3508,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1588702212}
   - component: {fileID: 1588702213}
+  - component: {fileID: 1588702214}
   m_Layer: 0
   m_Name: Camera4Zone
-  m_TagString: Untagged
+  m_TagString: Cameras
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3446,6 +3552,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.2, y: 0.2, z: 0.15}
   m_Center: {x: 0.1, y: 0, z: 0.2}
+--- !u!114 &1588702214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588702211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 4
+  spwanIndex: 0
 --- !u!1 &1628813570
 GameObject:
   m_ObjectHideFlags: 0
@@ -4113,9 +4233,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1690239737}
   - component: {fileID: 1690239738}
+  - component: {fileID: 1690239739}
   m_Layer: 0
   m_Name: Camera2Zone
-  m_TagString: Untagged
+  m_TagString: Cameras
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4156,6 +4277,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.2, y: 0.2, z: 0.15}
   m_Center: {x: 0.1, y: 0, z: 0.2}
+--- !u!114 &1690239739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690239736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 2
+  spwanIndex: 0
 --- !u!4 &1701181150 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
@@ -4229,9 +4364,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1759407272}
   - component: {fileID: 1759407273}
+  - component: {fileID: 1759407274}
   m_Layer: 0
   m_Name: ToClass1
-  m_TagString: Untagged
+  m_TagString: Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4272,6 +4408,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.02, y: 0.05, z: 0.05}
   m_Center: {x: 0.03, y: -0.05, z: -0.05}
+--- !u!114 &1759407274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759407271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 8
+  spwanIndex: 5
 --- !u!1 &1761595942
 GameObject:
   m_ObjectHideFlags: 0
@@ -4490,9 +4640,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1797225155}
   - component: {fileID: 1797225156}
+  - component: {fileID: 1797225157}
   m_Layer: 0
   m_Name: Camera6Zone
-  m_TagString: Untagged
+  m_TagString: Cameras
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4533,6 +4684,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.2, y: 0.2, z: 0.15}
   m_Center: {x: 0.1, y: 0, z: 0.2}
+--- !u!114 &1797225157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797225154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 6
+  spwanIndex: 0
 --- !u!1 &1811749797
 GameObject:
   m_ObjectHideFlags: 0
@@ -4865,9 +5030,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1915035807}
   - component: {fileID: 1915035808}
+  - component: {fileID: 1915035809}
   m_Layer: 0
   m_Name: Camera5Zone
-  m_TagString: Untagged
+  m_TagString: Cameras
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4908,6 +5074,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.2, y: 0.2, z: 0.4}
   m_Center: {x: 0.1, y: 0, z: -0.1}
+--- !u!114 &1915035809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915035806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 5
+  spwanIndex: 0
 --- !u!1 &1920690390
 GameObject:
   m_ObjectHideFlags: 0
@@ -5024,9 +5204,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1973865999}
   - component: {fileID: 1973866000}
+  - component: {fileID: 1973866001}
   m_Layer: 0
   m_Name: Class1ToFloor1
-  m_TagString: Untagged
+  m_TagString: Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5067,6 +5248,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6, y: 2, z: 1}
   m_Center: {x: 4.6, y: -2, z: 4.2}
+--- !u!114 &1973866001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1973865998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 1
+  spwanIndex: 6
 --- !u!1 &1987726710
 GameObject:
   m_ObjectHideFlags: 0
@@ -5130,9 +5325,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2043917963}
   - component: {fileID: 2043917964}
+  - component: {fileID: 2043917965}
   m_Layer: 0
   m_Name: ToFloor4
-  m_TagString: Untagged
+  m_TagString: Teleport
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5173,6 +5369,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: -0.15, y: 0.05, z: 0.2}
+--- !u!114 &2043917965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043917962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4774a1ee9179924492ea129fef38ca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraIndex: 7
+  spwanIndex: 4
 --- !u!1001 &2049066808
 PrefabInstance:
   m_ObjectHideFlags: 0
