@@ -1,21 +1,24 @@
+using UnityEngine;
 using UnityEngine.UI;
 
 public class BarUI : UI_Scene
 {
+    enum barUI
+    {
+        Bar
+    }
     Image bar;
-    int stat;
     float ratio;
 
-    int tempMax = 100;
     public override void Init()
     {
-        bar = Util.FindChild<Image>(gameObject, "Bar");
+        Bind<GameObject>(typeof(barUI));
+        bar = GetObject((int)barUI.Bar).GetComponent<Image>();
     }
 
-    public void SetPlayerStat(int changeStat)
+    public void SetPlayerStat(int stat, int maxStat)
     {
-        stat = changeStat;
-        ratio = stat / (float)tempMax;
+        ratio = stat / (float)maxStat;
         bar.fillAmount = ratio;
     }
 }

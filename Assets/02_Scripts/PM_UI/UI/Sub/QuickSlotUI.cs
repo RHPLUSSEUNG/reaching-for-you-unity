@@ -1,25 +1,38 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class QuickSlotUI : UI_Base
 {
-    GameObject UI_Magic;
+    enum QuickUI
+    {
+        MagicIcon
+    }
 
     public override void Init()
     {
+        Bind<Image>(typeof(QuickUI));
         BindEvent(gameObject, ClickButton, Define.UIEvent.Click);
-        UI_Magic = Util.FindChild(gameObject, "UI_Magic");
+    }
+
+    public void SetImage(Image icon)
+    {
+        Image quickIcon = GetImage((int)QuickUI.MagicIcon);
+        quickIcon.sprite = icon.sprite;
     }
 
     public void ClickButton(PointerEventData data)
     {
-        Magic current_Magic = UI_Magic.GetComponent<Magic>();
-        if (current_Magic == null)
-        {
-            Debug.Log("Magic Error");
-            return;
-        }
+        Debug.Log("Magic »ç¿ë");
 
-        current_Magic.UseMagic();
+        // Test
+        //Magic current_Magic = GetComponent<Magic>();
+        //if (current_Magic == null)
+        //{
+        //    Debug.Log("Magic Error");
+        //    return;
+        //}
+
+        //current_Magic.UseMagic();
     }
 }

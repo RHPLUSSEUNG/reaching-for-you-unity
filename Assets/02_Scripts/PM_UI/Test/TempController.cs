@@ -57,7 +57,17 @@ public class TempController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            pause.ManagerPopUI();
+            if (pause.state == false)
+            {
+                PM_UI_Manager.UI.ShowUI(pause.gameObject);
+                pause.state = true;
+                Time.timeScale = 0;
+            }
+            else
+            {
+                PM_UI_Manager.UI.HideUI(pause.gameObject);
+                pause.state = false;
+            }
         }
     }
 

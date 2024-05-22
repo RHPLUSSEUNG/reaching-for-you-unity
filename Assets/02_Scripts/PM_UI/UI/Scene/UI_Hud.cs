@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UI_Hud : UI_Scene
 {
-    public enum HUD_UI
+    public enum HUDUI
     {
         ProfileImage,
         QuickLayout,
@@ -30,36 +30,32 @@ public class UI_Hud : UI_Scene
     {
         base.Init();
 
-        Bind<GameObject>(typeof(HUD_UI));
+        Bind<GameObject>(typeof(HUDUI));
 
-        profileImage = GetObject((int)HUD_UI.ProfileImage).GetComponent<Image>();
-        hpBar = GetObject((int)HUD_UI.HPBar).GetComponent<BarUI>();
-        mpBar = GetObject((int)HUD_UI.MPBar).GetComponent<BarUI>();
-        buffLayout = GetObject((int)HUD_UI.BuffLayout);
-        debuffLayout = GetObject((int)HUD_UI.DeBuffLayout);
-        status_effectLayout = GetObject((int)HUD_UI.Status_EffectLayout);
+        profileImage = GetObject((int)HUDUI.ProfileImage).GetComponent<Image>();
+        hpBar = GetObject((int)HUDUI.HPBar).GetComponent<BarUI>();
+        mpBar = GetObject((int)HUDUI.MPBar).GetComponent<BarUI>();
+        buffLayout = GetObject((int)HUDUI.BuffLayout);
+        debuffLayout = GetObject((int)HUDUI.DeBuffLayout);
+        status_effectLayout = GetObject((int)HUDUI.Status_EffectLayout);
     }
 
 
-    public void CreateStatus(Image icon, HUD_UI type)
+    public void CreateStatus(HUDUI type, Image icon = null)
     {
-        GameObject effect;
         HUDEffectUI effectUI;
         switch(type)
         {
-            case HUD_UI.BuffLayout:
-                effect = Instantiate(_effect, buffLayout.transform);
-                effectUI = effect.GetOrAddComponent<HUDEffectUI>();
+            case HUDUI.BuffLayout:
+                effectUI = PM_UI_Manager.UI.MakeSubItem<HUDEffectUI>(buffLayout.transform, "Effect");
                 effectUI.SetStatusImage(icon);
                 break;
-            case HUD_UI.DeBuffLayout:
-                effect = Instantiate(_effect, debuffLayout.transform);
-                effectUI = effect.GetOrAddComponent<HUDEffectUI>();
+            case HUDUI.DeBuffLayout:
+                effectUI = PM_UI_Manager.UI.MakeSubItem<HUDEffectUI>(debuffLayout.transform, "Effect");
                 effectUI.SetStatusImage(icon);
                 break;
-            case HUD_UI.Status_EffectLayout:
-                effect = Instantiate(_effect, status_effectLayout.transform);
-                effectUI = effect.GetOrAddComponent<HUDEffectUI>();
+            case HUDUI.Status_EffectLayout:
+                effectUI = PM_UI_Manager.UI.MakeSubItem<HUDEffectUI>(status_effectLayout.transform, "Effect");
                 effectUI.SetStatusImage(icon);
                 break;
             default:
@@ -70,39 +66,38 @@ public class UI_Hud : UI_Scene
 
     public void ChangeProfile(TestPlayerInfo curInfo)
     {
-        hpBar.SetPlayerStat(curInfo.hp);
-        mpBar.SetPlayerStat(curInfo.mp);
+        hpBar.SetPlayerStat(curInfo.hp, curInfo.maxHp);
+        mpBar.SetPlayerStat(curInfo.mp, curInfo.maxMp);
         profileImage.sprite = curInfo.iconImage;
         ChangeEffectUI(curInfo);
     }
 
     public void ChangeEffectUI(TestPlayerInfo curInfo)
     {
+        HUDEffectUI effectUI;
         if (buffLayout.transform.childCount < curInfo.buffList.Count)
         {
             for(int i = buffLayout.transform.childCount; i < curInfo.buffList.Count; i++)
             {
-                Instantiate(_effect, buffLayout.transform);
+                PM_UI_Manager.UI.MakeSubItem<HUDEffectUI>(buffLayout.transform, "Effect");
             }
         }
         for (int i = 0; i < curInfo.buffList.Count; i++)
         {
-            Transform effect = buffLayout.transform.GetChild(i);
-            HUDEffectUI effectUI = effect.gameObject.GetComponent<HUDEffectUI>();
+            effectUI = buffLayout.transform.GetChild(i).gameObject.GetComponent<HUDEffectUI>();
             Image changeIcon = curInfo.buffList[i].GetComponent<Image>();       // Test
             changeIcon = tempImage;      // Test
             effectUI.SetStatusImage(changeIcon);
             if (i > effectUI.Max_Display_Child - 1)
             {
-                PM_UI_Manager.UI.HideUI(effect.gameObject);
+                PM_UI_Manager.UI.HideUI(effectUI.gameObject);
             }
         }
         if(buffLayout.transform.childCount > curInfo.buffList.Count)
         {
             for (int i = curInfo.buffList.Count; i < buffLayout.transform.childCount; i++)
             {
-                GameObject effect = buffLayout.transform.GetChild(i).gameObject;
-                Destroy(effect);
+                PM_UI_Manager.Resource.Destroy(buffLayout.transform.GetChild(i).gameObject);
             }
         }
 
@@ -110,27 +105,25 @@ public class UI_Hud : UI_Scene
         {
             for(int i = debuffLayout.transform.childCount; i < curInfo.debuffList.Count; i++)
             {
-                Instantiate(_effect, debuffLayout.transform);
+                PM_UI_Manager.UI.MakeSubItem<HUDEffectUI>(debuffLayout.transform, "Effect");
             }
         }
         for (int i = 0; i < curInfo.debuffList.Count;i++)
         {
-            Transform effect = debuffLayout.transform.GetChild(i);
-            HUDEffectUI effectUI = effect.gameObject.GetComponent<HUDEffectUI>();
-            Image changeIcon = curInfo.debuffList[i].GetComponent<Image>();
+            effectUI = debuffLayout.transform.GetChild(i).gameObject.GetComponent<HUDEffectUI>();
+            Image changeIcon = curInfo.debuffList[i].GetComponent<Image>();     // Test
             changeIcon = tempImage;     // Test
             effectUI.SetStatusImage(changeIcon);
             if (i > effectUI.Max_Display_Child - 1)
             {
-                PM_UI_Manager.UI.HideUI(effect.gameObject);
+                PM_UI_Manager.UI.HideUI(effectUI.gameObject);
             }
         }
         if (debuffLayout.transform.childCount > curInfo.debuffList.Count)
         {
             for (int i = curInfo.debuffList.Count; i < debuffLayout.transform.childCount; i++)
             {
-                GameObject effect = debuffLayout.transform.GetChild(i).gameObject;
-                Destroy(effect);
+                PM_UI_Manager.Resource.Destroy(debuffLayout.transform.GetChild(i).gameObject);
             }
         }
 
@@ -138,27 +131,25 @@ public class UI_Hud : UI_Scene
         {
             for (int i = status_effectLayout.transform.childCount; i < curInfo.seList.Count; i++)
             {
-                Instantiate(_effect, status_effectLayout.transform);
+                PM_UI_Manager.UI.MakeSubItem<HUDEffectUI>(status_effectLayout.transform, "Effect");
             }
         }
         for (int i = 0; i < curInfo.seList.Count; i++)
         {
-            Transform effect = status_effectLayout.transform.GetChild(i);
-            HUDEffectUI effectUI = effect.gameObject.GetComponent<HUDEffectUI>();
-            Image changeIcon = curInfo.seList[i].GetComponent<Image>();
+            effectUI = status_effectLayout.transform.GetChild(i).gameObject.GetComponent<HUDEffectUI>();
+            Image changeIcon = curInfo.seList[i].GetComponent<Image>();     // Test
             changeIcon = tempImage;     // Test
             effectUI.SetStatusImage(changeIcon);
             if (i > effectUI.Max_Display_Child - 1)
             {
-                PM_UI_Manager.UI.HideUI(effect.gameObject);
+                PM_UI_Manager.UI.HideUI(effectUI.gameObject);
             }
         }
         if (status_effectLayout.transform.childCount > curInfo.seList.Count)
         {
             for (int i = curInfo.seList.Count; i < status_effectLayout.transform.childCount; i++)
             {
-                GameObject effect = status_effectLayout.transform.GetChild(i).gameObject;
-                Destroy(effect);
+                PM_UI_Manager.Resource.Destroy(status_effectLayout.transform.GetChild(i).gameObject);
             }
         }
     }
