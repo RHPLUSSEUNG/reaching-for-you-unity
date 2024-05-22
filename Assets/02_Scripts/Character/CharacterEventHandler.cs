@@ -10,6 +10,6 @@ public class CharacterEventHandler : MonoBehaviour
 
     void HitEventEnd()
     {
-        controller.ChangeActive();
+        controller.ChangeActive(true);
     }
 }

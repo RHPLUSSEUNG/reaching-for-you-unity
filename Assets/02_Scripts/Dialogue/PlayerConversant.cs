@@ -29,7 +29,7 @@ public class PlayerConversant : MonoBehaviour
 
     public void StartDialogue(NPCConversant newConversant, Dialogue newDialogue)
     {
-        playerController.ChangeActive();
+        playerController.ChangeActive(false);
         currentConversant = newConversant;
         currentDialogue = newDialogue;
         currentNode = currentDialogue.GetRootNode();
@@ -39,7 +39,7 @@ public class PlayerConversant : MonoBehaviour
 
     public void Quit()
     {
-        playerController.ChangeActive();
+        playerController.ChangeActive(true);
         currentDialogue = null;
         TriggerExitAction();
         currentNode = null;
