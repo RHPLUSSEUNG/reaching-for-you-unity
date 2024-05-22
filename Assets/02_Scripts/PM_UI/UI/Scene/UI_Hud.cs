@@ -15,7 +15,7 @@ public class UI_Hud : UI_Scene
         MPBar
     }
 
-    public GameObject _status;
+    public GameObject _effect;
 
     BarUI hpBar;
     BarUI mpBar;
@@ -48,17 +48,17 @@ public class UI_Hud : UI_Scene
         switch(type)
         {
             case HUD_UI.BuffLayout:
-                effect = Instantiate(_status, buffLayout.transform);
+                effect = Instantiate(_effect, buffLayout.transform);
                 effectUI = effect.GetOrAddComponent<HUDEffectUI>();
                 effectUI.SetStatusImage(icon);
                 break;
             case HUD_UI.DeBuffLayout:
-                effect = Instantiate(_status, debuffLayout.transform);
+                effect = Instantiate(_effect, debuffLayout.transform);
                 effectUI = effect.GetOrAddComponent<HUDEffectUI>();
                 effectUI.SetStatusImage(icon);
                 break;
             case HUD_UI.Status_EffectLayout:
-                effect = Instantiate(_status, status_effectLayout.transform);
+                effect = Instantiate(_effect, status_effectLayout.transform);
                 effectUI = effect.GetOrAddComponent<HUDEffectUI>();
                 effectUI.SetStatusImage(icon);
                 break;
@@ -68,128 +68,98 @@ public class UI_Hud : UI_Scene
         }
     }
 
-    public void ChangeProfile(PlayerSpec curInfo, Image changeProfile)
+    public void ChangeProfile(TestPlayerInfo curInfo)
     {
         hpBar.SetPlayerStat(curInfo.hp);
         mpBar.SetPlayerStat(curInfo.mp);
-        profileImage.sprite = changeProfile.sprite;
-        //SetStatusLayout(curInfo, buffLayout, HUD_UI.BuffLayout);
-        //SetStatusLayout(curInfo, debuffLayout, HUD_UI.DeBuffLayout);
-        //SetStatusLayout(curInfo, status_effectLayout, HUD_UI.Status_EffectLayout);
-        // ChangeEffectUI(curInfo);
+        profileImage.sprite = curInfo.iconImage;
+        ChangeEffectUI(curInfo);
     }
 
-    public void ChangeEffectUI(PlayerSpec curInfo)
+    public void ChangeEffectUI(TestPlayerInfo curInfo)
     {
-        if (buffLayout.transform.childCount < curInfo.buffs.Count)
+        if (buffLayout.transform.childCount < curInfo.buffList.Count)
         {
-            for(int i = buffLayout.transform.childCount; i < curInfo.buffs.Count; i++)
+            for(int i = buffLayout.transform.childCount; i < curInfo.buffList.Count; i++)
             {
-                Instantiate(_status, buffLayout.transform);
+                Instantiate(_effect, buffLayout.transform);
             }
         }
-        for (int i = 0; i < curInfo.buffs.Count; i++)
+        for (int i = 0; i < curInfo.buffList.Count; i++)
         {
-            Transform status = buffLayout.transform.GetChild(i);
-            HUDEffectUI uI_Status = status.gameObject.GetComponent<HUDEffectUI>();
-            // Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
-            // changeIcon = tempImage;      // Test
-            // uI_Status.SetStatusImage(changeIcon);
-            //if(i > uI_Status.Max_Display_Child - 1)
-            //{
-            //    status.gameObject.SetActive(false);
-            //}
-        }
-        if(buffLayout.transform.childCount > curInfo.buffs.Count)
-        {
-            for (int i = curInfo.buffs.Count; i < buffLayout.transform.childCount; i++)
+            Transform effect = buffLayout.transform.GetChild(i);
+            HUDEffectUI effectUI = effect.gameObject.GetComponent<HUDEffectUI>();
+            Image changeIcon = curInfo.buffList[i].GetComponent<Image>();       // Test
+            changeIcon = tempImage;      // Test
+            effectUI.SetStatusImage(changeIcon);
+            if (i > effectUI.Max_Display_Child - 1)
             {
-                GameObject status = buffLayout.transform.GetChild(i).gameObject;
-                Destroy(status);
+                PM_UI_Manager.UI.HideUI(effect.gameObject);
             }
         }
-        // Debuff, Status_Effect도 동일하게
-    }
+        if(buffLayout.transform.childCount > curInfo.buffList.Count)
+        {
+            for (int i = curInfo.buffList.Count; i < buffLayout.transform.childCount; i++)
+            {
+                GameObject effect = buffLayout.transform.GetChild(i).gameObject;
+                Destroy(effect);
+            }
+        }
 
-    void SetStatusLayout(PlayerSpec curInfo, GameObject layout, HUD_UI type)
-    {
-        int count, curCount;
-        switch(type)
+        if (debuffLayout.transform.childCount < curInfo.debuffList.Count)
         {
-            case HUD_UI.BuffLayout:
-                count = layout.transform.childCount;
-                curCount = curInfo.buffs.Count;
-                if(count < curCount)
-                {
-                    for (int i = count; i < curCount; i++)
-                    {
-                        Instantiate(_status, layout.transform);
-                    }
-                }
-                for (int i = 0; i < curCount; i++)
-                {
-                    Transform status = layout.transform.GetChild(i);
-                    HUDEffectUI ui_status = status.gameObject.GetComponent<HUDEffectUI>();
-                    // Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
-                    // changeIcon = tempImage; // test
-                    // ui_status.SetStatusImage(changeIcon);
-                }
-                if (count > curCount)
-                {
-                    for (int i = curCount; i < count; i++)
-                    {
-                        Transform status = layout.transform.GetChild(i);
-                        Destroy(status.gameObject);
-                    }
-                }
-                break;
-            case HUD_UI.DeBuffLayout:
-                //count = layout.transform.childCount;
-                //curCount = curInfo.debuffs.Count;
-                //for (int i = 0; i < curCount; i++)
-                //{
-                //    Transform status = layout.transform.GetChild(i);
-                //    if (status == null)
-                //    {
-                //        status = Instantiate(_status, layout.transform).transform;
-                //    }
-                //    UI_Status ui_status = status.gameObject.GetComponent<UI_Status>();
-                //    Image changeIcon = curInfo.debuffs[i].gameObject.GetComponent<Image>();
-                //    ui_status.SetStatusImage(changeIcon);
-                //}
-                //if (count > curCount)
-                //{
-                //    for (int i = curCount; i < count; i++)
-                //    {
-                //        Transform status = layout.transform.GetChild(i);
-                //        Destroy(status.gameObject);
-                //    }
-                //}
-                break;
-            case HUD_UI.Status_EffectLayout:
-                //count = layout.transform.childCount;
-                //curCount = curInfo.status_effect.Count;
-                //for (int i = 0; i < curCount; i++)
-                //{
-                //    Transform status = layout.transform.GetChild(i);
-                //    if (status == null)
-                //    {
-                //        status = Instantiate(_status, layout.transform).transform;
-                //    }
-                //    UI_Status ui_status = status.gameObject.GetComponent<UI_Status>();
-                //    Image changeIcon = curInfo.status_effectLayout[i].gameObject.GetComponent<Image>();
-                //    ui_status.SetStatusImage(changeIcon);
-                //}
-                //if (count > curCount)
-                //{
-                //    for (int i = curCount; i < count; i++)
-                //    {
-                //        Transform status = layout.transform.GetChild(i);
-                //        Destroy(status.gameObject);
-                //    }
-                //}
-                break;
+            for(int i = debuffLayout.transform.childCount; i < curInfo.debuffList.Count; i++)
+            {
+                Instantiate(_effect, debuffLayout.transform);
+            }
         }
-        
+        for (int i = 0; i < curInfo.debuffList.Count;i++)
+        {
+            Transform effect = debuffLayout.transform.GetChild(i);
+            HUDEffectUI effectUI = effect.gameObject.GetComponent<HUDEffectUI>();
+            Image changeIcon = curInfo.debuffList[i].GetComponent<Image>();
+            changeIcon = tempImage;     // Test
+            effectUI.SetStatusImage(changeIcon);
+            if (i > effectUI.Max_Display_Child - 1)
+            {
+                PM_UI_Manager.UI.HideUI(effect.gameObject);
+            }
+        }
+        if (debuffLayout.transform.childCount > curInfo.debuffList.Count)
+        {
+            for (int i = curInfo.debuffList.Count; i < debuffLayout.transform.childCount; i++)
+            {
+                GameObject effect = debuffLayout.transform.GetChild(i).gameObject;
+                Destroy(effect);
+            }
+        }
+
+        if (status_effectLayout.transform.childCount < curInfo.seList.Count)
+        {
+            for (int i = status_effectLayout.transform.childCount; i < curInfo.seList.Count; i++)
+            {
+                Instantiate(_effect, status_effectLayout.transform);
+            }
+        }
+        for (int i = 0; i < curInfo.seList.Count; i++)
+        {
+            Transform effect = status_effectLayout.transform.GetChild(i);
+            HUDEffectUI effectUI = effect.gameObject.GetComponent<HUDEffectUI>();
+            Image changeIcon = curInfo.seList[i].GetComponent<Image>();
+            changeIcon = tempImage;     // Test
+            effectUI.SetStatusImage(changeIcon);
+            if (i > effectUI.Max_Display_Child - 1)
+            {
+                PM_UI_Manager.UI.HideUI(effect.gameObject);
+            }
+        }
+        if (status_effectLayout.transform.childCount > curInfo.seList.Count)
+        {
+            for (int i = curInfo.seList.Count; i < status_effectLayout.transform.childCount; i++)
+            {
+                GameObject effect = status_effectLayout.transform.GetChild(i).gameObject;
+                Destroy(effect);
+            }
+        }
     }
 }

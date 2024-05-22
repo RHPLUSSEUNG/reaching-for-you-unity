@@ -30,7 +30,7 @@ public class UI_CharInfo : UI_Base
         levelText.text = info.level;
         GameObject icon = Get<GameObject>((int)CharInfoUI.CharIcon);
         Image charIcon = icon.GetComponent<Image>();
-        charIcon.sprite = info.charIcon;
+        charIcon.sprite = info.iconImage;
         GameObject element = Get<GameObject>((int)CharInfoUI.ElementIcon);
         Image elementIcon = element.GetComponent<Image>();
         elementIcon.sprite = info.element;

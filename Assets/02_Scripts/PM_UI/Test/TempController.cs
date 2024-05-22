@@ -12,12 +12,10 @@ public class TempController : MonoBehaviour
     UI_Hud hud;
 
     int _speed = 10;
-    PlayerSpec curInfo;
 
     //temp
     public Buff tempBuff;
-    public PlayerSpec[] playerList = new PlayerSpec[3];
-    public Image tempImage;
+    public TestPlayerInfo[] playerList = new TestPlayerInfo[3];
     int tempTurn = 0;
     private void Start()
     {
@@ -25,7 +23,7 @@ public class TempController : MonoBehaviour
         pause = _pause.GetComponent<UI_Pause>();
         pause.gameObject.SetActive(false);
         _world.gameObject.SetActive(false);
-        hud.ChangeProfile(playerList[0], tempImage);  // test
+        hud.ChangeProfile(playerList[0]);  // test
     }
     void Update()
     {
@@ -54,7 +52,7 @@ public class TempController : MonoBehaviour
             {
                 tempTurn = 0;
             }
-            hud.ChangeProfile(playerList[tempTurn], tempImage);
+            hud.ChangeProfile(playerList[tempTurn]);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -62,16 +60,6 @@ public class TempController : MonoBehaviour
             pause.ManagerPopUI();
         }
     }
-
-    //private void OnCollisionStay(Collision collision)
-    //{
-    //    _world.gameObject.SetActive(true);
-    //}
-
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    _world.gameObject.SetActive(false);
-    //}
 
     private void OnTriggerStay(Collider other)
     {
