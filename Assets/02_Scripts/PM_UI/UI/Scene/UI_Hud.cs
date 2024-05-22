@@ -6,6 +6,7 @@ public class UI_Hud : UI_Scene
 {
     public enum HUD_UI
     {
+        Profile,
         QuickLayout,
         BuffLayout,
         DeBuffLayout,
@@ -16,9 +17,9 @@ public class UI_Hud : UI_Scene
 
     public GameObject _status;
 
+    BarUI hpBar;
+    BarUI mpBar;
     Image profileImage;
-    UI_CircleBar hpBar;
-    UI_CircleBar mpBar;
     GameObject buffLayout;
     GameObject debuffLayout;
     GameObject status_effectLayout;
@@ -31,39 +32,35 @@ public class UI_Hud : UI_Scene
 
         Bind<GameObject>(typeof(HUD_UI));
 
-        GameObject quickLayout = GetObject((int)HUD_UI.QuickLayout);
-        GameObject hp = GetObject((int)HUD_UI.HPBar);
-        GameObject mp = GetObject((int)HUD_UI.MPBar);
+        profileImage = GetObject((int)HUD_UI.Profile).GetComponent<Image>();
+        hpBar = GetObject((int)HUD_UI.HPBar).GetComponent<BarUI>();
+        mpBar = GetObject((int)HUD_UI.MPBar).GetComponent<BarUI>();
         buffLayout = GetObject((int)HUD_UI.BuffLayout);
         debuffLayout = GetObject((int)HUD_UI.DeBuffLayout);
         status_effectLayout = GetObject((int)HUD_UI.Status_EffectLayout);
-        hpBar = hp.GetComponent<UI_CircleBar>();
-        mpBar = mp.GetComponent<UI_CircleBar>();
-        profileImage = Util.FindChild<Image>(gameObject, "CharacterImage", true);
-
     }
 
 
     public void CreateStatus(Image icon, HUD_UI type)
     {
-        GameObject status;
-        UI_Status ui_status;
+        GameObject effect;
+        HUDEffectUI effectUI;
         switch(type)
         {
             case HUD_UI.BuffLayout:
-                status = Instantiate(_status, buffLayout.transform);
-                ui_status = status.GetOrAddComponent<UI_Status>();
-                // ui_status.SetStatusImage(icon);
+                effect = Instantiate(_status, buffLayout.transform);
+                effectUI = effect.GetOrAddComponent<HUDEffectUI>();
+                effectUI.SetStatusImage(icon);
                 break;
             case HUD_UI.DeBuffLayout:
-                status = Instantiate(_status, debuffLayout.transform);
-                ui_status = status.GetOrAddComponent<UI_Status>();
-                // ui_status.SetStatusImage(icon);
+                effect = Instantiate(_status, debuffLayout.transform);
+                effectUI = effect.GetOrAddComponent<HUDEffectUI>();
+                effectUI.SetStatusImage(icon);
                 break;
             case HUD_UI.Status_EffectLayout:
-                status = Instantiate(_status, status_effectLayout.transform);
-                ui_status = status.GetOrAddComponent<UI_Status>();
-                // ui_status.SetStatusImage(icon);
+                effect = Instantiate(_status, status_effectLayout.transform);
+                effectUI = effect.GetOrAddComponent<HUDEffectUI>();
+                effectUI.SetStatusImage(icon);
                 break;
             default:
                 Debug.Log("Incorrect Access");
@@ -73,16 +70,16 @@ public class UI_Hud : UI_Scene
 
     public void ChangeProfile(PlayerSpec curInfo, Image changeProfile)
     {
-        // hpBar.SetPlayerStat(curInfo.hp);
-        // mpBar.SetPlayerStat(curInfo.mp);
+        hpBar.SetPlayerStat(curInfo.hp);
+        mpBar.SetPlayerStat(curInfo.mp);
         profileImage.sprite = changeProfile.sprite;
         //SetStatusLayout(curInfo, buffLayout, HUD_UI.BuffLayout);
         //SetStatusLayout(curInfo, debuffLayout, HUD_UI.DeBuffLayout);
         //SetStatusLayout(curInfo, status_effectLayout, HUD_UI.Status_EffectLayout);
-        ChangeStatus(curInfo);
+        // ChangeEffectUI(curInfo);
     }
 
-    public void ChangeStatus(PlayerSpec curInfo)
+    public void ChangeEffectUI(PlayerSpec curInfo)
     {
         if (buffLayout.transform.childCount < curInfo.buffs.Count)
         {
@@ -94,7 +91,7 @@ public class UI_Hud : UI_Scene
         for (int i = 0; i < curInfo.buffs.Count; i++)
         {
             Transform status = buffLayout.transform.GetChild(i);
-            UI_Status uI_Status = status.gameObject.GetComponent<UI_Status>();
+            HUDEffectUI uI_Status = status.gameObject.GetComponent<HUDEffectUI>();
             // Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
             // changeIcon = tempImage;      // Test
             // uI_Status.SetStatusImage(changeIcon);
@@ -132,7 +129,7 @@ public class UI_Hud : UI_Scene
                 for (int i = 0; i < curCount; i++)
                 {
                     Transform status = layout.transform.GetChild(i);
-                    UI_Status ui_status = status.gameObject.GetComponent<UI_Status>();
+                    HUDEffectUI ui_status = status.gameObject.GetComponent<HUDEffectUI>();
                     // Image changeIcon = curInfo.buffs[i].gameObject.GetComponent<Image>();
                     // changeIcon = tempImage; // test
                     // ui_status.SetStatusImage(changeIcon);

@@ -27,10 +27,10 @@ public class PM_UI_Manager : MonoBehaviour
     {
         if (s_Instance == null)
         {
-            GameObject go = GameObject.Find("@Managers");
+            GameObject go = GameObject.Find("@PM_UI_Managers");
             if (go == null)
             {
-                go = new GameObject { name = "@Managers" };
+                go = new GameObject { name = "@PM_UI_Managers" };
                 go.AddComponent<PM_UI_Manager>();
             }
             DontDestroyOnLoad(go);
