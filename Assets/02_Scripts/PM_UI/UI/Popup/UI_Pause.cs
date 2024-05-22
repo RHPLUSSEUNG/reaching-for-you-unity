@@ -17,6 +17,11 @@ public class UI_Pause : UI_Popup
 
     public override void Init()
     {
+        base.Init();
+
+        Canvas pause = this.GetComponent<Canvas>();
+        pause.sortingOrder = 9;
+
         Bind<Button>(typeof(PauseButtons));
 
         Util.GetOrAddComponent<UI_Pause>(gameObject);

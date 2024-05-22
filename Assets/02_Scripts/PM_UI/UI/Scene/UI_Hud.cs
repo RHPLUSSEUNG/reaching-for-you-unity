@@ -6,7 +6,7 @@ public class UI_Hud : UI_Scene
 {
     public enum HUD_UI
     {
-        Profile,
+        ProfileImage,
         QuickLayout,
         BuffLayout,
         DeBuffLayout,
@@ -32,7 +32,7 @@ public class UI_Hud : UI_Scene
 
         Bind<GameObject>(typeof(HUD_UI));
 
-        profileImage = GetObject((int)HUD_UI.Profile).GetComponent<Image>();
+        profileImage = GetObject((int)HUD_UI.ProfileImage).GetComponent<Image>();
         hpBar = GetObject((int)HUD_UI.HPBar).GetComponent<BarUI>();
         mpBar = GetObject((int)HUD_UI.MPBar).GetComponent<BarUI>();
         buffLayout = GetObject((int)HUD_UI.BuffLayout);

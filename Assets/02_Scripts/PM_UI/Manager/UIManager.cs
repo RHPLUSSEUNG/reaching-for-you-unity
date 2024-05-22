@@ -118,4 +118,14 @@ public class UIManager
 
         ClosePopupUI();
     }
+
+    public void ShowUI(GameObject ui)
+    {
+        ui.SetActive(true);
+    }
+
+    public void HideUI(GameObject ui)
+    {
+        ui.SetActive(false);
+    }
 }
