@@ -67,5 +67,6 @@ public class UI_Pause : UI_Popup
     public void OnClosePause(PointerEventData data)
     {
         PM_UI_Manager.UI.HideUI(gameObject);
+        state = false;
     }
 }
