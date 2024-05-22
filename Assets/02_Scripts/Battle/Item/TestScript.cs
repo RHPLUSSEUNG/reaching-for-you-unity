@@ -4,32 +4,29 @@ using UnityEngine;
 
 public class TestScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    RangeDetector detector;
+    GameObject go;
     void Start()
     {
-        GameObject skills = GameObject.Find("UsingSkill");
+        GameObject character = GameObject.Find("Player_Girl_Battle");
 
-        Debug.Log("Start");
-        IncreaseSpeed buff = new();
-        Debug.Log("Create Buff");
-        buff.SetBuff(5, this.gameObject, 5);
-        Debug.Log("Set Buff & Start Buff");
-
-        for(int i= 0; i< 4; i++)
-        {
-            this.gameObject.GetComponent<SkillList>().CalcTurn();
-            Debug.Log($"remain turn : {buff.remainTurn}");
-        }
-
-        Debug.Log($"Buff Count: {this.gameObject.GetComponent<SkillList>().buffs.Count}");
-
-        GameObject go = GameObject.Find("TestAttack");
-        Debug.Log(go.name);
-        for(int i= 0;i<3;i++)
-        {
-            this.gameObject.GetComponent<SkillList>().AddSkill(go);
-        }
-        
+        detector = GameObject.Find("RangeDetector").GetComponent<RangeDetector>();
+        detector.SetDetector(character, 1);
     }
 
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                go = hit.collider.gameObject;
+                Debug.Log("ray :" + go);
+                detector.Detect(go);
+            }
+        }
+    }
 }
