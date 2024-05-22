@@ -31,7 +31,7 @@ public class FadeEffect : MonoBehaviour
         this.gameObject.SetActive(true);
         isFading = true;
         img.color = Color.black;
-        playerController.ChangeActive();
+        playerController.ChangeActive(false);
         Invoke("StartFade", waitTime);
     }
     void StartFade()
@@ -56,7 +56,7 @@ public class FadeEffect : MonoBehaviour
             yield return null;
         }
         isFading = false;
-        playerController.ChangeActive();
+        playerController.ChangeActive(true);
         this.gameObject.SetActive(false);
     }
 

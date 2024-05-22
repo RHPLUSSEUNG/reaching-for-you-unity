@@ -250,18 +250,9 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
-    public void ChangeActive()
+    public void ChangeActive(bool active)
     {
-        if (isActive)
-        {
-            isActive = false;
-            Debug.Log("InActive");
-        }
-        else
-        {
-            isActive = true;
-            Debug.Log("Active");
-        }
+        isActive = active;
     }
     private void Interact()
     {
