@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8334785553150780714}
   - component: {fileID: 6638946480990700866}
   - component: {fileID: 198492793158657858}
+  - component: {fileID: 3405780309711748946}
   m_Layer: 0
   m_Name: Player_Girl
   m_TagString: Player
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1632515156684126824}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: -61, y: -1, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -76,10 +77,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1060dbb0b71a8643a177dc1ce40b6c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicSpeed: 5
-  runSpeed: 8
-  fadeEffect: {fileID: 0}
+  basicSpeed: 4
+  runSpeed: 6
+  fadeEffectImg: {fileID: 0}
   spwanPointList: {fileID: 0}
+  rayScope: 0.8
 --- !u!114 &198492793158657858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,7 +94,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87cf5eb9663271b439f291a9d8120d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 5
+  rotateSpeed: 4
+--- !u!75 &3405780309711748946
+ConstantForce:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632515156684126824}
+  m_Enabled: 1
+  m_Force: {x: 0, y: -100, z: 0}
+  m_RelativeForce: {x: 0, y: 0, z: 0}
+  m_Torque: {x: 0, y: 0, z: 0}
+  m_RelativeTorque: {x: 0, y: 0, z: 0}
 --- !u!1 &3020289889979404006
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,8 +158,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4, y: 5.5, z: 0.65}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 4, y: 5.8956795, z: 0.65070957}
+  m_Center: {x: 0, y: -0.1978399, z: -0.00035479665}
 --- !u!1 &8150895426976285256
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,9 +289,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8246660529887164627}
   - component: {fileID: 37247436053705016}
+  - component: {fileID: 7963210743419465606}
   m_Layer: 0
   m_Name: Dialogue
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -310,3 +325,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: "\uC544\uB098\uC2A4\uD0C0\uC0E4"
+--- !u!135 &7963210743419465606
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9197550508078624209}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
