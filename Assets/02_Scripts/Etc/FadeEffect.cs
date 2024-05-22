@@ -12,14 +12,26 @@ public class FadeEffect : MonoBehaviour
     Image img;
     [SerializeField]
     GameObject player;
+
+    PlayerController playerController;
+
+    bool isFading;
     private void Awake()
     {
+        playerController = player.GetComponent<PlayerController>();
         img = GetComponent<Image>();
+        StartFadeEffect();
     }
-    public void OnEnable()
+    public void StartFadeEffect()
     {
+        if (isFading)
+        {
+            return;
+        }
         this.gameObject.SetActive(true);
+        isFading = true;
         img.color = Color.black;
+        playerController.ChangeActive();
         Invoke("StartFade", waitTime);
     }
     void StartFade()
@@ -43,6 +55,8 @@ public class FadeEffect : MonoBehaviour
 
             yield return null;
         }
+        isFading = false;
+        playerController.ChangeActive();
         this.gameObject.SetActive(false);
     }
 

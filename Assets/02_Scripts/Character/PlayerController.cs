@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float runSpeed = 8.0f;
     [SerializeField]
-    GameObject fadeEffect;
+    GameObject fadeEffectImg;
     [SerializeField]
     GameObject spwanPointList;
 
@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     private SpriteController spriteController;
     private CapsuleCollider colider;
+    private FadeEffect fadeEffect;
 
     private bool isActive;
     private float moveSpeed;
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
         spriteController = GetComponent<SpriteController>();
         mainCamera = GameObject.Find("Main Camera");
         cameraController = mainCamera.GetComponent<CameraController>();
+        fadeEffect = fadeEffectImg.GetComponent<FadeEffect>();
 
         isActive = true;
     }
@@ -276,9 +278,7 @@ public class PlayerController : MonoBehaviour
     }
     private void StartFadeEffect()
     {
-        ChangeActive();
-        fadeEffect.GetComponent<FadeEffect>().OnEnable();
-        Invoke("ChangeActive", fadeEffect.GetComponent<FadeEffect>().fadeTime + fadeEffect.GetComponent<FadeEffect>().waitTime + 0.5f);
+        fadeEffect.StartFadeEffect();
     }
     //public void Roll()
     //{
