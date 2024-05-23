@@ -10,7 +10,11 @@ public class TestPlayerInfo : MonoBehaviour
     public int mp;
     public int maxMp;
     public string level;
-    public Sprite charIcon;
+    public Sprite iconImage;
     public Sprite element;
-    public string name;
+    public string charname;
+
+    public List<TestBuff> buffList = new();
+    public List<TestDebuff> debuffList = new();
+    public List<TempStatus_Effect> seList = new();
 }

@@ -118,4 +118,22 @@ public class UIManager
 
         ClosePopupUI();
     }
+
+    public void ShowUI(GameObject ui)
+    {
+        if(ui == null)
+        {
+            Debug.Log("UI Null");
+        }
+        ui.SetActive(true);
+    }
+
+    public void HideUI(GameObject ui)
+    {
+        if (ui == null)
+        {
+            Debug.Log("UI Null");
+        }
+        ui.SetActive(false);
+    }
 }

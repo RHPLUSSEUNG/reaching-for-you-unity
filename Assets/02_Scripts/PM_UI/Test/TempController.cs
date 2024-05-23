@@ -5,27 +5,24 @@ using UnityEngine.UI;
 
 public class TempController : MonoBehaviour
 {
-    public Canvas _hud;
-    public Canvas _pause;
     public Canvas _world;
     UI_Pause pause;
     UI_Hud hud;
 
     int _speed = 10;
-    PlayerSpec curInfo;
 
     //temp
     public Buff tempBuff;
-    public PlayerSpec[] playerList = new PlayerSpec[3];
-    public Image tempImage;
+    public TestPlayerInfo[] playerList = new TestPlayerInfo[3];
+    public Image testImage;
     int tempTurn = 0;
     private void Start()
     {
-        hud = _hud.GetComponent<UI_Hud>();
-        pause = _pause.GetComponent<UI_Pause>();
-        pause.gameObject.SetActive(false);
-        _world.gameObject.SetActive(false);
-        hud.ChangeProfile(playerList[0], tempImage);  // test
+        hud = PM_UI_Manager.UI.CreateSceneUI<UI_Hud>("HudUI");
+        pause = PM_UI_Manager.UI.CreatePopupUI<UI_Pause>("PauseUI");
+        hud.tempImage = testImage;
+        PM_UI_Manager.UI.HideUI(pause.gameObject);
+        hud.ChangeProfile(playerList[0]);  // test
     }
     void Update()
     {
@@ -54,24 +51,25 @@ public class TempController : MonoBehaviour
             {
                 tempTurn = 0;
             }
-            hud.ChangeProfile(playerList[tempTurn], tempImage);
+            hud.ChangeProfile(playerList[tempTurn]);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            pause.ManagerPopUI();
+            if (pause.state == false)
+            {
+                PM_UI_Manager.UI.ShowUI(pause.gameObject);
+                pause.state = true;
+                Time.timeScale = 0;
+            }
+            else
+            {
+                PM_UI_Manager.UI.HideUI(pause.gameObject);
+                Time.timeScale = 1;
+                pause.state = false;
+            }
         }
     }
-
-    //private void OnCollisionStay(Collision collision)
-    //{
-    //    _world.gameObject.SetActive(true);
-    //}
-
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    _world.gameObject.SetActive(false);
-    //}
 
     private void OnTriggerStay(Collider other)
     {

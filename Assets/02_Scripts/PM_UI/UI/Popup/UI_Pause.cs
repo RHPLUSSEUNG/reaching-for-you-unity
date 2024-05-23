@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UI_Pause : UI_Popup
 {
-    bool status = false;
+    public bool state = false;
     enum PauseButtons
     {
         GameSettingButton,
@@ -17,6 +17,11 @@ public class UI_Pause : UI_Popup
 
     public override void Init()
     {
+        base.Init();
+
+        Canvas pause = this.GetComponent<Canvas>();
+        pause.sortingOrder = 9;
+
         Bind<Button>(typeof(PauseButtons));
 
         Util.GetOrAddComponent<UI_Pause>(gameObject);
@@ -61,21 +66,8 @@ public class UI_Pause : UI_Popup
 
     public void OnClosePause(PointerEventData data)
     {
-        ManagerPopUI();
-    }
-
-    public void ManagerPopUI()
-    {
-        status = !status;
-        gameObject.SetActive(status);
-        if (status == true)
-        {
-            // Time.timeScale = 0;
-
-        }
-        else
-        {
-            // base.ClosePopUI();
-        }
+        PM_UI_Manager.UI.HideUI(gameObject);
+        Time.timeScale = 1;
+        state = false;
     }
 }
