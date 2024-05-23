@@ -4112,6 +4112,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraIndex: 3
   spwanIndex: 0
+--- !u!1 &1256173871 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4189201632979310018, guid: bb6dbcc009553b6418fab130015a5066, type: 3}
+  m_PrefabInstance: {fileID: 3700944784410744740}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1256173875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256173871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33c0474ac5f152e48bf9c60fd28a8beb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTransparent: 0
 --- !u!1 &1264097501
 GameObject:
   m_ObjectHideFlags: 0
@@ -8185,6 +8203,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
+      propertyPath: cameraList
+      value: 
+      objectReference: {fileID: 528388107}
+    - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: fadeEffect
       value: 
       objectReference: {fileID: 1110090136}
@@ -8195,6 +8217,10 @@ PrefabInstance:
     - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: cameraSpeed
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
+      propertyPath: isFollowMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: targets.Array.size
@@ -8475,6 +8501,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4189201632979310018, guid: bb6dbcc009553b6418fab130015a5066, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4669419514549747141, guid: bb6dbcc009553b6418fab130015a5066, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.2237015
@@ -8536,7 +8566,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6967577258946922568, guid: bb6dbcc009553b6418fab130015a5066, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1474334736}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4189201632979310018, guid: bb6dbcc009553b6418fab130015a5066, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1256173875}
   m_SourcePrefab: {fileID: 100100000, guid: bb6dbcc009553b6418fab130015a5066, type: 3}
 --- !u!1001 &4231045062407873784
 PrefabInstance:

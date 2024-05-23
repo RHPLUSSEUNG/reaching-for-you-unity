@@ -101,14 +101,14 @@ public class PlayerController : MonoBehaviour
         {
             case "Cameras":
                 carmeraIndex = other.GetComponent<CameraZone>().cameraIndex;
-                cameraController.ChangeTarget(carmeraIndex, true);
+                cameraController.ChangeCameraTarget(carmeraIndex, true);
                 break;
             case "Teleport":
                 StartFadeEffect();
                 spwanPointIndex = other.GetComponent<CameraZone>().spwanIndex; ;
                 gameObject.transform.position = spwanPoint[spwanPointIndex].position;
                 carmeraIndex = other.GetComponent<CameraZone>().cameraIndex;
-                cameraController.ChangeTarget(carmeraIndex, false);
+                cameraController.ChangeCameraTarget(carmeraIndex, false);
                 break;
         }   
     }

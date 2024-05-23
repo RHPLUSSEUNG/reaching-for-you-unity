@@ -9,7 +9,6 @@ public class SpriteController : MonoBehaviour
 
     GameObject mainCamera;
 
-    int carmeraIndex;
     Animator anim;
     float targetAngleX;
     float targetAngleY;
@@ -22,29 +21,26 @@ public class SpriteController : MonoBehaviour
         sprite = this.transform.GetChild(0);
         anim = sprite.GetComponent<Animator>();
         isIdle = true;
-        direction = Direction.Left;
+        direction = Direction.Right;
         mainCamera = GameObject.Find("Main Camera");
         SetAnimState(AnimState.Idle);
     }
-    //public void SetMainCamera(GameObject _mainCamera, GameObject[] _targetCameras)
-    //{
-    //    mainCamera = _mainCamera;
-    //    targetCameras = _targetCameras;
-    //    mainCamera.GetComponent<CameraController>().ChangePos(targetCameras[carmeraIndex].transform);
-    //}
     private void LateUpdate()
     {
         SetRotation(mainCamera.transform.eulerAngles.x, mainCamera.transform.eulerAngles.y);
+
         if (isIdle)
         {
-            if (direction == Direction.Left)
-            {
-                StartCoroutine(RotateSprite(Direction.Left));
-            }
-            else
-            {
-                StartCoroutine(RotateSprite(Direction.Right));
-            }
+            SetAnimState(AnimState.Idle);
+            return;
+        }
+        if (direction == Direction.Left)
+        {
+            StartCoroutine(RotateSprite(Direction.Left));
+        }
+        else
+        {
+            StartCoroutine(RotateSprite(Direction.Right));
         }
     }
     public void SetAnimState(AnimState state)
@@ -68,7 +64,7 @@ public class SpriteController : MonoBehaviour
             //    break;
         }
     }
-    public void Flip(Direction _direction)
+    public void Flip(Direction _direction)  //입력 방향에 맞게 스프라이트를 회전
     {
         direction = _direction;
         if (direction == Direction.Left)
@@ -80,7 +76,7 @@ public class SpriteController : MonoBehaviour
             StartCoroutine(RotateSprite(Direction.Right));
         }
     }
-    public void SetRotation(float _angleX, float _angleY)
+    public void SetRotation(float _angleX, float _angleY)   //main카메라에 맞게 스프라이트를 회전
     {
         angleX = _angleX;
         angleY = _angleY;
