@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class TempController : MonoBehaviour
 {
-    public Canvas _hud;
-    public Canvas _pause;
     public Canvas _world;
     UI_Pause pause;
     UI_Hud hud;
@@ -16,13 +14,14 @@ public class TempController : MonoBehaviour
     //temp
     public Buff tempBuff;
     public TestPlayerInfo[] playerList = new TestPlayerInfo[3];
+    public Image testImage;
     int tempTurn = 0;
     private void Start()
     {
-        hud = _hud.GetComponent<UI_Hud>();
-        pause = _pause.GetComponent<UI_Pause>();
-        pause.gameObject.SetActive(false);
-        _world.gameObject.SetActive(false);
+        hud = PM_UI_Manager.UI.CreateSceneUI<UI_Hud>("HudUI");
+        pause = PM_UI_Manager.UI.CreatePopupUI<UI_Pause>("PauseUI");
+        hud.tempImage = testImage;
+        PM_UI_Manager.UI.HideUI(pause.gameObject);
         hud.ChangeProfile(playerList[0]);  // test
     }
     void Update()
