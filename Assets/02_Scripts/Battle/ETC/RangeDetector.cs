@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class RangeDetector : MonoBehaviour
 {
-    BoxCollider detector;
+    public BoxCollider detector;
     public Collider[] colliders;
     int range;
 
-    public void Start()
+    public void Awake()
     {
         detector = this.gameObject.GetComponent<BoxCollider>();
     }
@@ -18,22 +18,37 @@ public class RangeDetector : MonoBehaviour
         this.gameObject.transform.position = go.transform.position;
     }
 
-    private void SetRange(int range)
+    private void SetRange(int range, TargetObject targetType)
     {
+        Debug.Log(targetType);
         detector.size = new Vector3(range, 3, range);
         this.range = range;
-        colliders = Physics.OverlapBox(this.transform.position, detector.size);
+        colliders = Physics.OverlapBox(this.transform.position, detector.size, Managers.Battle.currentCharacter.transform.rotation, CalcLayerMask(targetType));
 
         foreach (Collider collider in colliders)
         {
-            Debug.Log($"{collider.gameObject}");
+            Debug.Log($"target list : {collider.gameObject}");
         }
     }
 
-    public void SetDetector(GameObject go, int range)
+    private int CalcLayerMask(TargetObject targetType)
+    {
+        if(targetType == TargetObject.Me)
+        {
+            return 0;
+        }
+        int mask = 1 << 7;
+        for(int i = 0; i < (int)targetType; i++)
+        {
+            mask <<= 1;
+        }
+        return mask;
+    }
+
+    public void SetDetector(GameObject go, int range, TargetObject targetType)
     {
         SetPosition(go);
-        SetRange(range);
+        SetRange(range, targetType);
     }
 
     public bool Detect(GameObject go)

@@ -13,6 +13,16 @@ public class DataManager
         skillList = data.skillList;
     }
 
+    public SkillData GetSkillData(int skillid)
+    {
+        return skillList[skillid];
+    }
+
+    public ItemData GetItemData(int itemid)
+    {
+        return itemList[itemid];
+    }
+
     public void SetItem(int itemid, Consume item)
     {
         item.name = itemList[itemid].name;
@@ -46,6 +56,8 @@ public class DataManager
         skill.element = skillList[skillid].element;
         skill.stamina = skillList[skillid].stamina;
         skill.mp = skillList[skillid].mp;
+        skill.range = skillList[skillid].range;
+        skill.target_object = skillList[skillid].target;
     }
 
     public void SetSkill(int skillid, Travel skill)

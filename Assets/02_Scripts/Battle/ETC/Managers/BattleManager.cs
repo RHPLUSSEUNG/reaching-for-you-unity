@@ -21,11 +21,10 @@ public class BattleManager
         //TOOD make monster party
         Managers.Party.AddMonster(Managers.Prefab.Instantiate($"Monster/Enemy_Crab"));
         Managers.Party.AddParty(Managers.Prefab.Instantiate($"Character/Player_Girl_Battle"));
-
         ObjectList.Clear();
         foreach (GameObject character in Managers.Party.playerParty)
         {
-            character.GetComponent<SkillList>().AddSkill(Managers.Prefab.Instantiate($"Skill/TestAttack"));
+            character.GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(60));
             ObjectList.Add(character);
         }
         foreach (GameObject character in Managers.Party.monsterParty)

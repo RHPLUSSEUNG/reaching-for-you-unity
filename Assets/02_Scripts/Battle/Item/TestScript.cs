@@ -11,7 +11,7 @@ public class TestScript : MonoBehaviour
         GameObject character = GameObject.Find("Player_Girl_Battle");
 
         detector = GameObject.Find("RangeDetector").GetComponent<RangeDetector>();
-        detector.SetDetector(character, 1);
+        detector.SetDetector(character, 5, TargetObject.Enemy);
     }
 
     void Update()

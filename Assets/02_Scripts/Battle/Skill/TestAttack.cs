@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class TestAttack : Active
 {
-    GameObject target;
     public override bool Activate()
     {
         Managers.Active.Damage(target);

@@ -22,6 +22,8 @@ public class Managers : MonoBehaviour
     public static PrefabManager Prefab { get {  return _prefab; } }
     static ActiveManager _active = new();
     public static ActiveManager Active { get { return _active; } }
+    static SkillManager _skill = new();
+    public static SkillManager Skill { get {  return _skill; } }
 
     public void Awake()
     {
@@ -41,11 +43,10 @@ public class Managers : MonoBehaviour
         }
 
         _data.OnAwake();
-        /*
-_battle.BattleReady();
-_playerButton.Bind();
-raycast.TestInit();         // Temp
-*/
+        _skill.Awake();
+        _playerButton.Bind();
+        raycast.TestInit();
+        _battle.BattleReady();
     }
     #endregion
     public void Update()

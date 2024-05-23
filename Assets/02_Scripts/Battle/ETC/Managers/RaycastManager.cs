@@ -4,10 +4,14 @@ public class RaycastManager
 {
     UI_Battle battleUI;
     GameObject go;
+    public RangeDetector detector;
+    bool detect_ready = false;
     public void TestInit()
     {
         GameObject UI = GameObject.Find("BattleUI");
         battleUI = UI.GetComponent<UI_Battle>();
+        detector = GameObject.Find("RangeDetector").GetComponent<RangeDetector>();
+        Debug.Log(detector);
     }
 
     public void OnUpdate()
@@ -34,7 +38,6 @@ public class RaycastManager
                 }
                 */
                 //Player Turn
-
                 if (Managers.Battle.battleState == BattleState.PlayerTurn)
                 {
                     switch(Managers.PlayerButton.state)
@@ -42,16 +45,24 @@ public class RaycastManager
                         case 0:
                             //TODO current Character Move
                             break;
-                        case (ButtonState)1:
-                            if(battleUI.GetSkill().target_object == TargetObject.Character && (go.CompareTag("Player") || go.CompareTag("Monster"))){
-                                battleUI.GetSkill().SetTarget(go);
-                            }
-                            else if (battleUI.GetSkill().target_object == TargetObject.Tile && go.CompareTag("Cube"))
+                        case ButtonState.Skill:
+                            if (battleUI.GetSkill() == null)
                             {
-                                battleUI.GetSkill().SetTarget(go);
+                                break;
+                            }
+                            //set range
+                            if(detect_ready == false)
+                            {
+                                detector.SetDetector(Managers.Battle.currentCharacter, battleUI.GetSkill().range, battleUI.GetSkill().target_object);
+                            }
+
+                            if (detector.Detect(hit.collider.gameObject))
+                            {
+                                detect_ready = true;
+                                battleUI.GetSkill().SetTarget(hit.collider.gameObject);
                             }
                             break;
-                        case (ButtonState)2:
+                        case ButtonState.Item:
                             //TODO Item Use
                             break;
                     }
