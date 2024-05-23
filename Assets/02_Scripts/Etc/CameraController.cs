@@ -3,9 +3,12 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    GameObject targetList;
+    GameObject cameraList;
+    [SerializeField]
+    GameObject followList;
 
-    Transform[] targets;
+    Transform[] cameraTargets;
+    Transform[] followTargets;
     [SerializeField]
     float offsetX = 0.0f;
     [SerializeField]
@@ -23,46 +26,64 @@ public class CameraController : MonoBehaviour
     private bool isSmoothMove = true;
     private Vector3 setPos;
     private Transform targetTransform;
-    private int targetIndex;
+    private int cameraIndex;
+    private int followIndex;
 
     private void Awake()
     {
-        targets = targetList.GetComponentsInChildren<Transform>();
-        targetIndex = 1;     // GetComponentsInChildren 사용 시 0번엔 부모 오브젝트 정보가 위치함으로 Index를 1부터
-
-        if (isFollowMode )
+        if (cameraList != null)
         {
-            ChangeMode(CameraMode.Follow);
+            cameraTargets = cameraList.GetComponentsInChildren<Transform>();
+            cameraIndex = 1;     // GetComponentsInChildren 사용 시 0번엔 부모 오브젝트 정보가 위치함으로 Index를 1부터
+        }
+        if (followList != null)
+        {
+            followTargets = followList.GetComponentsInChildren<Transform>();
+            followIndex = 1;
+        }
+
+        if (isFollowMode)
+        {
             transform.eulerAngles = new Vector3(rotateX, 0, 0);
-            targetTransform = targets[targetIndex];
+            ChangeFollowTarget(followIndex, true);
         }
         else
         {
-            ChangeMode(CameraMode.Static);
+            ChangeCameraTarget(cameraIndex, false);
         }
-        ChangeTarget(targetIndex, false);
+        
     }
     void FixedUpdate()
     {
         if(isFollowMode)
         {
-            setPos = new Vector3(
+           setPos = new Vector3(
            targetTransform.position.x + offsetX,
            targetTransform.position.y + offsetY,
            targetTransform.position.z + offsetZ
            );
-        }
-        if (!isSmoothMove) 
-        {
-            transform.position = setPos;
-            transform.rotation = targetTransform.rotation;
+            if (!isSmoothMove)
+            {
+                transform.position = setPos;
+            }
+            else
+            {
+                transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
+            }
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, Time.deltaTime * cameraSpeed);
+            if (!isSmoothMove)
+            {
+                transform.position = setPos;
+                transform.rotation = targetTransform.rotation;
+            }
+            else
+            {
+                transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, Time.deltaTime * cameraSpeed);
+            }
         }
-        
     }
 
     void LateUpdate()
@@ -81,33 +102,31 @@ public class CameraController : MonoBehaviour
                 for (int j = 0; j < obj.Length; j++)
                 {
                     obj[j].Transparent();
+                    Debug.Log("Transparenting Object");
                 }
             }
             Debug.DrawRay(transform.position, direction * distance, Color.red);
         }
     }
-    public void ChangeMode(CameraMode mode)
-    {
-        if (mode == CameraMode.Follow)
-        {
-            isFollowMode = true;
-        }
-        else if (mode == CameraMode.Static)
-        {
-            isFollowMode = false;
-        }
-    }
-    public void ChangeTarget(int targetIndex, bool _isSmoothMove)
+    public void ChangeCameraTarget(int targetIndex, bool _isSmoothMove)
     {
         isSmoothMove = _isSmoothMove;
-        targetTransform = targets[targetIndex];
+        targetTransform = cameraTargets[targetIndex];
+        isFollowMode = false;
         ChangePos(targetTransform);
-        Debug.Log("Changed Target To " + targetIndex);
+        Debug.Log("Changed CameraTarget To " + targetIndex);
+    }
+    public void ChangeFollowTarget(int targetIndex, bool _isSmoothMove)
+    {
+        transform.eulerAngles = new Vector3(rotateX, 0, 0);
+        isSmoothMove = _isSmoothMove;
+        targetTransform = followTargets[targetIndex];
+        isFollowMode = true;
+        Debug.Log("Changed FollowTarget To " + targetIndex);
     }
     public void ChangePos(Transform target)
     {
         targetTransform = target;
         setPos = target.position;
-        Debug.Log("Changed pos To " + setPos);
     }
 }
