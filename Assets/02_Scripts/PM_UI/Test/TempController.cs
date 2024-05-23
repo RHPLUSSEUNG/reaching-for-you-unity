@@ -65,6 +65,7 @@ public class TempController : MonoBehaviour
             else
             {
                 PM_UI_Manager.UI.HideUI(pause.gameObject);
+                Time.timeScale = 1;
                 pause.state = false;
             }
         }
