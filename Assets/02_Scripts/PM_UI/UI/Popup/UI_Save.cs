@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_Save : UI_Base
+public class UI_Save : UI_Popup
 {
     enum SaveButton
     {
@@ -12,20 +12,19 @@ public class UI_Save : UI_Base
     }
 
     Button closeBtn;
-    public bool panelState = false;
+
     public override void Init()
     {
+        base.Init();
+
         Bind<Button>(typeof(SaveButton));
 
         closeBtn = GetButton((int)SaveButton.CloseButton);
         BindEvent(closeBtn.gameObject, PanelClose, Define.UIEvent.Click);
-
-        gameObject.SetActive(panelState);
     }
 
     public void PanelClose(PointerEventData data)
     {
-        panelState = !panelState;
-        gameObject.SetActive(panelState);
+        PM_UI_Manager.UI.HideUI(gameObject);
     }
 }

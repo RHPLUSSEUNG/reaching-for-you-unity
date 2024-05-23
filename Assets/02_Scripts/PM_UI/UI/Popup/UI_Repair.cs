@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UI_Repair : UI_Popup
 {
-    [SerializeField] TestPlayerInfo[] tempPlayer = new TestPlayerInfo[4];       // test
+    public TestPlayerInfo[] tempPlayer = new TestPlayerInfo[4];       // test
     enum repairUI
     {
         CharList,
@@ -18,15 +18,23 @@ public class UI_Repair : UI_Popup
     GameObject invenPanel;
     public override void Init()
     {
+        base.Init();
+
         Bind<GameObject>(typeof(repairUI));
 
         charList = Get<GameObject>((int)repairUI.CharList);
         GameObject close = Get<GameObject>((int)repairUI.CloseButton);
         BindEvent(close, OnCloseButton, Define.UIEvent.Click);
+    }
 
-        SetInventory();
-        SetPlayerInfo();
-        gameObject.SetActive(false);
+    // Test
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            SetInventory();
+            SetPlayerInfo();
+        }
     }
 
     void SetPlayerInfo()
@@ -38,7 +46,6 @@ public class UI_Repair : UI_Popup
             UI_CharInfo childInfo = child.GetComponent<UI_CharInfo>();
             childInfo.SetCharInfo(tempPlayer[i]);
         }
-        gameObject.SetActive(false);
     }
 
     void SetInventory()
@@ -70,6 +77,6 @@ public class UI_Repair : UI_Popup
 
     public void OnCloseButton(PointerEventData data)
     {
-        gameObject.SetActive(false);
+        PM_UI_Manager.UI.HideUI(gameObject);
     }
 }
