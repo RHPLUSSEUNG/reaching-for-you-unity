@@ -1,10 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-// 1. Character TurnSpeed�� ���� �� ������ �������� (���� ������)
-// 2. Player Turn -> Enemy Turn (��� ĳ���� ���ļ� �� ����)
-
 public class BattleManager
 {
     public BattleState battleState;
@@ -14,6 +10,14 @@ public class BattleManager
     public GameObject currentCharacter;
     public UI_ActPanel ui;
     int turnCnt = 0;
+
+    int compareDefense(GameObject character1,  GameObject character2)
+    {
+        return character1.GetComponent<EntityStat>().Defense < character2.GetComponent<EntityStat>().Defense ? -1 : 1;
+    }
+
+
+
     public void BattleReady()
     {
         ui = GameObject.Find("BattleUI").transform.GetChild(7).GetComponent<UI_ActPanel>();
@@ -31,7 +35,7 @@ public class BattleManager
         {
             ObjectList.Add(character);
         }
-
+        ObjectList.Sort(compareDefense);
         Managers.PlayerButton.UpdateStartButton();
         battleState = BattleState.Start;
         turnCnt = -1;
@@ -55,10 +59,6 @@ public class BattleManager
 
         turnCnt++;
         turnCnt %= ObjectList.Count;
-        if (playerLive == 0 || monsterLive == 0)
-        {
-            Result();
-        }
     }
 
     public void PlayerTurn()
@@ -92,7 +92,10 @@ public class BattleManager
         
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
-        
+        if(currentCharacter.GetComponent<CharacterState>().IsStun())
+        {
+            NextTurn();
+        }
         Debug.Log(turnCnt);
         if (ObjectList[turnCnt].CompareTag("Player"))
         {
@@ -116,6 +119,5 @@ public class BattleManager
             battleState = BattleState.Defeat;
             Debug.Log("Defeat");
         }
-        //SceneManager.LoadScene("model_test");
     }
 }

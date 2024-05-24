@@ -98,21 +98,21 @@ public class ItemManager
 
             if(prev_item != null)
             {
-                ExchangeEquip(prev_item, item);
+                ExchangeEquip(prev_item, item, player);
             }
             else
             {
-                equip.Equip();
+                equip.Equip(player);
                 equipmentInven.Remove(item);
             }
         }
         return false;
     }
 
-    public void ExchangeEquip(GameObject prev, GameObject cur)
+    public void ExchangeEquip(GameObject prev, GameObject cur, GameObject player)
     {
-        cur.GetComponent<Equipment>().Equip();
-        prev.GetComponent<Equipment>().UnEquip();
+        cur.GetComponent<Equipment>().Equip(player);
+        prev.GetComponent<Equipment>().UnEquip(player);
         equipmentInven.Remove(cur);
         equipmentInven.Add(prev);
     }
@@ -142,7 +142,7 @@ public class ItemManager
                 equip_item.Weapon = null;
                 break;
         }
-
+        item.GetComponent<Equipment>().UnEquip(player);
         equipmentInven.Add(item);
         inventoryCnt++;
         return true;

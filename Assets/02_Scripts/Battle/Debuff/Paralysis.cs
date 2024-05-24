@@ -8,7 +8,7 @@ public class Paralysis : Debuff
         remainTurn--;
         if (remainTurn == 0)
         {
-            target.GetComponent<EntityStat>().MovePoint = movepoint;
+            target.GetComponent<CharacterState>().ChangeStun(false);
             
             DeleteEffect();
         }
@@ -27,7 +27,7 @@ public class Paralysis : Debuff
     {
         if (target == null)
             return false;
-        target.GetComponent<EntityStat>().MovePoint = 0;
+        target.GetComponent<CharacterState>().ChangeStun(true);
         return true;
     }
 

@@ -13,7 +13,6 @@ public class ElectricShockConfirmed : Active
 
     public override bool SetTarget(GameObject target)
     {
-        //TODO 범위 확인 -> false
         if (target.GetComponent<EntityStat>() == null)
         {
             return false;
