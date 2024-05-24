@@ -28,6 +28,6 @@ public abstract class Debuff
 
     public void AddDeBuff(GameObject target)
     {
-        target.GetComponent<SkillList>().debuffs.Add(this);
+        target.GetComponent<SkillList>().AddDebuff(this);
     }
 }

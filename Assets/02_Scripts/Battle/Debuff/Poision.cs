@@ -1,0 +1,38 @@
+using UnityEngine;
+
+public class Poision : Debuff
+{
+    int tickDmg;
+    public override void TimeCheck()
+    {
+        remainTurn--;
+        Managers.Active.Damage(target, tickDmg);
+        tickDmg = tickDmg/2*3;
+        if (remainTurn == 0)
+        {
+            DeleteEffect();
+        }
+    }
+
+    public override void SetDebuff(int turn, GameObject target, short attribute)
+    {
+        this.target = target;
+        tickDmg = attribute;
+        remainTurn = turn;
+        AddDeBuff(target);
+        StartEffect();
+    }
+
+    public override bool StartEffect()
+    {
+        if (target == null)
+            return false;
+        return true;
+    }
+
+    public override void Duplicate_Debuff(Debuff debuff)
+    {
+        Poision poision = (Poision)debuff;
+        remainTurn += poision.remainTurn;
+    }
+}

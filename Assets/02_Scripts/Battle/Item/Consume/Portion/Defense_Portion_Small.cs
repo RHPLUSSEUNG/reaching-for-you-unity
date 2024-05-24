@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Sh_Portion_Small : Consume
+public class Defense_Portion_Small : Consume
 {
     public override bool Activate(GameObject target)
     {

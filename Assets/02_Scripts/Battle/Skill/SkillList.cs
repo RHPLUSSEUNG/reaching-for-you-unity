@@ -49,9 +49,12 @@ public class SkillList : MonoBehaviour
         Debuff cur = FindDebuff(debuff);
         if (cur != null)
         {
-            cur.count++;
+            cur.Duplicate_Debuff(debuff);
         }
-        debuffs.Add(debuff);
+        else
+        {
+            debuffs.Add(debuff);
+        }
     }
 
     public void DelDebuff(Debuff debuff)
