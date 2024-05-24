@@ -36,7 +36,7 @@ public class UI_CharInfo : UI_Base
         elementIcon.sprite = info.element;
         GameObject name = Get<GameObject>((int)CharInfoUI.CharacterName);
         Text charName = name.GetComponent<Text>();
-        charName.text = info.name;
+        charName.text = info.charname;
     }
 
     public void OnClickIcon(PointerEventData data)

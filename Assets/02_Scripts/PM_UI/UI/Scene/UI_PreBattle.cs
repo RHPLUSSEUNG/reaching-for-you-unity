@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class UI_PreBattle : UI_Scene
 {
-    public GameObject SavePanel;
     enum PreBattleButtons
     {
         StartButton,
@@ -16,6 +15,7 @@ public class UI_PreBattle : UI_Scene
         SystemButton
     }
 
+    BatchUI batchUI = null;
     UI_Repair repairUI = null;
     UI_Save saveUI = null;
     UI_Pause pauseUI = null;
@@ -44,12 +44,19 @@ public class UI_PreBattle : UI_Scene
 
     public void OnStartButton(PointerEventData data)
     {
-        Debug.Log("Game Start");
+        // Managers.Battle.BattleStart();
+        PM_UI_Manager.Resource.Destroy(gameObject);
     }
 
     public void OnBatchButton(PointerEventData data)
     {
-
+        if(batchUI == null)
+        {
+            batchUI = PM_UI_Manager.UI.CreatePopupUI<BatchUI>("BatchUI");
+        }
+        batchUI.preBattleUI = gameObject;
+        PM_UI_Manager.UI.ShowUI(batchUI.gameObject);
+        PM_UI_Manager.UI.HideUI(gameObject);
     }
 
     public void OnRepairButton(PointerEventData data)
