@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class UI_PreBattle : UI_Scene
 {
-    public GameObject SavePanel;
-    public GameObject RepairPanel;
     enum PreBattleButtons
     {
         StartButton,
@@ -16,6 +14,14 @@ public class UI_PreBattle : UI_Scene
         SaveButton,
         SystemButton
     }
+
+    BatchUI batchUI = null;
+    UI_Repair repairUI = null;
+    UI_Save saveUI = null;
+    UI_Pause pauseUI = null;
+
+    //Test
+    public TestPlayerInfo[] testList = new TestPlayerInfo[4];       // test
 
     public override void Init()
     {
@@ -38,27 +44,54 @@ public class UI_PreBattle : UI_Scene
 
     public void OnStartButton(PointerEventData data)
     {
-        Debug.Log("Game Start");
+        // Managers.Battle.BattleStart();
+        PM_UI_Manager.UI.CreatePopupUI<ActUI>("ActUI");
+        PM_UI_Manager.Resource.Destroy(batchUI.gameObject);
+        PM_UI_Manager.Resource.Destroy(repairUI.gameObject);
+        PM_UI_Manager.Resource.Destroy(saveUI.gameObject);
+        PM_UI_Manager.Resource.Destroy(gameObject);
     }
 
     public void OnBatchButton(PointerEventData data)
     {
-
+        if(batchUI == null)
+        {
+            batchUI = PM_UI_Manager.UI.CreatePopupUI<BatchUI>("BatchUI");
+        }
+        batchUI.preBattleUI = gameObject;
+        PM_UI_Manager.UI.ShowUI(batchUI.gameObject);
+        PM_UI_Manager.UI.HideUI(gameObject);
     }
 
     public void OnRepairButton(PointerEventData data)
     {
-        RepairPanel.SetActive(true);
+        if(repairUI == null)
+        {
+            repairUI = PM_UI_Manager.UI.CreatePopupUI<UI_Repair>("RepairUI");
+        }
+        // Test
+        repairUI.tempPlayer[0] = testList[0];
+        repairUI.tempPlayer[1] = testList[1];
+        repairUI.tempPlayer[2] = testList[2];
+        repairUI.tempPlayer[3] = testList[3];
+        PM_UI_Manager.UI.ShowUI(repairUI.gameObject);
     }
 
     public void OnSaveButton(PointerEventData data)
     {
-        SavePanel.GetComponent<UI_Save>().panelState = !SavePanel.GetComponent<UI_Save>().panelState;
-        SavePanel.SetActive(SavePanel.GetComponent<UI_Save>().panelState);
+        if(saveUI == null)
+        {
+            saveUI = PM_UI_Manager.UI.CreatePopupUI<UI_Save>("SaveUI");
+        }
+        PM_UI_Manager.UI.ShowUI(saveUI.gameObject);
     }
 
     public void OnSystemButton(PointerEventData data)
     {
-        
+        if (pauseUI == null)
+        {
+            pauseUI = PM_UI_Manager.UI.CreatePopupUI<UI_Pause>("PauseUI");
+        }
+        PM_UI_Manager.UI.ShowUI(pauseUI.gameObject);
     }
 }
