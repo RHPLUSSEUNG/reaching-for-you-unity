@@ -8,8 +8,10 @@ public class CoverData : ScriptableObject
     [SerializeField]
     private int step;
 
-    // 단계 별 엄폐물
     public GameObject coverGameObject;
+
+    public Map map;
+    protected bool isHiding;
 
     private float damagePercent;
     public void Init() {
@@ -27,6 +29,20 @@ public class CoverData : ScriptableObject
             case 3:
                 damagePercent = 1f;
                 break;
+        }
+    }
+
+    public float GetDamagePercent()
+    {
+        return damagePercent;
+    }
+
+    public void AttackCover()
+    {
+        if (step > 0)
+        {
+            step--;
+            Init();
         }
     }
 }

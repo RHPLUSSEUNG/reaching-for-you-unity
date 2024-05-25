@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.PlasticSCM.Editor.WebApi;
 
 public enum EObstacle
 {
@@ -32,8 +33,10 @@ public class CreateObject : MonoBehaviour
 
     public float frequency = 0;
 
-    public int minWallCount = 1; // 최소 벽 개수
-    public int maxWallCount = 5; // 최대 벽 개수
+    public int minObstacleCount = 1; // 최소 벽 개수
+    public int maxObstacleCount = 5; // 최대 벽 개수
+    int currentObstacleCount = 0;
+
     public LayerMask wallLayerMask; // Wall 레이어 마스크
 
     private List<Vector2Int> wallPositions = new List<Vector2Int>(); // 생성된 벽의 위치 리스트
@@ -41,12 +44,9 @@ public class CreateObject : MonoBehaviour
     void Start()
     {
         PlaceCubes();
-        // PlaceWalls();
-
         RandomObstacle(Width, Height, 1);
 
         manager.active = true;
-
     }
 
     public void RandomObstacle(float Width, float Height, int cellSize) 
@@ -105,15 +105,24 @@ public class CreateObject : MonoBehaviour
                         // 선택된 인덱스에 해당하는 coverData 사용
                         CoverData selectedCoverData = coverDataArray[randomIndex];
                         // 선택된 coverData에 해당하는 cube 생성
-                        // map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
-                        // map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
-                        // map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 1f, 0);
-                        map[x, z].CanWalk = false;
+                        if(maxObstacleCount > currentObstacleCount) {
+                            map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
+                            map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
+                            map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 1f, 0);
+                            map[x, z].CanWalk = false;
+                            currentObstacleCount++;
+                        }
                         break;
                 }
             }
         }
     }
+
+    public Map[,] GetMap()
+    {
+        return map;
+    }
+
 
     public int IsObstacleAround(int x, int z)
     {
