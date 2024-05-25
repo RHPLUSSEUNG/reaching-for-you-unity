@@ -27,19 +27,34 @@ public class QuestList : MonoBehaviour
 
     public bool HasQuest(Quest quest)
     {
-        foreach(QuestStatus status in statuses) 
-        {
-            if(status.GetQuest() == quest)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return GetQuestStatus(quest) !=  null;
     }
 
     public IEnumerable<QuestStatus> GetStatuses()
     {
         return statuses;
+    }
+
+    public void CompleteObjective(Quest quest, string objective)
+    {
+        QuestStatus status = GetQuestStatus(quest);
+        status.CompleteObjective(objective);
+
+        if (onUpdate != null)
+        {
+            onUpdate();
+        }
+    }
+
+    QuestStatus GetQuestStatus(Quest quest)
+    {
+        foreach (QuestStatus status in statuses)
+        {
+            if (status.GetQuest() == quest)
+            {
+                return status;
+            }
+        }
+        return null;
     }
 }
