@@ -14,12 +14,11 @@ public class Paralysis : Debuff
         }
     }
 
-    public override void SetDebuff(int turn, GameObject target, short attribute = 0)
+    public override void SetDebuff(int turn, GameObject target, short attribute = 0, bool turnEnd = false)
     {
         this.target = target;
-        movepoint = target.GetComponent<EntityStat>().MovePoint;
         remainTurn = turn;
-        AddDeBuff(target);
+        target.GetComponent<CharacterState>().AddDebuff(this, turnEnd);
         StartEffect();
     }
 

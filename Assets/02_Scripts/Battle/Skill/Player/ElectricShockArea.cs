@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class ElectricShockConfirmed : Active
+public class ElectricShockArea : Active
 {
     public override bool Activate()
     {
         //TODO Effect
-        ElectricShock shock = new();
-        shock.SetDebuff(1, target, 1);
+        GameObject area = Managers.Prefab.Instantiate("Area/ElectricArea");
+        area.transform.position = target.transform.position;
         return true;
     }
 

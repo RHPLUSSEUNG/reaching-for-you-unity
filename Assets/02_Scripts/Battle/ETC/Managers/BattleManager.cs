@@ -28,7 +28,7 @@ public class BattleManager
         ObjectList.Clear();
         foreach (GameObject character in Managers.Party.playerParty)
         {
-            character.GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(60));
+            character.GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(0));
             ObjectList.Add(character);
         }
         foreach (GameObject character in Managers.Party.monsterParty)
@@ -52,9 +52,9 @@ public class BattleManager
 
     public void CalcTurn()
     {
-        if(currentCharacter != null && currentCharacter.GetComponent<SkillList>() != null)
+        if(currentCharacter != null && currentCharacter.GetComponent<CharacterState>() != null)
         {
-            currentCharacter.GetComponent<SkillList>().CalcTurn();
+            currentCharacter.GetComponent<CharacterState>().CalcTurn();
         }
 
         turnCnt++;
@@ -89,14 +89,13 @@ public class BattleManager
         {
             return;
         }
-        
+        Managers.raycast.detect_ready = false;
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
         if(currentCharacter.GetComponent<CharacterState>().IsStun())
         {
             NextTurn();
         }
-        Debug.Log(turnCnt);
         if (ObjectList[turnCnt].CompareTag("Player"))
         {
             PlayerTurn();

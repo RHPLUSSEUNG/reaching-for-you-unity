@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class ElectricShockConfirmed : Active
+public class ParalysisProbailityUp : Active
 {
     public override bool Activate()
     {
         //TODO Effect
         ElectricShock shock = new();
-        shock.SetDebuff(1, target, 1);
+        shock.SetDebuff(5, target, 5);
         return true;
     }
 

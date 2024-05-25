@@ -5,7 +5,7 @@ public class RaycastManager
     UI_Battle battleUI;
     GameObject go;
     public RangeDetector detector;
-    bool detect_ready = false;
+    public bool detect_ready = false;
     public void TestInit()
     {
         GameObject UI = GameObject.Find("BattleUI");
@@ -59,7 +59,10 @@ public class RaycastManager
                             if (detector.Detect(hit.collider.gameObject))
                             {
                                 detect_ready = true;
-                                battleUI.GetSkill().SetTarget(hit.collider.gameObject);
+                                if (battleUI.GetSkill().SetTarget(hit.collider.gameObject))
+                                {
+                                    Managers.Battle.NextTurn();
+                                }
                             }
                             break;
                         case ButtonState.Item:

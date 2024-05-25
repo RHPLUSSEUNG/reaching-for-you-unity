@@ -13,7 +13,7 @@ public abstract class Buff
         {
             return false;
         }
-        target.GetComponent<SkillList>().DelBuff(this);
+        target.GetComponent<CharacterState>().DelBuff(this);
         
         return true;
     }
@@ -24,6 +24,6 @@ public abstract class Buff
 
     public void AddBuff(GameObject target)
     {
-        target.GetComponent<SkillList>().buffs.Add(this);
+        target.GetComponent<CharacterState>().buffs.Add(this);
     }
 }
