@@ -22,12 +22,14 @@ public class BattleItemUI : UI_Base
 
     public void SetItem()
     {
-        
+        // PM_UI_Manager.BattleUI.item
     }
 
     public void ItemButtonClick(PointerEventData data)
     {
         Debug.Log("Item Button Click");
+        PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.itemPanel);
+        PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.actUI);
     }
 
     public void ItemButtonEnter(PointerEventData data)

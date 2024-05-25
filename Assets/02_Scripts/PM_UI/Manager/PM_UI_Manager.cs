@@ -9,9 +9,10 @@ public class PM_UI_Manager : MonoBehaviour
 
     ResourcesManager resource = new ResourcesManager();
     UIManager ui = new UIManager();
-
+    BattleUIManager battleUI = new BattleUIManager();
     public static ResourcesManager Resource { get { return Instance.resource; } }
     public static UIManager UI { get { return Instance.ui; } }
+    public static BattleUIManager BattleUI { get { return Instance.battleUI; } }
 
     void Start()
     {

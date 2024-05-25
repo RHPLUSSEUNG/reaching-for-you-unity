@@ -26,11 +26,14 @@ public class ActUI : UI_Popup
         base.Init();
         Bind<GameObject>(typeof(actUI));
 
+        PM_UI_Manager.BattleUI.actUI = gameObject;
         GameObject magicUseBtn = GetObject((int)actUI.MagicUseButton);
         GameObject itemUseBtn = GetObject((int)actUI.ItemUseButton);
         GameObject defenseBtn = GetObject((int)actUI.DefenseButton);
         magicPanel = GetObject((int)actUI.MagicPanel);
+        PM_UI_Manager.BattleUI.magicPanel = magicPanel;
         itemPanel = GetObject((int)actUI.ItemPanel);
+        PM_UI_Manager.BattleUI.itemPanel = itemPanel;
         magicBtnLayout = GetObject((int)actUI.MagicButtonLayout);
 
         BindEvent(magicUseBtn, UseMagicButtonClick, Define.UIEvent.Click);
