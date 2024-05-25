@@ -6,9 +6,9 @@ public class IncreaseAtk : Buff
     public override void TimeCheck()
     {
         remainTurn--;
-        if(remainTurn ==  0)
+        if (remainTurn == 0)
         {
-            target.GetComponent<EntityStat>().BaseDamage -= incAtk;
+            Managers.Active.ModifyAtk(target, -1 * incAtk);
             DeleteEffect();
         }
     }
@@ -18,14 +18,15 @@ public class IncreaseAtk : Buff
         this.target = target;
         this.remainTurn = turn;
         incAtk = attribute;
-        target.GetComponent<SkillList>().buffs.Add(this);
+        AddBuff(target);
+        StartEffect();
     }
 
     public override bool StartEffect()
     {
         if (this.target == null)
             return false;
-        this.target.GetComponent<EntityStat>().BaseDamage += incAtk;
+        Managers.Active.ModifyAtk(target, incAtk);
         TimeCheck();
         return true;
     }

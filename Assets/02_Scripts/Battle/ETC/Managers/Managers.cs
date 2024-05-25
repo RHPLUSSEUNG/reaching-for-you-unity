@@ -20,6 +20,10 @@ public class Managers : MonoBehaviour
     public static DataManager Data { get { return _data; } }
     static PrefabManager _prefab = new();
     public static PrefabManager Prefab { get {  return _prefab; } }
+    static ActiveManager _active = new();
+    public static ActiveManager Active { get { return _active; } }
+    static SkillManager _skill = new();
+    public static SkillManager Skill { get {  return _skill; } }
 
     public void Awake()
     {
@@ -37,15 +41,17 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             _manager = gameObject.GetComponent<Managers>();
         }
-        _playerButton.Bind();
+
         _data.OnAwake();
+        _skill.Awake();
+        _playerButton.Bind();
+        raycast.TestInit();
         _battle.BattleReady();
-        raycast.TestInit();         // Temp
     }
     #endregion
     public void Update()
     {
-        raycast.OnUpdate();           
+        raycast.OnUpdate();
     }
 
 }

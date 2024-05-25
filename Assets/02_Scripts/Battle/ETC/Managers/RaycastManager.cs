@@ -3,10 +3,15 @@ using UnityEngine;
 public class RaycastManager
 {
     UI_Battle battleUI;
+    GameObject go;
+    public RangeDetector detector;
+    bool detect_ready = false;
     public void TestInit()
     {
         GameObject UI = GameObject.Find("BattleUI");
         battleUI = UI.GetComponent<UI_Battle>();
+        detector = GameObject.Find("RangeDetector").GetComponent<RangeDetector>();
+        Debug.Log(detector);
     }
 
     public void OnUpdate()
@@ -18,7 +23,8 @@ public class RaycastManager
             
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.Log("ray :" + hit.collider.gameObject);
+                go = hit.collider.gameObject;
+                Debug.Log("ray :" + go);
                 /*
                 if (hit.transform.gameObject.CompareTag("Character"))
                 {
@@ -34,15 +40,31 @@ public class RaycastManager
                 //Player Turn
                 if (Managers.Battle.battleState == BattleState.PlayerTurn)
                 {
-                    if (Managers.PlayerButton.state == ButtonState.Skill)
+                    switch(Managers.PlayerButton.state)
                     {
-                        battleUI.GetSkill().SetTarget(hit.collider.gameObject);
-                        // Managers.PlayerButton.GetSkill().SetTarget(hit.collider.gameObject);
-                    }
-                    else if (Managers.PlayerButton.state == ButtonState.Idle && hit.collider.gameObject.CompareTag("Cube"))
-                    {
-                        //player ¿Ãµø
-                        Managers.PlayerButton.player.transform.position = hit.collider.transform.position + Vector3.up;
+                        case 0:
+                            //TODO current Character Move
+                            break;
+                        case ButtonState.Skill:
+                            if (battleUI.GetSkill() == null)
+                            {
+                                break;
+                            }
+                            //set range
+                            if(detect_ready == false)
+                            {
+                                detector.SetDetector(Managers.Battle.currentCharacter, battleUI.GetSkill().range, battleUI.GetSkill().target_object);
+                            }
+
+                            if (detector.Detect(hit.collider.gameObject))
+                            {
+                                detect_ready = true;
+                                battleUI.GetSkill().SetTarget(hit.collider.gameObject);
+                            }
+                            break;
+                        case ButtonState.Item:
+                            //TODO Item Use
+                            break;
                     }
                     
                 }

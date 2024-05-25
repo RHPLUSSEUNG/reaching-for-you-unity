@@ -29,11 +29,19 @@ public enum EquipPart
     Weapon = 3,
 };
 
+public enum TargetObject
+{
+    Enemy = 0,
+    Tile = 1,
+    Me = 2,
+    Friendly = 3,
+}
+
 public enum BattleState
 {
-    Start =0,
+    Start = 0,
     PlayerTurn = 1,
-    EnemyTurn =2,
+    EnemyTurn = 2,
     Victory = 3,
     Defeat = 4,
     Wait = 5,
@@ -42,8 +50,9 @@ public enum BattleState
 public enum ButtonState
 {
     Idle = 0,
-    Skill =1,
-    PlayerSet =2,
+    Skill = 1,
+    Item = 2,
+    PlayerSet = 3,
 }
 
 public enum Buttons
