@@ -1,18 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShowHideUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] KeyCode toggleKey = KeyCode.Escape;
+    [SerializeField] GameObject uiContainer = null;
+    [SerializeField] Button exitButton;
+
+    private void Start()
     {
-        
+        uiContainer.SetActive(false);
+        exitButton.onClick.AddListener(Toggle);
+    }
+    
+    private void Update()
+    {
+        if (Input.GetKeyDown(toggleKey))
+        {
+            Toggle();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Toggle()
     {
-        
+        uiContainer.SetActive(!uiContainer.activeSelf);
     }
 }

@@ -20,7 +20,7 @@ public class DialogueUI : MonoBehaviour
 
     void Start()
     {
-        playerConversant = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerConversant>();
+        playerConversant = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponentInChildren<PlayerConversant>();
         playerConversant.onConversationUpdated += UpdateUI;
         nextButton.onClick.AddListener(() => playerConversant.Next());
         quitButton.onClick.AddListener(() => playerConversant.Quit());

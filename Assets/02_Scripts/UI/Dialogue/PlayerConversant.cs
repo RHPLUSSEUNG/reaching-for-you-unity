@@ -14,6 +14,8 @@ public class PlayerConversant : MonoBehaviour
     bool isChoosing = false;    
     PlayerController playerController;
 
+    public event Action onConversationUpdated;
+
     private void Awake()
     {        
         playerController = GetComponentInParent<PlayerController>();
@@ -23,10 +25,7 @@ public class PlayerConversant : MonoBehaviour
     {
         return currentDialogue.GetPlayerChildren(currentNode);
     }
-
-    public event Action onConversationUpdated;
-  
-
+      
     public void StartDialogue(NPCConversant newConversant, Dialogue newDialogue)
     {
         playerController.ChangeActive(false);

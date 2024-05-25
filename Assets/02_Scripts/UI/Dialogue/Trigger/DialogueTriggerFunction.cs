@@ -31,4 +31,6 @@ public class DialogueTriggerFunction : MonoBehaviour
     {
         SceneManager.LoadScene("Prototype_0512");
     }
+
+    
 }
