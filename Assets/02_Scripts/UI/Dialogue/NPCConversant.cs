@@ -8,7 +8,7 @@ public class NPCConversant : MonoBehaviour
     [SerializeField] string conversantName;
     [SerializeField] Dialogue dialogue = null;
     [SerializeField] Button actionButton;
-    [SerializeField] Dialogue endDialgoue = null;
+    //[SerializeField] Dialogue endDialgoue = null;
 
     PlayerConversant playerConversant;
     bool isDialogueAction = false;

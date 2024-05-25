@@ -159,7 +159,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "* \uAD8C\uD76C\uC900\uC744 \uC8FD\uC5EC\uB77C"
+  m_text: "* \uC608\uC2DC \uD018\uC2A4\uD2B8"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 181648f1ca48ead4085c4e21695df67e, type: 2}
   m_sharedMaterial: {fileID: 2654028145114927757, guid: 181648f1ca48ead4085c4e21695df67e, type: 2}
@@ -241,11 +241,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: -1
-  m_MinHeight: -1
+  m_MinWidth: 400
+  m_MinHeight: 50
   m_PreferredWidth: -1
   m_PreferredHeight: -1
-  m_FlexibleWidth: 1
+  m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
 --- !u!1 &6844040922735536307
@@ -259,6 +259,7 @@ GameObject:
   - component: {fileID: 6903107539175094917}
   - component: {fileID: 7399614137787965080}
   - component: {fileID: 2731972702444278607}
+  - component: {fileID: 7219011695216021401}
   m_Layer: 5
   m_Name: Progress
   m_TagString: Untagged
@@ -382,3 +383,23 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7219011695216021401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6844040922735536307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: 100
+  m_MinHeight: 50
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1

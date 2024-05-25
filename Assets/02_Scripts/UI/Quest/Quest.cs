@@ -17,4 +17,8 @@ public class Quest : ScriptableObject
         return objectives.Length;
     }
 
+    public IEnumerable<string> GetObjectives()
+    {
+        return objectives;
+    }
 }
