@@ -34,23 +34,10 @@ public class UI_ActPanel : UI_Popup
         pos = GetComponent<RectTransform>();
     }
 
-    // temp
-    //public void Update()
-    //{
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        mousePos = Input.mousePosition;
-    //        pos.position = mousePos;
-    //        Debug.Log(mousePos);
-    //    }
-    //}
-
     public void ShowActPanel(SkillList info)
     {
         gameObject.SetActive(true);
         SetPlayerInfo(info);
-        // mousePos = Input.mousePosition;
-        // pos.position = mousePos;
         Debug.Log(mousePos);
     }
 

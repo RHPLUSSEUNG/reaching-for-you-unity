@@ -71,6 +71,7 @@ public class BatchUI : UI_Popup
 
     public void FinishButtonClick(PointerEventData data)
     {
+        PM_UI_Manager.UI.uiState = UIManager.UIState.Idle;
         PM_UI_Manager.UI.HideUI(gameObject);
         PM_UI_Manager.UI.ShowUI(preBattleUI);
     }
