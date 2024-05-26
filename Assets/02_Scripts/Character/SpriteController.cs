@@ -29,11 +29,6 @@ public class SpriteController : MonoBehaviour
     {
         SetRotation(mainCamera.transform.eulerAngles.x, mainCamera.transform.eulerAngles.y);
 
-        if (isIdle)
-        {
-            SetAnimState(AnimState.Idle);
-            return;
-        }
         if (direction == Direction.Left)
         {
             StartCoroutine(RotateSprite(Direction.Left));
