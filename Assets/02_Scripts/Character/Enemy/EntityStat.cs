@@ -46,6 +46,7 @@ public class EntityStat : MonoBehaviour
     public int AttackRange { get { return _attackRange; } set { _attackRange = value; } }
     public int MovePoint { get { return _movePoint; } set { _movePoint = value; } }
     public int Sight { get { return _sight; } set { _sight = value; } }
+    public float Defense { get { return _defense; } set { _defense = value; } }
     public float HealReciveMultiply { get { return _healReciveMultiply; } set { _healReciveMultiply = value; } }
     public bool Hidden { get { return _hidden; } set { _hidden = value; } }
     public float Burn { get { return _burn; } set { _burn = value; } }

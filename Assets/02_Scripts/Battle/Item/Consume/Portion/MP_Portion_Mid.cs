@@ -5,7 +5,7 @@ public class MP_Portion_Mid : Consume
     public override bool Activate(GameObject target)
     {
         if(target == null) return false;
-        target.GetComponent<EntityStat>().Mp += 50;
+        Managers.Active.MPRecovery(target, 75);
         return true;
     }
 }

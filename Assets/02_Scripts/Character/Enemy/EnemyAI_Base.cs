@@ -99,7 +99,7 @@ public class EnemyAI_Base : MonoBehaviour
             Debug.Log("Attack");    // 공격 실행
             spriteController.SetAnimState(AnimState.Attack);
             // 텀 추가?
-            Managers.Party.Damage(targetObj, stat.BaseDamage);
+            Managers.Active.Damage(targetObj, stat.BaseDamage);
             canAttack = false;
         }
         isTurnEnd = true;   // 턴 종료

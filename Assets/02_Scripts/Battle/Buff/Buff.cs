@@ -13,7 +13,8 @@ public abstract class Buff
         {
             return false;
         }
-        target.GetComponent<SkillList>().buffs.Remove(this);
+        target.GetComponent<SkillList>().DelBuff(this);
+        
         return true;
     }
 
@@ -21,9 +22,8 @@ public abstract class Buff
 
     public abstract void SetBuff(short turn, GameObject target, short attribute = 0);
 
-    public void Active()
+    public void AddBuff(GameObject target)
     {
-        StartEffect();
+        target.GetComponent<SkillList>().buffs.Add(this);
     }
-
 }

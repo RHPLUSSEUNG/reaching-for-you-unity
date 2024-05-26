@@ -6,7 +6,7 @@ public class Burn : Debuff
     public override void TimeCheck()
     {
         remainTurn--;
-        Managers.Party.Damage(target, tickDmg);
+        Managers.Active.Damage(target, tickDmg);
         if(remainTurn == 0)
         {
             DeleteEffect();
@@ -18,7 +18,7 @@ public class Burn : Debuff
         this.target = target;
         remainTurn = turn;
         tickDmg = attribute;
-
+        AddDeBuff(target);
         StartEffect();
     }
 
@@ -30,7 +30,7 @@ public class Burn : Debuff
         return true;
     }
 
-    public override void AddDebuff(Debuff debuff)
+    public override void Duplicate_Debuff(Debuff debuff)
     {
         Burn burn = (Burn)debuff;
         this.remainTurn = debuff.remainTurn;

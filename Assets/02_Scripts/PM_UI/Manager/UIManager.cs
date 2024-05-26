@@ -5,8 +5,16 @@ using UnityEngine.UI;
 
 public class UIManager
 {
-    int order = 10;
+    public enum UIState
+    {
+        Idle,
+        PlayerSet,
+        SkillSet
+    }
 
+    public UIState uiState = UIState.Idle;
+
+    int order = 10;
     Stack<UI_Popup> popupStack = new Stack<UI_Popup>();
     UI_Scene _sceneUI = null;
 

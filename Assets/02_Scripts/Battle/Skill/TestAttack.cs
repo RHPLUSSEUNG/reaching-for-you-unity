@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class TestAttack : Active
 {
-    GameObject target;
     public override bool Activate()
     {
-        Managers.Party.Damage(target);
+        Managers.Active.Damage(target);
         Debug.Log("Player Attack");
         Managers.Battle.NextTurn();
         return true;

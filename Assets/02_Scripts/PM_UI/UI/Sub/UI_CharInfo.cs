@@ -8,7 +8,7 @@ public class UI_CharInfo : UI_Base
 {
     enum CharInfoUI
     {
-        LevelText,
+        Level,
         CharIcon,
         ElementIcon,
         CharacterName,
@@ -25,7 +25,7 @@ public class UI_CharInfo : UI_Base
 
     public void SetCharInfo(TestPlayerInfo info)
     {
-        GameObject level = Get<GameObject>((int)CharInfoUI.LevelText);
+        GameObject level = GetObject((int)CharInfoUI.Level);
         Text levelText = level.GetComponent<Text>();
         levelText.text = info.level;
         GameObject icon = Get<GameObject>((int)CharInfoUI.CharIcon);
@@ -36,7 +36,7 @@ public class UI_CharInfo : UI_Base
         elementIcon.sprite = info.element;
         GameObject name = Get<GameObject>((int)CharInfoUI.CharacterName);
         Text charName = name.GetComponent<Text>();
-        charName.text = info.name;
+        charName.text = info.charname;
     }
 
     public void OnClickIcon(PointerEventData data)
