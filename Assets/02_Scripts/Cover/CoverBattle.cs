@@ -12,6 +12,11 @@ public class CoverBattle : MonoBehaviour
         currentPosition = transform.position; // 현재 위치 설정
     }
 
+    public void UpdateCurrentPosition(Vector3 newPosition) // 현재 위치 갱신
+    {
+        currentPosition = newPosition;
+    }
+
     void CheckTarget(Vector3 targetPosition) {
         Map[,] map = createObject.GetMap();
         Vector3 difference = targetPosition - currentPosition;

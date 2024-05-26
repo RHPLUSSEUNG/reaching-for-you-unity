@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.PlasticSCM.Editor.WebApi;
 
 public enum EObstacle
 {
@@ -35,16 +34,20 @@ public class CreateObject : MonoBehaviour
 
     public int minObstacleCount = 1; // 최소 벽 개수
     public int maxObstacleCount = 5; // 최대 벽 개수
+    public float minDistanceBetweenObstacles = 2.0f; // 장애물 간 최소 거리
+
     int currentObstacleCount = 0;
 
     public LayerMask wallLayerMask; // Wall 레이어 마스크
 
     private List<Vector2Int> wallPositions = new List<Vector2Int>(); // 생성된 벽의 위치 리스트
+    private List<Vector2Int> obstaclePositions = new List<Vector2Int>(); // 생성된 장애물의 위치 리스트
 
     void Start()
     {
         PlaceCubes();
         RandomObstacle(Width, Height, 1);
+        // PlaceObstacles();
 
         manager.active = true;
     }
@@ -96,8 +99,8 @@ public class CreateObject : MonoBehaviour
                             map[x, z].ObjectPrefab = Instantiate(wallPrefab, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
                             map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 1f, 0);
                             map[x,z].CanWalk = false;
+                            wallPositions.Add(new Vector2Int(x, z));
                         }
-                        
                         break;
                     case EObstacle.Obstacle:
                         // 랜덤한 인덱스 생성
@@ -112,11 +115,48 @@ public class CreateObject : MonoBehaviour
                             map[x, z].CanWalk = false;
                             currentObstacleCount++;
                         }
+                        
                         break;
                 }
             }
         }
     }
+
+    // public void PlaceObstacles()
+    // {
+    //     int obstacleCount = Random.Range(minObstacleCount, maxObstacleCount + 1);
+    //     while (currentObstacleCount < obstacleCount)
+    //     {
+    //         int x = Random.Range(0, (int)Width);
+    //         int z = Random.Range(0, (int)Height);
+
+    //         if (map[x, z].eObstacle == EObstacle.Obstacle && IsPositionFarFromWalls(x, z))
+    //         {
+    //             // 랜덤한 인덱스 생성
+    //             int randomIndex = Random.Range(0, coverDataArray.Length);
+    //             CoverData selectedCoverData = coverDataArray[randomIndex];
+
+    //             map[x, z].eObstacle = EObstacle.Obstacle;
+    //             map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
+    //             map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
+    //             map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 1f, 0);
+    //             obstaclePositions.Add(new Vector2Int(x, z));
+    //             currentObstacleCount++;
+    //         }
+    //     }
+    // }
+
+    // private bool IsPositionFarFromWalls(int x, int z)
+    // {
+    //     foreach (Vector2Int wallPos in wallPositions)
+    //     {
+    //         if (Vector2Int.Distance(new Vector2Int(x, z), wallPos) < minDistanceBetweenObstacles)
+    //         {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
 
     public Map[,] GetMap()
     {
