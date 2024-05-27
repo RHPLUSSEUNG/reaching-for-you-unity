@@ -21,7 +21,7 @@ public class NPCConversant : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && isDialogueAction)
+        if (Input.GetKeyDown(KeyCode.E) && isDialogueAction)
         {
             StartDialogue();
             isDialogueAction = false;

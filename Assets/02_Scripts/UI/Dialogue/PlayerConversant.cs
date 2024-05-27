@@ -79,8 +79,6 @@ public class PlayerConversant : MonoBehaviour
         }
     }
 
-
-
     public void SelectChoice(DialogueNode chosenNode)
     {
         currentNode = chosenNode;
