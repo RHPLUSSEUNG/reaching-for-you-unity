@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class InvenItemUI : UI_Base
 {
-    public EquipPart equipPart = EquipPart.Weapon;
+    public EquipPart equipPart;
     enum invenItemUI
     {
         ItemIcon,
@@ -22,6 +22,11 @@ public class InvenItemUI : UI_Base
     {
         Bind<GameObject>(typeof(invenItemUI));
         BindEvent(gameObject, ClickInvenItem, Define.UIEvent.Click);
+    }
+
+    public void SetItemInfo()
+    {
+
     }
 
     public void ClickInvenItem(PointerEventData data)
@@ -44,11 +49,13 @@ public class InvenItemUI : UI_Base
                 break;
             case EquipPart.UpBody:
                 equipIcon = Util.FindChild(PM_UI_Manager.InvenUI.upbody.gameObject, "EquipIcon").GetComponent<Image>();
-                equipIcon.sprite = itemIcon.sprite;
+                PM_UI_Manager.InvenUI.equipUI.cur = equipIcon;
+                PM_UI_Manager.InvenUI.equipUI.change = itemIcon;
                 break;
             case EquipPart.DownBody:
                 equipIcon = Util.FindChild(PM_UI_Manager.InvenUI.downbody.gameObject, "EquipIcon").GetComponent<Image>();
-                equipIcon.sprite = itemIcon.sprite;
+                PM_UI_Manager.InvenUI.equipUI.cur = equipIcon;
+                PM_UI_Manager.InvenUI.equipUI.change = itemIcon;
                 break;
             case EquipPart.Weapon:
                 equipIcon = Util.FindChild(PM_UI_Manager.InvenUI.weapon.gameObject, "EquipIcon").GetComponent<Image>();

@@ -30,5 +30,10 @@ public class InvenUI : UI_Popup
         PM_UI_Manager.InvenUI.pants = GetObject((int)invenUI.PantsEquip).GetComponent<Image>();
         PM_UI_Manager.InvenUI.weapon = GetObject((int)invenUI.WeaponEquip).GetComponent<Image>();
         PM_UI_Manager.InvenUI.invenContent = GetObject((int)invenUI.InvenContent);
+
+        //for(int i = 0; i < Managers.Item.equipmentInven.Count; i++)
+        //{
+        //    PM_UI_Manager.UI.MakeSubItem<InvenItemUI>(PM_UI_Manager.InvenUI.invenContent.transform, "InvenItemUI");
+        //}
     }
 }

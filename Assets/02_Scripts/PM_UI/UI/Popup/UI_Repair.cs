@@ -27,17 +27,7 @@ public class UI_Repair : UI_Popup
         BindEvent(close, OnCloseButton, Define.UIEvent.Click);
     }
 
-    // Test
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            SetInventory();
-            SetPlayerInfo();
-        }
-    }
-
-    void SetPlayerInfo()
+    public void SetPlayerInfo()
     {
         GameObject child;
         for(int i = 0; i < tempPlayer.Length; i++)
@@ -48,7 +38,7 @@ public class UI_Repair : UI_Popup
         }
     }
 
-    void SetInventory()
+    public void SetInventory()
     {
         invenPanel = Get<GameObject>((int)repairUI.InvenPanel);
         GameObject itemInven = Util.FindChild(invenPanel, "ItemInven", true);

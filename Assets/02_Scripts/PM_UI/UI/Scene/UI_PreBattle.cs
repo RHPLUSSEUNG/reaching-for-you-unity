@@ -75,6 +75,7 @@ public class UI_PreBattle : UI_Scene
         repairUI.tempPlayer[2] = testList[2];
         repairUI.tempPlayer[3] = testList[3];
         PM_UI_Manager.UI.ShowUI(repairUI.gameObject);
+        repairUI.SetPlayerInfo();
     }
 
     public void OnSaveButton(PointerEventData data)

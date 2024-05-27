@@ -13,6 +13,7 @@ public class InvenUIManager
     public Image downbody;
     public Image weapon;
     public GameObject invenContent;
+    public GameObject player;
     public EquipUI equipUI = null;
 
     public void UpdateEquipUI(Image cur, Image change)
