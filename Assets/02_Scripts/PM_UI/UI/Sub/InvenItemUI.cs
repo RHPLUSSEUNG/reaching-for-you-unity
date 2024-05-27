@@ -24,9 +24,9 @@ public class InvenItemUI : UI_Base
         BindEvent(gameObject, ClickInvenItem, Define.UIEvent.Click);
     }
 
-    public void SetItemInfo()
+    public void SetItemInfo(GameObject item)
     {
-
+        
     }
 
     public void ClickInvenItem(PointerEventData data)

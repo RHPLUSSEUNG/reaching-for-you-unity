@@ -46,9 +46,18 @@ public class UI_PreBattle : UI_Scene
     {
         // Managers.Battle.BattleStart();
         PM_UI_Manager.UI.CreatePopupUI<ActUI>("ActUI");
-        PM_UI_Manager.Resource.Destroy(batchUI.gameObject);
-        PM_UI_Manager.Resource.Destroy(repairUI.gameObject);
-        PM_UI_Manager.Resource.Destroy(saveUI.gameObject);
+        if (batchUI != null)
+        {
+            PM_UI_Manager.UI.ClosePopupUI(batchUI);
+        }
+        if (repairUI != null)
+        {
+            PM_UI_Manager.UI.ClosePopupUI(repairUI);
+        }
+        if (saveUI != null)
+        {
+            PM_UI_Manager.UI.ClosePopupUI(saveUI);
+        }
         PM_UI_Manager.Resource.Destroy(gameObject);
     }
 
