@@ -3291,8 +3291,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 057702ab90bcd9d49b3cd412be7842b4, type: 2}
   - {fileID: 11400000, guid: 0cf2595b80d16d74bb522811db1f94a9, type: 2}
   frequency: 1
-  minWallCount: 5
-  maxWallCount: 7
+  minObstacleCount: 1
+  maxObstacleCount: 5
+  minDistanceBetweenObstacles: 2
   wallLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -6816,6 +6817,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
+      propertyPath: cameraList
+      value: 
+      objectReference: {fileID: 1596937950}
     - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: targetList
       value: 
