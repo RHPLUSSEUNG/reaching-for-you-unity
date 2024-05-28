@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 inputVec;
     private Vector3 gravity;
 
-    private int WallLayer;
+    //private int WallLayer;
     private int groundLayer;
 
     Vector3 facingDirectrion;
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        WallLayer = 1 << LayerMask.NameToLayer("Wall");
+        //WallLayer = 1 << LayerMask.NameToLayer("Wall");
         groundLayer = 1 << LayerMask.NameToLayer("Ground");
 
         spwanPoint = spwanPointList.GetComponentsInChildren<Transform>();
