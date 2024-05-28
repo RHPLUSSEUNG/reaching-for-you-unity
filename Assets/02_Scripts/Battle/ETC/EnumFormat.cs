@@ -32,9 +32,9 @@ public enum EquipPart
 public enum TargetObject
 {
     Enemy = 0,
-    Tile = 1,
-    Me = 2,
-    Friendly = 3,
+    Friendly = 1,
+    Tile = 2,
+    Me = 3,
 }
 
 public enum BattleState

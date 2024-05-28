@@ -6,10 +6,11 @@ public class BattleManager
     public BattleState battleState;
     public short playerLive;
     public short monsterLive;
-    public List<GameObject> ObjectList = new List<GameObject>();
+    public List<GameObject> ObjectList = new();
     public GameObject currentCharacter;
     public UI_ActPanel ui;
     int turnCnt = 0;
+    public List<GameObject> Areas = new();
 
     int compareDefense(GameObject character1,  GameObject character2)
     {
@@ -28,7 +29,7 @@ public class BattleManager
         ObjectList.Clear();
         foreach (GameObject character in Managers.Party.playerParty)
         {
-            character.GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(0));
+            character.GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(3));
             ObjectList.Add(character);
         }
         foreach (GameObject character in Managers.Party.monsterParty)
@@ -92,6 +93,12 @@ public class BattleManager
         Managers.raycast.detect_ready = false;
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
+        foreach(GameObject area  in Areas) 
+        {
+            area.GetComponent<AreaInterface>().CalcTurn();
+            Debug.Log(area.name);
+        }
+
         if(currentCharacter.GetComponent<CharacterState>().IsStun())
         {
             NextTurn();

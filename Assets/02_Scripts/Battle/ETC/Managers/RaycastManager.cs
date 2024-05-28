@@ -50,7 +50,14 @@ public class RaycastManager
                             {
                                 break;
                             }
-                            //set range
+                            if(battleUI.GetSkill().target_object == TargetObject.Me)
+                            {
+                                if (battleUI.GetSkill().SetTarget(Managers.Battle.currentCharacter))
+                                {
+                                    Managers.Battle.NextTurn();
+                                }
+                            }
+
                             if(detect_ready == false)
                             {
                                 detector.SetDetector(Managers.Battle.currentCharacter, battleUI.GetSkill().range, battleUI.GetSkill().target_object);

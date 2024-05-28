@@ -25,6 +25,9 @@ public class CharacterState : MonoBehaviour
     private List<Buff> addBuffList = new();
     private List<Debuff> addDebuffList = new();
 
+    public int capacity = 0; //1 = me 2 = you 3 = all
+    public int capacityStack = 0;
+
     #region Charcter Condition
     public bool IsStun()
     {
@@ -103,7 +106,7 @@ public class CharacterState : MonoBehaviour
     }
     #endregion
     #region Debuff
-    public void AddDebuff(Debuff debuff, bool turnEnd)
+    public void AddDebuff(Debuff debuff, bool turnEnd = false)
     {
         if (turnEnd == false)
         {
@@ -140,7 +143,7 @@ public class CharacterState : MonoBehaviour
     }
     #endregion
     #region Buff
-    public void AddBuff(Buff buff, bool turnEnd)
+    public void AddBuff(Buff buff, bool turnEnd = false)
     {
         if (turnEnd == false)
         {

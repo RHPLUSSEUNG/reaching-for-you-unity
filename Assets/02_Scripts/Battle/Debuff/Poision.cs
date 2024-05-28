@@ -6,7 +6,7 @@ public class Poision : Debuff
     public override void TimeCheck()
     {
         remainTurn--;
-        Managers.Active.Damage(target, tickDmg);
+        Managers.Active.Damage(target, tickDmg, ElementType.Grass);
         tickDmg = tickDmg/2*3;
         if (remainTurn == 0)
         {

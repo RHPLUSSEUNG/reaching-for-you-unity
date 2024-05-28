@@ -12,6 +12,7 @@ public abstract class Active : Skill
         this.target = target;
         if (!Activate())
         {
+            Debug.Log("Fail to Active Skill");
             return false;
         }
         return true;

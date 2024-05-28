@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class IncreaseDefense : Buff
 {
-    private short incShd;
+    private int incShd;
     public override void TimeCheck()
     {
         remainTurn--;
@@ -13,7 +13,7 @@ public class IncreaseDefense : Buff
         }
     }
 
-    public override void SetBuff(short turn, GameObject target, short attribute = 0)
+    public override void SetBuff(int turn, GameObject target, int attribute = 0)
     {
         this.target = target;
         this.remainTurn = turn;

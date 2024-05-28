@@ -11,7 +11,7 @@ public class ElectricShock : Debuff
             paralysis.SetDebuff(1, target,0,true);
             DeleteEffect();
         }
-        if(remainTurn <= 0)
+        if(remainTurn <= 0 || count == 0)
         {
             DeleteEffect();
         }

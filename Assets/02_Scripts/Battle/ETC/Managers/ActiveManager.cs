@@ -34,11 +34,15 @@ public class ActiveManager
         }
     }
 
-    public void Damage(GameObject target, int damage)
+    public void Damage(GameObject target, int damage, ElementType element = ElementType.None)
     {
         if(damage <= 0)
         {
             return;
+        }
+        if(element == ElementType.Electric)
+        {
+            getCapacity(target);
         }
         target.GetComponent<EntityStat>().Hp -= damage;
         if (target.GetComponent<EntityStat>().Hp <= 0)
@@ -83,5 +87,19 @@ public class ActiveManager
     {
         EntityStat stat = target.GetComponent<EntityStat>();
         stat.MovePoint += attribute;
+    }
+
+    public void getCapacity(GameObject target)
+    {
+        if (target.GetComponent<CharacterState>().capacity == 1 || target.GetComponent<CharacterState>().capacity == 3)
+        {
+            target.GetComponent<CharacterState>().capacityStack++;
+        }
+        
+
+        if (target.GetComponent<CharacterState>().capacity >= 2)
+        {
+            target.GetComponent<CharacterState>().capacityStack++;
+        }
     }
 }

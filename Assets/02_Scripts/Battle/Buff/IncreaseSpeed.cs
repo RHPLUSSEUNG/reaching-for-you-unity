@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class IncreaseSpeed : Buff
 {
-    private short incMove;
+    private int incMove;
     public override void TimeCheck()
     {
         remainTurn--;
@@ -13,7 +13,7 @@ public class IncreaseSpeed : Buff
         }
     }
 
-    public override void SetBuff(short turn, GameObject target, short attribute = 0)
+    public override void SetBuff(int turn, GameObject target, int attribute = 0)
     {
         this.target = target;
         this.remainTurn = turn;

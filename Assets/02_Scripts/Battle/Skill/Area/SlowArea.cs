@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElectricArea : AreaInterface
+public class SlowArea : AreaInterface
 {
     public override void CalcTurn()
     {
         GetCharacter();
         foreach (Collider collider in colliders)
         {
-            ElectricShock shock = new();
+            Slow slow = new();
             if(collider.gameObject == Managers.Battle.currentCharacter)
             {
-                shock.SetDebuff(3, collider.gameObject, 0, true);
+                slow.SetDebuff(1, collider.gameObject, 20, true);
             }
         }
         DestroyArea();
