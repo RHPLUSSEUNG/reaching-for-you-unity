@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class InvenItemUI : UI_Base
 {
+    public GameObject invenItem;
+    public Image itemIcon;
+    public ItemType itemType;
     public EquipPart equipPart;
     enum invenItemUI
     {
@@ -18,50 +21,40 @@ public class InvenItemUI : UI_Base
         FigureText,
         ExtraText
     }
+
     public override void Init()
     {
         Bind<GameObject>(typeof(invenItemUI));
         BindEvent(gameObject, ClickInvenItem, Define.UIEvent.Click);
+
+        itemIcon = GetObject((int)invenItemUI.ItemIcon).GetComponent<Image>();
     }
 
-    public void SetItemInfo(GameObject item)
+    public void SetItemInfo(Image item)
     {
+        // 아이템의 정보로 변경
+        itemType = invenItem.GetComponent<Item>().type;
+        if (itemType == ItemType.Equipment)
+        {
+            equipPart = invenItem.GetComponent<Equipment>().part;
+        }
         
+        itemIcon = GetObject((int)invenItemUI.ItemIcon).GetComponent<Image>();
+        itemIcon.sprite = item.sprite;
     }
 
     public void ClickInvenItem(PointerEventData data)
     {
-        Image equipIcon;
+        PM_UI_Manager.InvenUI.focusItem = gameObject;
+        PM_UI_Manager.InvenUI.type = itemType;
+        PM_UI_Manager.InvenUI.part = equipPart;
         Image itemIcon = GetObject((int)invenItemUI.ItemIcon).GetComponent<Image>();
-        
-        if(PM_UI_Manager.InvenUI.equipUI == null)
+        PM_UI_Manager.InvenUI.changeIcon = itemIcon;
+
+        if (PM_UI_Manager.InvenUI.equipUI == null)
         {
             PM_UI_Manager.InvenUI.CreateEquipUI();
         }
         PM_UI_Manager.InvenUI.equipUI.SetUIPosition();
-
-        switch (equipPart)
-        {
-            case EquipPart.Head:
-                equipIcon = Util.FindChild(PM_UI_Manager.InvenUI.head.gameObject, "EquipIcon").GetComponent<Image>();
-                PM_UI_Manager.InvenUI.equipUI.cur = equipIcon;
-                PM_UI_Manager.InvenUI.equipUI.change = itemIcon;
-                break;
-            case EquipPart.UpBody:
-                equipIcon = Util.FindChild(PM_UI_Manager.InvenUI.upbody.gameObject, "EquipIcon").GetComponent<Image>();
-                PM_UI_Manager.InvenUI.equipUI.cur = equipIcon;
-                PM_UI_Manager.InvenUI.equipUI.change = itemIcon;
-                break;
-            case EquipPart.DownBody:
-                equipIcon = Util.FindChild(PM_UI_Manager.InvenUI.downbody.gameObject, "EquipIcon").GetComponent<Image>();
-                PM_UI_Manager.InvenUI.equipUI.cur = equipIcon;
-                PM_UI_Manager.InvenUI.equipUI.change = itemIcon;
-                break;
-            case EquipPart.Weapon:
-                equipIcon = Util.FindChild(PM_UI_Manager.InvenUI.weapon.gameObject, "EquipIcon").GetComponent<Image>();
-                PM_UI_Manager.InvenUI.equipUI.cur = equipIcon;
-                PM_UI_Manager.InvenUI.equipUI.change = itemIcon;  
-                break;
-        }
     }
 }

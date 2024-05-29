@@ -12,8 +12,6 @@ public class EquipUI : UI_Popup
         EquipButton
     }
 
-    public Image cur;
-    public Image change;
     public override void Init()
     {
         base.Init();
@@ -31,7 +29,7 @@ public class EquipUI : UI_Popup
     }
     public void EquipButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.InvenUI.UpdateEquipUI(cur, change);
+        PM_UI_Manager.InvenUI.UpdateInvenUI();
         PM_UI_Manager.UI.ClosePopupUI();
     }
 }
