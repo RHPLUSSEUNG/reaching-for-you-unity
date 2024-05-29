@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_EquipItem : UI_Base
+public class EquipRepairUI : UI_Base
 {
     enum EquipUI
     {
         ItemIcon,
         ItemName,
         ItemElement,
-        ItemType,
-        Attack,
-        Speed
+        ItemType
     }
     public override void Init()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_ConsumeItem : UI_Base
+public class ConsumeRepairUI : UI_Base
 {
     enum ItemUI
     {
