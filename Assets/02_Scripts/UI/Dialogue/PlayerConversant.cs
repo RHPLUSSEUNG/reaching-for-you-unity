@@ -20,11 +20,6 @@ public class PlayerConversant : MonoBehaviour
     {        
         playerController = GetComponentInParent<PlayerController>();
     }
-
-    public IEnumerable<DialogueNode> GetChoices()
-    {
-        return currentDialogue.GetPlayerChildren(currentNode);
-    }
       
     public void StartDialogue(NPCConversant newConversant, Dialogue newDialogue)
     {
@@ -79,6 +74,11 @@ public class PlayerConversant : MonoBehaviour
         }
     }
 
+    public IEnumerable<DialogueNode> GetChoices()
+    {
+        return FilterOnCondition(currentDialogue.GetPlayerChildren(currentNode));
+    }
+
     public void SelectChoice(DialogueNode chosenNode)
     {
         currentNode = chosenNode;
@@ -89,7 +89,7 @@ public class PlayerConversant : MonoBehaviour
 
     public void Next()
     {
-        int numPlayerResponse = currentDialogue.GetPlayerChildren(currentNode).Count();
+        int numPlayerResponse = FilterOnCondition(currentDialogue.GetPlayerChildren(currentNode)).Count();
         
         if(numPlayerResponse > 0) 
         {
@@ -99,7 +99,7 @@ public class PlayerConversant : MonoBehaviour
             return;
         }
 
-        DialogueNode[] children = currentDialogue.GetNPCChildren(currentNode).ToArray();
+        DialogueNode[] children = FilterOnCondition(currentDialogue.GetNPCChildren(currentNode)).ToArray();
         int randomIndex = UnityEngine.Random.Range(0, children.Count());
         TriggerExitAction();
         currentNode =  children[randomIndex];
@@ -109,7 +109,23 @@ public class PlayerConversant : MonoBehaviour
 
     public bool HasNext()
     {        
-        return currentDialogue.GetAllChildren(currentNode).Count() > 0;
+        return FilterOnCondition(currentDialogue.GetAllChildren(currentNode)).Count() > 0;
+    }
+
+    IEnumerable<DialogueNode> FilterOnCondition(IEnumerable<DialogueNode> inputNode)
+    {
+        foreach(var node in inputNode)
+        {
+            if(node.CheckCondition(GetEvaluators()))
+            {
+                yield return node;
+            }
+        }
+    }
+
+    IEnumerable<IPredicateEvaluator> GetEvaluators()
+    {
+        return GetComponents<IPredicateEvaluator>();
     }
 
     void TriggerEnterAction()

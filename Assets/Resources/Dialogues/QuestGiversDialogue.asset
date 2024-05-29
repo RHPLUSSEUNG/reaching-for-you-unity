@@ -23,6 +23,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &-8518738444531710667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,6 +49,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &-7159586630413024211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,19 +64,20 @@ MonoBehaviour:
   m_Name: 3678a5e7-e26e-47f5-a0cb-149d7ce6c308
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 0
-  text: "\uC88B\uC544 \uBB38 \uC55E\uC758 \uCE5C\uAD6C\uC5D0\uAC8C \uB9D0\uC744 \uAC78\uC5B4
-    \uBCFC\uB798?"
+  text: "\uBB38 \uC55E\uC758 \uCE5C\uAD6C\uC5D0\uAC8C \uB9D0\uC744 \uAC78\uC5B4 \uBCFC\uB798?"
   children:
   - 23a7566b-160d-4031-93e0-8f413b972363
   - 46a5693f-7a72-4dac-baf1-484335b122e9
   rect:
     serializedVersion: 2
-    x: 483.99994
-    y: 1.5999756
+    x: 451.99988
+    y: -1.6000137
     width: 200
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &-7078514731124740300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,6 +102,33 @@ MonoBehaviour:
     height: 100
   onEnterAction: GiveQuest
   onExitAction: 
+  condition:
+    and: []
+--- !u!114 &-5370092941959872670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 7b97ba29-b262-4bdf-b4d0-55f3b24f9a09
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uC798\uAC00"
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 485.60004
+    y: 132.79999
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
 --- !u!114 &-1813529224628819296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +155,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &-1435693417404672805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +180,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: GiveQuest
+  condition:
+    and: []
 --- !u!114 &-1335148034555043603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +206,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &-1218630719830543336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +232,34 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
+--- !u!114 &-174313682235628380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 7950ab5e-f16a-4fc5-b3d1-a0b6b49044f4
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: "\uC798\uAC00"
+  children:
+  - 7b97ba29-b262-4bdf-b4d0-55f3b24f9a09
+  rect:
+    serializedVersion: 2
+    x: 250.4
+    y: 125.59999
+    width: 200
+    height: 100
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +280,8 @@ MonoBehaviour:
   - {fileID: 8628762851936595076}
   - {fileID: 9171662633387889194}
   - {fileID: 7710601022953684298}
+  - {fileID: -174313682235628380}
+  - {fileID: -5370092941959872670}
 --- !u!114 &2041342238115061511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +306,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &5364157606083739829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +331,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &5407464722883657839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +357,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &5594919031190349445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +382,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &5734998659208187976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,6 +408,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: GiveQuest
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &7710601022953684298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,6 +433,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &7710970859959402771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,6 +460,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &8628762851936595076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,6 +486,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &8664993516956193054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,19 +501,22 @@ MonoBehaviour:
   m_Name: 6b851ead-9c19-49b0-906e-3486143f8aa1
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 0
-  text: "\uC774\uACF3\uC5D0\uB294 \uCC98\uC74C\uC774\uB2C8?"
+  text: "\uC548\uB155 \uBC18\uAC00\uC6CC"
   children:
   - 973de325-acd4-4e8e-b3ac-8159fc9958dd
   - 74d342a8-7054-4730-bbec-271f566ee54d
   - 7f688038-2670-4f5b-9a73-47a6e39c09ea
+  - 7950ab5e-f16a-4fc5-b3d1-a0b6b49044f4
   rect:
     serializedVersion: 2
     x: 0
-    y: -1.6000061
+    y: -3.2000122
     width: 200
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &9171662633387889194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +540,8 @@ MonoBehaviour:
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []
 --- !u!114 &9212010292131138965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,14 +555,16 @@ MonoBehaviour:
   m_Name: 7f688038-2670-4f5b-9a73-47a6e39c09ea
   m_EditorClassIdentifier: 
   isPlayerSpeaking: 1
-  text: "\uC751"
+  text: "\uC548\uB155"
   children:
   - 3678a5e7-e26e-47f5-a0cb-149d7ce6c308
   rect:
     serializedVersion: 2
     x: 241.59999
-    y: -1.6000175
+    y: -3.2000084
     width: 200
     height: 100
   onEnterAction: 
   onExitAction: 
+  condition:
+    and: []

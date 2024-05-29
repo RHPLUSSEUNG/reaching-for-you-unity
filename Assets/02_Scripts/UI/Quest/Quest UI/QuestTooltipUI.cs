@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestTooltipUI : MonoBehaviour
 {
@@ -9,28 +10,64 @@ public class QuestTooltipUI : MonoBehaviour
     [SerializeField] Transform objectiveContainer;
     [SerializeField] GameObject objectivePrefab;
     [SerializeField] GameObject objectiveIncompletePrefab;
-    public void Setup(QuestStatus status)
+    [SerializeField] TextMeshProUGUI rewardText;
+    [SerializeField] Button exitButton;
+
+    private void Awake()
     {
+        exitButton.onClick.AddListener(ExitTooltip);
+    }
+
+    public void Setup(QuestStatus status)
+    {        
         Quest quest = status.GetQuest();
         title.text = quest.GetTitle();
-        objectiveContainer.DetachChildren();
 
-        foreach(string objective in quest.GetObjectives()) 
+        foreach (Transform item in objectiveContainer)
         {
-            GameObject prefab;
+            Destroy(item.gameObject);
+        }
 
-            if(status.IsObjectiveComplete(objective))
+        foreach (var objective in quest.GetObjectives())
+        {
+            GameObject prefab = objectiveIncompletePrefab;
+            if (status.IsObjectiveComplete(objective.reference))
             {
                 prefab = objectivePrefab;
             }
-            else
-            {
-                prefab = objectiveIncompletePrefab;
-            }
-
             GameObject objectiveInstance = Instantiate(prefab, objectiveContainer);
-            TextMeshProUGUI objectiveText =  objectiveInstance.GetComponentInChildren<TextMeshProUGUI>();
-            objectiveText.text = objective;
+            TextMeshProUGUI objectiveText = objectiveInstance.GetComponentInChildren<TextMeshProUGUI>();
+            objectiveText.text = objective.description;
         }
+        rewardText.text = GetRewardText(quest);
+    }
+
+    private string GetRewardText(Quest quest)
+    {
+        string rewardText = "";
+        foreach (var reward in quest.GetRewards())
+        {
+            if (rewardText != "")
+            {
+                rewardText += ", ";
+            }
+            if (reward.number > 1)
+            {
+                rewardText += reward.number + " ";
+            }
+            //rewardText += reward.item.GetDisplayName();
+        }
+        if (rewardText == "")
+        {
+            rewardText = "보상 없음";
+        }
+        rewardText += ".";
+        return rewardText;
+    }
+
+    public void ExitTooltip()
+    {
+        Destroy(gameObject);
     }
 }
+

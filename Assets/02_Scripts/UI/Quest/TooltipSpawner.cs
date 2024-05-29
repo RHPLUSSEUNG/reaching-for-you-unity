@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public abstract class TooltipSpawner : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public abstract class TooltipSpawner : MonoBehaviour, IPointerDownHandler, IPointerExitHandler
 {
     [Tooltip("The prefab of the tooltip to spawn.")]
     [SerializeField] GameObject tooltipPrefab = null;
@@ -24,7 +24,7 @@ public abstract class TooltipSpawner : MonoBehaviour, IPointerEnterHandler, IPoi
         ClearTooltip();
     }
 
-    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+    void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
         var parentCanvas = GetComponentInParent<Canvas>();
 
@@ -74,7 +74,7 @@ public abstract class TooltipSpawner : MonoBehaviour, IPointerEnterHandler, IPoi
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
-        ClearTooltip();
+        //ClearTooltip();
     }
 
     private void ClearTooltip()
