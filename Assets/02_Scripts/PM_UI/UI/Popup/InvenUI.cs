@@ -86,7 +86,7 @@ public class InvenUI : UI_Popup
         for (int i = 0; i < PM_UI_Manager.InvenUI.invenContent.transform.childCount; i++)
         {
             GameObject invenItem = PM_UI_Manager.InvenUI.invenContent.transform.GetChild(i).gameObject;
-            if (invenItem.GetComponent<InvenItemUI>().itemType == ItemType.Equipment && invenItem.GetComponent<InvenItemUI>().equipPart == EquipPart.Weapon)
+            if (invenItem.GetComponent<InvenItemUI>().itemType == ItemType.Equipment && invenItem.GetComponent<EquipItemUI>().equipPart == EquipPart.Weapon)
             {
                 PM_UI_Manager.UI.ShowUI(invenItem);
             }
@@ -114,7 +114,7 @@ public class InvenUI : UI_Popup
         for (int i = 0; i < PM_UI_Manager.InvenUI.invenContent.transform.childCount; i++)
         {
             GameObject invenItem = PM_UI_Manager.InvenUI.invenContent.transform.GetChild(i).gameObject;
-            if (invenItem.GetComponent<InvenItemUI>().itemType == ItemType.Equipment && (invenItem.GetComponent<InvenItemUI>().equipPart == EquipPart.UpBody || invenItem.GetComponent<InvenItemUI>().equipPart == EquipPart.Head))
+            if (invenItem.GetComponent<InvenItemUI>().itemType == ItemType.Equipment && (invenItem.GetComponent<EquipItemUI>().equipPart == EquipPart.UpBody || invenItem.GetComponent<EquipItemUI>().equipPart == EquipPart.Head))
             {
                 PM_UI_Manager.UI.ShowUI(invenItem);
             }

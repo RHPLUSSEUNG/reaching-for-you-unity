@@ -117,7 +117,7 @@ public class InvenUIManager
 
     public void EquipInvenUI()
     {
-        Managers.Item.EquipItem(focusItem.GetComponent<InvenItemUI>().invenItem, player);
+        Managers.Item.EquipItem(focusItem.GetComponent<EquipItemUI>().invenItem, player);
         equipIcon.sprite = changeIcon.sprite;       /// 아이템 데이터를 적용
         PM_UI_Manager.Resource.Destroy(focusItem);
     }
@@ -144,7 +144,7 @@ public class InvenUIManager
         {
             return;
         }
-        InvenItemUI itemUI = PM_UI_Manager.UI.MakeSubItem<InvenItemUI>(invenContent.transform, "InvenItem");
+        EquipItemUI itemUI = PM_UI_Manager.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
         Image unequipIcon = prev_Item.GetComponent<Image>();
         itemUI.invenItem = prev_Item;
         itemUI.SetItemInfo(unequipIcon);        // 아이템 데이터를 적용
@@ -166,7 +166,7 @@ public class InvenUIManager
         // focusItemUI.SetItemInfo(swapIcon);
     }
 
-    public void ConsumeInvenUI()
+    public void ConsumeEquipUI()
     {
 
     }
