@@ -39,5 +39,6 @@ public class PM_UI_Manager : MonoBehaviour
             DontDestroyOnLoad(go);
             s_Instance = go.GetComponent<PM_UI_Manager>();
         }
+        Managers.Data.OnAwake();
     }
 }

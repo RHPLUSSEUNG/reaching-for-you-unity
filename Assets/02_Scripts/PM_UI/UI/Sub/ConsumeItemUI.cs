@@ -13,21 +13,43 @@ public class ConsumeItemUI : InvenItemUI
         ItemDescript,
         ItemCount
     }
+
+    Text itemCount;
+    int count = 1;
     public override void Init()
     {
         Bind<GameObject>(typeof(consumeItemUI));
         BindEvent(gameObject, ClickConsumeItem, Define.UIEvent.Click);
 
         itemIcon = GetObject((int)consumeItemUI.ItemIcon).GetComponent<Image>();
+        itemCount = GetObject((int)consumeItemUI.ItemCount).GetComponent<Text>();
+        itemCount.text = count.ToString();
     }
 
-    public override void SetItemInfo(Image item)
+    public void SetItemInfo(Image item)
     {
         // 아이템의 정보로 변경
         itemType = invenItem.GetComponent<Item>().type;
 
         itemIcon = GetObject((int)consumeItemUI.ItemIcon).GetComponent<Image>();
         itemIcon.sprite = item.sprite;
+    }
+    
+    public void IncreaseCountUI()
+    {
+        count++;
+        itemCount.text = count.ToString();
+    }
+
+    public void DecreaseCountUI()
+    {
+        count--;
+        if (count == 0)
+        {
+            PM_UI_Manager.Resource.Destroy(gameObject);
+            return;
+        }
+        itemCount.text = count.ToString();
     }
 
     public void ClickConsumeItem(PointerEventData data)

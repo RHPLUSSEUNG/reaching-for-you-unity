@@ -27,7 +27,7 @@ public class EquipItemUI : InvenItemUI
         itemIcon = GetObject((int)invenItemUI.ItemIcon).GetComponent<Image>();
     }
 
-    public override void SetItemInfo(Image item)
+    public void SetItemInfo(Image item)
     {
         // 아이템의 정보로 변경
         itemType = invenItem.GetComponent<Item>().type;

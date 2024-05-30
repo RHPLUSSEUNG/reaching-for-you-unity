@@ -9,5 +9,4 @@ public abstract class InvenItemUI : UI_Base
     public Image itemIcon;
     public ItemType itemType;
 
-    public abstract void SetItemInfo(Image item);
 }
