@@ -54,7 +54,7 @@ public class UI_Repair : UI_Popup
         for (i = 0; i < equipSize; i++)
         {
             EquipRepairUI equipItem = PM_UI_Manager.UI.MakeSubItem<EquipRepairUI>(equipContent.transform, "EquipRepairUI");
-            Image icon = equipItem.GetComponent<Image>();
+            Image icon = Managers.Item.equipmentInven[i].GetComponent<Image>();
             equipItem.SetInfo(icon);
         }
     }

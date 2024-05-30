@@ -23,7 +23,7 @@ public class EquipRepairUI : UI_Base
     public void SetInfo(Image icon)
     {
         // Equip 정보 반영
-        Image itemIcon = GetObject((int)EquipUI.ItemName).GetComponent<Image>();
+        Image itemIcon = GetObject((int)EquipUI.ItemIcon).GetComponent<Image>();
         itemIcon.sprite = icon.sprite;
     }
 
