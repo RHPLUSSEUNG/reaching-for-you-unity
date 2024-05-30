@@ -158,12 +158,6 @@ public class InvenUIManager
         UnEquipInvenUI();
         EquipInvenUI();
 
-        // 2번째 방법(생성과 삭제가 적은 방법, 에러 발생으로 보완 필요)
-        // Image swapIcon = player.GetComponent<Equip_Item>().Weapon.GetComponent<Image>();
-        // Managers.Item.EquipItem(focusItem.GetComponent<InvenItemUI>().invenItem, player);
-        // equipIcon.sprite = changeIcon.sprite;
-        // InvenItemUI focusItemUI = focusItem.GetComponent<InvenItemUI>();
-        // focusItemUI.SetItemInfo(swapIcon);
     }
 
     public void ConsumeEquipUI()
