@@ -16,7 +16,7 @@ public class PM_UI_Manager : MonoBehaviour
     public static BattleUIManager BattleUI { get { return Instance.battleUI; } }
     public static InvenUIManager InvenUI { get { return Instance.invenUI; } }
 
-    void Start()
+    void Awake()
     {
         Init();
     }

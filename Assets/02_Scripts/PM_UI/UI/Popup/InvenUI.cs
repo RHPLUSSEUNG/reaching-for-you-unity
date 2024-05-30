@@ -20,9 +20,6 @@ public class InvenUI : UI_Popup
 
     [SerializeField] Sprite activeTab;
     [SerializeField] Sprite disabledTab;
-
-    // Test
-    public GameObject player;
     public override void Init()
     {
         base.Init();
@@ -32,10 +29,9 @@ public class InvenUI : UI_Popup
         PM_UI_Manager.InvenUI.body = GetObject((int)invenUI.BodyEquip).GetComponent<Image>();
         PM_UI_Manager.InvenUI.weapon = GetObject((int)invenUI.WeaponEquip).GetComponent<Image>();
         PM_UI_Manager.InvenUI.invenContent = GetObject((int)invenUI.InvenContent);
-        PM_UI_Manager.InvenUI.player = player;      // Test
 
         Transform content = GetObject((int)invenUI.InvenContent).transform;
-        for(int i = 0; i < content.childCount; i++)
+        for (int i = 0; i < content.childCount; i++)
         {
             PM_UI_Manager.Resource.Destroy(content.GetChild(i).gameObject);
         }
@@ -69,7 +65,7 @@ public class InvenUI : UI_Popup
         PM_UI_Manager.InvenUI.UnEquipInvenUI();
     }
 
-    
+
     public void WeaponTabClick(PointerEventData data)
     {
         MoveWeaponTab();
@@ -129,7 +125,7 @@ public class InvenUI : UI_Popup
     {
         MoveConsumeTab();
     }
-    
+
     public void MoveConsumeTab()
     {
         if (PM_UI_Manager.InvenUI.equipUI != null)

@@ -41,21 +41,21 @@ public class UI_Repair : UI_Popup
 
     public void SetInventory()
     {
+        GameObject consumeContent = GetObject((int)repairUI.ConsumeContent);
+        GameObject equipContent = GetObject((int)repairUI.EquipContent);
         int i = 0;
         foreach (KeyValuePair<GameObject, int> consume in Managers.Item.consumeInven)
         {
-            Transform item = GetObject((int)repairUI.ConsumeContent).transform.GetChild(i);
-            ConsumeRepairUI itemInfo = item.gameObject.GetComponent<ConsumeRepairUI>();
-            // Image icon = consume.Key.sprite;
-            // itemInfo.SetInfo(icon, consume.Value);
-            // TODO : invenSlot 부족하면 Instantiate
+            ConsumeRepairUI consumeItem = PM_UI_Manager.UI.MakeSubItem<ConsumeRepairUI>(consumeContent.transform, "ConsumeRepairUI");
+            Image icon = consume.Key.GetComponent<Image>();
+            consumeItem.SetInfo(icon, consume.Value);
         }
         int equipSize = Managers.Item.equipmentInven.Count;
         for (i = 0; i < equipSize; i++)
         {
-            Transform equip = GetObject((int)repairUI.EquipContent).transform.GetChild(i);
-            EquipRepairUI equipInfo = equip.gameObject.GetComponent<EquipRepairUI>();
-            // equip.SetInfo();
+            EquipRepairUI equipItem = PM_UI_Manager.UI.MakeSubItem<EquipRepairUI>(equipContent.transform, "EquipRepairUI");
+            Image icon = equipItem.GetComponent<Image>();
+            equipItem.SetInfo(icon);
         }
     }
 

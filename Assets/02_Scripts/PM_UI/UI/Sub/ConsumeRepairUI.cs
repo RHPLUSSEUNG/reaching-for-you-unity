@@ -20,10 +20,9 @@ public class ConsumeRepairUI : UI_Base
 
     public void SetInfo(Image icon, int count)
     {
-        GameObject item = Get<GameObject>((int)ItemUI.ItemIcon);
-        Image itemIcon = item.GetComponent<Image>();
+        Image itemIcon = GetObject((int)ItemUI.ItemIcon).GetComponent<Image>();
         itemIcon.sprite = icon.sprite;
-        Text itemCount = item.GetComponent<Text>();
+        Text itemCount = GetObject((int)ItemUI.ItemCount).GetComponent<Text>();
         itemCount.text = count.ToString();
     }
 

@@ -8,15 +8,10 @@ public class InvenTest : MonoBehaviour
     public GameObject Test;
     void Start()
     {
+        PM_UI_Manager.InvenUI.player = gameObject;
         PM_UI_Manager.InvenUI.SetPlayerInvenUI();
         for (int i = 0; i < Test.transform.childCount; i++)
         {
-            if (Test.transform.GetChild(i).gameObject.GetComponent<Item>().type == ItemType.Consume && Managers.Item.consumeInven.ContainsKey(Test.transform.GetChild(i).gameObject))
-            {
-                Managers.Item.AddItem(Test.transform.GetChild(i).gameObject);
-                Test.transform.GetChild(i).gameObject.GetComponent<ConsumeItemUI>().IncreaseCountUI();
-                continue;
-            }
             Managers.Item.AddItem(Test.transform.GetChild(i).gameObject);
 
             if (Test.transform.GetChild(i).gameObject.GetComponent<Item>().type == ItemType.Equipment)
@@ -34,6 +29,27 @@ public class InvenTest : MonoBehaviour
                 Image itemIcon = Test.transform.GetChild(i).gameObject.GetComponent<Image>();
                 consumeItem.SetItemInfo(itemIcon);
                 PM_UI_Manager.UI.HideUI(consumeItem.gameObject);
+            }
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            GameObject portion = Util.FindChild(Test, "Atk_Portion_Big");
+            Debug.Log(portion);
+            if(portion.GetComponent<Item>().type == ItemType.Consume && Managers.Item.consumeInven.ContainsKey(portion))
+            {
+                Managers.Item.AddItem(portion);
+                for(int i = 0; i < PM_UI_Manager.InvenUI.invenContent.transform.childCount; i++)
+                {
+                    GameObject invenItem = PM_UI_Manager.InvenUI.invenContent.transform.GetChild(i).GetComponent<InvenItemUI>().invenItem;
+                    if (invenItem == portion)
+                    {
+                        PM_UI_Manager.InvenUI.invenContent.transform.GetChild(i).GetComponent<ConsumeItemUI>().IncreaseCountUI();
+                    }
+                }
             }
         }
     }

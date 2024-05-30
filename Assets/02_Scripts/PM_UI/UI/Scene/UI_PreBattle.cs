@@ -21,7 +21,8 @@ public class UI_PreBattle : UI_Scene
     UI_Pause pauseUI = null;
 
     //Test
-    public TestPlayerInfo[] testList = new TestPlayerInfo[4];       // test
+    public TestPlayerInfo[] testList = new TestPlayerInfo[4];
+    public GameObject Test;
 
     public override void Init()
     {
@@ -40,6 +41,11 @@ public class UI_PreBattle : UI_Scene
         BindEvent(saveBtn.gameObject, OnSaveButton, Define.UIEvent.Click);
         BindEvent(systemBtn.gameObject, OnSystemButton, Define.UIEvent.Click);
 
+        //Test
+        for(int i = 0; i < Test.transform.childCount; i++)
+        {
+            Managers.Item.AddItem(Test.transform.GetChild(i).gameObject);
+        }
     }
 
     public void OnStartButton(PointerEventData data)
@@ -85,6 +91,7 @@ public class UI_PreBattle : UI_Scene
         repairUI.tempPlayer[3] = testList[3];
         PM_UI_Manager.UI.ShowUI(repairUI.gameObject);
         repairUI.SetPlayerInfo();
+        repairUI.SetInventory();
     }
 
     public void OnSaveButton(PointerEventData data)
