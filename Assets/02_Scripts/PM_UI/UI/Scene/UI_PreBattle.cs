@@ -21,7 +21,8 @@ public class UI_PreBattle : UI_Scene
     UI_Pause pauseUI = null;
 
     //Test
-    public TestPlayerInfo[] testList = new TestPlayerInfo[4];       // test
+    public TestPlayerInfo[] testList = new TestPlayerInfo[4];
+    public GameObject Test;
 
     public override void Init()
     {
@@ -40,15 +41,29 @@ public class UI_PreBattle : UI_Scene
         BindEvent(saveBtn.gameObject, OnSaveButton, Define.UIEvent.Click);
         BindEvent(systemBtn.gameObject, OnSystemButton, Define.UIEvent.Click);
 
+        // Test
+        for(int i = 0; i < Test.transform.childCount; i++)
+        {
+            Managers.Item.AddItem(Test.transform.GetChild(i).gameObject);
+        }
     }
 
     public void OnStartButton(PointerEventData data)
     {
         // Managers.Battle.BattleStart();
         PM_UI_Manager.UI.CreatePopupUI<ActUI>("ActUI");
-        PM_UI_Manager.Resource.Destroy(batchUI.gameObject);
-        PM_UI_Manager.Resource.Destroy(repairUI.gameObject);
-        PM_UI_Manager.Resource.Destroy(saveUI.gameObject);
+        if (batchUI != null)
+        {
+            PM_UI_Manager.UI.ClosePopupUI(batchUI);
+        }
+        if (repairUI != null)
+        {
+            PM_UI_Manager.UI.ClosePopupUI(repairUI);
+        }
+        if (saveUI != null)
+        {
+            PM_UI_Manager.UI.ClosePopupUI(saveUI);
+        }
         PM_UI_Manager.Resource.Destroy(gameObject);
     }
 
@@ -75,6 +90,8 @@ public class UI_PreBattle : UI_Scene
         repairUI.tempPlayer[2] = testList[2];
         repairUI.tempPlayer[3] = testList[3];
         PM_UI_Manager.UI.ShowUI(repairUI.gameObject);
+        repairUI.SetPlayerInfo();
+        repairUI.SetInventory();
     }
 
     public void OnSaveButton(PointerEventData data)

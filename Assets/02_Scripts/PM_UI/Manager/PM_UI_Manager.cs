@@ -10,11 +10,13 @@ public class PM_UI_Manager : MonoBehaviour
     ResourcesManager resource = new ResourcesManager();
     UIManager ui = new UIManager();
     BattleUIManager battleUI = new BattleUIManager();
+    InvenUIManager invenUI = new InvenUIManager();
     public static ResourcesManager Resource { get { return Instance.resource; } }
     public static UIManager UI { get { return Instance.ui; } }
     public static BattleUIManager BattleUI { get { return Instance.battleUI; } }
+    public static InvenUIManager InvenUI { get { return Instance.invenUI; } }
 
-    void Start()
+    void Awake()
     {
         Init();
     }
@@ -37,5 +39,6 @@ public class PM_UI_Manager : MonoBehaviour
             DontDestroyOnLoad(go);
             s_Instance = go.GetComponent<PM_UI_Manager>();
         }
+        Managers.Data.OnAwake();
     }
 }

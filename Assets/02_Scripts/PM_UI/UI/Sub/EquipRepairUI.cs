@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class UI_EquipItem : UI_Base
+public class EquipRepairUI : UI_Base
 {
     enum EquipUI
     {
         ItemIcon,
         ItemName,
         ItemElement,
-        ItemType,
-        Attack,
-        Speed
+        ItemType
     }
     public override void Init()
     {
@@ -21,9 +20,11 @@ public class UI_EquipItem : UI_Base
         BindEvent(gameObject, ItemButtonClick, Define.UIEvent.Click);
     }
 
-    public void SetInfo(Equipment equip)
+    public void SetInfo(Image icon)
     {
         // Equip 정보 반영
+        Image itemIcon = GetObject((int)EquipUI.ItemIcon).GetComponent<Image>();
+        itemIcon.sprite = icon.sprite;
     }
 
     public void ItemButtonClick(PointerEventData data)
