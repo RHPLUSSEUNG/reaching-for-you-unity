@@ -1,9 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.U2D;
+using UnityEngine.UI;
 
 public class SpriteController : MonoBehaviour
 {
     private Transform sprite;
+    private Transform character;
+    private Transform shadow;
     [SerializeField]
     float rotateSpeed = 5.0f;
 
@@ -12,14 +16,18 @@ public class SpriteController : MonoBehaviour
     Animator anim;
     float targetAngleX;
     float targetAngleY;
+    float targetAngleZ;
     float angleX;
     float angleY;
     bool isIdle;
+    public bool cameraChanged;
     Direction direction;
     void Awake()
     {
         sprite = this.transform.GetChild(0);
-        anim = sprite.GetComponent<Animator>();
+        character = sprite.GetChild(0);
+        shadow = sprite.GetChild(1);
+        anim = character.GetComponent<Animator>();
         isIdle = true;
         direction = Direction.Right;
         mainCamera = GameObject.Find("Main Camera");
@@ -28,15 +36,16 @@ public class SpriteController : MonoBehaviour
     private void LateUpdate()
     {
         SetRotation(mainCamera.transform.eulerAngles.x, mainCamera.transform.eulerAngles.y);
-
+        
         if (direction == Direction.Left)
         {
-            StartCoroutine(RotateSprite(Direction.Left));
+            StartCoroutine(RotateCharacter(Direction.Left));
         }
         else
         {
-            StartCoroutine(RotateSprite(Direction.Right));
+            StartCoroutine(RotateCharacter(Direction.Right));
         }
+        StartCoroutine(RotateSprite(mainCamera.transform.eulerAngles.y));
     }
     public void SetAnimState(AnimState state)
     {
@@ -62,13 +71,14 @@ public class SpriteController : MonoBehaviour
     public void Flip(Direction _direction)  //입력 방향에 맞게 스프라이트를 회전
     {
         direction = _direction;
+
         if (direction == Direction.Left)
         {
-            StartCoroutine(RotateSprite(Direction.Left));
+            StartCoroutine(RotateCharacter(Direction.Left));
         }
         else if (direction == Direction.Right)
         {
-            StartCoroutine(RotateSprite(Direction.Right));
+            StartCoroutine(RotateCharacter(Direction.Right));
         }
     }
     public void SetRotation(float _angleX, float _angleY)   //main카메라에 맞게 스프라이트를 회전
@@ -76,20 +86,19 @@ public class SpriteController : MonoBehaviour
         angleX = _angleX;
         angleY = _angleY;
     }
-    IEnumerator RotateSprite(Direction direction)
+    IEnumerator RotateCharacter(Direction direction)
     {
         isIdle = false;
-        float startAngleX = sprite.transform.eulerAngles.x;
-        float startAngleY = sprite.transform.eulerAngles.y;
+        float startAngleX = character.eulerAngles.x;
+        float startAngleY = character.eulerAngles.y;
         float t = 0f;
         float speed = 0f;
 
-        //if (mainCamera.transform.eulerAngles.y)
         if (direction == Direction.Left)
         {
             targetAngleX = Mathf.Abs(angleX);
-            targetAngleY = Mathf.Abs(angleY) %360;
-        }   
+            targetAngleY = Mathf.Abs(angleY) % 360;
+        }
         else
         {
             targetAngleX = -Mathf.Abs(angleX);
@@ -103,10 +112,27 @@ public class SpriteController : MonoBehaviour
 
             float xRotation = Mathf.LerpAngle(startAngleX, targetAngleX, speed);
             float yRotation = Mathf.LerpAngle(startAngleY, targetAngleY, speed);
-            sprite.transform.eulerAngles = new Vector3(xRotation, yRotation, sprite.transform.eulerAngles.z);
-
+            character.eulerAngles = new Vector3(xRotation, yRotation, character.eulerAngles.z);
             yield return null;
         }
         isIdle = true;
     }
+    IEnumerator RotateSprite(float cameraAngleY)
+    {
+        isIdle = false;
+        float startAngleY = sprite.eulerAngles.y;
+        float t = 0f;
+        float speed = 0f;
+
+        while (speed < 1.0f)
+        {
+            t += Time.deltaTime;
+            speed = rotateSpeed * t;
+
+            float yRotation = Mathf.LerpAngle(startAngleY, cameraAngleY, speed);
+            sprite.eulerAngles = new Vector3(sprite.eulerAngles.x, yRotation, sprite.eulerAngles.z);
+            yield return null;
+        }
+    }
+
 }

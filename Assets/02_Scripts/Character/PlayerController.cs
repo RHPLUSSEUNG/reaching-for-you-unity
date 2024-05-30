@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
         rigid = GetComponent<Rigidbody>();
 
-        colider = this.transform.GetChild(1).GetComponent<CapsuleCollider>();
+        colider = this.transform.GetChild(2).GetComponent<CapsuleCollider>();
         moveSpeed = basicSpeed;
         spriteController = GetComponent<SpriteController>();
         mainCamera = GameObject.Find("Main Camera");
