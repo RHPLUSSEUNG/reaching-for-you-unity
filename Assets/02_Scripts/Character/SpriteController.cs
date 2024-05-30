@@ -10,7 +10,8 @@ public class SpriteController : MonoBehaviour
     private Transform shadow;
     [SerializeField]
     float rotateSpeed = 5.0f;
-
+    [SerializeField]
+    Direction direction = Direction.Right;
     GameObject mainCamera;
 
     Animator anim;
@@ -21,7 +22,7 @@ public class SpriteController : MonoBehaviour
     float angleY;
     bool isIdle;
     public bool cameraChanged;
-    Direction direction;
+
     void Awake()
     {
         sprite = this.transform.GetChild(0);
@@ -29,7 +30,6 @@ public class SpriteController : MonoBehaviour
         shadow = sprite.GetChild(1);
         anim = character.GetComponent<Animator>();
         isIdle = true;
-        direction = Direction.Right;
         mainCamera = GameObject.Find("Main Camera");
         SetAnimState(AnimState.Idle);
     }
@@ -49,6 +49,10 @@ public class SpriteController : MonoBehaviour
     }
     public void SetAnimState(AnimState state)
     {
+        if (!anim)
+        {
+            return;
+        }
         switch(state)
         {
             case (AnimState.Idle):
@@ -131,6 +135,7 @@ public class SpriteController : MonoBehaviour
 
             float yRotation = Mathf.LerpAngle(startAngleY, cameraAngleY, speed);
             sprite.eulerAngles = new Vector3(sprite.eulerAngles.x, yRotation, sprite.eulerAngles.z);
+
             yield return null;
         }
     }
