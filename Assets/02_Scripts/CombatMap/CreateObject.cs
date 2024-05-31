@@ -96,18 +96,17 @@ public class CreateObject : MonoBehaviour
                     case EObstacle.Wall:
                         if (IsObstacleAround(x, z) <= 3)
                         {
-                            map[x, z].eObstacle = EObstacle.Ground; // 임시로 Ground로 설정
-                            if (IsMapStillConnected())
-                            {
-                                map[x, z].eObstacle = EObstacle.Wall;
+                            map[x, z].eObstacle = EObstacle.Wall; // 임시로 Ground로 설정
+
+                            map[x, z].eObstacle = EObstacle.Wall;
+
+                            int randomNum = Random.Range(0, 2);
+                            
+                            if(randomNum > 0.1) {
                                 map[x, z].ObjectPrefab = Instantiate(wallPrefab, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
                                 map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 0.8f, 0);
                                 map[x, z].CanWalk = false;
                                 wallPositions.Add(new Vector2Int(x, z));
-                            }
-                            else
-                            {
-                                map[x, z].eObstacle = EObstacle.Ground; // 연결이 끊기면 다시 Ground로 설정
                             }
                         }
                         break;
@@ -146,72 +145,6 @@ public class CreateObject : MonoBehaviour
     {
         return map;
     }
-
-    private bool IsMapStillConnected()
-    {
-        // BFS 또는 DFS로 맵의 연결성을 확인
-        int width = map.GetLength(0);
-        int height = map.GetLength(1);
-        bool[,] visited = new bool[width, height];
-        Queue<Vector2Int> queue = new Queue<Vector2Int>();
-
-        // 시작 지점을 찾음 (첫 번째 Ground 또는 Obstacle 위치)
-        bool foundStart = false;
-        for (int x = 0; x < width && !foundStart; x++)
-        {
-            for (int z = 0; z < height && !foundStart; z++)
-            {
-                if (map[x, z].eObstacle == EObstacle.Ground || map[x, z].eObstacle == EObstacle.Obstacle)
-                {
-                    queue.Enqueue(new Vector2Int(x, z));
-                    visited[x, z] = true;
-                    foundStart = true;
-                }
-            }
-        }
-
-        if (!foundStart) return false; // 시작 지점이 없으면 맵이 연결되어 있지 않음
-
-        // BFS 실행 (대각선 포함 8방향)
-        Vector2Int[] directions = {
-            Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down,
-            new Vector2Int(-1, -1), new Vector2Int(-1, 1), new Vector2Int(1, -1), new Vector2Int(1, 1)
-        };
-
-        int reachableCells = 0;
-        while (queue.Count > 0)
-        {
-            Vector2Int current = queue.Dequeue();
-            reachableCells++;
-
-            foreach (Vector2Int dir in directions)
-            {
-                Vector2Int neighbor = current + dir;
-                if (neighbor.x >= 0 && neighbor.x < width && neighbor.y >= 0 && neighbor.y < height &&
-                    !visited[neighbor.x, neighbor.y] && (map[neighbor.x, neighbor.y].eObstacle == EObstacle.Ground || map[neighbor.x, neighbor.y].eObstacle == EObstacle.Obstacle))
-                {
-                    queue.Enqueue(neighbor);
-                    visited[neighbor.x, neighbor.y] = true;
-                }
-            }
-        }
-
-        // 전체 지형 중 벽이 아닌 타일 수와 reachableCells 비교
-        int totalWalkableCells = 0;
-        for (int x = 0; x < width; x++)
-        {
-            for (int z = 0; z < height; z++)
-            {
-                if (map[x, z].eObstacle == EObstacle.Ground || map[x, z].eObstacle == EObstacle.Obstacle)
-                {
-                    totalWalkableCells++;
-                }
-            }
-        }
-
-        return reachableCells == totalWalkableCells;
-    }
-
 
     private bool IsPositionFarFromWalls(int x, int z)
     {
