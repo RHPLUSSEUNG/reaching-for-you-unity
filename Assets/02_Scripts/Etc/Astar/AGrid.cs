@@ -15,6 +15,7 @@ public class AGrid : MonoBehaviour
     public bool dontCrossCorner;
 
     Vector3 mapBottomLeft;
+    Vector3 worldPoint;
 
     int gridsizeX;
     int gridsizeY;
@@ -25,22 +26,37 @@ public class AGrid : MonoBehaviour
         gridsizeY = Mathf.RoundToInt(gridWorldSize.y / nodesize);
         CreateGrid();
     }
-
+    private void FixedUpdate()
+    {
+        UpdateGrid();
+    }
+    public void UpdateGrid()
+    {
+        for (int x = 0; x < gridsizeX; x++)
+        {
+            for (int y = 0; y < gridsizeY; y++)
+            {
+                worldPoint = grid[x, y].GetPosition();
+                bool walkable = !Physics.CheckSphere(worldPoint, nodesize / 2, unwalkableMask);
+                grid[x, y].walkable = walkable;
+            }
+        }
+    }
     void CreateGrid()
     {
         grid = new Node[gridsizeX, gridsizeY];
         // mapBottomLeft = transform.position - (Vector3.right * gridsizeX / 2 * nodesize) - (Vector3.forward * gridsizeY / 2 * nodesize);
         mapBottomLeft = transform.position;
-        Vector3 wordlPoint;
+
 
         for (int x = 0; x < gridsizeX; x++) 
         {
             for (int y = 0; y < gridsizeY; y++)
             {
-                //wordlPoint = mapBottomLeft + Vector3.right * (x * nodesize + (float)nodesize / 2) + Vector3.forward * (y * nodesize + (float)nodesize / 2);
-                wordlPoint = mapBottomLeft + Vector3.right * (x * nodesize + (float)nodesize / 2) + Vector3.forward * (y * nodesize + (float)nodesize / 2);
-                bool walkable = !Physics.CheckSphere(wordlPoint, nodesize/2, unwalkableMask);
-                grid[x, y] = new Node(walkable, wordlPoint, x, y);
+                //worldPoint = mapBottomLeft + Vector3.right * (x * nodesize + (float)nodesize / 2) + Vector3.forward * (y * nodesize + (float)nodesize / 2);
+                worldPoint = mapBottomLeft + Vector3.right * (x * nodesize + (float)nodesize / 2) + Vector3.forward * (y * nodesize + (float)nodesize / 2);
+                bool walkable = !Physics.CheckSphere(worldPoint, nodesize/2, unwalkableMask);
+                grid[x, y] = new Node(walkable, worldPoint, x, y);
             }
         }
     }
@@ -82,8 +98,8 @@ public class AGrid : MonoBehaviour
     }
     public GameObject CheckTag(int gridX, int gridY, string tag)  //노드 위치에 태그 매치되는 대상 유무 검사, 있으면 해당 오브젝트 반환
     {
-        Vector3 wordlPoint = GetWorldPositionFromNode(gridX, gridY);
-        foreach (Collider col in Physics.OverlapSphere(wordlPoint, nodesize / 2))
+        Vector3 worldPoint = GetWorldPositionFromNode(gridX, gridY);
+        foreach (Collider col in Physics.OverlapSphere(worldPoint, nodesize / 2))
         {
             if (col.gameObject.CompareTag(tag))
             {

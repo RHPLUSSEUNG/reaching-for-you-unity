@@ -11,11 +11,12 @@ public class UI_Repair : UI_Popup
     {
         CharList,
         InvenPanel,
+        ConsumeContent,
+        EquipContent,
         CloseButton
     }
 
     GameObject charList;
-    GameObject invenPanel;
     public override void Init()
     {
         base.Init();
@@ -27,17 +28,7 @@ public class UI_Repair : UI_Popup
         BindEvent(close, OnCloseButton, Define.UIEvent.Click);
     }
 
-    // Test
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            SetInventory();
-            SetPlayerInfo();
-        }
-    }
-
-    void SetPlayerInfo()
+    public void SetPlayerInfo()
     {
         GameObject child;
         for(int i = 0; i < tempPlayer.Length; i++)
@@ -48,30 +39,23 @@ public class UI_Repair : UI_Popup
         }
     }
 
-    void SetInventory()
+    public void SetInventory()
     {
-        invenPanel = Get<GameObject>((int)repairUI.InvenPanel);
-        GameObject itemInven = Util.FindChild(invenPanel, "ItemInven", true);
-        GameObject itemContent = Util.FindChild(itemInven, "Content", true);
-        GameObject equipInven = Util.FindChild(invenPanel, "EquipInven", true);
-        GameObject equipContent = Util.FindChild(equipInven, "Content", true);
-        
-
+        GameObject consumeContent = GetObject((int)repairUI.ConsumeContent);
+        GameObject equipContent = GetObject((int)repairUI.EquipContent);
         int i = 0;
         foreach (KeyValuePair<GameObject, int> consume in Managers.Item.consumeInven)
         {
-            Transform item = itemContent.transform.GetChild(i);
-            UI_ConsumeItem itemInfo = item.gameObject.GetComponent<UI_ConsumeItem>();
-            // Image icon = consume.Key.sprite;
-            // itemInfo.SetInfo(icon, consume.Value);
-            // TODO : invenSlot 부족하면 Instantiate
+            ConsumeRepairUI consumeItem = PM_UI_Manager.UI.MakeSubItem<ConsumeRepairUI>(consumeContent.transform, "ConsumeRepairUI");
+            Image icon = consume.Key.GetComponent<Image>();
+            consumeItem.SetInfo(icon, consume.Value);
         }
         int equipSize = Managers.Item.equipmentInven.Count;
         for (i = 0; i < equipSize; i++)
         {
-            Transform equip = equipContent.transform.GetChild(i);
-            UI_EquipItem equipInfo = equip.gameObject.GetComponent<UI_EquipItem>();
-            // equip.SetInfo();
+            EquipRepairUI equipItem = PM_UI_Manager.UI.MakeSubItem<EquipRepairUI>(equipContent.transform, "EquipRepairUI");
+            Image icon = Managers.Item.equipmentInven[i].GetComponent<Image>();
+            equipItem.SetInfo(icon);
         }
     }
 
