@@ -25,7 +25,7 @@ public class CreateObject : MonoBehaviour
     public float Height = 1f; // 세로 길이
 
     [Header("Prefabs")]
-    public GameObject cubePrefab; // 배치할 Cube 프리팹
+    public GameObject[] cubePrefab; // 배치할 Cube 프리팹
     
     public GameObject wallPrefab; // 배치할 Wall 프리팹
     public CoverData[] coverDataArray; // 엄폐물 데이터 배열
@@ -47,7 +47,7 @@ public class CreateObject : MonoBehaviour
     {
         PlaceCubes();
         RandomObstacle(Width, Height, 1);
-        // PlaceObstacles();
+        PlaceObstacles();
 
         manager.active = true;
     }
@@ -94,75 +94,69 @@ public class CreateObject : MonoBehaviour
                         // ground는 생성 ㄴㄴ
                         break;
                     case EObstacle.Wall:
-                        if(IsObstacleAround(x, z) <= 3)
+                        if (IsObstacleAround(x, z) <= 3)
                         {
-                            map[x, z].ObjectPrefab = Instantiate(wallPrefab, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
-                            map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 1f, 0);
-                            map[x,z].CanWalk = false;
-                            wallPositions.Add(new Vector2Int(x, z));
+                            map[x, z].eObstacle = EObstacle.Wall; // 임시로 Ground로 설정
+
+                            map[x, z].eObstacle = EObstacle.Wall;
+
+                            int randomNum = Random.Range(0, 2);
+                            
+                            if(randomNum > 0.1) {
+                                map[x, z].ObjectPrefab = Instantiate(wallPrefab, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
+                                map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 0.8f, 0);
+                                map[x, z].CanWalk = false;
+                                wallPositions.Add(new Vector2Int(x, z));
+                            }
                         }
-                        break;
-                    case EObstacle.Obstacle:
-                        // 랜덤한 인덱스 생성
-                        int randomIndex = Random.Range(0, coverDataArray.Length);
-                        // 선택된 인덱스에 해당하는 coverData 사용
-                        CoverData selectedCoverData = coverDataArray[randomIndex];
-                        // 선택된 coverData에 해당하는 cube 생성
-                        if(maxObstacleCount > currentObstacleCount) {
-                            map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
-                            map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
-                            map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 1f, 0);
-                            map[x, z].CanWalk = false;
-                            currentObstacleCount++;
-                        }
-                        
                         break;
                 }
             }
         }
     }
 
-    // public void PlaceObstacles()
-    // {
-    //     int obstacleCount = Random.Range(minObstacleCount, maxObstacleCount + 1);
-    //     while (currentObstacleCount < obstacleCount)
-    //     {
-    //         int x = Random.Range(0, (int)Width);
-    //         int z = Random.Range(0, (int)Height);
+    public void PlaceObstacles()
+    {
+        int obstacleCount = Random.Range(minObstacleCount, maxObstacleCount + 1);
+        while (currentObstacleCount < obstacleCount)
+        {
+            int x = Random.Range(0, (int)Width);
+            int z = Random.Range(0, (int)Height);
 
-    //         if (map[x, z].eObstacle == EObstacle.Obstacle && IsPositionFarFromWalls(x, z))
-    //         {
-    //             // 랜덤한 인덱스 생성
-    //             int randomIndex = Random.Range(0, coverDataArray.Length);
-    //             CoverData selectedCoverData = coverDataArray[randomIndex];
+            if (map[x, z].eObstacle == EObstacle.Obstacle && IsPositionFarFromWalls(x, z))
+            {
+                // 랜덤한 인덱스 생성
+                int randomIndex = Random.Range(0, coverDataArray.Length);
+                CoverData selectedCoverData = coverDataArray[randomIndex];
 
-    //             map[x, z].eObstacle = EObstacle.Obstacle;
-    //             map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
-    //             map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
-    //             map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 1f, 0);
-    //             obstaclePositions.Add(new Vector2Int(x, z));
-    //             currentObstacleCount++;
-    //         }
-    //     }
-    // }
-
-    // private bool IsPositionFarFromWalls(int x, int z)
-    // {
-    //     foreach (Vector2Int wallPos in wallPositions)
-    //     {
-    //         if (Vector2Int.Distance(new Vector2Int(x, z), wallPos) < minDistanceBetweenObstacles)
-    //         {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
+                map[x, z].eObstacle = EObstacle.Obstacle;
+                map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
+                map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
+                map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 0.5f, 0);
+                Vector3 newRotation = new Vector3(-90f, 0, 0); // 원하는 각도로 변경
+                map[x, z].ObjectPrefab.transform.rotation = Quaternion.Euler(newRotation);
+                obstaclePositions.Add(new Vector2Int(x, z));
+                currentObstacleCount++;
+            }
+        }
+    }
 
     public Map[,] GetMap()
     {
         return map;
     }
 
+    private bool IsPositionFarFromWalls(int x, int z)
+    {
+        foreach (Vector2Int wallPos in wallPositions)
+        {
+            if (Vector2Int.Distance(new Vector2Int(x, z), wallPos) < minDistanceBetweenObstacles)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public int IsObstacleAround(int x, int z)
     {
@@ -193,8 +187,10 @@ public class CreateObject : MonoBehaviour
         {
             for (int y = 0; y < Height; y++)
             {
+                // 큐브 랜덤하게 생성
+                int randomIndex = Random.Range(0, cubePrefab.Length); 
                 // 새로운 Cube 오브젝트 생성
-                GameObject newCube = Instantiate(cubePrefab, new Vector3(x, 0, y), Quaternion.identity);
+                GameObject newCube = Instantiate(cubePrefab[randomIndex], new Vector3(x, 0, y), Quaternion.identity);
                 // 부모 설정 (이 스크립트를 추가한 게임 오브젝트를 부모로 설정)
                 newCube.transform.SetParent(transform);
             }
