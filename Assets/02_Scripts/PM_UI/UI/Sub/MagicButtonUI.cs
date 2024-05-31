@@ -12,6 +12,9 @@ public class MagicButtonUI : UI_Base
         ElementIcon,
         ManaText
     }
+
+    GameObject saveSkill;
+
     public override void Init()
     {
         Bind<GameObject>(typeof(magicButtonUI));
@@ -30,12 +33,13 @@ public class MagicButtonUI : UI_Base
         // 2. 여기에 Skill을 저장하면 변수에 저장 -> 여기에 저장하면 GetSkill 함수를 파고 Find를 통해 또 찾아야함(현재 방식)
         // 3. 아니면 BattleUIManager를 하나 만들어보기
 
-        PM_UI_Manager.BattleUI.skill = skill;
+        skill = saveSkill;
     }
 
     public void MagicButtonClick(PointerEventData data)
     {
         PM_UI_Manager.UI.uiState = UIManager.UIState.SkillSet;
+        PM_UI_Manager.BattleUI.skill = saveSkill;
         Debug.Log("Button Click");
         PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.magicPanel);
         PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.actUI);

@@ -40,13 +40,13 @@ public class ActUI : UI_Popup
         BindEvent(itemUseBtn, UseItemButtonClick, Define.UIEvent.Click);
         BindEvent(defenseBtn, UseDefenseButtonClick, Define.UIEvent.Click);
 
-        PM_UI_Manager.UI.HideUI(magicPanel);
         PM_UI_Manager.UI.HideUI(itemPanel);
 
     }
 
     public void UpdateCharacterInfo()
     {
+        // 플레이어 턴마다 실행
         SkillList skillList = Managers.Battle.currentCharacter.GetComponent<SkillList>();
         for (int i = 0; i < skillList.list.Count; i++)
         {
@@ -60,6 +60,7 @@ public class ActUI : UI_Popup
                 magicBtnLayout.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
+        PM_UI_Manager.UI.ShowUI(magicPanel);
     }
 
     public void UseMagicButtonClick(PointerEventData data)
