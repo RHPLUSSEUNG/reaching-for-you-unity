@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class IncreaseDefense : Buff
+public class IncreaseDefence : Buff
 {
     private int incShd;
     public override void TimeCheck()
@@ -13,12 +13,12 @@ public class IncreaseDefense : Buff
         }
     }
 
-    public override void SetBuff(int turn, GameObject target, int attribute = 0)
+    public override void SetBuff(int turn, GameObject target, int attribute = 0, bool TurnEnd = false)
     {
         this.target = target;
         this.remainTurn = turn;
         incShd = attribute;
-        AddBuff(target);
+        AddBuff(target, TurnEnd);
         StartEffect();
     }
 

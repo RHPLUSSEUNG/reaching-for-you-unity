@@ -20,10 +20,10 @@ public abstract class Buff
 
     public abstract bool StartEffect();
 
-    public abstract void SetBuff(int turn, GameObject target, int attribute = 0);
+    public abstract void SetBuff(int turn, GameObject target, int attribute = 0, bool TurnEnd = false);
 
-    public void AddBuff(GameObject target)
+    public void AddBuff(GameObject target, bool TurnEnd)
     {
-        target.GetComponent<CharacterState>().buffs.Add(this);
+        target.GetComponent<CharacterState>().AddBuff(this, TurnEnd);
     }
 }

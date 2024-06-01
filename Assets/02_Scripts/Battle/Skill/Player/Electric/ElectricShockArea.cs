@@ -6,7 +6,7 @@ public class ElectricShockArea : Active
     {
         //TODO Effect
         GameObject area = Managers.Prefab.Instantiate("Area/ElectricArea");
-        area.GetComponent<ElectricArea>().SetArea(7, 3, TargetObject.Enemy, target.transform.position);
+        area.GetComponent<ElectricArea>().SetArea(7, 7, TargetObject.Enemy, target.transform.position);
         return true;
     }
 

@@ -15,6 +15,13 @@ public class CharacterState : MonoBehaviour
     [SerializeField]
     private int _slow = 0;
 
+    #region Attack Type
+    [SerializeField]
+    public bool closeAttack = false;
+    public ElementType AttackType = ElementType.None;
+    public bool knock_back = false;
+    public bool after_move = false;
+    #endregion
     //current buff & debuff
     public List<Buff> buffs = new();
     public List<Debuff> debuffs = new();
@@ -27,6 +34,106 @@ public class CharacterState : MonoBehaviour
 
     public int capacity = 0; //1 = me 2 = you 3 = all
     public int capacityStack = 0;
+
+    #region SkillState_Electric
+    [SerializeField]
+    private bool _electricEmmune = false;
+    private bool _shock = false;
+    public bool can_shock = false;
+    public bool can_immune = false;
+    
+    public void ChangeElecImmune(bool immune)
+    {
+        _electricEmmune = immune;
+    }
+
+    public bool GetElecImmune()
+    {
+        return _electricEmmune;
+    }
+
+    public void ChangeShock(bool shock)
+    {
+        _shock = shock;
+    }
+
+    public bool GetShock()
+    {
+        return _shock;
+    }
+
+    public void GetCapacity(GameObject target)
+    {
+        CharacterState currentState = Managers.Battle.currentCharacter.GetComponent<CharacterState>();
+        if (currentState.capacity == 1 || currentState.capacity == 3)
+        {
+            currentState.capacityStack++;
+        }
+        if (target.GetComponent<CharacterState>().capacity >= 2)
+        {
+            target.GetComponent<CharacterState>().capacityStack++;
+        }
+
+        if(capacityStack >= 15 || can_shock)
+        {
+            ChangeShock(true);
+        }
+        else
+        {
+            ChangeShock(false);
+        }
+        if(capacityStack >= 20 || can_immune)
+        {
+            ChangeElecImmune(true);
+        }
+        else
+        {
+            ChangeElecImmune(false);
+        }
+    }
+
+    #endregion
+
+    #region SkillState_Ground
+    private bool ghost = false;
+    private bool endure = false;
+    private int accumulateDmg = 0;
+
+    public void ChangeGhost(bool ghost)
+    {
+        this.ghost = ghost;
+    }
+
+    public bool GetGhost()
+    {
+        return ghost;
+    }
+
+    public void ChangeEndure(bool endure)
+    {
+        this.endure = endure;
+    }
+
+    public bool GetEndure()
+    {
+        return endure;
+    }
+
+    public int GetAccumulateDmg()
+    {
+        return accumulateDmg;
+    }
+
+    public void AddAccumulateDmg(int accumulateDmg)
+    {
+        this.accumulateDmg += accumulateDmg;
+    }
+
+    public void ResetAccumulateDmg()
+    {
+        this.accumulateDmg = 0;
+    }
+    #endregion
 
     #region Charcter Condition
     public bool IsStun()

@@ -11,8 +11,6 @@ public class IncreaseDMG : Active
 
         IncreaseAtk buff = new();
         buff.SetBuff(stack, target, stack * 5);
-        target.GetComponent<CharacterState>().AddBuff(buff);
         return true;
     }
-
 }

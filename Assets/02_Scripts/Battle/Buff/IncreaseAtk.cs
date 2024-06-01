@@ -13,12 +13,12 @@ public class IncreaseAtk : Buff
         }
     }
 
-    public override void SetBuff(int turn, GameObject target, int attribute = 0)
+    public override void SetBuff(int turn, GameObject target, int attribute = 0, bool TurnEnd = false)
     {
         this.target = target;
         this.remainTurn = turn;
         incAtk = attribute;
-        AddBuff(target);
+        AddBuff(target, TurnEnd);
         StartEffect();
     }
 

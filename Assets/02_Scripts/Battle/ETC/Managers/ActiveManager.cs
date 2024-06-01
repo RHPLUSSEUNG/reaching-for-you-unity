@@ -34,17 +34,36 @@ public class ActiveManager
         }
     }
 
-    public void Damage(GameObject target, int damage, ElementType element = ElementType.None)
+    public void Damage(GameObject target, int damage, ElementType element = ElementType.None, bool close = false)
     {
-        if(damage <= 0)
+        if (damage <= 0)
         {
             return;
         }
+
+        CharacterState state = target.GetComponent<CharacterState>();
+        
         if(element == ElementType.Electric)
         {
-            getCapacity(target);
+            state.GetCapacity(target);
+            if (state.GetElecImmune())
+            {
+                return;
+            }
+
+            if (state.GetShock() && close == true)
+            {
+                ElectricShock shock = new();
+                shock.SetDebuff(1, Managers.Battle.currentCharacter, 1);
+            }
         }
+
         target.GetComponent<EntityStat>().Hp -= damage;
+        if (state.GetEndure())
+        {
+            state.AddAccumulateDmg(damage);
+        }
+
         if (target.GetComponent<EntityStat>().Hp <= 0)
         {
             Dead(target);
@@ -89,17 +108,4 @@ public class ActiveManager
         stat.MovePoint += attribute;
     }
 
-    public void getCapacity(GameObject target)
-    {
-        if (target.GetComponent<CharacterState>().capacity == 1 || target.GetComponent<CharacterState>().capacity == 3)
-        {
-            target.GetComponent<CharacterState>().capacityStack++;
-        }
-        
-
-        if (target.GetComponent<CharacterState>().capacity >= 2)
-        {
-            target.GetComponent<CharacterState>().capacityStack++;
-        }
-    }
 }

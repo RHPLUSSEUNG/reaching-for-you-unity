@@ -6,7 +6,7 @@ public class ParalysisProbailityUp : Active
     {
         //TODO Effect
         ElectricShock shock = new();
-        shock.SetDebuff(5, target, 5);
+        shock.SetDebuff(2, target, 5);
         return true;
     }
 

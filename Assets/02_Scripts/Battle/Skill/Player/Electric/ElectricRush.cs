@@ -9,7 +9,7 @@ public class ElectricRush : Active
     public override bool Activate()
     {
         Managers.Battle.currentCharacter.transform.position += rotation * 4;
-        Managers.Active.Damage(target, target.GetComponent<EntityStat>().Hp / 4, ElementType.Electric);
+        Managers.Active.Damage(target, target.GetComponent<EntityStat>().Hp / 4, ElementType.Electric, true);
         return true;
     }
 

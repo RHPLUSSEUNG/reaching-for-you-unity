@@ -6,7 +6,7 @@ public class ElectricShockConfirmed : Active
     {
         //TODO Effect
         ElectricShock shock = new();
-        shock.SetDebuff(1, target, 1);
+        shock.SetDebuff(2, target, 1);
         return true;
     }
 

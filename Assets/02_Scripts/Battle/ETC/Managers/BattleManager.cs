@@ -29,7 +29,7 @@ public class BattleManager
         ObjectList.Clear();
         foreach (GameObject character in Managers.Party.playerParty)
         {
-            character.GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(3));
+            character.GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(6));
             ObjectList.Add(character);
         }
         foreach (GameObject character in Managers.Party.monsterParty)
@@ -93,12 +93,14 @@ public class BattleManager
         Managers.raycast.detect_ready = false;
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
-        foreach(GameObject area  in Areas) 
+        if(Areas.Count != 0)
         {
-            area.GetComponent<AreaInterface>().CalcTurn();
-            Debug.Log(area.name);
+            foreach (GameObject area in Areas)
+            {
+                area.GetComponent<AreaInterface>().CalcTurn();
+                Debug.Log(area.name);
+            }
         }
-
         if(currentCharacter.GetComponent<CharacterState>().IsStun())
         {
             NextTurn();
