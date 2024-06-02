@@ -38,11 +38,11 @@ public class InvenUIManager
     void SetPlayerBodyUI()
     {
         Image equip = Util.FindChild(body.gameObject, "EquipIcon").GetComponent<Image>();
-        if (player.GetComponent<Equip_Item>().Upbody == null)
+        if (player.GetComponent<Equip_Item>().Body == null)
         {
             return;
         }
-        Image itemIcon = player.GetComponent<Equip_Item>().Upbody.GetComponent<Image>();
+        Image itemIcon = player.GetComponent<Equip_Item>().Body.GetComponent<Image>();
         equip.sprite = itemIcon.sprite;
     }
 
@@ -84,9 +84,9 @@ public class InvenUIManager
                         ExchangeInvenUI();
                     }
                     break;
-                case EquipPart.UpBody:
+                case EquipPart.Body:
                     equipIcon = Util.FindChild(body.gameObject, "EquipIcon").GetComponent<Image>();
-                    if (player.GetComponent<Equip_Item>().Upbody == null)
+                    if (player.GetComponent<Equip_Item>().Body == null)
                     {
                         EquipInvenUI();
                     }
@@ -131,9 +131,9 @@ public class InvenUIManager
                 equipIcon = Util.FindChild(head.gameObject, "EquipIcon").GetComponent<Image>();
                 prev_Item = player.GetComponent<Equip_Item>().Head;
                 break;
-            case EquipPart.UpBody:
+            case EquipPart.Body:
                 equipIcon = Util.FindChild(body.gameObject, "EquipIcon").GetComponent<Image>();
-                prev_Item = player.GetComponent<Equip_Item>().Upbody;
+                prev_Item = player.GetComponent<Equip_Item>().Body;
                 break;
             case EquipPart.Weapon:
                 equipIcon = Util.FindChild(weapon.gameObject, "EquipIcon").GetComponent<Image>();
