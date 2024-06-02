@@ -54,7 +54,7 @@ public class InvenUI : UI_Popup
     public void BodyEquipButtonClick(PointerEventData data)
     {
         MoveArmorTab();
-        PM_UI_Manager.InvenUI.part = EquipPart.UpBody;
+        PM_UI_Manager.InvenUI.part = EquipPart.Body;
         PM_UI_Manager.InvenUI.UnEquipInvenUI();
     }
 
@@ -110,7 +110,7 @@ public class InvenUI : UI_Popup
         for (int i = 0; i < PM_UI_Manager.InvenUI.invenContent.transform.childCount; i++)
         {
             GameObject invenItem = PM_UI_Manager.InvenUI.invenContent.transform.GetChild(i).gameObject;
-            if (invenItem.GetComponent<InvenItemUI>().itemType == ItemType.Equipment && (invenItem.GetComponent<EquipItemUI>().equipPart == EquipPart.UpBody || invenItem.GetComponent<EquipItemUI>().equipPart == EquipPart.Head))
+            if (invenItem.GetComponent<InvenItemUI>().itemType == ItemType.Equipment && (invenItem.GetComponent<EquipItemUI>().equipPart == EquipPart.Body || invenItem.GetComponent<EquipItemUI>().equipPart == EquipPart.Head))
             {
                 PM_UI_Manager.UI.ShowUI(invenItem);
             }
