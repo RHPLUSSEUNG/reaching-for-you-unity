@@ -8,9 +8,12 @@ public class BattleItemUI : UI_Base
 {
     enum battleItemUI
     {
-        
+        ItemIcon,
+        ItemName,
+        ItemCount
     }
 
+    GameObject saveItem;
     public override void Init()
     {
         Bind<GameObject>(typeof(battleItemUI));
@@ -34,11 +37,14 @@ public class BattleItemUI : UI_Base
 
     public void ItemButtonEnter(PointerEventData data)
     {
-        Debug.Log("Item Button Enter");
+        PM_UI_Manager.UI.ShowUI(PM_UI_Manager.BattleUI.descriptPanel);
+        DescriptUI descript = PM_UI_Manager.BattleUI.descriptPanel.GetComponent<DescriptUI>();
+        descript.SetPosition();
+        descript.SetDescript(saveItem, "마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명");
     }
 
     public void ItemButtonExit(PointerEventData data)
     {
-        Debug.Log("Item Button Exit");
+        PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.descriptPanel);
     }
 }

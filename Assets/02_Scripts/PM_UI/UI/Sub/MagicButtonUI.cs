@@ -8,9 +8,11 @@ public class MagicButtonUI : UI_Base
 {
     enum magicButtonUI
     {
+        MagicIcon,
         MagicName,
         ElementIcon,
-        ManaText
+        ManaText,
+        AttackText
     }
 
     GameObject saveSkill;
@@ -47,11 +49,14 @@ public class MagicButtonUI : UI_Base
 
     public void MagicButtonEnter(PointerEventData data)
     {
-        Debug.Log("Button Enter");
+        PM_UI_Manager.UI.ShowUI(PM_UI_Manager.BattleUI.descriptPanel);
+        DescriptUI descript = PM_UI_Manager.BattleUI.descriptPanel.GetComponent<DescriptUI>();
+        descript.SetPosition();
+        descript.SetDescript(saveSkill, "마법에 대한 설명");
     }
 
     public void MagicButtonExit(PointerEventData data)
     {
-        Debug.Log("Button Exit");
+        PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.descriptPanel);
     }
 }

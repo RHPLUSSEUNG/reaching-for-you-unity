@@ -41,7 +41,6 @@ public class ActUI : UI_Popup
         BindEvent(defenseBtn, UseDefenseButtonClick, Define.UIEvent.Click);
 
         PM_UI_Manager.UI.HideUI(itemPanel);
-
     }
 
     public void UpdateCharacterInfo()
