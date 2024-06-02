@@ -13,13 +13,16 @@ public class ActUI : UI_Popup
         MagicUseButton,
         ItemUseButton,
         DefenseButton,
+        NextTurnButton,
         MagicButtonLayout,
-        ItemLayout
+        ItemLayout,
+        DescriptUI
     }
 
     GameObject magicPanel;
     GameObject itemPanel;
     GameObject magicBtnLayout;
+    GameObject descriptPanel;
 
     public override void Init()
     {
@@ -30,23 +33,27 @@ public class ActUI : UI_Popup
         GameObject magicUseBtn = GetObject((int)actUI.MagicUseButton);
         GameObject itemUseBtn = GetObject((int)actUI.ItemUseButton);
         GameObject defenseBtn = GetObject((int)actUI.DefenseButton);
+        GameObject nextBtn = GetObject((int)actUI.NextTurnButton);
         magicPanel = GetObject((int)actUI.MagicPanel);
         PM_UI_Manager.BattleUI.magicPanel = magicPanel;
         itemPanel = GetObject((int)actUI.ItemPanel);
         PM_UI_Manager.BattleUI.itemPanel = itemPanel;
         magicBtnLayout = GetObject((int)actUI.MagicButtonLayout);
+        descriptPanel = GetObject((int)actUI.DescriptUI);
+        PM_UI_Manager.BattleUI.descriptPanel = descriptPanel;
 
         BindEvent(magicUseBtn, UseMagicButtonClick, Define.UIEvent.Click);
         BindEvent(itemUseBtn, UseItemButtonClick, Define.UIEvent.Click);
         BindEvent(defenseBtn, UseDefenseButtonClick, Define.UIEvent.Click);
+        BindEvent(nextBtn, NextButtonClick, Define.UIEvent.Click);
 
-        PM_UI_Manager.UI.HideUI(magicPanel);
         PM_UI_Manager.UI.HideUI(itemPanel);
-
+        PM_UI_Manager.UI.HideUI(descriptPanel);
     }
 
     public void UpdateCharacterInfo()
     {
+        // 플레이어 턴마다 실행
         SkillList skillList = Managers.Battle.currentCharacter.GetComponent<SkillList>();
         for (int i = 0; i < skillList.list.Count; i++)
         {
@@ -60,6 +67,7 @@ public class ActUI : UI_Popup
                 magicBtnLayout.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
+        PM_UI_Manager.UI.ShowUI(magicPanel);
     }
 
     public void UseMagicButtonClick(PointerEventData data)
@@ -79,5 +87,13 @@ public class ActUI : UI_Popup
         PM_UI_Manager.UI.HideUI(magicPanel);
         PM_UI_Manager.UI.HideUI(itemPanel);
         PM_UI_Manager.UI.HideUI(gameObject);
+    }
+
+    public void NextButtonClick(PointerEventData data)
+    {
+        PM_UI_Manager.UI.HideUI(magicPanel);
+        PM_UI_Manager.UI.HideUI(itemPanel);
+        PM_UI_Manager.UI.HideUI(gameObject);
+        // Managers.Battle.NextTurn();
     }
 }
