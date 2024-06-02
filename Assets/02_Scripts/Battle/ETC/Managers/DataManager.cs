@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class DataManager
 {
-    List<ItemData> itemList;
+    List<ConsumeData> consumeList;
+    List<EquipmentData> equipmentList;
     List<SkillData> skillList;
-
+    
     public void OnAwake()
     {
         DataList data = GameObject.Find("DataList").GetComponent<DataList>();
-        itemList = data.itemList;
+        consumeList = data.consumeList;
+        equipmentList = data.equipmentList;
         skillList = data.skillList;
     }
 
@@ -18,27 +20,34 @@ public class DataManager
         return skillList[skillid];
     }
 
-    public ItemData GetItemData(int itemid)
+    public ItemData GetItemData(int itemid, bool equipment = false)
     {
-        return itemList[itemid];
+        if (equipment)
+        {
+            return equipmentList[itemid];
+        }
+        else
+            return consumeList[itemid];
     }
 
     public void SetItem(int itemid, Consume item)
     {
-        item.name = itemList[itemid].name;
-        item.type = itemList[itemid].ItemType;
-        item.reqLev = itemList[itemid].reqLev;
+        item.name = consumeList[itemid].name;
+        item.type = consumeList[itemid].ItemType;
+        item.reqLev = consumeList[itemid].reqLev;
+        item.target = consumeList[itemid].target;
+        item.maxCapacity = consumeList[itemid].maxCapacity;
     }
 
     public void SetItem(int itemid, Equipment item)
     {
-        item.itemId = itemList[itemid].ItemID;
-        item.name = itemList[itemid].ItemName;
-        item.type = itemList[itemid].ItemType;
-        item.reqLev = itemList[itemid].reqLev;
+        item.itemId = equipmentList[itemid].ItemID;
+        item.name = equipmentList[itemid].ItemName;
+        item.type = equipmentList[itemid].ItemType;
+        item.reqLev = equipmentList[itemid].reqLev;
 
-        item.part = itemList[itemid].part;
-        item.elementType = itemList[itemid].element;
+        item.part = equipmentList[itemid].part;
+        item.elementType = equipmentList[itemid].element;
     }
 
     public void SetSkill(int skillid, Passive skill)

@@ -24,9 +24,8 @@ public enum ItemType
 public enum EquipPart
 {
     Head = 0,
-    UpBody = 1,
-    DownBody = 2,
-    Weapon = 3,
+    Body = 1,
+    Weapon = 2,
 };
 
 public enum TargetObject
