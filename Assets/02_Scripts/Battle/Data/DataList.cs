@@ -4,6 +4,7 @@ using UnityEngine;
 public class DataList : MonoBehaviour
 {
     [SerializeField]
-    public List<ItemData> itemList;
+    public List<ConsumeData> consumeList;
+    public List<EquipmentData> equipmentList;
     public List<SkillData> skillList;
 }

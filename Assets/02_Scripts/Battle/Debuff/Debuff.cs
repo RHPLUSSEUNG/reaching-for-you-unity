@@ -15,19 +15,13 @@ public abstract class Debuff
             return false;
         }
 
-        target.GetComponent<SkillList>().DelDebuff(this);
+        target.GetComponent<CharacterState>().DelDebuff(this);
         return true;
     }
 
     public abstract bool StartEffect();
 
-    public abstract void SetDebuff(int turn, GameObject target, short attribute = 0);
+    public abstract void SetDebuff(int turn, GameObject target, short attribute = 0, bool TurnEnd = false);
 
     public abstract void Duplicate_Debuff(Debuff debuff);
-    
-
-    public void AddDeBuff(GameObject target)
-    {
-        target.GetComponent<SkillList>().AddDebuff(this);
-    }
 }

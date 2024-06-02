@@ -20,10 +20,10 @@ public class RangeDetector : MonoBehaviour
 
     private void SetRange(int range, TargetObject targetType)
     {
-        Debug.Log(targetType);
+        Debug.Log($"Detect Target : {targetType}");
         detector.size = new Vector3(range, 3, range);
         this.range = range;
-        colliders = Physics.OverlapBox(this.transform.position, detector.size, Managers.Battle.currentCharacter.transform.rotation, CalcLayerMask(targetType));
+        colliders = Physics.OverlapBox(this.transform.position, new Vector3(range/2, 3/2, range/2), Managers.Battle.currentCharacter.transform.rotation, CalcLayerMask(targetType));
 
         foreach (Collider collider in colliders)
         {

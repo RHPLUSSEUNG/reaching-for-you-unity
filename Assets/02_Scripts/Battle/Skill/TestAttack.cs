@@ -6,7 +6,6 @@ public class TestAttack : Active
     {
         Managers.Active.Damage(target);
         Debug.Log("Player Attack");
-        Managers.Battle.NextTurn();
         return true;
     }
 

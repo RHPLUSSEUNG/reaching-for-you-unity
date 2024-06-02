@@ -5,7 +5,12 @@ public class RaycastManager
     UI_Battle battleUI;
     GameObject go;
     public RangeDetector detector;
-    bool detect_ready = false;
+    public bool detect_ready = false;
+
+    public GameObject character;
+    public CharacterState characterstate;
+    public EntityStat characterstat;
+
     public void TestInit()
     {
         GameObject UI = GameObject.Find("BattleUI");
@@ -16,6 +21,13 @@ public class RaycastManager
 
     public void OnUpdate()
     {
+        if (Managers.Battle.currentCharacter == character)
+        {
+            character = Managers.Battle.currentCharacter;
+            characterstat = character.GetComponent<EntityStat>();
+            characterstate = character.GetComponent<CharacterState>();
+        }
+        
         if (Input.GetMouseButtonDown(0) && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == false)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -50,21 +62,51 @@ public class RaycastManager
                             {
                                 break;
                             }
-                            //set range
+                            if(battleUI.GetSkill().target_object == TargetObject.Me)
+                            {
+                                if (battleUI.GetSkill().SetTarget(character))
+                                {
+                                    Managers.Battle.NextTurn();
+                                }
+                            }
+
                             if(detect_ready == false)
                             {
-                                detector.SetDetector(Managers.Battle.currentCharacter, battleUI.GetSkill().range, battleUI.GetSkill().target_object);
+                                detector.SetDetector(character, battleUI.GetSkill().range + 1, battleUI.GetSkill().target_object);
+                                detect_ready = true;
                             }
 
                             if (detector.Detect(hit.collider.gameObject))
                             {
-                                detect_ready = true;
-                                battleUI.GetSkill().SetTarget(hit.collider.gameObject);
+                                if (battleUI.GetSkill().SetTarget(hit.collider.gameObject))
+                                {
+                                    detect_ready = false;
+                                    Managers.Battle.NextTurn();
+                                }
                             }
                             break;
                         case ButtonState.Item:
                             //TODO Item Use
                             break;
+                        case ButtonState.Attack:
+                            if (detect_ready == false)
+                            {
+                                detect_ready = true;
+                                detector.SetDetector(character, (characterstat.AttackRange * 2) + 1, TargetObject.Enemy);
+                            }
+
+                            if (detector.Detect(hit.collider.gameObject))
+                            {
+                                detect_ready = false;
+                                Managers.Active.Damage(hit.collider.gameObject, characterstat.BaseDamage, characterstate.AttackType, characterstate.closeAttack);
+                                if (!characterstate.after_move)
+                                {
+                                    Managers.Battle.NextTurn();
+                                }
+                                
+                            }
+                            break;
+
                     }
                     
                 }

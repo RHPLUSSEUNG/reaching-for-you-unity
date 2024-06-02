@@ -6,19 +6,19 @@ public class Burn : Debuff
     public override void TimeCheck()
     {
         remainTurn--;
-        Managers.Active.Damage(target, tickDmg);
+        Managers.Active.Damage(target, tickDmg, ElementType.Fire);
         if(remainTurn == 0)
         {
             DeleteEffect();
         }
     }
 
-    public override void SetDebuff(int turn, GameObject target, short attribute)
+    public override void SetDebuff(int turn, GameObject target, short attribute, bool turnEnd = false)
     {
         this.target = target;
         remainTurn = turn;
         tickDmg = attribute;
-        AddDeBuff(target);
+        target.GetComponent<CharacterState>().AddDebuff(this, turnEnd);
         StartEffect();
     }
 

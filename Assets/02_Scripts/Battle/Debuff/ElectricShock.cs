@@ -2,28 +2,27 @@ using UnityEngine;
 
 public class ElectricShock : Debuff
 {
-    public int tickDmg;
     public override void TimeCheck()
     {
         remainTurn--;
         if(count*5 >= Random.Range(1, 101))
         {
-            Paralysis paralysis = new Paralysis();
-            paralysis.SetDebuff(1, target);
+            Paralysis paralysis = new();
+            paralysis.SetDebuff(1, target,0,true);
             DeleteEffect();
         }
-        if(remainTurn <= 0)
+        if(remainTurn <= 0 || count == 0)
         {
             DeleteEffect();
         }
     }
 
-    public override void SetDebuff(int turn, GameObject target, short attribute)
+    public override void SetDebuff(int turn, GameObject target, short attribute, bool turnEnd = false)
     {
         this.target = target;
         remainTurn = turn;
         count = attribute;
-        AddDeBuff(target);
+        target.GetComponent<CharacterState>().AddDebuff(this, turnEnd);
         StartEffect();
     }
 

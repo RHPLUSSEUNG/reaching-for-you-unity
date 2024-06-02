@@ -10,7 +10,11 @@ public abstract class Active : Skill
     public virtual bool SetTarget(GameObject target)
     {
         this.target = target;
-        Activate();
+        if (!Activate())
+        {
+            Debug.Log("Fail to Active Skill");
+            return false;
+        }
         return true;
     }
     public int range;

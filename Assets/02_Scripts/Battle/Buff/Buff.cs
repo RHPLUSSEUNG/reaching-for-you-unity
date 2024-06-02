@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class Buff
 {
     public GameObject target;
-    public short remainTurn;
+    public int remainTurn;
 
     public abstract void TimeCheck();
 
@@ -13,17 +13,17 @@ public abstract class Buff
         {
             return false;
         }
-        target.GetComponent<SkillList>().DelBuff(this);
+        target.GetComponent<CharacterState>().DelBuff(this);
         
         return true;
     }
 
     public abstract bool StartEffect();
 
-    public abstract void SetBuff(short turn, GameObject target, short attribute = 0);
+    public abstract void SetBuff(int turn, GameObject target, int attribute = 0, bool TurnEnd = false);
 
-    public void AddBuff(GameObject target)
+    public void AddBuff(GameObject target, bool TurnEnd)
     {
-        target.GetComponent<SkillList>().buffs.Add(this);
+        target.GetComponent<CharacterState>().AddBuff(this, TurnEnd);
     }
 }

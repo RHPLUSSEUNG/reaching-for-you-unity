@@ -24,17 +24,16 @@ public enum ItemType
 public enum EquipPart
 {
     Head = 0,
-    UpBody = 1,
-    DownBody = 2,
-    Weapon = 3,
+    Body = 1,
+    Weapon = 2,
 };
 
 public enum TargetObject
 {
     Enemy = 0,
-    Tile = 1,
-    Me = 2,
-    Friendly = 3,
+    Friendly = 1,
+    Tile = 2,
+    Me = 3,
 }
 
 public enum BattleState
@@ -53,6 +52,7 @@ public enum ButtonState
     Skill = 1,
     Item = 2,
     PlayerSet = 3,
+    Attack =4,
 }
 
 public enum Buttons

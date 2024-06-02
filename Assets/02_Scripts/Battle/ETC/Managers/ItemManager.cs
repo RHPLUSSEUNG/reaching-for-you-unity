@@ -9,22 +9,6 @@ public class ItemManager
     short inventoryMaxCnt = 100;
     int gold = 0;
 
-    public bool getGold(short gold)
-    {
-        this.gold += gold;
-        return true;
-    }
-
-    public bool useGold(short gold)
-    {
-        if(this.gold < gold)
-        {
-            return false;
-        }
-        this.gold -= gold;
-        return true;
-    }
-
     public bool AddItem(GameObject item)
     {
         if (item.GetComponent<Item>().type == ItemType.Consume)
@@ -68,7 +52,27 @@ public class ItemManager
         }
         return false;
     }
+   
+    #region gold
+    public bool getGold(short gold)
+    {
+        this.gold += gold;
+        return true;
+    }
 
+    public bool useGold(short gold)
+    {
+        if(this.gold < gold)
+        {
+            return false;
+        }
+        this.gold -= gold;
+        return true;
+    }
+
+    #endregion
+
+    #region Equipment equip
     public bool EquipItem(GameObject item, GameObject player)
     {
         Equipment equip = item.GetComponent<Equipment>();
@@ -83,14 +87,10 @@ public class ItemManager
                     equip_item.Head = item;
                     break;
                 case (EquipPart)1:
-                    prev_item = equip_item.Upbody;
-                    equip_item.Upbody = item;
+                    prev_item = equip_item.Body;
+                    equip_item.Body = item;
                     break;
                 case (EquipPart)2:
-                    prev_item = equip_item.Downbody;
-                    equip_item.Downbody = item;
-                    break;
-                case (EquipPart)3:
                     prev_item = equip_item.Weapon;
                     equip_item.Weapon = item;
                     break;
@@ -133,12 +133,9 @@ public class ItemManager
                 equip_item.Head = null;
                 break;
             case (EquipPart)1:
-                equip_item.Upbody = null;
+                equip_item.Body = null;
                 break;
             case (EquipPart)2:
-                equip_item.Downbody = null;
-                break;
-            case (EquipPart)3:
                 equip_item.Weapon = null;
                 break;
         }
@@ -147,4 +144,24 @@ public class ItemManager
         inventoryCnt++;
         return true;
     }
+    #endregion
+
+    #region EquipConsume
+    public bool EquipConsume(GameObject item, GameObject player)
+    {
+        return true;
+    }
+
+    public bool ExchangeConsume(GameObject prev, GameObject cur, GameObject player)
+    {
+        return true;
+    }
+
+    public bool UnequipConsume(GameObject item, GameObject player)
+    {
+        return true;
+    }
+    #endregion
 }
+
+

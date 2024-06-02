@@ -13,12 +13,12 @@ public class Slow : Debuff
         }
     }
 
-    public override void SetDebuff(int turn, GameObject target, short attribute)
+    public override void SetDebuff(int turn, GameObject target, short attribute = 0, bool turnEnd= false)
     {
         this.target = target;
         slow = attribute;
         remainTurn = turn;
-        AddDeBuff(target);
+        target.GetComponent<CharacterState>().AddDebuff(this, turnEnd);
         StartEffect();
     }
 

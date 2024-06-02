@@ -6,7 +6,7 @@ public class Poision : Debuff
     public override void TimeCheck()
     {
         remainTurn--;
-        Managers.Active.Damage(target, tickDmg);
+        Managers.Active.Damage(target, tickDmg, ElementType.Grass);
         tickDmg = tickDmg/2*3;
         if (remainTurn == 0)
         {
@@ -14,12 +14,12 @@ public class Poision : Debuff
         }
     }
 
-    public override void SetDebuff(int turn, GameObject target, short attribute)
+    public override void SetDebuff(int turn, GameObject target, short attribute = 0, bool turnEnd = false)
     {
         this.target = target;
         tickDmg = attribute;
         remainTurn = turn;
-        AddDeBuff(target);
+        target.GetComponent<CharacterState>().AddDebuff(this, turnEnd);
         StartEffect();
     }
 

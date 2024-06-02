@@ -2,32 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class SkillManager
 {
     Active skill;
     GameObject target;
     GameObject usingSkill;
+    public GameObject extent;
 
     public void Awake()
     {
         usingSkill = GameObject.Find("UsingSkill");
         Debug.Log(usingSkill);
-    }
-
-    public void SetSkillRange(Active skill)
-    {
-        if(skill == null)
-        {
-            return;
-        }
-        Managers.raycast.detector.SetDetector(Managers.Battle.currentCharacter, skill.range, skill.target_object);
-    }
-
-    public void SkillAct(GameObject target)
-    {
-        skill.SetTarget(target);
+        extent = GameObject.Find("SkillExtent");
     }
 
     public GameObject Instantiate(int id)

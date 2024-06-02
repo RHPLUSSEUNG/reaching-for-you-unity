@@ -6,7 +6,7 @@ public class Defense_Portion_Small : Consume
     {
         if(target == null) return false;
 
-        IncreaseDefense buff = new();
+        IncreaseDefence buff = new();
         buff.SetBuff(3, target, 5);
         return true;
     }

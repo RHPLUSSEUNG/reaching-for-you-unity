@@ -6,10 +6,11 @@ public class BattleManager
     public BattleState battleState;
     public short playerLive;
     public short monsterLive;
-    public List<GameObject> ObjectList = new List<GameObject>();
+    public List<GameObject> ObjectList = new();
     public GameObject currentCharacter;
     public UI_ActPanel ui;
     int turnCnt = 0;
+    public List<GameObject> Areas = new();
 
     int compareDefense(GameObject character1,  GameObject character2)
     {
@@ -28,7 +29,7 @@ public class BattleManager
         ObjectList.Clear();
         foreach (GameObject character in Managers.Party.playerParty)
         {
-            character.GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(60));
+            character.GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(6));
             ObjectList.Add(character);
         }
         foreach (GameObject character in Managers.Party.monsterParty)
@@ -52,9 +53,9 @@ public class BattleManager
 
     public void CalcTurn()
     {
-        if(currentCharacter != null && currentCharacter.GetComponent<SkillList>() != null)
+        if(currentCharacter != null && currentCharacter.GetComponent<CharacterState>() != null)
         {
-            currentCharacter.GetComponent<SkillList>().CalcTurn();
+            currentCharacter.GetComponent<CharacterState>().CalcTurn();
         }
 
         turnCnt++;
@@ -89,14 +90,21 @@ public class BattleManager
         {
             return;
         }
-        
+        Managers.raycast.detect_ready = false;
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
+        if(Areas.Count != 0)
+        {
+            foreach (GameObject area in Areas)
+            {
+                area.GetComponent<AreaInterface>().CalcTurn();
+                Debug.Log(area.name);
+            }
+        }
         if(currentCharacter.GetComponent<CharacterState>().IsStun())
         {
             NextTurn();
         }
-        Debug.Log(turnCnt);
         if (ObjectList[turnCnt].CompareTag("Player"))
         {
             PlayerTurn();
