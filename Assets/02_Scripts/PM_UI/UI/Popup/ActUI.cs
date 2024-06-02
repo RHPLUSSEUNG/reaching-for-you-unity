@@ -15,12 +15,14 @@ public class ActUI : UI_Popup
         DefenseButton,
         NextTurnButton,
         MagicButtonLayout,
-        ItemLayout
+        ItemLayout,
+        DescriptPanel
     }
 
     GameObject magicPanel;
     GameObject itemPanel;
     GameObject magicBtnLayout;
+    GameObject descriptPanel;
 
     public override void Init()
     {
@@ -37,6 +39,8 @@ public class ActUI : UI_Popup
         itemPanel = GetObject((int)actUI.ItemPanel);
         PM_UI_Manager.BattleUI.itemPanel = itemPanel;
         magicBtnLayout = GetObject((int)actUI.MagicButtonLayout);
+        descriptPanel = GetObject((int)actUI.DescriptPanel);
+        PM_UI_Manager.BattleUI.descriptPanel = descriptPanel;
 
         BindEvent(magicUseBtn, UseMagicButtonClick, Define.UIEvent.Click);
         BindEvent(itemUseBtn, UseItemButtonClick, Define.UIEvent.Click);
@@ -44,6 +48,7 @@ public class ActUI : UI_Popup
         BindEvent(nextBtn, NextButtonClick, Define.UIEvent.Click);
 
         PM_UI_Manager.UI.HideUI(itemPanel);
+        PM_UI_Manager.UI.HideUI(descriptPanel);
     }
 
     public void UpdateCharacterInfo()

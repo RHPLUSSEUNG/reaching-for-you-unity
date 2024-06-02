@@ -9,16 +9,22 @@ public class DescriptUI : UI_Popup
     {
         DescriptName,
         DescriptIcon,
+        DescriptLayout,
         DescriptText
     }
+
+    RectTransform descriptPanel;
+    RectTransform descriptLayout;
+    RectTransform descriptText;
     public override void Init()
     {
         base.Init();
 
         Bind<GameObject>(typeof(descriptUI));
-        PM_UI_Manager.BattleUI.descriptPanel = gameObject;
+        descriptPanel = gameObject.GetComponent<RectTransform>();
+        descriptLayout = GetObject((int)descriptUI.DescriptLayout).GetComponent<RectTransform>();
+        descriptText = GetObject((int)descriptUI.DescriptText).GetComponent<RectTransform>();
 
-        gameObject.SetActive(false);
     }
 
     public void SetDescript(GameObject info, string test)
@@ -27,6 +33,9 @@ public class DescriptUI : UI_Popup
         Image systemIcon = GetObject((int)descriptUI.DescriptIcon).GetComponent<Image>();
         Text systemText = GetObject((int)descriptUI.DescriptText).GetComponent<Text>();
         systemText.text = test;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(descriptText);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(descriptLayout);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(descriptPanel);
     }
 
     public void SetPosition()
@@ -58,6 +67,8 @@ public class DescriptUI : UI_Popup
             uiPos.y = mousePos.y - (uiHeight / 2);
         }
 
+        Debug.Log($"UI Pos X : {uiPos.x}");
+        Debug.Log($"UI Pos Y : {uiPos.y}");
         uiTransform.position = uiPos;
     }
 }
