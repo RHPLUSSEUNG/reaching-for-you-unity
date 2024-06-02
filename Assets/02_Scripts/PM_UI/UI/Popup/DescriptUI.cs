@@ -64,11 +64,9 @@ public class DescriptUI : UI_Popup
         }
         else
         {
-            uiPos.y = mousePos.y - (uiHeight / 2);
+            uiPos.y = mousePos.y;
         }
 
-        Debug.Log($"UI Pos X : {uiPos.x}");
-        Debug.Log($"UI Pos Y : {uiPos.y}");
         uiTransform.position = uiPos;
     }
 }

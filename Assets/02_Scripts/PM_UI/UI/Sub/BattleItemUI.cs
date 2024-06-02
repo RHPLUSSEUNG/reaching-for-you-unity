@@ -39,8 +39,8 @@ public class BattleItemUI : UI_Base
     {
         PM_UI_Manager.UI.ShowUI(PM_UI_Manager.BattleUI.descriptPanel);
         DescriptUI descript = PM_UI_Manager.BattleUI.descriptPanel.GetComponent<DescriptUI>();
-        descript.SetPosition();
         descript.SetDescript(saveItem, "마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명");
+        descript.SetPosition();
     }
 
     public void ItemButtonExit(PointerEventData data)

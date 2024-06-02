@@ -16,7 +16,7 @@ public class ActUI : UI_Popup
         NextTurnButton,
         MagicButtonLayout,
         ItemLayout,
-        DescriptPanel
+        DescriptUI
     }
 
     GameObject magicPanel;
@@ -39,7 +39,7 @@ public class ActUI : UI_Popup
         itemPanel = GetObject((int)actUI.ItemPanel);
         PM_UI_Manager.BattleUI.itemPanel = itemPanel;
         magicBtnLayout = GetObject((int)actUI.MagicButtonLayout);
-        descriptPanel = GetObject((int)actUI.DescriptPanel);
+        descriptPanel = GetObject((int)actUI.DescriptUI);
         PM_UI_Manager.BattleUI.descriptPanel = descriptPanel;
 
         BindEvent(magicUseBtn, UseMagicButtonClick, Define.UIEvent.Click);

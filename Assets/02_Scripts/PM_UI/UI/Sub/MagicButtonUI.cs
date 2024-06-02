@@ -51,8 +51,8 @@ public class MagicButtonUI : UI_Base
     {
         PM_UI_Manager.UI.ShowUI(PM_UI_Manager.BattleUI.descriptPanel);
         DescriptUI descript = PM_UI_Manager.BattleUI.descriptPanel.GetComponent<DescriptUI>();
-        descript.SetPosition();
         descript.SetDescript(saveSkill, "마법에 대한 설명");
+        descript.SetPosition();
     }
 
     public void MagicButtonExit(PointerEventData data)
