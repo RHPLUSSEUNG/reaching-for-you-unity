@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3564931604807738172}
   m_Layer: 0
   m_Name: Quest
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,15 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2018c157d24e43f4eaf302c40239c7e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statuses:
-  - quest: {fileID: 11400000, guid: 4d462fb3f83031a4db81f2ae307e2943, type: 2}
-    completedObjectives:
-    - "\uAD8C\uD76C\uC900\uC744 \uB0A9\uCE58\uD55C\uB2E4"
-    - "\uAD8C\uD76C\uC900\uC744 \uC8FD\uC778\uB2E4"
-  - quest: {fileID: 11400000, guid: 201f7a741c7d2604089f37fe2378d9c7, type: 2}
-    completedObjectives:
-    - "\uAD8C\uD76C\uC900\uC758 \uC790\uCDE8\uBC29\uC5D0 \uCE68\uC785"
-    - "\uAD8C\uD76C\uC900\uC758 \uC804\uAC08\uC744 \uD6D4\uCCD0\uB77C"
 --- !u!1 &1632515156684126824
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,6 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 4
+  direction: 1
   cameraChanged: 0
 --- !u!1 &3020289889979404006
 GameObject:
@@ -455,7 +447,7 @@ GameObject:
   - component: {fileID: 7963210743419465606}
   m_Layer: 0
   m_Name: Dialogue
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
