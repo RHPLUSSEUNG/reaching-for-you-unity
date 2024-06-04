@@ -39,7 +39,7 @@ public class QuestTooltipUI : MonoBehaviour
             TextMeshProUGUI objectiveText = objectiveInstance.GetComponentInChildren<TextMeshProUGUI>();
             objectiveText.text = objective.description;
         }
-        rewardText.text = GetRewardText(quest);
+        //rewardText.text = GetRewardText(quest);
     }
 
     private string GetRewardText(Quest quest)
