@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5513198752815309063}
-  - component: {fileID: 2085378592182246644}
+  - component: {fileID: 2355838914545662156}
   - component: {fileID: 4317451743883351007}
   - component: {fileID: 7161518087375597541}
   - component: {fileID: 5589429295966842194}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy_Crab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,14 +29,14 @@ Transform:
   m_GameObject: {fileID: 1924857992452620357}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 13.5}
+  m_LocalPosition: {x: 4.45, y: 1, z: 13.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8003536871174113618}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2085378592182246644
+--- !u!114 &2355838914545662156
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,12 +45,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1924857992452620357}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbc06bf365a55dc47a9deb9883260a64, type: 3}
+  m_Script: {fileID: 11500000, guid: 8674113b5d3175e44b66b9c00c2c54f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
   targetTag: Player
   isTurnEnd: 0
+  lastDamaged: 0
 --- !u!114 &4317451743883351007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,10 +69,11 @@ MonoBehaviour:
   _hp: 100
   _maxMp: 800
   _mp: 800
-  _baseDamage: 10
+  _baseDamage: 20
   _attackRange: 1
   _movePoint: 3
-  _sight: 5
+  _actPoint: 100
+  _sight: 4
   _defense: 0.6
   _healReciveMultiply: 1
   _hidden: 0
@@ -128,7 +130,7 @@ GameObject:
   - component: {fileID: 5102538382565287204}
   - component: {fileID: 6305817670886818757}
   - component: {fileID: 3151447762686443997}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,7 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8003536871174113618}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5244706098233452893}
   - component: {fileID: 6847416120356297619}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

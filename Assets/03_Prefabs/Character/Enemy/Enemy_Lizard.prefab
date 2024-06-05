@@ -1,5 +1,129 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &943012717050207403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2669671480478549167}
+  - component: {fileID: 2002861492069220732}
+  - component: {fileID: 1762590063286033103}
+  m_Layer: 0
+  m_Name: rock
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2669671480478549167
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943012717050207403}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5883717885770911720}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2002861492069220732
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943012717050207403}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 6ebaf11cdd05bb4409b76ebfed121f92, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.77, y: 1.72}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &1762590063286033103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943012717050207403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a420f32337ccd742b7b82a2653e968a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 1
+  rotateSpeed: 300
+  height: 2
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.99929065
+      value: 0.008106895
+      inSlope: -2.2507467
+      outSlope: -2.2507467
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3573637
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1852677920577338631
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,11 +133,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 672723962998804001}
-  - component: {fileID: 3744766952326685852}
+  - component: {fileID: 7900812790178923452}
   - component: {fileID: 6111826549547258064}
   - component: {fileID: 2104875631814130434}
   - component: {fileID: 5055300268704496872}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy_Lizard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,14 +153,14 @@ Transform:
   m_GameObject: {fileID: 1852677920577338631}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.5, y: 1, z: 4.5}
+  m_LocalPosition: {x: 0.55, y: 0.623, z: 4.356}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5883717885770911720}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3744766952326685852
+--- !u!114 &7900812790178923452
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,12 +169,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1852677920577338631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbc06bf365a55dc47a9deb9883260a64, type: 3}
+  m_Script: {fileID: 11500000, guid: ab09b803ec2b2774b8de228b12e21c45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
   targetTag: Player
   isTurnEnd: 0
+  projectile: {fileID: 943012717050207403}
+  isSIzeMode: 0
 --- !u!114 &6111826549547258064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,10 +194,11 @@ MonoBehaviour:
   _hp: 70
   _maxMp: 800
   _mp: 800
-  _baseDamage: 10
-  _attackRange: 2
-  _movePoint: 3
-  _sight: 10
+  _baseDamage: 30
+  _attackRange: 5
+  _movePoint: 2
+  _actPoint: 100
+  _sight: 6
   _defense: 0.5
   _healReciveMultiply: 1
   _hidden: 0
@@ -127,7 +254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3887748665871049438}
   - component: {fileID: 1015667988104063513}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +339,7 @@ GameObject:
   - component: {fileID: 4583592826586197616}
   - component: {fileID: 6425299374411835566}
   - component: {fileID: 6742573295491340828}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,7 +443,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5883717885770911720}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,5 +465,6 @@ Transform:
   m_Children:
   - {fileID: 4583592826586197616}
   - {fileID: 3887748665871049438}
+  - {fileID: 2669671480478549167}
   m_Father: {fileID: 672723962998804001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
