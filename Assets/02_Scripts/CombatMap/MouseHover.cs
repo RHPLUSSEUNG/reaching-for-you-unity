@@ -25,7 +25,6 @@ public class MouseHover : MonoBehaviour
         isHovered = true;
         // 큐브의 색상을 hoverColor로 변경
         GetComponent<Renderer>().material.color = hoverColor;
-        Debug.Log(1);
     }
 
     // 마우스가 오브젝트에서 벗어났을 때 실행되는 함수
