@@ -36,7 +36,6 @@ public class RaycastManager
             if (Physics.Raycast(ray, out hit))
             {
                 go = hit.collider.gameObject;
-                Debug.Log("ray :" + go);
                 /*
                 if (hit.transform.gameObject.CompareTag("Character"))
                 {

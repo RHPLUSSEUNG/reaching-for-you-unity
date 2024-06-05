@@ -24,7 +24,6 @@ public class SkillManager
     public GameObject Instantiate(int id)
     {
         GameObject Skill = Managers.Prefab.Instantiate($"Skill/{Managers.Data.GetSkillData(id).SkillName}", usingSkill.transform);
-        Debug.Log(Skill);
 
         if(Skill.GetComponent<Active>() != null)
         {
@@ -37,7 +36,6 @@ public class SkillManager
     public GameObject Instantiate(string name)
     {
         GameObject Effect = Managers.Prefab.Instantiate($"Effect/{name}", usingEffect.transform);
-        Debug.Log(Effect);
         return Effect;
     }
 

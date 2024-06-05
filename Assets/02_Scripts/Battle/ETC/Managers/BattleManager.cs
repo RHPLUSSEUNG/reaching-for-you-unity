@@ -87,14 +87,14 @@ public class BattleManager
     public void EnemyTurn(GameObject character)
     {
         Debug.Log(character.name);
-        if (character.GetComponent<EnemyAI_Test>() == null)
+        if (character.GetComponent<EnemyAI_Base>() == null)
         {
             Debug.Log("Component Error");
             return;
         }
         Debug.Log("EnemyTurn Start");
         battleState = BattleState.EnemyTurn;
-        character.GetComponent<EnemyAI_Test>().ProceedTurn();
+        character.GetComponent<EnemyAI_Base>().ProceedTurn();
     }
 
     public void NextTurn()
@@ -136,8 +136,6 @@ public class BattleManager
             Debug.Log("Defeat");
         }
     }
-
-
     public IEnumerator NextTurnCoroutine()
     {
         while(!Can_Continue())

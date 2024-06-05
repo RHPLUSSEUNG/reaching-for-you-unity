@@ -137,6 +137,8 @@ GameObject:
   - component: {fileID: 6111826549547258064}
   - component: {fileID: 2104875631814130434}
   - component: {fileID: 5055300268704496872}
+  - component: {fileID: 6712006253595409227}
+  - component: {fileID: -116487985579722593}
   m_Layer: 7
   m_Name: Enemy_Lizard
   m_TagString: Untagged
@@ -244,6 +246,44 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6712006253595409227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852677920577338631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 441d20eb2beabd6439e595b22b090c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stun: 0
+  _shackle: 0
+  _silence: 0
+  _slow: 0
+  closeAttack: 0
+  AttackType: 5
+  knock_back: 0
+  after_move: 0
+  capacity: 0
+  capacityStack: 0
+  _electricEmmune: 0
+  can_shock: 0
+  can_immune: 0
+--- !u!114 &-116487985579722593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852677920577338631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaebb0d372c712e44ae4730bd0ec4f86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  list: []
 --- !u!1 &2203843575854407925
 GameObject:
   m_ObjectHideFlags: 0

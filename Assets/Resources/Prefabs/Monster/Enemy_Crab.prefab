@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4317451743883351007}
   - component: {fileID: 7161518087375597541}
   - component: {fileID: 5589429295966842194}
+  - component: {fileID: -1324778867648382908}
+  - component: {fileID: -6419096828168542366}
   m_Layer: 7
   m_Name: Enemy_Crab
   m_TagString: Untagged
@@ -119,6 +121,44 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-1324778867648382908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924857992452620357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 441d20eb2beabd6439e595b22b090c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stun: 0
+  _shackle: 0
+  _silence: 0
+  _slow: 0
+  closeAttack: 0
+  AttackType: 5
+  knock_back: 0
+  after_move: 0
+  capacity: 0
+  capacityStack: 0
+  _electricEmmune: 0
+  can_shock: 0
+  can_immune: 0
+--- !u!114 &-6419096828168542366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924857992452620357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaebb0d372c712e44ae4730bd0ec4f86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  list: []
 --- !u!1 &4346342542465229821
 GameObject:
   m_ObjectHideFlags: 0

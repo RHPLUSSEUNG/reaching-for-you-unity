@@ -18,6 +18,7 @@ public abstract class Active : Skill
             return false;
         }
         Managers.Manager.StartCoroutine(Managers.Skill.StartEffect(Effect, target.transform.position));
+        Managers.Manager.StartCoroutine(Managers.Battle.NextTurnCoroutine());
         return true;
     }
 
