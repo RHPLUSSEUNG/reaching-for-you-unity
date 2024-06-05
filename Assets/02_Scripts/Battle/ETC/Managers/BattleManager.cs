@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +18,20 @@ public class BattleManager
         return character1.GetComponent<EntityStat>().Defense < character2.GetComponent<EntityStat>().Defense ? -1 : 1;
     }
 
-
+    public bool Can_Continue()
+    {
+        if(battleState == BattleState.Defeat && battleState == BattleState.Victory)
+        {
+            Debug.Log("Battle is End");
+            return false;
+        }
+        else if (Managers.Skill.is_effect)
+        {
+            Debug.Log("Wait for skill effect End");
+            return false;
+        }
+        return true;
+    }
 
     public void BattleReady()
     {
@@ -29,7 +43,7 @@ public class BattleManager
         ObjectList.Clear();
         foreach (GameObject character in Managers.Party.playerParty)
         {
-            character.GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(6));
+            character.GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(0));
             ObjectList.Add(character);
         }
         foreach (GameObject character in Managers.Party.monsterParty)
@@ -70,7 +84,6 @@ public class BattleManager
         Debug.Log("PlayerTurn Start");
 
     }
-
     public void EnemyTurn(GameObject character)
     {
         Debug.Log(character.name);
@@ -86,11 +99,6 @@ public class BattleManager
 
     public void NextTurn()
     {
-        if (battleState == BattleState.Defeat || battleState == BattleState.Start || battleState == BattleState.Victory)
-        {
-            return;
-        }
-        Managers.raycast.detect_ready = false;
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
         if(Areas.Count != 0)
@@ -127,5 +135,16 @@ public class BattleManager
             battleState = BattleState.Defeat;
             Debug.Log("Defeat");
         }
+    }
+
+
+    public IEnumerator NextTurnCoroutine()
+    {
+        while(!Can_Continue())
+        {
+            yield return null;
+        }
+        NextTurn();
+        yield break;
     }
 }

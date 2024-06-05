@@ -106,7 +106,7 @@ public class UI_Battle : UI_Scene
     {   
         UI_MagicPanel magic = magicPanel.GetComponent<UI_MagicPanel>();
         Active skill = magic.GetSkill();
-        Debug.Log($"Skill : {skill}");
+        //Debug.Log($"Skill : {skill}");
 
         return skill;
     }
