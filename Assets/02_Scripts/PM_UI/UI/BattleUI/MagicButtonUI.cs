@@ -36,9 +36,6 @@ public class MagicButtonUI : UI_Base
         // magicName.text;
         Image elementIcon = GetObject((int)magicButtonUI.ElementIcon).GetComponent<Image>();
         Text manaText = GetObject((int)magicButtonUI.ManaText).GetComponent<Text>();
-        // 1. DataManager에 넣을거면 여기서 Manager를 통해 접근 -> RayCastManager에서 Manager를 통해 GetSkill
-        // 2. 여기에 Skill을 저장하면 변수에 저장 -> 여기에 저장하면 GetSkill 함수를 파고 Find를 통해 또 찾아야함(현재 방식)
-        // 3. 아니면 BattleUIManager를 하나 만들어보기
 
         saveSkill = skill;
     }
