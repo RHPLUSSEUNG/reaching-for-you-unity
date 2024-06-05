@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2780,18 +2780,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8829c96a44e3ff43b25737cfada94d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
+  manager: {fileID: 2020073140}
   Width: 10
   Height: 10
-  cubePrefab: {fileID: 4306025221179246836, guid: bb67a52debe88e9419e4afbc7f5e7e34, type: 3}
-  wallPrefab: {fileID: 0}
+  cubePrefab:
+  - {fileID: 5954963467640886881, guid: 36ce781b8ed09e9489f97a7e75be9bfd, type: 3}
+  - {fileID: 7188563662643302808, guid: af0292bc599f03c468cf52458991d8e3, type: 3}
+  - {fileID: 4626268623996626018, guid: 4b664ed4c4c356d41b6e06f6814d4b90, type: 3}
+  - {fileID: 6744094832657239553, guid: 2dcebaab8d1756e42853bf97788993be, type: 3}
+  wallPrefab: {fileID: 2051283277922887267, guid: 1b3adef50cce7324dbd0f1124a827b9b, type: 3}
   coverDataArray:
   - {fileID: 11400000, guid: 6b7345c524daa9e45962a4263bb32996, type: 2}
   - {fileID: 11400000, guid: 057702ab90bcd9d49b3cd412be7842b4, type: 2}
   - {fileID: 11400000, guid: 0cf2595b80d16d74bb522811db1f94a9, type: 2}
   frequency: 1
-  minWallCount: 5
-  maxWallCount: 7
+  minObstacleCount: 3
+  maxObstacleCount: 10
+  minDistanceBetweenObstacles: 2
   wallLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -7956,7 +7961,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2717c1947dc9c442a4c846ea91a2346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemList: []
+  consumeList: []
+  equipmentList: []
   skillList:
   - {fileID: 11400000, guid: 1655b5c3514b5f94baf2aec9a620b5b2, type: 2}
   - {fileID: 11400000, guid: 91d8f50aa7bc257469cb72d47db7d729, type: 2}
