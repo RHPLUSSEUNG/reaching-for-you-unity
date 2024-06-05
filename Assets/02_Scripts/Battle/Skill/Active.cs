@@ -5,7 +5,9 @@ public abstract class Active : Skill
     public int stamina; //skill cool time
     public int mp;
     public GameObject target;
-    bool[,] skillRange = new bool[11, 11]; //[6][6] activate pos
+    public GameObject Effect;
+    public int range;
+
     public abstract bool Activate(); //use skill
     public virtual bool SetTarget(GameObject target)
     {
@@ -15,9 +17,9 @@ public abstract class Active : Skill
             Debug.Log("Fail to Active Skill");
             return false;
         }
+        Managers.Manager.StartCoroutine(Managers.Skill.StartEffect(Effect, target.transform.position));
         return true;
     }
-    public int range;
 
     public override void Start()
     {
