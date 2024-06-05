@@ -7,6 +7,11 @@ public class EnemyAI_Lizard : EnemyAI_Base
 
     [SerializeField]
     protected bool isSIzeMode = false;
+
+    private void Awake()
+    {
+        skillList.AddSkill(Managers.Skill.Instantiate(62));
+    }
     public override void ProceedTurn()
     {
         if (!isTurnEnd)
@@ -32,8 +37,10 @@ public class EnemyAI_Lizard : EnemyAI_Base
             else if (targetDistance <= 2) // 돌 장전중 X, 대상이 2칸 내
             {
                 Debug.Log("Skill Used!");
-                Attack(60);
+                stat.ActPoint -= 60;
                 stat.Mp -= 60;
+                skillList.list[0].GetComponent<Active>().SetTarget(targetObj);
+                TurnEnd();
             }
             else  // 돌 장전중 X, 대상이 2칸 밖
             {

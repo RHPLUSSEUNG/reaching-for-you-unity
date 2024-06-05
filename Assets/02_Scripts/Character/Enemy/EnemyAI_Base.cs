@@ -13,6 +13,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
     protected EnemyStat stat;
     protected GameObject targetObj;
     SpriteController spriteController;
+    protected SkillList skillList;
 
     Vector3[] path;
     Vector3 targetPos;
@@ -32,6 +33,8 @@ public abstract class EnemyAI_Base : MonoBehaviour
         stat = GetComponent<EnemyStat>();
         spriteController = GetComponent<SpriteController>();
         isTurnEnd = true;
+        skillList = GetComponent<SkillList>();
+        //skillList.AddSkill(Managers.Skill.Instantiate(0)); 각 몬스터마다 해당하는 번호의 스킬 가져오기
     }
     private void LateUpdate()
     {
@@ -46,7 +49,6 @@ public abstract class EnemyAI_Base : MonoBehaviour
     public abstract void OnMoveEnd();   // 이동이 끝났을 때
     public abstract void OnAttackSuccess(); //공격 성공 시
     public abstract void OnAttackFail();    // 공격 실패 시
-
 
     public void OnTurnStart()
     {

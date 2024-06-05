@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class EnemyAI_Crab : EnemyAI_Base
 {
+    private void Awake()
+    {
+        skillList.AddSkill(Managers.Skill.Instantiate(61));
+    }
     public int lastDamaged = 0;
     public override void SpecialCheck()
     {
@@ -13,6 +17,7 @@ public class EnemyAI_Crab : EnemyAI_Base
             stat.ActPoint -= 70;
             stat.Mp -= 60;
             lastDamaged = 0;
+            skillList.list[0].GetComponent<Active>().SetTarget(gameObject);
             TurnEnd();
         }
     }
