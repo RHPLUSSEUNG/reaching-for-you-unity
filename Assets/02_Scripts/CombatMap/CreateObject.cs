@@ -133,7 +133,7 @@ public class CreateObject : MonoBehaviour
                 map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
                 map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
                 map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 0.5f, 0);
-                Vector3 newRotation = new Vector3(-90f, 0, 0); // 원하는 각도로 변경
+                Vector3 newRotation = new Vector3(0f, 0, 0); // 원하는 각도로 변경
                 map[x, z].ObjectPrefab.transform.rotation = Quaternion.Euler(newRotation);
                 obstaclePositions.Add(new Vector2Int(x, z));
                 currentObstacleCount++;
