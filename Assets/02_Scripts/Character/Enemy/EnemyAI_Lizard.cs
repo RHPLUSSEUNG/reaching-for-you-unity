@@ -8,7 +8,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
     [SerializeField]
     protected bool isSIzeMode = false;
 
-    private void Awake()
+    private void Start()
     {
         skillList.AddSkill(Managers.Skill.Instantiate(62));
     }

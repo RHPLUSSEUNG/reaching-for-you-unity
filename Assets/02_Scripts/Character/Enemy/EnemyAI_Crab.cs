@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyAI_Crab : EnemyAI_Base
 {
-    private void Awake()
+    private void Start()
     {
         skillList.AddSkill(Managers.Skill.Instantiate(61));
     }

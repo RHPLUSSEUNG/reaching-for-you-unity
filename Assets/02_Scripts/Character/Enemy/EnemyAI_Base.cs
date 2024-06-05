@@ -28,7 +28,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
 
     public bool isTurnEnd;
 
-    private void Awake()
+    private void Start()
     {
         stat = GetComponent<EnemyStat>();
         spriteController = GetComponent<SpriteController>();
