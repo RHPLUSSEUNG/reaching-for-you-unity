@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Lizard_Skill : Active
+public class Lizard_Skill : MonsterSkill
 {
     public override bool Activate()
     {

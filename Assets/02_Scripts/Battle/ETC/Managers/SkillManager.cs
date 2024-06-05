@@ -21,21 +21,45 @@ public class SkillManager
         usingEffect = GameObject.Find("Effect");
     }
 
-    public GameObject Instantiate(int id)
+    public GameObject Instantiate(int id, bool monster = false)
     {
-        GameObject Skill = Managers.Prefab.Instantiate($"Skill/{Managers.Data.GetSkillData(id).SkillName}", usingSkill.transform);
-
-        if(Skill.GetComponent<Active>() != null)
+        GameObject go;
+        if (monster)
         {
-            GameObject effect = Instantiate(Managers.Data.GetSkillData(id).SkillName);
-            Skill.GetComponent<Active>().Effect = effect;
+            go = Managers.Prefab.Instantiate($"Skill/Monster/{Managers.Data.GetMonsterSkillData(id).SkillName}", usingSkill.transform);
         }
-        return Skill;
+        else
+        {
+            go = Managers.Prefab.Instantiate($"Skill/Player/{Managers.Data.GetPlayerSkillData(id).SkillName}", usingSkill.transform);
+        }
+        
+        /*
+        if(go.GetComponent<MonsterSkill>() != null)
+        {
+            GameObject effect = Instantiate(Managers.Data.GetMonsterSkillData(id).SkillName, true);
+            go.GetComponent<MonsterSkill>().Effect = effect;
+        }
+        */
+        if (go.GetComponent<Active>() != null)
+        {
+            GameObject effect = Instantiate(Managers.Data.GetPlayerSkillData(id).SkillName, false);
+            go.GetComponent<Active>().Effect = effect;
+        }
+        return go;
     }
 
-    public GameObject Instantiate(string name)
+    public GameObject Instantiate(string name, bool monster)
     {
-        GameObject Effect = Managers.Prefab.Instantiate($"Effect/{name}", usingEffect.transform);
+        GameObject Effect;
+        if (monster)
+        {
+            Effect = Managers.Prefab.Instantiate($"Effect/Monster/{name}", usingEffect.transform);
+        }
+        else
+        {
+            Effect = Managers.Prefab.Instantiate($"Effect/Player/{name}", usingEffect.transform);
+        }
+        
         return Effect;
     }
 

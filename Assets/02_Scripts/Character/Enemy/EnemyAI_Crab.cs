@@ -4,7 +4,11 @@ public class EnemyAI_Crab : EnemyAI_Base
 {
     private void Start()
     {
-        skillList.AddSkill(Managers.Skill.Instantiate(61));
+        stat = GetComponent<EnemyStat>();
+        spriteController = GetComponent<SpriteController>();
+        isTurnEnd = true;
+        skillList = GetComponent<SkillList>();
+        skillList.AddSkill(Managers.Skill.Instantiate(0, true));
     }
     public int lastDamaged = 0;
     public override void SpecialCheck()
@@ -17,7 +21,7 @@ public class EnemyAI_Crab : EnemyAI_Base
             stat.ActPoint -= 70;
             stat.Mp -= 60;
             lastDamaged = 0;
-            skillList.list[0].GetComponent<Active>().SetTarget(gameObject);
+            skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);
             TurnEnd();
         }
     }

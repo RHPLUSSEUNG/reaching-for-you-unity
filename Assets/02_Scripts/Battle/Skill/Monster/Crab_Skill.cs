@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Crab_Skill : Active
+public class Crab_Skill : MonsterSkill
 {
     public override bool Activate()
     {

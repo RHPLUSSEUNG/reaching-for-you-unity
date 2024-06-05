@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Active : Skill
+public abstract class MonsterSkill : Skill
 {
     public int stamina; //skill cool time
     public int mp;
@@ -24,6 +24,6 @@ public abstract class Active : Skill
 
     public override void Start()
     {
-        Managers.Data.SetPlayerSkill(skillId, this);
+        Managers.Data.SetMonsterSkill(skillId, this);
     }
 }

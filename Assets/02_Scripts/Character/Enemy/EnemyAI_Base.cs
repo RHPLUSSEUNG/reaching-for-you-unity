@@ -12,7 +12,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
 
     protected EnemyStat stat;
     protected GameObject targetObj;
-    SpriteController spriteController;
+    protected SpriteController spriteController;
     protected SkillList skillList;
 
     Vector3[] path;

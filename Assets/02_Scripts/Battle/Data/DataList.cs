@@ -6,5 +6,6 @@ public class DataList : MonoBehaviour
     [SerializeField]
     public List<ConsumeData> consumeList;
     public List<EquipmentData> equipmentList;
-    public List<SkillData> skillList;
+    public List<SkillData> playerSkillList;
+    public List<SkillData> monsterSkillList;
 }
