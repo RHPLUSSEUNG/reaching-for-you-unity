@@ -34,7 +34,7 @@ public class PathFinding : MonoBehaviour
         Node startNode = grid.GetNodeFromWorldPosition(startPos);
         Node targetNode = grid.GetNodeFromWorldPosition(targetPos);
 
-        if (targetNode.walkable) 
+        //if (targetNode.walkable) 
         {
             List<Node> openList = new List<Node>();
             HashSet<Node> closedList = new HashSet<Node>();
@@ -57,13 +57,17 @@ public class PathFinding : MonoBehaviour
 
                 if (currentNode == targetNode) 
                 {
+                    if (!targetNode.walkable)
+                    {
+                        closedList.Remove(currentNode);
+                    }
                     success = true;
                     break;
                 }
 
                 foreach (Node node in grid.GetNeighbours(currentNode,1))
                 {
-                    if (!node.walkable || closedList.Contains(node)) continue;
+                    if (!node.walkable && node != targetNode || closedList.Contains(node)) continue;
 
                     int newGCost = currentNode.gCost + GetDistanceCost(currentNode, node);
 
@@ -148,6 +152,7 @@ public class PathFinding : MonoBehaviour
         bool success = false;
         Vector3 targetPos = startPos;
         GameObject targetObj = null;
+        int distance = 0;
         for (int i = 1; i <= radius; i++)
         {
             foreach (Node node in grid.GetNeighbours(startNode, i))
@@ -157,6 +162,7 @@ public class PathFinding : MonoBehaviour
                 {
                     success = true;
                     targetPos = node.worldPosition;
+                    distance = i;
                     break;
                 }
             }
@@ -164,11 +170,10 @@ public class PathFinding : MonoBehaviour
                 break;
         }
         yield return null;
-        pathfinder.FinishProcessingSearch(targetPos, targetObj, success);
+        pathfinder.FinishProcessingSearch(targetPos, targetObj, distance, success);
     }
     IEnumerator RandomLoc(Vector3 startPos, int radius)
     {
-        Debug.Log("randomLoc");
         Node startNode = grid.GetNodeFromWorldPosition(startPos);
         Vector3 target = startPos;
         while (true)

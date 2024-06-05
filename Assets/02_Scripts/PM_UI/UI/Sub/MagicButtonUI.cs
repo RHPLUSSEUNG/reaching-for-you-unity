@@ -12,10 +12,15 @@ public class MagicButtonUI : UI_Base
         MagicName,
         ElementIcon,
         ManaText,
-        AttackText
+        AttackText,
+        Disabled
     }
 
-    GameObject saveSkill;
+    [SerializeField]
+    GameObject saveSkill = null;
+    bool possible;
+
+    public GameObject SaveSkill { get { return saveSkill; } }
 
     public override void Init()
     {
@@ -35,16 +40,36 @@ public class MagicButtonUI : UI_Base
         // 2. 여기에 Skill을 저장하면 변수에 저장 -> 여기에 저장하면 GetSkill 함수를 파고 Find를 통해 또 찾아야함(현재 방식)
         // 3. 아니면 BattleUIManager를 하나 만들어보기
 
-        skill = saveSkill;
+        saveSkill = skill;
+    }
+
+    public bool CheckEnableMagic(int curMp)
+    {
+        // 현재 캐릭터가 이 마나를 사용할 수 있는 마나 or 스태미나를 가지고 있는지 체크
+        int needMp = saveSkill.GetComponent<Active>().mp;
+        if (curMp < needMp)
+        {
+            PM_UI_Manager.UI.ShowUI(GetObject((int)magicButtonUI.Disabled));
+            possible = false;
+            return possible;
+        }
+        PM_UI_Manager.UI.HideUI(GetObject((int)magicButtonUI.Disabled));
+        possible = true;
+        return possible;
     }
 
     public void MagicButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.UI.uiState = UIManager.UIState.SkillSet;
-        PM_UI_Manager.BattleUI.skill = saveSkill;
-        Debug.Log("Button Click");
-        PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.magicPanel);
-        PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.actUI);
+        if (possible)
+        {
+            PM_UI_Manager.UI.uiState = UIManager.UIState.SkillSet;
+            PM_UI_Manager.BattleUI.skill = saveSkill;
+            Debug.Log("Button Click");
+            PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.descriptPanel);
+            PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.actUI);
+            PM_UI_Manager.UI.ShowUI(PM_UI_Manager.BattleUI.cancleBtn);
+        }
+        Debug.Log("스킬 사용 불가");
     }
 
     public void MagicButtonEnter(PointerEventData data)

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UI_CharInfo : UI_Base
 {
+    public UI_Repair repairUI;
     enum CharInfoUI
     {
         Level,
@@ -15,6 +16,8 @@ public class UI_CharInfo : UI_Base
         DirectImage
     }
 
+    TestPlayerInfo playerStat;
+    Equip_Item playerEquip;
     public override void Init()
     {
         Bind<GameObject>(typeof(CharInfoUI));
@@ -23,7 +26,7 @@ public class UI_CharInfo : UI_Base
         BindEvent(charIcon, OnClickIcon, Define.UIEvent.Click);
     }
 
-    public void SetCharInfo(TestPlayerInfo info)
+    public void SetCharInfo(TestPlayerInfo info, Equip_Item equipInfo)
     {
         GameObject level = GetObject((int)CharInfoUI.Level);
         Text levelText = level.GetComponent<Text>();
@@ -37,11 +40,14 @@ public class UI_CharInfo : UI_Base
         GameObject name = Get<GameObject>((int)CharInfoUI.CharacterName);
         Text charName = name.GetComponent<Text>();
         charName.text = info.charname;
+
+        playerStat = info;
+        playerEquip = equipInfo;
     }
 
     public void OnClickIcon(PointerEventData data)
     {
-        
+        repairUI.UpdatePlayerInfo(playerStat, playerEquip);
         
     }
 }

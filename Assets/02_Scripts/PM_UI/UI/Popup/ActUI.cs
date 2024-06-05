@@ -55,10 +55,15 @@ public class ActUI : UI_Popup
     {
         // 플레이어 턴마다 실행
         SkillList skillList = Managers.Battle.currentCharacter.GetComponent<SkillList>();
+        int curMp = Managers.Battle.currentCharacter.GetComponent<EntityStat>().Mp;
         for (int i = 0; i < skillList.list.Count; i++)
         {
             MagicButtonUI magicBtn = magicBtnLayout.transform.GetChild(i).GetComponent<MagicButtonUI>();
-            magicBtn.SetSkill(skillList.list[i]);
+            if(magicBtn.SaveSkill == null)
+            {
+                magicBtn.SetSkill(skillList.list[i]);
+            }
+            magicBtn.CheckEnableMagic(curMp);
         }
         if (magicBtnLayout.transform.childCount < skillList.list.Count)
         {
@@ -84,15 +89,11 @@ public class ActUI : UI_Popup
 
     public void UseDefenseButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.UI.HideUI(magicPanel);
-        PM_UI_Manager.UI.HideUI(itemPanel);
         PM_UI_Manager.UI.HideUI(gameObject);
     }
 
     public void NextButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.UI.HideUI(magicPanel);
-        PM_UI_Manager.UI.HideUI(itemPanel);
         PM_UI_Manager.UI.HideUI(gameObject);
         // Managers.Battle.NextTurn();
     }

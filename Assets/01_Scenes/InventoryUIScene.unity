@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -176,6 +176,8 @@ MonoBehaviour:
   itemId: 0
   type: 1
   reqLev: 0
+  target: 0
+  maxCapacity: 0
 --- !u!114 &9036181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,7 +269,7 @@ MonoBehaviour:
   itemId: 0
   type: 0
   reqLev: 0
-  part: 3
+  part: 2
   elementType: 0
 --- !u!114 &52082747
 MonoBehaviour:
@@ -360,6 +362,8 @@ MonoBehaviour:
   itemId: 0
   type: 1
   reqLev: 0
+  target: 0
+  maxCapacity: 0
 --- !u!114 &72480749
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,7 +455,7 @@ MonoBehaviour:
   itemId: 0
   type: 0
   reqLev: 0
-  part: 3
+  part: 2
   elementType: 0
 --- !u!114 &243422819
 MonoBehaviour:
@@ -544,6 +548,8 @@ MonoBehaviour:
   itemId: 0
   type: 1
   reqLev: 0
+  target: 0
+  maxCapacity: 0
 --- !u!114 &267908427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -948,6 +954,8 @@ MonoBehaviour:
   itemId: 0
   type: 1
   reqLev: 0
+  target: 0
+  maxCapacity: 0
 --- !u!114 &485521640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1087,9 +1095,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Head: {fileID: 0}
-  Upbody: {fileID: 0}
-  Downbody: {fileID: 0}
+  Body: {fileID: 0}
   Weapon: {fileID: 1604391939}
+  consume_cnt: 0
+  Consumes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &820255102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,6 +1158,8 @@ MonoBehaviour:
   itemId: 0
   type: 1
   reqLev: 0
+  target: 0
+  maxCapacity: 0
 --- !u!114 &820255105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1226,9 +1243,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Head: {fileID: 0}
-  Upbody: {fileID: 0}
-  Downbody: {fileID: 0}
+  Body: {fileID: 0}
   Weapon: {fileID: 0}
+  consume_cnt: 0
+  Consumes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &927646946
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,9 +1298,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Head: {fileID: 0}
-  Upbody: {fileID: 0}
-  Downbody: {fileID: 0}
+  Body: {fileID: 0}
   Weapon: {fileID: 0}
+  consume_cnt: 0
+  Consumes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &998327855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1330,6 +1361,8 @@ MonoBehaviour:
   itemId: 0
   type: 1
   reqLev: 0
+  target: 0
+  maxCapacity: 0
 --- !u!114 &998327858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1607,6 +1640,8 @@ MonoBehaviour:
   itemId: 0
   type: 1
   reqLev: 0
+  target: 0
+  maxCapacity: 0
 --- !u!114 &1124422523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1848,6 +1883,8 @@ MonoBehaviour:
   itemId: 0
   type: 1
   reqLev: 0
+  target: 0
+  maxCapacity: 0
 --- !u!114 &1173112664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2032,6 +2069,8 @@ MonoBehaviour:
   itemId: 0
   type: 1
   reqLev: 0
+  target: 0
+  maxCapacity: 0
 --- !u!114 &1404739483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2123,7 +2162,7 @@ MonoBehaviour:
   itemId: 0
   type: 0
   reqLev: 0
-  part: 3
+  part: 2
   elementType: 0
 --- !u!114 &1466075618
 MonoBehaviour:
@@ -2216,7 +2255,7 @@ MonoBehaviour:
   itemId: 0
   type: 0
   reqLev: 0
-  part: 3
+  part: 2
   elementType: 0
 --- !u!114 &1477439012
 MonoBehaviour:
@@ -2402,7 +2441,7 @@ MonoBehaviour:
   itemId: 0
   type: 0
   reqLev: 0
-  part: 3
+  part: 2
   elementType: 0
 --- !u!114 &1604391942
 MonoBehaviour:
@@ -2682,7 +2721,7 @@ MonoBehaviour:
   itemId: 0
   type: 0
   reqLev: 0
-  part: 3
+  part: 2
   elementType: 0
 --- !u!114 &1785575585
 MonoBehaviour:
@@ -2819,7 +2858,7 @@ MonoBehaviour:
   itemId: 0
   type: 0
   reqLev: 0
-  part: 3
+  part: 2
   elementType: 0
 --- !u!114 &1840037103
 MonoBehaviour:
@@ -2980,6 +3019,8 @@ MonoBehaviour:
   itemId: 0
   type: 1
   reqLev: 0
+  target: 0
+  maxCapacity: 0
 --- !u!114 &1921303820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3062,6 +3103,8 @@ GameObject:
   - component: {fileID: 2052992611}
   - component: {fileID: 2052992612}
   - component: {fileID: 2052992613}
+  - component: {fileID: 2052992615}
+  - component: {fileID: 2052992614}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3097,9 +3140,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Head: {fileID: 0}
-  Upbody: {fileID: 0}
-  Downbody: {fileID: 0}
+  Body: {fileID: 0}
   Weapon: {fileID: 0}
+  consume_cnt: 0
+  Consumes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &2052992613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3113,6 +3163,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Test: {fileID: 558884262}
+--- !u!114 &2052992614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052992610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b816e6cab5405f647bb2bb20da01956d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _level: 0
+  _maxHp: 0
+  _hp: 0
+  _maxMp: 0
+  _mp: 0
+  _baseDamage: 0
+  _attackRange: 0
+  _movePoint: 0
+  _actPoint: 0
+  _sight: 0
+  _defense: 0
+  _healReciveMultiply: 0
+  _hidden: 0
+  _burn: 0
+  _oxygen: 0
+  _bind: 0
+  _shock: 0
+--- !u!114 &2052992615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052992610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 441d20eb2beabd6439e595b22b090c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stun: 0
+  _shackle: 0
+  _silence: 0
+  _slow: 0
+  closeAttack: 0
+  AttackType: 5
+  knock_back: 0
+  after_move: 0
+  capacity: 0
+  capacityStack: 0
+  _electricEmmune: 0
+  can_shock: 0
+  can_immune: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

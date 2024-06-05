@@ -1,47 +1,44 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyAI_Test : MonoBehaviour
+public abstract class EnemyAI_Test : MonoBehaviour
 {
+
     [SerializeField]
     float speed = 10;
     [SerializeField]
     string targetTag = "Player";
 
-    EnemyStat stat;
+    protected EnemyStat stat;
     GameObject targetObj;
     SpriteController spriteController;
 
     Vector3[] path;
     Vector3 targetPos;
-    int targetIndex;
+    protected int targetIndex;
+    protected int targetDistance;
 
-
-    bool isMoving;
-    bool canAttack;
-    bool isTargetEmpty;
+    protected bool isMoving;
+    protected bool canAttack;
+    protected bool isTargetEmpty;
+    protected bool forMove;
 
     public bool isTurnEnd;
 
     private void Awake()
     {
         stat = GetComponent<EnemyStat>();
-        spriteController= GetComponent<SpriteController>();
+        spriteController = GetComponent<SpriteController>();
     }
     private void LateUpdate()
     {
         spriteController.SetAnimState(AnimState.Idle);
     }
-
-    public void ProceedTurn()
-    {
-        //시야 범위 검색 > 찾으면 이동 > 사거리 닿을 시 공격
-        //못찾으면 범위 내 랜덤 위치 받은 후 이동
-        isTurnEnd = false;
-        canAttack = false;
-        Search(stat.Sight);
-    }
-
+    public abstract void ProceedTurn();
+    public abstract void SpecialCheck();    // 고유 우선 기믹 체크
+    public abstract void TargetFoundSuccess();  // 대상 발견 시 행동
+    public abstract void OnHit(int damage);
+    public abstract void MoveEnd();
     public void OnPathFound(Vector3[] newpath, bool succsess)
     {
         if (succsess)
@@ -55,32 +52,57 @@ public class EnemyAI_Test : MonoBehaviour
             Debug.Log("Move Failed");
         }
     }
-    public void OnTargetFound(Vector3 newTargetPos, GameObject newTargetObj, bool succsess)
+    public void OnTargetFound(Vector3 newTargetPos, GameObject newTargetObj, int distance, bool succsess)
     {
         if (succsess)
         {
-            Debug.Log("Search Succsess, Move to Target");
+            targetDistance = distance;
+            Debug.Log("Search Succsess");
             targetPos = newTargetPos;
             targetObj = newTargetObj;
             isTargetEmpty = false;
-            Move();
+            if (forMove)    // 대상 이동용일 경우
+            {
+                TargetFoundSuccess();
+            }
         }
         else
         {
-            // 서치 실패 시 몹마다 특정 로직
-            // 이동 범위 안의 무작위 좌표를 대상으로 움직임
-            Debug.Log("search Failed, Move To Random Location");
-            PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
+            targetDistance = 999;
+            if (forMove)    // 대상 이동용일 경우
+            {
+                Debug.Log("search Failed, Move To Random Location");
+                PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
+            }
         }
-    }  
-    public void OnRandomLoc(Vector3 newTargetPos)
-    {
-        Debug.Log(newTargetPos);
-        targetPos = newTargetPos;
-        isTargetEmpty = true;
-        Move();
     }
-
+    public void OnTurnStart()
+    {
+        stat.ActPoint = 100;
+        isTurnEnd = false;
+    }
+    public void TurnEnd()
+    {
+        isTurnEnd = true;
+        Managers.Battle.NextTurn();
+    }
+    public void Search(int radius, bool _forMove)
+    {
+        forMove = _forMove;
+        PathFinder.RequestSearch(transform.position, radius, targetTag, OnTargetFound);
+    }
+    public void CheckAttack()
+    {
+        Search(stat.AttackRange, false);
+        if (stat.AttackRange >= targetDistance)
+        {
+            canAttack = true;
+        }
+        else
+        {
+            canAttack = false;
+        }
+    }
     public void Move()
     {
         if (!isMoving)
@@ -92,37 +114,45 @@ public class EnemyAI_Test : MonoBehaviour
             Debug.Log("Object is Moving!");
         }
     }
-    public void Search(int radius)
-    {
-        PathFinder.RequestSearch(transform.position, radius, targetTag, OnTargetFound);
-    }
 
-    public void Attack()
+
+    public void Attack(int actPoint)
     {
-        if (canAttack)
+        if (canAttack && stat.ActPoint >= actPoint)
         {
             Debug.Log("Attack");    // 공격 실행
+            stat.ActPoint -= actPoint;
             spriteController.SetAnimState(AnimState.Attack);
             // 텀 추가?
             Managers.Active.Damage(targetObj, stat.BaseDamage);
             canAttack = false;
         }
-        isTurnEnd = true;   // 턴 종료
-        Debug.Log("Enemy Turn end");
-        Managers.Battle.NextTurn();
-        // 여기에 턴 종료 추가
+    }
 
+    public void OnRandomLoc(Vector3 newTargetPos)
+    {
+        targetPos = newTargetPos;
+        isTargetEmpty = true;
+        Move();
+    }
+    public void SetTargetTag(string tag)
+    {
+        targetTag = tag;
     }
     IEnumerator FollowPath()
     {
         targetIndex = 0;
+        Search(stat.AttackRange, false);
+
         if (path.Length == 0 || (path.Length <= stat.AttackRange && !isTargetEmpty))   // 이동할 필요 X
         {
             Debug.Log("Already At The Position");
             if (!isTargetEmpty)
-                canAttack= true;
+            {
+                canAttack = true;
+            }
             isMoving = false;
-            Attack();
+            stat.ActPoint -= 10 * targetIndex;    // 이동 시 소모할 행동력
             yield break;
         }
         Vector3 currentWaypoint = path[targetIndex];
@@ -134,10 +164,11 @@ public class EnemyAI_Test : MonoBehaviour
                 if (transform.position == currentWaypoint)
                 {
                     targetIndex++;
-                    if (targetIndex >= path.Length || targetIndex + 1 >= stat.MovePoint) 
+                    if (targetIndex >= path.Length || targetIndex + 1 > stat.MovePoint)
                     {
                         isMoving = false;
-                        Attack();
+                        stat.ActPoint -= 10 * targetIndex;    // 이동 시 소모할 행동력
+                        MoveEnd();
                         yield break;
                     }
                     currentWaypoint = path[targetIndex];
@@ -166,13 +197,15 @@ public class EnemyAI_Test : MonoBehaviour
                     {
                         isMoving = false;
                         canAttack = true;
-                        Attack();
+                        stat.ActPoint -= 10 * targetIndex;    // 이동 시 소모할 행동력
+                        MoveEnd();
                         yield break;
                     }
-                    else if (targetIndex + 1 >= stat.MovePoint)  // 이동거리 초과 시
+                    else if (targetIndex + 1 > stat.MovePoint)  // 이동거리 초과 시
                     {
                         isMoving = false;
-                        Attack();
+                        stat.ActPoint -= 10 * targetIndex;    // 이동 시 소모할 행동력
+                        MoveEnd();
                         yield break;
                     }
                     targetIndex++;
@@ -192,7 +225,6 @@ public class EnemyAI_Test : MonoBehaviour
                 yield return null;
             }
         }
-        
     }
 }
 
