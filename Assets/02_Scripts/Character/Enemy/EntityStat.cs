@@ -19,6 +19,8 @@ public class EntityStat : MonoBehaviour
     [SerializeField]
     int _movePoint;
     [SerializeField]
+    int _actPoint;
+    [SerializeField]
     int _sight;
     [SerializeField]
     float _defense;
@@ -45,6 +47,7 @@ public class EntityStat : MonoBehaviour
     public int BaseDamage { get { return _baseDamage; } set { _baseDamage = value; } }
     public int AttackRange { get { return _attackRange; } set { _attackRange = value; } }
     public int MovePoint { get { return _movePoint; } set { _movePoint = value; } }
+    public int ActPoint { get { return _actPoint; } set { _actPoint = value; } }
     public int Sight { get { return _sight; } set { _sight = value; } }
     public float Defense { get { return _defense; } set { _defense = value; } }
     public float HealReciveMultiply { get { return _healReciveMultiply; } set { _healReciveMultiply = value; } }
