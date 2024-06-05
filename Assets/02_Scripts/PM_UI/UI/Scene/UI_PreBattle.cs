@@ -51,7 +51,9 @@ public class UI_PreBattle : UI_Scene
     public void OnStartButton(PointerEventData data)
     {
         // Managers.Battle.BattleStart();
-        PM_UI_Manager.UI.CreatePopupUI<ActUI>("ActUI");
+        PM_UI_Manager.UI.CreateSceneUI<BattleUI>("BattleUI");
+        ActUI actUI = PM_UI_Manager.UI.CreatePopupUI<ActUI>("ActUI");
+        // PM_UI_Manager.UI.HideUI(actUI.gameObject);
         if (batchUI != null)
         {
             PM_UI_Manager.UI.ClosePopupUI(batchUI);

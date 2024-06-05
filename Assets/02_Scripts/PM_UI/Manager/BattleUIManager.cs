@@ -9,6 +9,7 @@ public class BattleUIManager
     public GameObject itemPanel;
     public GameObject descriptPanel;
     public GameObject skill;
+    public GameObject cancleBtn;
     public Item item;
 
     public Active GetSkill()

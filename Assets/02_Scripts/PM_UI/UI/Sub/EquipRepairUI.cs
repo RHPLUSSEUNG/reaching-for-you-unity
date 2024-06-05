@@ -29,7 +29,11 @@ public class EquipRepairUI : UI_Base
 
     public void ItemButtonClick(PointerEventData data)
     {
-        Debug.Log("Item 버튼 클릭");
+        if (PM_UI_Manager.InvenUI.equipUI == null)
+        {
+            PM_UI_Manager.InvenUI.CreateEquipUI();
+        }
+        PM_UI_Manager.InvenUI.equipUI.SetUIPosition();
     }
 
 }
