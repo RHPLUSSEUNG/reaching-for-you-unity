@@ -106,8 +106,29 @@ public class ActUI : UI_Popup
 
     public void MoveButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.UI.uiState = UIManager.UIState.Move;
-        PM_UI_Manager.UI.HideUI(descriptPanel);
-        PM_UI_Manager.UI.HideUI(actPanel);
+        Text moveText = GetObject((int)actUI.MoveButton).transform.GetChild(0).gameObject.GetComponent<Text>();
+        if (PM_UI_Manager.UI.uiState == UIManager.UIState.Idle)
+        {
+            Debug.Log("State Move");
+            PM_UI_Manager.UI.uiState = UIManager.UIState.Move;
+            PM_UI_Manager.UI.HideUI(descriptPanel);
+            PM_UI_Manager.UI.HideUI(actPanel);
+
+            // Text 변경(임시)
+            moveText.text = "이동 종료";
+            return;
+        }
+        if (PM_UI_Manager.UI.uiState == UIManager.UIState.Move)
+        {
+            Debug.Log("State Idle");
+            PM_UI_Manager.UI.uiState = UIManager.UIState.Idle;
+            PM_UI_Manager.UI.ShowUI(actPanel);
+
+            // Text 변경(임시)
+            moveText.text = "이동";
+            return;
+        }
+        
+
     }
 }

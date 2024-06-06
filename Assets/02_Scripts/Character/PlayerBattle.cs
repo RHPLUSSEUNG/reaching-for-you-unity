@@ -29,7 +29,6 @@ public class PlayerBattle : MonoBehaviour
     public void Move(GameObject target)
     {
         PathFinder.RequestPath(transform.position, target.transform.position, OnPathFound);
-        spriteController.SetAnimState(AnimState.Move);
     }
 
     public void OnHit(int damage)
@@ -39,8 +38,13 @@ public class PlayerBattle : MonoBehaviour
     }
     public void OnPathFound(Vector3[] newpath, bool succsess)
     {
+        if (newpath.Length ==0)
+        {
+            return;
+        }
         if (succsess)
         {
+            spriteController.SetAnimState(AnimState.Move);
             path = newpath;
             isMoving = true;
             StartCoroutine(FollowPath());  // 이동 실행 후 끝날 때 까지 대기
