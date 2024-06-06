@@ -95,6 +95,9 @@ GameObject:
   - component: {fileID: 6887543192642617950}
   - component: {fileID: 8278229267098531591}
   - component: {fileID: 7387900590124891021}
+  - component: {fileID: -3651890511693488082}
+  - component: {fileID: 7221533062846762427}
+  - component: {fileID: -5185650065337777768}
   m_Layer: 8
   m_Name: Player_Girl_Battle
   m_TagString: Player
@@ -161,6 +164,73 @@ MonoBehaviour:
   rotateSpeed: 4
   direction: 1
   cameraChanged: 0
+--- !u!114 &-3651890511693488082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3021066451422345363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaebb0d372c712e44ae4730bd0ec4f86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  list: []
+--- !u!114 &7221533062846762427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3021066451422345363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 441d20eb2beabd6439e595b22b090c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stun: 0
+  _shackle: 0
+  _silence: 0
+  _slow: 0
+  closeAttack: 0
+  AttackType: 5
+  knock_back: 0
+  after_move: 0
+  capacity: 0
+  capacityStack: 0
+  _electricEmmune: 0
+  can_shock: 0
+  can_immune: 0
+--- !u!114 &-5185650065337777768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3021066451422345363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b498d207a7f7b4487ee460e16bfe4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _level: 1
+  _maxHp: 100
+  _hp: 100
+  _maxMp: 100
+  _mp: 100
+  _baseDamage: 10
+  _attackRange: 1
+  _movePoint: 10
+  _actPoint: 10
+  _sight: 10
+  _defense: 10
+  _healReciveMultiply: 10
+  _hidden: 0
+  _burn: 0
+  _oxygen: 0
+  _bind: 0
+  _shock: 0
 --- !u!1 &3123852800578455195
 GameObject:
   m_ObjectHideFlags: 0

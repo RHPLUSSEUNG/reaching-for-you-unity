@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private FadeEffect fadeEffect;
 
     private bool isActive;
+    private bool isBattleMode;
     private float moveSpeed;
     private Vector3 inputVec;
     private Vector3 gravity;
@@ -48,6 +49,8 @@ public class PlayerController : MonoBehaviour
     Vector3 nextVec;
 
     private RaycastHit slopeHit;
+
+    PlayerStat stat;
 
 
     void Awake()
@@ -66,12 +69,14 @@ public class PlayerController : MonoBehaviour
         mainCamera = GameObject.Find("Main Camera");
         cameraController = mainCamera.GetComponent<CameraController>();
         fadeEffect = fadeEffectImg.GetComponent<FadeEffect>();
+        stat = GetComponent<PlayerStat>();
 
+        isBattleMode = false;
         isActive = true;
     }
     void Update()
     {
-        if(!isActive)
+        if (!isActive || isBattleMode)
         {
             spriteController.SetAnimState(AnimState.Idle);
             return;
@@ -99,7 +104,7 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (isActive)
+        if (isActive && !isBattleMode)
         {
             Move();
         }
@@ -241,10 +246,11 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Open Inventory");
     }
-    public void Hit()
+    public void OnHit(int damage)
     {
         isActive = false;
         spriteController.SetAnimState(AnimState.Hit);
+        stat.Hp -= damage;
     }
     private void StartFadeEffect()
     {

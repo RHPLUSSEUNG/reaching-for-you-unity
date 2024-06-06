@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class EnemyAI_Base : MonoBehaviour
@@ -126,7 +127,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
             stat.ActPoint -= actPoint;
             spriteController.SetAnimState(AnimState.Attack);
             // ≈“ √ﬂ∞°?
-            //Managers.Active.Damage(targetObj, stat.BaseDamage);
+            Managers.Active.Damage(targetObj.transform.parent.gameObject, stat.BaseDamage);
             OnAttackSuccess();
         }
         else

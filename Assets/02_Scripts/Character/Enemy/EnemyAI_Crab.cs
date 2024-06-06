@@ -78,7 +78,8 @@ public class EnemyAI_Crab : EnemyAI_Base
         }
     }
     public override void OnTargetFoundFail()
-    {if (isTurnEnd)
+    {
+        if (isTurnEnd)
             return;
         if (!isMoved)
         {
