@@ -6,21 +6,33 @@ public class CoverBattle : MonoBehaviour
 {
     public CreateObject createObject;
 
+    private List<CoverData> covers = new List<CoverData>();
+
     void Start() {
         UpdatePlayerPosition(transform.position); // 시작 시 플레이어 위치 설정
         // 플레이어 위치로 바꿔야 됨
+
+        for(int i = 0; i < covers.Count; i++) 
+        {
+            Debug.Log(covers[i]);
+        }
+    }
+
+    private void Update() {
+        
     }
 
     public void UpdatePlayerPosition(Vector3 newPosition) // 현재 위치 갱신
     {
         Map[,] map = createObject.GetMap();
-        for (int x = 0; x < map.GetLength(0); x++)
+        for (int x = 0; x < createObject.Width; x++)
         {
-            for (int z = 0; z < map.GetLength(1); z++)
+            for (int z = 0; z < createObject.Height; z++)
             {
                 if (map[x, z].eObstacle == EObstacle.Obstacle)
                 {
                     CoverData coverData = GetCoverDataAtPosition(map[x, z].ObjectLocation);
+                    covers.Add(coverData);
                     if (coverData != null)
                     {
                         coverData.UpdatePlayerPosition(newPosition);
