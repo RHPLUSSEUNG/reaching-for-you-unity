@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BattleManager
 {
@@ -114,6 +115,8 @@ public class BattleManager
             battleState = BattleState.Defeat;
             Debug.Log("Defeat");
         }
+
+        SceneManager.LoadScene("AM_PT_3");
     }
     public IEnumerator NextTurnCoroutine()
     {

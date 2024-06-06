@@ -54,7 +54,7 @@ public class RaycastManager
                     switch(Managers.PlayerButton.state)
                     {
                         case 0:
-                            //TODO current Character Move
+                            character.GetComponent<PlayerBattle>().Move(go);
                             break;
                         case ButtonState.Skill:
                             if (battleUI.GetSkill() == null)
@@ -104,6 +104,9 @@ public class RaycastManager
                                 }
                                 
                             }
+                            break;
+                        case ButtonState.Move:
+                            character.GetComponent<PlayerBattle>().Move(go);
                             break;
 
                     }

@@ -36,14 +36,16 @@ public class ActiveManager
 
     public void Damage(GameObject target, int damage, ElementType element = ElementType.None, bool close = false)
     {
+        Debug.Log(target);
         if (damage <= 0)
         {
             return;
         }
 
         CharacterState state = target.GetComponent<CharacterState>();
-        
-        if(element == ElementType.Electric)
+
+        #region Electric
+        if (element == ElementType.Electric)
         {
             state.GetCapacity(target);
             if (state.GetElecImmune())
@@ -57,13 +59,20 @@ public class ActiveManager
                 shock.SetDebuff(1, Managers.Battle.currentCharacter, 1);
             }
         }
+        #endregion
 
-        target.GetComponent<EntityStat>().Hp -= damage;
+        if (target.GetComponent<EnemyAI_Base>() != null)
+        {
+            target.GetComponent<EnemyAI_Base>().OnHit(damage);
+            return;
+        }else if (target.GetComponent<PlayerController>() != null)
+        {
+            target.GetComponent<PlayerBattle>().OnHit(damage);
+        }
         if (state.GetEndure())
         {
             state.AddAccumulateDmg(damage);
         }
-
         if (target.GetComponent<EntityStat>().Hp <= 0)
         {
             Dead(target);

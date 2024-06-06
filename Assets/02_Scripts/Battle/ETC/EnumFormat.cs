@@ -53,6 +53,7 @@ public enum ButtonState
     Item = 2,
     PlayerSet = 3,
     Attack =4,
+    Move = 5,
 }
 
 public enum Buttons
