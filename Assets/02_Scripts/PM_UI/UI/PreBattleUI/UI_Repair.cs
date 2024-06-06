@@ -82,7 +82,7 @@ public class UI_Repair : UI_Popup
         hpBar.SetPlayerStat(statInfo.hp, statInfo.maxHp);
         mpBar.SetPlayerStat(statInfo.mp, statInfo.maxMp);
 
-        for (int i = 0; i < equipInfo.Consumes.Length; i++)
+        for (int i = 0; i < equipInfo.Consumes.Count; i++)
         {
             // TODO : ÀåÂø ¼ÒºñÅÛ UI
         }
