@@ -71,7 +71,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 451.99988
-    y: -1.6000137
+    y: -3.2000198
     width: 200
     height: 100
   onEnterAction: 
@@ -567,4 +567,9 @@ MonoBehaviour:
   onEnterAction: 
   onExitAction: 
   condition:
-    and: []
+    and:
+    - or:
+      - predicate: 1
+        parameters:
+        - "\uC804\uD22C\uB97C \uD574\uBCF4\uC790"
+        negate: 1
