@@ -8,6 +8,7 @@ public class ActUI : UI_Popup
 {
     enum actUI
     {
+        ActPanel,
         MagicPanel,
         ItemPanel,
         MagicUseButton,
@@ -16,9 +17,11 @@ public class ActUI : UI_Popup
         NextTurnButton,
         MagicButtonLayout,
         ItemLayout,
-        DescriptUI
+        DescriptUI,
+        MoveButton
     }
 
+    GameObject actPanel;
     GameObject magicPanel;
     GameObject itemPanel;
     GameObject magicBtnLayout;
@@ -34,6 +37,8 @@ public class ActUI : UI_Popup
         GameObject itemUseBtn = GetObject((int)actUI.ItemUseButton);
         GameObject defenseBtn = GetObject((int)actUI.DefenseButton);
         GameObject nextBtn = GetObject((int)actUI.NextTurnButton);
+        GameObject moveBtn = GetObject((int)actUI.MoveButton);
+        actPanel = GetObject((int)actUI.ActPanel);
         magicPanel = GetObject((int)actUI.MagicPanel);
         PM_UI_Manager.BattleUI.magicPanel = magicPanel;
         itemPanel = GetObject((int)actUI.ItemPanel);
@@ -46,6 +51,7 @@ public class ActUI : UI_Popup
         BindEvent(itemUseBtn, UseItemButtonClick, Define.UIEvent.Click);
         BindEvent(defenseBtn, UseDefenseButtonClick, Define.UIEvent.Click);
         BindEvent(nextBtn, NextButtonClick, Define.UIEvent.Click);
+        BindEvent(moveBtn, MoveButtonClick, Define.UIEvent.Click);
 
         PM_UI_Manager.UI.HideUI(itemPanel);
         PM_UI_Manager.UI.HideUI(descriptPanel);
@@ -96,5 +102,12 @@ public class ActUI : UI_Popup
     {
         PM_UI_Manager.UI.HideUI(gameObject);
         // Managers.Battle.NextTurn();
+    }
+
+    public void MoveButtonClick(PointerEventData data)
+    {
+        PM_UI_Manager.UI.uiState = UIManager.UIState.Move;
+        PM_UI_Manager.UI.HideUI(descriptPanel);
+        PM_UI_Manager.UI.HideUI(actPanel);
     }
 }

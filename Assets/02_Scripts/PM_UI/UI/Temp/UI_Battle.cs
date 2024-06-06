@@ -10,7 +10,10 @@ public class UI_Battle : UI_Scene
         Cancle,
         BattleStart,
         NextTurn,
-        MagicPanel
+        MagicPanel,
+        ActPanel,
+        MoveButton,
+        MoveEndButton
     }
 
     public GameObject player;
@@ -33,12 +36,16 @@ public class UI_Battle : UI_Scene
         battleStartBtn = GetObject((int)BattleUIElement.BattleStart);
         nextBtn = GetObject((int)BattleUIElement.NextTurn);
         magicPanel = GetObject((int)BattleUIElement.MagicPanel);
+        GameObject moveBtn = GetObject((int)BattleUIElement.MoveButton);
+        GameObject moveEndBtn = GetObject((int)BattleUIElement.MoveEndButton);
 
         BindEvent(playerSpawnBtn, PlayerSpawn, Define.UIEvent.Click);
         BindEvent(MonsterSpawnBtn, MonsterSpawn, Define.UIEvent.Click);
         BindEvent(cancleBtn, CancleButtonClick, Define.UIEvent.Click);
         BindEvent(battleStartBtn, BattleStart, Define.UIEvent.Click);
         BindEvent(nextBtn, NextTurn, Define.UIEvent.Click);
+        BindEvent(moveBtn, MoveButtonClick, Define.UIEvent.Click);
+        BindEvent(moveEndBtn, MoveEndButtonClick, Define.UIEvent.Click);
 
         nextBtn.gameObject.SetActive(false);
         magicPanel.SetActive(false);
@@ -109,5 +116,21 @@ public class UI_Battle : UI_Scene
         //Debug.Log($"Skill : {skill}");
 
         return skill;
+    }
+
+    public void MoveButtonClick(PointerEventData data)
+    {
+        PM_UI_Manager.UI.uiState = UIManager.UIState.Move;
+        Managers.PlayerButton.state = ButtonState.Idle;
+        GameObject actPanel = GetObject((int)BattleUIElement.ActPanel);
+        actPanel.SetActive(false);
+    }
+
+    public void MoveEndButtonClick(PointerEventData data)
+    {
+        PM_UI_Manager.UI.uiState = UIManager.UIState.Idle;
+        Managers.PlayerButton.state = ButtonState.Idle;
+        GameObject actPanel = GetObject((int)BattleUIElement.ActPanel);
+        actPanel.SetActive(true);
     }
 }
