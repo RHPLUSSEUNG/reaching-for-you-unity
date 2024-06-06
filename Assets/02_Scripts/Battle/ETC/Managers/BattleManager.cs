@@ -48,18 +48,10 @@ public class BattleManager
         ui = GameObject.Find("BattleUI").transform.GetChild(7).GetComponent<UI_ActPanel>();
         ui.gameObject.SetActive(false);
         //TOOD make monster party
-        Managers.Party.AddMonster(Managers.Prefab.Instantiate($"Monster/Enemy_Crab"));
-        Managers.Party.AddParty(Managers.Prefab.Instantiate($"Character/Player_Girl_Battle"));
         ObjectList.Clear();
-        foreach (GameObject character in Managers.Party.playerParty)
-        {
-            character.GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(0));
-            ObjectList.Add(character);
-        }
-        foreach (GameObject character in Managers.Party.monsterParty)
-        {
-            ObjectList.Add(character);
-        }
+        Managers.Party.InstantiatePlayer("Player_Girl_Battle");
+        Managers.Party.InstantiateMonster("Enemy_Crab");
+        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(0));
         ObjectList.Sort(compareDefense);
         Managers.PlayerButton.UpdateStartButton();
         battleState = BattleState.Start;

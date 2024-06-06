@@ -7,24 +7,42 @@ public class PartyManager
     public List<GameObject> playerParty = new();
     public List<GameObject> monsterParty = new();
 
-    public void AddParty(GameObject character)
+    public bool AddParty(GameObject character)
     {
+        if (FindPlayer(character.name))
+        {
+            return false;
+        }
         if (playerParty.Count > 5)
         {
             Debug.Log("Too many character in your party");
-            return;
+            return false;
         }
         playerParty.Add(character);
+        return true;
     }
 
-    public void RemoveParty(GameObject character)
+    public bool RemoveParty(GameObject character)
     {
         if (playerParty.Count == 1)
         {
             Debug.Log("You don't have any other character in your party");
-            return;
+            return false;
         }
         playerParty.Remove(character);
+        return true;
+    }
+
+    public GameObject FindPlayer(string name)
+    {
+        foreach(GameObject character in playerParty)
+        {
+            if (character.name == name)
+            {
+                return character;
+            }
+        }
+        return null;
     }
 
     public void AddMonster(GameObject character)
@@ -37,14 +55,21 @@ public class PartyManager
         monsterParty.Clear();
     }
 
-    public void InstantiatePlayer(GameObject character)
+    public GameObject InstantiatePlayer(string character)
     {
-        GameObject go = Managers.Prefab.Instantiate($"Character/{character.name}");
-        Managers.Battle.ObjectList.Add(go);
+        GameObject go = Managers.Prefab.Instantiate($"Character/{character}");
+        if (AddParty(go))
+        {
+            Managers.Battle.ObjectList.Add(go);
+            return go;
+        }
+        return null;
     }
-    public void InstantiateMonster(GameObject character)
+    public GameObject InstantiateMonster(string character)
     {
-        GameObject go = Managers.Prefab.Instantiate($"Monster/{character.name}");
+        GameObject go = Managers.Prefab.Instantiate($"Monster/{character}");
+        AddMonster(go);
         Managers.Battle.ObjectList.Add(go);
+        return go;
     }
 }

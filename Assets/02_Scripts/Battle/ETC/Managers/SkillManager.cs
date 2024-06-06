@@ -75,4 +75,5 @@ public class SkillManager
         is_effect = false;
         yield break;
     }
+
 }
