@@ -28,6 +28,9 @@ public class CreateObject : MonoBehaviour
     [Header("Map")]
     public GameObject MapPrefab;
 
+    [Header("Gimmick")]
+    public GameObject[] Gimmicks;
+
     [Header("Prefabs")]
     public GameObject[] cubePrefab; // 배치할 Cube 프리팹
     
@@ -39,6 +42,8 @@ public class CreateObject : MonoBehaviour
     public int minObstacleCount = 1; // 최소 벽 개수
     public int maxObstacleCount = 5; // 최대 벽 개수
     public float minDistanceBetweenObstacles = 2.0f; // 장애물 간 최소 거리
+
+    public int maxGimmickCount = 3; // 최대 기믹 개수
 
     int currentObstacleCount = 0;
 
@@ -52,12 +57,40 @@ public class CreateObject : MonoBehaviour
         PlaceCubes();
         RandomObstacle(Width, Height, 1);
         PlaceObstacles();
+        PlaceGimmicks();
 
         GameObject mapInstance = Instantiate(MapPrefab);
         mapInstance.transform.position = MapPrefab.transform.position;
 
         manager.active = true;
     }
+
+    public void PlaceGimmicks()
+    {
+        int gimmickCount = Random.Range(1, maxGimmickCount); // 0개에서 maxGimmickCoun 개 중에서 랜덤하게 선택
+        for (int i = 0; i < gimmickCount; i++)
+        {
+            // 기믹을 배치할 랜덤한 위치를 찾음
+            int x = Random.Range(0, (int)Width);
+            int z = Random.Range(0, (int)Height);
+
+            // 해당 위치가 벽과 충돌하지 않는지, 또는 장애물과 충돌하지 않는지 확인
+            if (map[x, z].eObstacle == EObstacle.Ground && IsPositionFarFromWalls(x, z))
+            {
+                // 기믹을 랜덤하게 선택하여 배치
+                int randomIndex = Random.Range(0, Gimmicks.Length);
+                GameObject selectedGimmick = Gimmicks[randomIndex];
+
+                // 선택된 기믹을 해당 위치에 배치
+                GameObject gimmickInstance = Instantiate(selectedGimmick, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
+                gimmickInstance.transform.position = map[x, z].ObjectLocation + new Vector3(0, selectedGimmick.transform.position.y, 0);
+
+                // 배치된 기믹의 위치를 리스트에 추가
+                obstaclePositions.Add(new Vector2Int(x, z));
+            }
+        }
+    }
+
 
     public void RandomObstacle(float Width, float Height, int cellSize) 
     {
