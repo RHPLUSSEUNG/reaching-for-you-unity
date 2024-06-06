@@ -57,10 +57,18 @@ public class EnemyAI_Crab : EnemyAI_Base
         }
     }
     public override void OnTargetFoundFail()
-    {
-        if (isTurnEnd)
+    {if (isTurnEnd)
             return;
-        PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
+        if (!isMoved)
+        {
+            PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
+        }
+        else
+        {
+            TurnEnd();
+        }
+        
+       
     }
     public override void OnPathFailed()
     {
@@ -69,7 +77,7 @@ public class EnemyAI_Crab : EnemyAI_Base
     public override void OnMoveEnd()
     {
         SpecialCheck();
-        if (isMoved)
+        if (isMoved && isAttacked)
             TurnEnd();
         Search(stat.Sight);
     }

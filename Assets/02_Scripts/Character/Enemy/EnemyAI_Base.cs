@@ -119,7 +119,8 @@ public abstract class EnemyAI_Base : MonoBehaviour
     }
     public void Attack(int actPoint)
     {
-        if (!isAttacked && stat.ActPoint >= actPoint)
+        isAttacked = true;
+        if (stat.ActPoint >= actPoint)
         {
             Debug.Log("Attack");    // 공격 실행
             stat.ActPoint -= actPoint;
@@ -133,7 +134,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
             Debug.Log("Attack Failed");
             OnAttackFail();
         }
-        isAttacked = true;
+        
         TurnEnd();
     }
     public void GetRandomLoc()

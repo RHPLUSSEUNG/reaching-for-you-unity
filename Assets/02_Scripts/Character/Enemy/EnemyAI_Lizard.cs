@@ -60,7 +60,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
     }
     public override void OnMoveEnd()
     {
-        if (isMoved)
+        if (isMoved && isAttacked)
             TurnEnd();
         if (!isAttacked) 
         {
