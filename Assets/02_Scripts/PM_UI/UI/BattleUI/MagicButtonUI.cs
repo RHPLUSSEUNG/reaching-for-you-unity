@@ -18,7 +18,10 @@ public class MagicButtonUI : UI_Base
 
     [SerializeField]
     GameObject saveSkill = null;
-    bool possible;
+
+    GameObject mainCamera;
+    CameraController cameraController;
+    bool possible = true;
 
     public GameObject SaveSkill { get { return saveSkill; } }
 
@@ -28,6 +31,9 @@ public class MagicButtonUI : UI_Base
         BindEvent(gameObject, MagicButtonClick, Define.UIEvent.Click);
         BindEvent(gameObject, MagicButtonEnter, Define.UIEvent.Enter);
         BindEvent(gameObject, MagicButtonExit, Define.UIEvent.Exit);
+
+        mainCamera = GameObject.Find("Main Camera");
+        cameraController = mainCamera.GetComponent<CameraController>();
     }
 
     public void SetSkill(GameObject skill)
@@ -65,8 +71,14 @@ public class MagicButtonUI : UI_Base
             PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.descriptPanel);
             PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.actUI);
             PM_UI_Manager.UI.ShowUI(PM_UI_Manager.BattleUI.cancleBtn);
+
+            cameraController.ChangeCameraMode(CameraMode.Static, true);
         }
-        Debug.Log("스킬 사용 불가");
+        else
+        {
+            
+            Debug.Log("스킬 사용 불가");
+        }
     }
 
     public void MagicButtonEnter(PointerEventData data)

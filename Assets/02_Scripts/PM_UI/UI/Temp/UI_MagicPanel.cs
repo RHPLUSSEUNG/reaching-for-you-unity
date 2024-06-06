@@ -16,6 +16,9 @@ public class UI_MagicPanel : UI_Popup
     [SerializeField] GameObject ActPanel;
     [SerializeField] Image descriptPanel;
 
+    GameObject mainCamera;
+    CameraController cameraController;
+
     public ButtonState state = ButtonState.Idle;
 
     public GameObject skill;
@@ -45,6 +48,9 @@ public class UI_MagicPanel : UI_Popup
         //BindEvent(magicBtn5.gameObject, MagicButton5Click, Define.UIEvent.Click);
         //BindEvent(magicBtn5.gameObject, MagicButton5Enter, Define.UIEvent.Enter);
         //BindEvent(magicBtn5.gameObject, MagicButton5Exit, Define.UIEvent.Exit);
+
+        mainCamera = GameObject.Find("Main Camera");
+        cameraController = mainCamera.GetComponent<CameraController>();
     }
 
     public void SetSkillList(SkillList info)
@@ -71,6 +77,8 @@ public class UI_MagicPanel : UI_Popup
         ActPanel.SetActive(false);
         gameObject.SetActive(false);
         descriptPanel.gameObject.SetActive(false);
+
+        cameraController.ChangeCameraMode(CameraMode.Static, true);
     }
 
     public void MagicButton2Click(PointerEventData data)

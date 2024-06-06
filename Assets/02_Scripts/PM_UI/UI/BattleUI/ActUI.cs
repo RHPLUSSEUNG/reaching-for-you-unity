@@ -69,7 +69,7 @@ public class ActUI : UI_Popup
             {
                 magicBtn.SetSkill(skillList.list[i]);
             }
-            magicBtn.CheckEnableMagic(curMp);
+            // magicBtn.CheckEnableMagic(curMp);
         }
         if (magicBtnLayout.transform.childCount < skillList.list.Count)
         {
