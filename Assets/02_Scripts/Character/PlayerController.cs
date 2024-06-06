@@ -50,9 +50,6 @@ public class PlayerController : MonoBehaviour
 
     private RaycastHit slopeHit;
 
-    PlayerStat stat;
-
-
     void Awake()
     {
         //WallLayer = 1 << LayerMask.NameToLayer("Wall");
@@ -69,7 +66,6 @@ public class PlayerController : MonoBehaviour
         mainCamera = GameObject.Find("Main Camera");
         cameraController = mainCamera.GetComponent<CameraController>();
         fadeEffect = fadeEffectImg.GetComponent<FadeEffect>();
-        stat = GetComponent<PlayerStat>();
 
         isBattleMode = false;
         isActive = true;
@@ -246,12 +242,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Open Inventory");
     }
-    public void OnHit(int damage)
-    {
-        isActive = false;
-        spriteController.SetAnimState(AnimState.Hit);
-        stat.Hp -= damage;
-    }
+
     private void StartFadeEffect()
     {
         fadeEffect.StartFadeEffect();
