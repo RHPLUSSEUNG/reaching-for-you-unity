@@ -33,14 +33,13 @@ public class SkillManager
             go = Managers.Prefab.Instantiate($"Skill/Player/{Managers.Data.GetPlayerSkillData(id).SkillName}", usingSkill.transform);
         }
         
-        /*
         if(go.GetComponent<MonsterSkill>() != null)
         {
             GameObject effect = Instantiate(Managers.Data.GetMonsterSkillData(id).SkillName, true);
             go.GetComponent<MonsterSkill>().Effect = effect;
         }
-        */
-        if (go.GetComponent<Active>() != null)
+
+        else if (go.GetComponent<Active>() != null)
         {
             GameObject effect = Instantiate(Managers.Data.GetPlayerSkillData(id).SkillName, false);
             go.GetComponent<Active>().Effect = effect;
