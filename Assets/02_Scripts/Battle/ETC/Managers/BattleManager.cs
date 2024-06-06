@@ -99,28 +99,7 @@ public class BattleManager
 
     public void NextTurn()
     {
-        CalcTurn();
-        currentCharacter = ObjectList[turnCnt];
-        if(Areas.Count != 0)
-        {
-            foreach (GameObject area in Areas)
-            {
-                area.GetComponent<AreaInterface>().CalcTurn();
-                Debug.Log(area.name);
-            }
-        }
-        if(currentCharacter.GetComponent<CharacterState>().IsStun())
-        {
-            NextTurn();
-        }
-        if (ObjectList[turnCnt].CompareTag("Player"))
-        {
-            PlayerTurn();
-        }
-        else
-        {
-            EnemyTurn(currentCharacter);
-        }
+        Managers.Manager.StartCoroutine(NextTurnCoroutine());
     }
 
     public void Result()
@@ -142,7 +121,28 @@ public class BattleManager
         {
             yield return null;
         }
-        NextTurn();
+        CalcTurn();
+        currentCharacter = ObjectList[turnCnt];
+        if (Areas.Count != 0)
+        {
+            foreach (GameObject area in Areas)
+            {
+                area.GetComponent<AreaInterface>().CalcTurn();
+                Debug.Log(area.name);
+            }
+        }
+        if (currentCharacter.GetComponent<CharacterState>().IsStun())
+        {
+            NextTurn();
+        }
+        if (ObjectList[turnCnt].CompareTag("Player"))
+        {
+            PlayerTurn();
+        }
+        else
+        {
+            EnemyTurn(currentCharacter);
+        }
         yield break;
     }
 }

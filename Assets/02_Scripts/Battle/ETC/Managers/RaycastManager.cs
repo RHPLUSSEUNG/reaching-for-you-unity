@@ -65,7 +65,7 @@ public class RaycastManager
                             {
                                 if (battleUI.GetSkill().SetTarget(character))
                                 {
-                                    Managers.Manager.StartCoroutine(Managers.Battle.NextTurnCoroutine());
+                                    Managers.Battle.NextTurn();
                                 }
                             }
 
@@ -80,7 +80,7 @@ public class RaycastManager
                                 if (battleUI.GetSkill().SetTarget(hit.collider.gameObject))
                                 {
                                     detect_ready = false;
-                                    Managers.Manager.StartCoroutine(Managers.Battle.NextTurnCoroutine());
+                                    Managers.Battle.NextTurn();
                                 }
                             }
                             break;
@@ -100,7 +100,7 @@ public class RaycastManager
                                 Managers.Active.Damage(hit.collider.gameObject, characterstat.BaseDamage, characterstate.AttackType, characterstate.closeAttack);
                                 if (!characterstate.after_move)
                                 {
-                                    Managers.Manager.StartCoroutine(Managers.Battle.NextTurnCoroutine());
+                                    Managers.Battle.NextTurn();
                                 }
                                 
                             }
