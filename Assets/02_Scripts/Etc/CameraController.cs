@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class CameraController : MonoBehaviour
 {
@@ -126,6 +127,7 @@ public class CameraController : MonoBehaviour
             case CameraMode.Static:
                 isFollowMode = false;
                 targetTransform = cameraTargets[cameraIndex].transform;
+                transform.eulerAngles = cameraTargets[cameraIndex].transform.eulerAngles;
                 break;
             case CameraMode.Follow:
                 isFollowMode = true;
@@ -134,6 +136,7 @@ public class CameraController : MonoBehaviour
                 break;
         }
         isSmoothMove = _isSmoothMove;
+        setPos = targetTransform.position;
         Debug.Log("Changed Mode");
     }
 

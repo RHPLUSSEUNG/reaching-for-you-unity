@@ -12,7 +12,7 @@ public class PlayerBattle : MonoBehaviour
     GameObject mainCamera;
     CameraController cameraController;
 
-    private SpriteController spriteController;
+    SpriteController spriteController;
     PlayerStat stat;
     Vector3[] path;
     private int targetIndex;
@@ -73,9 +73,13 @@ public class PlayerBattle : MonoBehaviour
 
     public void OnHit(int damage)
     {
-        Debug.Log("Player OnHit");
         spriteController.SetAnimState(AnimState.Hit);
         stat.Hp -= damage;
+        Invoke("OnHitEnd", 0.1f);
+    }
+    public void OnHitEnd()
+    {
+        spriteController.SetAnimState(AnimState.Idle);
     }
     public void OnPathFound(Vector3[] newpath, bool succsess)
     {
