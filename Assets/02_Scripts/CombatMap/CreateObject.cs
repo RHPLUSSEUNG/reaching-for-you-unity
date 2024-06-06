@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Data;
 
 public enum EObstacle
 {
@@ -21,8 +22,11 @@ public class CreateObject : MonoBehaviour
     public GameObject manager;  // 맵 생성 후 활성화할 매니저
     public Map[,] map;
 
-    public float Width = 1f; // 가로 길이
-    public float Height = 1f; // 세로 길이
+    public float Width = 20f; // 가로 길이
+    public float Height = 20f; // 세로 길이
+
+    [Header("Map")]
+    public GameObject MapPrefab;
 
     [Header("Prefabs")]
     public GameObject[] cubePrefab; // 배치할 Cube 프리팹
@@ -48,6 +52,9 @@ public class CreateObject : MonoBehaviour
         PlaceCubes();
         RandomObstacle(Width, Height, 1);
         PlaceObstacles();
+
+        GameObject mapInstance = Instantiate(MapPrefab);
+        mapInstance.transform.position = MapPrefab.transform.position;
 
         manager.active = true;
     }
@@ -79,7 +86,6 @@ public class CreateObject : MonoBehaviour
                 else if (gridHeight >= 5.5f)
                 {
                     map[x, z].eObstacle = EObstacle.Wall;
-                    Debug.Log(IsObstacleAround(x, z));
                 }
                 else if (gridHeight <= 3.3f)
                 {
@@ -132,7 +138,7 @@ public class CreateObject : MonoBehaviour
                 map[x, z].eObstacle = EObstacle.Obstacle;
                 map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
                 map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
-                map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 0.5f, 0);
+                map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 0.82f, 0);
                 Vector3 newRotation = new Vector3(0f, 0, 0); // 원하는 각도로 변경
                 map[x, z].ObjectPrefab.transform.rotation = Quaternion.Euler(newRotation);
                 obstaclePositions.Add(new Vector2Int(x, z));

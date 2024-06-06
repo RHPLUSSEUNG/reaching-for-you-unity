@@ -8,6 +8,7 @@ public class CoverBattle : MonoBehaviour
 
     void Start() {
         UpdatePlayerPosition(transform.position); // 시작 시 플레이어 위치 설정
+        // 플레이어 위치로 바꿔야 됨
     }
 
     public void UpdatePlayerPosition(Vector3 newPosition) // 현재 위치 갱신
