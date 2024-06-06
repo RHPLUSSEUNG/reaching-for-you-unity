@@ -59,7 +59,7 @@ public class Quest : ScriptableObject
 
     public static Quest GetByName(string questName)
     {
-        foreach(Quest quest in Resources.LoadAll<Quest>(""))
+        foreach(Quest quest in Resources.LoadAll<Quest>("Quests"))
         {
             if (quest.name == questName)
             {

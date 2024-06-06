@@ -9,7 +9,7 @@ public class QuestListUI : MonoBehaviour
 
     private void Start()
     {
-        questList = GameObject.FindGameObjectWithTag("Player").transform.GetChild(3).GetComponent<QuestList>();
+        questList = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponent<QuestList>();
         questList.onUpdate += Redraw;
         Redraw();
     }
