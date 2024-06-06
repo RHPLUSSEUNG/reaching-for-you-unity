@@ -8,8 +8,11 @@ public class UIManager
     public enum UIState
     {
         Idle,
+        Move,
+        SkillSet,
+        ItemSet,
         PlayerSet,
-        SkillSet
+        Attack
     }
 
     public UIState uiState = UIState.Idle;
