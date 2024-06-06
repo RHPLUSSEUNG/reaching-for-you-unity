@@ -63,6 +63,7 @@ public class PlayerBattle : MonoBehaviour
 
     public void OnHit(int damage)
     {
+        Debug.Log("Player OnHit");
         spriteController.SetAnimState(AnimState.Hit);
         stat.Hp -= damage;
     }

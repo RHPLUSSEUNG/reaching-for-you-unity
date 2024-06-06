@@ -65,10 +65,12 @@ public class ActiveManager
         {
             target.GetComponent<EnemyAI_Base>().OnHit(damage);
             return;
-        }else if (target.GetComponent<PlayerController>() != null)
+        }else if (target.GetComponent<PlayerBattle>() != null)
         {
+            Debug.Log("Player Damaged");
             target.GetComponent<PlayerBattle>().OnHit(damage);
         }
+
         if (state.GetEndure())
         {
             state.AddAccumulateDmg(damage);

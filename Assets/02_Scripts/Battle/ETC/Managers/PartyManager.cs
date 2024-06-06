@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class PartyManager
@@ -36,4 +37,14 @@ public class PartyManager
         monsterParty.Clear();
     }
 
+    public void InstantiatePlayer(GameObject character)
+    {
+        GameObject go = Managers.Prefab.Instantiate($"Character/{character.name}");
+        Managers.Battle.ObjectList.Add(go);
+    }
+    public void InstantiateMonster(GameObject character)
+    {
+        GameObject go = Managers.Prefab.Instantiate($"Monster/{character.name}");
+        Managers.Battle.ObjectList.Add(go);
+    }
 }
