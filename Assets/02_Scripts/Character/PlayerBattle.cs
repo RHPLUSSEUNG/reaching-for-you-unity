@@ -16,11 +16,14 @@ public class PlayerBattle : MonoBehaviour
 
     bool isMoved;
 
+    public bool isMoving;
+
     private void Awake()
     {
         spriteController = GetComponent<SpriteController>();
         stat = GetComponent<PlayerStat>();
         isMoved = false;
+        isMoving = false;
     }
 
     public void Move(GameObject target)
@@ -39,6 +42,7 @@ public class PlayerBattle : MonoBehaviour
         if (succsess)
         {
             path = newpath;
+            isMoving = true;
             StartCoroutine(FollowPath());  // 이동 실행 후 끝날 때 까지 대기
         }
         else
@@ -49,6 +53,8 @@ public class PlayerBattle : MonoBehaviour
 
     public void OnMoveEnd()
     {
+        isMoving = false;
+        isMoved = true;
         spriteController.SetAnimState(AnimState.Idle);
     }
     IEnumerator FollowPath()
