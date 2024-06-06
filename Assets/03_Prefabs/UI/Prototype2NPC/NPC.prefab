@@ -34,7 +34,6 @@ Transform:
   m_Children:
   - {fileID: 8087510589563055672}
   - {fileID: 2039926716957862454}
-  - {fileID: 2976905267116742837}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &8599297265976217148
@@ -403,51 +402,6 @@ Transform:
   - {fileID: 2240913759199960717}
   m_Father: {fileID: 4270945979546468272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7978213582123917006
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2976905267116742837}
-  - component: {fileID: 6636282576986029492}
-  m_Layer: 0
-  m_Name: Quest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2976905267116742837
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7978213582123917006}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4270945979546468272}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6636282576986029492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7978213582123917006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afd81f2fbed43134f9195ad2537b4b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  quest: {fileID: 0}
 --- !u!1 &8985439598175716821
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,8 +415,9 @@ GameObject:
   - component: {fileID: 6689558612626955307}
   - component: {fileID: 354014016804562102}
   - component: {fileID: 661942222715427963}
+  - component: {fileID: 3588641250324763201}
   m_Layer: 0
-  m_Name: Dialogue
+  m_Name: Dialogue_Quest
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -547,6 +502,19 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3588641250324763201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8985439598175716821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd81f2fbed43134f9195ad2537b4b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quest: {fileID: 0}
 --- !u!1001 &7557745770441005401
 PrefabInstance:
   m_ObjectHideFlags: 0
