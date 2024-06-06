@@ -69,8 +69,8 @@ public class EnemyAI_Crab : EnemyAI_Base
     public override void OnMoveEnd()
     {
         SpecialCheck();
-        if (isTurnEnd)
-            return;
+        if (isMoved)
+            TurnEnd();
         Search(stat.Sight);
     }
     public override void OnAttackSuccess()

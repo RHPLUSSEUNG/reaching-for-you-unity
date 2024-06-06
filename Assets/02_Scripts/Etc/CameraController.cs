@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     GameObject followList;
 
     Transform[] cameraTargets;
-    Transform[] followTargets;
+    GameObject[] followTargets;
     [SerializeField]
     float offsetX = 0.0f;
     [SerializeField]
@@ -38,8 +38,8 @@ public class CameraController : MonoBehaviour
         }
         if (followList != null)
         {
-            followTargets = followList.GetComponentsInChildren<Transform>();
-            followIndex = 1;
+            followTargets = followList.GetComponentsInChildren<GameObject>();
+            followIndex = 0;
         }
 
         if (isFollowMode)
@@ -51,7 +51,10 @@ public class CameraController : MonoBehaviour
         {
             ChangeCameraTarget(cameraIndex, false);
         }
-        
+
+        // 임시 캐릭터 따라가기 설정 코드
+        followTargets = GameObject.FindGameObjectsWithTag("Player");
+        followIndex= 0;
     }
     void FixedUpdate()
     {
@@ -120,9 +123,25 @@ public class CameraController : MonoBehaviour
     {
         transform.eulerAngles = new Vector3(rotateX, 0, 0);
         isSmoothMove = _isSmoothMove;
-        targetTransform = followTargets[targetIndex];
+        targetTransform = followTargets[targetIndex].transform;
         isFollowMode = true;
         Debug.Log("Changed FollowTarget To " + targetIndex);
+    }
+    public void ChangeCameraMode(bool _isSmoothMove)
+    {
+        if (isFollowMode)
+        {
+            isFollowMode = false;
+            targetTransform = cameraTargets[cameraIndex].transform;
+
+        }
+        else
+        {
+           isFollowMode = true;
+            targetTransform = followTargets[followIndex].transform;
+        }
+        isSmoothMove = _isSmoothMove;
+        Debug.Log("Changed Mode");
     }
     public void ChangePos(Transform target)
     {

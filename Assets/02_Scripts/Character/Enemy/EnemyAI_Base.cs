@@ -168,6 +168,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
         {
             Debug.Log("Already At The Position");
             stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
+            isMoved = true;
             OnMoveEnd();
             yield break;
         }
@@ -193,6 +194,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
                     if (targetIndex + 1 >= path.Length || targetIndex + 1 >= stat.MovePoint)
                     {
                         stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
+                        isMoved = true;
                         OnMoveEnd();
                         yield break;
                     }
@@ -202,6 +204,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
                     if (targetIndex + stat.AttackRange + 1 >= path.Length || targetIndex + 1 >= stat.MovePoint)  // 사거리 닿을 시 or 이동거리 초과 시
                     {
                         stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
+                        isMoved = true;
                         OnMoveEnd();
                         yield break;
                     }
