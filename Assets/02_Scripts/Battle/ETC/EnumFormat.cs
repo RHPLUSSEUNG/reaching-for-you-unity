@@ -77,3 +77,9 @@ public enum Direction
     Left,
     Right
 }
+
+public enum CameraMode
+{
+    Static,
+    Follow
+}

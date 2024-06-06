@@ -9,6 +9,9 @@ public class PlayerBattle : MonoBehaviour
     [SerializeField]
     float speed =10;
 
+    GameObject mainCamera;
+    CameraController cameraController;
+
     private SpriteController spriteController;
     PlayerStat stat;
     Vector3[] path;
@@ -22,11 +25,18 @@ public class PlayerBattle : MonoBehaviour
 
     private void Awake()
     {
+        mainCamera = GameObject.Find("Main Camera");
+        cameraController = mainCamera.GetComponent<CameraController>();
+
         spriteController = GetComponent<SpriteController>();
         collider = GetComponent<CapsuleCollider>();
         stat = GetComponent<PlayerStat>();
         isMoved = false;
         isMoving = false;
+    }
+    private void Start()
+    {
+        cameraController.AddFollowList(this.gameObject);
     }
 
     public void StateUpdate()
@@ -91,7 +101,9 @@ public class PlayerBattle : MonoBehaviour
         isMoving = false;
         isMoved = true;
         spriteController.SetAnimState(AnimState.Idle);
+        cameraController.ChangeCameraMode(CameraMode.Follow, true);
     }
+
     IEnumerator FollowPath()
     {
         targetIndex = 0;

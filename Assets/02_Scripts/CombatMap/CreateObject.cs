@@ -68,7 +68,7 @@ public class CreateObject : MonoBehaviour
     public void PlaceGimmicks()
     {
         int gimmickCount = Random.Range(1, maxGimmickCount); // 0개에서 maxGimmickCoun 개 중에서 랜덤하게 선택
-        for (int i = 0; i < gimmickCount; i++)
+        while(gimmickCount > 0)
         {
             // 기믹을 배치할 랜덤한 위치를 찾음
             int x = Random.Range(0, (int)Width);
@@ -87,6 +87,7 @@ public class CreateObject : MonoBehaviour
 
                 // 배치된 기믹의 위치를 리스트에 추가
                 obstaclePositions.Add(new Vector2Int(x, z));
+                gimmickCount--;
             }
         }
     }

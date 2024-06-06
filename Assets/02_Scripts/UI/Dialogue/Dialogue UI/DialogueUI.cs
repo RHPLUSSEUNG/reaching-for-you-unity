@@ -12,10 +12,12 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] GameObject NPCResponse;
     [SerializeField] Transform choiceRoot;
     [SerializeField] GameObject choicePrefab;
-    [SerializeField] Button quitButton;
+    //[SerializeField] Button quitButton;
     [SerializeField] TextMeshProUGUI conversantName;
+    [SerializeField] TextMeshProUGUI quitText;
 
     float typingSpeed = 0.02f;
+    bool isLast = false;
     //bool isSkip = false;
 
     void Start()
@@ -23,9 +25,11 @@ public class DialogueUI : MonoBehaviour
         playerConversant = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponent<PlayerConversant>();
         playerConversant.onConversationUpdated += UpdateUI;
         nextButton.onClick.AddListener(() => playerConversant.Next());
-        quitButton.onClick.AddListener(() => playerConversant.Quit());
+        //quitButton.onClick.AddListener(() => playerConversant.Quit());
         nextButton.gameObject.SetActive(false);
-        quitButton.gameObject.SetActive(false);
+        //quitButton.gameObject.SetActive(false);
+        quitText.gameObject.SetActive(false);
+        isLast = false;
         UpdateUI();
     }    
     
@@ -38,10 +42,12 @@ public class DialogueUI : MonoBehaviour
             return;
         }
         nextButton.gameObject.SetActive(false);
-        quitButton.gameObject.SetActive(false);
+        //quitButton.gameObject.SetActive(false);
         conversantName.text = playerConversant.GetCurrentConversantName();
         NPCResponse.SetActive(!playerConversant.IsChoosing());
         choiceRoot.gameObject.SetActive(playerConversant.IsChoosing());
+        quitText.gameObject.SetActive(false);
+        isLast = false;
 
         if(playerConversant.IsChoosing())
         {
@@ -93,8 +99,25 @@ public class DialogueUI : MonoBehaviour
         }
         else if (NPCText.text.Length == text.Length && !playerConversant.HasNext())
         {
-            quitButton.gameObject.SetActive(true);
+            isLast = true;
+            //quitButton.gameObject.SetActive(true);
+            StartCoroutine(ExitDialogue());
+            quitText.gameObject.SetActive(true);
         }
+    }
+
+    IEnumerator ExitDialogue()
+    {        
+        while (true) 
+        {
+            yield return null;
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                playerConversant.Quit();
+                yield break;
+            }
+        }             
     }
 
     public void SkipTyping()
