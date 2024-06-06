@@ -146,6 +146,12 @@ public class PathFinding : MonoBehaviour
 
         return 14 * distanceX + 10 * (distanceY - distanceX);
     }
+
+    public bool CheckWalkable(Vector3 target)
+    {
+        Node targetNode = grid.GetNodeFromWorldPosition(target);
+        return grid.CheckWalkable(targetNode.gridX, targetNode.gridY);
+    }
     IEnumerator Search(Vector3 startPos, int radius, string tag)
     {
         Node startNode = grid.GetNodeFromWorldPosition(startPos);

@@ -46,6 +46,11 @@ public class PathFinder : MonoBehaviour
         instance.TryProcessNextRandomLocRequest();
     }
 
+    public static bool CheckWalkable(Vector3 target)
+    {
+        return instance.pathFinding.CheckWalkable(target);
+    }
+
     void TryProcessNextPathRequest()
     {
         if (!isProcessingPath && pathRequestQueue.Count > 0) 

@@ -14,6 +14,8 @@ public class PlayerBattle : MonoBehaviour
     Vector3[] path;
     private int targetIndex;
 
+    CapsuleCollider collider;
+
     bool isMoved;
 
     public bool isMoving;
@@ -21,14 +23,42 @@ public class PlayerBattle : MonoBehaviour
     private void Awake()
     {
         spriteController = GetComponent<SpriteController>();
+        collider = GetComponent<CapsuleCollider>();
         stat = GetComponent<PlayerStat>();
         isMoved = false;
         isMoving = false;
     }
 
+    public void StateUpdate()
+    {
+        if (stat.CanPassWall)
+        {
+            collider.isTrigger = true;
+        }
+        else
+        {
+            collider.isTrigger = false;
+        }
+    }
+
     public void Move(GameObject target)
     {
-        PathFinder.RequestPath(transform.position, target.transform.position, OnPathFound);
+        if (!isMoving)
+        {
+            if (!PathFinder.CheckWalkable(target.transform.position))    //목표 위치가 벽일 시
+            {
+                if (stat.CanPassWall)   // 벽 통과 가능 시
+                {
+
+                }
+                else
+                {
+                    Debug.Log("Can't Move There!");
+                    return;
+                }
+            }
+            PathFinder.RequestPath(transform.position, target.transform.position, OnPathFound);
+        }
     }
 
     public void OnHit(int damage)

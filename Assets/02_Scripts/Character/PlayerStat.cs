@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class PlayerStat : EntityStat
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    bool _canPassWall;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool CanPassWall { get { return _canPassWall; } set { _canPassWall = value; } }
+
 }
