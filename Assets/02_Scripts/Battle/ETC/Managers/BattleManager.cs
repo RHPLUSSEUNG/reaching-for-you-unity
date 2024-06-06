@@ -21,7 +21,11 @@ public class BattleManager
 
     public bool Can_Continue()
     {
-        if(battleState == BattleState.Defeat && battleState == BattleState.Victory)
+        if (currentCharacter == null || currentCharacter.CompareTag("Monster"))
+        {
+            return true;
+        }
+        else if(battleState == BattleState.Defeat && battleState == BattleState.Victory)
         {
             Debug.Log("Battle is End");
             return false;
@@ -29,6 +33,11 @@ public class BattleManager
         else if (Managers.Skill.is_effect)
         {
             Debug.Log("Wait for skill effect End");
+            return false;
+        }
+        else if (currentCharacter.GetComponent<PlayerBattle>().isMoving)
+        {
+            Debug.Log("Wait for Character Moving");
             return false;
         }
         return true;
