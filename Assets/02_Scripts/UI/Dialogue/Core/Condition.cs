@@ -42,7 +42,7 @@ public class Condition
     [System.Serializable]
     class Predicate
     {
-        [SerializeField] string predicate;
+        [SerializeField] QuestPredicates predicate;
         [SerializeField] string[] parameters;
         [SerializeField] bool negate = false;
 
@@ -56,7 +56,10 @@ public class Condition
                     continue;
                 }
 
-                if (result == negate) return false;
+                if (result == negate)
+                {
+                    return false;
+                }
             }
 
             return true;
