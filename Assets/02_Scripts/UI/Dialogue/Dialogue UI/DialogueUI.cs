@@ -16,8 +16,7 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI conversantName;
     [SerializeField] TextMeshProUGUI quitText;
 
-    float typingSpeed = 0.02f;
-    bool isLast = false;
+    float typingSpeed = 0.02f;    
     //bool isSkip = false;
 
     void Start()
@@ -28,8 +27,7 @@ public class DialogueUI : MonoBehaviour
         //quitButton.onClick.AddListener(() => playerConversant.Quit());
         nextButton.gameObject.SetActive(false);
         //quitButton.gameObject.SetActive(false);
-        quitText.gameObject.SetActive(false);
-        isLast = false;
+        quitText.gameObject.SetActive(false);        
         UpdateUI();
     }    
     
@@ -46,8 +44,7 @@ public class DialogueUI : MonoBehaviour
         conversantName.text = playerConversant.GetCurrentConversantName();
         NPCResponse.SetActive(!playerConversant.IsChoosing());
         choiceRoot.gameObject.SetActive(playerConversant.IsChoosing());
-        quitText.gameObject.SetActive(false);
-        isLast = false;
+        quitText.gameObject.SetActive(false);        
 
         if(playerConversant.IsChoosing())
         {
@@ -98,8 +95,7 @@ public class DialogueUI : MonoBehaviour
             nextButton.gameObject.SetActive(true);
         }
         else if (NPCText.text.Length == text.Length && !playerConversant.HasNext())
-        {
-            isLast = true;
+        {            
             //quitButton.gameObject.SetActive(true);
             StartCoroutine(ExitDialogue());
             quitText.gameObject.SetActive(true);

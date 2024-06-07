@@ -76,7 +76,7 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
         return null;
     }
 
-    //[Require] Inventory System
+    //[TODO:LSH][Require] Inventory System
     void GiveReward(Quest quest)
     {
         foreach(var reward in quest.GetRewards()) 
@@ -95,7 +95,7 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
     }
 
     #region RequireSaveSystem
-    //[Require] Save System
+    //[TODO:LSH][Require] Save System
     public object CaptureState()
     {
         List<object> state = new List<object>();

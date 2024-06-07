@@ -11,7 +11,7 @@ public class TitleUI : MonoBehaviour
     [SerializeField] Button exitButton;
 
     private void Awake()
-    {
+    {        
         newGameButton.onClick.AddListener(()=>SceneChanger.Instance.ChangeScene(SceneType.AM));
         exitButton.onClick.AddListener(()=>Application.Quit());
     }    

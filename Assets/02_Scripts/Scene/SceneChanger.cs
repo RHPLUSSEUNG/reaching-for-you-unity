@@ -19,7 +19,7 @@ public class SceneChanger
         {
             if (instance == null)
             {
-                instance = new SceneChanger();
+                instance = new SceneChanger();                
             }
             return instance;
         }
@@ -31,12 +31,16 @@ public class SceneChanger
         {
             case SceneType.TITLE:
                 {
+                    SoundManager.Instance.StopMusic();
                     SceneManager.LoadScene("TITLE_PT_3");
+                    SoundManager.Instance.PlayMusic("Main_Theme");
                     break;
                 }
             case SceneType.AM:
                 {
+                    SoundManager.Instance.StopMusic();
                     SceneManager.LoadScene("AM_PT_3");
+                    SoundManager.Instance.PlayMusic("AM_School");
                     break;
                 }
             case SceneType.PM:
@@ -45,7 +49,9 @@ public class SceneChanger
                 }
             case SceneType.BATTLE:
                 {
-                    SceneManager.LoadScene("Battle_PT_3");                    
+                    SoundManager.Instance.StopMusic();
+                    SceneManager.LoadScene("Battle_PT_3");
+                    SoundManager.Instance.PlayMusic("Stage1_Battle");
                     break;
                 }
         }        
