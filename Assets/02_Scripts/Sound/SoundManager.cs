@@ -12,6 +12,8 @@ public class SoundManager:MonoBehaviour
     Dictionary<string, AudioClip> bgmClips = new Dictionary<string, AudioClip>();
     Dictionary<string, AudioClip> sfxClips = new Dictionary<string, AudioClip>();
 
+    Coroutine currentFadeCoroutine;
+
     private void Awake()
     {
         Instance = this;
@@ -43,7 +45,11 @@ public class SoundManager:MonoBehaviour
         {
             if (bgmAudio.isPlaying)
             {
-                StartCoroutine(CrossFadeBGM(clip, loop));
+                if (currentFadeCoroutine != null)
+                {
+                    StopCoroutine(currentFadeCoroutine);
+                }
+                currentFadeCoroutine = StartCoroutine(CrossFadeBGM(clip, loop, volume));
             }
             else
             {
@@ -58,24 +64,23 @@ public class SoundManager:MonoBehaviour
         }
     }
 
-    IEnumerator CrossFadeBGM(AudioClip newClip, bool loop)
+    IEnumerator CrossFadeBGM(AudioClip newClip, bool loop, float targetVolume)
     {
-        float fadeTime = 1.0f;
+        float fadeTime = 1f;
         float volume = bgmAudio.volume;
 
-        // Fade out
+        bgmAudio.clip = newClip;
+        bgmAudio.loop = loop;
+
         while (bgmAudio.volume > 0)
         {
             bgmAudio.volume -= Time.deltaTime / fadeTime;
             yield return null;
         }
-
-        // Change track and fade in
-        bgmAudio.clip = newClip;
-        bgmAudio.loop = loop;
+        
         bgmAudio.Play();
 
-        while (bgmAudio.volume < volume)
+        while (bgmAudio.volume < targetVolume)
         {
             bgmAudio.volume += Time.deltaTime / fadeTime;
             yield return null;
@@ -84,6 +89,10 @@ public class SoundManager:MonoBehaviour
 
     public void StopMusic()
     {
+        if (currentFadeCoroutine != null)
+        {
+            StopCoroutine(currentFadeCoroutine);
+        }
         bgmAudio.Stop();
     }
 
