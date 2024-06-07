@@ -5,16 +5,6 @@ using UnityEngine.UI;
 
 public class UIManager
 {
-    public enum UIState
-    {
-        Idle,
-        SkillSet,
-        ItemSet,
-        PlayerSet,
-        Attack,
-        Move
-    }
-
     public UIState uiState = UIState.Idle;
 
     int order = 10;

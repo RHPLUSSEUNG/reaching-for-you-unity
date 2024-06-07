@@ -33,7 +33,7 @@ public class BattleItemUI : UI_Base
         Debug.Log("Item Button Click");
         Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
         Managers.UI.HideUI(Managers.BattleUI.itemPanel);
-        Managers.UI.HideUI(Managers.BattleUI.actUI);
+        Managers.UI.HideUI(Managers.BattleUI.actUI.gameObject);
     }
 
     public void ItemButtonEnter(PointerEventData data)

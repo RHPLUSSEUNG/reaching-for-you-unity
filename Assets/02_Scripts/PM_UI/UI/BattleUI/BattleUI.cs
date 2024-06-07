@@ -25,9 +25,9 @@ public class BattleUI : UI_Scene
 
     public void MagicCancleButtonClick(PointerEventData data)
     {
-        Managers.UI.uiState = UIManager.UIState.Idle;
+        Managers.UI.uiState = UIState.Idle;
         Managers.BattleUI.skill = null;
-        Managers.UI.ShowUI(Managers.BattleUI.actUI);
+        Managers.UI.ShowUI(Managers.BattleUI.actUI.gameObject);
         Managers.UI.HideUI(Managers.BattleUI.cancleBtn);
     }
 }

@@ -56,6 +56,16 @@ public enum ButtonState
     Move = 5,
 }
 
+public enum UIState
+{
+    Idle,
+    SkillSet,
+    ItemSet,
+    PlayerSet,
+    Attack,
+    Move
+}
+
 public enum Buttons
 {
     button1,

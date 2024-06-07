@@ -10,7 +10,6 @@ public class BattleManager
     public short monsterLive;
     public List<GameObject> ObjectList = new();
     public GameObject currentCharacter;
-    public UI_ActPanel ui;
     int turnCnt = 0;
     public List<GameObject> Areas = new();
 
@@ -45,15 +44,12 @@ public class BattleManager
 
     public void BattleReady()
     {
-        ui = GameObject.Find("BattleUI").transform.GetChild(7).GetComponent<UI_ActPanel>();
-        ui.gameObject.SetActive(false);
         //TOOD make monster party
         ObjectList.Clear();
         Managers.Party.InstantiatePlayer("Player_Girl_Battle");
         Managers.Party.InstantiateMonster("Enemy_Crab");
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(0));
         ObjectList.Sort(compareDefense);
-        Managers.PlayerButton.UpdateStartButton();
         battleState = BattleState.Start;
         turnCnt = -1;
     }
@@ -81,8 +77,7 @@ public class BattleManager
     public void PlayerTurn()
     {
         battleState = BattleState.PlayerTurn;
-        Managers.PlayerButton.UpdateSkillButton(currentCharacter);
-        ui.ShowActPanel(currentCharacter.GetComponent<SkillList>());
+        Managers.BattleUI.actUI.UpdateCharacterInfo();
         Debug.Log("PlayerTurn Start");
 
     }

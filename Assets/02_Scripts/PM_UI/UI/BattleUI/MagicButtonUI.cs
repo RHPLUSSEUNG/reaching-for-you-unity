@@ -34,6 +34,8 @@ public class MagicButtonUI : UI_Base
 
         mainCamera = GameObject.Find("Main Camera");
         cameraController = mainCamera.GetComponent<CameraController>();
+        GameObject disabled = GetObject((int)magicButtonUI.Disabled);
+        Managers.UI.HideUI(disabled);
     }
 
     public void SetSkill(GameObject skill)
@@ -65,11 +67,11 @@ public class MagicButtonUI : UI_Base
     {
         if (possible)
         {
-            Managers.UI.uiState = UIManager.UIState.SkillSet;
+            Managers.UI.uiState = UIState.SkillSet;
             Managers.BattleUI.skill = saveSkill;
             Debug.Log("Button Click");
             Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
-            Managers.UI.HideUI(Managers.BattleUI.actUI);
+            Managers.UI.HideUI(Managers.BattleUI.actUI.gameObject);
             Managers.UI.ShowUI(Managers.BattleUI.cancleBtn);
 
             cameraController.ChangeCameraMode(CameraMode.Static, true);

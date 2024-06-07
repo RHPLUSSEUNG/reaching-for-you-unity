@@ -32,7 +32,7 @@ public class ActUI : UI_Popup
         base.Init();
         Bind<GameObject>(typeof(actUI));
 
-        Managers.BattleUI.actUI = gameObject;
+        Managers.BattleUI.actUI = gameObject.GetComponent<ActUI>();
         GameObject magicUseBtn = GetObject((int)actUI.MagicUseButton);
         GameObject itemUseBtn = GetObject((int)actUI.ItemUseButton);
         GameObject defenseBtn = GetObject((int)actUI.DefenseButton);
@@ -59,9 +59,10 @@ public class ActUI : UI_Popup
 
     public void UpdateCharacterInfo()
     {
+        Managers.UI.ShowUI(gameObject);
         // 플레이어 턴마다 실행
         SkillList skillList = Managers.Battle.currentCharacter.GetComponent<SkillList>();
-        int curMp = Managers.Battle.currentCharacter.GetComponent<EntityStat>().Mp;
+        // int curMp = Managers.Battle.currentCharacter.GetComponent<EntityStat>().Mp;
         for (int i = 0; i < skillList.list.Count; i++)
         {
             MagicButtonUI magicBtn = magicBtnLayout.transform.GetChild(i).GetComponent<MagicButtonUI>();
@@ -107,10 +108,10 @@ public class ActUI : UI_Popup
     public void MoveButtonClick(PointerEventData data)
     {
         Text moveText = GetObject((int)actUI.MoveButton).transform.GetChild(0).gameObject.GetComponent<Text>();
-        if (Managers.UI.uiState == UIManager.UIState.Idle)
+        if (Managers.UI.uiState == UIState.Idle)
         {
             Debug.Log("State Move");
-            Managers.UI.uiState = UIManager.UIState.Move;
+            Managers.UI.uiState = UIState.Move;
             Managers.UI.HideUI(descriptPanel);
             Managers.UI.HideUI(actPanel);
 
@@ -118,10 +119,10 @@ public class ActUI : UI_Popup
             moveText.text = "이동 종료";
             return;
         }
-        if (Managers.UI.uiState == UIManager.UIState.Move)
+        if (Managers.UI.uiState == UIState.Move)
         {
             Debug.Log("State Idle");
-            Managers.UI.uiState = UIManager.UIState.Idle;
+            Managers.UI.uiState = UIState.Idle;
             Managers.UI.ShowUI(actPanel);
 
             // Text 변경(임시)

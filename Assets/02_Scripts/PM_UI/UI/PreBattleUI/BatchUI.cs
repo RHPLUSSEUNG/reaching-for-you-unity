@@ -13,10 +13,10 @@ public class BatchUI : UI_Popup
 
     public GameObject preBattleUI;
 
-    GameObject playerSpawn;
-    GameObject monsterSpawn;
-    GameObject cancleBtn;
-    GameObject finishBtn;
+    public GameObject playerSpawn;
+    public GameObject monsterSpawn;
+    public GameObject cancleBtn;
+    public GameObject finishBtn;
     public override void Init()
     {
         base.Init();
@@ -44,7 +44,14 @@ public class BatchUI : UI_Popup
         Managers.UI.HideUI(playerSpawn);
         Managers.UI.HideUI(monsterSpawn);
         Managers.UI.HideUI(finishBtn);
-        Managers.UI.uiState = UIManager.UIState.PlayerSet;
+
+        // TODO : 생성하는 Player가 2명 이상일 때 수정 필요
+        Managers.BattleUI.player = Managers.Party.playerParty[0];
+        if (Managers.BattleUI.player == null)
+        {
+            Debug.Log("Player Null");
+        }
+        Managers.UI.uiState = UIState.PlayerSet;
     }
 
     public void MonsterSpawn(PointerEventData data)
@@ -54,24 +61,31 @@ public class BatchUI : UI_Popup
         Managers.UI.HideUI(playerSpawn);
         Managers.UI.HideUI(monsterSpawn);
         Managers.UI.HideUI(finishBtn);
-        Managers.UI.uiState = UIManager.UIState.PlayerSet;
+
+        // 임시 몬스터 생성
+        Managers.BattleUI.player = Managers.Party.monsterParty[0];
+        if (Managers.BattleUI.player == null)
+        {
+            Debug.Log("Player Null");
+        }
+        Managers.UI.uiState = UIState.PlayerSet;
     }
 
     public void CancleButtonClick(PointerEventData data)
     {
-        if(Managers.UI.uiState == UIManager.UIState.PlayerSet)
+        if(Managers.UI.uiState == UIState.PlayerSet)
         {
             Managers.UI.ShowUI(playerSpawn);
             Managers.UI.ShowUI(monsterSpawn);
             Managers.UI.ShowUI(finishBtn);
             Managers.UI.HideUI(cancleBtn);
-            Managers.UI.uiState = UIManager.UIState.Idle;
+            Managers.UI.uiState = UIState.Idle;
         }
     }
 
     public void FinishButtonClick(PointerEventData data)
     {
-        Managers.UI.uiState = UIManager.UIState.Idle;
+        Managers.UI.uiState = UIState.Idle;
         Managers.UI.HideUI(gameObject);
         Managers.UI.ShowUI(preBattleUI);
     }

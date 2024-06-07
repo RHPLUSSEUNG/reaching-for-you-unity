@@ -20,10 +20,6 @@ public class UI_PreBattle : UI_Scene
     UI_Save saveUI = null;
     UI_Pause pauseUI = null;
 
-    //Test
-    public TestPlayerInfo[] testList = new TestPlayerInfo[4];
-    public GameObject Test;
-
     public override void Init()
     {
         base.Init();
@@ -40,20 +36,14 @@ public class UI_PreBattle : UI_Scene
         BindEvent(repairBtn.gameObject, OnRepairButton, Define.UIEvent.Click);
         BindEvent(saveBtn.gameObject, OnSaveButton, Define.UIEvent.Click);
         BindEvent(systemBtn.gameObject, OnSystemButton, Define.UIEvent.Click);
-
-        // Test
-        for(int i = 0; i < Test.transform.childCount; i++)
-        {
-            Managers.Item.AddItem(Test.transform.GetChild(i).gameObject);
-        }
     }
 
     public void OnStartButton(PointerEventData data)
     {
-        // Managers.Battle.BattleStart();
         Managers.UI.CreateSceneUI<BattleUI>("BattleUI");
         ActUI actUI = Managers.UI.CreatePopupUI<ActUI>("ActUI");
-        // PM_UI_Manager.UI.HideUI(actUI.gameObject);
+        Managers.BattleUI.actUI = actUI;
+        Managers.UI.HideUI(actUI.gameObject);
         if (batchUI != null)
         {
             Managers.UI.ClosePopupUI(batchUI);
@@ -67,6 +57,7 @@ public class UI_PreBattle : UI_Scene
             Managers.UI.ClosePopupUI(saveUI);
         }
         Managers.Prefab.Destroy(gameObject);
+        Managers.Battle.BattleStart();
     }
 
     public void OnBatchButton(PointerEventData data)
@@ -74,6 +65,7 @@ public class UI_PreBattle : UI_Scene
         if(batchUI == null)
         {
             batchUI = Managers.UI.CreatePopupUI<BatchUI>("BatchUI");
+            Managers.BattleUI.batchUI = batchUI;
         }
         batchUI.preBattleUI = gameObject;
         Managers.UI.ShowUI(batchUI.gameObject);
@@ -86,11 +78,6 @@ public class UI_PreBattle : UI_Scene
         {
             repairUI = Managers.UI.CreatePopupUI<UI_Repair>("RepairUI");
         }
-        // Test
-        repairUI.tempPlayer[0] = testList[0];
-        repairUI.tempPlayer[1] = testList[1];
-        repairUI.tempPlayer[2] = testList[2];
-        repairUI.tempPlayer[3] = testList[3];
         Managers.UI.ShowUI(repairUI.gameObject);
         repairUI.SetPlayerInfo();
         repairUI.SetInventory();

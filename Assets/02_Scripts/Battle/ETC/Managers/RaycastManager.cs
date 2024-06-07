@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class RaycastManager
 {
-    UI_Battle battleUI;
     GameObject go;
     public RangeDetector detector;
     public bool detect_ready = false;
@@ -13,8 +12,6 @@ public class RaycastManager
 
     public void TestInit()
     {
-        GameObject UI = GameObject.Find("BattleUI");
-        battleUI = UI.GetComponent<UI_Battle>();
         detector = GameObject.Find("RangeDetector").GetComponent<RangeDetector>();
         Debug.Log(detector);
     }
@@ -51,19 +48,19 @@ public class RaycastManager
                 //Player Turn
                 if (Managers.Battle.battleState == BattleState.PlayerTurn)
                 {
-                    switch(Managers.PlayerButton.state)
+                    switch(Managers.UI.uiState)
                     {
-                        case 0:
+                        case UIState.Idle:
                             character.GetComponent<PlayerBattle>().Move(go);
                             break;
-                        case ButtonState.Skill:
-                            if (battleUI.GetSkill() == null)
+                        case UIState.SkillSet:
+                            if (Managers.BattleUI.GetSkill() == null)
                             {
                                 break;
                             }
-                            if(battleUI.GetSkill().target_object == TargetObject.Me)
+                            if(Managers.BattleUI.GetSkill().target_object == TargetObject.Me)
                             {
-                                if (battleUI.GetSkill().SetTarget(character))
+                                if (Managers.BattleUI.GetSkill().SetTarget(character))
                                 {
                                     Managers.Battle.NextTurn();
                                 }
@@ -71,23 +68,23 @@ public class RaycastManager
 
                             if(detect_ready == false)
                             {
-                                detector.SetDetector(character, battleUI.GetSkill().range + 1, battleUI.GetSkill().target_object);
+                                detector.SetDetector(character, Managers.BattleUI.GetSkill().range + 1, Managers.BattleUI.GetSkill().target_object);
                                 detect_ready = true;
                             }
 
                             if (detector.Detect(hit.collider.gameObject))
                             {
-                                if (battleUI.GetSkill().SetTarget(hit.collider.gameObject))
+                                if (Managers.BattleUI.GetSkill().SetTarget(hit.collider.gameObject))
                                 {
                                     detect_ready = false;
                                     Managers.Battle.NextTurn();
                                 }
                             }
                             break;
-                        case ButtonState.Item:
+                        case UIState.ItemSet:
                             //TODO Item Use
                             break;
-                        case ButtonState.Attack:
+                        case UIState.Attack:
                             if (detect_ready == false)
                             {
                                 detect_ready = true;
@@ -105,7 +102,7 @@ public class RaycastManager
                                 
                             }
                             break;
-                        case ButtonState.Move:
+                        case UIState.Move:
                             character.GetComponent<PlayerBattle>().Move(go);
                             break;
 
@@ -113,9 +110,9 @@ public class RaycastManager
                     
                 }
                 //Battle Setting
-                else if (Managers.PlayerButton.state == ButtonState.PlayerSet && hit.transform.gameObject.CompareTag("Cube"))
+                else if (Managers.UI.uiState == UIState.PlayerSet && hit.transform.gameObject.CompareTag("Cube"))
                 {
-                    Managers.PlayerButton.SetPosition(hit.collider.gameObject);
+                    Managers.BattleUI.SetPosition(hit.collider.gameObject);
                 }
             }
         }
