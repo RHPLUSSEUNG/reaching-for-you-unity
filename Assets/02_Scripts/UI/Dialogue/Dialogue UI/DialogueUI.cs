@@ -84,22 +84,26 @@ public class DialogueUI : MonoBehaviour
     IEnumerator TypingScript(string text, float typingSpeed)
     {
         NPCText.text = "";
+
         foreach (char character in text)
         {            
             NPCText.text += character;
             yield return new WaitForSeconds(typingSpeed);
         }
 
-        if (NPCText.text.Length == text.Length && playerConversant.HasNext())
+        if (NPCText.text.Length == text.Length)
         {
-            nextButton.gameObject.SetActive(true);
-        }
-        else if (NPCText.text.Length == text.Length && !playerConversant.HasNext())
-        {            
-            //quitButton.gameObject.SetActive(true);
-            StartCoroutine(ExitDialogue());
-            quitText.gameObject.SetActive(true);
-        }
+            if(playerConversant.HasNext())
+            {
+                nextButton.gameObject.SetActive(true);
+            } 
+            else
+            {
+                //quitButton.gameObject.SetActive(true);
+                StartCoroutine(ExitDialogue());
+                quitText.gameObject.SetActive(true);
+            }
+        }     
     }
 
     IEnumerator ExitDialogue()

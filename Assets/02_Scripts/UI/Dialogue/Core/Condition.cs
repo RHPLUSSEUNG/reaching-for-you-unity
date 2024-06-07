@@ -9,14 +9,17 @@ public class Condition
 
     public bool Check(IEnumerable<IPredicateEvaluator> evaluators)
     {
-        foreach (Disjunction dis in and)
+        if(and != null) 
         {
-            if (!dis.Check(evaluators))
+            foreach (Disjunction dis in and)
             {
-                return false;
+                if (!dis.Check(evaluators))
+                {
+                    return false;
+                }
             }
         }
-
+        
         return true;
     }
 
