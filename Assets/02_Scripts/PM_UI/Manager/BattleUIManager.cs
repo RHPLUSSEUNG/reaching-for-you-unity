@@ -10,6 +10,7 @@ public class BattleUIManager
     public GameObject magicPanel;
     public GameObject itemPanel;
     public GameObject descriptPanel;
+    public GameObject moveBtn;
     public GameObject cancleBtn;
 
     public GameObject player;
@@ -39,7 +40,6 @@ public class BattleUIManager
         player.transform.position = pos.transform.position + Vector3.up;
         Managers.UI.uiState = UIState.Idle;
 
-        // TODO : 배치 UI 재생성
         Managers.UI.ShowUI(batchUI.playerSpawn);
         Managers.UI.ShowUI(batchUI.monsterSpawn);
         Managers.UI.ShowUI(batchUI.finishBtn);

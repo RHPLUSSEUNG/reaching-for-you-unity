@@ -42,6 +42,7 @@ public class ActUI : UI_Popup
         GameObject defenseBtn = GetObject((int)actUI.DefenseButton);
         GameObject nextBtn = GetObject((int)actUI.NextTurnButton);
         GameObject moveBtn = GetObject((int)actUI.MoveButton);
+        Managers.BattleUI.moveBtn = moveBtn;
         GameObject magicCancleBtn = GetObject((int)actUI.MagicCancleButton);
         Managers.BattleUI.cancleBtn = magicCancleBtn;
         actPanel = GetObject((int)actUI.ActPanel);
@@ -94,6 +95,7 @@ public class ActUI : UI_Popup
             }
         }
         Managers.UI.ShowUI(magicPanel);
+        Managers.UI.ShowUI(Managers.BattleUI.moveBtn);
         Managers.UI.HideUI(Managers.BattleUI.cancleBtn);
 
         cameraController.ChangeCameraMode(CameraMode.Follow, true);
@@ -152,6 +154,7 @@ public class ActUI : UI_Popup
         Managers.UI.uiState = UIState.Idle;
         Managers.BattleUI.skill = null;
         Managers.UI.ShowUI(actPanel);
+        Managers.UI.ShowUI(Managers.BattleUI.moveBtn);
         Managers.UI.HideUI(Managers.BattleUI.cancleBtn);
 
         cameraController.ChangeCameraMode(CameraMode.Follow, true);

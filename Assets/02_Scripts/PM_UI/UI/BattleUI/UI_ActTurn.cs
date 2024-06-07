@@ -4,76 +4,33 @@ using UnityEngine.UI;
 
 public class UI_ActTurn : UI_Scene
 {
-    [SerializeField] GameObject turnUI;
+    int objectCount;
 
-    //Test
-    public List<Sprite> testList = new List<Sprite>();
-    public Sprite[] tempList = new Sprite[8];
-    public Sprite newTest;
     public override void Init()
     {
-        Test();     // Test
-        int child = transform.childCount;
-        int objectCount = testList.Count/*Managers.Battle.ObjectList.Count*/;
-        objectCount = 6;        //Test
-        if (child > objectCount)
+        objectCount = Managers.Battle.ObjectList.Count;
+        
+        for(int i = 0; i < objectCount; i++)
         {
-            for(int i = 0; i < child - objectCount; i++)
-            {
-                Destroy(transform.GetChild(i).gameObject);
-            }
-        }
-        else
-        {
-            for(int i = 0; i < objectCount - child; i++)
-            {
-                Instantiate(turnUI, transform);
-            }
-        }
-    }
-
-    //public void Update()            // Test
-    //{
-    //    if(Input.GetMouseButtonDown(0))
-    //    {
-    //        TurnUpdate();
-    //    }
-    //    if(Input.GetMouseButtonDown(1))
-    //    {
-    //        DestroyTurnUI();
-    //    }
-    //    if(Input.GetMouseButtonDown(2))
-    //    {
-    //        MakeTurnUI(newTest);
-    //    }
-    //}
-
-    public void Test()
-    {
-        for(int i = 0; i < transform.childCount; i++)
-        {
-            Image img = transform.GetChild(i).gameObject.GetComponent<Image>();
-            testList.Add(tempList[i]);
-            img.sprite = tempList[i];
+            Managers.Prefab.Instantiate("UI/SubItem/Turn", gameObject.transform);
         }
     }
 
     public void SetTurnUI()
     {
-        for(int i = 0; i < testList.Count/*Managers.Battle.ObjectList.Count*/; i++)
+        for(int i = 0; i < Managers.Battle.ObjectList.Count; i++)
         {
-            Image turnImage = transform.GetChild((testList.Count/*Managers.Battle.ObjectList.Count*/-1)-i).gameObject.GetComponent<Image>();
-            Sprite charImage = Managers.Battle.ObjectList[i].GetComponent<Sprite>();            // 임시, 이미지를 가져온다
+            Image turnImage = transform.GetChild((Managers.Battle.ObjectList.Count-1)-i).gameObject.GetComponent<Image>();
+            Sprite charImage = Managers.Battle.ObjectList[i].GetComponent<Sprite>();            // 캐릭터 스프라이트를 가져온다
 
-            charImage = testList[i];        // Test
             turnImage.sprite = charImage;
         }
     }
 
     public void MakeTurnUI(Sprite newObj)
     {
-        Image newUI = Instantiate(turnUI, transform).GetComponent<Image>();
-        newUI.sprite = newObj;
+        Image newTurn = Managers.Prefab.Instantiate("UI/SubItem/Turn", gameObject.transform).GetComponent<Image>();
+        newTurn.sprite = newObj;
         SetTurnUI();
     }
 
@@ -96,6 +53,6 @@ public class UI_ActTurn : UI_Scene
         }
         Image lastImg = transform.GetChild(0).gameObject.GetComponent<Image>();
         lastImg.sprite = curSprite;
-        // TODO : Color 변경
+        // TODO : Color 변경. 모든 캐릭터가 한 번씩 행동했을 시 색 초기화
     }
 }
