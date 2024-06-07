@@ -41,14 +41,44 @@ public class SoundManager:MonoBehaviour
     {
         if (bgmClips.TryGetValue(bgmName, out AudioClip clip))
         {
-            bgmAudio.clip = clip;
-            bgmAudio.loop = loop;
-            bgmAudio.volume = volume;
-            bgmAudio.Play();
+            if (bgmAudio.isPlaying)
+            {
+                StartCoroutine(CrossFadeBGM(clip, loop));
+            }
+            else
+            {
+                bgmAudio.clip = clip;
+                bgmAudio.loop = loop;
+                bgmAudio.Play();
+            }
         }
         else
         {
             Debug.LogWarning("Requested BGM clip not found: " + bgmName);
+        }
+    }
+
+    IEnumerator CrossFadeBGM(AudioClip newClip, bool loop)
+    {
+        float fadeTime = 1.0f;
+        float volume = bgmAudio.volume;
+
+        // Fade out
+        while (bgmAudio.volume > 0)
+        {
+            bgmAudio.volume -= Time.deltaTime / fadeTime;
+            yield return null;
+        }
+
+        // Change track and fade in
+        bgmAudio.clip = newClip;
+        bgmAudio.loop = loop;
+        bgmAudio.Play();
+
+        while (bgmAudio.volume < volume)
+        {
+            bgmAudio.volume += Time.deltaTime / fadeTime;
+            yield return null;
         }
     }
 

@@ -30,15 +30,13 @@ public class SceneChanger
         switch (sceneType)
         {
             case SceneType.TITLE:
-                {
-                    SoundManager.Instance.StopMusic();
+                {                    
                     SceneManager.LoadScene("TITLE_PT_3");
                     SoundManager.Instance.PlayMusic("Main_Theme");
                     break;
                 }
             case SceneType.AM:
-                {
-                    SoundManager.Instance.StopMusic();
+                {                    
                     SceneManager.LoadScene("AM_PT_3");
                     SoundManager.Instance.PlayMusic("AM_School");
                     break;
@@ -48,8 +46,7 @@ public class SceneChanger
                     break;
                 }
             case SceneType.BATTLE:
-                {
-                    SoundManager.Instance.StopMusic();
+                {                    
                     SceneManager.LoadScene("Battle_PT_3");
                     SoundManager.Instance.PlayMusic("Stage1_Battle");
                     break;
