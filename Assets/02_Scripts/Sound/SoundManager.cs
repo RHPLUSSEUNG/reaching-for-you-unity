@@ -49,6 +49,7 @@ public class SoundManager:MonoBehaviour
                 {
                     StopCoroutine(currentFadeCoroutine);
                 }
+
                 currentFadeCoroutine = StartCoroutine(CrossFadeBGM(clip, loop, volume));
             }
             else
@@ -66,18 +67,16 @@ public class SoundManager:MonoBehaviour
 
     IEnumerator CrossFadeBGM(AudioClip newClip, bool loop, float targetVolume)
     {
-        float fadeTime = 1f;
-        float volume = bgmAudio.volume;
-
-        bgmAudio.clip = newClip;
-        bgmAudio.loop = loop;
+        float fadeTime = 1f;        
 
         while (bgmAudio.volume > 0)
         {
             bgmAudio.volume -= Time.deltaTime / fadeTime;
             yield return null;
         }
-        
+
+        bgmAudio.clip = newClip;
+        bgmAudio.loop = loop;
         bgmAudio.Play();
 
         while (bgmAudio.volume < targetVolume)
