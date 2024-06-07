@@ -25,15 +25,15 @@ public class InvenUI : UI_Popup
         base.Init();
         Bind<GameObject>(typeof(invenUI));
 
-        PM_UI_Manager.InvenUI.head = GetObject((int)invenUI.HeadEquip).GetComponent<Image>();
-        PM_UI_Manager.InvenUI.body = GetObject((int)invenUI.BodyEquip).GetComponent<Image>();
-        PM_UI_Manager.InvenUI.weapon = GetObject((int)invenUI.WeaponEquip).GetComponent<Image>();
-        PM_UI_Manager.InvenUI.invenContent = GetObject((int)invenUI.InvenContent);
+        Managers.InvenUI.head = GetObject((int)invenUI.HeadEquip).GetComponent<Image>();
+        Managers.InvenUI.body = GetObject((int)invenUI.BodyEquip).GetComponent<Image>();
+        Managers.InvenUI.weapon = GetObject((int)invenUI.WeaponEquip).GetComponent<Image>();
+        Managers.InvenUI.invenContent = GetObject((int)invenUI.InvenContent);
 
         Transform content = GetObject((int)invenUI.InvenContent).transform;
         for (int i = 0; i < content.childCount; i++)
         {
-            PM_UI_Manager.Resource.Destroy(content.GetChild(i).gameObject);
+            Managers.Prefab.Destroy(content.GetChild(i).gameObject);
         }
 
         BindEvent(GetObject((int)invenUI.HeadEquip), HeadEquipButtonClick, Define.UIEvent.Click);
@@ -48,21 +48,21 @@ public class InvenUI : UI_Popup
     public void HeadEquipButtonClick(PointerEventData data)
     {
         MoveArmorTab();
-        PM_UI_Manager.InvenUI.part = EquipPart.Head;
-        PM_UI_Manager.InvenUI.UnEquipInvenUI();
+        Managers.InvenUI.part = EquipPart.Head;
+        Managers.InvenUI.UnEquipInvenUI();
     }
     public void BodyEquipButtonClick(PointerEventData data)
     {
         MoveArmorTab();
-        PM_UI_Manager.InvenUI.part = EquipPart.Body;
-        PM_UI_Manager.InvenUI.UnEquipInvenUI();
+        Managers.InvenUI.part = EquipPart.Body;
+        Managers.InvenUI.UnEquipInvenUI();
     }
 
     public void WeaponEquipButtonClick(PointerEventData data)
     {
         MoveWeaponTab();
-        PM_UI_Manager.InvenUI.part = EquipPart.Weapon;
-        PM_UI_Manager.InvenUI.UnEquipInvenUI();
+        Managers.InvenUI.part = EquipPart.Weapon;
+        Managers.InvenUI.UnEquipInvenUI();
     }
 
 
@@ -72,23 +72,23 @@ public class InvenUI : UI_Popup
     }
     public void MoveWeaponTab()
     {
-        if (PM_UI_Manager.InvenUI.equipUI != null)
+        if (Managers.InvenUI.equipUI != null)
         {
-            PM_UI_Manager.UI.ClosePopupUI(PM_UI_Manager.InvenUI.equipUI);
+            Managers.UI.ClosePopupUI(Managers.InvenUI.equipUI);
         }
         GetObject((int)invenUI.WeaponTab).GetComponent<Image>().sprite = activeTab;
         GetObject((int)invenUI.ArmorTab).GetComponent<Image>().sprite = disabledTab;
         GetObject((int)invenUI.ConsumeTab).GetComponent<Image>().sprite = disabledTab;
-        for (int i = 0; i < PM_UI_Manager.InvenUI.invenContent.transform.childCount; i++)
+        for (int i = 0; i < Managers.InvenUI.invenContent.transform.childCount; i++)
         {
-            GameObject invenItem = PM_UI_Manager.InvenUI.invenContent.transform.GetChild(i).gameObject;
+            GameObject invenItem = Managers.InvenUI.invenContent.transform.GetChild(i).gameObject;
             if (invenItem.GetComponent<InvenItemUI>().itemType == ItemType.Equipment && invenItem.GetComponent<EquipItemUI>().equipPart == EquipPart.Weapon)
             {
-                PM_UI_Manager.UI.ShowUI(invenItem);
+                Managers.UI.ShowUI(invenItem);
             }
             else
             {
-                PM_UI_Manager.UI.HideUI(invenItem);
+                Managers.UI.HideUI(invenItem);
             }
         }
     }
@@ -100,23 +100,23 @@ public class InvenUI : UI_Popup
 
     public void MoveArmorTab()
     {
-        if (PM_UI_Manager.InvenUI.equipUI != null)
+        if (Managers.InvenUI.equipUI != null)
         {
-            PM_UI_Manager.UI.ClosePopupUI(PM_UI_Manager.InvenUI.equipUI);
+            Managers.UI.ClosePopupUI(Managers.InvenUI.equipUI);
         }
         GetObject((int)invenUI.WeaponTab).GetComponent<Image>().sprite = disabledTab;
         GetObject((int)invenUI.ArmorTab).GetComponent<Image>().sprite = activeTab;
         GetObject((int)invenUI.ConsumeTab).GetComponent<Image>().sprite = disabledTab;
-        for (int i = 0; i < PM_UI_Manager.InvenUI.invenContent.transform.childCount; i++)
+        for (int i = 0; i < Managers.InvenUI.invenContent.transform.childCount; i++)
         {
-            GameObject invenItem = PM_UI_Manager.InvenUI.invenContent.transform.GetChild(i).gameObject;
+            GameObject invenItem = Managers.InvenUI.invenContent.transform.GetChild(i).gameObject;
             if (invenItem.GetComponent<InvenItemUI>().itemType == ItemType.Equipment && (invenItem.GetComponent<EquipItemUI>().equipPart == EquipPart.Body || invenItem.GetComponent<EquipItemUI>().equipPart == EquipPart.Head))
             {
-                PM_UI_Manager.UI.ShowUI(invenItem);
+                Managers.UI.ShowUI(invenItem);
             }
             else
             {
-                PM_UI_Manager.UI.HideUI(invenItem);
+                Managers.UI.HideUI(invenItem);
             }
         }
     }
@@ -128,29 +128,29 @@ public class InvenUI : UI_Popup
 
     public void MoveConsumeTab()
     {
-        if (PM_UI_Manager.InvenUI.equipUI != null)
+        if (Managers.InvenUI.equipUI != null)
         {
-            PM_UI_Manager.UI.ClosePopupUI(PM_UI_Manager.InvenUI.equipUI);
+            Managers.UI.ClosePopupUI(Managers.InvenUI.equipUI);
         }
         GetObject((int)invenUI.WeaponTab).GetComponent<Image>().sprite = disabledTab;
         GetObject((int)invenUI.ArmorTab).GetComponent<Image>().sprite = disabledTab;
         GetObject((int)invenUI.ConsumeTab).GetComponent<Image>().sprite = activeTab;
-        for (int i = 0; i < PM_UI_Manager.InvenUI.invenContent.transform.childCount; i++)
+        for (int i = 0; i < Managers.InvenUI.invenContent.transform.childCount; i++)
         {
-            GameObject invenItem = PM_UI_Manager.InvenUI.invenContent.transform.GetChild(i).gameObject;
+            GameObject invenItem = Managers.InvenUI.invenContent.transform.GetChild(i).gameObject;
             if (invenItem.GetComponent<InvenItemUI>().itemType == ItemType.Consume)
             {
-                PM_UI_Manager.UI.ShowUI(invenItem);
+                Managers.UI.ShowUI(invenItem);
             }
             else
             {
-                PM_UI_Manager.UI.HideUI(invenItem);
+                Managers.UI.HideUI(invenItem);
             }
         }
     }
 
     public void CloseButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.UI.HideUI(gameObject);
+        Managers.UI.HideUI(gameObject);
     }
 }

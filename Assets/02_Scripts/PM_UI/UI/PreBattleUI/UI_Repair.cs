@@ -55,14 +55,14 @@ public class UI_Repair : UI_Popup
         int i = 0;
         foreach (KeyValuePair<GameObject, int> consume in Managers.Item.consumeInven)
         {
-            ConsumeRepairUI consumeItem = PM_UI_Manager.UI.MakeSubItem<ConsumeRepairUI>(consumeContent.transform, "ConsumeRepairUI");
+            ConsumeRepairUI consumeItem = Managers.UI.MakeSubItem<ConsumeRepairUI>(consumeContent.transform, "ConsumeRepairUI");
             Image icon = consume.Key.GetComponent<Image>();
             consumeItem.SetInfo(icon, consume.Value);
         }
         int equipSize = Managers.Item.equipmentInven.Count;
         for (i = 0; i < equipSize; i++)
         {
-            EquipRepairUI equipItem = PM_UI_Manager.UI.MakeSubItem<EquipRepairUI>(equipContent.transform, "EquipRepairUI");
+            EquipRepairUI equipItem = Managers.UI.MakeSubItem<EquipRepairUI>(equipContent.transform, "EquipRepairUI");
             Image icon = Managers.Item.equipmentInven[i].GetComponent<Image>();
             equipItem.SetInfo(icon);
         }
@@ -90,6 +90,6 @@ public class UI_Repair : UI_Popup
 
     public void OnCloseButton(PointerEventData data)
     {
-        PM_UI_Manager.UI.HideUI(gameObject);
+        Managers.UI.HideUI(gameObject);
     }
 }

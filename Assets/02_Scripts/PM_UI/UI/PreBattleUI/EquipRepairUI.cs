@@ -29,11 +29,11 @@ public class EquipRepairUI : UI_Base
 
     public void ItemButtonClick(PointerEventData data)
     {
-        if (PM_UI_Manager.InvenUI.equipUI == null)
+        if (Managers.InvenUI.equipUI == null)
         {
-            PM_UI_Manager.InvenUI.CreateEquipUI();
+            Managers.InvenUI.CreateEquipUI();
         }
-        PM_UI_Manager.InvenUI.equipUI.SetUIPosition();
+        Managers.InvenUI.equipUI.SetUIPosition();
     }
 
 }

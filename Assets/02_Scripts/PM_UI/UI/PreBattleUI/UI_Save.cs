@@ -25,6 +25,6 @@ public class UI_Save : UI_Popup
 
     public void PanelClose(PointerEventData data)
     {
-        PM_UI_Manager.UI.HideUI(gameObject);
+        Managers.UI.HideUI(gameObject);
     }
 }

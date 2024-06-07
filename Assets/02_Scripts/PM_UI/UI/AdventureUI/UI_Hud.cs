@@ -47,15 +47,15 @@ public class UI_Hud : UI_Scene
         switch(type)
         {
             case HUDUI.BuffLayout:
-                effectUI = PM_UI_Manager.UI.MakeSubItem<HUDEffectUI>(buffLayout.transform, "Effect");
+                effectUI = Managers.UI.MakeSubItem<HUDEffectUI>(buffLayout.transform, "Effect");
                 effectUI.SetStatusImage(icon);
                 break;
             case HUDUI.DeBuffLayout:
-                effectUI = PM_UI_Manager.UI.MakeSubItem<HUDEffectUI>(debuffLayout.transform, "Effect");
+                effectUI = Managers.UI.MakeSubItem<HUDEffectUI>(debuffLayout.transform, "Effect");
                 effectUI.SetStatusImage(icon);
                 break;
             case HUDUI.Status_EffectLayout:
-                effectUI = PM_UI_Manager.UI.MakeSubItem<HUDEffectUI>(status_effectLayout.transform, "Effect");
+                effectUI = Managers.UI.MakeSubItem<HUDEffectUI>(status_effectLayout.transform, "Effect");
                 effectUI.SetStatusImage(icon);
                 break;
             default:
@@ -79,7 +79,7 @@ public class UI_Hud : UI_Scene
         {
             for(int i = buffLayout.transform.childCount; i < curInfo.buffList.Count; i++)
             {
-                PM_UI_Manager.UI.MakeSubItem<HUDEffectUI>(buffLayout.transform, "Effect");
+                Managers.UI.MakeSubItem<HUDEffectUI>(buffLayout.transform, "Effect");
             }
         }
         for (int i = 0; i < curInfo.buffList.Count; i++)
@@ -90,14 +90,14 @@ public class UI_Hud : UI_Scene
             effectUI.SetStatusImage(changeIcon);
             if (i > effectUI.Max_Display_Child - 1)
             {
-                PM_UI_Manager.UI.HideUI(effectUI.gameObject);
+                Managers.UI.HideUI(effectUI.gameObject);
             }
         }
         if(buffLayout.transform.childCount > curInfo.buffList.Count)
         {
             for (int i = curInfo.buffList.Count; i < buffLayout.transform.childCount; i++)
             {
-                PM_UI_Manager.Resource.Destroy(buffLayout.transform.GetChild(i).gameObject);
+                Managers.Prefab.Destroy(buffLayout.transform.GetChild(i).gameObject);
             }
         }
 
@@ -105,7 +105,7 @@ public class UI_Hud : UI_Scene
         {
             for(int i = debuffLayout.transform.childCount; i < curInfo.debuffList.Count; i++)
             {
-                PM_UI_Manager.UI.MakeSubItem<HUDEffectUI>(debuffLayout.transform, "Effect");
+                Managers.UI.MakeSubItem<HUDEffectUI>(debuffLayout.transform, "Effect");
             }
         }
         for (int i = 0; i < curInfo.debuffList.Count;i++)
@@ -116,14 +116,14 @@ public class UI_Hud : UI_Scene
             effectUI.SetStatusImage(changeIcon);
             if (i > effectUI.Max_Display_Child - 1)
             {
-                PM_UI_Manager.UI.HideUI(effectUI.gameObject);
+                Managers.UI.HideUI(effectUI.gameObject);
             }
         }
         if (debuffLayout.transform.childCount > curInfo.debuffList.Count)
         {
             for (int i = curInfo.debuffList.Count; i < debuffLayout.transform.childCount; i++)
             {
-                PM_UI_Manager.Resource.Destroy(debuffLayout.transform.GetChild(i).gameObject);
+                Managers.Prefab.Destroy(debuffLayout.transform.GetChild(i).gameObject);
             }
         }
 
@@ -131,7 +131,7 @@ public class UI_Hud : UI_Scene
         {
             for (int i = status_effectLayout.transform.childCount; i < curInfo.seList.Count; i++)
             {
-                PM_UI_Manager.UI.MakeSubItem<HUDEffectUI>(status_effectLayout.transform, "Effect");
+                Managers.UI.MakeSubItem<HUDEffectUI>(status_effectLayout.transform, "Effect");
             }
         }
         for (int i = 0; i < curInfo.seList.Count; i++)
@@ -142,14 +142,14 @@ public class UI_Hud : UI_Scene
             effectUI.SetStatusImage(changeIcon);
             if (i > effectUI.Max_Display_Child - 1)
             {
-                PM_UI_Manager.UI.HideUI(effectUI.gameObject);
+                Managers.UI.HideUI(effectUI.gameObject);
             }
         }
         if (status_effectLayout.transform.childCount > curInfo.seList.Count)
         {
             for (int i = curInfo.seList.Count; i < status_effectLayout.transform.childCount; i++)
             {
-                PM_UI_Manager.Resource.Destroy(status_effectLayout.transform.GetChild(i).gameObject);
+                Managers.Prefab.Destroy(status_effectLayout.transform.GetChild(i).gameObject);
             }
         }
     }

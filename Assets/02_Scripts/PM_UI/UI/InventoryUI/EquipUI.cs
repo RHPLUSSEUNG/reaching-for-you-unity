@@ -29,7 +29,7 @@ public class EquipUI : UI_Popup
     }
     public void EquipButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.InvenUI.UpdateInvenUI();
-        PM_UI_Manager.UI.ClosePopupUI();
+        Managers.InvenUI.UpdateInvenUI();
+        Managers.UI.ClosePopupUI();
     }
 }

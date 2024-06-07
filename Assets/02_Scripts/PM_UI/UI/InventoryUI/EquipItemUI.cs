@@ -42,16 +42,16 @@ public class EquipItemUI : InvenItemUI
 
     public void ClickInvenItem(PointerEventData data)
     {
-        PM_UI_Manager.InvenUI.focusItem = gameObject;
-        PM_UI_Manager.InvenUI.type = itemType;
-        PM_UI_Manager.InvenUI.part = equipPart;
+        Managers.InvenUI.focusItem = gameObject;
+        Managers.InvenUI.type = itemType;
+        Managers.InvenUI.part = equipPart;
         Image itemIcon = GetObject((int)invenItemUI.ItemIcon).GetComponent<Image>();
-        PM_UI_Manager.InvenUI.changeIcon = itemIcon;
+        Managers.InvenUI.changeIcon = itemIcon;
 
-        if (PM_UI_Manager.InvenUI.equipUI == null)
+        if (Managers.InvenUI.equipUI == null)
         {
-            PM_UI_Manager.InvenUI.CreateEquipUI();
+            Managers.InvenUI.CreateEquipUI();
         }
-        PM_UI_Manager.InvenUI.equipUI.SetUIPosition();
+        Managers.InvenUI.equipUI.SetUIPosition();
     }
 }

@@ -25,6 +25,12 @@ public class Managers : MonoBehaviour
     public static ActiveManager Active { get { return _active; } }
     static SkillManager _skill = new();
     public static SkillManager Skill { get { return _skill; } }
+    static UIManager _ui = new();
+    public static UIManager UI { get { return _ui; } }
+    static BattleUIManager _battleui = new();
+    public static BattleUIManager BattleUI { get { return _battleui; } }
+    static InvenUIManager _invenui = new();
+    public static InvenUIManager InvenUI { get { return _invenui; } }
 
     public void Awake()
     {

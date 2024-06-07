@@ -18,10 +18,10 @@ public class TempController : MonoBehaviour
     int tempTurn = 0;
     private void Start()
     {
-        hud = PM_UI_Manager.UI.CreateSceneUI<UI_Hud>("HudUI");
-        pause = PM_UI_Manager.UI.CreatePopupUI<UI_Pause>("PauseUI");
+        hud = Managers.UI.CreateSceneUI<UI_Hud>("HudUI");
+        pause = Managers.UI.CreatePopupUI<UI_Pause>("PauseUI");
         hud.tempImage = testImage;
-        PM_UI_Manager.UI.HideUI(pause.gameObject);
+        Managers.UI.HideUI(pause.gameObject);
         hud.ChangeProfile(playerList[0]);  // test
     }
     void Update()
@@ -58,13 +58,13 @@ public class TempController : MonoBehaviour
         {
             if (pause.state == false)
             {
-                PM_UI_Manager.UI.ShowUI(pause.gameObject);
+                Managers.UI.ShowUI(pause.gameObject);
                 pause.state = true;
                 Time.timeScale = 0;
             }
             else
             {
-                PM_UI_Manager.UI.HideUI(pause.gameObject);
+                Managers.UI.HideUI(pause.gameObject);
                 Time.timeScale = 1;
                 pause.state = false;
             }

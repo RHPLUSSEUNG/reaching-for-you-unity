@@ -52,11 +52,11 @@ public class MagicButtonUI : UI_Base
         int needMp = saveSkill.GetComponent<Active>().mp;
         if (curMp < needMp)
         {
-            PM_UI_Manager.UI.ShowUI(GetObject((int)magicButtonUI.Disabled));
+            Managers.UI.ShowUI(GetObject((int)magicButtonUI.Disabled));
             possible = false;
             return possible;
         }
-        PM_UI_Manager.UI.HideUI(GetObject((int)magicButtonUI.Disabled));
+        Managers.UI.HideUI(GetObject((int)magicButtonUI.Disabled));
         possible = true;
         return possible;
     }
@@ -65,12 +65,12 @@ public class MagicButtonUI : UI_Base
     {
         if (possible)
         {
-            PM_UI_Manager.UI.uiState = UIManager.UIState.SkillSet;
-            PM_UI_Manager.BattleUI.skill = saveSkill;
+            Managers.UI.uiState = UIManager.UIState.SkillSet;
+            Managers.BattleUI.skill = saveSkill;
             Debug.Log("Button Click");
-            PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.descriptPanel);
-            PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.actUI);
-            PM_UI_Manager.UI.ShowUI(PM_UI_Manager.BattleUI.cancleBtn);
+            Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
+            Managers.UI.HideUI(Managers.BattleUI.actUI);
+            Managers.UI.ShowUI(Managers.BattleUI.cancleBtn);
 
             cameraController.ChangeCameraMode(CameraMode.Static, true);
         }
@@ -83,14 +83,14 @@ public class MagicButtonUI : UI_Base
 
     public void MagicButtonEnter(PointerEventData data)
     {
-        PM_UI_Manager.UI.ShowUI(PM_UI_Manager.BattleUI.descriptPanel);
-        DescriptUI descript = PM_UI_Manager.BattleUI.descriptPanel.GetComponent<DescriptUI>();
+        Managers.UI.ShowUI(Managers.BattleUI.descriptPanel);
+        DescriptUI descript = Managers.BattleUI.descriptPanel.GetComponent<DescriptUI>();
         descript.SetDescript(saveSkill, "마법에 대한 설명");
         descript.SetPosition();
     }
 
     public void MagicButtonExit(PointerEventData data)
     {
-        PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.descriptPanel);
+        Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
     }
 }

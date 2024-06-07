@@ -51,47 +51,47 @@ public class UI_PreBattle : UI_Scene
     public void OnStartButton(PointerEventData data)
     {
         // Managers.Battle.BattleStart();
-        PM_UI_Manager.UI.CreateSceneUI<BattleUI>("BattleUI");
-        ActUI actUI = PM_UI_Manager.UI.CreatePopupUI<ActUI>("ActUI");
+        Managers.UI.CreateSceneUI<BattleUI>("BattleUI");
+        ActUI actUI = Managers.UI.CreatePopupUI<ActUI>("ActUI");
         // PM_UI_Manager.UI.HideUI(actUI.gameObject);
         if (batchUI != null)
         {
-            PM_UI_Manager.UI.ClosePopupUI(batchUI);
+            Managers.UI.ClosePopupUI(batchUI);
         }
         if (repairUI != null)
         {
-            PM_UI_Manager.UI.ClosePopupUI(repairUI);
+            Managers.UI.ClosePopupUI(repairUI);
         }
         if (saveUI != null)
         {
-            PM_UI_Manager.UI.ClosePopupUI(saveUI);
+            Managers.UI.ClosePopupUI(saveUI);
         }
-        PM_UI_Manager.Resource.Destroy(gameObject);
+        Managers.Prefab.Destroy(gameObject);
     }
 
     public void OnBatchButton(PointerEventData data)
     {
         if(batchUI == null)
         {
-            batchUI = PM_UI_Manager.UI.CreatePopupUI<BatchUI>("BatchUI");
+            batchUI = Managers.UI.CreatePopupUI<BatchUI>("BatchUI");
         }
         batchUI.preBattleUI = gameObject;
-        PM_UI_Manager.UI.ShowUI(batchUI.gameObject);
-        PM_UI_Manager.UI.HideUI(gameObject);
+        Managers.UI.ShowUI(batchUI.gameObject);
+        Managers.UI.HideUI(gameObject);
     }
 
     public void OnRepairButton(PointerEventData data)
     {
         if(repairUI == null)
         {
-            repairUI = PM_UI_Manager.UI.CreatePopupUI<UI_Repair>("RepairUI");
+            repairUI = Managers.UI.CreatePopupUI<UI_Repair>("RepairUI");
         }
         // Test
         repairUI.tempPlayer[0] = testList[0];
         repairUI.tempPlayer[1] = testList[1];
         repairUI.tempPlayer[2] = testList[2];
         repairUI.tempPlayer[3] = testList[3];
-        PM_UI_Manager.UI.ShowUI(repairUI.gameObject);
+        Managers.UI.ShowUI(repairUI.gameObject);
         repairUI.SetPlayerInfo();
         repairUI.SetInventory();
     }
@@ -100,17 +100,17 @@ public class UI_PreBattle : UI_Scene
     {
         if(saveUI == null)
         {
-            saveUI = PM_UI_Manager.UI.CreatePopupUI<UI_Save>("SaveUI");
+            saveUI = Managers.UI.CreatePopupUI<UI_Save>("SaveUI");
         }
-        PM_UI_Manager.UI.ShowUI(saveUI.gameObject);
+        Managers.UI.ShowUI(saveUI.gameObject);
     }
 
     public void OnSystemButton(PointerEventData data)
     {
         if (pauseUI == null)
         {
-            pauseUI = PM_UI_Manager.UI.CreatePopupUI<UI_Pause>("PauseUI");
+            pauseUI = Managers.UI.CreatePopupUI<UI_Pause>("PauseUI");
         }
-        PM_UI_Manager.UI.ShowUI(pauseUI.gameObject);
+        Managers.UI.ShowUI(pauseUI.gameObject);
     }
 }

@@ -121,7 +121,7 @@ public class UI_Battle : UI_Scene
     public void MoveButtonClick(PointerEventData data)
     {
         Debug.Log("Move Button Click");
-        PM_UI_Manager.UI.uiState = UIManager.UIState.Move;
+        Managers.UI.uiState = UIManager.UIState.Move;
         Managers.PlayerButton.state = ButtonState.Move;
         GameObject actPanel = GetObject((int)BattleUIElement.ActPanel);
         actPanel.SetActive(false);
@@ -129,7 +129,7 @@ public class UI_Battle : UI_Scene
 
     public void MoveEndButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.UI.uiState = UIManager.UIState.Idle;
+        Managers.UI.uiState = UIManager.UIState.Idle;
         Managers.PlayerButton.state = ButtonState.Idle;
         GameObject actPanel = GetObject((int)BattleUIElement.ActPanel);
         actPanel.SetActive(true);

@@ -31,21 +31,21 @@ public class BattleItemUI : UI_Base
     public void ItemButtonClick(PointerEventData data)
     {
         Debug.Log("Item Button Click");
-        PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.descriptPanel);
-        PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.itemPanel);
-        PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.actUI);
+        Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
+        Managers.UI.HideUI(Managers.BattleUI.itemPanel);
+        Managers.UI.HideUI(Managers.BattleUI.actUI);
     }
 
     public void ItemButtonEnter(PointerEventData data)
     {
-        PM_UI_Manager.UI.ShowUI(PM_UI_Manager.BattleUI.descriptPanel);
-        DescriptUI descript = PM_UI_Manager.BattleUI.descriptPanel.GetComponent<DescriptUI>();
+        Managers.UI.ShowUI(Managers.BattleUI.descriptPanel);
+        DescriptUI descript = Managers.BattleUI.descriptPanel.GetComponent<DescriptUI>();
         descript.SetDescript(saveItem, "마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명마법에 대한 설명");
         descript.SetPosition();
     }
 
     public void ItemButtonExit(PointerEventData data)
     {
-        PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.descriptPanel);
+        Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
     }
 }

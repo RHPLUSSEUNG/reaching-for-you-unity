@@ -32,7 +32,7 @@ public class ActUI : UI_Popup
         base.Init();
         Bind<GameObject>(typeof(actUI));
 
-        PM_UI_Manager.BattleUI.actUI = gameObject;
+        Managers.BattleUI.actUI = gameObject;
         GameObject magicUseBtn = GetObject((int)actUI.MagicUseButton);
         GameObject itemUseBtn = GetObject((int)actUI.ItemUseButton);
         GameObject defenseBtn = GetObject((int)actUI.DefenseButton);
@@ -40,12 +40,12 @@ public class ActUI : UI_Popup
         GameObject moveBtn = GetObject((int)actUI.MoveButton);
         actPanel = GetObject((int)actUI.ActPanel);
         magicPanel = GetObject((int)actUI.MagicPanel);
-        PM_UI_Manager.BattleUI.magicPanel = magicPanel;
+        Managers.BattleUI.magicPanel = magicPanel;
         itemPanel = GetObject((int)actUI.ItemPanel);
-        PM_UI_Manager.BattleUI.itemPanel = itemPanel;
+        Managers.BattleUI.itemPanel = itemPanel;
         magicBtnLayout = GetObject((int)actUI.MagicButtonLayout);
         descriptPanel = GetObject((int)actUI.DescriptUI);
-        PM_UI_Manager.BattleUI.descriptPanel = descriptPanel;
+        Managers.BattleUI.descriptPanel = descriptPanel;
 
         BindEvent(magicUseBtn, UseMagicButtonClick, Define.UIEvent.Click);
         BindEvent(itemUseBtn, UseItemButtonClick, Define.UIEvent.Click);
@@ -53,8 +53,8 @@ public class ActUI : UI_Popup
         BindEvent(nextBtn, NextButtonClick, Define.UIEvent.Click);
         BindEvent(moveBtn, MoveButtonClick, Define.UIEvent.Click);
 
-        PM_UI_Manager.UI.HideUI(itemPanel);
-        PM_UI_Manager.UI.HideUI(descriptPanel);
+        Managers.UI.HideUI(itemPanel);
+        Managers.UI.HideUI(descriptPanel);
     }
 
     public void UpdateCharacterInfo()
@@ -78,51 +78,51 @@ public class ActUI : UI_Popup
                 magicBtnLayout.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
-        PM_UI_Manager.UI.ShowUI(magicPanel);
+        Managers.UI.ShowUI(magicPanel);
     }
 
     public void UseMagicButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.UI.ShowUI(magicPanel);
-        PM_UI_Manager.UI.HideUI(itemPanel);
+        Managers.UI.ShowUI(magicPanel);
+        Managers.UI.HideUI(itemPanel);
     }
 
     public void UseItemButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.UI.ShowUI(itemPanel);
-        PM_UI_Manager.UI.HideUI(magicPanel);
+        Managers.UI.ShowUI(itemPanel);
+        Managers.UI.HideUI(magicPanel);
     }
 
     public void UseDefenseButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.UI.HideUI(gameObject);
+        Managers.UI.HideUI(gameObject);
     }
 
     public void NextButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.UI.HideUI(gameObject);
+        Managers.UI.HideUI(gameObject);
         // Managers.Battle.NextTurn();
     }
 
     public void MoveButtonClick(PointerEventData data)
     {
         Text moveText = GetObject((int)actUI.MoveButton).transform.GetChild(0).gameObject.GetComponent<Text>();
-        if (PM_UI_Manager.UI.uiState == UIManager.UIState.Idle)
+        if (Managers.UI.uiState == UIManager.UIState.Idle)
         {
             Debug.Log("State Move");
-            PM_UI_Manager.UI.uiState = UIManager.UIState.Move;
-            PM_UI_Manager.UI.HideUI(descriptPanel);
-            PM_UI_Manager.UI.HideUI(actPanel);
+            Managers.UI.uiState = UIManager.UIState.Move;
+            Managers.UI.HideUI(descriptPanel);
+            Managers.UI.HideUI(actPanel);
 
             // Text 변경(임시)
             moveText.text = "이동 종료";
             return;
         }
-        if (PM_UI_Manager.UI.uiState == UIManager.UIState.Move)
+        if (Managers.UI.uiState == UIManager.UIState.Move)
         {
             Debug.Log("State Idle");
-            PM_UI_Manager.UI.uiState = UIManager.UIState.Idle;
-            PM_UI_Manager.UI.ShowUI(actPanel);
+            Managers.UI.uiState = UIManager.UIState.Idle;
+            Managers.UI.ShowUI(actPanel);
 
             // Text 변경(임시)
             moveText.text = "이동";

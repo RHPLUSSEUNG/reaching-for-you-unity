@@ -46,7 +46,7 @@ public class ConsumeItemUI : InvenItemUI
         count--;
         if (count == 0)
         {
-            PM_UI_Manager.Resource.Destroy(gameObject);
+            Managers.Prefab.Destroy(gameObject);
             return;
         }
         itemCount.text = count.ToString();
@@ -54,15 +54,15 @@ public class ConsumeItemUI : InvenItemUI
 
     public void ClickConsumeItem(PointerEventData data)
     {
-        PM_UI_Manager.InvenUI.focusItem = gameObject;
-        PM_UI_Manager.InvenUI.type = itemType;
+        Managers.InvenUI.focusItem = gameObject;
+        Managers.InvenUI.type = itemType;
         Image itemIcon = GetObject((int)consumeItemUI.ItemIcon).GetComponent<Image>();
-        PM_UI_Manager.InvenUI.changeIcon = itemIcon;
+        Managers.InvenUI.changeIcon = itemIcon;
 
-        if (PM_UI_Manager.InvenUI.equipUI == null)
+        if (Managers.InvenUI.equipUI == null)
         {
-            PM_UI_Manager.InvenUI.CreateEquipUI();
+            Managers.InvenUI.CreateEquipUI();
         }
-        PM_UI_Manager.InvenUI.equipUI.SetUIPosition();
+        Managers.InvenUI.equipUI.SetUIPosition();
     }
 }

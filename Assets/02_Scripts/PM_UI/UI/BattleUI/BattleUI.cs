@@ -16,18 +16,18 @@ public class BattleUI : UI_Scene
 
         Bind<GameObject>(typeof(battleUI));
         GameObject magicCancleBtn = GetObject((int)battleUI.MagicCancleButton);
-        PM_UI_Manager.BattleUI.cancleBtn = magicCancleBtn;
+        Managers.BattleUI.cancleBtn = magicCancleBtn;
 
         BindEvent(magicCancleBtn, MagicCancleButtonClick, Define.UIEvent.Click);
 
-        PM_UI_Manager.UI.HideUI(magicCancleBtn);
+        Managers.UI.HideUI(magicCancleBtn);
     }
 
     public void MagicCancleButtonClick(PointerEventData data)
     {
-        PM_UI_Manager.UI.uiState = UIManager.UIState.Idle;
-        PM_UI_Manager.BattleUI.skill = null;
-        PM_UI_Manager.UI.ShowUI(PM_UI_Manager.BattleUI.actUI);
-        PM_UI_Manager.UI.HideUI(PM_UI_Manager.BattleUI.cancleBtn);
+        Managers.UI.uiState = UIManager.UIState.Idle;
+        Managers.BattleUI.skill = null;
+        Managers.UI.ShowUI(Managers.BattleUI.actUI);
+        Managers.UI.HideUI(Managers.BattleUI.cancleBtn);
     }
 }
