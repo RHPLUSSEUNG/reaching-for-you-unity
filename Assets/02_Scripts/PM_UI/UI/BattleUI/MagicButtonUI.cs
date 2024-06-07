@@ -69,9 +69,8 @@ public class MagicButtonUI : UI_Base
         {
             Managers.UI.uiState = UIState.SkillSet;
             Managers.BattleUI.skill = saveSkill;
-            Debug.Log("Button Click");
             Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
-            Managers.UI.HideUI(Managers.BattleUI.actUI.gameObject);
+            Managers.UI.HideUI(Managers.BattleUI.actPanel);
             Managers.UI.ShowUI(Managers.BattleUI.cancleBtn);
 
             cameraController.ChangeCameraMode(CameraMode.Static, true);

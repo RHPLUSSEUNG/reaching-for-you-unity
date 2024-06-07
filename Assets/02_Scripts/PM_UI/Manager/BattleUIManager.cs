@@ -6,6 +6,7 @@ public class BattleUIManager
 {
     public ActUI actUI;
     public BatchUI batchUI;
+    public GameObject actPanel;
     public GameObject magicPanel;
     public GameObject itemPanel;
     public GameObject descriptPanel;

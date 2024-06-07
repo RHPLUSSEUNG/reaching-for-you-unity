@@ -18,8 +18,12 @@ public class ActUI : UI_Popup
         MagicButtonLayout,
         ItemLayout,
         DescriptUI,
-        MoveButton
+        MoveButton,
+        MagicCancleButton
     }
+
+    GameObject mainCamera;
+    CameraController cameraController;
 
     GameObject actPanel;
     GameObject magicPanel;
@@ -38,7 +42,10 @@ public class ActUI : UI_Popup
         GameObject defenseBtn = GetObject((int)actUI.DefenseButton);
         GameObject nextBtn = GetObject((int)actUI.NextTurnButton);
         GameObject moveBtn = GetObject((int)actUI.MoveButton);
+        GameObject magicCancleBtn = GetObject((int)actUI.MagicCancleButton);
+        Managers.BattleUI.cancleBtn = magicCancleBtn;
         actPanel = GetObject((int)actUI.ActPanel);
+        Managers.BattleUI.actPanel = actPanel;
         magicPanel = GetObject((int)actUI.MagicPanel);
         Managers.BattleUI.magicPanel = magicPanel;
         itemPanel = GetObject((int)actUI.ItemPanel);
@@ -52,14 +59,21 @@ public class ActUI : UI_Popup
         BindEvent(defenseBtn, UseDefenseButtonClick, Define.UIEvent.Click);
         BindEvent(nextBtn, NextButtonClick, Define.UIEvent.Click);
         BindEvent(moveBtn, MoveButtonClick, Define.UIEvent.Click);
+        BindEvent(magicCancleBtn, MagicCancleButtonClick, Define.UIEvent.Click);
 
         Managers.UI.HideUI(itemPanel);
         Managers.UI.HideUI(descriptPanel);
+        Managers.UI.HideUI(magicCancleBtn);
+
+        mainCamera = GameObject.Find("Main Camera");
+        cameraController = mainCamera.GetComponent<CameraController>();
     }
 
     public void UpdateCharacterInfo()
     {
+        Managers.UI.uiState = UIState.Idle;
         Managers.UI.ShowUI(gameObject);
+        Managers.UI.ShowUI(actPanel);
         // 플레이어 턴마다 실행
         SkillList skillList = Managers.Battle.currentCharacter.GetComponent<SkillList>();
         // int curMp = Managers.Battle.currentCharacter.GetComponent<EntityStat>().Mp;
@@ -72,7 +86,7 @@ public class ActUI : UI_Popup
             }
             // magicBtn.CheckEnableMagic(curMp);
         }
-        if (magicBtnLayout.transform.childCount < skillList.list.Count)
+        if (magicBtnLayout.transform.childCount > skillList.list.Count)
         {
             for (int i = skillList.list.Count; i < magicBtnLayout.transform.childCount; i++)
             {
@@ -80,6 +94,9 @@ public class ActUI : UI_Popup
             }
         }
         Managers.UI.ShowUI(magicPanel);
+        Managers.UI.HideUI(Managers.BattleUI.cancleBtn);
+
+        cameraController.ChangeCameraMode(CameraMode.Follow, true);
     }
 
     public void UseMagicButtonClick(PointerEventData data)
@@ -110,10 +127,10 @@ public class ActUI : UI_Popup
         Text moveText = GetObject((int)actUI.MoveButton).transform.GetChild(0).gameObject.GetComponent<Text>();
         if (Managers.UI.uiState == UIState.Idle)
         {
-            Debug.Log("State Move");
             Managers.UI.uiState = UIState.Move;
             Managers.UI.HideUI(descriptPanel);
             Managers.UI.HideUI(actPanel);
+            cameraController.ChangeCameraMode(CameraMode.Static, true);
 
             // Text 변경(임시)
             moveText.text = "이동 종료";
@@ -121,7 +138,6 @@ public class ActUI : UI_Popup
         }
         if (Managers.UI.uiState == UIState.Move)
         {
-            Debug.Log("State Idle");
             Managers.UI.uiState = UIState.Idle;
             Managers.UI.ShowUI(actPanel);
 
@@ -129,7 +145,15 @@ public class ActUI : UI_Popup
             moveText.text = "이동";
             return;
         }
-        
+    }
 
+    public void MagicCancleButtonClick(PointerEventData data)
+    {
+        Managers.UI.uiState = UIState.Idle;
+        Managers.BattleUI.skill = null;
+        Managers.UI.ShowUI(actPanel);
+        Managers.UI.HideUI(Managers.BattleUI.cancleBtn);
+
+        cameraController.ChangeCameraMode(CameraMode.Follow, true);
     }
 }
