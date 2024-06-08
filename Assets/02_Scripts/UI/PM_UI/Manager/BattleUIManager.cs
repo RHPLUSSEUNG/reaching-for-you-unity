@@ -5,6 +5,7 @@ public class BattleUIManager
     public ActUI actUI;
     public BatchUI batchUI;
     public UI_ActTurn turnUI;
+    public WarningUI warningUI;
 
     public GameObject actPanel;
     public GameObject magicPanel;

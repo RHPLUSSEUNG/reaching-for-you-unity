@@ -41,6 +41,8 @@ public class InvenUI : UI_Popup
         BindEvent(GetObject((int)invenUI.ArmorTab), ArmorTabClick, Define.UIEvent.Click);
         BindEvent(GetObject((int)invenUI.ConsumeTab), ConsumeTabClick, Define.UIEvent.Click);
         BindEvent(GetObject((int)invenUI.CloseButton), CloseButtonClick, Define.UIEvent.Click);
+
+        // Managers.InvenUI.SetInventory(); Inven Setting
     }
 
     public void HeadEquipButtonClick(PointerEventData data)

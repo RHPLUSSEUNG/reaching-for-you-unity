@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -58,6 +59,23 @@ public class InvenUIManager
     private void SetPlayerConsumeUI(Equip_Item equipInfo)
     {
 
+    }
+
+    public void SetInventory()
+    {
+        for (int i = 0; i< Managers.Item.equipmentInven.Count; i++)
+        {
+            EquipItemUI equipItem = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
+            equipItem.invenItem = Managers.Item.equipmentInven[i];
+            // equipItem.SetItemInfo();  아이템 정보 가져오기
+            Managers.UI.HideUI(equipItem.gameObject);
+        }
+        foreach (KeyValuePair<GameObject, int> consume in Managers.Item.consumeInven)
+        {
+            ConsumeRepairUI consumeItem = Managers.UI.MakeSubItem<ConsumeRepairUI>(invenContent.transform, "ConsumeRepairUI");
+            Image icon = consume.Key.GetComponent<Image>();
+            consumeItem.SetInfo(icon, consume.Value);
+        }
     }
 
     public void CreateEquipUI()

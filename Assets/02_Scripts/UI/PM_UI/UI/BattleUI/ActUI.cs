@@ -66,6 +66,9 @@ public class ActUI : UI_Popup
 
         mainCamera = GameObject.Find("Main Camera");
         cameraController = mainCamera.GetComponent<CameraController>();
+
+        Managers.BattleUI.warningUI = Managers.UI.CreatePopupUI<WarningUI>("WarningUI");
+        Managers.UI.HideUI(Managers.BattleUI.warningUI.gameObject);
     }
 
     public void UpdateCharacterInfo()

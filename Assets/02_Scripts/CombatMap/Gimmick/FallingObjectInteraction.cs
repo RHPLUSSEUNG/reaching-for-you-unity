@@ -39,6 +39,7 @@ public class FallingObjectInteraction : MonoBehaviour
         {
             Debug.Log("Enter the Gimmick!!");
 
+            Managers.BattleUI.warningUI.ShowWarningUI();
             currentTurnCnt = Managers.Battle.totalTurnCnt;
             Debug.Log("현재 " + gimmickTurnCnt + " 이후 기믹 발동");
         }
