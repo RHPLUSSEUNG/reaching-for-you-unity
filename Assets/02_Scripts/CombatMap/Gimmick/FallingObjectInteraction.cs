@@ -11,8 +11,8 @@ public class FallingObjectInteraction : MonoBehaviour
 
     private Rigidbody faliingRigid;
 
-    public float decreaseDuration = 5f; // HP 감소 기간 (초)
-    public float decreaseAmount = 50f; // 감소할 HP 양
+    int gimmickTurnCnt = 2; // 기믹 작동에 필요한 턴 개수
+    int currentTurnCnt = -1; // 현재 총 턴 횟수
 
     // Start is called before the first frame update
     void Start()
@@ -38,8 +38,22 @@ public class FallingObjectInteraction : MonoBehaviour
         if (other.CompareTag("Player")) 
         {
             Debug.Log("Enter the Gimmick!!");
-            FallingObjectTransform.gameObject.SetActive(true);
-            faliingRigid.isKinematic = false;
+
+            currentTurnCnt = Managers.Battle.totalTurnCnt;
+            Debug.Log("현재 " + gimmickTurnCnt + " 이후 기믹 발동");
+        }
+    }
+
+    private void OnTriggerStay(Collider other) {
+        if (other.CompareTag("Player")) 
+        {
+            int remainTurnCnt = Managers.Battle.totalTurnCnt - currentTurnCnt;
+
+            if(remainTurnCnt > gimmickTurnCnt) 
+            {
+                FallingObjectTransform.gameObject.SetActive(true);
+                faliingRigid.isKinematic = false;
+            }
         }
     }
 }

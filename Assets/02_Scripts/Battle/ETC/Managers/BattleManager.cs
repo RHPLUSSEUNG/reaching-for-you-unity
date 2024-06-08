@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class BattleManager
     public short monsterLive;
     public List<GameObject> ObjectList = new();
     public GameObject currentCharacter;
+
+    public int totalTurnCnt = 0;
     int turnCnt = 0;
     public List<GameObject> Areas = new();
 
@@ -75,6 +78,7 @@ public class BattleManager
         }
 
         turnCnt++;
+        totalTurnCnt++;
         turnCnt %= ObjectList.Count;
     }
 
@@ -127,6 +131,7 @@ public class BattleManager
         }
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
+
         if (Areas.Count != 0)
         {
             foreach (GameObject area in Areas)
