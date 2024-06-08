@@ -16,6 +16,8 @@ public class MagicButtonUI : UI_Base
 
     [SerializeField]
     GameObject saveSkill = null;
+    [SerializeField]
+    skillType skillType;
 
     GameObject mainCamera;
     CameraController cameraController;
@@ -36,18 +38,36 @@ public class MagicButtonUI : UI_Base
         Managers.UI.HideUI(disabled);
     }
 
-    public void SetSkill(GameObject skill)
+    public void SetSkill(GameObject skill, int skill_ID)
     {
+        SkillData skill_Data = Managers.Data.GetPlayerSkillData(skill_ID);
+
+        if(skill_Data.SkillType == skillType.Passive)
+        {
+            Managers.UI.ShowUI(GetObject((int)magicButtonUI.Disabled));
+            Text passiveText = GetObject((int)magicButtonUI.Disabled).transform.GetChild(0).GetComponent<Text>();
+            passiveText.text = "P  a  s  s  i  v  e";
+            possible = false;
+        }
+
+        Image magicIcon = GetObject((int)magicButtonUI.MagicIcon).GetComponent<Image>();
         Text magicName = GetObject((int)magicButtonUI.MagicName).GetComponent<Text>();
-        // magicName.text;
+        magicName.text = skill_Data.SkillName;
         Image elementIcon = GetObject((int)magicButtonUI.ElementIcon).GetComponent<Image>();
         Text manaText = GetObject((int)magicButtonUI.ManaText).GetComponent<Text>();
+        manaText.text = skill_Data.mp.ToString();
+        Text attackText = GetObject((int)magicButtonUI.AttackText).GetComponent<Text>();
 
         saveSkill = skill;
+        skillType = skill_Data.SkillType;
     }
 
     public bool CheckEnableMagic(int curMp)
     {
+        if(skillType == skillType.Passive)
+        {
+            return false;
+        }
         // 현재 캐릭터가 이 마나를 사용할 수 있는 마나 or 스태미나를 가지고 있는지 체크
         int needMp = saveSkill.GetComponent<Active>().mp;
         if (curMp < needMp)
