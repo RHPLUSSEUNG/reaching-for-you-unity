@@ -5,9 +5,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+public enum SceneType
+{
+    TITLE,
+    AM,
+    PM,
+    BATTLE,
+
+}
+
 public class LoadSceneManager : MonoBehaviour
 {
     public static string nextScene;
+    public static SceneType sceneType;    
     [SerializeField] Image logoImage;
     [SerializeField] Image progressBar;
     
@@ -20,10 +30,65 @@ public class LoadSceneManager : MonoBehaviour
         StartCoroutine(LoadScene());
     }
 
-    public static void LoadScene(string sceneName)
+    public static void LoadScene(SceneType _sceneType)
     {
-        nextScene = sceneName;
+        sceneType = _sceneType;
+        
+        switch (sceneType)
+        {
+            case SceneType.TITLE:
+                {
+                    nextScene = "TITLE_PT_3";
+                    break;
+                }
+            case SceneType.AM:
+                {
+                    nextScene = "AM_PT_3";
+                    break;
+                }
+            case SceneType.PM:
+                {
+                    break;
+                }
+            case SceneType.BATTLE:
+                {
+                    nextScene = "BATTLE_PT_3";
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+
         SceneManager.LoadScene("LOADING_PT_3");
+    }
+
+    void NextSceneBGMPlay(SceneType sceneType)
+    {
+        switch (sceneType)
+        {
+            case SceneType.TITLE:
+                {
+                    SoundManager.Instance.PlayMusic("Main_Theme");
+                    break;
+                }
+            case SceneType.AM:
+                {
+                    SoundManager.Instance.PlayMusic("AM_School");
+                    break;
+                }
+            case SceneType.PM:
+                {
+                    //SoundManager.Instance.PlayMusic("Main_Theme");
+                    break;
+                }
+            case SceneType.BATTLE:
+                {
+                    SoundManager.Instance.PlayMusic("Stage1_Battle");
+                    break;
+                }
+        }
     }
 
     IEnumerator LoadScene()
@@ -32,7 +97,8 @@ public class LoadSceneManager : MonoBehaviour
         AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
         op.allowSceneActivation = false;
         float timer = 0.0f;
-        
+        SoundManager.Instance.StopMusic();
+        SoundManager.Instance.LoadAudioClips(sceneType);
 
         while (!op.isDone)
         {
@@ -53,9 +119,10 @@ public class LoadSceneManager : MonoBehaviour
                 if (progressBar.fillAmount == 1.0f)
                 {
                     
-                    yield return new WaitForSeconds(10.0f);
-                    op.allowSceneActivation = true;
+                    yield return new WaitForSeconds(3.0f);
                     StopCoroutine(BlinkLogo());
+                    NextSceneBGMPlay(sceneType);
+                    op.allowSceneActivation = true;
                     yield break;
                 }
             }

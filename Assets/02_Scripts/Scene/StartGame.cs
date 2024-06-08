@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class StartGame : MonoBehaviour
 {
+    //각종 리소스와 매니저들 로드 필요
     private void Awake()
     {
-        LoadSceneManager.LoadScene("TITLE_PT_3");
+        LoadSceneManager.LoadScene(SceneType.TITLE);
     }
 }
