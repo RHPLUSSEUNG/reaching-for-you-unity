@@ -77,7 +77,7 @@ public class SoundManager:MonoBehaviour
                 StopCoroutine(currentFadeCoroutine);
             }
             
-            currentFadeCoroutine = StartCoroutine(FadeIn(bgmAudio, clip, loop, targetVolume, 1f));
+            currentFadeCoroutine = StartCoroutine(FadeIn(bgmAudio, clip, loop, targetVolume, 1.5f));
         }
         else
         {
@@ -92,7 +92,7 @@ public class SoundManager:MonoBehaviour
             StopCoroutine(currentFadeCoroutine);
         }
         
-        currentFadeCoroutine = StartCoroutine(FadeOut(bgmAudio, 1f));
+        currentFadeCoroutine = StartCoroutine(FadeOut(bgmAudio, 1.5f));
     }
 
 
