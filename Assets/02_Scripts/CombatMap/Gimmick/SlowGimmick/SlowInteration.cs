@@ -1,19 +1,16 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class FallingObjectInteraction : MonoBehaviour
+public class SlowInteration : MonoBehaviour
 {
     [Header("FallingPrefabs")]
     public GameObject[] FallingPrefabs;
     public Transform FallingObjectTransform;
 
-    Text warningText;
     private Rigidbody faliingRigid;
 
     int gimmickTurnCnt = 2; // 기믹 작동에 필요한 턴 개수
-
-    int remainTurnCnt = -1;
     int currentTurnCnt = -1; // 현재 총 턴 횟수
 
     // Start is called before the first frame update
@@ -41,35 +38,21 @@ public class FallingObjectInteraction : MonoBehaviour
         {
             Debug.Log("Enter the Gimmick!!");
 
-            warningText = Managers.BattleUI.warningUI.GetText();
             currentTurnCnt = Managers.Battle.totalTurnCnt;
+            Debug.Log("현재 " + gimmickTurnCnt + " 이후 기믹 발동");
         }
     }
 
     private void OnTriggerStay(Collider other) {
         if (other.CompareTag("Player")) 
         {
-            remainTurnCnt = Managers.Battle.totalTurnCnt - currentTurnCnt;
+            int remainTurnCnt = Managers.Battle.totalTurnCnt - currentTurnCnt;
 
-            if(remainTurnCnt >= gimmickTurnCnt) 
+            if(remainTurnCnt > gimmickTurnCnt) 
             {
                 FallingObjectTransform.gameObject.SetActive(true);
                 faliingRigid.isKinematic = false;
             }
-            else {
-                if(Managers.Battle.isPlayerTurn)
-                {
-                    StartCoroutine(ShowWarningCoroutine());
-                    Managers.BattleUI.warningUI.ShowWarningUI();   
-                }
-            }
         }
-    }
-    private IEnumerator ShowWarningCoroutine()
-    {
-        warningText.text = $"{gimmickTurnCnt - remainTurnCnt}턴 이후 낙석 주의!!";
-        Managers.BattleUI.warningUI.SetText(warningText.text);
-        yield return new WaitForSeconds(2f);
-        Managers.Battle.isPlayerTurn = false;
     }
 }

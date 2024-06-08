@@ -13,6 +13,7 @@ public class BattleManager
     public GameObject currentCharacter;
 
     public int totalTurnCnt = 0;
+    public bool isPlayerTurn = false;
     int turnCnt = 0;
     public List<GameObject> Areas = new();
 
@@ -78,13 +79,14 @@ public class BattleManager
         }
 
         turnCnt++;
-        totalTurnCnt++;
         turnCnt %= ObjectList.Count;
     }
 
     public void PlayerTurn()
     {
         battleState = BattleState.PlayerTurn;
+        totalTurnCnt++;
+        isPlayerTurn = true;
         Managers.BattleUI.actUI.UpdateCharacterInfo();
         Debug.Log("PlayerTurn Start");
 
@@ -99,6 +101,7 @@ public class BattleManager
         }
         Debug.Log("EnemyTurn Start");
         battleState = BattleState.EnemyTurn;
+        isPlayerTurn = false;
         character.GetComponent<EnemyAI_Base>().ProceedTurn();
         Debug.Log("EnemyTurn End");
     }
