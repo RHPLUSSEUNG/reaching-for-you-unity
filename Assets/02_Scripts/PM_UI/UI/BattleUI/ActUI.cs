@@ -75,16 +75,16 @@ public class ActUI : UI_Popup
         Managers.UI.ShowUI(actPanel);
         // 플레이어 턴마다 실행
         SkillList skillList = Managers.Battle.currentCharacter.GetComponent<SkillList>();
-        // int curMp = Managers.Battle.currentCharacter.GetComponent<EntityStat>().Mp;
+        int curMp = Managers.Battle.currentCharacter.GetComponent<EntityStat>().Mp;
         for (int i = 0; i < skillList.list.Count; i++)
         {
             // 마법 버튼 동적 생성 : MagicButtonUI magicButton = Managers.UI.MakeSubItem<MagicButtonUI>(magicBtnLayout.transform, "MagicButton");
             MagicButtonUI magicBtn = magicBtnLayout.transform.GetChild(i).GetComponent<MagicButtonUI>();
             if(magicBtn.SaveSkill == null)
             {
-                magicBtn.SetSkill(skillList.list[i]);
+                magicBtn.SetSkill(skillList.list[i], skillList.idList[i]);
             }
-            // magicBtn.CheckEnableMagic(curMp);
+            magicBtn.CheckEnableMagic(curMp);
         }
         if (magicBtnLayout.transform.childCount > skillList.list.Count)
         {
@@ -115,12 +115,15 @@ public class ActUI : UI_Popup
     public void UseDefenseButtonClick(PointerEventData data)
     {
         Managers.UI.HideUI(gameObject);
+        cameraController.ChangeCameraMode(CameraMode.Static, true);
+        Managers.Battle.NextTurn();
     }
 
     public void NextButtonClick(PointerEventData data)
     {
         Managers.UI.HideUI(gameObject);
-        // Managers.Battle.NextTurn();
+        cameraController.ChangeCameraMode(CameraMode.Static, true);
+        Managers.Battle.NextTurn();
     }
 
     public void MoveButtonClick(PointerEventData data)
