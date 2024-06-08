@@ -78,6 +78,7 @@ public class ActUI : UI_Popup
         // int curMp = Managers.Battle.currentCharacter.GetComponent<EntityStat>().Mp;
         for (int i = 0; i < skillList.list.Count; i++)
         {
+            // 付过 滚瓢 悼利 积己 : MagicButtonUI magicButton = Managers.UI.MakeSubItem<MagicButtonUI>(magicBtnLayout.transform, "MagicButton");
             MagicButtonUI magicBtn = magicBtnLayout.transform.GetChild(i).GetComponent<MagicButtonUI>();
             if(magicBtn.SaveSkill == null)
             {
