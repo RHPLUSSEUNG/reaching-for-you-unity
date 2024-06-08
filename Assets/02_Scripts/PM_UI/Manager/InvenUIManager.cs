@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,14 +15,14 @@ public class InvenUIManager
     public ItemType type;
     public EquipPart part;
 
-    public void SetPlayerInvenUI()
+    public void SetPlayerEquipUI(Equip_Item equipInfo)
     {
-        SetPlayerHeadUI();
-        SetPlayerBodyUI();
-        SetPlayerWeaponUI();
-        SetPlayerConsumeUI();
+        SetPlayerHeadUI(equipInfo);
+        SetPlayerBodyUI(equipInfo);
+        SetPlayerWeaponUI(equipInfo);
+        SetPlayerConsumeUI(equipInfo);
     }
-    void SetPlayerHeadUI()
+    private void SetPlayerHeadUI(Equip_Item equipInfo)
     {
         Image equip = Util.FindChild(head.gameObject, "EquipIcon").GetComponent<Image>();
         if (player.GetComponent<Equip_Item>().Head == null)
@@ -35,7 +33,7 @@ public class InvenUIManager
         equip.sprite = itemIcon.sprite;
     }
 
-    void SetPlayerBodyUI()
+    private void SetPlayerBodyUI(Equip_Item equipInfo)
     {
         Image equip = Util.FindChild(body.gameObject, "EquipIcon").GetComponent<Image>();
         if (player.GetComponent<Equip_Item>().Body == null)
@@ -46,7 +44,7 @@ public class InvenUIManager
         equip.sprite = itemIcon.sprite;
     }
 
-    void SetPlayerWeaponUI()
+    private void SetPlayerWeaponUI(Equip_Item equipInfo)
     {
         Image equip = Util.FindChild(weapon.gameObject, "EquipIcon").GetComponent<Image>();
         if (player.GetComponent<Equip_Item>().Weapon == null)
@@ -57,7 +55,7 @@ public class InvenUIManager
         equip.sprite = itemIcon.sprite;
     }
 
-    void SetPlayerConsumeUI()
+    private void SetPlayerConsumeUI(Equip_Item equipInfo)
     {
 
     }

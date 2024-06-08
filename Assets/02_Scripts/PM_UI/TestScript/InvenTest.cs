@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +15,8 @@ public class InvenTest : MonoBehaviour
         {
             InvenUI invenUI = Managers.UI.CreatePopupUI<InvenUI>("InvenUI");
             Managers.InvenUI.player = gameObject;
-            Managers.InvenUI.SetPlayerInvenUI();
+            Equip_Item equipInfo = Managers.InvenUI.player.GetComponent<Equip_Item>();
+            Managers.InvenUI.SetPlayerEquipUI(equipInfo);
             for (int i = 0; i < Test.transform.childCount; i++)
             {
                 Managers.Item.AddItem(Test.transform.GetChild(i).gameObject);

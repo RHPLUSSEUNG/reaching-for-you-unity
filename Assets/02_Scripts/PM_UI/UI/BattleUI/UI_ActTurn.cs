@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +13,7 @@ public class UI_ActTurn : UI_Scene
         {
             Managers.Prefab.Instantiate("UI/SubItem/Turn", gameObject.transform);
         }
+        Managers.BattleUI.turnUI = gameObject.GetComponent<UI_ActTurn>();
     }
 
     public void SetTurnUI()

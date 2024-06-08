@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -79,8 +76,7 @@ public class UI_PreBattle : UI_Scene
             repairUI = Managers.UI.CreatePopupUI<UI_Repair>("RepairUI");
         }
         Managers.UI.ShowUI(repairUI.gameObject);
-        repairUI.SetPlayerInfo();
-        repairUI.SetInventory();
+        repairUI.UpdatePlayerInfo();
     }
 
     public void OnSaveButton(PointerEventData data)

@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleUIManager
 {
     public ActUI actUI;
     public BatchUI batchUI;
+    public UI_ActTurn turnUI;
+
     public GameObject actPanel;
     public GameObject magicPanel;
     public GameObject itemPanel;

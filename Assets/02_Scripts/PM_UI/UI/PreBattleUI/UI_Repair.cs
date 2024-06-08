@@ -1,91 +1,69 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_Repair : UI_Popup
 {
-    public TestPlayerInfo[] tempPlayer = new TestPlayerInfo[4];       // test
     enum repairUI
     {
-        CharList,
-        Head,
-        Body,
-        Weapon,
-        EquipItem,
+        Level,
+        CharacterIcon,
+        ElementIcon,
+        CharacterName,
         HPBar,
         MPBar,
-        ConsumeContent,
-        EquipContent,
+        CharacterLayout,
         CloseButton
     }
 
     public Equip_Item focusEquip;
-    public TestPlayerInfo focusStat;
-    GameObject charList;
+    public PlayerStat focusStat;
+
+    GameObject[] playerList = new GameObject[4];
     public override void Init()
     {
         base.Init();
 
         Bind<GameObject>(typeof(repairUI));
 
-        charList = Get<GameObject>((int)repairUI.CharList);
-        GameObject close = Get<GameObject>((int)repairUI.CloseButton);
+        GameObject charLayout = GetObject((int)repairUI.CharacterLayout);
+        for(int i = 0; i < charLayout.transform.childCount; i++)
+        {
+            UI_CharInfo charInfo = charLayout.transform.GetChild(i).GetComponent<UI_CharInfo>();
+            charInfo.character = playerList[i];
+        }
+
+        GameObject close = GetObject((int)repairUI.CloseButton);
         BindEvent(close, OnCloseButton, Define.UIEvent.Click);
     }
 
-    public void SetPlayerInfo()
+    public void UpdatePlayerInfo()
     {
-        GameObject child;
-        for(int i = 0; i < tempPlayer.Length; i++)
-        {
-            child = charList.transform.GetChild(i).gameObject;
-            UI_CharInfo childInfo = child.GetComponent<UI_CharInfo>();
-            Equip_Item equipInfo = tempPlayer[i].gameObject.GetComponent<Equip_Item>();
-            childInfo.SetCharInfo(tempPlayer[i], equipInfo);
-        }
-        UpdatePlayerInfo(tempPlayer[0], tempPlayer[0].gameObject.GetComponent<Equip_Item>());
-    }
+        PlayerStat statInfo = Managers.InvenUI.player.GetComponent<PlayerStat>();
+        Equip_Item equipInfo = Managers.InvenUI.player.GetComponent<Equip_Item>();
 
-    public void SetInventory()
-    {
-        GameObject consumeContent = GetObject((int)repairUI.ConsumeContent);
-        GameObject equipContent = GetObject((int)repairUI.EquipContent);
-        int i = 0;
-        foreach (KeyValuePair<GameObject, int> consume in Managers.Item.consumeInven)
-        {
-            ConsumeRepairUI consumeItem = Managers.UI.MakeSubItem<ConsumeRepairUI>(consumeContent.transform, "ConsumeRepairUI");
-            Image icon = consume.Key.GetComponent<Image>();
-            consumeItem.SetInfo(icon, consume.Value);
-        }
-        int equipSize = Managers.Item.equipmentInven.Count;
-        for (i = 0; i < equipSize; i++)
-        {
-            EquipRepairUI equipItem = Managers.UI.MakeSubItem<EquipRepairUI>(equipContent.transform, "EquipRepairUI");
-            Image icon = Managers.Item.equipmentInven[i].GetComponent<Image>();
-            equipItem.SetInfo(icon);
-        }
-    }
-
-    public void UpdatePlayerInfo(TestPlayerInfo statInfo, Equip_Item equipInfo)
-    {
         focusStat = statInfo;
         focusEquip = equipInfo;
 
-        GetObject((int)repairUI.Head).GetComponent<Image>().sprite = equipInfo.Head.GetComponent<Image>().sprite;
-        GetObject((int)repairUI.Body).GetComponent<Image>().sprite = equipInfo.Body.GetComponent<Image>().sprite;
-        GetObject((int)repairUI.Weapon).GetComponent<Image>().sprite = equipInfo.Weapon.GetComponent<Image>().sprite;
+        GameObject level = GetObject((int)repairUI.Level);
+        Text levelText = level.GetComponent<Text>();
+        levelText.text = statInfo.Level.ToString();
+        GameObject icon = GetObject((int)repairUI.CharacterIcon);
+        //Image charIcon = icon.GetComponent<Image>();
+        //charIcon.sprite = statInfo.iconImage;
+        //GameObject element = GetObject((int)repairUI.ElementIcon);
+        //Image elementIcon = element.GetComponent<Image>();
+        //elementIcon.sprite = statInfo.element;
+        //GameObject name = GetObject((int)repairUI.CharacterName);
+        //Text charName = name.GetComponent<Text>();
+        //charName.text = statInfo.charname;
 
         BarUI hpBar = GetObject((int)repairUI.HPBar).GetComponent<BarUI>();
         BarUI mpBar = GetObject((int)repairUI.MPBar).GetComponent<BarUI>();
-        hpBar.SetPlayerStat(statInfo.hp, statInfo.maxHp);
-        mpBar.SetPlayerStat(statInfo.mp, statInfo.maxMp);
+        hpBar.SetPlayerStat(statInfo.Hp, statInfo.MaxHp);
+        mpBar.SetPlayerStat(statInfo.Mp, statInfo.MaxMp);
 
-        for (int i = 0; i < equipInfo.Consumes.Count; i++)
-        {
-            // TODO : ÀåÂø ¼ÒºñÅÛ UI
-        }
+        Managers.InvenUI.SetPlayerEquipUI(equipInfo);
     }
 
     public void OnCloseButton(PointerEventData data)
