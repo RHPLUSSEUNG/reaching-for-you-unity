@@ -60,7 +60,7 @@ public class QuestStatus
 
     public void CompleteObjective(string objective)
     {
-        if(quest.HasObjective(objective))
+        if(quest.HasObjective(objective) && !completedObjectives.Contains(objective))
         {
             completedObjectives.Add(objective);
         }        
