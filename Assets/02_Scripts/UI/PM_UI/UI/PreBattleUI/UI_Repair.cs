@@ -33,6 +33,8 @@ public class UI_Repair : UI_Popup
             charInfo.character = playerList[i];
         }
 
+
+        Managers.InvenUI.player = playerList[0];
         GameObject close = GetObject((int)repairUI.CloseButton);
         BindEvent(close, OnCloseButton, Define.UIEvent.Click);
     }
