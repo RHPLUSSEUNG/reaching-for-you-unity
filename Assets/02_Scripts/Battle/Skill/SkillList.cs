@@ -12,19 +12,33 @@ public class SkillList : MonoBehaviour
 
     public void AddSkill(int id)
     {
-        idList.Add(id);
+        if (list.Count < count)
+        {
+            idList.Add(id);
+        }
+        else
+        {
+            Debug.Log("Max Skill Count");
+        }
     }
 
     public void RemoveSkill(int id)
     {
-        idList.Remove(id);
+        if(list.Count > 0)
+        {
+            idList.Remove(id);
+        }
+        else
+        {
+            Debug.Log("There is no equip skill");
+        }
     }
 
     public void AddSkill(bool monster)
     {
         foreach (int id in idList)
         {
-            list.Add(Managers.Skill.InstantiateSkill(id, monster));
+            AddSkill(Managers.Skill.InstantiateSkill(id, monster));
         }
     }
 
@@ -43,5 +57,4 @@ public class SkillList : MonoBehaviour
         }
     }
     #endregion
-
 }

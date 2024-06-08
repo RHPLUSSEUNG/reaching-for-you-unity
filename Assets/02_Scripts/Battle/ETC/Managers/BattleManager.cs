@@ -96,6 +96,7 @@ public class BattleManager
         Debug.Log("EnemyTurn Start");
         battleState = BattleState.EnemyTurn;
         character.GetComponent<EnemyAI_Base>().ProceedTurn();
+        Debug.Log("EnemyTurn End");
     }
 
     public void NextTurn()
