@@ -58,7 +58,7 @@ public class RaycastManager
                             {
                                 break;
                             }
-                            if(Managers.BattleUI.GetSkill().target_object == TargetObject.Me)
+                            else if(Managers.BattleUI.GetSkill().target_object == TargetObject.Me)
                             {
                                 if (Managers.BattleUI.GetSkill().SetTarget(character))
                                 {
@@ -66,7 +66,7 @@ public class RaycastManager
                                 }
                             }
 
-                            if(detect_ready == false)
+                            else if(detect_ready == false)
                             {
                                 detector.SetDetector(character, Managers.BattleUI.GetSkill().range + 1, Managers.BattleUI.GetSkill().target_object);
                                 detect_ready = true;
@@ -77,6 +77,7 @@ public class RaycastManager
                                 if (Managers.BattleUI.GetSkill().SetTarget(hit.collider.gameObject))
                                 {
                                     detect_ready = false;
+                                    Managers.Skill.UseElementSkill(Managers.BattleUI.GetSkill().element);
                                     Managers.Battle.NextTurn();
                                 }
                             }

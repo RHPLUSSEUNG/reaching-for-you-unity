@@ -49,6 +49,10 @@ public class BattleManager
         Managers.Party.InstantiatePlayer("Player_Girl_Battle");
         Managers.Party.InstantiateMonster("Enemy_Crab");
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(0);
+        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(7);
+        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(3);
+        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(8);
+        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(9);
         battleState = BattleState.Start;
         turnCnt = -1;
     }

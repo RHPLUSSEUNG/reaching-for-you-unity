@@ -84,4 +84,18 @@ public class SkillManager
         is_effect = false;
         yield break;
     }
+
+    public void UseElementSkill(ElementType type)
+    {
+        CharacterState state = Managers.Battle.currentCharacter.GetComponent<CharacterState>();
+        switch (type)
+        {
+            case ElementType.Electric:
+                if (state.capacity == 1 || state.capacity == 3)
+                {
+                    state.capacityStack++;
+                }
+                break;
+        }
+    }
 }

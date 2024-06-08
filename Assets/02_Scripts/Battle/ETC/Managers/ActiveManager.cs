@@ -118,5 +118,4 @@ public class ActiveManager
         EntityStat stat = target.GetComponent<EntityStat>();
         stat.MovePoint += attribute;
     }
-
 }
