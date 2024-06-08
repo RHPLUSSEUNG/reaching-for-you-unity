@@ -21,7 +21,15 @@ public class SkillManager
         usingEffect = GameObject.Find("Effect");
     }
 
-    public GameObject Instantiate(int id, bool monster = false)
+    public void ReadyGameSkill()
+    {
+        foreach (GameObject character in Managers.Battle.ObjectList)
+        {
+            character.GetComponent<SkillList>().AddSkill(character.CompareTag("Monster"));
+        }
+    }
+
+    public GameObject InstantiateSkill(int id, bool monster = false)
     {
         GameObject go;
         if (monster)
@@ -30,24 +38,25 @@ public class SkillManager
         }
         else
         {
+            Debug.Log("player skill instantiate");
             go = Managers.Prefab.Instantiate($"Skill/Player/{Managers.Data.GetPlayerSkillData(id).SkillName}", usingSkill.transform);
         }
         
         if(go.GetComponent<MonsterSkill>() != null)
         {
-            GameObject effect = Instantiate(Managers.Data.GetMonsterSkillData(id).SkillName, true);
+            GameObject effect = InstantiateEffect(Managers.Data.GetMonsterSkillData(id).SkillName, true);
             go.GetComponent<MonsterSkill>().Effect = effect;
         }
 
         else if (go.GetComponent<Active>() != null)
         {
-            GameObject effect = Instantiate(Managers.Data.GetPlayerSkillData(id).SkillName, false);
+            GameObject effect = InstantiateEffect(Managers.Data.GetPlayerSkillData(id).SkillName, false);
             go.GetComponent<Active>().Effect = effect;
         }
         return go;
     }
 
-    public GameObject Instantiate(string name, bool monster)
+    public GameObject InstantiateEffect(string name, bool monster)
     {
         GameObject Effect;
         if (monster)
@@ -75,5 +84,4 @@ public class SkillManager
         is_effect = false;
         yield break;
     }
-
 }

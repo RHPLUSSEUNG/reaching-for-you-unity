@@ -48,8 +48,7 @@ public class BattleManager
         ObjectList.Clear();
         Managers.Party.InstantiatePlayer("Player_Girl_Battle");
         Managers.Party.InstantiateMonster("Enemy_Crab");
-        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(Managers.Skill.Instantiate(0));
-        ObjectList.Sort(compareDefense);
+        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(0);
         battleState = BattleState.Start;
         turnCnt = -1;
     }
@@ -59,8 +58,9 @@ public class BattleManager
         playerLive = (short)Managers.Party.playerParty.Count;
         monsterLive = (short)Managers.Party.monsterParty.Count;
         battleState = BattleState.PlayerTurn;
+        Managers.Skill.ReadyGameSkill();
+        ObjectList.Sort(compareDefense);
         NextTurn();
-        //TODO Object Turn order sorting
     }
 
     public void CalcTurn()

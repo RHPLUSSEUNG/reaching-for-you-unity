@@ -9,7 +9,7 @@ public class EnemyAI_Crab : EnemyAI_Base
         spriteController = GetComponent<SpriteController>();
         isTurnEnd = true;
         skillList = GetComponent<SkillList>();
-        skillList.AddSkill(Managers.Skill.Instantiate(0, true));
+        skillList.AddSkill(Managers.Skill.InstantiateSkill(0, true));
         isHide = false;
         hideLapse = 0;
     }

@@ -10,7 +10,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
 
     private void Start()
     {
-        skillList.AddSkill(Managers.Skill.Instantiate(1, true));
+        skillList.AddSkill(Managers.Skill.InstantiateSkill(1, true));
     }
     public override void ProceedTurn()
     {

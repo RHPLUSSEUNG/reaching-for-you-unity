@@ -51,7 +51,7 @@ public class Managers : MonoBehaviour
 
         _data.OnAwake();
         _skill.Awake();
-        raycast.TestInit();
+        raycast.Init();
         _battle.BattleReady();
     }
     #endregion
