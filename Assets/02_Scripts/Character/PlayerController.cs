@@ -124,13 +124,18 @@ public class PlayerController : MonoBehaviour
                 cameraController.ChangeCameraTarget(carmeraIndex, true);
                 break;
             case "Teleport":
-                StartFadeEffect();
-                spwanPointIndex = other.GetComponent<CameraZone>().spwanIndex; ;
-                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
-                carmeraIndex = other.GetComponent<CameraZone>().cameraIndex;
-                cameraController.ChangeCameraTarget(carmeraIndex, false);
+                Teleport(other);
                 break;
         }   
+    }
+
+    public void Teleport(Collider col)
+    {
+        StartFadeEffect();
+        spwanPointIndex = col.GetComponent<CameraZone>().spwanIndex; ;
+        gameObject.transform.position = spwanPoint[spwanPointIndex].position;
+        carmeraIndex = col.GetComponent<CameraZone>().cameraIndex;
+        cameraController.ChangeCameraTarget(carmeraIndex, false);
     }
 
     void Move()
