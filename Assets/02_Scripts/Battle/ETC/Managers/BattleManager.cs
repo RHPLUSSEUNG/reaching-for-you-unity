@@ -125,7 +125,7 @@ public class BattleManager
             Debug.Log("Defeat");
         }
 
-        SceneManager.LoadScene("AM_PT_3");
+        SceneChanger.Instance.ChangeScene(SceneType.AM);
     }
     public IEnumerator NextTurnCoroutine()
     {
