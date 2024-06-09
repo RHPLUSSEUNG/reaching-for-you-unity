@@ -63,7 +63,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
         if (!isTurnEnd)
         {
             isTurnEnd = true;
-            Invoke("NextTurn", 1.0f);
+            Invoke("NextTurn", 1.5f);
         }
     }
     public void NextTurn()

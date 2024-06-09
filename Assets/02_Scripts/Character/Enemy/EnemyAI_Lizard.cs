@@ -17,8 +17,6 @@ public class EnemyAI_Lizard : EnemyAI_Base
         skillList = GetComponent<SkillList>();
         skillList.AddSkill(Managers.Skill.InstantiateSkill(1, true));
         isTurnEnd = true;
-
-        tailPos = this.transform.GetChild(0).transform.GetChild(2);
     }
     public override void ProceedTurn()
     {
@@ -40,6 +38,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
             if (isSIzeMode) //돌 장전 중
             {
                 isSIzeMode = false;
+                tailPos = this.transform.GetChild(0).transform.GetChild(2);
                 projectile.GetComponent<ArcProjectile>().Shoot(tailPos, targetObj.transform);
                 Attack(50);
             }
