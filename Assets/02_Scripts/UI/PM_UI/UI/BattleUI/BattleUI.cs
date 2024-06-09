@@ -11,6 +11,8 @@ public class BattleUI : UI_Scene
         base.Init();
 
         Bind<GameObject>(typeof(battleUI));
+
+        Managers.UI.HideUI(GetObject((int)battleUI.ActTurn));
     }
 
 }

@@ -6,6 +6,7 @@ public class BattleUIManager
     public BatchUI batchUI;
     public UI_ActTurn turnUI;
     public WarningUI warningUI;
+    public BattleInfoUI battleInfoUI;
 
     public GameObject actPanel;
     public GameObject magicPanel;
@@ -17,6 +18,7 @@ public class BattleUIManager
     public GameObject player;
     public GameObject skill;
     public Item item;
+    public CameraMode cameraMode;
 
     public Active GetSkill()
     {
@@ -34,6 +36,17 @@ public class BattleUIManager
             return null;
         }
         return item;
+    }
+
+    public void ShowCharacterInfo(GameObject character)
+    {
+        if(battleInfoUI == null)
+        {
+            Managers.UI.CreatePopupUI<BattleInfoUI>("BattleInfoUI");
+        }
+        battleInfoUI.SetInfo(character);
+        Managers.UI.ShowUI(battleInfoUI.gameObject);
+        // UI ²ô´Â°Å ÇÊ¿ä
     }
 
     public void SetPosition(GameObject pos)

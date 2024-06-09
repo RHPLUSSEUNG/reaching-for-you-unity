@@ -23,6 +23,16 @@ public class UI_ActTurn : UI_Scene
             Image turnImage = transform.GetChild((Managers.Battle.ObjectList.Count-1)-i).gameObject.GetComponent<Image>();
             Sprite charImage = Managers.Battle.ObjectList[i].GetComponent<Sprite>();            // 캐릭터 스프라이트를 가져온다
 
+            // Temp
+            if (Managers.Battle.ObjectList[i].CompareTag("Player"))
+            {
+                transform.GetChild((Managers.Battle.ObjectList.Count - 1) - i).gameObject.GetComponent<Text>().text = "Player";
+            }
+            else if (Managers.Battle.ObjectList[i].CompareTag("Monster"))
+            {
+                transform.GetChild((Managers.Battle.ObjectList.Count - 1) - i).gameObject.GetComponent<Text>().text = "Monster";
+            }
+
             turnImage.sprite = charImage;
         }
     }

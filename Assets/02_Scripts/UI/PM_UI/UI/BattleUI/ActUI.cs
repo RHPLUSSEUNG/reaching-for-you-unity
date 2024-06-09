@@ -101,6 +101,7 @@ public class ActUI : UI_Popup
         Managers.UI.HideUI(Managers.BattleUI.cancleBtn);
 
         cameraController.ChangeCameraMode(CameraMode.Follow, true);
+        Managers.BattleUI.cameraMode = CameraMode.Follow;
     }
 
     public void UseMagicButtonClick(PointerEventData data)
@@ -119,6 +120,7 @@ public class ActUI : UI_Popup
     {
         Managers.UI.HideUI(gameObject);
         cameraController.ChangeCameraMode(CameraMode.Static, true);
+        Managers.BattleUI.cameraMode = CameraMode.Static;
         Managers.Battle.NextTurn();
     }
 
@@ -126,6 +128,7 @@ public class ActUI : UI_Popup
     {
         Managers.UI.HideUI(gameObject);
         cameraController.ChangeCameraMode(CameraMode.Static, true);
+        Managers.BattleUI.cameraMode = CameraMode.Static;
         Managers.Battle.NextTurn();
     }
 
@@ -138,6 +141,7 @@ public class ActUI : UI_Popup
             Managers.UI.HideUI(descriptPanel);
             Managers.UI.HideUI(actPanel);
             cameraController.ChangeCameraMode(CameraMode.Static, true);
+            Managers.BattleUI.cameraMode = CameraMode.Static;
 
             // Text 변경(임시)
             moveText.text = "이동 종료";
@@ -148,6 +152,7 @@ public class ActUI : UI_Popup
             Managers.UI.uiState = UIState.Idle;
             Managers.UI.ShowUI(actPanel);
             cameraController.ChangeCameraMode(CameraMode.Follow, true);
+            Managers.BattleUI.cameraMode = CameraMode.Follow;
 
             // Text 변경(임시)
             moveText.text = "이동";
@@ -164,5 +169,6 @@ public class ActUI : UI_Popup
         Managers.UI.HideUI(Managers.BattleUI.cancleBtn);
 
         cameraController.ChangeCameraMode(CameraMode.Follow, true);
+        Managers.BattleUI.cameraMode = CameraMode.Follow;
     }
 }

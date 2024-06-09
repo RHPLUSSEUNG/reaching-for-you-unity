@@ -26,7 +26,14 @@ public class WorldHPUI : UI_Base
     // TODO : ratio설정 Update문 사용 안하기 도전
     private void Update()
     {
-        // transform.position = character.position + Vector3.up * (character.GetComponentInChildren<Collider>().bounds.size.y);
+        if (Managers.BattleUI.cameraMode == CameraMode.Follow)
+        {
+            transform.position = character.position + Vector3.up * (character.GetComponentInChildren<Collider>().bounds.size.y / 2);
+        }
+        else if (Managers.BattleUI.cameraMode == CameraMode.Static)
+        {
+            transform.position = character.position + Vector3.up * (character.GetComponentInChildren<Collider>().bounds.size.y);
+        }
         transform.rotation = Camera.main.transform.rotation;
 
         float ratio = stat.Hp / (float)stat.MaxHp;
