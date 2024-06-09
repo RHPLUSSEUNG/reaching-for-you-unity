@@ -60,7 +60,6 @@ public class PartyManager
         GameObject go = Managers.Prefab.Instantiate($"Character/{character}");
         if (AddParty(go))
         {
-            Managers.Battle.ObjectList.Add(go);
             return go;
         }
         return null;

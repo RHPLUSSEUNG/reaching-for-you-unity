@@ -63,8 +63,11 @@ public class BattleManager
 
     public void BattleStart()
     {
-        playerLive = (short)Managers.Party.playerParty.Count;
         monsterLive = (short)Managers.Party.monsterParty.Count;
+        if ((playerLive == 0))
+        {
+            Result();
+        }
         battleState = BattleState.PlayerTurn;
         Managers.Skill.ReadyGameSkill();
         ObjectList.Sort(compareDefense);

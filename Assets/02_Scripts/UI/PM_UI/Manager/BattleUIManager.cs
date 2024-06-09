@@ -52,8 +52,9 @@ public class BattleUIManager
     public void SetPosition(GameObject pos)
     {
         player.transform.position = pos.transform.position + Vector3.up;
+        Managers.Battle.ObjectList.Add(player);
+        Managers.Battle.playerLive++;
         Managers.UI.uiState = UIState.Idle;
-
         Managers.UI.ShowUI(batchUI.playerSpawn);
         Managers.UI.ShowUI(batchUI.monsterSpawn);
         Managers.UI.ShowUI(batchUI.finishBtn);
