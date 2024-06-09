@@ -36,12 +36,6 @@ public class InvenUI : UI_Base
         Managers.InvenUI.weapon = GetObject((int)invenUI.WeaponEquip).GetComponent<Image>();
         Managers.InvenUI.invenContent = GetObject((int)invenUI.InvenContent);
 
-        Transform content = GetObject((int)invenUI.InvenContent).transform;
-        for (int i = 0; i < content.childCount; i++)
-        {
-            Managers.Prefab.Destroy(content.GetChild(i).gameObject);
-        }
-
         BindEvent(GetObject((int)invenUI.HeadEquip), HeadEquipButtonClick, Define.UIEvent.Click);
         BindEvent(GetObject((int)invenUI.BodyEquip), BodyEquipButtonClick, Define.UIEvent.Click);
         BindEvent(GetObject((int)invenUI.WeaponEquip), WeaponEquipButtonClick, Define.UIEvent.Click);
