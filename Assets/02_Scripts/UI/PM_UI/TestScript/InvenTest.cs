@@ -13,7 +13,6 @@ public class InvenTest : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.I))
         {
-            InvenUI invenUI = Managers.UI.CreatePopupUI<InvenUI>("InvenUI");
             Managers.InvenUI.player = gameObject;
             Equip_Item equipInfo = Managers.InvenUI.player.GetComponent<Equip_Item>();
             Managers.InvenUI.SetPlayerEquipUI(equipInfo);

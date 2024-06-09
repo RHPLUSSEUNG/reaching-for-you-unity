@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InvenUI : UI_Popup
+public class InvenUI : UI_Base
 {
     enum invenUI
     {
@@ -13,14 +13,12 @@ public class InvenUI : UI_Popup
         WeaponTab,
         ArmorTab,
         ConsumeTab,
-        CloseButton
     }
 
     [SerializeField] Sprite activeTab;
     [SerializeField] Sprite disabledTab;
     public override void Init()
     {
-        base.Init();
         Bind<GameObject>(typeof(invenUI));
 
         Managers.InvenUI.head = GetObject((int)invenUI.HeadEquip).GetComponent<Image>();
@@ -40,7 +38,6 @@ public class InvenUI : UI_Popup
         BindEvent(GetObject((int)invenUI.WeaponTab), WeaponTabClick, Define.UIEvent.Click);
         BindEvent(GetObject((int)invenUI.ArmorTab), ArmorTabClick, Define.UIEvent.Click);
         BindEvent(GetObject((int)invenUI.ConsumeTab), ConsumeTabClick, Define.UIEvent.Click);
-        BindEvent(GetObject((int)invenUI.CloseButton), CloseButtonClick, Define.UIEvent.Click);
 
         // Managers.InvenUI.SetInventory(); Inven Setting
     }
@@ -147,10 +144,5 @@ public class InvenUI : UI_Popup
                 Managers.UI.HideUI(invenItem);
             }
         }
-    }
-
-    public void CloseButtonClick(PointerEventData data)
-    {
-        Managers.UI.HideUI(gameObject);
     }
 }
