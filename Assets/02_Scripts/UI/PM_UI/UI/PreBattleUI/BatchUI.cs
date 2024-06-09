@@ -7,6 +7,8 @@ public class BatchUI : UI_Popup
     {
         PlayerSpawn,
         MonsterSpawn,
+        CrabSpawn,
+        LizardSpawn,
         CancleButton,
         FinishButton
     }
@@ -17,6 +19,11 @@ public class BatchUI : UI_Popup
     public GameObject monsterSpawn;
     public GameObject cancleBtn;
     public GameObject finishBtn;
+
+    //Test
+    public GameObject crabSpawn;
+    public GameObject lizardSpawn;
+
     public override void Init()
     {
         base.Init();
@@ -26,15 +33,24 @@ public class BatchUI : UI_Popup
         monsterSpawn = GetObject((int)batchUI.MonsterSpawn);
         cancleBtn = GetObject((int)batchUI.CancleButton);
         finishBtn = GetObject((int)batchUI.FinishButton);
+        crabSpawn = GetObject((int)batchUI.CrabSpawn);
+        lizardSpawn = GetObject((int)batchUI.LizardSpawn);
+
         BindEvent(playerSpawn, PlayerSpawn, Define.UIEvent.Click);
         BindEvent(monsterSpawn, MonsterSpawn, Define.UIEvent.Click);
         BindEvent(cancleBtn, CancleButtonClick, Define.UIEvent.Click);
         BindEvent(finishBtn, FinishButtonClick, Define.UIEvent.Click);
 
+        BindEvent(crabSpawn, CrabSpawn, Define.UIEvent.Click);
+        BindEvent(lizardSpawn, LizardSpawn, Define.UIEvent.Click);
+
         Managers.UI.ShowUI(playerSpawn);
         Managers.UI.ShowUI(monsterSpawn);
         Managers.UI.ShowUI(finishBtn);
         Managers.UI.HideUI(cancleBtn);
+
+        Managers.UI.HideUI(crabSpawn);
+        Managers.UI.HideUI(lizardSpawn);
     }
 
     public void PlayerSpawn(PointerEventData data)
@@ -62,13 +78,8 @@ public class BatchUI : UI_Popup
         Managers.UI.HideUI(monsterSpawn);
         Managers.UI.HideUI(finishBtn);
 
-        // 임시 몬스터 생성
-        Managers.BattleUI.player = Managers.Party.monsterParty[0];
-        if (Managers.BattleUI.player == null)
-        {
-            Debug.Log("Player Null");
-        }
-        Managers.UI.uiState = UIState.PlayerSet;
+        Managers.UI.ShowUI(crabSpawn);
+        Managers.UI.ShowUI(lizardSpawn);
     }
 
     public void CancleButtonClick(PointerEventData data)
@@ -88,5 +99,31 @@ public class BatchUI : UI_Popup
         Managers.UI.uiState = UIState.Idle;
         Managers.UI.HideUI(gameObject);
         Managers.UI.ShowUI(preBattleUI);
+    }
+
+    public void CrabSpawn(PointerEventData data)
+    {
+        Managers.UI.HideUI(crabSpawn);
+        Managers.UI.HideUI(lizardSpawn);
+        // 임시 몬스터 생성
+        Managers.BattleUI.player = Managers.Party.monsterParty[0];
+        if (Managers.BattleUI.player == null)
+        {
+            Debug.Log("Monster Null");
+        }
+        Managers.UI.uiState = UIState.PlayerSet;
+    }
+
+    public void LizardSpawn(PointerEventData data)
+    {
+        Managers.UI.HideUI(crabSpawn);
+        Managers.UI.HideUI(lizardSpawn);
+        // 임시 몬스터 생성
+        Managers.BattleUI.player = Managers.Party.monsterParty[1];
+        if (Managers.BattleUI.player == null)
+        {
+            Debug.Log("Monster Null");
+        }
+        Managers.UI.uiState = UIState.PlayerSet;
     }
 }

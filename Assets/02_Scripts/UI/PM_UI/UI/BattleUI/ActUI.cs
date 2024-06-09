@@ -147,6 +147,7 @@ public class ActUI : UI_Popup
         {
             Managers.UI.uiState = UIState.Idle;
             Managers.UI.ShowUI(actPanel);
+            cameraController.ChangeCameraMode(CameraMode.Follow, true);
 
             // Text 변경(임시)
             moveText.text = "이동";
