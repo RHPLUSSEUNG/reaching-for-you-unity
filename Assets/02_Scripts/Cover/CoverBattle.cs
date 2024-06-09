@@ -101,13 +101,13 @@ public class CoverBattle : MonoBehaviour
             {
                 if (map[x, z].ObjectLocation == position)
                 {
-                    // foreach (CoverData coverData in createObject.coverDataArray)
-                    // {
-                    //     if (coverData.map.ObjectLocation == position)
-                    //     {
-                    //         return coverData;
-                    //     }
-                    // }
+                    foreach (CoverData coverData in createObject.coverDataArray)
+                    {
+                        if (coverData.map.ObjectLocation == position)
+                        {
+                            return coverData;
+                        }
+                    }
                 }
             }
         }

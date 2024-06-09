@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cover : MonoBehaviour
+[CreateAssetMenu(fileName = "CoverData", menuName = "Reaching-for-you/CoverData")]
+public class CoverData : ScriptableObject
 {
+    [SerializeField]
+    private int hp;
+
     private int step;
 
-    public GameObject[] coverGameObject; // 단계별 cover
-    GameObject go;
-
+    public GameObject coverGameObject;
+    public Map map;
     public bool isHiding = false; // 플레이어가 엄폐하고 있는지 확인하는 변수, 기본값은 false
 
     private float damagePercent;
@@ -19,26 +22,23 @@ public class Cover : MonoBehaviour
 
     public Vector3 playerPosition; // 플레이어의 위치를 저장하는 변수
 
-    public void Init(int hp) {
+    public void Init() {
         if(hp > 100) return;
 
-        if(hp >= 70) 
+        if(hp <= 70) 
         {
-            go = Instantiate(coverGameObject[0], gameObject.transform);
             step = 3;
             damagePercent = 1f;
         }
         
-        else if(hp >= 40) 
+        else if(hp <= 40) 
         {
-            go = Instantiate(coverGameObject[1], gameObject.transform);
             step = 2;
             damagePercent = 0.8f;
         }
 
-        else if(hp >= 10) 
+        else if(hp <= 10) 
         {
-            go = Instantiate(coverGameObject[2], gameObject.transform);
             step = 1;
             damagePercent = 0.5f;
         }
@@ -46,27 +46,6 @@ public class Cover : MonoBehaviour
         else damagePercent = 0;
     }
 
-    private void Update() {
-        if (Managers.Battle.currentCharacter != null && Managers.Battle.currentCharacter != character)
-        {
-            character = Managers.raycast.character;
-            characterstat = Managers.raycast.characterstat;
-            characterstate = Managers.raycast.characterstate;
-
-            Debug.Log(isHiding);
-        }
-
-        if (Managers.Battle.battleState == BattleState.PlayerTurn)
-        {
-            UpdatePlayerPosition(character.transform.position);
-            Debug.Log(isHiding);
-        }
-    }
-
-    public GameObject GetGameObject()
-    {
-        return go;
-    }
 
     public void CalculateStep() 
     {
@@ -127,7 +106,7 @@ public class Cover : MonoBehaviour
         playerPosition = newPosition;
 
         // 엄폐물의 사방면을 확인하여 플레이어가 있는지 확인
-        Vector3 coverPosition = go.transform.position;
+        Vector3 coverPosition = coverGameObject.transform.position;
         if (IsPlayerNearCover(coverPosition, newPosition))
         {
             SetHiding(true);
