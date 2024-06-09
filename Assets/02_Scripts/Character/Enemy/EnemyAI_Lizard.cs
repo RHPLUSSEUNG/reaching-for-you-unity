@@ -10,7 +10,11 @@ public class EnemyAI_Lizard : EnemyAI_Base
 
     private void Start()
     {
+        stat = GetComponent<EnemyStat>();
+        spriteController = GetComponent<SpriteController>();
+        skillList = GetComponent<SkillList>();
         skillList.AddSkill(Managers.Skill.InstantiateSkill(1, true));
+        isTurnEnd = true;
     }
     public override void ProceedTurn()
     {

@@ -105,7 +105,7 @@ public class PlayerBattle : MonoBehaviour
         isMoving = false;
         isMoved = true;
         spriteController.SetAnimState(AnimState.Idle);
-        cameraController.ChangeCameraMode(CameraMode.Follow, true);
+        //cameraController.ChangeCameraMode(CameraMode.Follow, true);
     }
 
     IEnumerator FollowPath()
