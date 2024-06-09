@@ -10,6 +10,7 @@ public class ArcProjectile : MonoBehaviour
     [SerializeField]
     float duration = 1;
     [SerializeField]
+
     float rotateSpeed = 300;
     [SerializeField]
     float height = 2;

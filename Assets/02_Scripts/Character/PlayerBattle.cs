@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerBattle : MonoBehaviour
@@ -73,8 +74,12 @@ public class PlayerBattle : MonoBehaviour
 
     public void OnHit(int damage)
     {
-        spriteController.SetAnimState(AnimState.Hit);
         stat.Hp -= damage;
+        Invoke("HitEvent", 1f);
+    }
+    public void HitEvent()
+    {
+        spriteController.SetAnimState(AnimState.Hit);
         Invoke("OnHitEnd", 0.1f);
     }
     public void OnHitEnd()
@@ -107,7 +112,6 @@ public class PlayerBattle : MonoBehaviour
         spriteController.SetAnimState(AnimState.Idle);
         //cameraController.ChangeCameraMode(CameraMode.Follow, true);
     }
-
     IEnumerator FollowPath()
     {
         targetIndex = 0;

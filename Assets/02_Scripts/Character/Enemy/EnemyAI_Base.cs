@@ -127,7 +127,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
             stat.ActPoint -= actPoint;
             spriteController.SetAnimState(AnimState.Attack);
             // 텀 추가?
-            Managers.Active.Damage(targetObj.transform.parent.gameObject, stat.BaseDamage);
+            Managers.Active.Damage(targetObj.transform.parent.gameObject, stat.BaseDamage); //targetObj 반환값 = 콜라이더를 가지고 있는 오브젝트 > 플레이어는 하위 오브젝트에 콜라이더 존재
             OnAttackSuccess();
         }
         else

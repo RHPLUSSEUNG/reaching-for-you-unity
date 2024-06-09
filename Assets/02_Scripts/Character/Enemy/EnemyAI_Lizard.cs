@@ -43,7 +43,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
                 Debug.Log("Skill Used!");
                 stat.ActPoint -= 60;
                 stat.Mp -= 60;
-                skillList.list[0].GetComponent<Active>().SetTarget(targetObj);
+                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetObj.transform.parent.gameObject);
                 TurnEnd();
             }
             else  // 돌 장전중 X, 대상이 2칸 밖
@@ -51,6 +51,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
                 isAttacked = true;
                 stat.ActPoint -= 50;
                 isSIzeMode = true;
+                Debug.Log("turnend");
                 TurnEnd();
             }
         }
@@ -105,6 +106,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
     public override void OnAttackSuccess()
     {
         projectile.GetComponent<ArcProjectile>().Shoot(transform, targetObj.transform);
+        TurnEnd();
     }
     public override void OnAttackFail()
     {
