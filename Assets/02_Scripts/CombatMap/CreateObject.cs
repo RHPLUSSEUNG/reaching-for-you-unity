@@ -35,7 +35,7 @@ public class CreateObject : MonoBehaviour
     public GameObject[] cubePrefab; // 배치할 Cube 프리팹
     
     public GameObject wallPrefab; // 배치할 Wall 프리팹
-    public CoverData[] coverDataArray; // 엄폐물 데이터 배열
+    public GameObject cover; // 엄폐물 데이터 배열
 
     public float frequency = 0;
 
@@ -166,12 +166,13 @@ public class CreateObject : MonoBehaviour
             if (map[x, z].eObstacle == EObstacle.Obstacle && IsPositionFarFromWalls(x, z))
             {
                 // 랜덤한 인덱스 생성
-                int randomIndex = Random.Range(0, coverDataArray.Length);
-                CoverData selectedCoverData = coverDataArray[randomIndex];
+                int randomCoverHp = Random.Range(0, 101);
+                Cover coverObeject = cover.GetComponent<Cover>();
+                coverObeject.Init(randomCoverHp);
 
                 map[x, z].eObstacle = EObstacle.Obstacle;
-                map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
-                map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
+                map[x, z].ObjectPrefab = Instantiate(coverObeject.GetGameObject(), map[x, z].ObjectLocation, Quaternion.identity, this.transform);
+                map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverObeject.GetGameObject().transform.position.y, 0);
                 map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 0.82f, 0);
                 Vector3 newRotation = new Vector3(0f, 0, 0); // 원하는 각도로 변경
                 map[x, z].ObjectPrefab.transform.rotation = Quaternion.Euler(newRotation);
