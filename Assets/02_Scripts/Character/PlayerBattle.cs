@@ -40,6 +40,10 @@ public class PlayerBattle : MonoBehaviour
         cameraController.AddFollowList(this.gameObject);
     }
 
+    public void OnTurnStart()
+    {
+        stat.ActPoint = 100;
+    }
     public void StateUpdate()
     {
         if (stat.CanPassWall)
@@ -94,6 +98,11 @@ public class PlayerBattle : MonoBehaviour
         }
         if (succsess)
         {
+            if (newpath.Length > stat.ActPoint * 10) 
+            {
+                Debug.Log("행동력 부족!");
+                return;
+            }
             spriteController.SetAnimState(AnimState.Move);
             path = newpath;
             isMoving = true;

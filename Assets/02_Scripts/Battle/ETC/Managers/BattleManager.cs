@@ -89,6 +89,7 @@ public class BattleManager
         isPlayerTurn = true;
         Managers.BattleUI.actUI.UpdateCharacterInfo();
         Debug.Log("PlayerTurn Start");
+        currentCharacter.GetComponent<PlayerBattle>().OnTurnStart();
 
     }
     public void EnemyTurn(GameObject character)
