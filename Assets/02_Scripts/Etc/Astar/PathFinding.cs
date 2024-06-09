@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PathFinding : MonoBehaviour
@@ -97,13 +96,11 @@ public class PathFinding : MonoBehaviour
                 }
             }
         }
-
-        yield return null;
-
         if (success)
         {
             path = GetPath(startNode, targetNode);
         }
+         
         pathfinder.FinishProcessingPath(path, success);
         yield break;
     }
@@ -175,8 +172,8 @@ public class PathFinding : MonoBehaviour
             if (success)
                 break;
         }
-        yield return null;
         pathfinder.FinishProcessingSearch(targetPos, targetObj, distance, success);
+        yield break;
     }
     IEnumerator RandomLoc(Vector3 startPos, int radius)
     {
