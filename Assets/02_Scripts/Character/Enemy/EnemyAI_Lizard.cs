@@ -8,6 +8,8 @@ public class EnemyAI_Lizard : EnemyAI_Base
     [SerializeField]
     protected bool isSIzeMode = false;
 
+    Transform tailPos;
+
     private void Start()
     {
         stat = GetComponent<EnemyStat>();
@@ -15,6 +17,8 @@ public class EnemyAI_Lizard : EnemyAI_Base
         skillList = GetComponent<SkillList>();
         skillList.AddSkill(Managers.Skill.InstantiateSkill(1, true));
         isTurnEnd = true;
+
+        tailPos = this.transform.GetChild(0).transform.GetChild(2);
     }
     public override void ProceedTurn()
     {
@@ -36,6 +40,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
             if (isSIzeMode) //돌 장전 중
             {
                 isSIzeMode = false;
+                projectile.GetComponent<ArcProjectile>().Shoot(tailPos, targetObj.transform);
                 Attack(50);
             }
             else if (targetDistance <= 2) // 돌 장전중 X, 대상이 2칸 내
@@ -105,7 +110,6 @@ public class EnemyAI_Lizard : EnemyAI_Base
     }
     public override void OnAttackSuccess()
     {
-        projectile.GetComponent<ArcProjectile>().Shoot(transform, targetObj.transform);
         TurnEnd();
     }
     public override void OnAttackFail()
