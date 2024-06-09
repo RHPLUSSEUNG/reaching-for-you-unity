@@ -75,7 +75,7 @@ public class PlayerBattle : MonoBehaviour
     public void OnHit(int damage)
     {
         stat.Hp -= damage;
-        Invoke("HitEvent", 1f);
+        Invoke("HitEvent", 0.8f);
     }
     public void HitEvent()
     {
