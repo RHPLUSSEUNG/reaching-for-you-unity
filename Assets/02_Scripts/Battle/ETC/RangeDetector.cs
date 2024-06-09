@@ -27,7 +27,7 @@ public class RangeDetector : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            Debug.Log($"target list : {collider.gameObject}");
+            Debug.Log($"target list : {collider.gameObject.transform.parent}");
         }
     }
 
@@ -51,22 +51,23 @@ public class RangeDetector : MonoBehaviour
         SetRange(range, targetType);
     }
 
-    public bool Detect(GameObject go)
+    public GameObject Detect(GameObject go)
     {
         if (go == null && go == this.gameObject)
         {
             Debug.Log(go);
-            return false;
+            return null;
         }
         foreach(Collider collider in colliders)
         {
             if(collider.gameObject == go)
             {
                 Debug.Log("Detect In Range");
-                return true;
+                Debug.Log(go.transform.parent.gameObject);
+                return go.transform.parent.gameObject;
             }
         }
         Debug.Log("Fail to Detect");
-        return false;
+        return null;
     }
 }
