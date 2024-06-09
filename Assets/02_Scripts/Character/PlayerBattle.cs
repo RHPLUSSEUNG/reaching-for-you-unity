@@ -43,6 +43,7 @@ public class PlayerBattle : MonoBehaviour
     public void OnTurnStart()
     {
         stat.ActPoint = 100;
+        stat.MovePoint = stat.MaxMovePoint;
     }
     public void StateUpdate()
     {
@@ -98,9 +99,9 @@ public class PlayerBattle : MonoBehaviour
         }
         if (succsess)
         {
-            if (newpath.Length > stat.ActPoint * 10) 
+            if (newpath.Length * 10 > stat.ActPoint || newpath.Length * 10 > stat.MovePoint) 
             {
-                Debug.Log("행동력 부족!");
+                Debug.Log("행동력 or 이동력 부족!");
                 return;
             }
             spriteController.SetAnimState(AnimState.Move);
@@ -141,9 +142,10 @@ public class PlayerBattle : MonoBehaviour
 
             if (transform.position == currentWaypoint)
             {
-                if (targetIndex + 1 >= path.Length || targetIndex + 1 >= stat.MovePoint)
+                if (targetIndex + 1 >= path.Length)
                 {
                     stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
+                    stat.MovePoint -= 10 * (targetIndex + 1);
                     isMoved = true;
                     OnMoveEnd();
                     yield break;
