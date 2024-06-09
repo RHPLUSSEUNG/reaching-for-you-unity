@@ -81,6 +81,7 @@ public class RaycastManager
                                 if (Managers.BattleUI.GetSkill().SetTarget(hit.collider.gameObject.transform.parent.gameObject))
                                 {
                                     detect_ready = false;
+                                    Managers.UI.HideUI(Managers.BattleUI.cancleBtn.gameObject);
                                     Managers.Skill.UseElementSkill(Managers.BattleUI.GetSkill().element);
                                     Managers.Battle.NextTurn();
                                 }
