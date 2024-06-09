@@ -46,7 +46,6 @@ public class CoverData : ScriptableObject
         else damagePercent = 0;
     }
 
-
     public void CalculateStep() 
     {
         switch (step)

@@ -170,7 +170,6 @@ public class CreateObject : MonoBehaviour
                 CoverData selectedCoverData = coverDataArray[randomIndex];
 
                 map[x, z].eObstacle = EObstacle.Obstacle;
-
                 map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
                 map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
                 map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 0.82f, 0);
