@@ -54,15 +54,26 @@ public class UI_ActTurn : UI_Scene
     {
         Image curChar = transform.GetChild(transform.childCount - 1).gameObject.GetComponent<Image>();
         Sprite curSprite = curChar.sprite;
+
+        Text curText = transform.GetChild(transform.childCount - 1).gameObject.GetComponent<Text>();
+        string cur = curText.text;
         for (int i = transform.childCount - 2; i >= 0; i--)
         {
             Image turnImg = transform.GetChild(i + 1).gameObject.GetComponent<Image>();
             Image moveImg = transform.GetChild(i).gameObject.GetComponent<Image>();
 
             turnImg.sprite = moveImg.sprite;
+
+            Text turnText = transform.GetChild(i + 1).gameObject.GetComponent<Text>();
+            Text moveText = transform.GetChild(i).gameObject.GetComponent<Text>();
+
+            turnText.text = moveText.text;
         }
         Image lastImg = transform.GetChild(0).gameObject.GetComponent<Image>();
         lastImg.sprite = curSprite;
+
+        Text lastText = transform.GetChild(0).gameObject.GetComponent<Text>();
+        lastText.text = cur;
         // TODO : Color 변경. 모든 캐릭터가 한 번씩 행동했을 시 색 초기화
     }
 }

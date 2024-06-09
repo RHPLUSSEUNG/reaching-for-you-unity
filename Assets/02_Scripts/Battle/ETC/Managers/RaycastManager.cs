@@ -56,8 +56,6 @@ public class RaycastManager
                     switch (Managers.UI.uiState)
                     {
                         case UIState.Idle:
-                            character.GetComponent<PlayerBattle>().Move(go);
-
                             break;
                         case UIState.SkillSet:
                             if (Managers.BattleUI.GetSkill() == null)
