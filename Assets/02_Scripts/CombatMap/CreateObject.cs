@@ -171,7 +171,7 @@ public class CreateObject : MonoBehaviour
                 coverObeject.Init(randomCoverHp);
 
                 map[x, z].eObstacle = EObstacle.Obstacle;
-                map[x, z].ObjectPrefab = Instantiate(coverObeject.GetGameObject(), map[x, z].ObjectLocation, Quaternion.identity, this.transform);
+                // map[x, z].ObjectPrefab = Instantiate(coverObeject.GetGameObject(), map[x, z].ObjectLocation, Quaternion.identity, this.transform);
                 map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverObeject.GetGameObject().transform.position.y, 0);
                 map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 0.82f, 0);
                 Vector3 newRotation = new Vector3(0f, 0, 0); // 원하는 각도로 변경

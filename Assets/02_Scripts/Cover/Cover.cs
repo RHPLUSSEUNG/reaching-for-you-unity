@@ -12,10 +12,14 @@ public class Cover : MonoBehaviour
     public bool isHiding = false; // 플레이어가 엄폐하고 있는지 확인하는 변수, 기본값은 false
 
     private float damagePercent;
+
+    GameObject character;
+    CharacterState characterstate;
+    EntityStat characterstat;
+
     public Vector3 playerPosition; // 플레이어의 위치를 저장하는 변수
 
     public void Init(int hp) {
-        Debug.Log(hp);
         if(hp > 100) return;
 
         if(hp >= 70) 
@@ -40,6 +44,23 @@ public class Cover : MonoBehaviour
         }
 
         else damagePercent = 0;
+    }
+
+    private void Update() {
+        if (Managers.Battle.currentCharacter != null && Managers.Battle.currentCharacter != character)
+        {
+            character = Managers.raycast.character;
+            characterstat = Managers.raycast.characterstat;
+            characterstate = Managers.raycast.characterstate;
+
+            Debug.Log(isHiding);
+        }
+
+        if (Managers.Battle.battleState == BattleState.PlayerTurn)
+        {
+            UpdatePlayerPosition(character.transform.position);
+            Debug.Log(isHiding);
+        }
     }
 
     public GameObject GetGameObject()
