@@ -17,6 +17,16 @@ public class InvenUI : UI_Base
 
     [SerializeField] Sprite activeTab;
     [SerializeField] Sprite disabledTab;
+
+    RectTransform weaponRect;
+    RectTransform armorRect;
+    RectTransform consumeRect;
+
+    float activeTabXSize = 110.0f;
+    float disableTabXSize = 100.0f;
+    float activeTabYSize = 80.0f;
+    float disableTabYSize = 65.0f;
+
     public override void Init()
     {
         Bind<GameObject>(typeof(invenUI));
@@ -38,6 +48,10 @@ public class InvenUI : UI_Base
         BindEvent(GetObject((int)invenUI.WeaponTab), WeaponTabClick, Define.UIEvent.Click);
         BindEvent(GetObject((int)invenUI.ArmorTab), ArmorTabClick, Define.UIEvent.Click);
         BindEvent(GetObject((int)invenUI.ConsumeTab), ConsumeTabClick, Define.UIEvent.Click);
+
+        weaponRect = GetObject((int)invenUI.WeaponTab).GetComponent<RectTransform>();
+        armorRect = GetObject((int)invenUI.ArmorTab).GetComponent<RectTransform>();
+        consumeRect = GetObject((int)invenUI.ConsumeTab).GetComponent<RectTransform>();
 
         // Managers.InvenUI.SetInventory(); Inven Setting
     }
@@ -88,6 +102,20 @@ public class InvenUI : UI_Base
                 Managers.UI.HideUI(invenItem);
             }
         }
+
+        Vector2 weaponTabSize = weaponRect.sizeDelta;
+        weaponTabSize.x = activeTabXSize;
+        weaponTabSize.y = activeTabYSize;
+        weaponRect.sizeDelta = weaponTabSize;
+        Vector2 armorTabSize = armorRect.sizeDelta;
+        armorTabSize.x = disableTabXSize;
+        armorTabSize.y = disableTabYSize;
+        armorRect.sizeDelta = armorTabSize;
+        Vector2 consumeTabSize = consumeRect.sizeDelta;
+        consumeTabSize.x = disableTabXSize;
+        consumeTabSize.y = disableTabYSize;
+        consumeRect.sizeDelta = consumeTabSize;
+        
     }
 
     public void ArmorTabClick(PointerEventData data)
@@ -116,6 +144,19 @@ public class InvenUI : UI_Base
                 Managers.UI.HideUI(invenItem);
             }
         }
+
+        Vector2 weaponTabSize = weaponRect.sizeDelta;
+        weaponTabSize.x = disableTabXSize;
+        weaponTabSize.y = disableTabYSize;
+        weaponRect.sizeDelta = weaponTabSize;
+        Vector2 armorTabSize = armorRect.sizeDelta;
+        armorTabSize.x = activeTabXSize;
+        armorTabSize.y = activeTabYSize;
+        armorRect.sizeDelta = armorTabSize;
+        Vector2 consumeTabSize = consumeRect.sizeDelta;
+        consumeTabSize.x = disableTabXSize;
+        consumeTabSize.y = disableTabYSize;
+        consumeRect.sizeDelta = consumeTabSize;
     }
 
     public void ConsumeTabClick(PointerEventData data)
@@ -144,5 +185,18 @@ public class InvenUI : UI_Base
                 Managers.UI.HideUI(invenItem);
             }
         }
+
+        Vector2 weaponTabSize = weaponRect.sizeDelta;
+        weaponTabSize.x = disableTabXSize;
+        weaponTabSize.y = disableTabYSize;
+        weaponRect.sizeDelta = weaponTabSize;
+        Vector2 armorTabSize = armorRect.sizeDelta;
+        armorTabSize.x = disableTabXSize;
+        armorTabSize.y = disableTabYSize;
+        armorRect.sizeDelta = armorTabSize;
+        Vector2 consumeTabSize = consumeRect.sizeDelta;
+        consumeTabSize.x = activeTabXSize;
+        consumeTabSize.y = activeTabYSize;
+        consumeRect.sizeDelta = consumeTabSize;
     }
 }
