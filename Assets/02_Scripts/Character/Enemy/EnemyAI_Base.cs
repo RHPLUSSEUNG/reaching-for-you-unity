@@ -63,8 +63,12 @@ public abstract class EnemyAI_Base : MonoBehaviour
         if (!isTurnEnd)
         {
             isTurnEnd = true;
-            Managers.Battle.NextTurn();
+            Invoke("NextTurn", 1.0f);
         }
+    }
+    public void NextTurn()
+    {
+        Managers.Battle.NextTurn();
     }
     public void Search(int radius)
     {
