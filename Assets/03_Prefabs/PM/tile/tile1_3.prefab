@@ -9,6 +9,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2f8fb7392c5eb284fa67b9e00aecc21b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.89
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2f8fb7392c5eb284fa67b9e00aecc21b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.89
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2f8fb7392c5eb284fa67b9e00aecc21b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -57,6 +65,10 @@ PrefabInstance:
       value: tile1_3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2f8fb7392c5eb284fa67b9e00aecc21b, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2f8fb7392c5eb284fa67b9e00aecc21b, type: 3}
       propertyPath: m_TagString
       value: Cube
       objectReference: {fileID: 0}
@@ -66,17 +78,17 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2f8fb7392c5eb284fa67b9e00aecc21b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5178866116725578110}
+      addedObject: {fileID: 3525801311425083815}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2f8fb7392c5eb284fa67b9e00aecc21b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -2046565105100894436}
+      addedObject: {fileID: -7066629699159778072}
   m_SourcePrefab: {fileID: 100100000, guid: 2f8fb7392c5eb284fa67b9e00aecc21b, type: 3}
 --- !u!1 &4626268623996626018 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2f8fb7392c5eb284fa67b9e00aecc21b, type: 3}
   m_PrefabInstance: {fileID: 5544677832444582195}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &5178866116725578110
+--- !u!65 &3525801311425083815
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.1, y: 0.605, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-2046565105100894436
+--- !u!114 &-7066629699159778072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

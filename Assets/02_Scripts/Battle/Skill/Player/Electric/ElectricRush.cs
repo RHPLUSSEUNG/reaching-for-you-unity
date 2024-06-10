@@ -23,7 +23,11 @@ public class ElectricRush : Active
         }
         if (CalcRange())
         {
-            return Activate();
+            if (Activate())
+            {
+                Managers.Manager.StartCoroutine(Managers.Skill.StartEffect(Effect, target.transform.position));
+            }
+            return true;
         }
         return false;
     }

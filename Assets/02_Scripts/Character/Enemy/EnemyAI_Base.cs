@@ -1,85 +1,103 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyAI_Base : MonoBehaviour
+public abstract class EnemyAI_Base : MonoBehaviour
 {
     [SerializeField]
     float speed = 10;
     [SerializeField]
     string targetTag = "Player";
 
-    EnemyStat stat;
-    GameObject targetObj;
-    SpriteController spriteController;
+    protected EnemyStat stat;
+    protected GameObject targetObj;
+    protected SpriteController spriteController;
+    protected SkillList skillList;
 
     Vector3[] path;
     Vector3 targetPos;
-    int targetIndex;
+    protected int targetIndex;
+    protected int targetDistance;
 
+    protected bool isMoved;
+    protected bool isTargetEmpty;
+    protected bool isAttacked;
 
-    bool isMoving;
-    bool canAttack;
-    bool isTargetEmpty;
+    protected int actPoint;
 
     public bool isTurnEnd;
 
-    private void Awake()
+    private void Start()
     {
         stat = GetComponent<EnemyStat>();
         spriteController = GetComponent<SpriteController>();
+        isTurnEnd = true;
+        skillList = GetComponent<SkillList>();
+        //skillList.AddSkill(Managers.Skill.Instantiate(0)); 각 몬스터마다 해당하는 번호의 스킬 가져오기
     }
-    public void ProceedTurn()
+    private void LateUpdate()
     {
-        //시야 범위 검색 > 찾으면 이동 > 사거리 닿을 시 공격
-        //못찾으면 범위 내 랜덤 위치 받은 후 이동
-        isTurnEnd = false;
-        canAttack = false;
-        Search(stat.Sight);
+        spriteController.SetAnimState(AnimState.Idle);
     }
+    public abstract void ProceedTurn(); // 턴 진행
+    public abstract void SpecialCheck();  // 고유 기믹 체크
+    public abstract void OnTargetFoundSuccess();  // 이동할 대상 발견 시 행동
+    public abstract void OnTargetFoundFail(); // 이동할 대상 발견 실패 시 행동
+    public abstract void OnPathFailed();    // 경로를 찾을 수 없을 때
+    public abstract void OnHit(int damage);
+    public abstract void OnMoveEnd();   // 이동이 끝났을 때
+    public abstract void OnAttackSuccess(); //공격 성공 시
+    public abstract void OnAttackFail();    // 공격 실패 시
 
-    public void OnPathFound(Vector3[] newpath, bool succsess)
+    public void OnTurnStart()
     {
-        if (succsess)
+        isMoved = false;
+        isAttacked = false;
+        stat.ActPoint = 100;
+        isTurnEnd = false;
+    }
+    public void TurnEnd()
+    {
+        if (!isTurnEnd)
         {
-            path = newpath;
-            isMoving = true;
-            StartCoroutine(FollowPath());  // 이동 실행 후 끝날 때 까지 대기
-        }
-        else
-        {
-            Debug.Log("Move Failed");
+            isTurnEnd = true;
+            Invoke("NextTurn", 1.5f);
         }
     }
-    public void OnTargetFound(Vector3 newTargetPos, GameObject newTargetObj, bool succsess)
+    public void NextTurn()
+    {
+        Managers.Battle.NextTurn();
+    }
+    public void Search(int radius)
+    {
+         PathFinder.RequestSearch(transform.position, radius, targetTag, OnTargetFound);
+    }
+    public void OnTargetFound(Vector3 newTargetPos, GameObject newTargetObj, int distance, bool succsess)
     {
         if (succsess)
         {
-            Debug.Log("Search Succsess, Move to Target");
+            targetDistance = distance;
+            Debug.Log("Search Success");
             targetPos = newTargetPos;
             targetObj = newTargetObj;
             isTargetEmpty = false;
-            Move();
+            SetDirection();
+            OnTargetFoundSuccess();
         }
         else
         {
-            // 서치 실패 시 몹마다 특정 로직
-            // 이동 범위 안의 무작위 좌표를 대상으로 움직임
-            Debug.Log("search Failed, Move To Random Location");
-            PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
+            targetDistance = 999;
+            Debug.Log("Search Failed");
+            OnTargetFoundFail();
         }
     }
-    public void OnRandomLoc(Vector3 newTargetPos)
-    {
-        Debug.Log(newTargetPos);
-        targetPos = newTargetPos;
-        isTargetEmpty = true;
-        Move();
-    }
-
     public void Move()
     {
-        if (!isMoving)
+        if (!isMoved)
         {
+            isMoved = true;
             PathFinder.RequestPath(transform.position, targetPos, OnPathFound);
         }
         else
@@ -87,87 +105,121 @@ public class EnemyAI_Base : MonoBehaviour
             Debug.Log("Object is Moving!");
         }
     }
-    public void Search(int radius)
+    public void OnPathFound(Vector3[] newpath, bool succsess)
     {
-        PathFinder.RequestSearch(transform.position, radius, targetTag, OnTargetFound);
+        if (succsess)
+        {
+            path = newpath;
+            StartCoroutine(FollowPath());  // 이동 실행 후 끝날 때 까지 대기
+        }
+        else
+        {
+            Debug.Log("Move Failed");
+            OnPathFailed();
+        }
     }
-
-    public void Attack()
+    public bool CanAttack(int range)
     {
-        if (canAttack)
+        return range >= targetDistance ? true : false;
+    }
+    public void Attack(int actPoint)
+    {
+        isAttacked = true;
+        if (stat.ActPoint >= actPoint)
         {
             Debug.Log("Attack");    // 공격 실행
+            stat.ActPoint -= actPoint;
             spriteController.SetAnimState(AnimState.Attack);
             // 텀 추가?
-            Managers.Active.Damage(targetObj, stat.BaseDamage);
-            canAttack = false;
+            Managers.Active.Damage(targetObj.transform.parent.gameObject, stat.BaseDamage); //targetObj 반환값 = 콜라이더를 가지고 있는 오브젝트 > 플레이어는 하위 오브젝트에 콜라이더 존재
+            OnAttackSuccess();
         }
-        isTurnEnd = true;   // 턴 종료
-        Debug.Log("Enemy Turn end");
-        Managers.Battle.NextTurn();
-        // 여기에 턴 종료 추가
-
+        else
+        {
+            Debug.Log("Attack Failed");
+            OnAttackFail();
+        }
+        
+        TurnEnd();
+    }
+    public void GetRandomLoc()
+    {
+        PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
+    }    
+    public void OnRandomLoc(Vector3 newTargetPos)
+    {
+        targetPos = newTargetPos;
+        isTargetEmpty = true;
+        Move();
+    }
+    public void SetTargetTag(string tag)
+    {
+        targetTag = tag;
+    }
+    public void SetDirection()
+    {
+        if (transform.position.x > targetObj.transform.position.x)   //현재 위치와 이동 대상 x 좌표 비교해 스프라이트 회전
+        {
+            spriteController.Flip(Direction.Left);
+        }
+        else if (transform.position.x < targetObj.transform.position.x)
+        {
+            spriteController.Flip(Direction.Right);
+        }
     }
     IEnumerator FollowPath()
     {
         targetIndex = 0;
-        if (path.Length == 0 || (path.Length == 1 && !isTargetEmpty))   // 이미 도착
+        if (path.Length == 0 || (path.Length <= stat.AttackRange && !isTargetEmpty))   // 이동할 필요 X
         {
             Debug.Log("Already At The Position");
-            if (!isTargetEmpty)
-                canAttack = true;
-            isMoving = false;
-            Attack();
+            stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
+            isMoved = true;
+            OnMoveEnd();
             yield break;
         }
         Vector3 currentWaypoint = path[targetIndex];
 
-        if (isTargetEmpty)  // 해당 칸까지 이동
+        while (true)
         {
-            while (true)
+            if (transform.position.x > currentWaypoint.x)   //현재 위치와 이동 대상 x 좌표 비교해 스프라이트 회전
             {
-                if (transform.position == currentWaypoint)
-                {
-                    targetIndex++;
-                    if (targetIndex >= path.Length || targetIndex >= stat.MovePoint)
-                    {
-                        isMoving = false;
-                        Attack();
-                        yield break;
-                    }
-                    currentWaypoint = path[targetIndex];
-                }
-                transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
-                yield return null;
+                spriteController.Flip(Direction.Left);
             }
-        }
-        else    //해당 칸 사거리 까지 이동
-        {
-            while (true)
+            else if (transform.position.x < currentWaypoint.x)
             {
-                if (transform.position == currentWaypoint)
-                {
-                    if (targetIndex + stat.AttackRange + 1 >= path.Length)  // 사거리 닿을 시
-                    {
-                        isMoving = false;
-                        canAttack = true;
-                        Attack();
-                        yield break;
-                    }
-                    else if (targetIndex >= stat.MovePoint) // 이동거리 초과 시
-                    {
-                        isMoving = false;
-                        Attack();
-                        yield break;
-                    }
-                    targetIndex++;
-                    currentWaypoint = path[targetIndex];
-                }
-                transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
-                yield return null;
+                spriteController.Flip(Direction.Right);
             }
-        }
 
+            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
+                
+            if (transform.position == currentWaypoint)
+            {
+                if (isTargetEmpty)  // 대상 칸까지 이동 시
+                {
+                    if (targetIndex + 1 >= path.Length || targetIndex + 1 >= stat.MovePoint)
+                    {
+                        stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
+                        isMoved = true;
+                        OnMoveEnd();
+                        yield break;
+                    }
+                }
+                else
+                { 
+                    if (targetIndex + stat.AttackRange + 1 >= path.Length || targetIndex + 1 >= stat.MovePoint)  // 사거리 닿을 시 or 이동거리 초과 시
+                    {
+                        stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
+                        isMoved = true;
+                        OnMoveEnd();
+                        yield break;
+                    }
+                }
+                targetIndex++;
+                currentWaypoint = path[targetIndex];
+            }
+            yield return null;
+        }
     }
 }
 

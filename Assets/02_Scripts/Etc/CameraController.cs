@@ -1,14 +1,16 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
     GameObject cameraList;
-    [SerializeField]
-    GameObject followList;
 
     Transform[] cameraTargets;
-    Transform[] followTargets;
+    [SerializeField]
+    List<GameObject> followTargets;
     [SerializeField]
     float offsetX = 0.0f;
     [SerializeField]
@@ -36,11 +38,6 @@ public class CameraController : MonoBehaviour
             cameraTargets = cameraList.GetComponentsInChildren<Transform>();
             cameraIndex = 1;     // GetComponentsInChildren 사용 시 0번엔 부모 오브젝트 정보가 위치함으로 Index를 1부터
         }
-        if (followList != null)
-        {
-            followTargets = followList.GetComponentsInChildren<Transform>();
-            followIndex = 1;
-        }
 
         if (isFollowMode)
         {
@@ -51,7 +48,6 @@ public class CameraController : MonoBehaviour
         {
             ChangeCameraTarget(cameraIndex, false);
         }
-        
     }
     void FixedUpdate()
     {
@@ -120,9 +116,33 @@ public class CameraController : MonoBehaviour
     {
         transform.eulerAngles = new Vector3(rotateX, 0, 0);
         isSmoothMove = _isSmoothMove;
-        targetTransform = followTargets[targetIndex];
+        targetTransform = followTargets[targetIndex].transform;
         isFollowMode = true;
         Debug.Log("Changed FollowTarget To " + targetIndex);
+    }
+    public void ChangeCameraMode(CameraMode mode, bool _isSmoothMove)
+    {
+        switch(mode)
+        {
+            case CameraMode.Static:
+                isFollowMode = false;
+                targetTransform = cameraTargets[cameraIndex].transform;
+                transform.eulerAngles = cameraTargets[cameraIndex].transform.eulerAngles;
+                break;
+            case CameraMode.Follow:
+                isFollowMode = true;
+                transform.eulerAngles = new Vector3(rotateX, 0, 0);
+                targetTransform = followTargets[followIndex].transform;
+                break;
+        }
+        isSmoothMove = _isSmoothMove;
+        setPos = targetTransform.position;
+        Debug.Log("Changed Mode");
+    }
+
+    public void AddFollowList(GameObject target)
+    {
+        followTargets.Add(target);
     }
     public void ChangePos(Transform target)
     {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PathFinding : MonoBehaviour
@@ -34,7 +33,7 @@ public class PathFinding : MonoBehaviour
         Node startNode = grid.GetNodeFromWorldPosition(startPos);
         Node targetNode = grid.GetNodeFromWorldPosition(targetPos);
 
-        if (targetNode.walkable) 
+        //if (targetNode.walkable) 
         {
             List<Node> openList = new List<Node>();
             HashSet<Node> closedList = new HashSet<Node>();
@@ -57,13 +56,17 @@ public class PathFinding : MonoBehaviour
 
                 if (currentNode == targetNode) 
                 {
+                    if (!targetNode.walkable)
+                    {
+                        closedList.Remove(currentNode);
+                    }
                     success = true;
                     break;
                 }
 
                 foreach (Node node in grid.GetNeighbours(currentNode,1))
                 {
-                    if (!node.walkable || closedList.Contains(node)) continue;
+                    if (!node.walkable && node != targetNode || closedList.Contains(node)) continue;
 
                     int newGCost = currentNode.gCost + GetDistanceCost(currentNode, node);
 
@@ -93,13 +96,11 @@ public class PathFinding : MonoBehaviour
                 }
             }
         }
-
-        yield return null;
-
         if (success)
         {
             path = GetPath(startNode, targetNode);
         }
+         
         pathfinder.FinishProcessingPath(path, success);
         yield break;
     }
@@ -142,12 +143,19 @@ public class PathFinding : MonoBehaviour
 
         return 14 * distanceX + 10 * (distanceY - distanceX);
     }
+
+    public bool CheckWalkable(Vector3 target)
+    {
+        Node targetNode = grid.GetNodeFromWorldPosition(target);
+        return grid.CheckWalkable(targetNode.gridX, targetNode.gridY);
+    }
     IEnumerator Search(Vector3 startPos, int radius, string tag)
     {
         Node startNode = grid.GetNodeFromWorldPosition(startPos);
         bool success = false;
         Vector3 targetPos = startPos;
         GameObject targetObj = null;
+        int distance = 0;
         for (int i = 1; i <= radius; i++)
         {
             foreach (Node node in grid.GetNeighbours(startNode, i))
@@ -157,18 +165,18 @@ public class PathFinding : MonoBehaviour
                 {
                     success = true;
                     targetPos = node.worldPosition;
+                    distance = i;
                     break;
                 }
             }
             if (success)
                 break;
         }
-        yield return null;
-        pathfinder.FinishProcessingSearch(targetPos, targetObj, success);
+        pathfinder.FinishProcessingSearch(targetPos, targetObj, distance, success);
+        yield break;
     }
     IEnumerator RandomLoc(Vector3 startPos, int radius)
     {
-        Debug.Log("randomLoc");
         Node startNode = grid.GetNodeFromWorldPosition(startPos);
         Vector3 target = startPos;
         while (true)

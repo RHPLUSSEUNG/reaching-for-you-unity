@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -23,7 +21,6 @@ public class PathFinder : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Active");
         instance = this;
         pathFinding = GetComponent<PathFinding>();
     }
@@ -34,7 +31,7 @@ public class PathFinder : MonoBehaviour
         instance.pathRequestQueue.Enqueue(newPathRequest);
         instance.TryProcessNextPathRequest();
     }
-    public static void RequestSearch(Vector3 start, int radius, string tag, UnityAction<Vector3, GameObject, bool> callback)
+    public static void RequestSearch(Vector3 start, int radius, string tag, UnityAction<Vector3, GameObject, int, bool> callback)
     {
         SearchRequest newSearchRequest = new SearchRequest(start, radius, tag, callback);
         instance.searchRequestQueue.Enqueue(newSearchRequest);
@@ -45,6 +42,11 @@ public class PathFinder : MonoBehaviour
         RandomLocRequest newRandomLocRequest = new RandomLocRequest(start, radius, callback);
         instance.randomLocRequestQueue.Enqueue(newRandomLocRequest);
         instance.TryProcessNextRandomLocRequest();
+    }
+
+    public static bool CheckWalkable(Vector3 target)
+    {
+        return instance.pathFinding.CheckWalkable(target);
     }
 
     void TryProcessNextPathRequest()
@@ -81,9 +83,9 @@ public class PathFinder : MonoBehaviour
         isProcessingPath=false;
         TryProcessNextPathRequest();
     }
-    public void FinishProcessingSearch(Vector3 targetPos, GameObject targetObj,bool succsess)
+    public void FinishProcessingSearch(Vector3 targetPos, GameObject targetObj, int distance, bool succsess)
     {
-        currentSearchRequest.callback(targetPos, targetObj, succsess);
+        currentSearchRequest.callback(targetPos, targetObj, distance, succsess);
         isProcessingSearch = false;
         TryProcessNextRandomLocRequest();
     }
@@ -112,8 +114,8 @@ struct SearchRequest
     public Vector3 start;
     public int radius;
     public string tag;
-    public UnityAction<Vector3, GameObject, bool> callback;
-    public SearchRequest(Vector3 _start, int _radius, string _tag, UnityAction<Vector3, GameObject, bool> _callback)
+    public UnityAction<Vector3, GameObject, int, bool> callback;
+    public SearchRequest(Vector3 _start, int _radius, string _tag, UnityAction<Vector3, GameObject, int, bool> _callback)
     {
         start = _start;
         radius = _radius;

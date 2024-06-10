@@ -1,49 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &490108970823962671
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 882763179744940191}
-  - component: {fileID: 3564931604807738172}
-  m_Layer: 0
-  m_Name: Quest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &882763179744940191
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 490108970823962671}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2764794905245754139}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3564931604807738172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 490108970823962671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2018c157d24e43f4eaf302c40239c7e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1632515156684126824
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +35,6 @@ Transform:
   - {fileID: 7177503883227374625}
   - {fileID: 8458188612570236184}
   - {fileID: 8246660529887164627}
-  - {fileID: 882763179744940191}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &8334785553150780714
@@ -242,7 +197,6 @@ GameObject:
   - component: {fileID: 5809204059136574164}
   - component: {fileID: 3131360866470450810}
   - component: {fileID: 3330477251500428571}
-  - component: {fileID: 8413186647235301812}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -338,18 +292,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8413186647235301812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8150895426976285256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffc20ad36ce4b3046b2462be73d31230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8951963517659414212
 GameObject:
   m_ObjectHideFlags: 0
@@ -444,9 +386,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8246660529887164627}
   - component: {fileID: 37247436053705016}
+  - component: {fileID: 5919695833556733139}
   - component: {fileID: 7963210743419465606}
   m_Layer: 0
-  m_Name: Dialogue
+  m_Name: Dialogue_Quest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -480,6 +423,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: "\uC544\uB098\uC2A4\uD0C0\uC0E4"
+--- !u!114 &5919695833556733139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9197550508078624209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2018c157d24e43f4eaf302c40239c7e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &7963210743419465606
 SphereCollider:
   m_ObjectHideFlags: 0

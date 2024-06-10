@@ -12,7 +12,7 @@ public class PrefabManager
         GameObject prefab = Load<GameObject>($"Prefabs/{path}");
         if( prefab == null)
         {
-            Debug.Log("Prefab Not Found");
+            Debug.Log($"Prefab Not Found : {path}");
             return null;
         }
         return Object.Instantiate(prefab, parent);

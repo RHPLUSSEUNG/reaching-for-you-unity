@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class CharacterEventHandler : MonoBehaviour
 {
-    PlayerController controller;
-    void Awake()
+    PlayerBattle playerBattle;
+    void Start()
     {
-        controller = GetComponentInParent<PlayerController>();
+        //playerBattle = GetComponent<PlayerBattle>();
     }
 
     void HitEventEnd()
     {
-        controller.ChangeActive(true);
+        //playerBattle.SetIdle();
     }
 }

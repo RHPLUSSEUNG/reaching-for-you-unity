@@ -38,19 +38,20 @@ public class ItemManager
         return false;
     }
 
-    public bool ConsumeItem(GameObject item)
+    public int ConsumeItem(GameObject item, int Capacity)
     {
         if (consumeInven.ContainsKey(item))
         {
-            consumeInven[item]--;
-            if (consumeInven[item] == 0)
+            consumeInven[item] -= Capacity;
+            if (consumeInven[item] <= 0)
             {
                 consumeInven.Remove(item);
                 inventoryCnt--;
+                return consumeInven[item] + Capacity;
             }
-            return true;
+            return Capacity;
         }
-        return false;
+        return 0;
     }
    
     #region gold

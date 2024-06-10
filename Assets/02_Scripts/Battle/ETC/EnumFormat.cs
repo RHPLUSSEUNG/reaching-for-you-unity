@@ -53,6 +53,17 @@ public enum ButtonState
     Item = 2,
     PlayerSet = 3,
     Attack =4,
+    Move = 5,
+}
+
+public enum UIState
+{
+    Idle,
+    SkillSet,
+    ItemSet,
+    PlayerSet,
+    Attack,
+    Move
 }
 
 public enum Buttons
@@ -75,4 +86,10 @@ public enum Direction
 {
     Left,
     Right
+}
+
+public enum CameraMode
+{
+    Static,
+    Follow
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Managers : MonoBehaviour
@@ -19,11 +20,17 @@ public class Managers : MonoBehaviour
     static DataManager _data = new();
     public static DataManager Data { get { return _data; } }
     static PrefabManager _prefab = new();
-    public static PrefabManager Prefab { get {  return _prefab; } }
+    public static PrefabManager Prefab { get { return _prefab; } }
     static ActiveManager _active = new();
     public static ActiveManager Active { get { return _active; } }
     static SkillManager _skill = new();
-    public static SkillManager Skill { get {  return _skill; } }
+    public static SkillManager Skill { get { return _skill; } }
+    static UIManager _ui = new();
+    public static UIManager UI { get { return _ui; } }
+    static BattleUIManager _battleui = new();
+    public static BattleUIManager BattleUI { get { return _battleui; } }
+    static InvenUIManager _invenui = new();
+    public static InvenUIManager InvenUI { get { return _invenui; } }
 
     public void Awake()
     {
@@ -44,8 +51,7 @@ public class Managers : MonoBehaviour
 
         _data.OnAwake();
         _skill.Awake();
-        _playerButton.Bind();
-        raycast.TestInit();
+        raycast.Init();
         _battle.BattleReady();
     }
     #endregion

@@ -9,18 +9,4 @@ public class ElectricShockConfirmed : Active
         shock.SetDebuff(2, target, 1);
         return true;
     }
-
-    public override bool SetTarget(GameObject target)
-    {
-        if (target.GetComponent<EntityStat>() == null)
-        {
-            return false;
-        }
-        this.target = target;
-        if (!Activate())
-        {
-            return false;
-        }
-        return true;
-    }
 }

@@ -5,19 +5,26 @@ public class DataManager
 {
     List<ConsumeData> consumeList;
     List<EquipmentData> equipmentList;
-    List<SkillData> skillList;
-    
+    List<SkillData> playerSkillList;
+    List<SkillData> monsterSkillList;
+
     public void OnAwake()
     {
         DataList data = GameObject.Find("DataList").GetComponent<DataList>();
         consumeList = data.consumeList;
         equipmentList = data.equipmentList;
-        skillList = data.skillList;
+        playerSkillList = data.playerSkillList;
+        monsterSkillList = data.monsterSkillList;
     }
 
-    public SkillData GetSkillData(int skillid)
+    public SkillData GetPlayerSkillData(int skillid)
     {
-        return skillList[skillid];
+        return playerSkillList[skillid];
+    }
+
+    public SkillData GetMonsterSkillData(int skillid)
+    {
+        return monsterSkillList[skillid];
     }
 
     public ItemData GetItemData(int itemid, bool equipment = false)
@@ -50,29 +57,41 @@ public class DataManager
         item.elementType = equipmentList[itemid].element;
     }
 
-    public void SetSkill(int skillid, Passive skill)
+    public void SetPlayerSkill(int skillid, Passive skill)
     {
-        skill.skillName = skillList[skillid].SkillName;
-        skill.type = skillList[skillid].SkillType;
-        skill.element = skillList[skillid].element;
+        skill.skillName = playerSkillList[skillid].SkillName;
+        skill.type = playerSkillList[skillid].SkillType;
+        skill.element = playerSkillList[skillid].element;
     }
 
-    public void SetSkill(int skillid, Active skill)
+    public void SetPlayerSkill(int skillid, Active skill)
     {
         Debug.Log($"{skill} Setting");
-        skill.skillName = skillList[skillid].SkillName;
-        skill.type = skillList[skillid].SkillType;
-        skill.element = skillList[skillid].element;
-        skill.stamina = skillList[skillid].stamina;
-        skill.mp = skillList[skillid].mp;
-        skill.range = skillList[skillid].range;
-        skill.target_object = skillList[skillid].target;
+        skill.skillName = playerSkillList[skillid].SkillName;
+        skill.type = playerSkillList[skillid].SkillType;
+        skill.element = playerSkillList[skillid].element;
+        skill.stamina = playerSkillList[skillid].stamina;
+        skill.mp = playerSkillList[skillid].mp;
+        skill.range = playerSkillList[skillid].range;
+        skill.target_object = playerSkillList[skillid].target;
+    }
+
+    public void SetMonsterSkill(int skillid, MonsterSkill skill)
+    {
+        Debug.Log($"{skill} Setting");
+        skill.skillName = monsterSkillList[skillid].SkillName;
+        skill.type = monsterSkillList[skillid].SkillType;
+        skill.element = monsterSkillList[skillid].element;
+        skill.stamina = monsterSkillList[skillid].stamina;
+        skill.mp = monsterSkillList[skillid].mp;
+        skill.range = monsterSkillList[skillid].range;
+        skill.target_object = monsterSkillList[skillid].target;
     }
 
     public void SetSkill(int skillid, Travel skill)
     {
-        skill.skillName = skillList[skillid].name;
-        skill.type = skillList[skillid].SkillType;
-        skill.element = skillList[skillid].element;
+        skill.skillName = playerSkillList[skillid].name;
+        skill.type = playerSkillList[skillid].SkillType;
+        skill.element = playerSkillList[skillid].element;
     }
 }

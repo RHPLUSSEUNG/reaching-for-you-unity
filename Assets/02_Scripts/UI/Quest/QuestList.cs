@@ -3,6 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum QuestPredicates
+{
+    NONE,
+    HASQUEST,
+    COMPLETEDQUEST,
+    COMPLETEDOBJECTIVE,
+}
+
 public class QuestList : MonoBehaviour, IPredicateEvaluator
 {
     List<QuestStatus> statuses = new List<QuestStatus>();
@@ -27,6 +36,10 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
 
     public bool HasQuest(Quest quest)
     {
+        if (quest == null)
+        {
+            return false;
+        }
         return GetQuestStatus(quest) !=  null;
     }
 
@@ -63,7 +76,7 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
         return null;
     }
 
-    //[Require] Inventory System
+    //[TODO:LSH][Require] Inventory System
     void GiveReward(Quest quest)
     {
         foreach(var reward in quest.GetRewards()) 
@@ -82,7 +95,7 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
     }
 
     #region RequireSaveSystem
-    //[Require] Save System
+    //[TODO:LSH][Require] Save System
     public object CaptureState()
     {
         List<object> state = new List<object>();
@@ -113,19 +126,20 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
     }
     #endregion
 
-    public bool? Evaluate(string predicate, string[] parameters)
+
+    public bool? Evaluate(QuestPredicates predicate, string[] parameters)
     {
-        switch(predicate)
+        switch (predicate)
         {
-            case "HasQuest":
-                {
+            case QuestPredicates.HASQUEST:
+                {                    
                     return HasQuest(Quest.GetByName(parameters[0]));
                 }                
-            case "CompletedQuest":
+            case QuestPredicates.COMPLETEDQUEST:
                 {
                     return GetQuestStatus(Quest.GetByName(parameters[0])).IsComplete();
                 }                
-            case "CompletedObjective":
+            case QuestPredicates.COMPLETEDOBJECTIVE:
                 {
                     Quest quest = Quest.GetByName(parameters[0]);
                     QuestStatus status = GetQuestStatus(quest);

@@ -1,10 +1,24 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneChanger : MonoBehaviour
+public class SceneChanger
 {
-    public void ChangeScene()
+    static SceneChanger instance;
+
+    public static SceneChanger Instance
     {
-        SceneManager.LoadScene("model_test");
+        get
+        {
+            if (instance == null)
+            {
+                instance = new SceneChanger();                
+            }
+            return instance;
+        }
+    }
+
+    public void ChangeScene(SceneType sceneType)
+    {
+        LoadSceneManager.LoadScene(sceneType);
     }
 }

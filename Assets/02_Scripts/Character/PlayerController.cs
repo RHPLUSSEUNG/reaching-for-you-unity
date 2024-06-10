@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private FadeEffect fadeEffect;
 
     private bool isActive;
+    private bool isBattleMode;
     private float moveSpeed;
     private Vector3 inputVec;
     private Vector3 gravity;
@@ -48,7 +49,6 @@ public class PlayerController : MonoBehaviour
     Vector3 nextVec;
 
     private RaycastHit slopeHit;
-
 
     void Awake()
     {
@@ -67,11 +67,12 @@ public class PlayerController : MonoBehaviour
         cameraController = mainCamera.GetComponent<CameraController>();
         fadeEffect = fadeEffectImg.GetComponent<FadeEffect>();
 
+        isBattleMode = false;
         isActive = true;
     }
     void Update()
     {
-        if(!isActive)
+        if (!isActive || isBattleMode)
         {
             spriteController.SetAnimState(AnimState.Idle);
             return;
@@ -99,7 +100,7 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (isActive)
+        if (isActive && !isBattleMode)
         {
             Move();
         }
@@ -123,13 +124,18 @@ public class PlayerController : MonoBehaviour
                 cameraController.ChangeCameraTarget(carmeraIndex, true);
                 break;
             case "Teleport":
-                StartFadeEffect();
-                spwanPointIndex = other.GetComponent<CameraZone>().spwanIndex; ;
-                gameObject.transform.position = spwanPoint[spwanPointIndex].position;
-                carmeraIndex = other.GetComponent<CameraZone>().cameraIndex;
-                cameraController.ChangeCameraTarget(carmeraIndex, false);
+                Teleport(other);
                 break;
         }   
+    }
+
+    public void Teleport(Collider col)
+    {
+        StartFadeEffect();
+        spwanPointIndex = col.GetComponent<CameraZone>().spwanIndex; ;
+        gameObject.transform.position = spwanPoint[spwanPointIndex].position;
+        carmeraIndex = col.GetComponent<CameraZone>().cameraIndex;
+        cameraController.ChangeCameraTarget(carmeraIndex, false);
     }
 
     void Move()
@@ -241,11 +247,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Open Inventory");
     }
-    public void Hit()
-    {
-        isActive = false;
-        spriteController.SetAnimState(AnimState.Hit);
-    }
+
     private void StartFadeEffect()
     {
         fadeEffect.StartFadeEffect();

@@ -8,7 +8,7 @@ public class QuestGiver : MonoBehaviour
 
     public void GiveQuest()
     {
-        QuestList questList = GameObject.FindGameObjectWithTag("Player").transform.GetChild(3).GetComponent<QuestList>();
+        QuestList questList = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponent<QuestList>();
         questList.AddQuest(quest);
     }
 
