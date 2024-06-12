@@ -87,17 +87,13 @@ public class MagicButtonUI : UI_Base
         {
             Managers.UI.uiState = UIState.SkillSet;
             Managers.BattleUI.skill = saveSkill;
-            Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
-            Managers.UI.HideUI(Managers.BattleUI.actPanel);
-            Managers.UI.HideUI(Managers.BattleUI.moveBtn);
-            Managers.UI.ShowUI(Managers.BattleUI.cancleBtn);
+            Managers.BattleUI.PlayerActPhaseUI();
 
             cameraController.ChangeCameraMode(CameraMode.Static, true);
             Managers.BattleUI.cameraMode = CameraMode.Static;
         }
         else
         {
-            
             Debug.Log("스킬 사용 불가");
         }
     }
