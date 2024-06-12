@@ -9,13 +9,13 @@ public class ItemManager
     short inventoryMaxCnt = 100;
     int gold = 0;
 
-    public bool AddItem(GameObject item)
+    public bool AddItem(GameObject item, int num = 1)
     {
         if (item.GetComponent<Item>().type == ItemType.Consume)
         {
             if (consumeInven.ContainsKey(item))
             {
-                consumeInven[item]++;
+                consumeInven[item] += num;
                 return true;
             }
             else if (inventoryCnt < inventoryMaxCnt)
@@ -38,21 +38,6 @@ public class ItemManager
         return false;
     }
 
-    public int ConsumeItem(GameObject item, int Capacity)
-    {
-        if (consumeInven.ContainsKey(item))
-        {
-            consumeInven[item] -= Capacity;
-            if (consumeInven[item] <= 0)
-            {
-                consumeInven.Remove(item);
-                inventoryCnt--;
-                return consumeInven[item] + Capacity;
-            }
-            return Capacity;
-        }
-        return 0;
-    }
    
     #region gold
     public bool getGold(short gold)
@@ -148,19 +133,22 @@ public class ItemManager
     #endregion
 
     #region EquipConsume
-    public bool EquipConsume(GameObject item, GameObject player)
+    public int EquipConsume(GameObject item, int Capacity)
     {
-        return true;
-    }
-
-    public bool ExchangeConsume(GameObject prev, GameObject cur, GameObject player)
-    {
-        return true;
-    }
-
-    public bool UnequipConsume(GameObject item, GameObject player)
-    {
-        return true;
+        int num = 0;
+        if (consumeInven.ContainsKey(item))
+        {
+            if (consumeInven[item] - Capacity <= 0)
+            {
+                num = consumeInven[item];
+                consumeInven.Remove(item);
+                inventoryCnt--;
+                return num;
+            }
+            consumeInven[item] -= Capacity;
+            return Capacity;
+        }
+        return 0;
     }
     #endregion
 }
