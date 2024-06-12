@@ -82,14 +82,14 @@ public class SkillExtent : MonoBehaviour
         }
         return mask;
     }
-    /*
+
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        if(Editor)
         Handles.color = Color.red;
         // DrawSolidArc(시작점, 노멀벡터(법선벡터), 그려줄 방향 벡터, 각도, 반지름)
         Handles.DrawSolidArc(transform.position, Vector3.up, rotate, angle / 2, (float)range);
         Handles.DrawSolidArc(transform.position, Vector3.up, rotate, -angle / 2, (float)range);
     }
-    */
+#endif
 }

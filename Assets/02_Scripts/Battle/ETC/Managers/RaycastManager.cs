@@ -10,7 +10,7 @@ public class RaycastManager
     public CharacterState characterstate;
     public EntityStat characterstat;
 
-    public void Init()
+    public void OnAwake()
     {
         detector = GameObject.Find("RangeDetector").GetComponent<RangeDetector>();
         Debug.Log(detector);
