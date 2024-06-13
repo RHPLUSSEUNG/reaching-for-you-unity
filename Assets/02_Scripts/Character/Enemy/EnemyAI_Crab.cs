@@ -52,7 +52,7 @@ public class EnemyAI_Crab : EnemyAI_Base
     {
         if(!isTurnEnd)
             return;
-        
+
         OnTurnStart();
         SpecialCheck();
         if (!isTurnEnd)

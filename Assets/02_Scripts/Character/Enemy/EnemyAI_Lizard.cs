@@ -133,6 +133,9 @@ public class EnemyAI_Lizard : EnemyAI_Base
 
     public override void BeforeTrunEnd()
     {
+        if (isTurnEnd)
+            return;
+
         TurnEnd();
     }
 }

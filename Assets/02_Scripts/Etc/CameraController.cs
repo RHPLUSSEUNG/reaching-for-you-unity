@@ -120,9 +120,9 @@ public class CameraController : MonoBehaviour
         isFollowMode = true;
         Debug.Log("Changed FollowTarget To " + targetIndex);
     }
-    public void ChangeCameraMode(CameraMode mode, bool _isSmoothMove)
+    public void ChangeCameraMode(CameraMode mode, bool isOrthographic, bool _isSmoothMove)
     {
-        switch(mode)
+        switch (mode)
         {
             case CameraMode.Static:
                 isFollowMode = false;
@@ -135,11 +135,11 @@ public class CameraController : MonoBehaviour
                 targetTransform = followTargets[followIndex].transform;
                 break;
         }
+        gameObject.GetComponent<Camera>().orthographic = isOrthographic;
         isSmoothMove = _isSmoothMove;
         setPos = targetTransform.position;
         Debug.Log("Changed Mode");
     }
-
     public void AddFollowList(GameObject target)
     {
         followTargets.Add(target);
@@ -148,5 +148,12 @@ public class CameraController : MonoBehaviour
     {
         targetTransform = target;
         setPos = target.position;
+    }
+    public void ChangeOffSet(float x, float y, float z, float _rotateX)
+    {
+        offsetX = x;
+        offsetY = y;
+        offsetZ = z;
+        rotateX = _rotateX;
     }
 }

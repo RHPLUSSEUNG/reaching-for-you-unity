@@ -92,7 +92,7 @@ public class MagicButtonUI : UI_Base
             Managers.UI.HideUI(Managers.BattleUI.moveBtn);
             Managers.UI.ShowUI(Managers.BattleUI.cancleBtn);
 
-            cameraController.ChangeCameraMode(CameraMode.Static, true);
+            cameraController.ChangeCameraMode(CameraMode.Static, true, true);
             Managers.BattleUI.cameraMode = CameraMode.Static;
         }
         else

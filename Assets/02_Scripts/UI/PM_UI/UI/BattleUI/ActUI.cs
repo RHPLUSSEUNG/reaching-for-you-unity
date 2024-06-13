@@ -100,7 +100,7 @@ public class ActUI : UI_Popup
         Managers.UI.ShowUI(Managers.BattleUI.moveBtn);
         Managers.UI.HideUI(Managers.BattleUI.cancleBtn);
 
-        cameraController.ChangeCameraMode(CameraMode.Follow, true);
+        cameraController.ChangeCameraMode(CameraMode.Follow,false, true);
         Managers.BattleUI.cameraMode = CameraMode.Follow;
     }
 
@@ -119,7 +119,7 @@ public class ActUI : UI_Popup
     public void UseDefenseButtonClick(PointerEventData data)
     {
         Managers.UI.HideUI(gameObject);
-        cameraController.ChangeCameraMode(CameraMode.Static, true);
+        cameraController.ChangeCameraMode(CameraMode.Static, true, true);
         Managers.BattleUI.cameraMode = CameraMode.Static;
         Managers.Battle.NextTurn();
     }
@@ -127,7 +127,7 @@ public class ActUI : UI_Popup
     public void NextButtonClick(PointerEventData data)
     {
         Managers.UI.HideUI(gameObject);
-        cameraController.ChangeCameraMode(CameraMode.Static, true);
+        cameraController.ChangeCameraMode(CameraMode.Static, true, true);
         Managers.BattleUI.cameraMode = CameraMode.Static;
         Managers.Battle.NextTurn();
     }
@@ -140,7 +140,7 @@ public class ActUI : UI_Popup
             Managers.UI.uiState = UIState.Move;
             Managers.UI.HideUI(descriptPanel);
             Managers.UI.HideUI(actPanel);
-            cameraController.ChangeCameraMode(CameraMode.Static, true);
+            cameraController.ChangeCameraMode(CameraMode.Static, true, true);
             Managers.BattleUI.cameraMode = CameraMode.Static;
 
             // Text 변경(임시)
@@ -151,7 +151,7 @@ public class ActUI : UI_Popup
         {
             Managers.UI.uiState = UIState.Idle;
             Managers.UI.ShowUI(actPanel);
-            cameraController.ChangeCameraMode(CameraMode.Follow, true);
+            cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
             Managers.BattleUI.cameraMode = CameraMode.Follow;
 
             // Text 변경(임시)
@@ -168,7 +168,7 @@ public class ActUI : UI_Popup
         Managers.UI.ShowUI(Managers.BattleUI.moveBtn);
         Managers.UI.HideUI(Managers.BattleUI.cancleBtn);
 
-        cameraController.ChangeCameraMode(CameraMode.Follow, true);
+        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
         Managers.BattleUI.cameraMode = CameraMode.Follow;
     }
 }
