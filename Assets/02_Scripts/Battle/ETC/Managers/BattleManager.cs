@@ -106,6 +106,8 @@ public class BattleManager
         Debug.Log("EnemyTurn Start");
         battleState = BattleState.EnemyTurn;
         isPlayerTurn = false;
+        // Camera Movement
+        
         character.GetComponent<EnemyAI_Base>().ProceedTurn();
         Debug.Log("EnemyTurn End");
     }
