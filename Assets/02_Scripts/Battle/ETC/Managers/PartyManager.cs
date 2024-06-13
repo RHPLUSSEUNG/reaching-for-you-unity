@@ -71,7 +71,7 @@ public class PartyManager
         GameObject go = Managers.Prefab.Instantiate($"Monster/{character}");
         go.transform.position = new Vector3(0f, 0.8f, 0f);
         AddMonster(go);
-        Managers.Battle.ObjectList.Add(go);
+        //Managers.Battle.ObjectList.Add(go);
         return go;
     }
 }
