@@ -50,6 +50,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
     public abstract void OnMoveEnd();   // 이동이 끝났을 때
     public abstract void OnAttackSuccess(); //공격 성공 시
     public abstract void OnAttackFail();    // 공격 실패 시
+    public abstract void BeforeTrunEnd();
 
     public void OnTurnStart()
     {
@@ -63,7 +64,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
         if (!isTurnEnd)
         {
             isTurnEnd = true;
-            Invoke("NextTurn", 1.5f);
+            NextTurn();
         }
     }
     public void NextTurn()

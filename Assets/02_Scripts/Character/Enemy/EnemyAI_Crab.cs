@@ -18,13 +18,16 @@ public class EnemyAI_Crab : EnemyAI_Base
     public int hideLapse;
     public override void SpecialCheck()
     {
+        if (isTurnEnd)
+            return;
+
         if (isHide) //웅크린 상태
         {
             if (hideLapse < 2)  // 스킬 사용후 2턴 이내일 경우
             {
                 skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);   // 계속 사용
                 hideLapse++;    // 턴 증가
-                TurnEnd();
+                BeforeTrunEnd();
             }
             else
             {
@@ -48,9 +51,7 @@ public class EnemyAI_Crab : EnemyAI_Base
     public override void ProceedTurn()
     {
         if(!isTurnEnd)
-        {
             return;
-        }
         
         OnTurnStart();
         SpecialCheck();
@@ -63,6 +64,7 @@ public class EnemyAI_Crab : EnemyAI_Base
     {
         if (isTurnEnd)
             return;
+
         if (!isMoved)
             Move();
         else
@@ -73,7 +75,7 @@ public class EnemyAI_Crab : EnemyAI_Base
             }
             else
             {
-                TurnEnd();
+                BeforeTrunEnd();
             }
         }
     }
@@ -81,39 +83,60 @@ public class EnemyAI_Crab : EnemyAI_Base
     {
         if (isTurnEnd)
             return;
+
         if (!isMoved)
         {
             PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
         }
         else
         {
-            TurnEnd();
+            BeforeTrunEnd();
         }
         
        
     }
     public override void OnPathFailed()
     {
-        TurnEnd();
+        if (isTurnEnd)
+            return;
+
+        BeforeTrunEnd();
     }
     public override void OnMoveEnd()
     {
+        if (isTurnEnd)
+            return;
+
         SpecialCheck();
         if (isMoved && isAttacked)
-            TurnEnd();
+            BeforeTrunEnd();
         Search(stat.Sight);
     }
     public override void OnAttackSuccess()
     {
-        TurnEnd();
+        if (isTurnEnd)
+            return;
+
+        BeforeTrunEnd();
     }
     public override void OnAttackFail()
     {
-        TurnEnd();
+        if (isTurnEnd)
+            return;
+
+        BeforeTrunEnd();
     }
     public override void OnHit(int damage)
     {
         stat.Hp -= damage;
         lastDamaged += damage;
+    }
+    public override void BeforeTrunEnd()
+    {
+        if (isTurnEnd)
+            return;
+
+        lastDamaged = 0;
+        TurnEnd();
     }
 }
