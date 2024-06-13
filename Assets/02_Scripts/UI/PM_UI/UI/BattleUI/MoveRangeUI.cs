@@ -8,6 +8,9 @@ public class MoveRangeUI : MonoBehaviour
     float mapWidth;
     float mapHeight;
     Color highlightColor = Color.cyan;
+    Color originalColor;
+
+    Dictionary<Vector3Int, int> visited;
 
     public void SetMapInfo()
     {
@@ -20,6 +23,9 @@ public class MoveRangeUI : MonoBehaviour
         // Tile Á¤º¸ ÀúÀå
         GameObject tile;
         int tileCount = 0;
+
+        originalColor = map.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.color;
+
         for(int x = 0; x < mapWidth; x++)
         {
             for(int z = 0; z < mapHeight; z++)
@@ -43,7 +49,7 @@ public class MoveRangeUI : MonoBehaviour
         Vector3Int currentPos = new((int)currentPosX, 0, (int)currentPosZ);
 
         Queue<Vector3Int> moveTile = new Queue<Vector3Int>();
-        Dictionary<Vector3Int, int> visited = new Dictionary<Vector3Int, int>();
+        visited = new Dictionary<Vector3Int, int>();
 
         moveTile.Enqueue(currentPos);
         visited[currentPos] = 0;
@@ -64,7 +70,7 @@ public class MoveRangeUI : MonoBehaviour
             foreach (Vector3Int direction in directions)
             {
                 Vector3Int near = current + direction;
-                if (near.x < 0 || near.z < 0)   // ¸ÊÀ» ¹þ¾î³²
+                if (near.x < 0 || near.z < 0 || near.x >= mapWidth || near.z >= mapHeight)   // ¸ÊÀ» ¹þ¾î³²
                 {
                     continue;
                 }
@@ -75,6 +81,24 @@ public class MoveRangeUI : MonoBehaviour
                     visited[near] = currentDistance + 1;
                 }
             }
+        }
+    }
+
+    public void ClearMoveRangeUI()
+    {
+        List<Vector3Int> keyList = new List<Vector3Int>();
+
+        foreach(Vector3Int pos in visited.Keys)
+        {
+            GameObject tile = battleMap[pos.x, pos.z];
+            tile.GetComponent<Renderer>().material.color = originalColor;
+
+            keyList.Add(pos);
+        }
+
+        foreach(Vector3Int key in keyList)
+        {
+            visited.Remove(key);
         }
     }
 

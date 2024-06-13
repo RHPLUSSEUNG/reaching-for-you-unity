@@ -23,6 +23,7 @@ public class ActUI : UI_Popup
 
     GameObject mainCamera;
     CameraController cameraController;
+    MoveRangeUI rangeUI;
 
     GameObject actPanel;
     GameObject magicPanel;
@@ -67,6 +68,8 @@ public class ActUI : UI_Popup
 
         mainCamera = GameObject.Find("Main Camera");
         cameraController = mainCamera.GetComponent<CameraController>();
+        rangeUI = gameObject.GetComponent<MoveRangeUI>();
+        rangeUI.SetMapInfo();
 
         Managers.BattleUI.warningUI = Managers.UI.CreatePopupUI<WarningUI>("WarningUI");
         Managers.UI.HideUI(Managers.BattleUI.warningUI.gameObject);
@@ -100,8 +103,7 @@ public class ActUI : UI_Popup
 
         Managers.UI.uiState = UIState.Move;
         Managers.BattleUI.PlayerMovePhaseUI();
-        MoveRangeUI rangeUI = gameObject.GetComponent<MoveRangeUI>();
-        rangeUI.SetMapInfo();       // Init에 올리자
+        
         rangeUI.DisplayMoveRange();
 
         cameraController.ChangeCameraMode(CameraMode.Static, true);
