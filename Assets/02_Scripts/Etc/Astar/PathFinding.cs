@@ -15,17 +15,17 @@ public class PathFinding : MonoBehaviour
     }
     public void StartFindPath(Vector3 startPos, Vector3 targetPos)
     {
-        StartCoroutine(FindPath(startPos, targetPos));
+        FindPath(startPos, targetPos);
     }
     public void StartSearch(Vector3 startPos, int radius, string tag)
     {
-        StartCoroutine(Search(startPos, radius, tag));
+        Search(startPos, radius, tag);
     }
     public void StartRandomLoc(Vector3 startPos, int radius)
     {
-        StartCoroutine(RandomLoc(startPos, radius));
+        RandomLoc(startPos, radius);
     }
-    IEnumerator FindPath(Vector3 startPos, Vector3 targetPos)
+    void FindPath(Vector3 startPos, Vector3 targetPos)
     {
         Vector3[] path = new Vector3[0];
         bool success = false;
@@ -102,7 +102,6 @@ public class PathFinding : MonoBehaviour
         }
          
         pathfinder.FinishProcessingPath(path, success);
-        yield break;
     }
 
     Vector3[] GetPath(Node startNode, Node endNode)
@@ -149,7 +148,7 @@ public class PathFinding : MonoBehaviour
         Node targetNode = grid.GetNodeFromWorldPosition(target);
         return grid.CheckWalkable(targetNode.gridX, targetNode.gridY);
     }
-    IEnumerator Search(Vector3 startPos, int radius, string tag)
+    void Search(Vector3 startPos, int radius, string tag)
     {
         Node startNode = grid.GetNodeFromWorldPosition(startPos);
         bool success = false;
@@ -173,14 +172,20 @@ public class PathFinding : MonoBehaviour
                 break;
         }
         pathfinder.FinishProcessingSearch(targetPos, targetObj, distance, success);
-        yield break;
     }
-    IEnumerator RandomLoc(Vector3 startPos, int radius)
+    void RandomLoc(Vector3 startPos, int radius)
     {
         Node startNode = grid.GetNodeFromWorldPosition(startPos);
         Vector3 target = startPos;
+        int i = 0;
         while (true)
         {
+            if (i > 1000)
+            {
+                pathfinder.FinishProcessingRandomLoc(startPos);
+                return; 
+            }
+
             int x = UnityEngine.Random.Range(-radius, radius + 1);
             int y = UnityEngine.Random.Range(-radius, radius + 1);
 
@@ -194,7 +199,7 @@ public class PathFinding : MonoBehaviour
                     {
                         target = grid.GetWorldPositionFromNode(gridX, gridY);
                         pathfinder.FinishProcessingRandomLoc(target);
-                        yield break;
+                        return;
                     }
                 }
             }
