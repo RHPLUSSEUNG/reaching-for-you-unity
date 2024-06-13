@@ -89,7 +89,7 @@ public class MagicButtonUI : UI_Base
             Managers.BattleUI.skill = saveSkill;
             Managers.BattleUI.PlayerActPhaseUI();
 
-            cameraController.ChangeCameraMode(CameraMode.Static, true);
+            cameraController.ChangeCameraMode(CameraMode.Static, true, true);
             Managers.BattleUI.cameraMode = CameraMode.Static;
         }
         else

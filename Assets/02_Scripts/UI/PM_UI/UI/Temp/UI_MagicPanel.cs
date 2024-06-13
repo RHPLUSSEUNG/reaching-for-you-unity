@@ -78,7 +78,7 @@ public class UI_MagicPanel : UI_Popup
         gameObject.SetActive(false);
         descriptPanel.gameObject.SetActive(false);
 
-        cameraController.ChangeCameraMode(CameraMode.Static, true);
+        cameraController.ChangeCameraMode(CameraMode.Static, true, true);
     }
 
     public void MagicButton2Click(PointerEventData data)
