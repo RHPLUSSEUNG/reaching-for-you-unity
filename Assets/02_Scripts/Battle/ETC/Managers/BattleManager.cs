@@ -102,7 +102,6 @@ public class BattleManager
         totalTurnCnt++;
         isPlayerTurn = true;
         Managers.BattleUI.actUI.UpdateCharacterInfo();
-        Debug.Log("PlayerTurn Start");
         currentCharacter.GetComponent<PlayerBattle>().OnTurnStart();
 
     }
@@ -114,7 +113,6 @@ public class BattleManager
             Debug.Log("Component Error");
             return;
         }
-        Debug.Log("EnemyTurn Start");
         battleState = BattleState.EnemyTurn;
         isPlayerTurn = false;
         // Camera Movement
@@ -123,9 +121,7 @@ public class BattleManager
         cameraController.ChangeOffSet(0, 1, -3, 20);
         Debug.Log("Camera Set");
 
-
-        character.GetComponent<EnemyAI_Base>().ProceedTurn();
-        Debug.Log("EnemyTurn End");
+        Managers.Manager.StartCoroutine(CallMonsterAI());
     }
 
     public void NextTurn()
@@ -156,7 +152,7 @@ public class BattleManager
         }
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
-
+        Debug.Log($"Turn : {currentCharacter}");
         if (Areas.Count != 0)
         {
             foreach (GameObject area in Areas)
@@ -168,8 +164,9 @@ public class BattleManager
         if (currentCharacter.GetComponent<CharacterState>().IsStun())
         {
             NextTurn();
+            yield break;
         }
-        if (ObjectList[turnCnt].CompareTag("Player"))
+        if (currentCharacter.CompareTag("Player"))
         {
             PlayerTurn();
         }
@@ -178,5 +175,18 @@ public class BattleManager
             EnemyTurn(currentCharacter);
         }
         yield break;
+    }
+
+    public IEnumerator CallMonsterAI()
+    {
+        yield return new WaitForSeconds(1);
+        StartMonsterAI(currentCharacter);
+        yield break;
+    }
+
+    public void StartMonsterAI(GameObject go)
+    {
+        Debug.Log(go);
+        go.GetComponent<EnemyAI_Base>().ProceedTurn();
     }
 }
