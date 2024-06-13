@@ -23,7 +23,12 @@ public class Cold : Debuff
     public override void TimeCheck()
     {
         remainTurn--;
-        if(remainTurn <= 0)
+        if (target.GetComponent<CharacterState>().GetCold() > 5)
+        {
+            Freeze freeze = new();
+            freeze.SetDebuff(1, target, 0, true);
+        }
+        if (remainTurn <= 0)
         {
             target.GetComponent<CharacterState>().ChangeCold(-stack);
             DeleteEffect();

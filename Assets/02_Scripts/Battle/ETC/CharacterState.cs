@@ -144,6 +144,11 @@ public class CharacterState : MonoBehaviour
         cold += stack;
     }
 
+    public int GetCold()
+    {
+        return cold;
+    }
+
     public void ChangeFreeze(bool freeze)
     {
         if (freeze)

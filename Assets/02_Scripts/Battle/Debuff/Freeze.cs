@@ -15,11 +15,17 @@ public class Freeze : Debuff
 
     public override bool StartEffect()
     {
-        throw new System.NotImplementedException();
+        target.GetComponent<CharacterState>().ChangeFreeze(true);
+        return true;
     }
 
     public override void TimeCheck()
     {
-        throw new System.NotImplementedException();
+        remainTurn--;
+        
+        if(remainTurn <= 0)
+        {
+            DeleteEffect();
+        }
     }
 }
