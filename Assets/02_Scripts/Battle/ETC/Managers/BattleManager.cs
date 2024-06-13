@@ -16,6 +16,9 @@ public class BattleManager
     int turnCnt = 0;
     public List<GameObject> Areas = new();
 
+    CameraController cameraController;
+
+
     int compareDefense(GameObject character1,  GameObject character2)
     {
         return character1.GetComponent<EntityStat>().Defense < character2.GetComponent<EntityStat>().Defense ? -1 : 1;
@@ -47,6 +50,8 @@ public class BattleManager
 
     public void BattleReady()
     {
+        cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
+
         //TOOD make monster party
         ObjectList.Clear();
         Managers.Party.InstantiatePlayer("Player_Girl_Battle");
@@ -87,6 +92,12 @@ public class BattleManager
 
     public void PlayerTurn()
     {
+        //Camera Movement
+        cameraController.ChangeFollowTarget(currentCharacter, true);
+        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        cameraController.ChangeOffSet(0, 1, -3, 20);
+        Debug.Log("Camera Set");
+
         battleState = BattleState.PlayerTurn;
         totalTurnCnt++;
         isPlayerTurn = true;
@@ -107,7 +118,12 @@ public class BattleManager
         battleState = BattleState.EnemyTurn;
         isPlayerTurn = false;
         // Camera Movement
-        
+        cameraController.ChangeFollowTarget(character, true);
+        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        cameraController.ChangeOffSet(0, 1, -3, 20);
+        Debug.Log("Camera Set");
+
+
         character.GetComponent<EnemyAI_Base>().ProceedTurn();
         Debug.Log("EnemyTurn End");
     }

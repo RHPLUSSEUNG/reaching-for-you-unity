@@ -29,7 +29,8 @@ public class CameraController : MonoBehaviour
     private Vector3 setPos;
     private Transform targetTransform;
     private int cameraIndex;
-    private int followIndex;
+    [SerializeField]
+    GameObject followTarget;
 
     private void Awake()
     {
@@ -42,7 +43,7 @@ public class CameraController : MonoBehaviour
         if (isFollowMode)
         {
             transform.eulerAngles = new Vector3(rotateX, 0, 0);
-            ChangeFollowTarget(followIndex, true);
+            ChangeFollowTarget(followTarget, true);
         }
         else
         {
@@ -112,13 +113,14 @@ public class CameraController : MonoBehaviour
         ChangePos(targetTransform);
         Debug.Log("Changed CameraTarget To " + targetIndex);
     }
-    public void ChangeFollowTarget(int targetIndex, bool _isSmoothMove)
+    public void ChangeFollowTarget(GameObject target, bool _isSmoothMove)
     {
         transform.eulerAngles = new Vector3(rotateX, 0, 0);
         isSmoothMove = _isSmoothMove;
-        targetTransform = followTargets[targetIndex].transform;
+        followTarget = target;
+        targetTransform = followTarget.transform;
         isFollowMode = true;
-        Debug.Log("Changed FollowTarget To " + targetIndex);
+        Debug.Log("Changed FollowTarget To " + target);
     }
     public void ChangeCameraMode(CameraMode mode, bool _isSmoothMove)
     {
@@ -132,7 +134,7 @@ public class CameraController : MonoBehaviour
             case CameraMode.Follow:
                 isFollowMode = true;
                 transform.eulerAngles = new Vector3(rotateX, 0, 0);
-                targetTransform = followTargets[followIndex].transform;
+                targetTransform = followTarget.transform;
                 break;
         }
         isSmoothMove = _isSmoothMove;
