@@ -1,23 +1,18 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PathFinder : MonoBehaviour
 {
-    Queue<PathRequest> pathRequestQueue = new Queue<PathRequest>();
-    Queue<SearchRequest> searchRequestQueue = new Queue<SearchRequest>();
-    Queue<RandomLocRequest> randomLocRequestQueue = new Queue<RandomLocRequest>();
+    Queue<PathRequest> requestQueue = new Queue<PathRequest>();
 
-    RandomLocRequest currentRandomLocRequest;
-    PathRequest currentPathRequest;
-    SearchRequest currentSearchRequest;
+    PathRequest currentRequest;
 
     static PathFinder instance;
     PathFinding pathFinding;
 
-    bool isProcessingPath;
-    bool isProcessingSearch;
-    bool isProcessingRandomLoc;
+    bool isProcessing;
 
     private void Awake()
     {
@@ -28,20 +23,20 @@ public class PathFinder : MonoBehaviour
     public static void RequestPath(Vector3 start, Vector3 end, UnityAction<Vector3[], bool> callback)
     {
         PathRequest newPathRequest = new PathRequest(start, end, callback);
-        instance.pathRequestQueue.Enqueue(newPathRequest);
-        instance.TryProcessNextPathRequest();
+        instance.requestQueue.Enqueue(newPathRequest);
+        instance.TryProcessNextRequest();
     }
     public static void RequestSearch(Vector3 start, int radius, string tag, UnityAction<Vector3, GameObject, int, bool> callback)
     {
-        SearchRequest newSearchRequest = new SearchRequest(start, radius, tag, callback);
-        instance.searchRequestQueue.Enqueue(newSearchRequest);
-        instance.TryProcessNextSearchRequest();
+        PathRequest newSearchRequest = new PathRequest(start, radius, tag, callback);
+        instance.requestQueue.Enqueue(newSearchRequest);
+        instance.TryProcessNextRequest();
     }
     public static void RequestRandomLoc(Vector3 start, int radius, UnityAction<Vector3> callback)
     {
-        RandomLocRequest newRandomLocRequest = new RandomLocRequest(start, radius, callback);
-        instance.randomLocRequestQueue.Enqueue(newRandomLocRequest);
-        instance.TryProcessNextRandomLocRequest();
+        PathRequest newRandomLocRequest = new PathRequest(start, radius, callback);
+        instance.requestQueue.Enqueue(newRandomLocRequest);
+        instance.TryProcessNextRequest();
     }
 
     public static bool CheckWalkable(Vector3 target)
@@ -49,89 +44,89 @@ public class PathFinder : MonoBehaviour
         return instance.pathFinding.CheckWalkable(target);
     }
 
-    void TryProcessNextPathRequest()
+    void TryProcessNextRequest()
     {
-        if (!isProcessingPath && pathRequestQueue.Count > 0) 
+        if (!isProcessing && requestQueue.Count > 0) 
         {
-            isProcessingPath = true;
-            currentPathRequest = pathRequestQueue.Dequeue();
-            pathFinding.StartFindPath(currentPathRequest.start, currentPathRequest.end);
-        }
-    }
-    void TryProcessNextSearchRequest()
-    {
-        if (!isProcessingSearch && searchRequestQueue.Count > 0)
-        {
-            isProcessingSearch = true;
-            currentSearchRequest = searchRequestQueue.Dequeue();
-            pathFinding.StartSearch(currentSearchRequest.start, currentSearchRequest.radius, currentSearchRequest.tag);
-        }
-    }
-    void TryProcessNextRandomLocRequest()
-    {
-        if (!isProcessingRandomLoc && randomLocRequestQueue.Count > 0)
-        {
-            isProcessingSearch = true;
-            currentRandomLocRequest = randomLocRequestQueue.Dequeue();
-            pathFinding.StartRandomLoc(currentRandomLocRequest.start, currentRandomLocRequest.radius);
+            isProcessing = true;
+            currentRequest = requestQueue.Dequeue();
+
+            if (currentRequest.callback!=null)
+            {
+                pathFinding.StartFindPath(currentRequest.start, currentRequest.end);
+            }
+            else if(currentRequest.searchCallback != null)
+            {
+                pathFinding.StartSearch(currentRequest.start, currentRequest.radius, currentRequest.tag);
+            }
+            else if(currentRequest.randomLocCallback != null)
+            {
+                pathFinding.StartRandomLoc(currentRequest.start, currentRequest.radius);
+            }
         }
     }
 
     public void FinishProcessingPath(Vector3[] path, bool succsess)
     {
-        currentPathRequest.callback(path, succsess);
-        isProcessingPath=false;
-        TryProcessNextPathRequest();
+        currentRequest.callback(path, succsess);
+        isProcessing = false;
+        TryProcessNextRequest();
     }
     public void FinishProcessingSearch(Vector3 targetPos, GameObject targetObj, int distance, bool succsess)
     {
-        currentSearchRequest.callback(targetPos, targetObj, distance, succsess);
-        isProcessingSearch = false;
-        TryProcessNextRandomLocRequest();
+        currentRequest.searchCallback(targetPos, targetObj, distance, succsess);
+        isProcessing = false;
+        TryProcessNextRequest();
     }
 
     public void FinishProcessingRandomLoc(Vector3 targetPos)
     {
-        currentRandomLocRequest.callback(targetPos);
-        isProcessingRandomLoc = false;
-        TryProcessNextRandomLocRequest();
+        currentRequest.randomLocCallback(targetPos);
+        isProcessing = false;
+        TryProcessNextRequest();
     }
 }
 struct PathRequest
 {
     public Vector3 start;
     public Vector3 end;
+    public int radius;
+    public string tag;
+
     public UnityAction<Vector3[], bool> callback;
+    public UnityAction<Vector3, GameObject, int, bool> searchCallback;
+    public UnityAction<Vector3> randomLocCallback;
     public PathRequest(Vector3 _start, Vector3 _end, UnityAction<Vector3[], bool> _callback)
     {
         start =_start;
         end = _end;
         callback = _callback;
+
+        radius = 0;
+        tag = null;
+        searchCallback = null;
+        randomLocCallback = null;
     }
-}
-struct SearchRequest
-{
-    public Vector3 start;
-    public int radius;
-    public string tag;
-    public UnityAction<Vector3, GameObject, int, bool> callback;
-    public SearchRequest(Vector3 _start, int _radius, string _tag, UnityAction<Vector3, GameObject, int, bool> _callback)
+    public PathRequest(Vector3 _start, int _radius, string _tag, UnityAction<Vector3, GameObject, int, bool> _callback)
     {
         start = _start;
         radius = _radius;
         tag = _tag;
-        callback = _callback;
+        searchCallback = _callback;
+
+        end = Vector3.zero;
+        callback = null;
+        randomLocCallback = null;
     }
-}
-struct RandomLocRequest
-{
-    public Vector3 start;
-    public int radius;
-    public UnityAction<Vector3> callback;
-    public RandomLocRequest(Vector3 _start, int _radius, UnityAction<Vector3> _callback)
+    public PathRequest(Vector3 _start, int _radius, UnityAction<Vector3> _callback)
     {
         start = _start;
         radius = _radius;
-        callback = _callback;
+        randomLocCallback = _callback;
+
+        end = Vector3.zero;
+        tag = null;
+        searchCallback = null;
+        callback = null;
     }
 }
