@@ -41,7 +41,7 @@ public class CharacterState : MonoBehaviour
     private bool _shock = false;
     public bool can_shock = false;
     public bool can_immune = false;
-    
+
     public void ChangeElecImmune(bool immune)
     {
         _electricEmmune = immune;
@@ -132,6 +132,45 @@ public class CharacterState : MonoBehaviour
     public void ResetAccumulateDmg()
     {
         this.accumulateDmg = 0;
+    }
+    #endregion
+
+    #region SkillState_Water
+    [SerializeField]
+    int cold = 0;
+    int freeze = 0;
+    public void ChangeCold(int stack)
+    {
+        cold += stack;
+    }
+
+    public int GetCold()
+    {
+        return cold;
+    }
+
+    public void ChangeFreeze(bool freeze)
+    {
+        if (freeze)
+        {
+            this.freeze++;
+        }
+        else
+        {
+            this.freeze--;
+        }
+    }
+
+    public bool IsFreeze()
+    {
+        if (freeze > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     #endregion
 
