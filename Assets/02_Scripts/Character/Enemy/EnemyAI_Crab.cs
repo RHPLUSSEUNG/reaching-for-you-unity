@@ -13,28 +13,28 @@ public class EnemyAI_Crab : EnemyAI_Base
         isHide = false;
         hideLapse = 0;
     }
-    public int lastDamaged = 0; //È®ÀÎ¿ëÀ¸·Î public
+    public int lastDamaged = 0; //È®ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ public
     public bool isHide;
     public int hideLapse;
     public override void SpecialCheck()
     {
-        if (isHide) //¿õÅ©¸° »óÅÂ
+        if (isHide) //ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
-            if (hideLapse < 2)  // ½ºÅ³ »ç¿ëÈÄ 2ÅÏ ÀÌ³»ÀÏ °æ¿ì
+            if (hideLapse < 2)  // ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½ ï¿½Ì³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             {
-                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);   // °è¼Ó »ç¿ë
-                hideLapse++;    // ÅÏ Áõ°¡
+                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                hideLapse++;    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 TurnEnd();
             }
             else
             {
-                isHide = false; // 2ÅÏ Áö³µÀ» ½Ã ÇØÁ¦
+                isHide = false; // 2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 hideLapse = 0;
             }
         }
-        else if (lastDamaged > 50 && stat.ActPoint >= 70 && stat.Mp >= 60)    // ÇÑ ÅÏ¿¡ ÀÏÁ¤ ÀÌ»ó ÇÇ°Ý ½Ã
+        else if (lastDamaged > 50 && stat.ActPoint >= 70 && stat.Mp >= 60)    // ï¿½ï¿½ ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½Ç°ï¿½ ï¿½ï¿½
         {
-            // ¿õÅ©¸®±â ½ºÅ³ »ç¿ë
+            // ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½
             Debug.Log("Skill Used!");
             isAttacked = true;
             stat.ActPoint -= 70;
@@ -89,8 +89,8 @@ public class EnemyAI_Crab : EnemyAI_Base
         {
             TurnEnd();
         }
-        
-       
+
+
     }
     public override void OnPathFailed()
     {
