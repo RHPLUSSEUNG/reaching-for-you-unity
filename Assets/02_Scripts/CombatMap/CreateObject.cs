@@ -19,11 +19,14 @@ public struct Map
 
 public class CreateObject : MonoBehaviour
 {
+    #region properties
     public GameObject manager;  // 맵 생성 후 활성화할 매니저
     public Map[,] map;
 
     public float Width = 20f; // 가로 길이
     public float Height = 20f; // 세로 길이
+    [Range(0, 1)]
+    public float outlinePercent; // 맵 테두리 (각 큐브 간 거리)
 
     [Header("Map")]
     public GameObject MapPrefab;
@@ -51,10 +54,11 @@ public class CreateObject : MonoBehaviour
 
     private List<Vector2Int> wallPositions = new List<Vector2Int>(); // 생성된 벽의 위치 리스트
     private List<Vector2Int> obstaclePositions = new List<Vector2Int>(); // 생성된 장애물의 위치 리스트
+    #endregion
 
     void Start()
     {
-        PlaceCubes();
+        GenerateMap();
         RandomObstacle(Width, Height, 1);
         PlaceObstacles();
         PlaceGimmicks();
@@ -63,6 +67,32 @@ public class CreateObject : MonoBehaviour
         mapInstance.transform.position = MapPrefab.transform.position;
 
         manager.active = true;
+    }
+
+    public void GenerateMap()
+    {
+        string name = "Map";
+        if(transform.Find(name)) 
+        {
+            DestroyImmediate(transform.Find(name).gameObject);
+        }
+
+        Transform mapHolder = new GameObject(name).transform;
+        mapHolder.parent = transform;
+
+        for (int x = 0; x < Width; x++)
+        {
+            for (int z = 0; z < Height; z++)
+            {
+                // 큐브 랜덤하게 생성
+                int randomIndex = Random.Range(0, cubePrefab.Length); 
+                // 새로운 Cube 오브젝트 생성
+                GameObject newCube = Instantiate(cubePrefab[randomIndex], new Vector3(x, 0, z), Quaternion.identity);
+                // 부모 설정 (이 스크립트를 추가한 게임 오브젝트를 부모로 설정)
+                newCube.transform.localScale = Vector3.one * (1 - outlinePercent);
+                newCube.transform.SetParent(mapHolder);
+            }
+        }
     }
 
     public void PlaceGimmicks()
@@ -218,22 +248,5 @@ public class CreateObject : MonoBehaviour
             count++;
 
         return count;
-    }
-
-
-    void PlaceCubes()
-    {
-        for (int x = 0; x < Width; x++)
-        {
-            for (int y = 0; y < Height; y++)
-            {
-                // 큐브 랜덤하게 생성
-                int randomIndex = Random.Range(0, cubePrefab.Length); 
-                // 새로운 Cube 오브젝트 생성
-                GameObject newCube = Instantiate(cubePrefab[randomIndex], new Vector3(x, 0, y), Quaternion.identity);
-                // 부모 설정 (이 스크립트를 추가한 게임 오브젝트를 부모로 설정)
-                newCube.transform.SetParent(transform);
-            }
-        }
     }
 }
