@@ -24,11 +24,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
             return;
 
         OnTurnStart();
-        if (!isTurnEnd)
-        {
-            Search(stat.Sight);
-        }
-
+        Search(stat.Sight);
     }
     public override void SpecialCheck()
     {
@@ -37,14 +33,14 @@ public class EnemyAI_Lizard : EnemyAI_Base
 
         if (CanAttack(stat.AttackRange))
         {
-            if (isSIzeMode) //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+            if (isSIzeMode) //µ¹ ÀåÀü Áß
             {
                 isSIzeMode = false;
                 tailPos = this.transform.GetChild(0).transform.GetChild(2);
                 projectile.GetComponent<ArcProjectile>().Shoot(tailPos, targetObj.transform);
                 Attack(50);
             }
-            else if (targetDistance <= 2) // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ X, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 2Ä­ ï¿½ï¿½
+            else if (targetDistance <= 2) // µ¹ ÀåÀüÁß X, ´ë»óÀÌ 2Ä­ ³»
             {
                 Debug.Log("Skill Used!");
                 stat.ActPoint -= 60;
@@ -52,7 +48,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
                 skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetObj.transform.parent.gameObject);
                 BeforeTrunEnd();
             }
-            else  // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ X, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 2Ä­ ï¿½ï¿½
+            else  // µ¹ ÀåÀüÁß X, ´ë»óÀÌ 2Ä­ ¹Û
             {
                 isAttacked = true;
                 stat.ActPoint -= 50;
@@ -61,7 +57,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
                 TurnEnd();
             }
         }
-        else // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+        else // ´ë»óÀÌ °ø°Ý ¹üÀ§ ¹Û
         {
             isAttacked = true;
             isMoved = true;
@@ -72,9 +68,12 @@ public class EnemyAI_Lizard : EnemyAI_Base
     }
     public override void OnMoveEnd()
     {
-        if (isMoved && isAttacked)
-            TurnEnd();
-        if (!isAttacked)
+        if (isTurnEnd)
+            return;
+
+        if (isAttacked)
+            BeforeTrunEnd();
+        else
         {
             SpecialCheck();
         }
@@ -134,6 +133,9 @@ public class EnemyAI_Lizard : EnemyAI_Base
 
     public override void BeforeTrunEnd()
     {
+        if (isTurnEnd)
+            return;
+
         TurnEnd();
     }
 }

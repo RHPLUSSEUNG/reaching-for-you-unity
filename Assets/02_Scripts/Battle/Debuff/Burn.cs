@@ -29,4 +29,12 @@ public class Burn : Debuff
         
         return true;
     }
+
+    public override void Duplicate_Debuff(Debuff debuff)
+    {
+        Burn burn = (Burn)debuff;
+        this.remainTurn = debuff.remainTurn;
+        this.tickDmg += burn.tickDmg;
+        this.count++;
+    }
 }

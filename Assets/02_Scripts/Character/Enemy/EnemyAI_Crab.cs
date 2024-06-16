@@ -13,28 +13,31 @@ public class EnemyAI_Crab : EnemyAI_Base
         isHide = false;
         hideLapse = 0;
     }
-    public int lastDamaged = 0; //È®ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ public
+    public int lastDamaged = 0; //È®ÀÎ¿ëÀ¸·Î public
     public bool isHide;
     public int hideLapse;
     public override void SpecialCheck()
     {
-        if (isHide) //ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (isTurnEnd)
+            return;
+
+        if (isHide) //¿õÅ©¸° »óÅÂ
         {
-            if (hideLapse < 2)  // ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½ ï¿½Ì³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            if (hideLapse < 2)  // ½ºÅ³ »ç¿ëÈÄ 2ÅÏ ÀÌ³»ÀÏ °æ¿ì
             {
-                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-                hideLapse++;    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-                TurnEnd();
+                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);   // °è¼Ó »ç¿ë
+                hideLapse++;    // ÅÏ Áõ°¡
+                BeforeTrunEnd();
             }
             else
             {
-                isHide = false; // 2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+                isHide = false; // 2ÅÏ Áö³µÀ» ½Ã ÇØÁ¦
                 hideLapse = 0;
             }
         }
-        else if (lastDamaged > 50 && stat.ActPoint >= 70 && stat.Mp >= 60)    // ï¿½ï¿½ ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½Ç°ï¿½ ï¿½ï¿½
+        else if (lastDamaged > 50 && stat.ActPoint >= 70 && stat.Mp >= 60)    // ÇÑ ÅÏ¿¡ ÀÏÁ¤ ÀÌ»ó ÇÇ°Ý ½Ã
         {
-            // ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½
+            // ¿õÅ©¸®±â ½ºÅ³ »ç¿ë
             Debug.Log("Skill Used!");
             isAttacked = true;
             stat.ActPoint -= 70;
@@ -89,8 +92,8 @@ public class EnemyAI_Crab : EnemyAI_Base
         {
             BeforeTrunEnd();
         }
-
-
+        
+       
     }
     public override void OnPathFailed()
     {
@@ -127,5 +130,13 @@ public class EnemyAI_Crab : EnemyAI_Base
     {
         stat.Hp -= damage;
         lastDamaged += damage;
+    }
+    public override void BeforeTrunEnd()
+    {
+        if (isTurnEnd)
+            return;
+
+        lastDamaged = 0;
+        TurnEnd();
     }
 }

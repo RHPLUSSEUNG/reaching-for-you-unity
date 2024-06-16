@@ -13,7 +13,7 @@ public class SkillManager
 
     public bool is_effect = false;
 
-    public void OnAwake()
+    public void Awake()
     {
         usingSkill = GameObject.Find("UsingSkill");
         Debug.Log(usingSkill);

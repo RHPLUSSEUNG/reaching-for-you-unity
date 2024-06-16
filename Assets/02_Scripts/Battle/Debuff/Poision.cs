@@ -30,4 +30,9 @@ public class Poision : Debuff
         return true;
     }
 
+    public override void Duplicate_Debuff(Debuff debuff)
+    {
+        Poision poision = (Poision)debuff;
+        remainTurn += poision.remainTurn;
+    }
 }

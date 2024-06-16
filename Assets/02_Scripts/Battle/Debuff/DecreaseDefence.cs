@@ -21,12 +21,17 @@ public class DecreaseDefence : Debuff
 		return true;
 	}
 
-	public override void SetDebuff(int turn, GameObject target, short attribute = 0, bool TurnEnd = false)
-	{
+    public override void SetDebuff(int turn, GameObject target, short attribute = 0, bool TurnEnd = false)
+    {
 		this.target = target;
 		this.remainTurn = turn;
-		decShd = attribute;
-		target.GetComponent<CharacterState>().AddDebuff(this, TurnEnd);
-		StartEffect();
+        decShd = attribute;
+        target.GetComponent<CharacterState>().AddDebuff(this, TurnEnd);
+        StartEffect();
 	}
+
+    public override void Duplicate_Debuff(Debuff debuff)
+    {
+        throw new System.NotImplementedException();
+    }
 }

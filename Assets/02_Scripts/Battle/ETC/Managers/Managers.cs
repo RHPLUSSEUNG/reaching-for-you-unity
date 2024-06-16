@@ -48,6 +48,11 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             _manager = gameObject.GetComponent<Managers>();
         }
+
+        _data.OnAwake();
+        _skill.Awake();
+        raycast.Init();
+        _battle.BattleReady();
     }
     #endregion
     public void Update()
@@ -55,11 +60,4 @@ public class Managers : MonoBehaviour
         raycast.OnUpdate();
     }
 
-    public void OnEnable()
-    {
-        _data.OnAwake();
-        _skill.OnAwake();
-        raycast.OnAwake();
-        _battle.BattleReady();
-    }
 }

@@ -42,13 +42,13 @@ public class CharacterState : MonoBehaviour
     private bool _shock = false;
     public bool can_shock = false;
     public bool can_immune = false;
-    
+
     public void ChangeElecImmune(bool immune)
     {
         _electricEmmune = immune;
     }
 
-    public bool IsElecImmune()
+    public bool GetElecImmune()
     {
         return _electricEmmune;
     }
@@ -58,12 +58,12 @@ public class CharacterState : MonoBehaviour
         _shock = shock;
     }
 
-    public bool IsShock()
+    public bool GetShock()
     {
         return _shock;
     }
 
-    public void CalcCapacity(GameObject target)
+    public void GetCapacity(GameObject target)
     {
         CharacterState currentState = Managers.Battle.currentCharacter.GetComponent<CharacterState>();
         if (currentState.capacity == 1 || currentState.capacity == 3)
@@ -283,7 +283,15 @@ public class CharacterState : MonoBehaviour
     {
         if (turnEnd == false)
         {
-            debuffs.Add(debuff);
+            Debuff cur = FindDebuff(debuff);
+            if (cur != null)
+            {
+                cur.Duplicate_Debuff(debuff);
+            }
+            else
+            {
+                debuffs.Add(debuff);
+            }
         }
         else
         {
