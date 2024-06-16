@@ -23,7 +23,7 @@ public class WorldHPUI : UI_Base
         stat = character.GetComponent<EntityStat>();
     }
 
-    // TODO : ratio설정 Update문 사용 안하기 도전
+    // TODO : ratio설정 Update문 사용 안하기
     private void Update()
     {
         if (Managers.BattleUI.cameraMode == CameraMode.Follow)

@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -22,6 +23,7 @@ public class ActUI : UI_Popup
 
     GameObject mainCamera;
     CameraController cameraController;
+    MoveRangeUI rangeUI;
 
     GameObject actPanel;
     GameObject magicPanel;
@@ -57,7 +59,7 @@ public class ActUI : UI_Popup
         BindEvent(itemUseBtn, UseItemButtonClick, Define.UIEvent.Click);
         BindEvent(defenseBtn, UseDefenseButtonClick, Define.UIEvent.Click);
         BindEvent(nextBtn, NextButtonClick, Define.UIEvent.Click);
-        BindEvent(moveBtn, MoveButtonClick, Define.UIEvent.Click);
+        BindEvent(moveBtn, MoveEndButtonClick, Define.UIEvent.Click);
         BindEvent(magicCancleBtn, MagicCancleButtonClick, Define.UIEvent.Click);
 
         Managers.UI.HideUI(itemPanel);
@@ -66,6 +68,8 @@ public class ActUI : UI_Popup
 
         mainCamera = GameObject.Find("Main Camera");
         cameraController = mainCamera.GetComponent<CameraController>();
+        rangeUI = gameObject.GetComponent<MoveRangeUI>();
+        rangeUI.SetMapInfo();
 
         Managers.BattleUI.warningUI = Managers.UI.CreatePopupUI<WarningUI>("WarningUI");
         Managers.UI.HideUI(Managers.BattleUI.warningUI.gameObject);
@@ -73,15 +77,15 @@ public class ActUI : UI_Popup
 
     public void UpdateCharacterInfo()
     {
+        // UpdateCharacterInfo -> UpdatePlayerTurnUI ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         Managers.UI.uiState = UIState.Idle;
         Managers.UI.ShowUI(gameObject);
-        Managers.UI.ShowUI(actPanel);
-        // ÇÃ·¹ÀÌ¾î ÅÏ¸¶´Ù ½ÇÇà
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         SkillList skillList = Managers.Battle.currentCharacter.GetComponent<SkillList>();
         int curMp = Managers.Battle.currentCharacter.GetComponent<EntityStat>().Mp;
         for (int i = 0; i < skillList.list.Count; i++)
         {
-            // ¸¶¹ý ¹öÆ° µ¿Àû »ý¼º : MagicButtonUI magicButton = Managers.UI.MakeSubItem<MagicButtonUI>(magicBtnLayout.transform, "MagicButton");
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : MagicButtonUI magicButton = Managers.UI.MakeSubItem<MagicButtonUI>(magicBtnLayout.transform, "MagicButton");
             MagicButtonUI magicBtn = magicBtnLayout.transform.GetChild(i).GetComponent<MagicButtonUI>();
             if(magicBtn.SaveSkill == null)
             {
@@ -96,9 +100,11 @@ public class ActUI : UI_Popup
                 magicBtnLayout.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
-        Managers.UI.ShowUI(magicPanel);
-        Managers.UI.ShowUI(Managers.BattleUI.moveBtn);
-        Managers.UI.HideUI(Managers.BattleUI.cancleBtn);
+
+        Managers.UI.uiState = UIState.Move;
+        Managers.BattleUI.PlayerMovePhaseUI();
+        
+        rangeUI.DisplayMoveRange();
 
         cameraController.ChangeCameraMode(CameraMode.Follow,false, true);
         Managers.BattleUI.cameraMode = CameraMode.Follow;
@@ -132,7 +138,7 @@ public class ActUI : UI_Popup
         Managers.Battle.NextTurn();
     }
 
-    public void MoveButtonClick(PointerEventData data)
+    public void MoveEndButtonClick(PointerEventData data)
     {
         Text moveText = GetObject((int)actUI.MoveButton).transform.GetChild(0).gameObject.GetComponent<Text>();
         if (Managers.UI.uiState == UIState.Idle)
@@ -143,8 +149,8 @@ public class ActUI : UI_Popup
             cameraController.ChangeCameraMode(CameraMode.Static, true, true);
             Managers.BattleUI.cameraMode = CameraMode.Static;
 
-            // Text º¯°æ(ÀÓ½Ã)
-            moveText.text = "ÀÌµ¿ Á¾·á";
+            // Text ï¿½ï¿½ï¿½ï¿½(ï¿½Ó½ï¿½)
+            moveText.text = "ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½";
             return;
         }
         if (Managers.UI.uiState == UIState.Move)
@@ -154,8 +160,8 @@ public class ActUI : UI_Popup
             cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
             Managers.BattleUI.cameraMode = CameraMode.Follow;
 
-            // Text º¯°æ(ÀÓ½Ã)
-            moveText.text = "ÀÌµ¿";
+            // Text ï¿½ï¿½ï¿½ï¿½(ï¿½Ó½ï¿½)
+            moveText.text = "ï¿½Ìµï¿½";
             return;
         }
     }
@@ -164,9 +170,7 @@ public class ActUI : UI_Popup
     {
         Managers.UI.uiState = UIState.Idle;
         Managers.BattleUI.skill = null;
-        Managers.UI.ShowUI(actPanel);
-        Managers.UI.ShowUI(Managers.BattleUI.moveBtn);
-        Managers.UI.HideUI(Managers.BattleUI.cancleBtn);
+        Managers.BattleUI.PlayerBattlePhaseUI();
 
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
         Managers.BattleUI.cameraMode = CameraMode.Follow;
