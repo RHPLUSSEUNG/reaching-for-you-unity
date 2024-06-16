@@ -13,7 +13,7 @@ public class SkillManager
 
     public bool is_effect = false;
 
-    public void Awake()
+    public void OnAwake()
     {
         usingSkill = GameObject.Find("UsingSkill");
         Debug.Log(usingSkill);
@@ -78,11 +78,9 @@ public class SkillManager
         is_effect = true;
         while(effect.GetComponent<ParticleSystem>().isPlaying)
         {
-            Debug.Log(effect);
             yield return null;
         }
         is_effect = false;
-        yield break;
     }
 
     public void UseElementSkill(ElementType type)

@@ -52,7 +52,7 @@ public class BattleUIManager
 
     public void SetPosition(GameObject pos)
     {
-        player.transform.position = pos.transform.position + Vector3.up;
+        player.transform.position = pos.transform.position + new Vector3(0f,0.8f,0);
         Managers.Battle.ObjectList.Add(player);
         Managers.Battle.playerLive++;
         Managers.UI.uiState = UIState.Idle;

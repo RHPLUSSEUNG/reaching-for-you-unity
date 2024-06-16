@@ -77,15 +77,15 @@ public class ActUI : UI_Popup
 
     public void UpdateCharacterInfo()
     {
-        // UpdateCharacterInfo -> UpdatePlayerTurnUI À¸·Î ÇÔ¼ö ÀÌ¸§ º¯°æ
+        // UpdateCharacterInfo -> UpdatePlayerTurnUI ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         Managers.UI.uiState = UIState.Idle;
         Managers.UI.ShowUI(gameObject);
-        // ÇÃ·¹ÀÌ¾î ÅÏ¸¶´Ù ½ÇÇà
+        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         SkillList skillList = Managers.Battle.currentCharacter.GetComponent<SkillList>();
         int curMp = Managers.Battle.currentCharacter.GetComponent<EntityStat>().Mp;
         for (int i = 0; i < skillList.list.Count; i++)
         {
-            // ¸¶¹ý ¹öÆ° µ¿Àû »ý¼º : MagicButtonUI magicButton = Managers.UI.MakeSubItem<MagicButtonUI>(magicBtnLayout.transform, "MagicButton");
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : MagicButtonUI magicButton = Managers.UI.MakeSubItem<MagicButtonUI>(magicBtnLayout.transform, "MagicButton");
             MagicButtonUI magicBtn = magicBtnLayout.transform.GetChild(i).GetComponent<MagicButtonUI>();
             if(magicBtn.SaveSkill == null)
             {
@@ -103,7 +103,7 @@ public class ActUI : UI_Popup
 
         Managers.UI.uiState = UIState.Move;
         Managers.BattleUI.PlayerMovePhaseUI();
-        
+
         rangeUI.DisplayMoveRange();
 
         cameraController.ChangeCameraMode(CameraMode.Static, true);
@@ -125,7 +125,7 @@ public class ActUI : UI_Popup
     public void UseDefenseButtonClick(PointerEventData data)
     {
         Managers.UI.HideUI(gameObject);
-        cameraController.ChangeCameraMode(CameraMode.Static, true);
+        cameraController.ChangeCameraMode(CameraMode.Static, true, true);
         Managers.BattleUI.cameraMode = CameraMode.Static;
         Managers.Battle.NextTurn();
     }
@@ -133,7 +133,7 @@ public class ActUI : UI_Popup
     public void NextButtonClick(PointerEventData data)
     {
         Managers.UI.HideUI(gameObject);
-        cameraController.ChangeCameraMode(CameraMode.Static, true);
+        cameraController.ChangeCameraMode(CameraMode.Static, true, true);
         Managers.BattleUI.cameraMode = CameraMode.Static;
         Managers.Battle.NextTurn();
     }
@@ -153,7 +153,7 @@ public class ActUI : UI_Popup
         Managers.BattleUI.skill = null;
         Managers.BattleUI.PlayerBattlePhaseUI();
 
-        cameraController.ChangeCameraMode(CameraMode.Follow, true);
+        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
         Managers.BattleUI.cameraMode = CameraMode.Follow;
     }
 }

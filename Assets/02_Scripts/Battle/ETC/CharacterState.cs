@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ public class CharacterState : MonoBehaviour
         _electricEmmune = immune;
     }
 
-    public bool GetElecImmune()
+    public bool IsElecImmune()
     {
         return _electricEmmune;
     }
@@ -57,12 +58,12 @@ public class CharacterState : MonoBehaviour
         _shock = shock;
     }
 
-    public bool GetShock()
+    public bool IsShock()
     {
         return _shock;
     }
 
-    public void GetCapacity(GameObject target)
+    public void CalcCapacity(GameObject target)
     {
         CharacterState currentState = Managers.Battle.currentCharacter.GetComponent<CharacterState>();
         if (currentState.capacity == 1 || currentState.capacity == 3)
@@ -132,6 +133,71 @@ public class CharacterState : MonoBehaviour
     public void ResetAccumulateDmg()
     {
         this.accumulateDmg = 0;
+    }
+    #endregion
+
+    #region SkillState_Water
+    [SerializeField]
+    int cold = 0;
+    int freeze = 0;
+    int barrier = 0;
+    public void ChangeCold(int stack)
+    {
+        cold += stack;
+    }
+
+    public int GetCold()
+    {
+        return cold;
+    }
+
+    public void ChangeFreeze(bool freeze)
+    {
+        if (freeze)
+        {
+            this.freeze++;
+        }
+        else
+        {
+            this.freeze--;
+        }
+    }
+
+    public bool IsFreeze()
+    {
+        if (freeze > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void AddBarrier(int barrier)
+    {
+        this.barrier += barrier;
+    }
+
+    public int DeleteBarrier(int barrier)
+    {
+        int temp = this.barrier - barrier;
+        if(this.barrier < 0)
+        {
+            this.barrier = 0;
+            return -1*temp;
+        }
+        return 0;
+    }
+
+    public bool HasBarrier()
+    {
+        if(barrier <= 0)
+        {
+            return false;
+        }
+        return true;
     }
     #endregion
 
@@ -217,15 +283,7 @@ public class CharacterState : MonoBehaviour
     {
         if (turnEnd == false)
         {
-            Debuff cur = FindDebuff(debuff);
-            if (cur != null)
-            {
-                cur.Duplicate_Debuff(debuff);
-            }
-            else
-            {
-                debuffs.Add(debuff);
-            }
+            debuffs.Add(debuff);
         }
         else
         {

@@ -30,12 +30,4 @@ public class Slow : Debuff
         return true;
     }
 
-    public override void Duplicate_Debuff(Debuff debuff)
-    {
-        Slow de = (Slow)debuff;
-        target.GetComponent<CharacterState>().ChangeSlow(false, slow);
-        this.slow = this.slow > de.slow ?  this.slow : de.slow;
-        target.GetComponent<CharacterState>().ChangeSlow(true, slow);
-        remainTurn = this.remainTurn > de.remainTurn ? this.remainTurn : de.remainTurn;
-    }
 }
