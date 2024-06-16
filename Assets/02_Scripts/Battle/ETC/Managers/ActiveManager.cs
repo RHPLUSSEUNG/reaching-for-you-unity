@@ -49,13 +49,13 @@ public class ActiveManager
         #region Electric
         if (element == ElementType.Electric)
         {
-            state.GetCapacity(target);
-            if (state.GetElecImmune())
+            state.CalcCapacity(target);
+            if (state.IsElecImmune())
             {
                 return 0;
             }
 
-            if (state.GetShock() && close == true)
+            if (state.IsShock() && close == true)
             {
                 ElectricShock shock = new();
                 shock.SetDebuff(1, Managers.Battle.currentCharacter, 1);

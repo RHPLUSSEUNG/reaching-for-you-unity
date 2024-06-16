@@ -22,6 +22,4 @@ public abstract class Debuff
     public abstract bool StartEffect();
 
     public abstract void SetDebuff(int turn, GameObject target, short attribute = 0, bool TurnEnd = false);
-
-    public abstract void Duplicate_Debuff(Debuff debuff);
 }
