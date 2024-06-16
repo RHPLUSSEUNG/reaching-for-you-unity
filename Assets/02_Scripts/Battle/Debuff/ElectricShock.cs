@@ -34,9 +34,4 @@ public class ElectricShock : Debuff
         return true;
     }
 
-    public override void Duplicate_Debuff(Debuff debuff)
-    {
-        ElectricShock shock = (ElectricShock)debuff;
-        count += shock.count;
-    }
 }

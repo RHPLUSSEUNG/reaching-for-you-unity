@@ -30,9 +30,4 @@ public class Paralysis : Debuff
         return true;
     }
 
-    public override void Duplicate_Debuff(Debuff debuff)
-    {
-        Paralysis paralysis = (Paralysis)debuff;
-        remainTurn += paralysis.remainTurn;
-    }
 }
