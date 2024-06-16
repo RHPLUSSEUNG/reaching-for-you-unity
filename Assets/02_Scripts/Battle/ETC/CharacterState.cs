@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -139,6 +140,7 @@ public class CharacterState : MonoBehaviour
     [SerializeField]
     int cold = 0;
     int freeze = 0;
+    int barrier = 0;
     public void ChangeCold(int stack)
     {
         cold += stack;
@@ -171,6 +173,31 @@ public class CharacterState : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void AddBarrier(int barrier)
+    {
+        this.barrier += barrier;
+    }
+
+    public int DeleteBarrier(int barrier)
+    {
+        int temp = this.barrier - barrier;
+        if(this.barrier < 0)
+        {
+            this.barrier = 0;
+            return -1*temp;
+        }
+        return 0;
+    }
+
+    public bool HasBarrier()
+    {
+        if(barrier <= 0)
+        {
+            return false;
+        }
+        return true;
     }
     #endregion
 

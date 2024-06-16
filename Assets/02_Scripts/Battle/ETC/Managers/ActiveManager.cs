@@ -34,23 +34,25 @@ public class ActiveManager
         }
     }
 
-    public void Damage(GameObject target, int damage, ElementType element = ElementType.None, bool close = false)
+    public int Damage(GameObject target, int damage, ElementType element = ElementType.None, bool close = false)
     {
         Debug.Log(target);
         if (damage <= 0)
         {
-            return;
+            return 0;
         }
 
-        CharacterState state = target.GetComponent<CharacterState>();
+        damage -= (int)target.GetComponent<EntityStat>().Defense;
 
+        CharacterState state = target.GetComponent<CharacterState>();
+        
         #region Electric
         if (element == ElementType.Electric)
         {
             state.GetCapacity(target);
             if (state.GetElecImmune())
             {
-                return;
+                return 0;
             }
 
             if (state.GetShock() && close == true)
@@ -60,11 +62,20 @@ public class ActiveManager
             }
         }
         #endregion
-
+        #region Water
+        if (state.HasBarrier())
+        {
+            damage = state.DeleteBarrier(damage);
+            if(damage <= 0 )
+            {
+                return 0;
+            }
+        }
+        #endregion
         if (target.GetComponent<EnemyAI_Base>() != null)
         {
             target.GetComponent<EnemyAI_Base>().OnHit(damage);
-            return;
+            return damage;
         }else if (target.GetComponent<PlayerBattle>() != null)
         {
             Debug.Log("Player Damaged");
@@ -79,6 +90,7 @@ public class ActiveManager
         {
             Dead(target);
         }
+        return damage;
     }
 
     public void Heal(GameObject target, int heal)
