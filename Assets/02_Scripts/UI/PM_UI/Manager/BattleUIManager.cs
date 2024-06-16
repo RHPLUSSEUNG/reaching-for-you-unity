@@ -38,12 +38,13 @@ public class BattleUIManager
         return item;
     }
 
-    public void ShowCharacterInfo(GameObject character)
+    public void ShowCharacterInfo(GameObject hit)
     {
         if(battleInfoUI == null)
         {
-            Managers.UI.CreatePopupUI<BattleInfoUI>("BattleInfoUI");
+            battleInfoUI = Managers.UI.CreatePopupUI<BattleInfoUI>("BattleInfoUI");
         }
+        GameObject character = hit.transform.parent.gameObject;
         battleInfoUI.SetInfo(character);
         Managers.UI.ShowUI(battleInfoUI.gameObject);
         // UI ²ô´Â°Å ÇÊ¿ä

@@ -5,6 +5,16 @@ public class UI_ActTurn : UI_Scene
 {
     int objectCount;
 
+    // Temp
+    [SerializeField] Sprite playerSprite;
+    [SerializeField] Sprite crabSprite;
+    [SerializeField] Sprite lizardSprite;
+
+    Color actedColor = Color.gray;
+
+
+    // 보완 필요
+
     public override void Init()
     {
         objectCount = Managers.Battle.ObjectList.Count;
@@ -20,20 +30,29 @@ public class UI_ActTurn : UI_Scene
     {
         for(int i = 0; i < Managers.Battle.ObjectList.Count; i++)
         {
-            Image turnImage = transform.GetChild((Managers.Battle.ObjectList.Count-1)-i).gameObject.GetComponent<Image>();
+            // GetChild 두 번 수정?
+            Image turnImage = transform.GetChild((Managers.Battle.ObjectList.Count-1)-i).GetChild(0).gameObject.GetComponent<Image>();
             Sprite charImage = Managers.Battle.ObjectList[i].GetComponent<Sprite>();            // 캐릭터 스프라이트를 가져온다
 
             // Temp
             if (Managers.Battle.ObjectList[i].CompareTag("Player"))
             {
-                transform.GetChild((Managers.Battle.ObjectList.Count - 1) - i).gameObject.GetComponent<Text>().text = "Player";
+                turnImage.sprite = playerSprite;
             }
             else if (Managers.Battle.ObjectList[i].CompareTag("Monster"))
             {
-                transform.GetChild((Managers.Battle.ObjectList.Count - 1) - i).gameObject.GetComponent<Text>().text = "Monster";
+                if (Managers.Battle.ObjectList[i].name == "Enemy_Crab(Clone)")
+                {
+                    turnImage.sprite = crabSprite;
+                }
+                else if (Managers.Battle.ObjectList[i].name == "Enemy_Lizard(Clone)")
+                {
+                    turnImage.sprite = lizardSprite;
+                }
+                
             }
 
-            turnImage.sprite = charImage;
+            // turnImage.sprite = charImage;
         }
     }
 
@@ -52,28 +71,25 @@ public class UI_ActTurn : UI_Scene
 
     public void TurnUpdate()
     {
-        Image curChar = transform.GetChild(transform.childCount - 1).gameObject.GetComponent<Image>();
+        // 반복문 childCount 범위 재설정
+        Image curChar = transform.GetChild(transform.childCount - 1).GetChild(0).GetComponent<Image>();
         Sprite curSprite = curChar.sprite;
 
-        Text curText = transform.GetChild(transform.childCount - 1).gameObject.GetComponent<Text>();
-        string cur = curText.text;
         for (int i = transform.childCount - 2; i >= 0; i--)
         {
-            Image turnImg = transform.GetChild(i + 1).gameObject.GetComponent<Image>();
-            Image moveImg = transform.GetChild(i).gameObject.GetComponent<Image>();
+            Image turnImg = transform.GetChild(i + 1).GetChild(0).GetComponent<Image>();
+            Image moveImg = transform.GetChild(i).GetChild(0).GetComponent<Image>();
 
             turnImg.sprite = moveImg.sprite;
-
-            Text turnText = transform.GetChild(i + 1).gameObject.GetComponent<Text>();
-            Text moveText = transform.GetChild(i).gameObject.GetComponent<Text>();
-
-            turnText.text = moveText.text;
         }
-        Image lastImg = transform.GetChild(0).gameObject.GetComponent<Image>();
+        Image lastImg = transform.GetChild(0).GetChild(0).GetComponent<Image>();
         lastImg.sprite = curSprite;
-
-        Text lastText = transform.GetChild(0).gameObject.GetComponent<Text>();
-        lastText.text = cur;
         // TODO : Color 변경. 모든 캐릭터가 한 번씩 행동했을 시 색 초기화
+    }
+
+    public void TempTurnUpdate()
+    {
+        Image lastImg = transform.GetChild(0).GetComponent<Image>();
+        lastImg.color = actedColor;
     }
 }
