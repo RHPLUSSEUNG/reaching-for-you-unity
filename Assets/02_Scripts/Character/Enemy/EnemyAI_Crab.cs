@@ -48,10 +48,8 @@ public class EnemyAI_Crab : EnemyAI_Base
     public override void ProceedTurn()
     {
         if(!isTurnEnd)
-        {
             return;
-        }
-        
+
         OnTurnStart();
         SpecialCheck();
         if (!isTurnEnd)
@@ -63,6 +61,7 @@ public class EnemyAI_Crab : EnemyAI_Base
     {
         if (isTurnEnd)
             return;
+
         if (!isMoved)
             Move();
         else
@@ -73,7 +72,7 @@ public class EnemyAI_Crab : EnemyAI_Base
             }
             else
             {
-                TurnEnd();
+                BeforeTrunEnd();
             }
         }
     }
@@ -81,35 +80,48 @@ public class EnemyAI_Crab : EnemyAI_Base
     {
         if (isTurnEnd)
             return;
+
         if (!isMoved)
         {
             PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
         }
         else
         {
-            TurnEnd();
+            BeforeTrunEnd();
         }
 
 
     }
     public override void OnPathFailed()
     {
-        TurnEnd();
+        if (isTurnEnd)
+            return;
+
+        BeforeTrunEnd();
     }
     public override void OnMoveEnd()
     {
+        if (isTurnEnd)
+            return;
+
         SpecialCheck();
         if (isMoved && isAttacked)
-            TurnEnd();
+            BeforeTrunEnd();
         Search(stat.Sight);
     }
     public override void OnAttackSuccess()
     {
-        TurnEnd();
+        if (isTurnEnd)
+            return;
+
+        BeforeTrunEnd();
     }
     public override void OnAttackFail()
     {
-        TurnEnd();
+        if (isTurnEnd)
+            return;
+
+        BeforeTrunEnd();
     }
     public override void OnHit(int damage)
     {

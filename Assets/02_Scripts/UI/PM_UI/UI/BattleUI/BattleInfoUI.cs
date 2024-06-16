@@ -23,7 +23,6 @@ public class BattleInfoUI : UI_Popup
     public void SetInfo(GameObject character)
     {
         // 현재 character가 collider를 들고오는중
-        Debug.Log(character);
         EntityStat stat = character.GetComponent<EntityStat>();
         CharacterState state = character.GetComponent<CharacterState>();
 

@@ -21,9 +21,8 @@ public class EnemyAI_Lizard : EnemyAI_Base
     public override void ProceedTurn()
     {
         if (!isTurnEnd)
-        {
             return;
-        }
+
         OnTurnStart();
         if (!isTurnEnd)
         {
@@ -33,6 +32,9 @@ public class EnemyAI_Lizard : EnemyAI_Base
     }
     public override void SpecialCheck()
     {
+        if (isTurnEnd)
+            return;
+
         if (CanAttack(stat.AttackRange))
         {
             if (isSIzeMode) //�� ���� ��
@@ -48,7 +50,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
                 stat.ActPoint -= 60;
                 stat.Mp -= 60;
                 skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetObj.transform.parent.gameObject);
-                TurnEnd();
+                BeforeTrunEnd();
             }
             else  // �� ������ X, ������ 2ĭ ��
             {
@@ -62,9 +64,10 @@ public class EnemyAI_Lizard : EnemyAI_Base
         else // ������ ���� ���� ��
         {
             isAttacked = true;
+            isMoved = true;
             stat.ActPoint -= 50;
             isSIzeMode = true;
-            TurnEnd();
+            BeforeTrunEnd();
         }
     }
     public override void OnMoveEnd()
@@ -75,8 +78,6 @@ public class EnemyAI_Lizard : EnemyAI_Base
         {
             SpecialCheck();
         }
-        else
-            TurnEnd();
     }
     public override void OnHit(int damage)
     {
@@ -88,30 +89,50 @@ public class EnemyAI_Lizard : EnemyAI_Base
     }
     public override void OnTargetFoundSuccess()
     {
+        if (isTurnEnd)
+            return;
+
         if (!isAttacked)
             SpecialCheck();
         else
-            TurnEnd();
+            BeforeTrunEnd();
     }
     public override void OnTargetFoundFail()
     {
+        if (isTurnEnd)
+            return;
+
         if (!isMoved)
         {
             isSIzeMode = false;
             PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
         }
         else
-            TurnEnd();
+            BeforeTrunEnd();
     }
     public override void OnPathFailed()
     {
-        TurnEnd();
+        if (isTurnEnd)
+            return;
+
+        BeforeTrunEnd();
     }
     public override void OnAttackSuccess()
     {
-        TurnEnd();
+        if (isTurnEnd)
+            return;
+
+        BeforeTrunEnd();
     }
     public override void OnAttackFail()
+    {
+        if (isTurnEnd)
+            return;
+
+        BeforeTrunEnd();
+    }
+
+    public override void BeforeTrunEnd()
     {
         TurnEnd();
     }

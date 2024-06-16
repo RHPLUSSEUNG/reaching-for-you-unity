@@ -38,12 +38,13 @@ public class BattleUIManager
         return item;
     }
 
-    public void ShowCharacterInfo(GameObject character)
+    public void ShowCharacterInfo(GameObject hit)
     {
         if(battleInfoUI == null)
         {
-            Managers.UI.CreatePopupUI<BattleInfoUI>("BattleInfoUI");
+            battleInfoUI = Managers.UI.CreatePopupUI<BattleInfoUI>("BattleInfoUI");
         }
+        GameObject character = hit.transform.parent.gameObject;
         battleInfoUI.SetInfo(character);
         Managers.UI.ShowUI(battleInfoUI.gameObject);
         // UI ²ô´Â°Å ÇÊ¿ä
@@ -61,4 +62,26 @@ public class BattleUIManager
         Managers.UI.HideUI(batchUI.cancleBtn);
     }
 
+    public void PlayerMovePhaseUI()
+    {
+        Managers.UI.ShowUI(moveBtn);
+        Managers.UI.HideUI(actPanel);
+        Managers.UI.HideUI(descriptPanel);
+        Managers.UI.HideUI(cancleBtn);
+    }
+
+    public void PlayerBattlePhaseUI()
+    {
+        Managers.UI.HideUI(moveBtn);
+        Managers.UI.HideUI(cancleBtn);
+        Managers.UI.ShowUI(actPanel);
+        Managers.UI.ShowUI(magicPanel);
+    }
+
+    public void PlayerActPhaseUI()
+    {
+        Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
+        Managers.UI.HideUI(Managers.BattleUI.actPanel);
+        Managers.UI.ShowUI(Managers.BattleUI.cancleBtn);
+    }
 }
