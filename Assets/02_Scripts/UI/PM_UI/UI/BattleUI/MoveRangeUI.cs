@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MoveRangeUI : MonoBehaviour
 {
     GameObject[,] battleMap;
+    List<GameObject> obstacleMap = new List<GameObject>();
+
     int moveCost = 10;
     float mapWidth;
     float mapHeight;
@@ -33,6 +36,16 @@ public class MoveRangeUI : MonoBehaviour
                 tile = map.transform.GetChild(tileCount).gameObject;
                 battleMap[x, z] = tile;
                 tileCount++;
+            }
+        }
+
+        // 장애물 정보 저장(임의)
+        for(int i = tileCount; i < map.transform.childCount; i++)
+        {
+            if (map.transform.GetChild(i).gameObject.layer == LayerMask.NameToLayer("EnvironmentObject"))
+            {
+                GameObject obstacle = map.transform.GetChild(i).gameObject;
+                obstacleMap.Add(obstacle);
             }
         }
     }
@@ -75,6 +88,11 @@ public class MoveRangeUI : MonoBehaviour
                     continue;
                 }
 
+                if (CheckMovable(near, current))
+                {
+                    continue;
+                }
+
                 if (!visited.ContainsKey(near) && currentDistance + 1 <= maxMoveRange)
                 {
                     moveTile.Enqueue(near);
@@ -108,5 +126,56 @@ public class MoveRangeUI : MonoBehaviour
         int z = pos.z;
         GameObject tile = battleMap[x, z];
         tile.GetComponent<Renderer>().material.color = highlightColor;
+    }
+
+    bool CheckMovable(Vector3Int near, Vector3Int current)
+    {
+        for(int i = 0; i < obstacleMap.Count; i++)
+        {
+            int x = (int)obstacleMap[i].transform.position.x;
+            int z = (int)obstacleMap[i].transform.position.z;
+            if(near.x == x && near.z == z)
+            {
+                return true;        // 장애물이 있음
+            }
+        }
+
+        for(int i = 0; i < Managers.Battle.ObjectList.Count; i++)
+        {
+            int x = (int)Managers.Battle.ObjectList[i].transform.position.x;
+            int z = (int)Managers.Battle.ObjectList[i].transform.position.z;
+            if (near.x == x && near.z == z)
+            {
+                return true;        // 캐릭터가 있음
+            }
+        }
+
+        if (Mathf.Abs(near.x - current.x) == 1 && Mathf.Abs(near.z - current.z) == 1)
+        {
+            Vector3Int horizontalCheck = new Vector3Int(near.x, 0, current.z);
+            Vector3Int verticalCheck = new Vector3Int(current.x, 0, near.z);
+
+            for (int i = 0; i < obstacleMap.Count; i++)
+            {
+                int x = (int)obstacleMap[i].transform.position.x;
+                int z = (int)obstacleMap[i].transform.position.z;
+                if ((horizontalCheck.x == x && horizontalCheck.z == z) || (verticalCheck.x == x && verticalCheck.z == z))
+                {
+                    return true; // 대각선 이동 불가
+                }
+            }
+
+            for (int i = 0; i < Managers.Battle.ObjectList.Count; i++)
+            {
+                int x = (int)Managers.Battle.ObjectList[i].transform.position.x;
+                int z = (int)Managers.Battle.ObjectList[i].transform.position.z;
+                if ((horizontalCheck.x == x && horizontalCheck.z == z) || (verticalCheck.x == x && verticalCheck.z == z))
+                {
+                    return true; // 대각선 이동 불가
+                }
+            }
+        }
+
+        return false;
     }
 }
