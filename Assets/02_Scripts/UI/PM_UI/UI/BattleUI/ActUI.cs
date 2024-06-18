@@ -23,6 +23,7 @@ public class ActUI : UI_Popup
 
     GameObject mainCamera;
     CameraController cameraController;
+    MoveRangeUI rangeUI;
 
     GameObject actPanel;
     GameObject magicPanel;
@@ -67,6 +68,8 @@ public class ActUI : UI_Popup
 
         mainCamera = GameObject.Find("Main Camera");
         cameraController = mainCamera.GetComponent<CameraController>();
+        rangeUI = gameObject.GetComponent<MoveRangeUI>();
+        rangeUI.SetMapInfo();
 
         Managers.BattleUI.warningUI = Managers.UI.CreatePopupUI<WarningUI>("WarningUI");
         Managers.UI.HideUI(Managers.BattleUI.warningUI.gameObject);
@@ -97,9 +100,13 @@ public class ActUI : UI_Popup
                 magicBtnLayout.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
+        Managers.UI.uiState = UIState.Move;
+        Managers.BattleUI.PlayerMovePhaseUI();
 
-        cameraController.ChangeCameraMode(CameraMode.Follow,false, true);
-        Managers.BattleUI.cameraMode = CameraMode.Follow;
+        rangeUI.DisplayMoveRange();
+
+        cameraController.ChangeCameraMode(CameraMode.Static, true, true);
+        Managers.BattleUI.cameraMode = CameraMode.Static;
     }
 
     public void UseMagicButtonClick(PointerEventData data)
@@ -132,30 +139,11 @@ public class ActUI : UI_Popup
 
     public void MoveEndButtonClick(PointerEventData data)
     {
-        Text moveText = GetObject((int)actUI.MoveButton).transform.GetChild(0).gameObject.GetComponent<Text>();
-        if (Managers.UI.uiState == UIState.Idle)
-        {
-            Managers.UI.uiState = UIState.Move;
-            Managers.UI.HideUI(descriptPanel);
-            Managers.UI.HideUI(actPanel);
-            cameraController.ChangeCameraMode(CameraMode.Static, true, true);
-            Managers.BattleUI.cameraMode = CameraMode.Static;
+        Managers.UI.uiState = UIState.Idle;
+        Managers.BattleUI.PlayerBattlePhaseUI();
 
-            // Text ����(�ӽ�)
-            moveText.text = "�̵� ����";
-            return;
-        }
-        if (Managers.UI.uiState == UIState.Move)
-        {
-            Managers.UI.uiState = UIState.Idle;
-            Managers.UI.ShowUI(actPanel);
-            cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
-            Managers.BattleUI.cameraMode = CameraMode.Follow;
-
-            // Text ����(�ӽ�)
-            moveText.text = "�̵�";
-            return;
-        }
+        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        Managers.BattleUI.cameraMode = CameraMode.Follow;
     }
 
     public void MagicCancleButtonClick(PointerEventData data)
