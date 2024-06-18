@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MoveRangeUI : MonoBehaviour
@@ -23,7 +22,7 @@ public class MoveRangeUI : MonoBehaviour
         mapHeight = mapInfo.Height;
         battleMap = new GameObject[(int)mapWidth, (int)mapHeight];
 
-        // Tile Á¤º¸ ÀúÀå
+        // Tile ì •ë³´ ì €ì¥
         GameObject tile;
         int tileCount = 0;
 
@@ -39,7 +38,7 @@ public class MoveRangeUI : MonoBehaviour
             }
         }
 
-        // Àå¾Ö¹° Á¤º¸ ÀúÀå(ÀÓÀÇ)
+        // ì¥ì• ë¬¼ ì •ë³´ ì €ì¥(ì„ì˜)
         for(int i = tileCount; i < map.transform.childCount; i++)
         {
             if (map.transform.GetChild(i).gameObject.layer == LayerMask.NameToLayer("EnvironmentObject"))
@@ -72,7 +71,7 @@ public class MoveRangeUI : MonoBehaviour
             Vector3Int current = moveTile.Dequeue();
             int currentDistance = visited[current];
 
-            HighlightRange(current);     // Å¸ÀÏ »ö º¯°æ
+            HighlightRange(current);     // íƒ€ì¼ ìƒ‰ ë³€ê²½
 
             Vector3Int[] directions =
             {
@@ -83,7 +82,7 @@ public class MoveRangeUI : MonoBehaviour
             foreach (Vector3Int direction in directions)
             {
                 Vector3Int near = current + direction;
-                if (near.x < 0 || near.z < 0 || near.x >= mapWidth || near.z >= mapHeight)   // ¸ÊÀ» ¹ş¾î³²
+                if (near.x < 0 || near.z < 0 || near.x >= mapWidth || near.z >= mapHeight)   // ë§µì„ ë²—ì–´ë‚¨
                 {
                     continue;
                 }
@@ -101,7 +100,6 @@ public class MoveRangeUI : MonoBehaviour
             }
         }
     }
-
     public void ClearMoveRangeUI()
     {
         List<Vector3Int> keyList = new List<Vector3Int>();
@@ -119,7 +117,6 @@ public class MoveRangeUI : MonoBehaviour
             visited.Remove(key);
         }
     }
-
     void HighlightRange(Vector3Int pos)
     {
         int x = pos.x;
@@ -136,7 +133,7 @@ public class MoveRangeUI : MonoBehaviour
             int z = (int)obstacleMap[i].transform.position.z;
             if(near.x == x && near.z == z)
             {
-                return true;        // Àå¾Ö¹°ÀÌ ÀÖÀ½
+                return true;        // ì¥ì• ë¬¼ì´ ìˆìŒ
             }
         }
 
@@ -146,7 +143,7 @@ public class MoveRangeUI : MonoBehaviour
             int z = (int)Managers.Battle.ObjectList[i].transform.position.z;
             if (near.x == x && near.z == z)
             {
-                return true;        // Ä³¸¯ÅÍ°¡ ÀÖÀ½
+                return true;        // ìºë¦­í„°ê°€ ìˆìŒ
             }
         }
 
@@ -161,7 +158,7 @@ public class MoveRangeUI : MonoBehaviour
                 int z = (int)obstacleMap[i].transform.position.z;
                 if ((horizontalCheck.x == x && horizontalCheck.z == z) || (verticalCheck.x == x && verticalCheck.z == z))
                 {
-                    return true; // ´ë°¢¼± ÀÌµ¿ ºÒ°¡
+                    return true; // ëŒ€ê°ì„  ì´ë™ ë¶ˆê°€
                 }
             }
 
@@ -171,7 +168,7 @@ public class MoveRangeUI : MonoBehaviour
                 int z = (int)Managers.Battle.ObjectList[i].transform.position.z;
                 if ((horizontalCheck.x == x && horizontalCheck.z == z) || (verticalCheck.x == x && verticalCheck.z == z))
                 {
-                    return true; // ´ë°¢¼± ÀÌµ¿ ºÒ°¡
+                    return true; // ëŒ€ê°ì„  ì´ë™ ë¶ˆê°€
                 }
             }
         }

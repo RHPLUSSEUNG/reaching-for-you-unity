@@ -24,11 +24,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
             return;
 
         OnTurnStart();
-        if (!isTurnEnd)
-        {
-            Search(stat.Sight);
-        }
-
+        Search(stat.Sight);
     }
     public override void SpecialCheck()
     {
@@ -72,9 +68,12 @@ public class EnemyAI_Lizard : EnemyAI_Base
     }
     public override void OnMoveEnd()
     {
-        if (isMoved && isAttacked)
-            TurnEnd();
-        if (!isAttacked)
+        if (isTurnEnd)
+            return;
+
+        if (isAttacked)
+            BeforeTrunEnd();
+        else
         {
             SpecialCheck();
         }

@@ -100,13 +100,12 @@ public class ActUI : UI_Popup
                 magicBtnLayout.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
-
         Managers.UI.uiState = UIState.Move;
         Managers.BattleUI.PlayerMovePhaseUI();
 
         rangeUI.DisplayMoveRange();
 
-        cameraController.ChangeCameraMode(CameraMode.Static, true);
+        cameraController.ChangeCameraMode(CameraMode.Static, true, true);
         Managers.BattleUI.cameraMode = CameraMode.Static;
     }
 
@@ -143,7 +142,7 @@ public class ActUI : UI_Popup
         Managers.UI.uiState = UIState.Idle;
         Managers.BattleUI.PlayerBattlePhaseUI();
 
-        cameraController.ChangeCameraMode(CameraMode.Follow, true);
+        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
         Managers.BattleUI.cameraMode = CameraMode.Follow;
     }
 

@@ -18,13 +18,16 @@ public class EnemyAI_Crab : EnemyAI_Base
     public int hideLapse;
     public override void SpecialCheck()
     {
+        if (isTurnEnd)
+            return;
+
         if (isHide) //��ũ�� ����
         {
             if (hideLapse < 2)  // ��ų ������ 2�� �̳��� ����
             {
                 skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);   // ���� ����
                 hideLapse++;    // �� ����
-                TurnEnd();
+                BeforeTrunEnd();
             }
             else
             {
@@ -127,5 +130,13 @@ public class EnemyAI_Crab : EnemyAI_Base
     {
         stat.Hp -= damage;
         lastDamaged += damage;
+    }
+    public override void BeforeTrunEnd()
+    {
+        if (isTurnEnd)
+            return;
+
+        lastDamaged = 0;
+        TurnEnd();
     }
 }
