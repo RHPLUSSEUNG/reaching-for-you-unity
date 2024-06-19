@@ -48,7 +48,7 @@ public class SkillList : MonoBehaviour
         {
             return;
         }
-        Debug.Log(skill);
+        //Debug.Log(skill);
         list.Add(skill);
 
         if (skill.GetComponent<Passive>() != null)
