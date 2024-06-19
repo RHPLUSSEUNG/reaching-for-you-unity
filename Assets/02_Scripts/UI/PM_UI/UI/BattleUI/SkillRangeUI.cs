@@ -8,7 +8,7 @@ public class SkillRangeUI : MonoBehaviour
 
     float mapWidth;
     float mapHeight;
-    Color highlightColor = new Color(1f, 0f, 0f, 0.5f);
+    Color highlightColor = new Color(236f / 255f, 80f / 255f, 90f / 255f, 1f);
     Color originalColor;
 
     Dictionary<Vector3Int, int> visited;
