@@ -17,6 +17,7 @@ public class BattleUIManager
 
     public GameObject player;
     public GameObject skill;
+    public int skill_ID;
     public Item item;
     public CameraMode cameraMode;
 

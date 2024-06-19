@@ -24,6 +24,7 @@ public class ActUI : UI_Popup
     GameObject mainCamera;
     CameraController cameraController;
     MoveRangeUI rangeUI;
+    public SkillRangeUI skillRangeUI;       // Temp
 
     GameObject actPanel;
     GameObject magicPanel;
@@ -70,6 +71,8 @@ public class ActUI : UI_Popup
         cameraController = mainCamera.GetComponent<CameraController>();
         rangeUI = gameObject.GetComponent<MoveRangeUI>();
         rangeUI.SetMapInfo();
+        skillRangeUI = gameObject.GetComponent<SkillRangeUI>();
+        skillRangeUI.SetMapInfo();
 
         Managers.BattleUI.warningUI = Managers.UI.CreatePopupUI<WarningUI>("WarningUI");
         Managers.UI.HideUI(Managers.BattleUI.warningUI.gameObject);
@@ -142,6 +145,7 @@ public class ActUI : UI_Popup
         Managers.UI.uiState = UIState.Idle;
         Managers.BattleUI.PlayerBattlePhaseUI();
 
+        rangeUI.ClearMoveRangeUI();
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
         Managers.BattleUI.cameraMode = CameraMode.Follow;
     }
@@ -154,5 +158,6 @@ public class ActUI : UI_Popup
 
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
         Managers.BattleUI.cameraMode = CameraMode.Follow;
+        skillRangeUI.ClearSkillRangeUI();
     }
 }

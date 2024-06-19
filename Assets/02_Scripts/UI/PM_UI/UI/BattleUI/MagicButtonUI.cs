@@ -16,6 +16,7 @@ public class MagicButtonUI : UI_Base
 
     [SerializeField]
     GameObject saveSkill = null;
+    int saveSkill_ID;
     [SerializeField]
     skillType skillType;
 
@@ -59,6 +60,7 @@ public class MagicButtonUI : UI_Base
         Text attackText = GetObject((int)magicButtonUI.AttackText).GetComponent<Text>();
 
         saveSkill = skill;
+        saveSkill_ID = skill_ID;
         skillType = skill_Data.SkillType;
     }
 
@@ -87,10 +89,13 @@ public class MagicButtonUI : UI_Base
         {
             Managers.UI.uiState = UIState.SkillSet;
             Managers.BattleUI.skill = saveSkill;
+            Managers.BattleUI.skill_ID = saveSkill_ID;
             Managers.BattleUI.PlayerActPhaseUI();
 
             cameraController.ChangeCameraMode(CameraMode.Static, true, true);
             Managers.BattleUI.cameraMode = CameraMode.Static;
+
+            Managers.BattleUI.actUI.skillRangeUI.DisplaySkillRange();
         }
         else
         {
