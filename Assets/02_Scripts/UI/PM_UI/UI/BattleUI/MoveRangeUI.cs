@@ -16,8 +16,9 @@ public class MoveRangeUI : MonoBehaviour
 
     public void SetMapInfo()
     {
-        GameObject map = GameObject.Find("MapSpawner");
-        CreateObject mapInfo = map.GetComponent<CreateObject>();
+        GameObject mapSpawner = GameObject.Find("MapSpawner");
+        GameObject map = Util.FindChild(mapSpawner, "Map", false);
+        CreateObject mapInfo = mapSpawner.GetComponent<CreateObject>();
         mapWidth = mapInfo.Width;
         mapHeight = mapInfo.Height;
         battleMap = new GameObject[(int)mapWidth, (int)mapHeight];
