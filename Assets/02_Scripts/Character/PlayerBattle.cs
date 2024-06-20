@@ -80,7 +80,7 @@ public class PlayerBattle : MonoBehaviour
     public void OnHit(int damage)
     {
         stat.Hp -= damage;
-        Invoke("HitEvent", 0.8f);
+        HitEvent();
     }
     public void HitEvent()
     {
