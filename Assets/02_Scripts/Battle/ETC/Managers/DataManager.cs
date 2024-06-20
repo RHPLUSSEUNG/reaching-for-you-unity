@@ -78,7 +78,7 @@ public class DataManager
 
     public void SetMonsterSkill(int skillid, MonsterSkill skill)
     {
-        Debug.Log($"{skill} Setting");
+        //Debug.Log($"{skill} Setting");
         skill.skillName = monsterSkillList[skillid].SkillName;
         skill.type = monsterSkillList[skillid].SkillType;
         skill.element = monsterSkillList[skillid].element;

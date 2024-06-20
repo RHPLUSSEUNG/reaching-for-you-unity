@@ -16,7 +16,6 @@ public class SkillManager
     public void OnAwake()
     {
         usingSkill = GameObject.Find("UsingSkill");
-        Debug.Log(usingSkill);
         extent = GameObject.Find("SkillExtent");
         usingEffect = GameObject.Find("Effect");
     }
