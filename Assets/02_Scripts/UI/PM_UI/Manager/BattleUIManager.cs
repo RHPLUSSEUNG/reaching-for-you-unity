@@ -4,6 +4,7 @@ public class BattleUIManager
 {
     public ActUI actUI;
     public BatchUI batchUI;
+    public BattleUI battleUI;
     public UI_ActTurn turnUI;
     public WarningUI warningUI;
     public BattleInfoUI battleInfoUI;

@@ -92,6 +92,7 @@ public class BattleManager
 
     public void PlayerTurn()
     {
+        Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Player Turn!"));
         //Camera Movement
         cameraController.ChangeFollowTarget(currentCharacter, true);
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
@@ -107,6 +108,7 @@ public class BattleManager
     }
     public void EnemyTurn(GameObject character)
     {
+        Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Enemy Turn!"));
         Debug.Log(character.name);
         if (character.GetComponent<EnemyAI_Base>() == null)
         {
