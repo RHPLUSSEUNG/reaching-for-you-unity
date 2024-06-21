@@ -37,7 +37,7 @@ public class SkillManager
         }
         else
         {
-            Debug.Log("player skill instantiate");
+            //Debug.Log("player skill instantiate");
             go = Managers.Prefab.Instantiate($"Skill/Player/{Managers.Data.GetPlayerSkillData(id).SkillName}", usingSkill.transform);
         }
         
@@ -70,9 +70,14 @@ public class SkillManager
         return Effect;
     }
 
-    public IEnumerator StartEffect(GameObject effect, Vector3 pos)
+    public IEnumerator StartEffect(GameObject effect, Vector3 pos, bool other = false)
     {
         effect.transform.position = pos;
+        if (other)
+        {
+            effect.transform.rotation = Quaternion.LookRotation(Managers.Battle.currentCharacter.transform.position - pos);
+            //Debug.Log(effect.transform.rotation);
+        }
         effect.GetComponent<ParticleSystem>().Play();
         is_effect = true;
         while(effect.GetComponent<ParticleSystem>().isPlaying)

@@ -25,7 +25,7 @@ public class ElectricRush : Active
         {
             if (Activate())
             {
-                Managers.Manager.StartCoroutine(Managers.Skill.StartEffect(Effect, target.transform.position));
+                Managers.Manager.StartCoroutine(Managers.Skill.StartEffect(Effect, target.transform.position, other));
             }
             return true;
         }
