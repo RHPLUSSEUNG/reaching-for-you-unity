@@ -13,7 +13,7 @@ public class RaycastManager
     public void OnAwake()
     {
         detector = GameObject.Find("RangeDetector").GetComponent<RangeDetector>();
-        Debug.Log(detector);
+        //Debug.Log(detector);
     }
 
     public void OnUpdate()
