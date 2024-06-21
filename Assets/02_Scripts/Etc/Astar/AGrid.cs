@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Tilemaps;
+using static UnityEditor.PlayerSettings;
 
 public class AGrid : MonoBehaviour
 {
@@ -137,6 +140,17 @@ public class AGrid : MonoBehaviour
                 Gizmos.DrawCube(node.worldPosition, new Vector3(nodesize, nodesize, nodesize));
             }
         }
+    }
+    public GameObject GetTileFromNode(Node node)
+    {
+        RaycastHit ray;
+        GameObject Tile = null;
+        int tileLayer = 1 << LayerMask.NameToLayer("Tile");
+        if (Physics.Raycast(node.worldPosition, Vector3.down, out RaycastHit hit, nodesize, tileLayer))
+        {
+            Tile = hit.transform.gameObject;
+        }
+        return Tile;
     }
     public int GetGridSizeX()
     {
