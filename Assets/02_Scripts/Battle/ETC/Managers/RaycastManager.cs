@@ -3,12 +3,13 @@ using UnityEngine;
 public class RaycastManager
 {
     GameObject go;
-    public RangeDetector detector;
+    RangeDetector detector;
     public bool detect_ready = false;
 
-    public GameObject character;
-    public CharacterState characterstate;
-    public EntityStat characterstat;
+    GameObject character;
+    CharacterState characterstate;
+    EntityStat characterstat;
+    Equip_Item itemList;
 
     public void OnAwake()
     {
@@ -18,11 +19,12 @@ public class RaycastManager
 
     public void OnUpdate()
     {
-        if (Managers.Battle.currentCharacter != null && Managers.Battle.currentCharacter != character)
+        if (Managers.Battle.currentCharacter != null && Managers.Battle.currentCharacter.CompareTag("Player"))
         {
             character = Managers.Battle.currentCharacter;
             characterstat = character.GetComponent<EntityStat>();
             characterstate = character.GetComponent<CharacterState>();
+            itemList = character.GetComponent<Equip_Item>();
         }
         if (Managers.UI.uiState == UIState.Idle && detect_ready == true)
         {
@@ -88,7 +90,8 @@ public class RaycastManager
                             }
                             break;
                         case UIState.ItemSet:
-                            //TODO Item Use
+                            //Range Set
+                            //itemList.UseConsume(item, hit.collider.gameObject.transform.parent.gameObject);
                             break;
                         case UIState.Attack:
                             if (detect_ready == false)
