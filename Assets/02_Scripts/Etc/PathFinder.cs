@@ -38,7 +38,12 @@ public class PathFinder : MonoBehaviour
         instance.requestQueue.Enqueue(newRandomLocRequest);
         instance.TryProcessNextRequest();
     }
-
+    public static void RequestSkillRange(Vector3 start, int radius, RangeType type, UnityAction<List<GameObject>> callback)
+    {
+        PathRequest newSkillRangeRequest = new PathRequest(start, radius, type, callback);
+        instance.requestQueue.Enqueue(newSkillRangeRequest);
+        instance.TryProcessNextRequest();
+    }
     public static bool CheckWalkable(Vector3 target)
     {
         return instance.pathFinding.CheckWalkable(target);
@@ -63,6 +68,10 @@ public class PathFinder : MonoBehaviour
             {
                 pathFinding.StartRandomLoc(currentRequest.start, currentRequest.radius);
             }
+            else if (currentRequest.skillRangeCallback != null)
+            {
+                pathFinding.StartSkillRange(currentRequest.start, currentRequest.radius, currentRequest.type);
+            }
         }
     }
 
@@ -85,6 +94,12 @@ public class PathFinder : MonoBehaviour
         isProcessing = false;
         TryProcessNextRequest();
     }
+    public void FinishProcessingSkillRange(List<GameObject> targetObjects)
+    {
+        currentRequest.skillRangeCallback(targetObjects);
+        isProcessing = false;
+        TryProcessNextRequest();
+    }
 }
 struct PathRequest
 {
@@ -96,6 +111,9 @@ struct PathRequest
     public UnityAction<Vector3[], bool> callback;
     public UnityAction<Vector3, GameObject, int, bool> searchCallback;
     public UnityAction<Vector3> randomLocCallback;
+    public UnityAction<List<GameObject>> skillRangeCallback;
+
+    public RangeType type;
     public PathRequest(Vector3 _start, Vector3 _end, UnityAction<Vector3[], bool> _callback)
     {
         start =_start;
@@ -106,6 +124,9 @@ struct PathRequest
         tag = null;
         searchCallback = null;
         randomLocCallback = null;
+        skillRangeCallback = null;
+
+        type = 0;
     }
     public PathRequest(Vector3 _start, int _radius, string _tag, UnityAction<Vector3, GameObject, int, bool> _callback)
     {
@@ -117,6 +138,9 @@ struct PathRequest
         end = Vector3.zero;
         callback = null;
         randomLocCallback = null;
+        skillRangeCallback = null;
+
+        type = 0;
     }
     public PathRequest(Vector3 _start, int _radius, UnityAction<Vector3> _callback)
     {
@@ -128,5 +152,22 @@ struct PathRequest
         tag = null;
         searchCallback = null;
         callback = null;
+        skillRangeCallback = null;
+
+        type = 0;
+    }
+    public PathRequest(Vector3 _start, int _radius, RangeType _type, UnityAction<List<GameObject>> _callback)
+    {
+        start = _start;
+        radius = _radius;
+        skillRangeCallback = _callback;
+
+        end = Vector3.zero;
+        tag = null;
+        searchCallback = null;
+        callback = null;
+        randomLocCallback = null;
+
+         type = _type;
     }
 }

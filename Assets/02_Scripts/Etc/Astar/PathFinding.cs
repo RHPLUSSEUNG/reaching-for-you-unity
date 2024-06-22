@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PathFinding : MonoBehaviour
 {
@@ -25,6 +27,19 @@ public class PathFinding : MonoBehaviour
     {
         RandomLoc(startPos, radius);
     }
+    public void StartSkillRange(Vector3 startPos, int radius, RangeType type)
+    {
+        switch (type)
+        {
+            case RangeType.Normal:
+                SkillRange(startPos, radius);
+                break;
+            case RangeType.Move: 
+                break;
+            case RangeType.Cross: 
+                break;
+        }
+    }
     void FindPath(Vector3 startPos, Vector3 targetPos)
     {
         Vector3[] path = new Vector3[0];
@@ -39,13 +54,13 @@ public class PathFinding : MonoBehaviour
             HashSet<Node> closedList = new HashSet<Node>();
             openList.Add(startNode);
 
-            while(openList.Count > 0)
+            while (openList.Count > 0)
             {
                 Node currentNode = openList[0];
 
                 for (int i = 1; i < openList.Count; i++)
                 {
-                    if (openList[i].fCost < currentNode.fCost || (openList[i].fCost == currentNode.fCost && openList[i].hCost < currentNode.hCost))  
+                    if (openList[i].fCost < currentNode.fCost || (openList[i].fCost == currentNode.fCost && openList[i].hCost < currentNode.hCost))
                     {
                         currentNode = openList[i];
                     }
@@ -54,7 +69,7 @@ public class PathFinding : MonoBehaviour
                 openList.Remove(currentNode);
                 closedList.Add(currentNode);
 
-                if (currentNode == targetNode) 
+                if (currentNode == targetNode)
                 {
                     if (!targetNode.walkable)
                     {
@@ -64,7 +79,7 @@ public class PathFinding : MonoBehaviour
                     break;
                 }
 
-                foreach (Node node in grid.GetNeighbours(currentNode,1))
+                foreach (Node node in grid.GetNeighbours(currentNode, 1))
                 {
                     if (!node.walkable && node != targetNode || closedList.Contains(node)) continue;
 
@@ -100,7 +115,7 @@ public class PathFinding : MonoBehaviour
         {
             path = GetPath(startNode, targetNode);
         }
-         
+
         pathfinder.FinishProcessingPath(path, success);
     }
 
@@ -124,7 +139,7 @@ public class PathFinding : MonoBehaviour
     Vector3[] NodeListToVector3(List<Node> nodeList)
     {
         List<Vector3> path = new List<Vector3>();
-        for (int i = 0; i < nodeList.Count; i++) 
+        for (int i = 0; i < nodeList.Count; i++)
         {
             path.Add(nodeList[i].worldPosition);
         }
@@ -160,7 +175,7 @@ public class PathFinding : MonoBehaviour
             foreach (Node node in grid.GetNeighbours(startNode, i))
             {
                 targetObj = grid.CheckTag(node.gridX, node.gridY, tag);
-                if (targetObj != null) 
+                if (targetObj != null)
                 {
                     success = true;
                     targetPos = node.worldPosition;
@@ -183,7 +198,7 @@ public class PathFinding : MonoBehaviour
             if (i > 1000)
             {
                 pathfinder.FinishProcessingRandomLoc(startPos);
-                return; 
+                return;
             }
 
             int x = UnityEngine.Random.Range(-radius, radius + 1);
@@ -204,5 +219,56 @@ public class PathFinding : MonoBehaviour
                 }
             }
         }
+    }
+    void SkillRange(Vector3 startPos, int radius)
+    {
+        Node startNode = grid.GetNodeFromWorldPosition(startPos);
+        Vector3 targetPos = startPos;
+        List<GameObject> targetTiles = new();
+        for (int i = 1; i <= radius; i++)
+        {
+            foreach (Node node in grid.GetNeighbours(startNode, i))
+            {
+                targetTiles.Add(grid.GetTileFromNode(node));
+            }
+        }
+        pathfinder.FinishProcessingSkillRange(targetTiles);
+    }
+    void MoveRange(Vector3 startPos, int radius)
+    {
+        Node startNode = grid.GetNodeFromWorldPosition(startPos);
+        Vector3 targetPos = startPos;
+        List<GameObject> targetTiles = new();
+
+        void OnPathFound(Vector3[] path, bool success)
+        {
+            if (success)
+            {
+                foreach (Vector3 pos in path)
+                {
+                    GameObject tile = grid.GetTileFromNode(grid.GetNodeFromWorldPosition(pos));
+                    if (targetTiles.Contains(tile))
+                        continue;
+                    else
+                    {
+                        targetTiles.Add(tile);
+                    }
+                }
+            }
+        }
+
+        for (int i = 1; i <= radius; i++)
+        {
+            foreach (Node node in grid.GetNeighbours(startNode, i))
+            {
+                if (!node.walkable)
+                    continue;
+                else if(targetTiles.Contains(grid.GetTileFromNode(node)))
+                    continue;
+                else
+                    PathFinder.RequestPath(startPos, targetPos, OnPathFound);
+            }
+        }
+        pathfinder.FinishProcessingSkillRange(targetTiles);
     }
 }
