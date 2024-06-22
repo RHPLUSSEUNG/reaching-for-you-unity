@@ -1,12 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class BattleUI : UI_Scene
 {
     enum battleUI
     {
         ActTurn,
+        BattleStart,
         NoticeText
     }
 
@@ -21,11 +23,12 @@ public class BattleUI : UI_Scene
         Managers.UI.HideUI(GetObject((int)battleUI.ActTurn));
 
         noticeText = GetObject((int)battleUI.NoticeText).GetComponent<Text>();
-        slideEffect = GetComponent<SlideEffect>();
+        GameObject noticeUI = GetObject((int)battleUI.BattleStart);
+        slideEffect = noticeUI.GetComponent<SlideEffect>();
 
         Managers.BattleUI.battleUI = gameObject.GetComponent<BattleUI>();
 
-        StartCoroutine(StartBattleSlide("전투 시작"));
+        StartCoroutine(StartBattleSlide("전투 시작!"));
     }
 
     public IEnumerator StartBattleSlide(string text)
@@ -37,7 +40,6 @@ public class BattleUI : UI_Scene
     public IEnumerator StartSlide(string text)
     {
         noticeText.text = text;
-        slideEffect.SetSlideElement();
-        yield return new WaitForSeconds(slideEffect.pauseDuration + slideEffect.duration);
+        yield return StartCoroutine(slideEffect.SetSlideElement());
     }
 }

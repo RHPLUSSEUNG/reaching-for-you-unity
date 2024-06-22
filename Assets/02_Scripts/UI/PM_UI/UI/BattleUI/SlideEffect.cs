@@ -4,12 +4,12 @@ using UnityEngine;
 public class SlideEffect : MonoBehaviour
 {
     RectTransform _object;
-    public float duration = 0.4f;
+    public float duration = 0.3f;
     public float pauseDuration = 1.0f;
     Vector2 startPos;
     Vector2 endPos;
 
-    public void SetSlideElement()
+    public IEnumerator SetSlideElement()
     {
         _object = gameObject.GetComponent<RectTransform>();
         gameObject.SetActive(true);
@@ -18,17 +18,17 @@ public class SlideEffect : MonoBehaviour
         startPos = new Vector2(Screen.width, _object.anchoredPosition.y);
         endPos = new Vector2(0, _object.anchoredPosition.y);
 
-        StartCoroutine(SlideStart());
+        yield return StartCoroutine(SlideStart());
+
+        yield return new WaitForSeconds(2);     // 하드 코딩
+
+        gameObject.SetActive(false);
     }
 
 
     IEnumerator SlideStart()
     {
         yield return StartCoroutine(SlideAnimation(_object, startPos, endPos, duration));
-
-        yield return new WaitForSeconds(pauseDuration);
-
-        gameObject.SetActive(false);
     }
 
     IEnumerator SlideAnimation(RectTransform _object, Vector2 start, Vector2 end, float duration)
@@ -43,5 +43,5 @@ public class SlideEffect : MonoBehaviour
         }
 
         _object.anchoredPosition = end;
-    }    
+    }
 }
