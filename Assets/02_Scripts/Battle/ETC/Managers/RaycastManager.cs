@@ -6,9 +6,9 @@ public class RaycastManager
     RangeDetector detector;
     public bool detect_ready = false;
 
-    GameObject character;
-    CharacterState characterstate;
-    EntityStat characterstat;
+    public GameObject character;
+    public CharacterState characterstate;
+    public EntityStat characterstat;
     Equip_Item itemList;
 
     public void OnAwake()
