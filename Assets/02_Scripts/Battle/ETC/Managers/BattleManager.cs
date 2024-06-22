@@ -18,8 +18,7 @@ public class BattleManager
 
     CameraController cameraController;
 
-
-    int compareDefense(GameObject character1,  GameObject character2)
+    private int compareDefense(GameObject character1,  GameObject character2)
     {
         return character1.GetComponent<EntityStat>().Defense < character2.GetComponent<EntityStat>().Defense ? -1 : 1;
     }
@@ -108,8 +107,7 @@ public class BattleManager
     }
     public void EnemyTurn(GameObject character)
     {
-        Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Enemy Turn!"));
-        Debug.Log(character.name);
+        //Debug.Log(character.name);
         if (character.GetComponent<EnemyAI_Base>() == null)
         {
             Debug.Log("Component Error");

@@ -36,7 +36,7 @@ public class ActiveManager
 
     public int Damage(GameObject target, int damage, ElementType element = ElementType.None, bool close = false)
     {
-        Debug.Log(target);
+        //Debug.Log(target);
         if (damage <= 0)
         {
             return 0;
@@ -78,7 +78,7 @@ public class ActiveManager
             return damage;
         }else if (target.GetComponent<PlayerBattle>() != null)
         {
-            Debug.Log("Player Damaged");
+            //Debug.Log("Player Damaged");
             target.GetComponent<PlayerBattle>().OnHit(damage);
         }
 
