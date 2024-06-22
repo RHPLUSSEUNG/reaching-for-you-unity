@@ -64,7 +64,6 @@ public class CreateObject : MonoBehaviour
 
     [Header("Gimmick")]
     public GameObject[] Gimmicks;
-    public Sprite[] TurnNumSprite;
 
     [Header("Prefabs")]
     public GameObject[] cubePrefab; // 배치할 Cube 프리팹
@@ -282,12 +281,6 @@ public class CreateObject : MonoBehaviour
                     {
                         Color warningColor = fallingObjectInteraction.warningColor;
                         map[(int)gimmickPosition.x, (int)gimmickPosition.z].ObjectPrefab.GetComponent<Renderer>().material.color = warningColor;
-
-                        SpriteRenderer spriteRenderer = newGimmick.GetComponentInChildren<SpriteRenderer>();
-                        if(spriteRenderer != null)
-                        {
-                            spriteRenderer.sprite = TurnNumSprite[fallingObjectInteraction.TurnCnt];
-                        }
                     }
                 }
 

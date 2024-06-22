@@ -10,11 +10,16 @@ public class FallingObjectInteraction : GimmickInteraction
 
     Text warningText;
     private Rigidbody faliingRigid;
+    SpriteRenderer spriteRenderer;
+    
+    public Sprite[] TurnNumSprite;
 
     // int gimmickTurnCnt = 2; // 기믹 작동에 필요한 턴 개수
 
     int remainTurnCnt = -1;
     int currentTurnCnt = -1; // 현재 총 턴 횟수
+
+    bool isFalling = false;
 
     private void Awake() {
         warningColor = new Color32(180, 75, 75, 255);
@@ -37,6 +42,12 @@ public class FallingObjectInteraction : GimmickInteraction
 
         // 물리 작용 끔
         faliingRigid.isKinematic = true;
+
+        spriteRenderer = gameObject.transform.parent.GetComponentInChildren<SpriteRenderer>();
+        if(spriteRenderer != null)
+        {
+            spriteRenderer.sprite = TurnNumSprite[TurnCnt];
+        }
     }
 
     private void OnTriggerEnter(Collider other) 
@@ -58,22 +69,30 @@ public class FallingObjectInteraction : GimmickInteraction
             if(remainTurnCnt >= TurnCnt) 
             {
                 StartCoroutine(FallStone());
+                if(isFalling)
+                    FallingObjectTransform.gameObject.SetActive(false);
             }
             else {
                 if(Managers.Battle.isPlayerTurn)
                 {
+                    spriteRenderer.sprite = TurnNumSprite[TurnCnt - remainTurnCnt];
                     // StartCoroutine(ShowWarningCoroutine());
                     // Managers.BattleUI.warningUI.ShowWarningUI();   
                 }
             }
         }
     }
+
+    public int getRemainedTurnCnt()
+    {
+        return remainTurnCnt;
+    }
     private IEnumerator FallStone() 
     {
         FallingObjectTransform.gameObject.SetActive(true);
         faliingRigid.isKinematic = false;
         yield return new WaitForSeconds(2f);
-        FallingObjectTransform.gameObject.SetActive(false);
+        isFalling = true;
     }
 
     private IEnumerator ShowWarningCoroutine()
