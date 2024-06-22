@@ -15,12 +15,14 @@ public class MouseHover : MonoBehaviour
     void Start()
     {
         // 큐브의 초기 색상 저장
-        originalColor = GetComponent<Renderer>().material.color;
     }
 
     // 마우스가 오브젝트 위에 올라갔을 때 실행되는 함수
     void OnMouseEnter()
     {
+        if(!isHovered)
+            originalColor = GetComponent<Renderer>().material.color;
+
         // 마우스가 오브젝트 위에 올라와 있다는 상태를 true로 변경
         isHovered = true;
         // 큐브의 색상을 hoverColor로 변경
