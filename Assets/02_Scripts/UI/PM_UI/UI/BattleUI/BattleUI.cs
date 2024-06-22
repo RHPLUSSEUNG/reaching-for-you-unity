@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class BattleUI : UI_Scene
 {
@@ -28,13 +27,12 @@ public class BattleUI : UI_Scene
 
         Managers.BattleUI.battleUI = gameObject.GetComponent<BattleUI>();
 
-        StartCoroutine(StartBattleSlide("전투 시작!"));
+        StartCoroutine(StartSlideCoroutine("전투 시작!"));
     }
 
-    public IEnumerator StartBattleSlide(string text)
+    IEnumerator StartSlideCoroutine(string text)
     {
         yield return StartCoroutine(StartSlide(text));
-        Managers.Battle.BattleStart();
     }
 
     public IEnumerator StartSlide(string text)

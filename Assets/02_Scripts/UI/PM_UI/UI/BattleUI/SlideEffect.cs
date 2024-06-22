@@ -9,26 +9,50 @@ public class SlideEffect : MonoBehaviour
     Vector2 startPos;
     Vector2 endPos;
 
+    CameraController cameraController;
+    void Start()
+    {
+        cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
+    }
+
     public IEnumerator SetSlideElement()
     {
         _object = gameObject.GetComponent<RectTransform>();
-        gameObject.SetActive(true);
-
-        // UI Initialize Position
+        // Initialize UI Position
         startPos = new Vector2(Screen.width, _object.anchoredPosition.y);
         endPos = new Vector2(0, _object.anchoredPosition.y);
 
-        yield return StartCoroutine(SlideStart());
+        gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(2);     // 하드 코딩
+        if (Managers.Battle.currentCharacter != null)
+        {
+            // Camera Movement
+            cameraController.ChangeFollowTarget(Managers.Battle.currentCharacter, true);
+            cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+            cameraController.ChangeOffSet(0, 1, -3, 20);
+            Debug.Log("Camera Set");
+        }
+
+        yield return StartCoroutine(SlideAnimation(_object, startPos, endPos, duration));
+
+        yield return new WaitForSeconds(pauseDuration + duration);
 
         gameObject.SetActive(false);
-    }
 
+        if(Managers.Battle.currentCharacter == null)
+        {
+            Managers.Battle.BattleStart();
+            yield break;
+        }
 
-    IEnumerator SlideStart()
-    {
-        yield return StartCoroutine(SlideAnimation(_object, startPos, endPos, duration));
+        if (Managers.Battle.currentCharacter.CompareTag("Player"))
+        {
+            Managers.Battle.PlayerTurn();
+        }
+        else
+        {
+            Managers.Battle.EnemyTurn(Managers.Battle.currentCharacter);
+        }
     }
 
     IEnumerator SlideAnimation(RectTransform _object, Vector2 start, Vector2 end, float duration)
