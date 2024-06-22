@@ -91,7 +91,6 @@ public class BattleManager
 
     public void PlayerTurn()
     {
-        Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Player Turn!"));
         //Camera Movement
         cameraController.ChangeFollowTarget(currentCharacter, true);
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
