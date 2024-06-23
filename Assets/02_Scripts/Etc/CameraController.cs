@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -25,12 +26,20 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     bool isFollowMode;
 
+    CameraMode mode;
+
     private bool isSmoothMove = true;
     private Vector3 setPos;
     private Transform targetTransform;
     private int cameraIndex;
     [SerializeField]
     GameObject followTarget;
+
+
+    [SerializeField]
+    float inputSpeed = 10;
+
+    float time = 1.0f;
 
     private void Awake()
     {
@@ -52,34 +61,39 @@ public class CameraController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if(isFollowMode)
+
+       switch(mode)
         {
-           setPos = new Vector3(
-           targetTransform.position.x + offsetX,
-           targetTransform.position.y + offsetY,
-           targetTransform.position.z + offsetZ
-           );
-            if (!isSmoothMove)
-            {
-                transform.position = setPos;
-            }
-            else
-            {
-                transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
-            }
-        }
-        else
-        {
-            if (!isSmoothMove)
-            {
-                transform.position = setPos;
-                transform.rotation = targetTransform.rotation;
-            }
-            else
-            {
-                transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, Time.deltaTime * cameraSpeed);
-            }
+            case CameraMode.Static:
+                if (!isSmoothMove)
+                {
+                    transform.position = setPos;
+                    transform.rotation = targetTransform.rotation;
+                }
+                else
+                {
+                    transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, Time.deltaTime * cameraSpeed);
+                }
+                break;
+            case CameraMode.Follow:
+                setPos = new Vector3(
+                   targetTransform.position.x + offsetX,
+                   targetTransform.position.y + offsetY,
+                   targetTransform.position.z + offsetZ
+                   );
+                if (!isSmoothMove)
+                {
+                    transform.position = setPos;
+                }
+                else
+                {
+                    transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
+                }
+                break;
+            case CameraMode.Move:
+                CameraInput();
+                break;
         }
     }
 
@@ -122,19 +136,24 @@ public class CameraController : MonoBehaviour
         isFollowMode = true;
         Debug.Log("Changed FollowTarget To " + target);
     }
-    public void ChangeCameraMode(CameraMode mode, bool isOrthographic, bool _isSmoothMove)
+    public void ChangeCameraMode(CameraMode _mode, bool isOrthographic, bool _isSmoothMove)
     {
-        switch (mode)
+        switch (_mode)
         {
             case CameraMode.Static:
+                mode = CameraMode.Static;
                 isFollowMode = false;
                 targetTransform = cameraTargets[cameraIndex].transform;
                 transform.eulerAngles = cameraTargets[cameraIndex].transform.eulerAngles;
                 break;
             case CameraMode.Follow:
+                mode = CameraMode.Follow;
                 isFollowMode = true;
                 transform.eulerAngles = new Vector3(rotateX, 0, 0);
                 targetTransform = followTarget.transform;
+                break;
+            case CameraMode.Move:
+                mode = CameraMode.Move;
                 break;
         }
         gameObject.GetComponent<Camera>().orthographic = isOrthographic;
@@ -157,5 +176,39 @@ public class CameraController : MonoBehaviour
         offsetY = y;
         offsetZ = z;
         rotateX = _rotateX;
+    }
+
+    private void CameraInput()
+    {
+        Vector3 vec = new Vector3();
+        if (Input.GetKey(KeyCode.W))
+            vec += new Vector3(0, 0, -1f);
+        if (Input.GetKey(KeyCode.S))
+            vec += new Vector3(0, 0, 1f);
+        if (Input.GetKey(KeyCode.A))
+            vec += new Vector3(-1f, 0, 0);
+        if (Input.GetKey(KeyCode.D))
+            vec += new Vector3(1f, 0, 0);
+
+        Vector3 pos = vec;
+        if (pos.sqrMagnitude > 0)
+        {
+            time += Time.deltaTime;
+            pos = pos * time * 1.0f;
+
+            pos.x = Mathf.Clamp(pos.x, -inputSpeed, inputSpeed);
+            pos.y = Mathf.Clamp(pos.y, -inputSpeed, inputSpeed);
+            pos.z = Mathf.Clamp(pos.z, -inputSpeed, inputSpeed);
+
+            transform.Translate(pos);
+        }
+    }
+    public void test()
+    {
+        ChangeCameraMode(CameraMode.Move, true, true);
+    }
+    public void offtest()
+    {
+        ChangeCameraMode(CameraMode.Static, true, true);
     }
 }
