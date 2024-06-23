@@ -55,8 +55,7 @@ public class BattleManager
         //TOOD make monster party
         ObjectList.Clear();
         Managers.Party.InstantiatePlayer("Player_Girl_Battle");
-        Managers.Party.InstantiateMonster("Enemy_Crab");
-        Managers.Party.InstantiateMonster("Enemy_Lizard");
+        Managers.Party.MakeMonsterParty(2);
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(0);
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(7);
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(3);
