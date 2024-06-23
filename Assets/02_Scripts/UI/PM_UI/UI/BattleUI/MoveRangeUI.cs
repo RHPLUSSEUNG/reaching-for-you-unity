@@ -96,7 +96,7 @@ public class MoveRangeUI : MonoBehaviour
 
     public void ShowPathRange(Vector3[] path)
     {
-        PrevClearMoveRange();
+        ClearMoveRange();
         int x, z;
         for (int i = 0; i < path.Length; i++)
         {

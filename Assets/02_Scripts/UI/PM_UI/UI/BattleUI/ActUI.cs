@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -30,6 +30,7 @@ public class ActUI : UI_Popup
     GameObject magicPanel;
     GameObject itemPanel;
     GameObject magicBtnLayout;
+    GameObject itemLayout;
     GameObject descriptPanel;
 
     public override void Init()
@@ -53,6 +54,7 @@ public class ActUI : UI_Popup
         itemPanel = GetObject((int)actUI.ItemPanel);
         Managers.BattleUI.itemPanel = itemPanel;
         magicBtnLayout = GetObject((int)actUI.MagicButtonLayout);
+        itemLayout = GetObject((int)actUI.ItemLayout);
         descriptPanel = GetObject((int)actUI.DescriptUI);
         Managers.BattleUI.descriptPanel = descriptPanel;
 
@@ -82,6 +84,8 @@ public class ActUI : UI_Popup
         Managers.UI.ShowUI(gameObject);
 
         SkillList skillList = Managers.Battle.currentCharacter.GetComponent<SkillList>();
+        // Equip_Item consumeList = Managers.Battle.currentCharacter.GetComponent<Equip_Item>();
+
         int curMp = Managers.Battle.currentCharacter.GetComponent<EntityStat>().Mp;
         for (int i = 0; i < skillList.list.Count; i++)
         {
@@ -100,10 +104,17 @@ public class ActUI : UI_Popup
                 magicBtnLayout.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
+
+        //foreach (KeyValuePair<GameObject, int> item in consumeList.Consumes)
+        //{
+        //    BattleItemUI itemButton = Managers.UI.MakeSubItem<BattleItemUI>(itemLayout.transform, "ItemButton");
+        //    //itemButton.SetItem(item.Key, item.Value, );
+        //}
+
         Managers.UI.uiState = UIState.Move;
         Managers.BattleUI.PlayerMovePhaseUI();
 
-        rangeUI.PrevDisplayMoveRange();
+        rangeUI.DisplayMoveRange();
 
         cameraController.ChangeCameraMode(CameraMode.Static, true, true);
         Managers.BattleUI.cameraMode = CameraMode.Static;
@@ -142,7 +153,7 @@ public class ActUI : UI_Popup
         Managers.UI.uiState = UIState.Idle;
         Managers.BattleUI.PlayerBattlePhaseUI();
 
-        rangeUI.PrevClearMoveRange();
+        rangeUI.ClearMoveRange();
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
         Managers.BattleUI.cameraMode = CameraMode.Follow;
     }

@@ -19,7 +19,8 @@ public class BattleUIManager
     public GameObject player;
     public GameObject skill;
     public int skill_ID;
-    public Item item;
+    public GameObject item;
+    public int item_ID;
     public CameraMode cameraMode;
 
     public Active GetSkill()
@@ -31,13 +32,13 @@ public class BattleUIManager
         return skill.GetComponent<Active>();
     }
 
-    public Item GetItem()
+    public Consume GetItem()
     {
-        if (item == null)
+        if (item == null || item.GetComponent<Consume>() == null)
         {
             return null;
         }
-        return item;
+        return item.GetComponent<Consume>();
     }
 
     public void ShowCharacterInfo(GameObject hit)

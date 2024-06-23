@@ -9,7 +9,8 @@ public class UI_PreBattle : UI_Scene
         BatchButton,
         RepairButton,
         SaveButton,
-        SystemButton
+        SystemButton,
+        MoveCameraButton
     }
 
     BatchUI batchUI = null;
@@ -28,11 +29,13 @@ public class UI_PreBattle : UI_Scene
         Button repairBtn = GetButton((int)PreBattleButtons.RepairButton);
         Button saveBtn = GetButton((int)PreBattleButtons.SaveButton);
         Button systemBtn = GetButton((int)PreBattleButtons.SystemButton);
+        Button cameraBtn = GetButton((int)PreBattleButtons.MoveCameraButton);
         BindEvent(startBtn.gameObject, OnStartButton, Define.UIEvent.Click);
         BindEvent(batchBtn.gameObject, OnBatchButton, Define.UIEvent.Click);
         BindEvent(repairBtn.gameObject, OnRepairButton, Define.UIEvent.Click);
         BindEvent(saveBtn.gameObject, OnSaveButton, Define.UIEvent.Click);
         BindEvent(systemBtn.gameObject, OnSystemButton, Define.UIEvent.Click);
+        BindEvent(cameraBtn.gameObject, OnCameraButton, Define.UIEvent.Click);
 
 
         Managers.BattleUI.warningUI = Managers.UI.CreatePopupUI<WarningUI>("WarningUI");
@@ -105,5 +108,10 @@ public class UI_PreBattle : UI_Scene
             pauseUI = Managers.UI.CreatePopupUI<UI_Pause>("PauseUI");
         }
         Managers.UI.ShowUI(pauseUI.gameObject);
+    }
+
+    public void OnCameraButton(PointerEventData data)
+    {
+
     }
 }

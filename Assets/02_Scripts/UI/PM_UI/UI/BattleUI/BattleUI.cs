@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class BattleUI : UI_Scene
@@ -8,7 +9,8 @@ public class BattleUI : UI_Scene
     {
         ActTurn,
         BattleStart,
-        NoticeText
+        NoticeText,
+        MoveCameraButton
     }
 
     Text noticeText;
@@ -24,6 +26,8 @@ public class BattleUI : UI_Scene
         noticeText = GetObject((int)battleUI.NoticeText).GetComponent<Text>();
         GameObject noticeUI = GetObject((int)battleUI.BattleStart);
         slideEffect = noticeUI.GetComponent<SlideEffect>();
+        GameObject cameraBtn = GetObject((int)battleUI.MoveCameraButton);
+        BindEvent(cameraBtn.gameObject, OnCameraButton, Define.UIEvent.Click);
 
         Managers.BattleUI.battleUI = gameObject.GetComponent<BattleUI>();
 
@@ -39,5 +43,10 @@ public class BattleUI : UI_Scene
     {
         noticeText.text = text;
         yield return StartCoroutine(slideEffect.SetSlideElement());
+    }
+
+    public void OnCameraButton(PointerEventData data)
+    {
+
     }
 }
