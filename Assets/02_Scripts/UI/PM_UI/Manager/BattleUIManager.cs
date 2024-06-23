@@ -54,12 +54,22 @@ public class BattleUIManager
 
     public void SetPosition(GameObject pos)
     {
+        GameObject mapSpawner = GameObject.Find("MapSpawner");      // 임시, 변경 필요 : 위치 이동 or 색 비교
+        CreateObject mapInfo = mapSpawner.GetComponent<CreateObject>();
+        int x = (int)pos.transform.position.x;
+        int z = (int)pos.transform.position.z;
+        bool spawnCheck = mapInfo.IsEnemySpawnPosition(x,z);
+        if (spawnCheck)
+        {
+            Managers.BattleUI.warningUI.SetText("생성할 수 없는 구역입니다.");
+            Managers.BattleUI.warningUI.ShowWarningUI();
+            return;
+        }
         player.transform.position = pos.transform.position + new Vector3(0f,0.8f,0);
         Managers.Battle.ObjectList.Add(player);
         Managers.Battle.playerLive++;
         Managers.UI.uiState = UIState.Idle;
         Managers.UI.ShowUI(batchUI.playerSpawn);
-        Managers.UI.ShowUI(batchUI.monsterSpawn);
         Managers.UI.ShowUI(batchUI.finishBtn);
         Managers.UI.HideUI(batchUI.cancleBtn);
     }

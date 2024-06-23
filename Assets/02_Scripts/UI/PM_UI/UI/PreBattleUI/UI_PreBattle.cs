@@ -33,10 +33,20 @@ public class UI_PreBattle : UI_Scene
         BindEvent(repairBtn.gameObject, OnRepairButton, Define.UIEvent.Click);
         BindEvent(saveBtn.gameObject, OnSaveButton, Define.UIEvent.Click);
         BindEvent(systemBtn.gameObject, OnSystemButton, Define.UIEvent.Click);
+
+
+        Managers.BattleUI.warningUI = Managers.UI.CreatePopupUI<WarningUI>("WarningUI");
+        Managers.UI.HideUI(Managers.BattleUI.warningUI.gameObject);
     }
 
     public void OnStartButton(PointerEventData data)
     {
+        if(Managers.Battle.playerLive == 0)
+        {
+            Managers.BattleUI.warningUI.SetText("현재 맵에 플레이어가 존재하지 않습니다.");
+            Managers.BattleUI.warningUI.ShowWarningUI();
+            return;
+        }
         Managers.UI.CreateSceneUI<BattleUI>("BattleUI");
         ActUI actUI = Managers.UI.CreatePopupUI<ActUI>("ActUI");
         Managers.BattleUI.actUI = actUI;
@@ -66,6 +76,7 @@ public class UI_PreBattle : UI_Scene
         batchUI.preBattleUI = gameObject;
         Managers.UI.ShowUI(batchUI.gameObject);
         Managers.UI.HideUI(gameObject);
+        batchUI.SetMapInfo();
     }
 
     public void OnRepairButton(PointerEventData data)

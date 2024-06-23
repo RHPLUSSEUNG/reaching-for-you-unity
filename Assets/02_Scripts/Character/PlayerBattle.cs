@@ -70,7 +70,7 @@ public class PlayerBattle : MonoBehaviour
                 else
                 {
                     Debug.Log("Can't Move There!");
-                    Managers.BattleUI.warningUI.SetText("이동할 수 업습니다!");
+                    Managers.BattleUI.warningUI.SetText("이동할 수 없습니다!");
                     Managers.BattleUI.warningUI.ShowWarningUI();
                     return;
                 }
@@ -104,7 +104,7 @@ public class PlayerBattle : MonoBehaviour
             if (newpath.Length * 10 > stat.ActPoint || newpath.Length * 10 > stat.MovePoint)
             {
                 Debug.Log("행동력 or 이동력 부족!");
-                Managers.BattleUI.warningUI.SetText("이동할 수 업습니다!");
+                Managers.BattleUI.warningUI.SetText("이동할 수 없습니다!");
                 Managers.BattleUI.warningUI.ShowWarningUI();
                 return;
             }

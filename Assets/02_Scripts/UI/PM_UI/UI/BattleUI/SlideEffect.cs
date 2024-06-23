@@ -6,6 +6,7 @@ public class SlideEffect : MonoBehaviour
     RectTransform _object;
     public float duration = 0.3f;
     public float pauseDuration = 1.0f;
+    public bool isSlide;
     Vector2 startPos;
     Vector2 endPos;
 
@@ -23,12 +24,14 @@ public class SlideEffect : MonoBehaviour
         endPos = new Vector2(0, _object.anchoredPosition.y);
 
         gameObject.SetActive(true);
+        isSlide = true;
 
         if (Managers.Battle.currentCharacter != null)
         {
             // Camera Movement
             cameraController.ChangeFollowTarget(Managers.Battle.currentCharacter, true);
             cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+            Managers.BattleUI.cameraMode = CameraMode.Follow;
             cameraController.ChangeOffSet(0, 1, -3, 20);
             Debug.Log("Camera Set");
         }
@@ -38,6 +41,7 @@ public class SlideEffect : MonoBehaviour
         yield return new WaitForSeconds(pauseDuration + duration);
 
         gameObject.SetActive(false);
+        isSlide = false;
 
         if(Managers.Battle.currentCharacter == null)
         {

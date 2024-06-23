@@ -74,9 +74,6 @@ public class ActUI : UI_Popup
         rangeUI.SetMapInfo();
         skillRangeUI = gameObject.GetComponent<SkillRangeUI>();
         skillRangeUI.SetMapInfo();
-
-        Managers.BattleUI.warningUI = Managers.UI.CreatePopupUI<WarningUI>("WarningUI");
-        Managers.UI.HideUI(Managers.BattleUI.warningUI.gameObject);
     }
 
     public void UpdateCharacterInfo()
