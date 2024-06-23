@@ -8,6 +8,7 @@ public class ElectricRush : Active
     int mask = 1 << 2;
     public override bool Activate()
     {
+        rotation.y = 0;
         Managers.Battle.currentCharacter.transform.position += rotation * 4;
         Managers.Active.Damage(target, target.GetComponent<EntityStat>().Hp / 4, ElementType.Electric, true);
         return true;
@@ -42,6 +43,7 @@ public class ElectricRush : Active
             if(collider.gameObject !=  this.target && collider.gameObject.layer != mask)
             {
                 Debug.Log(collider.gameObject);
+                return false;
             }
         }
         return true;

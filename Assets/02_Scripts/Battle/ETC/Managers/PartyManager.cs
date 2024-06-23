@@ -48,7 +48,7 @@ public class PartyManager
     public void MakeMonsterParty(int numberofMonster)
     {
         MapList map = RandomMap();
-
+        monsterParty.Clear();
         Array monsterList = Managers.Data.GetMonsterList(map);
         System.Random rand = new System.Random();
         string name;

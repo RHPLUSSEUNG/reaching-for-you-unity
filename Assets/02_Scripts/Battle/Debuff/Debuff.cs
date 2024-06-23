@@ -29,12 +29,18 @@ public abstract class Debuff
     public void StartAnimation()
     {
         effect = Managers.Skill.InstantiateEffect(name, target);
-        effect.GetComponent<ParticleSystem>().Play();
+        if (effect != null)
+        {
+            effect.GetComponent<ParticleSystem>().Play();
+        }
     }
 
     public void EndAnimation()
     {
-        effect.GetComponent<ParticleSystem>().Pause();
-        Managers.Destroy(effect);
+        if (effect != null)
+        {
+            effect.GetComponent<ParticleSystem>().Pause();
+            Managers.Destroy(effect);
+        }
     }
 }
