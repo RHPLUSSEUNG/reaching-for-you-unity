@@ -20,6 +20,7 @@ public class FallingObjectInteraction : GimmickInteraction
     int currentTurnCnt = -1; // 현재 총 턴 횟수
 
     bool isFalling = false;
+    bool isEnter = false;
 
     private void Awake() {
         warningColor = new Color32(180, 75, 75, 255);
@@ -42,12 +43,7 @@ public class FallingObjectInteraction : GimmickInteraction
 
         // 물리 작용 끔
         faliingRigid.isKinematic = true;
-
-        spriteRenderer = gameObject.transform.parent.GetComponentInChildren<SpriteRenderer>();
-        if(spriteRenderer != null)
-        {
-            spriteRenderer.sprite = TurnNumSprite[TurnCnt];
-        }
+        isEnter = false;
     }
 
     private void OnTriggerEnter(Collider other) 
@@ -58,11 +54,18 @@ public class FallingObjectInteraction : GimmickInteraction
 
             // warningText = Managers.BattleUI.warningUI.GetText();
             currentTurnCnt = Managers.Battle.totalTurnCnt;
+
+            isEnter = true;
+            spriteRenderer = gameObject.transform.parent.GetComponentInChildren<SpriteRenderer>();
+            if(spriteRenderer != null)
+            {
+                spriteRenderer.sprite = TurnNumSprite[TurnCnt];
+            }
         }
     }
 
-    private void OnTriggerStay(Collider other) {
-        if (other.CompareTag("Player")) 
+    private void Update() {
+        if (isEnter)
         {
             remainTurnCnt = Managers.Battle.totalTurnCnt - currentTurnCnt;
 
@@ -71,6 +74,36 @@ public class FallingObjectInteraction : GimmickInteraction
                 StartCoroutine(FallStone());
                 if(isFalling)
                     FallingObjectTransform.gameObject.SetActive(false);
+                
+                if(spriteRenderer != null)
+                {
+                    spriteRenderer.sprite = null;
+                }
+            }
+            else {
+                if(Managers.Battle.isPlayerTurn)
+                {
+                    spriteRenderer.sprite = TurnNumSprite[TurnCnt - remainTurnCnt];
+                }
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other) {
+        if (other.CompareTag("Player")) 
+        {
+            remainTurnCnt = Managers.Battle.totalTurnCnt - currentTurnCnt;
+
+            if(remainTurnCnt > TurnCnt) 
+            {
+                StartCoroutine(FallStone());
+                if(isFalling)
+                    faliingRigid.isKinematic = true;
+
+                if(spriteRenderer != null)
+                {
+                    spriteRenderer.sprite = null;
+                }
             }
             else {
                 if(Managers.Battle.isPlayerTurn)
