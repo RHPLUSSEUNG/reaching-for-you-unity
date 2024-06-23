@@ -132,7 +132,7 @@ public class PlayerBattle : MonoBehaviour
     {
         targetIndex = 0;
         Vector3 currentWaypoint = path[targetIndex];
-
+        
         while (true)
         {
             if (transform.position.x > currentWaypoint.x)   //현재 위치와 이동 대상 x 좌표 비교해 스프라이트 회전
@@ -143,10 +143,10 @@ public class PlayerBattle : MonoBehaviour
             {
                 spriteController.Flip(Direction.Right);
             }
+            Vector3 moveTarget = new Vector3(currentWaypoint.x, transform.position.y, currentWaypoint.z);   // y좌표 배제
+            transform.position = Vector3.MoveTowards(transform.position, moveTarget, speed * Time.deltaTime);
 
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
-
-            if (transform.position == currentWaypoint)
+            if (transform.position == moveTarget)
             {
                 if (targetIndex + 1 >= path.Length)
                 {

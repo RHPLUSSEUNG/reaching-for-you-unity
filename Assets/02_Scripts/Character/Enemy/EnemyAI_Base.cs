@@ -204,9 +204,10 @@ public abstract class EnemyAI_Base : MonoBehaviour
                 spriteController.Flip(Direction.Right);
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
-                
-            if (transform.position == currentWaypoint)
+            Vector3 moveTarget = new Vector3(currentWaypoint.x, transform.position.y, currentWaypoint.z);   // y좌표 배제
+            transform.position = Vector3.MoveTowards(transform.position, moveTarget, speed * Time.deltaTime);
+
+            if (transform.position == moveTarget)
             {
                 if (isTargetEmpty)  // 대상 칸까지 이동 시
                 {
