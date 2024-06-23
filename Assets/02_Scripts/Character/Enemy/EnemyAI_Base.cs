@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
@@ -170,6 +171,10 @@ public abstract class EnemyAI_Base : MonoBehaviour
         {
             spriteController.Flip(Direction.Right);
         }
+    }
+    public void OnSkillRangeFound(List<GameObject> tileList)
+    {
+        // 타일 하이라이트 및 일정 시간 뒤 해제
     }
     IEnumerator FollowPath()
     {

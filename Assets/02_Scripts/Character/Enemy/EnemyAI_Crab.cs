@@ -71,6 +71,7 @@ public class EnemyAI_Crab : EnemyAI_Base
         {
             if (CanAttack(stat.AttackRange))
             {
+                PathFinder.RequestSkillRange(transform.position, stat.AttackRange, RangeType.Normal, OnSkillRangeFound);
                 Attack(30);
             }
             else

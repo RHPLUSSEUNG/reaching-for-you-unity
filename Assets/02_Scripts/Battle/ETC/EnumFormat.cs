@@ -91,7 +91,8 @@ public enum Direction
 public enum CameraMode
 {
     Static,
-    Follow
+    Follow,
+    Move
 }
 
 public enum RangeType
