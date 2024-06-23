@@ -100,9 +100,8 @@ public class BattleManager
         battleState = BattleState.PlayerTurn;
         totalTurnCnt++;
         isPlayerTurn = true;
-        Managers.BattleUI.actUI.UpdateCharacterInfo();
         currentCharacter.GetComponent<PlayerBattle>().OnTurnStart();
-
+        Managers.BattleUI.actUI.UpdateCharacterInfo();
     }
     public void EnemyTurn(GameObject character)
     {
@@ -167,11 +166,11 @@ public class BattleManager
         }
         if (currentCharacter.CompareTag("Player"))
         {
-            PlayerTurn();
+            Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Player Turn!"));
         }
         else
         {
-            EnemyTurn(currentCharacter);
+            Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Enemy Turn!"));
         }
         yield break;
     }

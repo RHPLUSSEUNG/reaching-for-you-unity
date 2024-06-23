@@ -10,8 +10,12 @@ public class MoveRangeUI : MonoBehaviour
     float mapWidth;
     float mapHeight;
     Color highlightColor = Color.cyan;
+    Color pathColor = Color.yellow;
     Color originalColor;
 
+    List<GameObject> tiles = new List<GameObject>();
+    List<GameObject> pathTiles = new List<GameObject>();
+    List<Color> tileColor = new List<Color>();
     Dictionary<Vector3Int, int> visited;
 
     public void SetMapInfo()
@@ -29,9 +33,9 @@ public class MoveRangeUI : MonoBehaviour
 
         originalColor = map.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.color;
 
-        for(int x = 0; x < mapWidth; x++)
+        for (int x = 0; x < mapWidth; x++)
         {
-            for(int z = 0; z < mapHeight; z++)
+            for (int z = 0; z < mapHeight; z++)
             {
                 tile = map.transform.GetChild(tileCount).gameObject;
                 battleMap[x, z] = tile;
@@ -40,7 +44,7 @@ public class MoveRangeUI : MonoBehaviour
         }
 
         // 장애물 정보 저장(임의)
-        for(int i = tileCount; i < map.transform.childCount; i++)
+        for (int i = tileCount; i < map.transform.childCount; i++)
         {
             if (map.transform.GetChild(i).gameObject.layer == LayerMask.NameToLayer("EnvironmentObject"))
             {
@@ -51,6 +55,99 @@ public class MoveRangeUI : MonoBehaviour
     }
 
     public void DisplayMoveRange()
+    {
+        GameObject focusPlayer = Managers.Battle.currentCharacter;
+        int movePoint = focusPlayer.GetComponent<EntityStat>().MovePoint;
+
+        PathFinder.RequestSkillRange(focusPlayer.transform.position, movePoint, RangeType.Move, HighlightRange);
+    }
+
+    public void HighlightRange(List<GameObject> tileList)
+    {
+        foreach (GameObject tile in tileList)
+        {
+            bool hoverCheck = tile.GetComponent<MouseHover>().isHovered;
+            if (hoverCheck)
+            {
+                tileColor.Add(tile.GetComponent<MouseHover>().originalColor);
+                tile.GetComponent<MouseHover>().originalColor = highlightColor;
+                tile.GetComponent<Renderer>().material.color = highlightColor;
+                tiles.Add(tile);
+                continue;
+            }
+            tileColor.Add(tile.GetComponent<Renderer>().material.color);
+            tile.GetComponent<Renderer>().material.color = highlightColor;
+            tiles.Add(tile);
+        }
+    }
+
+    public void ClearMoveRange()
+    {
+        int colorCount = 0;
+        foreach (GameObject tile in tiles)
+        {
+            tile.GetComponent<Renderer>().material.color = tileColor[colorCount];
+            colorCount++;
+        }
+
+        tiles.Clear();
+        tileColor.Clear();
+    }
+
+    public void ShowPathRange(Vector3[] path)
+    {
+        PrevClearMoveRange();
+        int x, z;
+        for (int i = 0; i < path.Length; i++)
+        {
+            x = (int)path[i].x;
+            z = (int)path[i].z;
+            GameObject tile = battleMap[x, z];
+            tileColor.Add(tile.GetComponent<Renderer>().material.color);
+            tile.GetComponent<Renderer>().material.color = pathColor;            
+
+            pathTiles.Add(tile);
+        }
+    }
+
+    public void ClearPathRange()
+    {
+        int colorCount = 0;
+        bool hoverCheck;
+        foreach (GameObject tile in pathTiles)
+        {
+            hoverCheck = tile.GetComponent<MouseHover>().isHovered;
+            if(hoverCheck)
+            {
+                tile.GetComponent<MouseHover>().originalColor = tileColor[colorCount];
+            }
+            tile.GetComponent<Renderer>().material.color = tileColor[colorCount];
+            colorCount++;
+        }
+
+        pathTiles.Clear();
+        tileColor.Clear();
+    }
+
+    public void PrevClearMoveRange()
+    {
+        int colorCount = 0;
+        if (visited.Count == 0)
+        {
+            return;
+        }
+        foreach (Vector3Int pos in visited.Keys)
+        {
+            GameObject tile = battleMap[pos.x, pos.z];
+            tile.GetComponent<Renderer>().material.color = tileColor[colorCount];
+            colorCount++;
+        }
+
+        visited.Clear();
+        tileColor.Clear();
+    }
+
+    public void PrevDisplayMoveRange()
     {
         GameObject focusPlayer = Managers.Battle.currentCharacter;
 
@@ -72,7 +169,7 @@ public class MoveRangeUI : MonoBehaviour
             Vector3Int current = moveTile.Dequeue();
             int currentDistance = visited[current];
 
-            HighlightRange(current);     // 타일 색 변경
+            PrevHighlightRange(current);     // 타일 색 변경
 
             Vector3Int[] directions =
             {
@@ -101,44 +198,37 @@ public class MoveRangeUI : MonoBehaviour
             }
         }
     }
-    public void ClearMoveRangeUI()
-    {
-        List<Vector3Int> keyList = new List<Vector3Int>();
 
-        foreach(Vector3Int pos in visited.Keys)
-        {
-            GameObject tile = battleMap[pos.x, pos.z];
-            tile.GetComponent<Renderer>().material.color = originalColor;
-
-            keyList.Add(pos);
-        }
-
-        foreach(Vector3Int key in keyList)
-        {
-            visited.Remove(key);
-        }
-    }
-    void HighlightRange(Vector3Int pos)
+    void PrevHighlightRange(Vector3Int pos)
     {
         int x = pos.x;
         int z = pos.z;
         GameObject tile = battleMap[x, z];
+        bool hoverCheck = tile.GetComponent<MouseHover>().isHovered;
+        if(hoverCheck)
+        {
+            tileColor.Add(tile.GetComponent<MouseHover>().originalColor);
+            tile.GetComponent<MouseHover>().originalColor = highlightColor;
+            tile.GetComponent<Renderer>().material.color = highlightColor;
+            return;
+        }
+        tileColor.Add(tile.GetComponent<Renderer>().material.color);
         tile.GetComponent<Renderer>().material.color = highlightColor;
     }
 
     bool CheckMovable(Vector3Int near, Vector3Int current)
     {
-        for(int i = 0; i < obstacleMap.Count; i++)
+        for (int i = 0; i < obstacleMap.Count; i++)
         {
             int x = (int)obstacleMap[i].transform.position.x;
             int z = (int)obstacleMap[i].transform.position.z;
-            if(near.x == x && near.z == z)
+            if (near.x == x && near.z == z)
             {
                 return true;        // 장애물이 있음
             }
         }
 
-        for(int i = 0; i < Managers.Battle.ObjectList.Count; i++)
+        for (int i = 0; i < Managers.Battle.ObjectList.Count; i++)
         {
             int x = (int)Managers.Battle.ObjectList[i].transform.position.x;
             int z = (int)Managers.Battle.ObjectList[i].transform.position.z;

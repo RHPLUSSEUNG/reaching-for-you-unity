@@ -84,6 +84,7 @@ public class RaycastManager
                                 {
                                     detect_ready = false;
                                     Managers.UI.HideUI(Managers.BattleUI.cancleBtn.gameObject);
+                                    Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange();
                                     Managers.Skill.UseElementSkill(Managers.BattleUI.GetSkill().element);
                                     Managers.Battle.NextTurn();
                                 }

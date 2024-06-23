@@ -5,11 +5,11 @@ using UnityEngine;
 public class MouseHover : MonoBehaviour
 {
     // 원래 색상
-    private Color originalColor;
+    public Color originalColor;
     // 호버할 때의 색상
     public Color hoverColor = Color.gray;
     // 큐브에 마우스가 올라와 있는지 여부를 나타내는 변수
-    private bool isHovered = false;
+    public bool isHovered = false;
 
     // 스크립트가 시작될 때 실행되는 함수
     void Start()
