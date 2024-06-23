@@ -77,7 +77,7 @@ public class CreateObject : MonoBehaviour
     public int maxObstacleCount = 5; // 최대 벽 개수
     public float minDistanceBetweenObstacles = 2.0f; // 장애물 간 최소 거리
 
-    public int maxGimmickCount = 3; // 최대 기믹 개수
+    public int maxGimmickCount = 4; // 최대 기믹 개수
     int currentObstacleCount = 0;
 
     public LayerMask wallLayerMask; // Wall 레이어 마스크
@@ -255,7 +255,7 @@ public class CreateObject : MonoBehaviour
 
     public void PlaceEnemy()
     {
-        int monsterCount = Random.Range(0, Managers.Party.monsterParty.Count) + 1;
+        int monsterCount = 3;
         Debug.Log(monsterCount);
         Managers.Party.MakeMonsterParty(monsterCount);
 
@@ -289,7 +289,7 @@ public class CreateObject : MonoBehaviour
 
     public void PlaceGimmicks()
     {
-        int gimmickCount = Random.Range(1, maxGimmickCount); // 0개에서 maxGimmickCoun 개 중에서 랜덤하게 선택
+        int gimmickCount = Random.Range(2, maxGimmickCount); // 0개에서 maxGimmickCoun 개 중에서 랜덤하게 선택
         while(gimmickCount > 0)
         {
             // 기믹을 배치할 랜덤한 위치를 찾음
