@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2779144039563265739}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.6, z: -0.20000005}
+  m_LocalPosition: {x: 0, y: -0.574, z: -0.317}
   m_LocalScale: {x: 0.16206001, y: 0.16206007, z: 0.16206005}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -93,7 +93,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6887543192642617950}
-  - component: {fileID: 8278229267098531591}
   - component: {fileID: 7387900590124891021}
   - component: {fileID: -3651890511693488082}
   - component: {fileID: 7221533062846762427}
@@ -123,33 +122,6 @@ Transform:
   - {fileID: 7510164155568353952}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &8278229267098531591
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3021066451422345363}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!114 &7387900590124891021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   list: []
+  idList: 
 --- !u!114 &7221533062846762427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +176,7 @@ MonoBehaviour:
   _electricEmmune: 0
   can_shock: 0
   can_immune: 0
+  cold: 0
 --- !u!114 &-5185650065337777768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,8 +196,9 @@ MonoBehaviour:
   _mp: 100
   _baseDamage: 10
   _attackRange: 1
-  _movePoint: 10
-  _actPoint: 10
+  _movePoint: 50
+  _maxMovePoint: 50
+  _actPoint: 100
   _sight: 10
   _defense: 10
   _healReciveMultiply: 10
@@ -232,6 +207,7 @@ MonoBehaviour:
   _oxygen: 0
   _bind: 0
   _shock: 0
+  _canPassWall: 0
 --- !u!114 &8695678571269443061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,7 +288,6 @@ GameObject:
   - component: {fileID: 3930037468399884871}
   - component: {fileID: 4147198778004541203}
   - component: {fileID: 3740725384208710834}
-  - component: {fileID: 2858478084767171805}
   m_Layer: 8
   m_Name: Character
   m_TagString: Untagged
@@ -408,18 +383,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2858478084767171805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4493405683828382003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffc20ad36ce4b3046b2462be73d31230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4982684889269228653
 GameObject:
   m_ObjectHideFlags: 0
