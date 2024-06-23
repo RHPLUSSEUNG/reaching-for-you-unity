@@ -17,7 +17,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
     protected SpriteController spriteController;
     protected SkillList skillList;
 
-    Vector3[] path;
+    List<Vector3> path;
     Vector3 targetPos;
     protected int targetIndex;
     protected int targetDistance;
@@ -107,7 +107,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
             Debug.Log("Object is Moving!");
         }
     }
-    public void OnPathFound(Vector3[] newpath, bool succsess)
+    public void OnPathFound(List<Vector3> newpath, bool succsess)
     {
         if (succsess)
         {
@@ -183,7 +183,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
     IEnumerator FollowPath()
     {
         targetIndex = 0;
-        if (path.Length == 0 || (path.Length <= stat.AttackRange && !isTargetEmpty))   // 이동할 필요 X
+        if (path.Count == 0 || (path.Count <= stat.AttackRange && !isTargetEmpty))   // 이동할 필요 X
         {
             Debug.Log("Already At The Position");
             stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
@@ -211,7 +211,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
             {
                 if (isTargetEmpty)  // 대상 칸까지 이동 시
                 {
-                    if (targetIndex + 1 >= path.Length || targetIndex + 1 >= stat.MovePoint)
+                    if (targetIndex + 1 >= path.Count || targetIndex + 1 >= stat.MovePoint)
                     {
                         stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
                         isMoved = true;
@@ -221,7 +221,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
                 }
                 else
                 { 
-                    if (targetIndex + stat.AttackRange + 1 >= path.Length || targetIndex + 1 >= stat.MovePoint)  // 사거리 닿을 시 or 이동거리 초과 시
+                    if (targetIndex + stat.AttackRange + 1 >= path.Count || targetIndex + 1 >= stat.MovePoint)  // 사거리 닿을 시 or 이동거리 초과 시
                     {
                         stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
                         isMoved = true;
