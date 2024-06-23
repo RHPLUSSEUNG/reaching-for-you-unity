@@ -255,11 +255,13 @@ public class CreateObject : MonoBehaviour
 
     public void PlaceEnemy()
     {
-        for(int i = 0; i < Managers.Party.monsterParty.Count; )
+        int monsterCount = Random.Range(0, Managers.Party.monsterParty.Count) + 1;
+        Debug.Log(monsterCount);
+        Managers.Party.MakeMonsterParty(monsterCount);
+
+        for(int i = 0; i < monsterCount; )
         {
-            Debug.Log(1);
             Coord randomCoord = GetRandomCoord();
-            Debug.Log(CoordToPosition(randomCoord.X, randomCoord.Z));
 
             if (!IsWallAtPosition(randomCoord.X, randomCoord.Z))
             {
@@ -273,7 +275,6 @@ public class CreateObject : MonoBehaviour
                         Debug.Log("Monster Null");
                     }
                     else {
-                        Managers.UI.uiState = UIState.PlayerSet;
                         Managers.Party.monsterParty[i].transform.position = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, 0.8f, 0);
                         i++;
                     }
@@ -337,18 +338,20 @@ public class CreateObject : MonoBehaviour
         int obstacleCount = Random.Range(minObstacleCount, maxObstacleCount + 1);
         while (currentObstacleCount < obstacleCount)
         {
-            int x = Random.Range(0, (int)Width);
-            int z = Random.Range(0, (int)Height);
-
-            if (!IsWallAtPosition(x, z))
+            Coord randomCoord = GetRandomCoord();
+            
+            // 해당 위치가 벽과 충돌하지 않는지, 또는 장애물과 충돌하지 않는지 확인
+            if (!IsWallAtPosition(randomCoord.X, randomCoord.Z))
             {
                 // 랜덤한 인덱스 생성
                 int randomIndex = Random.Range(0, coverDataArray.Length);
                 CoverData selectedCoverData = coverDataArray[randomIndex];
 
-                Vector3 obstaclePosition = CoordToPosition(x, z) + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y + 0.82f, 0);
+                Vector3 obstaclePosition = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y + 0.82f, 0);
                 GameObject obstacleInstance = Instantiate(selectedCoverData.coverGameObject, obstaclePosition, Quaternion.identity, this.transform);
                 obstacleInstance.transform.SetParent(mapHolder);
+
+                wallInMap[randomCoord.X, randomCoord.Z] = true;
 
                 // map[x, z].eObstacle = EObstacle.Obstacle;
                 // map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
