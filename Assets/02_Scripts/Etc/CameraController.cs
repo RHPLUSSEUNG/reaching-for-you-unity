@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 
 public class CameraController : MonoBehaviour
@@ -13,16 +14,17 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     List<GameObject> followTargets;
     [SerializeField]
-    float offsetX = 0.0f;
+    float basicOffsetX = 0.0f;
     [SerializeField]
-    float offsetY = 2.0f;
+    float basicOffsetY = 2.0f;
     [SerializeField]
-    float offsetZ = -3.0f;
+    float basicOffsetZ = -3.0f;
     [SerializeField]
-    float rotateX = 30.0f;
+    float basicRotateX = 30.0f;
     [SerializeField]
     float cameraSpeed = 10.0f;
 
+    float offsetX,offsetY,offsetZ,rotateX;
     [SerializeField]
     bool isFollowMode;
 
@@ -90,6 +92,7 @@ public class CameraController : MonoBehaviour
                 {
                     transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
                 }
+                transform.eulerAngles = new Vector3(rotateX, 0, 0);
                 break;
             case CameraMode.Move:
                 CameraInput();
@@ -155,14 +158,17 @@ public class CameraController : MonoBehaviour
             case CameraMode.Move:
                 mode = CameraMode.Move;
                 isFollowMode = false;
-                targetTransform = cameraTargets[cameraIndex].transform;
-                transform.eulerAngles = cameraTargets[cameraIndex].transform.eulerAngles;
+                targetTransform = cameraTargets[1].transform;
+                transform.eulerAngles = cameraTargets[1].transform.eulerAngles;
                 break;
         }
         gameObject.GetComponent<Camera>().orthographic = isOrthographic;
         isSmoothMove = _isSmoothMove;
         setPos = targetTransform.position;
         Debug.Log("Changed Mode");
+
+        transform.position = setPos;    //1회만 설정
+        transform.rotation = targetTransform.rotation;
     }
     public void AddFollowList(GameObject target)
     {
@@ -180,7 +186,13 @@ public class CameraController : MonoBehaviour
         offsetZ = z;
         rotateX = _rotateX;
     }
-
+    public void BasicOffset()
+    {
+        offsetX = basicOffsetX;
+        offsetY = basicOffsetY;
+        offsetZ = basicOffsetZ;
+        rotateX = basicRotateX;
+    }
     private void CameraInput()
     {
         Vector3 vec = new Vector3();
@@ -205,13 +217,5 @@ public class CameraController : MonoBehaviour
 
             transform.Translate(pos);
         }
-    }
-    public void test()
-    {
-        ChangeCameraMode(CameraMode.Move, true, true);
-    }
-    public void offtest()
-    {
-        ChangeCameraMode(CameraMode.Static, true, true);
     }
 }

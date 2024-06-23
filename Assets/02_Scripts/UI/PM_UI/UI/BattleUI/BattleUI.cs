@@ -61,6 +61,7 @@ public class BattleUI : UI_Scene
         }
         else if(Managers.BattleUI.cameraMode == CameraMode.Move)
         {
+            cameraController.ChangeOffSet(1,2,-3,30);   // 캐릭터 행동 UI offset
             cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
             Managers.BattleUI.cameraMode = CameraMode.Follow;
             Managers.UI.ShowUI(Managers.BattleUI.actUI.gameObject);
