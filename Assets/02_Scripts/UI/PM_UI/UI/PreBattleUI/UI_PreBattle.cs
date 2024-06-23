@@ -54,7 +54,6 @@ public class UI_PreBattle : UI_Scene
             Managers.UI.ClosePopupUI(saveUI);
         }
         Managers.Prefab.Destroy(gameObject);
-        Managers.Battle.BattleStart();
     }
 
     public void OnBatchButton(PointerEventData data)

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FallingObjectInteraction : MonoBehaviour
+public class FallingObjectInteraction : GimmickInteraction
 {
     [Header("FallingPrefabs")]
     public GameObject[] FallingPrefabs;
@@ -10,13 +10,22 @@ public class FallingObjectInteraction : MonoBehaviour
 
     Text warningText;
     private Rigidbody faliingRigid;
+    SpriteRenderer spriteRenderer;
+    
+    public Sprite[] TurnNumSprite;
 
-    int gimmickTurnCnt = 2; // 기믹 작동에 필요한 턴 개수
+    // int gimmickTurnCnt = 2; // 기믹 작동에 필요한 턴 개수
 
     int remainTurnCnt = -1;
     int currentTurnCnt = -1; // 현재 총 턴 횟수
 
-    // Start is called before the first frame update
+    bool isFalling = false;
+
+    private void Awake() {
+        warningColor = new Color32(180, 75, 75, 255);
+        TurnCnt = 2;
+    }
+
     void Start()
     {
         int randomIndex = Random.Range(0, FallingPrefabs.Length);
@@ -33,6 +42,12 @@ public class FallingObjectInteraction : MonoBehaviour
 
         // 물리 작용 끔
         faliingRigid.isKinematic = true;
+
+        spriteRenderer = gameObject.transform.parent.GetComponentInChildren<SpriteRenderer>();
+        if(spriteRenderer != null)
+        {
+            spriteRenderer.sprite = TurnNumSprite[TurnCnt];
+        }
     }
 
     private void OnTriggerEnter(Collider other) 
@@ -41,7 +56,7 @@ public class FallingObjectInteraction : MonoBehaviour
         {
             Debug.Log("Enter the Gimmick!!");
 
-            warningText = Managers.BattleUI.warningUI.GetText();
+            // warningText = Managers.BattleUI.warningUI.GetText();
             currentTurnCnt = Managers.Battle.totalTurnCnt;
         }
     }
@@ -51,23 +66,38 @@ public class FallingObjectInteraction : MonoBehaviour
         {
             remainTurnCnt = Managers.Battle.totalTurnCnt - currentTurnCnt;
 
-            if(remainTurnCnt >= gimmickTurnCnt) 
+            if(remainTurnCnt >= TurnCnt) 
             {
-                FallingObjectTransform.gameObject.SetActive(true);
-                faliingRigid.isKinematic = false;
+                StartCoroutine(FallStone());
+                if(isFalling)
+                    FallingObjectTransform.gameObject.SetActive(false);
             }
             else {
                 if(Managers.Battle.isPlayerTurn)
                 {
-                    StartCoroutine(ShowWarningCoroutine());
-                    Managers.BattleUI.warningUI.ShowWarningUI();   
+                    spriteRenderer.sprite = TurnNumSprite[TurnCnt - remainTurnCnt];
+                    // StartCoroutine(ShowWarningCoroutine());
+                    // Managers.BattleUI.warningUI.ShowWarningUI();   
                 }
             }
         }
     }
+
+    public int getRemainedTurnCnt()
+    {
+        return remainTurnCnt;
+    }
+    private IEnumerator FallStone() 
+    {
+        FallingObjectTransform.gameObject.SetActive(true);
+        faliingRigid.isKinematic = false;
+        yield return new WaitForSeconds(2f);
+        isFalling = true;
+    }
+
     private IEnumerator ShowWarningCoroutine()
     {
-        warningText.text = $"{gimmickTurnCnt - remainTurnCnt}턴 이후 낙석 주의!!";
+        warningText.text = $"{TurnCnt - remainTurnCnt}턴 이후 낙석 주의!!";
         Managers.BattleUI.warningUI.SetText(warningText.text);
         yield return new WaitForSeconds(2f);
         Managers.Battle.isPlayerTurn = false;

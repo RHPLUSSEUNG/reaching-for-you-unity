@@ -87,9 +87,10 @@ public class CreateObject : MonoBehaviour
     void Start()
     {
         GenerateMap();
-        // RandomObstacle(Width, Height, 1);
+
         PlaceObstacles();
         PlaceGimmicks();
+        PlaceEnemy();
 
         GameObject mapInstance = Instantiate(MapPrefab);
         mapInstance.transform.position = MapPrefab.transform.position;
@@ -135,6 +136,12 @@ public class CreateObject : MonoBehaviour
                 // 부모 설정 (이 스크립트를 추가한 게임 오브젝트를 부모로 설정)
                 newCube.transform.localScale = Vector3.one * (1 - outlinePercent);
                 newCube.transform.SetParent(mapHolder);
+
+                map[(int)tilePosition.x, (int)tilePosition.z].ObjectPrefab = newCube;
+                map[(int)tilePosition.x, (int)tilePosition.z].ObjectLocation = tilePosition;
+                map[(int)tilePosition.x, (int)tilePosition.z].CanWalk = true;
+
+                // map[(int)tilePosition.x, (int)tilePosition.z].ObjectPrefab.GetComponent<Renderer>().material.color = Color.red;
             }
         }
 
@@ -238,26 +245,86 @@ public class CreateObject : MonoBehaviour
         return wallInMap[x, z];
     }
 
+    public bool IsEnemySpawnPosition(int x, int z) 
+    {
+        if(x < (Width / 2) && z < (Height / 2))
+            return false;
+        
+        return true;
+    }
+
+    public void PlaceEnemy()
+    {
+        for(int i = 0; i < Managers.Party.monsterParty.Count; )
+        {
+            Debug.Log(1);
+            Coord randomCoord = GetRandomCoord();
+            Debug.Log(CoordToPosition(randomCoord.X, randomCoord.Z));
+
+            if (!IsWallAtPosition(randomCoord.X, randomCoord.Z))
+            {
+                if(IsEnemySpawnPosition(randomCoord.X, randomCoord.Z)) 
+                {
+                    wallInMap[randomCoord.X, randomCoord.Z] = true;
+
+                    Managers.BattleUI.player = Managers.Party.monsterParty[i];
+                    if (Managers.BattleUI.player == null)
+                    {
+                        Debug.Log("Monster Null");
+                    }
+                    else {
+                        Managers.UI.uiState = UIState.PlayerSet;
+                        Managers.Party.monsterParty[i].transform.position = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, 0.8f, 0);
+                        i++;
+                    }
+                }
+                else Debug.Log("no spawn point");
+            }
+            else {
+                Debug.Log("is wall");
+            }
+        }
+    }
+
     public void PlaceGimmicks()
     {
         int gimmickCount = Random.Range(1, maxGimmickCount); // 0개에서 maxGimmickCoun 개 중에서 랜덤하게 선택
         while(gimmickCount > 0)
         {
             // 기믹을 배치할 랜덤한 위치를 찾음
-            int x = Random.Range(0, (int)Width);
-            int z = Random.Range(0, (int)Height);
-
+            Coord randomCoord = GetRandomCoord();
+            
             // 해당 위치가 벽과 충돌하지 않는지, 또는 장애물과 충돌하지 않는지 확인
-            if (!IsWallAtPosition(x, z))
+            if (!IsWallAtPosition(randomCoord.X, randomCoord.Z))
             {
+                wallInMap[randomCoord.X, randomCoord.Z] = true;
                 // 기믹을 랜덤하게 선택하여 배치
                 int randomIndex = Random.Range(0, Gimmicks.Length);
                 GameObject selectedGimmick = Gimmicks[randomIndex];
 
                 // 선택된 기믹을 해당 위치에 배치
-                GameObject gimmickInstance = Instantiate(selectedGimmick, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
-                gimmickInstance.transform.position = map[x, z].ObjectLocation + new Vector3(0, selectedGimmick.transform.position.y, 0);
-                gimmickInstance.transform.SetParent(mapHolder);
+                Vector3 gimmickPosition = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, selectedGimmick.transform.position.y, 0);
+                GameObject newGimmick = Instantiate(selectedGimmick, gimmickPosition, Quaternion.identity);
+                newGimmick.transform.SetParent(mapHolder);
+
+                GimmickInteraction gimmickInteraction = newGimmick.GetComponentInChildren<GimmickInteraction>();
+                
+                if (gimmickInteraction != null)
+                {
+                    SlowInteration slowInteration = gimmickInteraction as SlowInteration;
+                    if(slowInteration != null)
+                    {
+                        Color warningColor = slowInteration.warningColor;
+                        map[(int)gimmickPosition.x, (int)gimmickPosition.z].ObjectPrefab.GetComponent<Renderer>().material.color = warningColor;
+                    }
+
+                    FallingObjectInteraction fallingObjectInteraction = gimmickInteraction as FallingObjectInteraction;
+                    if(fallingObjectInteraction != null)
+                    {
+                        Color warningColor = fallingObjectInteraction.warningColor;
+                        map[(int)gimmickPosition.x, (int)gimmickPosition.z].ObjectPrefab.GetComponent<Renderer>().material.color = warningColor;
+                    }
+                }
 
                 // 배치된 기믹의 위치를 리스트에 추가
                 gimmickCount--;

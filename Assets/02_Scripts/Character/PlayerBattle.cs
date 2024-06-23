@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerBattle : MonoBehaviour
 {
     [SerializeField]
-    float speed =10;
+    float speed = 10;
 
     GameObject mainCamera;
     CameraController cameraController;
@@ -70,6 +70,8 @@ public class PlayerBattle : MonoBehaviour
                 else
                 {
                     Debug.Log("Can't Move There!");
+                    Managers.BattleUI.warningUI.SetText("이동할 수 업습니다!");
+                    Managers.BattleUI.warningUI.ShowWarningUI();
                     return;
                 }
             }
@@ -93,17 +95,20 @@ public class PlayerBattle : MonoBehaviour
     }
     public void OnPathFound(Vector3[] newpath, bool succsess)
     {
-        if (newpath.Length ==0)
+        if (newpath.Length == 0)
         {
             return;
         }
         if (succsess)
         {
-            if (newpath.Length * 10 > stat.ActPoint || newpath.Length * 10 > stat.MovePoint) 
+            if (newpath.Length * 10 > stat.ActPoint || newpath.Length * 10 > stat.MovePoint)
             {
                 Debug.Log("행동력 or 이동력 부족!");
+                Managers.BattleUI.warningUI.SetText("이동할 수 업습니다!");
+                Managers.BattleUI.warningUI.ShowWarningUI();
                 return;
             }
+            Managers.BattleUI.actUI.GetComponent<MoveRangeUI>().ShowPathRange(newpath);
             spriteController.SetAnimState(AnimState.Move);
             path = newpath;
             isMoving = true;
@@ -120,6 +125,7 @@ public class PlayerBattle : MonoBehaviour
         isMoving = false;
         isMoved = true;
         spriteController.SetAnimState(AnimState.Idle);
+        Managers.BattleUI.actUI.GetComponent<MoveRangeUI>().ClearPathRange();
         //cameraController.ChangeCameraMode(CameraMode.Follow, true);
     }
     IEnumerator FollowPath()

@@ -93,3 +93,10 @@ public enum CameraMode
     Static,
     Follow
 }
+
+public enum RangeType
+{
+    Normal,
+    Move,
+    Cross
+}

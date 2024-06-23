@@ -11,9 +11,10 @@ public class RaycastManager
     public CharacterState characterstate;
     public EntityStat characterstat;
     Equip_Item itemList;
-
+  
     Active activeSkill;
     List<GameObject> targets;
+
 
     public void OnAwake()
     {
@@ -85,6 +86,7 @@ public class RaycastManager
                                 {
                                     detect_ready = false;
                                     Managers.UI.HideUI(Managers.BattleUI.cancleBtn.gameObject);
+                                    Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange();
                                     Managers.Skill.UseElementSkill(Managers.BattleUI.GetSkill().element);
                                     Managers.Battle.NextTurn();
                                 }
