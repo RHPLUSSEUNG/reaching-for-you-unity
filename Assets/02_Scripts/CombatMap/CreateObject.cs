@@ -69,7 +69,7 @@ public class CreateObject : MonoBehaviour
     public GameObject[] cubePrefab; // 배치할 Cube 프리팹
     
     public GameObject wallPrefab; // 배치할 Wall 프리팹
-    public CoverData[] coverDataArray; // 엄폐물 데이터 배열
+    public GameObject coverPrefab; // 엄폐물 데이터 배열
 
     public float frequency = 0;
 
@@ -275,7 +275,7 @@ public class CreateObject : MonoBehaviour
                         Debug.Log("Monster Null");
                     }
                     else {
-                        Managers.Party.monsterParty[i].transform.position = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, 0.8f, 0);
+                        Managers.Party.monsterParty[i].transform.position = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, 1f, 0);
                         i++;
                     }
                 }
@@ -344,11 +344,12 @@ public class CreateObject : MonoBehaviour
             if (!IsWallAtPosition(randomCoord.X, randomCoord.Z))
             {
                 // 랜덤한 인덱스 생성
-                int randomIndex = Random.Range(0, coverDataArray.Length);
-                CoverData selectedCoverData = coverDataArray[randomIndex];
+                // int randomIndex = Random.Range(0, coverDataArray.Length);
+                // CoverData selectedCoverData = coverDataArray[randomIndex];
 
-                Vector3 obstaclePosition = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y + 0.82f, 0);
-                GameObject obstacleInstance = Instantiate(selectedCoverData.coverGameObject, obstaclePosition, Quaternion.identity, this.transform);
+                // Vector3 obstaclePosition = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y + 0.82f, 0);
+                Vector3 obstaclePosition = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, coverPrefab.transform.position.y + 0.82f, 0);
+                GameObject obstacleInstance = Instantiate(coverPrefab, obstaclePosition, Quaternion.identity, this.transform);
                 obstacleInstance.transform.SetParent(mapHolder);
 
                 wallInMap[randomCoord.X, randomCoord.Z] = true;
