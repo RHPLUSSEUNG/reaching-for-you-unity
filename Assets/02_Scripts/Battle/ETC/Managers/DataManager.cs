@@ -61,7 +61,7 @@ public class DataManager
         item.name = consumeList[itemid].name;
         item.type = consumeList[itemid].ItemType;
         item.reqLev = consumeList[itemid].reqLev;
-        item.target = consumeList[itemid].target;
+        item.targetObject = consumeList[itemid].target;
         item.maxCapacity = consumeList[itemid].maxCapacity;
     }
 

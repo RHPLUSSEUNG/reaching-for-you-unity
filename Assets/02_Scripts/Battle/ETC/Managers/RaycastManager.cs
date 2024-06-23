@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class RaycastManager
 {
-    GameObject go;
     public bool detect_ready = false;
 
     public GameObject character;
@@ -13,8 +13,9 @@ public class RaycastManager
     Equip_Item itemList;
   
     Active activeSkill;
+    Consume consume;
     List<GameObject> targets;
-
+    GameObject target;
     public void OnUpdate()
     {
         if (Managers.Battle.currentCharacter != null && Managers.Battle.currentCharacter.CompareTag("Player"))
@@ -29,17 +30,96 @@ public class RaycastManager
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Tile")))
+
+            if (Managers.UI.uiState == UIState.PlayerSet)
             {
-                go = hit.collider.gameObject;
-                if (Managers.UI.uiState == UIState.Move)
+                target = RaycastTile(ray);
+                Debug.Log(target.transform.position);
+                Managers.BattleUI.SetPosition(target);
+            }
+            else if (Managers.Battle.battleState == BattleState.PlayerTurn)
+            {
+                switch (Managers.UI.uiState)
                 {
-                    character.GetComponent<PlayerBattle>().Move(go);
+                    case UIState.Move:
+                        character.GetComponent<PlayerBattle>().Move(RaycastTile(ray));
+                        break;
+                    case UIState.Idle:
+                        detect_ready = false;
+                        break;
+                    case UIState.SkillSet:
+                        activeSkill = Managers.BattleUI.GetSkill();
+                        if (!detect_ready)
+                        {
+                            PathFinder.RequestSkillRange(character.transform.position, activeSkill.range, RangeType.Normal, CallbackTargets);
+                            detect_ready = true;
+                        }
+                        switch (activeSkill.target_object)
+                        {
+                            case TargetObject.Enemy:
+                                RaycastEnemy(ray);
+                                break;
+                            case TargetObject.Friendly:
+                                RaycastFriendly(ray);
+                                break;
+                            case TargetObject.Tile:
+                                RaycastTile(ray);
+                                break;
+                            case TargetObject.Me:
+                                target = Managers.Battle.currentCharacter;
+                                break;
+                        }
+                        if (DetectTargets(target))
+                        {
+                            Managers.Manager.StartCoroutine(ActivatingSkillCoroutine());
+                        }
+                        break;
+                    case UIState.ItemSet:
+                        if (!detect_ready)
+                        {
+                            PathFinder.RequestSkillRange(character.transform.position, consume.range, RangeType.Normal, CallbackTargets);
+                            detect_ready = true;
+                        }
+                        consume = (Consume)Managers.BattleUI.GetItem();
+                        switch (consume.targetObject)
+                        {
+                            case TargetObject.Enemy:
+                                target = RaycastEnemy(ray);
+                                break;
+                            case TargetObject.Friendly:
+                                target = RaycastFriendly(ray);
+                                break;
+                            case TargetObject.Tile:
+                                target = RaycastTile(ray);
+                                break;
+                            case TargetObject.Me:
+                                target = Managers.Battle.currentCharacter;
+                                break;
+                        }
+                        if (DetectTargets(target))
+                        {
+                            Managers.Manager.StartCoroutine(ActivatingConsumeCoroutine());
+                        }
+                        break;
+                    case UIState.Attack:
+                        if (detect_ready == false)
+                        {
+                            detect_ready = true;
+                            PathFinder.RequestSkillRange(character.transform.position, characterstat.AttackRange, RangeType.Normal, CallbackTargets);
+                        }
+                        RaycastEnemy(ray);
+                        if (DetectTargets(target))
+                        {
+                            detect_ready = false;
+                            Managers.Active.Damage(target, characterstat.BaseDamage, characterstate.AttackType, characterstate.closeAttack);
+                            if (!characterstate.after_move)
+                            {
+                                Managers.Battle.NextTurn();
+                            }
+                        }
+                        break;
                 }
             }
-            if (Physics.Raycast(ray, out hit))
-            {
-                go = hit.collider.gameObject;
                 /*
                 if (hit.transform.gameObject.CompareTag("Character"))
                 {
@@ -53,68 +133,6 @@ public class RaycastManager
                 }
                 */
                 //Player Turn
-                if (Managers.Battle.battleState == BattleState.PlayerTurn)
-                {
-                    switch (Managers.UI.uiState)
-                    {
-                        case UIState.Idle:
-                            detect_ready = false;
-                            break;
-                        case UIState.SkillSet:
-                            activeSkill = Managers.BattleUI.GetSkill();
-                            if (activeSkill == null)
-                            {
-                                break;
-                            }
-                            else if (activeSkill.target_object == TargetObject.Me)
-                            {
-                                if (activeSkill.SetTarget(character))
-                                {
-                                    Managers.Battle.NextTurn();
-                                }
-                            }
-
-                            else if (detect_ready == false)
-                            {
-                                PathFinder.RequestSkillRange(character.transform.position, activeSkill.range,RangeType.Normal, CallbackTargets);
-                                detect_ready = true;
-                            }
-
-                            if (DetectTargets(go, activeSkill.target_object))
-                            {
-                                Managers.Manager.StartCoroutine(ActivatingSkillCoroutine());
-                            }
-                            break;
-                        case UIState.ItemSet:
-                            //Range Set
-                            //itemList.UseConsume(item, hit.collider.gameObject.transform.parent.gameObject);
-                            break;
-                        case UIState.Attack:
-                            if (detect_ready == false)
-                            {
-                                detect_ready = true;
-                                PathFinder.RequestSkillRange(character.transform.position, characterstat.AttackRange, RangeType.Normal, CallbackTargets);
-                            }
-                            
-                            if (DetectTargets(go, TargetObject.Enemy))
-                            {
-                                detect_ready = false;
-                                Managers.Active.Damage(go.transform.parent.gameObject, characterstat.BaseDamage, characterstate.AttackType, characterstate.closeAttack);
-                                if (!characterstate.after_move)
-                                {
-                                    Managers.Battle.NextTurn();
-                                }
-                            }
-                            break;
-                    }
-
-                }
-                //Battle Setting
-                else if (Managers.UI.uiState == UIState.PlayerSet && hit.transform.gameObject.CompareTag("Cube"))
-                {
-                    Managers.BattleUI.SetPosition(go);
-                }
-            }
         }
     }
 
@@ -123,13 +141,8 @@ public class RaycastManager
         targets = list;
     }
 
-    public bool DetectTargets(GameObject target, TargetObject targetObject)
+    public bool DetectTargets(GameObject target)
     {
-        string targetLayer = targetObject.ToString();
-        if (target.transform.parent.gameObject.layer != LayerMask.NameToLayer(targetLayer))
-        {
-            return false;
-        }
         float posx = target.transform.position.x;
         float posz = target.transform.position.z;
         foreach (GameObject obj in targets)
@@ -144,21 +157,76 @@ public class RaycastManager
 
     private IEnumerator ActivatingSkillCoroutine()
     {
-        Managers.Battle.cameraController.ChangeFollowTarget(go, true);
+        Managers.Battle.cameraController.ChangeFollowTarget(target, true);
         Managers.Battle.cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
         Managers.Battle.cameraController.ChangeOffSet(0, 1, -3, 20);
 
         yield return new WaitForSeconds(1f);
 
-        if (activeSkill.SetTarget(go.transform.parent.gameObject))
+        if (activeSkill.SetTarget(target))
         {
             detect_ready = false;
             Managers.UI.HideUI(Managers.BattleUI.cancleBtn.gameObject);
             Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange();
             Managers.Skill.UseElementSkill(Managers.BattleUI.GetSkill().element);
+            target = null;
             Managers.Battle.NextTurn();
             yield break;
         }
         yield break;
+    }
+
+    private IEnumerator ActivatingConsumeCoroutine()
+    {
+        Managers.Battle.cameraController.ChangeFollowTarget(target, true);
+        Managers.Battle.cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        Managers.Battle.cameraController.ChangeOffSet(0, 1, -3, 20);
+
+        yield return new WaitForSeconds(1f);
+
+        if (consume.Activate(target))
+        {
+            detect_ready = false;
+            Managers.UI.HideUI(Managers.BattleUI.cancleBtn.gameObject);
+            Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange();
+            target = null;
+            Managers.Battle.NextTurn();
+            yield break;
+        }
+        yield break;
+    }
+
+
+    private GameObject RaycastTile(Ray ray)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Tile")))
+        {
+            target = hit.collider.gameObject;
+            return target;
+        }
+        return null;
+    }
+
+    private GameObject RaycastEnemy(Ray ray)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Enemy")))
+        {
+            target = hit.collider.gameObject.transform.parent.gameObject;
+            return target;
+        }
+        return null;
+    }
+
+    private GameObject RaycastFriendly(Ray ray)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Friendly")))
+        {
+            target = hit.collider.gameObject.transform.parent.gameObject;
+            return target;
+        }
+        return null;
     }
 }
