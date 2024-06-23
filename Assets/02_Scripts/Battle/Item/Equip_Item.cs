@@ -9,46 +9,48 @@ public class Equip_Item : MonoBehaviour
 
 
     public int consume_cnt = 6;
-    public Dictionary<GameObject, int> Consumes = new();
+    // <id , capacity>
+    public Dictionary<int, int> Consumes = new();
 
     #region Consume
-    public void AddConsume(GameObject item, int capcity)
+    public void AddConsume(int itemID, int capcity)
     {
         if(Consumes.Count >= consume_cnt)
         {
             Debug.Log("Full Consume");
             return;
         }
-        int num = Managers.Item.EquipConsume(item, capcity);
-        if (Consumes.ContainsKey(item))
+        int num = Managers.Item.EquipConsume(itemID, capcity);
+        if (Consumes.ContainsKey(itemID))
         {
-            Consumes[item] += num;
+            Consumes[itemID] += num;
             return;
         }
-        Consumes.Add(item, num);
+        Consumes.Add(itemID, num);
         return;
     }
 
-    public void DeleteConsume(GameObject item)
+    public void DeleteConsume(int itemID)
     {
-        if(Managers.Item.AddItem(item, Consumes[item]))
+        if(Managers.Item.AddItem(itemID, Consumes[itemID]))
         {
-            Consumes.Remove(item);
+            Consumes.Remove(itemID);
             return;
         }
         Debug.Log("Can't Delete Consume");
         return;
     }
 
-    public void UseConsume(GameObject item, GameObject target)
+    public void UseConsume(int itemID, GameObject target)
     {
-        if(Consumes.ContainsKey(item)) 
+        if(Consumes.ContainsKey(itemID)) 
         {
+            GameObject item = Managers.Item.InstantiateConsumeItem(itemID);
             item.GetComponent<Consume>().Activate(target);
-            Consumes[item]--;
-            if (Consumes[item] == 0)
+            Consumes[itemID]--;
+            if (Consumes[itemID] == 0)
             {
-                Consumes.Remove(item);
+                Consumes.Remove(itemID);
             }
             return;
         }

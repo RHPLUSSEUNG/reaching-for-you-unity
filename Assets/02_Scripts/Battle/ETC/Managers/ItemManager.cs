@@ -3,33 +3,34 @@ using UnityEngine;
 
 public class ItemManager
 {
-    public Dictionary<GameObject, int> consumeInven = new();
-    public List<GameObject> equipmentInven = new();
+    public Dictionary<int, int> consumeInven = new();
+    public List<int> equipmentInven = new();
     short inventoryCnt =  0;
     short inventoryMaxCnt = 100;
     int gold = 0;
 
-    public bool AddItem(GameObject item, int num = 1)
+    public bool AddItem(int itemID, int num = 1)
     {
-        if (item.GetComponent<Item>().type == ItemType.Consume)
+        ItemData itemData = Managers.Data.GetItemData(itemID);
+        if (itemData.ItemType == ItemType.Consume)
         {
-            if (consumeInven.ContainsKey(item))
+            if (consumeInven.ContainsKey(itemID))
             {
-                consumeInven[item] += num;
+                consumeInven[itemID] += num;
                 return true;
             }
             else if (inventoryCnt < inventoryMaxCnt)
             {
-                consumeInven.Add(item, 1);
+                consumeInven.Add(itemID, 1);
                 inventoryCnt++;
                 return true;
             }
         }
-        else if (item.GetComponent<Item>().type == ItemType.Equipment)
+        else if (itemData.ItemType == ItemType.Equipment)
         {
             if (inventoryCnt < inventoryMaxCnt)
             {
-                equipmentInven.Add(item);
+                equipmentInven.Add(itemID);
                 inventoryCnt++;
                 return true;
             }
@@ -38,7 +39,18 @@ public class ItemManager
         return false;
     }
 
-   
+    public GameObject InstantiateConsumeItem(int itemID)
+    {
+        GameObject Item = Managers.Prefab.Instantiate($"Item/Consume/{Managers.Data.GetItemData(itemID).name}");
+        return Item;
+    }
+
+    public GameObject InstantiateEquipmentItem(int itemID)
+    {
+        GameObject Item = Managers.Prefab.Instantiate($"Item/Equipment/{Managers.Data.GetItemData(itemID).name}");
+        return Item;
+    }
+
     #region gold
     public bool getGold(short gold)
     {
@@ -59,12 +71,13 @@ public class ItemManager
     #endregion
 
     #region Equipment equip
-    public bool EquipItem(GameObject item, GameObject player)
+    public bool EquipItem(int itemID, GameObject player)
     {
+        GameObject item = InstantiateEquipmentItem(itemID);
         Equipment equip = item.GetComponent<Equipment>();
         Equip_Item equip_item = player.GetComponent<Equip_Item>();
         GameObject prev_item = null;
-        if (equipmentInven.Contains(item) && equip != null)
+        if (equipmentInven.Contains(itemID) && equip != null)
         {
             switch(equip.part) 
             {
@@ -89,7 +102,7 @@ public class ItemManager
             else
             {
                 equip.Equip(player);
-                equipmentInven.Remove(item);
+                equipmentInven.Remove(itemID);
             }
         }
         return false;
@@ -99,8 +112,8 @@ public class ItemManager
     {
         cur.GetComponent<Equipment>().Equip(player);
         prev.GetComponent<Equipment>().UnEquip(player);
-        equipmentInven.Remove(cur);
-        equipmentInven.Add(prev);
+        equipmentInven.Remove(cur.GetComponent<Equipment>().itemId);
+        equipmentInven.Add(cur.GetComponent<Equipment>().itemId);
     }
 
     public bool UnEquipItem(GameObject item, GameObject player)
@@ -126,14 +139,14 @@ public class ItemManager
                 break;
         }
         item.GetComponent<Equipment>().UnEquip(player);
-        equipmentInven.Add(item);
+        equipmentInven.Add(item.GetComponent<Equipment>().itemId);
         inventoryCnt++;
         return true;
     }
     #endregion
 
     #region EquipConsume
-    public int EquipConsume(GameObject item, int Capacity)
+    public int EquipConsume(int item, int Capacity)
     {
         int num = 0;
         if (consumeInven.ContainsKey(item))
