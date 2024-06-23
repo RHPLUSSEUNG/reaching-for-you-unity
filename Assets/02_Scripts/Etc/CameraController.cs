@@ -154,6 +154,9 @@ public class CameraController : MonoBehaviour
                 break;
             case CameraMode.Move:
                 mode = CameraMode.Move;
+                isFollowMode = false;
+                targetTransform = cameraTargets[cameraIndex].transform;
+                transform.eulerAngles = cameraTargets[cameraIndex].transform.eulerAngles;
                 break;
         }
         gameObject.GetComponent<Camera>().orthographic = isOrthographic;
