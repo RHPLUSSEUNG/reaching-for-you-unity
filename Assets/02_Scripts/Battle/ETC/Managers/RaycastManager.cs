@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -74,14 +75,7 @@ public class RaycastManager
 
                             if (DetectTargets(go, activeSkill.target_object))
                             {
-                                if (activeSkill.SetTarget(go.transform.parent.gameObject))
-                                {
-                                    detect_ready = false;
-                                    Managers.UI.HideUI(Managers.BattleUI.cancleBtn.gameObject);
-                                    Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange();
-                                    Managers.Skill.UseElementSkill(Managers.BattleUI.GetSkill().element);
-                                    Managers.Battle.NextTurn();
-                                }
+                                Managers.Manager.StartCoroutine(ActivatingSkillCoroutine());
                             }
                             break;
                         case UIState.ItemSet:
@@ -144,5 +138,25 @@ public class RaycastManager
             }
         }
         return false;
+    }
+
+    private IEnumerator ActivatingSkillCoroutine()
+    {
+        Managers.Battle.cameraController.ChangeFollowTarget(go, true);
+        Managers.Battle.cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        Managers.Battle.cameraController.ChangeOffSet(0, 1, -3, 20);
+
+        yield return new WaitForSeconds(1f);
+
+        if (activeSkill.SetTarget(go.transform.parent.gameObject))
+        {
+            detect_ready = false;
+            Managers.UI.HideUI(Managers.BattleUI.cancleBtn.gameObject);
+            Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange();
+            Managers.Skill.UseElementSkill(Managers.BattleUI.GetSkill().element);
+            Managers.Battle.NextTurn();
+            yield break;
+        }
+        yield break;
     }
 }

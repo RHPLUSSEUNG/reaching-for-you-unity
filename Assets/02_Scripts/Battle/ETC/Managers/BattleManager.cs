@@ -16,7 +16,7 @@ public class BattleManager
     int phase = 1;
     public List<GameObject> Areas = new();
 
-    CameraController cameraController;
+    public CameraController cameraController;
 
     private int compareDefense(GameObject character1,  GameObject character2)
     {
