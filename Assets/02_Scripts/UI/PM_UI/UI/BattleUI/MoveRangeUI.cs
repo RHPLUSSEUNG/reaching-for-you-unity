@@ -97,6 +97,7 @@ public class MoveRangeUI : MonoBehaviour
             x = (int)path[i].x;
             z = (int)path[i].z;
             GameObject tile = battleMap[x, z];
+            tileColor.Add(tile.GetComponent<Renderer>().material.color);
             tile.GetComponent<Renderer>().material.color = pathColor;            
 
             pathTiles.Add(tile);
@@ -105,12 +106,15 @@ public class MoveRangeUI : MonoBehaviour
 
     public void ClearPathRange()
     {
+        int colorCount = 0;
         foreach (GameObject tile in pathTiles)
         {
-            tile.GetComponent<Renderer>().material.color = originalColor;
+            tile.GetComponent<Renderer>().material.color = tileColor[colorCount];
+            colorCount++;
         }
 
         pathTiles.Clear();
+        tileColor.Clear();
     }
 
     public void PrevClearMoveRange()
