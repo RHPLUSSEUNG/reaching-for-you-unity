@@ -59,7 +59,6 @@ public class PartyManager
     public GameObject InstantiatePlayer(string character)
     {
         GameObject go = Managers.Prefab.Instantiate($"Character/{character}");
-        go.transform.position = new Vector3(0f, 0.8f, 0f);
         if (AddParty(go))
         {
             return go;
@@ -69,7 +68,6 @@ public class PartyManager
     public GameObject InstantiateMonster(string character)
     {
         GameObject go = Managers.Prefab.Instantiate($"Monster/{character}");
-        go.transform.position = new Vector3(0f, 0.8f, 0f);
         AddMonster(go);
         //Managers.Battle.ObjectList.Add(go);
         return go;

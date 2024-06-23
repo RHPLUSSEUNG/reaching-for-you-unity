@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PrefabManager
 {
+    Vector3 instantiatepos = new (99, 0.8f, 99);
     public T Load<T>(string path) where T : Object
     {
         return Resources.Load<T>(path);
@@ -15,6 +16,7 @@ public class PrefabManager
             //Debug.Log($"Prefab Not Found : {path}");
             return null;
         }
+        prefab.transform.position = instantiatepos;
         return Object.Instantiate(prefab, parent);
     }
 

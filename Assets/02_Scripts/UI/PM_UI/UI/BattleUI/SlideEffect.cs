@@ -51,7 +51,7 @@ public class SlideEffect : MonoBehaviour
         }
         else
         {
-            Managers.Battle.EnemyTurn(Managers.Battle.currentCharacter);
+            Managers.Battle.EnemyTurn();
         }
     }
 

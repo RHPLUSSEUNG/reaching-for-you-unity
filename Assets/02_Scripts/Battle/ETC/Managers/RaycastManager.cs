@@ -4,7 +4,6 @@ using UnityEngine;
 public class RaycastManager
 {
     GameObject go;
-    RangeDetector detector;
     public bool detect_ready = false;
 
     public GameObject character;
@@ -14,13 +13,6 @@ public class RaycastManager
   
     Active activeSkill;
     List<GameObject> targets;
-
-
-    public void OnAwake()
-    {
-        detector = GameObject.Find("RangeDetector").GetComponent<RangeDetector>();
-        //Debug.Log(detector);
-    }
 
     public void OnUpdate()
     {
@@ -76,11 +68,11 @@ public class RaycastManager
 
                             else if (detect_ready == false)
                             {
-                                PathFinder.RequestSkillRange(character.transform.position, activeSkill.range, CallbackTargets);
+                                PathFinder.RequestSkillRange(character.transform.position, activeSkill.range,RangeType.Normal, CallbackTargets);
                                 detect_ready = true;
                             }
 
-                            if (DetectTargets(go))
+                            if (DetectTargets(go, activeSkill.target_object))
                             {
                                 if (activeSkill.SetTarget(go.transform.parent.gameObject))
                                 {
@@ -100,10 +92,10 @@ public class RaycastManager
                             if (detect_ready == false)
                             {
                                 detect_ready = true;
-                                detector.SetDetector(character, (characterstat.AttackRange * 2) + 1, TargetObject.Enemy);
+                                PathFinder.RequestSkillRange(character.transform.position, characterstat.AttackRange, RangeType.Normal, CallbackTargets);
                             }
                             
-                            if (detector.Detect(go) != null)
+                            if (DetectTargets(go, TargetObject.Enemy))
                             {
                                 detect_ready = false;
                                 Managers.Active.Damage(go.transform.parent.gameObject, characterstat.BaseDamage, characterstate.AttackType, characterstate.closeAttack);
@@ -132,12 +124,16 @@ public class RaycastManager
 
     public void CallbackTargets(List<GameObject> list)
     {
-        Debug.Log(list);
         targets = list;
     }
 
-    public bool DetectTargets(GameObject target)
+    public bool DetectTargets(GameObject target, TargetObject targetObject)
     {
+        string targetLayer = targetObject.ToString();
+        if (target.transform.parent.gameObject.layer != LayerMask.NameToLayer(targetLayer))
+        {
+            return false;
+        }
         float posx = target.transform.position.x;
         float posz = target.transform.position.z;
         foreach (GameObject obj in targets)

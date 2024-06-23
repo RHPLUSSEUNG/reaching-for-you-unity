@@ -59,7 +59,6 @@ public class Managers : MonoBehaviour
     {
         _data.OnAwake();
         _skill.OnAwake();
-        raycast.OnAwake();
         _battle.BattleReady();
     }
 }
