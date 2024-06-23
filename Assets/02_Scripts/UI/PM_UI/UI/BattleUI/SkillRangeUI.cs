@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +11,7 @@ public class SkillRangeUI : MonoBehaviour
     Color originalColor;
 
     Dictionary<Vector3Int, int> visited;
+    List<GameObject> tiles = new List<GameObject>();
 
     public void SetMapInfo()
     {
@@ -43,6 +43,33 @@ public class SkillRangeUI : MonoBehaviour
     public void DisplaySkillRange()
     {
         GameObject focusPlayer = Managers.Battle.currentCharacter;
+        SkillData skillData = Managers.Data.GetPlayerSkillData(Managers.BattleUI.skill_ID);
+        int skillRange = skillData.range;
+
+        PathFinder.RequestSkillRange(focusPlayer.transform.position, skillRange, RangeType.Normal, HighlightRange);
+    }
+
+    public void HighlightRange(List<GameObject> tileList)
+    {
+        foreach(GameObject tile in tileList)
+        {
+            tile.GetComponent<Renderer>().material.color = highlightColor;
+            tiles.Add(tile);
+        }
+    }
+    
+    public void ClearSkillRange()
+    {
+        foreach(GameObject tile in tiles)
+        {
+            tile.GetComponent<Renderer>().material.color = originalColor;
+       }
+        tiles.Clear();
+    }
+
+    public void PrevDisplaySkillRange()
+    {
+        GameObject focusPlayer = Managers.Battle.currentCharacter;
 
         SkillData skillData = Managers.Data.GetPlayerSkillData(Managers.BattleUI.skill_ID);
         int skillRange = skillData.range;
@@ -63,7 +90,7 @@ public class SkillRangeUI : MonoBehaviour
             Vector3Int current = moveTile.Dequeue();
             int currentDistance = visited[current];
 
-            HighlightRange(current);
+            PrevHighlightRange(current);
 
             Vector3Int[] directions =
             {
@@ -87,7 +114,7 @@ public class SkillRangeUI : MonoBehaviour
             }
         }
     }
-    void HighlightRange(Vector3Int pos)
+    public void PrevHighlightRange(Vector3Int pos)
     {
         int x = pos.x;
         int z = pos.z;
@@ -95,22 +122,15 @@ public class SkillRangeUI : MonoBehaviour
         tile.GetComponent<Renderer>().material.color = highlightColor;
     }
 
-    public void ClearSkillRangeUI()
+    public void PrevClearSkillRangeUI()
     {
-        List<Vector3Int> keyList = new List<Vector3Int>();
-
         foreach (Vector3Int pos in visited.Keys)
         {
             GameObject tile = battleMap[pos.x, pos.z];
             tile.GetComponent<Renderer>().material.color = originalColor;
-
-            keyList.Add(pos);
         }
 
-        foreach (Vector3Int key in keyList)
-        {
-            visited.Remove(key);
-        }
+        visited.Clear();
     }
 
 }
