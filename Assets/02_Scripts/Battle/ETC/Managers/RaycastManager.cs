@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RaycastManager
@@ -10,6 +11,10 @@ public class RaycastManager
     public CharacterState characterstate;
     public EntityStat characterstat;
     Equip_Item itemList;
+  
+    Active activeSkill;
+    List<GameObject> targets;
+
 
     public void OnAwake()
     {
@@ -25,11 +30,6 @@ public class RaycastManager
             characterstat = character.GetComponent<EntityStat>();
             characterstate = character.GetComponent<CharacterState>();
             itemList = character.GetComponent<Equip_Item>();
-        }
-        if (Managers.UI.uiState == UIState.Idle && detect_ready == true)
-        {
-            Debug.Log("detect cancle");
-            detect_ready = false;
         }
 
         if (Input.GetMouseButtonDown(0) && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == false)
@@ -58,15 +58,17 @@ public class RaycastManager
                     switch (Managers.UI.uiState)
                     {
                         case UIState.Idle:
+                            detect_ready = false;
                             break;
                         case UIState.SkillSet:
-                            if (Managers.BattleUI.GetSkill() == null)
+                            activeSkill = Managers.BattleUI.GetSkill();
+                            if (activeSkill == null)
                             {
                                 break;
                             }
-                            else if (Managers.BattleUI.GetSkill().target_object == TargetObject.Me)
+                            else if (activeSkill.target_object == TargetObject.Me)
                             {
-                                if (Managers.BattleUI.GetSkill().SetTarget(character))
+                                if (activeSkill.SetTarget(character))
                                 {
                                     Managers.Battle.NextTurn();
                                 }
@@ -74,13 +76,13 @@ public class RaycastManager
 
                             else if (detect_ready == false)
                             {
-                                detector.SetDetector(character, Managers.BattleUI.GetSkill().range + 1, Managers.BattleUI.GetSkill().target_object);
+                                PathFinder.RequestSkillRange(character.transform.position, activeSkill.range, CallbackTargets);
                                 detect_ready = true;
                             }
 
-                            if (detector.Detect(hit.collider.gameObject) != null)
+                            if (DetectTargets(go))
                             {
-                                if (Managers.BattleUI.GetSkill().SetTarget(hit.collider.gameObject.transform.parent.gameObject))
+                                if (activeSkill.SetTarget(go.transform.parent.gameObject))
                                 {
                                     detect_ready = false;
                                     Managers.UI.HideUI(Managers.BattleUI.cancleBtn.gameObject);
@@ -101,10 +103,10 @@ public class RaycastManager
                                 detector.SetDetector(character, (characterstat.AttackRange * 2) + 1, TargetObject.Enemy);
                             }
                             
-                            if (detector.Detect(hit.collider.gameObject) != null)
+                            if (detector.Detect(go) != null)
                             {
                                 detect_ready = false;
-                                Managers.Active.Damage(hit.collider.gameObject.transform.parent.gameObject, characterstat.BaseDamage, characterstate.AttackType, characterstate.closeAttack);
+                                Managers.Active.Damage(go.transform.parent.gameObject, characterstat.BaseDamage, characterstate.AttackType, characterstate.closeAttack);
                                 if (!characterstate.after_move)
                                 {
                                     Managers.Battle.NextTurn();
@@ -122,9 +124,29 @@ public class RaycastManager
                 //Battle Setting
                 else if (Managers.UI.uiState == UIState.PlayerSet && hit.transform.gameObject.CompareTag("Cube"))
                 {
-                    Managers.BattleUI.SetPosition(hit.collider.gameObject);
+                    Managers.BattleUI.SetPosition(go);
                 }
             }
         }
+    }
+
+    public void CallbackTargets(List<GameObject> list)
+    {
+        Debug.Log(list);
+        targets = list;
+    }
+
+    public bool DetectTargets(GameObject target)
+    {
+        float posx = target.transform.position.x;
+        float posz = target.transform.position.z;
+        foreach (GameObject obj in targets)
+        {
+            if(obj.transform.position.x == posx && obj.transform.position.z == posz)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
