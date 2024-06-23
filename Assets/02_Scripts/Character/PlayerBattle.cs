@@ -128,6 +128,12 @@ public class PlayerBattle : MonoBehaviour
         Managers.BattleUI.actUI.GetComponent<MoveRangeUI>().ClearPathRange();
         //cameraController.ChangeCameraMode(CameraMode.Follow, true);
     }
+
+    public void PotionUse()
+    {
+        spriteController.SetAnimState(AnimState.Potion);
+        Invoke("OnHitEnd", 0.1f);
+    }
     IEnumerator FollowPath()
     {
         targetIndex = 0;

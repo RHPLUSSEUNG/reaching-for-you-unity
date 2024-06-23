@@ -80,6 +80,7 @@ public enum AnimState
     Move,
     Attack,
     Hit,
+    Potion,
     Roll
 }
 public enum Direction

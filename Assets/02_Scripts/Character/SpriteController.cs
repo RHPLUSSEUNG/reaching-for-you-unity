@@ -67,6 +67,9 @@ public class SpriteController : MonoBehaviour
             case (AnimState.Attack):
                 anim.SetInteger("State", (int)AnimState.Attack);
                 break;
+            case (AnimState.Potion):
+                anim.SetInteger("State", (int)AnimState.Potion);
+                break;
             //case (AnimState.Roll):
             //    anim.SetInteger("State", (int)AnimState.Roll);
             //    break;
