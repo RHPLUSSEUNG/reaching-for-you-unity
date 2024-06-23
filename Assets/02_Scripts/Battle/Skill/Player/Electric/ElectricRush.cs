@@ -5,18 +5,24 @@ using UnityEngine;
 public class ElectricRush : Active
 {
     Vector3 rotation;
+    Collider[] colliders;
     int mask = 1 << 2;
     public override bool Activate()
     {
         rotation.y = 0;
         Managers.Battle.currentCharacter.transform.position += rotation * 4;
-        Managers.Active.Damage(target, target.GetComponent<EntityStat>().Hp / 4, ElementType.Electric, true);
+        for(int i = 0; i < colliders.Length; i++)
+        {
+            GameObject target = colliders[i].gameObject.transform.parent.gameObject;
+            Debug.Log(target);
+            Managers.Active.Damage(target, target.GetComponent<EntityStat>().Hp / 4, ElementType.Electric, true);
+        }
+        
         return true;
     }
 
     public override bool SetTarget(GameObject target)
     {
-        Debug.Log(mask);
         this.target = target;
         if (target.GetComponent<EntityStat>() == null)
         {
@@ -37,10 +43,10 @@ public class ElectricRush : Active
     {
         this.transform.position = target.transform.position;
         rotation = (target.transform.position-Managers.Battle.currentCharacter.transform.position).normalized;
-        Collider[] colliders = Physics.OverlapBox(this.transform.position + rotation*2 , rotation*2, Managers.Battle.currentCharacter.transform.rotation);
+        colliders = Physics.OverlapBox(this.transform.position + rotation*2 , rotation*2, Managers.Battle.currentCharacter.transform.rotation);
         foreach (Collider collider in colliders)
         {
-            if(collider.gameObject !=  this.target && collider.gameObject.layer != mask)
+            if(collider.gameObject.layer == mask)
             {
                 Debug.Log(collider.gameObject);
                 return false;
