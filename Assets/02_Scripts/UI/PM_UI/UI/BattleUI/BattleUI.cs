@@ -15,6 +15,8 @@ public class BattleUI : UI_Scene
 
     Text noticeText;
     SlideEffect slideEffect;
+    GameObject mainCamera;
+    CameraController cameraController;
     public override void Init()
     {
         base.Init();
@@ -30,6 +32,9 @@ public class BattleUI : UI_Scene
         BindEvent(cameraBtn.gameObject, OnCameraButton, Define.UIEvent.Click);
 
         Managers.BattleUI.battleUI = gameObject.GetComponent<BattleUI>();
+
+        mainCamera = GameObject.Find("Main Camera");
+        cameraController = mainCamera.GetComponent<CameraController>();
 
         StartCoroutine(StartSlideCoroutine("전투 시작!"));
     }
@@ -47,6 +52,18 @@ public class BattleUI : UI_Scene
 
     public void OnCameraButton(PointerEventData data)
     {
-
+        Debug.Log("Camera Mode Move");
+        if (Managers.BattleUI.cameraMode == CameraMode.Follow)
+        {
+            cameraController.ChangeCameraMode(CameraMode.Move, true, true);
+            Managers.BattleUI.cameraMode = CameraMode.Move;
+            Managers.UI.HideUI(Managers.BattleUI.actUI.gameObject);
+        }
+        else if(Managers.BattleUI.cameraMode == CameraMode.Move)
+        {
+            cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+            Managers.BattleUI.cameraMode = CameraMode.Follow;
+            Managers.UI.ShowUI(Managers.BattleUI.actUI.gameObject);
+        }
     }
 }

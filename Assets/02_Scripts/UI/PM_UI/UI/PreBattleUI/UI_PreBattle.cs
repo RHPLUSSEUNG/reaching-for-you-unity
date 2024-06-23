@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -17,6 +18,7 @@ public class UI_PreBattle : UI_Scene
     UI_Repair repairUI = null;
     UI_Save saveUI = null;
     UI_Pause pauseUI = null;
+    CameraController cameraController;
 
     public override void Init()
     {
@@ -35,8 +37,11 @@ public class UI_PreBattle : UI_Scene
         BindEvent(repairBtn.gameObject, OnRepairButton, Define.UIEvent.Click);
         BindEvent(saveBtn.gameObject, OnSaveButton, Define.UIEvent.Click);
         BindEvent(systemBtn.gameObject, OnSystemButton, Define.UIEvent.Click);
-        BindEvent(cameraBtn.gameObject, OnCameraButton, Define.UIEvent.Click);
+       //  BindEvent(cameraBtn.gameObject, OnCameraButton, Define.UIEvent.Click);
 
+        Managers.UI.HideUI(cameraBtn.gameObject);
+
+        CameraController cameraController = Camera.main.GetComponent<CameraController>();
 
         Managers.BattleUI.warningUI = Managers.UI.CreatePopupUI<WarningUI>("WarningUI");
         Managers.UI.HideUI(Managers.BattleUI.warningUI.gameObject);
@@ -112,6 +117,15 @@ public class UI_PreBattle : UI_Scene
 
     public void OnCameraButton(PointerEventData data)
     {
-
+        if (Managers.BattleUI.cameraMode != CameraMode.Move)
+        {
+            cameraController.ChangeCameraMode(CameraMode.Move, true, true);
+            Managers.BattleUI.cameraMode = CameraMode.Move;
+        }
+        else
+        {
+            cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+            Managers.BattleUI.cameraMode = CameraMode.Follow;
+        }
     }
 }

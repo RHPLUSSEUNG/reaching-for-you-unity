@@ -66,15 +66,15 @@ public class InvenUIManager
         for (int i = 0; i< Managers.Item.equipmentInven.Count; i++)
         {
             EquipItemUI equipItem = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
-            equipItem.invenItem = Managers.Item.equipmentInven[i];
+            // equipItem.invenItem = Managers.Item.equipmentInven[i];
             // equipItem.SetItemInfo();  아이템 정보 가져오기
             Managers.UI.HideUI(equipItem.gameObject);
         }
-        foreach (KeyValuePair<GameObject, int> consume in Managers.Item.consumeInven)
+        foreach (KeyValuePair<int, int> consume in Managers.Item.consumeInven)
         {
             ConsumeRepairUI consumeItem = Managers.UI.MakeSubItem<ConsumeRepairUI>(invenContent.transform, "ConsumeRepairUI");
-            Image icon = consume.Key.GetComponent<Image>();
-            consumeItem.SetInfo(icon, consume.Value);
+            // Image icon = consume.Key.GetComponent<Image>();
+            // consumeItem.SetInfo(icon, consume.Value);
         }
     }
 
@@ -133,7 +133,7 @@ public class InvenUIManager
 
     public void EquipInvenUI()
     {
-        Managers.Item.EquipItem(focusItem.GetComponent<EquipItemUI>().invenItem, player);
+        // Managers.Item.EquipItem(focusItem.GetComponent<EquipItemUI>().invenItem, player);
         equipIcon.sprite = changeIcon.sprite;       /// 아이템 데이터를 적용
         Managers.Prefab.Destroy(focusItem);
     }

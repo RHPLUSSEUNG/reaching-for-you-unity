@@ -105,7 +105,7 @@ public class ActUI : UI_Popup
             }
         }
 
-        //foreach (KeyValuePair<GameObject, int> item in consumeList.Consumes)
+        //foreach (KeyValuePair<int, int> item in consumeList.Consumes)
         //{
         //    BattleItemUI itemButton = Managers.UI.MakeSubItem<BattleItemUI>(itemLayout.transform, "ItemButton");
         //    //itemButton.SetItem(item.Key, item.Value, );

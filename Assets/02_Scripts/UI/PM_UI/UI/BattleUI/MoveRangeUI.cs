@@ -58,6 +58,7 @@ public class MoveRangeUI : MonoBehaviour
     {
         GameObject focusPlayer = Managers.Battle.currentCharacter;
         int movePoint = focusPlayer.GetComponent<EntityStat>().MovePoint;
+        movePoint = movePoint / 10;
 
         PathFinder.RequestSkillRange(focusPlayer.transform.position, movePoint, RangeType.Move, HighlightRange);
     }
