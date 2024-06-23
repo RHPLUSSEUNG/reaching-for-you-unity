@@ -139,7 +139,6 @@ public abstract class EnemyAI_Base : MonoBehaviour
             Debug.Log("Attack Failed");
             OnAttackFail();
         }
-        Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange(); //범위 표시 제거
         TurnEnd();
     }
     public void AttackEvent()
@@ -175,6 +174,11 @@ public abstract class EnemyAI_Base : MonoBehaviour
     public void OnSkillRangeFound(List<GameObject> tileList)
     {
         Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().HighlightRange(tileList);
+        Invoke("OffSkillRange", 1.0f);
+    }
+    void OffSkillRange()
+    {
+        Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange(); //범위 표시 제거
     }
     IEnumerator FollowPath()
     {

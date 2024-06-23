@@ -182,9 +182,9 @@ public class CameraController : MonoBehaviour
     {
         Vector3 vec = new Vector3();
         if (Input.GetKey(KeyCode.W))
-            vec += new Vector3(0, 0, -1f);
+            vec += new Vector3(0, 1f, 0);
         if (Input.GetKey(KeyCode.S))
-            vec += new Vector3(0, 0, 1f);
+            vec += new Vector3(0, -1f, 0);
         if (Input.GetKey(KeyCode.A))
             vec += new Vector3(-1f, 0, 0);
         if (Input.GetKey(KeyCode.D))
