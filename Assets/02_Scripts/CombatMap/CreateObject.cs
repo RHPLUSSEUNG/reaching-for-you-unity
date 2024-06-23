@@ -87,9 +87,10 @@ public class CreateObject : MonoBehaviour
     void Start()
     {
         GenerateMap();
-        // RandomObstacle(Width, Height, 1);
+
         PlaceObstacles();
         PlaceGimmicks();
+        PlaceEnemy();
 
         GameObject mapInstance = Instantiate(MapPrefab);
         mapInstance.transform.position = MapPrefab.transform.position;
@@ -242,6 +243,47 @@ public class CreateObject : MonoBehaviour
             return false;
         }
         return wallInMap[x, z];
+    }
+
+    public bool IsEnemySpawnPosition(int x, int z) 
+    {
+        if(x < (Width / 2) && z < (Height / 2))
+            return false;
+        
+        return true;
+    }
+
+    public void PlaceEnemy()
+    {
+        for(int i = 0; i < Managers.Party.monsterParty.Count; )
+        {
+            Debug.Log(1);
+            Coord randomCoord = GetRandomCoord();
+            Debug.Log(CoordToPosition(randomCoord.X, randomCoord.Z));
+
+            if (!IsWallAtPosition(randomCoord.X, randomCoord.Z))
+            {
+                if(IsEnemySpawnPosition(randomCoord.X, randomCoord.Z)) 
+                {
+                    wallInMap[randomCoord.X, randomCoord.Z] = true;
+
+                    Managers.BattleUI.player = Managers.Party.monsterParty[i];
+                    if (Managers.BattleUI.player == null)
+                    {
+                        Debug.Log("Monster Null");
+                    }
+                    else {
+                        Managers.UI.uiState = UIState.PlayerSet;
+                        Managers.Party.monsterParty[i].transform.position = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, 0.8f, 0);
+                        i++;
+                    }
+                }
+                else Debug.Log("no spawn point");
+            }
+            else {
+                Debug.Log("is wall");
+            }
+        }
     }
 
     public void PlaceGimmicks()
