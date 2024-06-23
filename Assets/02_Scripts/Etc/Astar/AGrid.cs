@@ -166,7 +166,6 @@ public class AGrid : MonoBehaviour
     }
     public GameObject GetTileFromNode(Node node)
     {
-        RaycastHit ray;
         GameObject Tile = null;
         int tileLayer = 1 << LayerMask.NameToLayer("Tile");
         if (Physics.Raycast(node.worldPosition, Vector3.down, out RaycastHit hit, nodesize, tileLayer))

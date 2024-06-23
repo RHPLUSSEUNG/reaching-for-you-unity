@@ -20,7 +20,7 @@ public class PathFinder : MonoBehaviour
         pathFinding = GetComponent<PathFinding>();
     }
 
-    public static void RequestPath(Vector3 start, Vector3 end, UnityAction<Vector3[], bool> callback)
+    public static void RequestPath(Vector3 start, Vector3 end, UnityAction<List<Vector3>, bool> callback)
     {
         PathRequest newPathRequest = new PathRequest(start, end, callback);
         instance.requestQueue.Enqueue(newPathRequest);
@@ -75,7 +75,7 @@ public class PathFinder : MonoBehaviour
         }
     }
 
-    public void FinishProcessingPath(Vector3[] path, bool succsess)
+    public void FinishProcessingPath(List<Vector3> path, bool succsess)
     {
         currentRequest.callback(path, succsess);
         isProcessing = false;
@@ -108,13 +108,13 @@ struct PathRequest
     public int radius;
     public string tag;
 
-    public UnityAction<Vector3[], bool> callback;
+    public UnityAction<List<Vector3>, bool> callback;
     public UnityAction<Vector3, GameObject, int, bool> searchCallback;
     public UnityAction<Vector3> randomLocCallback;
     public UnityAction<List<GameObject>> skillRangeCallback;
 
     public RangeType type;
-    public PathRequest(Vector3 _start, Vector3 _end, UnityAction<Vector3[], bool> _callback)
+    public PathRequest(Vector3 _start, Vector3 _end, UnityAction<List<Vector3>, bool> _callback)
     {
         start =_start;
         end = _end;

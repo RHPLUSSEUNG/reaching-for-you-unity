@@ -94,11 +94,11 @@ public class MoveRangeUI : MonoBehaviour
         tileColor.Clear();
     }
 
-    public void ShowPathRange(Vector3[] path)
+    public void ShowPathRange(List<Vector3> path)
     {
         ClearMoveRange();
         int x, z;
-        for (int i = 0; i < path.Length; i++)
+        for (int i = 0; i < path.Count; i++)
         {
             x = (int)path[i].x;
             z = (int)path[i].z;
