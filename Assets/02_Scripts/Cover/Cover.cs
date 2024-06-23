@@ -23,8 +23,6 @@ public class Cover : MonoBehaviour
         switch (step)
         {
             case 0:
-                damagePercent = 1f;
-                break;
             case 1:
                 damagePercent = 0.8f;
                 coverObject = Instantiate(coverPrefab[0], transform);
