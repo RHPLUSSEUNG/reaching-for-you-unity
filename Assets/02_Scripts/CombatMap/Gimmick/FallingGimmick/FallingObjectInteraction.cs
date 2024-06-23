@@ -48,18 +48,21 @@ public class FallingObjectInteraction : GimmickInteraction
 
     private void OnTriggerEnter(Collider other) 
     {
-        if (other.CompareTag("Player")) 
+        if(!isEnter)
         {
-            Debug.Log("Enter the Gimmick!!");
-
-            // warningText = Managers.BattleUI.warningUI.GetText();
-            currentTurnCnt = Managers.Battle.totalTurnCnt;
-
-            isEnter = true;
-            spriteRenderer = gameObject.transform.parent.GetComponentInChildren<SpriteRenderer>();
-            if(spriteRenderer != null)
+            if (other.CompareTag("Player")) 
             {
-                spriteRenderer.sprite = TurnNumSprite[TurnCnt];
+                Debug.Log("Enter the Gimmick!!");
+
+                // warningText = Managers.BattleUI.warningUI.GetText();
+                currentTurnCnt = Managers.Battle.totalTurnCnt;
+
+                isEnter = true;
+                spriteRenderer = gameObject.transform.parent.GetComponentInChildren<SpriteRenderer>();
+                if(spriteRenderer != null)
+                {
+                    spriteRenderer.sprite = TurnNumSprite[TurnCnt];
+                }
             }
         }
     }
@@ -90,30 +93,30 @@ public class FallingObjectInteraction : GimmickInteraction
     }
 
     private void OnTriggerStay(Collider other) {
-        if (other.CompareTag("Player")) 
-        {
-            remainTurnCnt = Managers.Battle.totalTurnCnt - currentTurnCnt;
+        // if (other.CompareTag("Player")) 
+        // {
+        //     remainTurnCnt = Managers.Battle.totalTurnCnt - currentTurnCnt;
 
-            if(remainTurnCnt > TurnCnt) 
-            {
-                StartCoroutine(FallStone());
-                if(isFalling)
-                    faliingRigid.isKinematic = true;
+        //     if(remainTurnCnt > TurnCnt) 
+        //     {
+        //         StartCoroutine(FallStone());
+        //         if(isFalling)
+        //             faliingRigid.isKinematic = true;
 
-                if(spriteRenderer != null)
-                {
-                    spriteRenderer.sprite = null;
-                }
-            }
-            else {
-                if(Managers.Battle.isPlayerTurn)
-                {
-                    spriteRenderer.sprite = TurnNumSprite[TurnCnt - remainTurnCnt];
-                    // StartCoroutine(ShowWarningCoroutine());
-                    // Managers.BattleUI.warningUI.ShowWarningUI();   
-                }
-            }
-        }
+        //         if(spriteRenderer != null)
+        //         {
+        //             spriteRenderer.sprite = null;
+        //         }
+        //     }
+        //     else {
+        //         if(Managers.Battle.isPlayerTurn)
+        //         {
+        //             spriteRenderer.sprite = TurnNumSprite[TurnCnt - remainTurnCnt];
+        //             // StartCoroutine(ShowWarningCoroutine());
+        //             // Managers.BattleUI.warningUI.ShowWarningUI();   
+        //         }
+        //     }
+        // }
     }
 
     public int getRemainedTurnCnt()
