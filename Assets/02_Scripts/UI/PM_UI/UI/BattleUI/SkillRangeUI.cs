@@ -12,6 +12,7 @@ public class SkillRangeUI : MonoBehaviour
 
     Dictionary<Vector3Int, int> visited;
     List<GameObject> tiles = new List<GameObject>();
+    List<Color> tileColor = new List<Color>();
 
     public void SetMapInfo()
     {
@@ -53,6 +54,7 @@ public class SkillRangeUI : MonoBehaviour
     {
         foreach(GameObject tile in tileList)
         {
+            tileColor.Add(tile.GetComponent<Renderer>().material.color);
             tile.GetComponent<Renderer>().material.color = highlightColor;
             tiles.Add(tile);
         }
@@ -60,11 +62,14 @@ public class SkillRangeUI : MonoBehaviour
     
     public void ClearSkillRange()
     {
+        int colorCount = 0;
         foreach(GameObject tile in tiles)
         {
-            tile.GetComponent<Renderer>().material.color = originalColor;
+            tile.GetComponent<Renderer>().material.color = tileColor[colorCount];
+            colorCount++;
        }
         tiles.Clear();
+        tileColor.Clear();
     }
 
     public void PrevDisplaySkillRange()

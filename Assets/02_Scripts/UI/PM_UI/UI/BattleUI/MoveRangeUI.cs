@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class MoveRangeUI : MonoBehaviour
 {
@@ -67,25 +66,32 @@ public class MoveRangeUI : MonoBehaviour
     {
         foreach (GameObject tile in tileList)
         {
-            tile.GetComponent<Renderer>().material.color = highlightColor;
-            if (tile.GetComponent<MouseHover>() == null)
+            bool hoverCheck = tile.GetComponent<MouseHover>().isHovered;
+            if (hoverCheck)
             {
-                Debug.Log("MouseHover null");
-                return;
+                tileColor.Add(tile.GetComponent<MouseHover>().originalColor);
+                tile.GetComponent<MouseHover>().originalColor = highlightColor;
+                tile.GetComponent<Renderer>().material.color = highlightColor;
+                tiles.Add(tile);
+                continue;
             }
-            Debug.Log("MouseHover Null");
+            tileColor.Add(tile.GetComponent<Renderer>().material.color);
+            tile.GetComponent<Renderer>().material.color = highlightColor;
             tiles.Add(tile);
         }
     }
 
     public void ClearMoveRange()
     {
+        int colorCount = 0;
         foreach (GameObject tile in tiles)
         {
-            tile.GetComponent<Renderer>().material.color = tile.GetComponent<MouseHover>().originalColor;
+            tile.GetComponent<Renderer>().material.color = tileColor[colorCount];
+            colorCount++;
         }
 
         tiles.Clear();
+        tileColor.Clear();
     }
 
     public void ShowPathRange(Vector3[] path)
@@ -107,8 +113,14 @@ public class MoveRangeUI : MonoBehaviour
     public void ClearPathRange()
     {
         int colorCount = 0;
+        bool hoverCheck;
         foreach (GameObject tile in pathTiles)
         {
+            hoverCheck = tile.GetComponent<MouseHover>().isHovered;
+            if(hoverCheck)
+            {
+                tile.GetComponent<MouseHover>().originalColor = tileColor[colorCount];
+            }
             tile.GetComponent<Renderer>().material.color = tileColor[colorCount];
             colorCount++;
         }
@@ -196,6 +208,7 @@ public class MoveRangeUI : MonoBehaviour
         if(hoverCheck)
         {
             tileColor.Add(tile.GetComponent<MouseHover>().originalColor);
+            tile.GetComponent<MouseHover>().originalColor = highlightColor;
             tile.GetComponent<Renderer>().material.color = highlightColor;
             return;
         }
