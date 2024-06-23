@@ -15,6 +15,7 @@ public class Slow : Debuff
 
     public override void SetDebuff(int turn, GameObject target, short attribute = 0, bool turnEnd= false)
     {
+        name = "Slow";
         this.target = target;
         slow = attribute;
         remainTurn = turn;
@@ -27,6 +28,7 @@ public class Slow : Debuff
         if (target == null)
             return false;
         target.GetComponent<CharacterState>().ChangeSlow(true, slow);
+        StartAnimation();
         return true;
     }
 

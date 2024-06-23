@@ -100,4 +100,11 @@ public class SkillManager
                 break;
         }
     }
+
+    public GameObject InstantiateEffect(string name, GameObject target)
+    {
+        GameObject effect = Managers.Prefab.Instantiate($"Effect/BuffDebuff/{name}", target.transform);
+        effect.transform.localPosition = new Vector3(0,0,-0.5f);
+        return effect;
+    }
 }

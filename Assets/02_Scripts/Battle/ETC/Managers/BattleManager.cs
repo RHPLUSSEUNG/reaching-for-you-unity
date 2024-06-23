@@ -52,10 +52,9 @@ public class BattleManager
     {
         cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
 
-        //TOOD make monster party
         ObjectList.Clear();
-        Managers.Party.InstantiatePlayer("Player_Girl_Battle");
-        Managers.Party.MakeMonsterParty(2);
+        GameObject go = Managers.Party.InstantiatePlayer("Player_Girl_Battle");
+
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(0);
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(7);
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(3);

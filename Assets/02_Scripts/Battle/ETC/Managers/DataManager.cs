@@ -14,7 +14,7 @@ public class DataManager
     }
 
     #region Map & Monster
-    Dictionary<MapList, Type> MapMonsterList = new Dictionary<MapList, Type>() 
+    private readonly Dictionary<MapList, Type> MapMonsterList = new () 
     {
         { MapList.DessertMonster, typeof(DessertMonster) }
     };
@@ -27,9 +27,6 @@ public class DataManager
         }
         return null;
     }
-
-
-
     #endregion
 
     #region Skill & Item
