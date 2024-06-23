@@ -43,8 +43,10 @@ public class RaycastManager
                 {
                     case UIState.Move:
                         character.GetComponent<PlayerBattle>().Move(RaycastTile(ray));
+                        target = null;
                         break;
                     case UIState.Idle:
+                        target = null;
                         detect_ready = false;
                         break;
                     case UIState.SkillSet:
@@ -143,6 +145,7 @@ public class RaycastManager
 
     public bool DetectTargets(GameObject target)
     {
+        Debug.Log(target);
         float posx = target.transform.position.x;
         float posz = target.transform.position.z;
         foreach (GameObject obj in targets)
