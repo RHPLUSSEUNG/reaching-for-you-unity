@@ -29,7 +29,14 @@ public class RaycastManager
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Tile")))
+            {
+                go = hit.collider.gameObject;
+                if (Managers.UI.uiState == UIState.Move)
+                {
+                    character.GetComponent<PlayerBattle>().Move(go);
+                }
+            }
             if (Physics.Raycast(ray, out hit))
             {
                 go = hit.collider.gameObject;
@@ -97,13 +104,8 @@ public class RaycastManager
                                 {
                                     Managers.Battle.NextTurn();
                                 }
-
                             }
                             break;
-                        case UIState.Move:
-                            character.GetComponent<PlayerBattle>().Move(go);
-                            break;
-
                     }
 
                 }
