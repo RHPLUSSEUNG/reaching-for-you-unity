@@ -35,6 +35,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
         {
             if (isSIzeMode) //�� ���� ��
             {
+                PathFinder.RequestSkillRange(transform.position, stat.AttackRange, RangeType.Normal, OnSkillRangeFound);
                 isSIzeMode = false;
                 tailPos = this.transform.GetChild(0).transform.GetChild(2);
                 projectile.GetComponent<ArcProjectile>().Shoot(tailPos, targetObj.transform);
@@ -42,6 +43,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
             }
             else if (targetDistance <= 2) // �� ������ X, ������ 2ĭ ��
             {
+                PathFinder.RequestSkillRange(transform.position, 2, RangeType.Cross, OnSkillRangeFound);
                 Debug.Log("Skill Used!");
                 stat.ActPoint -= 60;
                 stat.Mp -= 60;

@@ -1,13 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DataManager
 {
-    List<ConsumeData> consumeList;
-    List<EquipmentData> equipmentList;
-    List<SkillData> playerSkillList;
-    List<SkillData> monsterSkillList;
-
     public void OnAwake()
     {
         DataList data = GameObject.Find("DataList").GetComponent<DataList>();
@@ -17,6 +13,29 @@ public class DataManager
         monsterSkillList = data.monsterSkillList;
     }
 
+    #region Map & Monster
+    private readonly Dictionary<MapList, Type> MapMonsterList = new () 
+    {
+        { MapList.DessertMonster, typeof(DessertMonster) }
+    };
+
+    public Array GetMonsterList(MapList map)
+    {
+        if(MapMonsterList.TryGetValue(map, out Type enumType))
+        {
+            return Enum.GetValues(enumType);
+        }
+        return null;
+    }
+    #endregion
+
+    #region Skill & Item
+    List<ConsumeData> consumeList;
+    List<EquipmentData> equipmentList;
+    List<SkillData> playerSkillList;
+    List<SkillData> monsterSkillList;
+
+   
     public SkillData GetPlayerSkillData(int skillid)
     {
         return playerSkillList[skillid];
@@ -42,7 +61,7 @@ public class DataManager
         item.name = consumeList[itemid].name;
         item.type = consumeList[itemid].ItemType;
         item.reqLev = consumeList[itemid].reqLev;
-        item.target = consumeList[itemid].target;
+        item.targetObject = consumeList[itemid].target;
         item.maxCapacity = consumeList[itemid].maxCapacity;
     }
 
@@ -66,7 +85,7 @@ public class DataManager
 
     public void SetPlayerSkill(int skillid, Active skill)
     {
-        Debug.Log($"{skill} Setting");
+        //Debug.Log($"{skill} Setting");
         skill.skillName = playerSkillList[skillid].SkillName;
         skill.type = playerSkillList[skillid].SkillType;
         skill.element = playerSkillList[skillid].element;
@@ -94,4 +113,5 @@ public class DataManager
         skill.type = playerSkillList[skillid].SkillType;
         skill.element = playerSkillList[skillid].element;
     }
+    #endregion
 }

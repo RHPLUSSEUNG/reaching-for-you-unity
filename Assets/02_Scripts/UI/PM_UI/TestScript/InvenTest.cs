@@ -18,7 +18,7 @@ public class InvenTest : MonoBehaviour
             Managers.InvenUI.SetPlayerEquipUI(equipInfo);
             for (int i = 0; i < Test.transform.childCount; i++)
             {
-                Managers.Item.AddItem(Test.transform.GetChild(i).gameObject);
+                // Managers.Item.AddItem(Test.transform.GetChild(i).gameObject);
 
                 if (Test.transform.GetChild(i).gameObject.GetComponent<Item>().type == ItemType.Equipment)
                 {
@@ -43,9 +43,9 @@ public class InvenTest : MonoBehaviour
         {
             GameObject portion = Util.FindChild(Test, "Atk_Portion_Big");
             Debug.Log(portion);
-            if(portion.GetComponent<Item>().type == ItemType.Consume && Managers.Item.consumeInven.ContainsKey(portion))
+            if(portion.GetComponent<Item>().type == ItemType.Consume /* &&*/ /*Managers.Item.consumeInven.ContainsKey(portion)*/)
             {
-                Managers.Item.AddItem(portion);
+                // Managers.Item.AddItem(portion);
                 for(int i = 0; i < Managers.InvenUI.invenContent.transform.childCount; i++)
                 {
                     GameObject invenItem = Managers.InvenUI.invenContent.transform.GetChild(i).GetComponent<InvenItemUI>().invenItem;

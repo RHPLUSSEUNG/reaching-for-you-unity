@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 
 public class CameraController : MonoBehaviour
@@ -12,18 +14,21 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     List<GameObject> followTargets;
     [SerializeField]
-    float offsetX = 0.0f;
+    float basicOffsetX = 0.0f;
     [SerializeField]
-    float offsetY = 2.0f;
+    float basicOffsetY = 2.0f;
     [SerializeField]
-    float offsetZ = -3.0f;
+    float basicOffsetZ = -3.0f;
     [SerializeField]
-    float rotateX = 30.0f;
+    float basicRotateX = 30.0f;
     [SerializeField]
     float cameraSpeed = 10.0f;
 
+    float offsetX,offsetY,offsetZ,rotateX;
     [SerializeField]
     bool isFollowMode;
+
+    CameraMode mode;
 
     private bool isSmoothMove = true;
     private Vector3 setPos;
@@ -31,6 +36,12 @@ public class CameraController : MonoBehaviour
     private int cameraIndex;
     [SerializeField]
     GameObject followTarget;
+
+
+    [SerializeField]
+    float inputSpeed = 10;
+
+    float time = 1.0f;
 
     private void Awake()
     {
@@ -52,34 +63,40 @@ public class CameraController : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if(isFollowMode)
+
+       switch(mode)
         {
-           setPos = new Vector3(
-           targetTransform.position.x + offsetX,
-           targetTransform.position.y + offsetY,
-           targetTransform.position.z + offsetZ
-           );
-            if (!isSmoothMove)
-            {
-                transform.position = setPos;
-            }
-            else
-            {
-                transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
-            }
-        }
-        else
-        {
-            if (!isSmoothMove)
-            {
-                transform.position = setPos;
-                transform.rotation = targetTransform.rotation;
-            }
-            else
-            {
-                transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, Time.deltaTime * cameraSpeed);
-            }
+            case CameraMode.Static:
+                if (!isSmoothMove)
+                {
+                    transform.position = setPos;
+                    transform.rotation = targetTransform.rotation;
+                }
+                else
+                {
+                    transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, Time.deltaTime * cameraSpeed);
+                }
+                break;
+            case CameraMode.Follow:
+                setPos = new Vector3(
+                   targetTransform.position.x + offsetX,
+                   targetTransform.position.y + offsetY,
+                   targetTransform.position.z + offsetZ
+                   );
+                if (!isSmoothMove)
+                {
+                    transform.position = setPos;
+                }
+                else
+                {
+                    transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
+                }
+                transform.eulerAngles = new Vector3(rotateX, 0, 0);
+                break;
+            case CameraMode.Move:
+                CameraInput();
+                break;
         }
     }
 
@@ -122,25 +139,36 @@ public class CameraController : MonoBehaviour
         isFollowMode = true;
         Debug.Log("Changed FollowTarget To " + target);
     }
-    public void ChangeCameraMode(CameraMode mode, bool isOrthographic, bool _isSmoothMove)
+    public void ChangeCameraMode(CameraMode _mode, bool isOrthographic, bool _isSmoothMove)
     {
-        switch (mode)
+        switch (_mode)
         {
             case CameraMode.Static:
+                mode = CameraMode.Static;
                 isFollowMode = false;
                 targetTransform = cameraTargets[cameraIndex].transform;
                 transform.eulerAngles = cameraTargets[cameraIndex].transform.eulerAngles;
                 break;
             case CameraMode.Follow:
+                mode = CameraMode.Follow;
                 isFollowMode = true;
                 transform.eulerAngles = new Vector3(rotateX, 0, 0);
                 targetTransform = followTarget.transform;
+                break;
+            case CameraMode.Move:
+                mode = CameraMode.Move;
+                isFollowMode = false;
+                targetTransform = cameraTargets[1].transform;
+                transform.eulerAngles = cameraTargets[1].transform.eulerAngles;
                 break;
         }
         gameObject.GetComponent<Camera>().orthographic = isOrthographic;
         isSmoothMove = _isSmoothMove;
         setPos = targetTransform.position;
         Debug.Log("Changed Mode");
+
+        transform.position = setPos;    //1회만 설정
+        transform.rotation = targetTransform.rotation;
     }
     public void AddFollowList(GameObject target)
     {
@@ -157,5 +185,37 @@ public class CameraController : MonoBehaviour
         offsetY = y;
         offsetZ = z;
         rotateX = _rotateX;
+    }
+    public void BasicOffset()
+    {
+        offsetX = basicOffsetX;
+        offsetY = basicOffsetY;
+        offsetZ = basicOffsetZ;
+        rotateX = basicRotateX;
+    }
+    private void CameraInput()
+    {
+        Vector3 vec = new Vector3();
+        if (Input.GetKey(KeyCode.W))
+            vec += new Vector3(0, 1f, 0);
+        if (Input.GetKey(KeyCode.S))
+            vec += new Vector3(0, -1f, 0);
+        if (Input.GetKey(KeyCode.A))
+            vec += new Vector3(-1f, 0, 0);
+        if (Input.GetKey(KeyCode.D))
+            vec += new Vector3(1f, 0, 0);
+
+        Vector3 pos = vec;
+        if (pos.sqrMagnitude > 0)
+        {
+            time += Time.deltaTime;
+            pos = pos * time * 1.0f;
+
+            pos.x = Mathf.Clamp(pos.x, -inputSpeed, inputSpeed);
+            pos.y = Mathf.Clamp(pos.y, -inputSpeed, inputSpeed);
+            pos.z = Mathf.Clamp(pos.z, -inputSpeed, inputSpeed);
+
+            transform.Translate(pos);
+        }
     }
 }

@@ -1,8 +1,4 @@
-using JetBrains.Annotations;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 public class CharacterState : MonoBehaviour
@@ -23,6 +19,8 @@ public class CharacterState : MonoBehaviour
     public bool knock_back = false;
     public bool after_move = false;
     #endregion
+
+    #region BuffList
     //current buff & debuff
     public List<Buff> buffs = new();
     public List<Debuff> debuffs = new();
@@ -32,9 +30,7 @@ public class CharacterState : MonoBehaviour
     //create when turn start
     private List<Buff> addBuffList = new();
     private List<Debuff> addDebuffList = new();
-
-    public int capacity = 0; //1 = me 2 = you 3 = all
-    public int capacityStack = 0;
+    #endregion
 
     #region SkillState_Electric
     [SerializeField]
@@ -42,7 +38,9 @@ public class CharacterState : MonoBehaviour
     private bool _shock = false;
     public bool can_shock = false;
     public bool can_immune = false;
-    
+    public int capacity = 0; //1 = me 2 = you 3 = all
+    public int capacityStack = 0;
+
     public void ChangeElecImmune(bool immune)
     {
         _electricEmmune = immune;
@@ -269,15 +267,16 @@ public class CharacterState : MonoBehaviour
         if (state == true)
         {
             _slow += slow;
-            this.gameObject.GetComponent<EntityStat>().MovePoint -= slow;
+            this.gameObject.GetComponent<EntityStat>().MaxMovePoint -= slow;
         }
         else
         {
             _slow -= slow;
-            this.gameObject.GetComponent<EntityStat>().MovePoint += slow;
+            this.gameObject.GetComponent<EntityStat>().MaxMovePoint += slow;
         }
     }
     #endregion
+
     #region Debuff
     public void AddDebuff(Debuff debuff, bool turnEnd = false)
     {
@@ -307,6 +306,7 @@ public class CharacterState : MonoBehaviour
         return null;
     }
     #endregion
+
     #region Buff
     public void AddBuff(Buff buff, bool turnEnd = false)
     {

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class BattleManager
 {
@@ -14,12 +13,12 @@ public class BattleManager
     public int totalTurnCnt = 0;
     public bool isPlayerTurn = false;
     int turnCnt = 0;
+    int phase = 1;
     public List<GameObject> Areas = new();
 
-    CameraController cameraController;
+    public CameraController cameraController;
 
-
-    int compareDefense(GameObject character1,  GameObject character2)
+    private int compareDefense(GameObject character1,  GameObject character2)
     {
         return character1.GetComponent<EntityStat>().Defense < character2.GetComponent<EntityStat>().Defense ? -1 : 1;
     }
@@ -45,6 +44,7 @@ public class BattleManager
             Debug.Log("Wait for Character Moving");
             return false;
         }
+        
         return true;
     }
 
@@ -52,11 +52,9 @@ public class BattleManager
     {
         cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
 
-        //TOOD make monster party
         ObjectList.Clear();
-        Managers.Party.InstantiatePlayer("Player_Girl_Battle");
-        Managers.Party.InstantiateMonster("Enemy_Crab");
-        Managers.Party.InstantiateMonster("Enemy_Lizard");
+        GameObject go = Managers.Party.InstantiatePlayer("Player_Girl_Battle");
+
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(0);
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(7);
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(3);
@@ -64,6 +62,7 @@ public class BattleManager
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(9);
         battleState = BattleState.Start;
         turnCnt = -1;
+        phase = 1;
     }
 
     public void BattleStart()
@@ -87,41 +86,36 @@ public class BattleManager
         }
 
         turnCnt++;
-        turnCnt %= ObjectList.Count;
+        if (turnCnt >= ObjectList.Count)
+        {
+            phase++;
+            turnCnt %= ObjectList.Count;
+        }
     }
 
     public void PlayerTurn()
     {
         //Camera Movement
-        cameraController.ChangeFollowTarget(currentCharacter, true);
-        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
-        cameraController.ChangeOffSet(0, 1, -3, 20);
         Debug.Log("Camera Set");
 
         battleState = BattleState.PlayerTurn;
         totalTurnCnt++;
         isPlayerTurn = true;
-        Managers.BattleUI.actUI.UpdateCharacterInfo();
         currentCharacter.GetComponent<PlayerBattle>().OnTurnStart();
-
+        Managers.BattleUI.actUI.UpdateCharacterInfo();
     }
-    public void EnemyTurn(GameObject character)
+    public void EnemyTurn()
     {
-        Debug.Log(character.name);
-        if (character.GetComponent<EnemyAI_Base>() == null)
+        //Debug.Log(character.name);
+        if (currentCharacter.GetComponent<EnemyAI_Base>() == null)
         {
             Debug.Log("Component Error");
             return;
         }
         battleState = BattleState.EnemyTurn;
         isPlayerTurn = false;
-        // Camera Movement
-        cameraController.ChangeFollowTarget(character, true);
-        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
-        cameraController.ChangeOffSet(0, 1, -3, 20);
-        Debug.Log("Camera Set");
 
-        Managers.Manager.StartCoroutine(CallMonsterAI());
+        currentCharacter.GetComponent<EnemyAI_Base>().ProceedTurn();
     }
 
     public void NextTurn()
@@ -146,13 +140,24 @@ public class BattleManager
     }
     public IEnumerator NextTurnCoroutine()
     {
+        //wait for animation end
         while(!Can_Continue())
         {
             yield return null;
         }
+        yield return new WaitForSeconds(1.5f);
+
+        //calculate turn
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
         Debug.Log($"Turn : {currentCharacter}");
+
+        //camera setting
+        cameraController.ChangeFollowTarget(currentCharacter, true);
+        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        cameraController.ChangeOffSet(0, 1, -3, 20);
+
+        //Calculate Area Remain Turn
         if (Areas.Count != 0)
         {
             foreach (GameObject area in Areas)
@@ -161,32 +166,22 @@ public class BattleManager
                 Debug.Log(area.name);
             }
         }
+
+        //Stun cant active turn
         if (currentCharacter.GetComponent<CharacterState>().IsStun())
         {
             NextTurn();
             yield break;
         }
+
         if (currentCharacter.CompareTag("Player"))
         {
-            PlayerTurn();
+            Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Player Turn!"));
         }
         else
         {
-            EnemyTurn(currentCharacter);
+            Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Enemy Turn!"));
         }
         yield break;
-    }
-
-    public IEnumerator CallMonsterAI()
-    {
-        yield return new WaitForSeconds(1);
-        StartMonsterAI(currentCharacter);
-        yield break;
-    }
-
-    public void StartMonsterAI(GameObject go)
-    {
-        Debug.Log(go);
-        go.GetComponent<EnemyAI_Base>().ProceedTurn();
     }
 }

@@ -1,6 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class PartyManager
@@ -46,11 +45,31 @@ public class PartyManager
         return null;
     }
 
-    public void AddMonster(GameObject character)
+    public void MakeMonsterParty(int numberofMonster)
+    {
+        MapList map = RandomMap();
+        monsterParty.Clear();
+        Array monsterList = Managers.Data.GetMonsterList(map);
+        System.Random rand = new System.Random();
+        string name;
+        int idx;
+        for (int i = 0; i < numberofMonster; i++)
+        {
+            idx = rand.Next(0, monsterList.Length);
+            name = monsterList.GetValue(idx).ToString();
+            InstantiateMonster(name);
+        }
+    }
+    private void AddMonster(GameObject character)
     {
         monsterParty.Add(character);
     }
 
+    private MapList RandomMap()
+    {
+        Array values = Enum.GetValues(typeof(MapList));
+        return (MapList)values.GetValue(new System.Random().Next(0, values.Length));
+    }
     public void ClearMonster()
     {
         monsterParty.Clear();
@@ -59,7 +78,6 @@ public class PartyManager
     public GameObject InstantiatePlayer(string character)
     {
         GameObject go = Managers.Prefab.Instantiate($"Character/{character}");
-        go.transform.position = new Vector3(0f, 0.8f, 0f);
         if (AddParty(go))
         {
             return go;
@@ -69,9 +87,8 @@ public class PartyManager
     public GameObject InstantiateMonster(string character)
     {
         GameObject go = Managers.Prefab.Instantiate($"Monster/{character}");
-        go.transform.position = new Vector3(0f, 0.8f, 0f);
         AddMonster(go);
-        //Managers.Battle.ObjectList.Add(go);
+        Managers.Battle.ObjectList.Add(go);
         return go;
     }
 }

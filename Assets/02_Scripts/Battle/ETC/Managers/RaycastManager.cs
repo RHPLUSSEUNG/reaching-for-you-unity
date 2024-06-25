@@ -1,33 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RaycastManager
 {
-    GameObject go;
-    public RangeDetector detector;
     public bool detect_ready = false;
 
     public GameObject character;
     public CharacterState characterstate;
     public EntityStat characterstat;
-
-    public void OnAwake()
-    {
-        detector = GameObject.Find("RangeDetector").GetComponent<RangeDetector>();
-        Debug.Log(detector);
-    }
-
+    Equip_Item itemList;
+  
+    Active activeSkill;
+    Consume consume;
+    List<GameObject> targets;
+    GameObject target;
     public void OnUpdate()
     {
-        if (Managers.Battle.currentCharacter != null && Managers.Battle.currentCharacter != character)
+        if (Managers.Battle.currentCharacter != null && Managers.Battle.currentCharacter.CompareTag("Player"))
         {
             character = Managers.Battle.currentCharacter;
             characterstat = character.GetComponent<EntityStat>();
             characterstate = character.GetComponent<CharacterState>();
-        }
-        if (Managers.UI.uiState == UIState.Idle && detect_ready == true)
-        {
-            Debug.Log("detect cancle");
-            detect_ready = false;
+            itemList = character.GetComponent<Equip_Item>();
         }
 
         if (Input.GetMouseButtonDown(0) && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() == false)
@@ -35,9 +30,97 @@ public class RaycastManager
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit))
+            if (Managers.UI.uiState == UIState.PlayerSet)
             {
-                go = hit.collider.gameObject;
+                target = RaycastTile(ray);
+                Debug.Log(target.transform.position);
+                Managers.BattleUI.SetPosition(target);
+            }
+            else if (Managers.Battle.battleState == BattleState.PlayerTurn)
+            {
+                switch (Managers.UI.uiState)
+                {
+                    case UIState.Move:
+                        character.GetComponent<PlayerBattle>().Move(RaycastTile(ray));
+                        target = null;
+                        break;
+                    case UIState.Idle:
+                        target = null;
+                        detect_ready = false;
+                        break;
+                    case UIState.SkillSet:
+                        activeSkill = Managers.BattleUI.GetSkill();
+                        if (!detect_ready)
+                        {
+                            PathFinder.RequestSkillRange(character.transform.position, activeSkill.range, RangeType.Normal, CallbackTargets);
+                            detect_ready = true;
+                        }
+                        switch (activeSkill.target_object)
+                        {
+                            case TargetObject.Enemy:
+                                RaycastEnemy(ray);
+                                break;
+                            case TargetObject.Friendly:
+                                RaycastFriendly(ray);
+                                break;
+                            case TargetObject.Tile:
+                                RaycastTile(ray);
+                                break;
+                            case TargetObject.Me:
+                                target = Managers.Battle.currentCharacter;
+                                break;
+                        }
+                        if (DetectTargets(target))
+                        {
+                            Managers.Manager.StartCoroutine(ActivatingSkillCoroutine());
+                        }
+                        break;
+                    case UIState.ItemSet:
+                        if (!detect_ready)
+                        {
+                            PathFinder.RequestSkillRange(character.transform.position, consume.range, RangeType.Normal, CallbackTargets);
+                            detect_ready = true;
+                        }
+                        consume = (Consume)Managers.BattleUI.GetItem();
+                        switch (consume.targetObject)
+                        {
+                            case TargetObject.Enemy:
+                                target = RaycastEnemy(ray);
+                                break;
+                            case TargetObject.Friendly:
+                                target = RaycastFriendly(ray);
+                                break;
+                            case TargetObject.Tile:
+                                target = RaycastTile(ray);
+                                break;
+                            case TargetObject.Me:
+                                target = Managers.Battle.currentCharacter;
+                                break;
+                        }
+                        if (DetectTargets(target))
+                        {
+                            Managers.Manager.StartCoroutine(ActivatingConsumeCoroutine());
+                        }
+                        break;
+                    case UIState.Attack:
+                        if (detect_ready == false)
+                        {
+                            detect_ready = true;
+                            PathFinder.RequestSkillRange(character.transform.position, characterstat.AttackRange, RangeType.Normal, CallbackTargets);
+                        }
+                        RaycastEnemy(ray);
+                        if (DetectTargets(target))
+                        {
+                            detect_ready = false;
+                            Managers.Active.Damage(target, characterstat.BaseDamage, characterstate.AttackType, characterstate.closeAttack);
+                            if (!characterstate.after_move)
+                            {
+                                Managers.Battle.NextTurn();
+                            }
+                        }
+                        break;
+                }
+            }
                 /*
                 if (hit.transform.gameObject.CompareTag("Character"))
                 {
@@ -51,76 +134,101 @@ public class RaycastManager
                 }
                 */
                 //Player Turn
-                if (Managers.Battle.battleState == BattleState.PlayerTurn)
-                {
-                    switch (Managers.UI.uiState)
-                    {
-                        case UIState.Idle:
-                            break;
-                        case UIState.SkillSet:
-                            if (Managers.BattleUI.GetSkill() == null)
-                            {
-                                break;
-                            }
-                            else if (Managers.BattleUI.GetSkill().target_object == TargetObject.Me)
-                            {
-                                if (Managers.BattleUI.GetSkill().SetTarget(character))
-                                {
-                                    Managers.Battle.NextTurn();
-                                }
-                            }
+        }
+    }
 
-                            else if (detect_ready == false)
-                            {
-                                detector.SetDetector(character, Managers.BattleUI.GetSkill().range + 1, Managers.BattleUI.GetSkill().target_object);
-                                detect_ready = true;
-                            }
+    public void CallbackTargets(List<GameObject> list)
+    {
+        targets = list;
+    }
 
-                            if (detector.Detect(hit.collider.gameObject) != null)
-                            {
-                                if (Managers.BattleUI.GetSkill().SetTarget(hit.collider.gameObject.transform.parent.gameObject))
-                                {
-                                    detect_ready = false;
-                                    Managers.UI.HideUI(Managers.BattleUI.cancleBtn.gameObject);
-                                    Managers.Skill.UseElementSkill(Managers.BattleUI.GetSkill().element);
-                                    Managers.Battle.NextTurn();
-                                }
-                            }
-                            break;
-                        case UIState.ItemSet:
-                            //TODO Item Use
-                            break;
-                        case UIState.Attack:
-                            if (detect_ready == false)
-                            {
-                                detect_ready = true;
-                                detector.SetDetector(character, (characterstat.AttackRange * 2) + 1, TargetObject.Enemy);
-                            }
-                            
-                            if (detector.Detect(hit.collider.gameObject) != null)
-                            {
-                                detect_ready = false;
-                                Managers.Active.Damage(hit.collider.gameObject.transform.parent.gameObject, characterstat.BaseDamage, characterstate.AttackType, characterstate.closeAttack);
-                                if (!characterstate.after_move)
-                                {
-                                    Managers.Battle.NextTurn();
-                                }
-
-                            }
-                            break;
-                        case UIState.Move:
-                            character.GetComponent<PlayerBattle>().Move(go);
-                            break;
-
-                    }
-
-                }
-                //Battle Setting
-                else if (Managers.UI.uiState == UIState.PlayerSet && hit.transform.gameObject.CompareTag("Cube"))
-                {
-                    Managers.BattleUI.SetPosition(hit.collider.gameObject);
-                }
+    public bool DetectTargets(GameObject target)
+    {
+        Debug.Log(target);
+        float posx = target.transform.position.x;
+        float posz = target.transform.position.z;
+        foreach (GameObject obj in targets)
+        {
+            if(obj.transform.position.x == posx && obj.transform.position.z == posz)
+            {
+                return true;
             }
         }
+        return false;
+    }
+
+    private IEnumerator ActivatingSkillCoroutine()
+    {
+        Managers.Battle.cameraController.ChangeFollowTarget(target, true);
+        Managers.Battle.cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        Managers.Battle.cameraController.ChangeOffSet(0, 1, -3, 20);
+
+        yield return new WaitForSeconds(1f);
+
+        if (activeSkill.SetTarget(target))
+        {
+            detect_ready = false;
+            Managers.UI.HideUI(Managers.BattleUI.cancleBtn.gameObject);
+            Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange();
+            Managers.Skill.UseElementSkill(Managers.BattleUI.GetSkill().element);
+            target = null;
+            Managers.Battle.NextTurn();
+            yield break;
+        }
+        yield break;
+    }
+
+    private IEnumerator ActivatingConsumeCoroutine()
+    {
+        Managers.Battle.cameraController.ChangeFollowTarget(target, true);
+        Managers.Battle.cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        Managers.Battle.cameraController.ChangeOffSet(0, 1, -3, 20);
+
+        yield return new WaitForSeconds(1f);
+
+        if (consume.Activate(target))
+        {
+            detect_ready = false;
+            Managers.UI.HideUI(Managers.BattleUI.cancleBtn.gameObject);
+            Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange();
+            target = null;
+            Managers.Battle.NextTurn();
+            yield break;
+        }
+        yield break;
+    }
+
+
+    private GameObject RaycastTile(Ray ray)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Tile")))
+        {
+            target = hit.collider.gameObject;
+            return target;
+        }
+        return null;
+    }
+
+    private GameObject RaycastEnemy(Ray ray)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Enemy")))
+        {
+            target = hit.collider.gameObject.transform.parent.gameObject;
+            return target;
+        }
+        return null;
+    }
+
+    private GameObject RaycastFriendly(Ray ray)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Friendly")))
+        {
+            target = hit.collider.gameObject.transform.parent.gameObject;
+            return target;
+        }
+        return null;
     }
 }

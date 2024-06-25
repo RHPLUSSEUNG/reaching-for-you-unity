@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using Unity.VisualScripting;
@@ -16,7 +17,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
     protected SpriteController spriteController;
     protected SkillList skillList;
 
-    Vector3[] path;
+    List<Vector3> path;
     Vector3 targetPos;
     protected int targetIndex;
     protected int targetDistance;
@@ -106,7 +107,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
             Debug.Log("Object is Moving!");
         }
     }
-    public void OnPathFound(Vector3[] newpath, bool succsess)
+    public void OnPathFound(List<Vector3> newpath, bool succsess)
     {
         if (succsess)
         {
@@ -138,7 +139,6 @@ public abstract class EnemyAI_Base : MonoBehaviour
             Debug.Log("Attack Failed");
             OnAttackFail();
         }
-        
         TurnEnd();
     }
     public void AttackEvent()
@@ -171,10 +171,19 @@ public abstract class EnemyAI_Base : MonoBehaviour
             spriteController.Flip(Direction.Right);
         }
     }
+    public void OnSkillRangeFound(List<GameObject> tileList)
+    {
+        Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().HighlightRange(tileList);
+        Invoke("OffSkillRange", 1.0f);
+    }
+    void OffSkillRange()
+    {
+        Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange(); //범위 표시 제거
+    }
     IEnumerator FollowPath()
     {
         targetIndex = 0;
-        if (path.Length == 0 || (path.Length <= stat.AttackRange && !isTargetEmpty))   // 이동할 필요 X
+        if (path.Count == 0 || (path.Count <= stat.AttackRange && !isTargetEmpty))   // 이동할 필요 X
         {
             Debug.Log("Already At The Position");
             stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
@@ -195,13 +204,14 @@ public abstract class EnemyAI_Base : MonoBehaviour
                 spriteController.Flip(Direction.Right);
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
-                
-            if (transform.position == currentWaypoint)
+            Vector3 moveTarget = new Vector3(currentWaypoint.x, transform.position.y, currentWaypoint.z);   // y좌표 배제
+            transform.position = Vector3.MoveTowards(transform.position, moveTarget, speed * Time.deltaTime);
+
+            if (transform.position == moveTarget)
             {
                 if (isTargetEmpty)  // 대상 칸까지 이동 시
                 {
-                    if (targetIndex + 1 >= path.Length || targetIndex + 1 >= stat.MovePoint)
+                    if (targetIndex + 1 >= path.Count || targetIndex + 1 >= stat.MovePoint)
                     {
                         stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
                         isMoved = true;
@@ -211,7 +221,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
                 }
                 else
                 { 
-                    if (targetIndex + stat.AttackRange + 1 >= path.Length || targetIndex + 1 >= stat.MovePoint)  // 사거리 닿을 시 or 이동거리 초과 시
+                    if (targetIndex + stat.AttackRange + 1 >= path.Count || targetIndex + 1 >= stat.MovePoint)  // 사거리 닿을 시 or 이동거리 초과 시
                     {
                         stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
                         isMoved = true;

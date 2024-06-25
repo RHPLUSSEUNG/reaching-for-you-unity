@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -30,6 +30,7 @@ public class ActUI : UI_Popup
     GameObject magicPanel;
     GameObject itemPanel;
     GameObject magicBtnLayout;
+    GameObject itemLayout;
     GameObject descriptPanel;
 
     public override void Init()
@@ -53,6 +54,7 @@ public class ActUI : UI_Popup
         itemPanel = GetObject((int)actUI.ItemPanel);
         Managers.BattleUI.itemPanel = itemPanel;
         magicBtnLayout = GetObject((int)actUI.MagicButtonLayout);
+        itemLayout = GetObject((int)actUI.ItemLayout);
         descriptPanel = GetObject((int)actUI.DescriptUI);
         Managers.BattleUI.descriptPanel = descriptPanel;
 
@@ -69,28 +71,27 @@ public class ActUI : UI_Popup
 
         mainCamera = GameObject.Find("Main Camera");
         cameraController = mainCamera.GetComponent<CameraController>();
+
         rangeUI = gameObject.GetComponent<MoveRangeUI>();
         rangeUI.SetMapInfo();
         skillRangeUI = gameObject.GetComponent<SkillRangeUI>();
         skillRangeUI.SetMapInfo();
-
-        Managers.BattleUI.warningUI = Managers.UI.CreatePopupUI<WarningUI>("WarningUI");
-        Managers.UI.HideUI(Managers.BattleUI.warningUI.gameObject);
     }
 
     public void UpdateCharacterInfo()
     {
-        // UpdateCharacterInfo -> UpdatePlayerTurnUI ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         Managers.UI.uiState = UIState.Idle;
         Managers.UI.ShowUI(gameObject);
-        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
         SkillList skillList = Managers.Battle.currentCharacter.GetComponent<SkillList>();
+        // Equip_Item consumeList = Managers.Battle.currentCharacter.GetComponent<Equip_Item>();
+
         int curMp = Managers.Battle.currentCharacter.GetComponent<EntityStat>().Mp;
         for (int i = 0; i < skillList.list.Count; i++)
         {
-            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : MagicButtonUI magicButton = Managers.UI.MakeSubItem<MagicButtonUI>(magicBtnLayout.transform, "MagicButton");
+            // MagicButtonUI magicButton = Managers.UI.MakeSubItem<MagicButtonUI>(magicBtnLayout.transform, "MagicButton");
             MagicButtonUI magicBtn = magicBtnLayout.transform.GetChild(i).GetComponent<MagicButtonUI>();
-            if(magicBtn.SaveSkill == null)
+            if (magicBtn.SaveSkill == null)
             {
                 magicBtn.SetSkill(skillList.list[i], skillList.idList[i]);
             }
@@ -103,6 +104,13 @@ public class ActUI : UI_Popup
                 magicBtnLayout.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
+
+        //foreach (KeyValuePair<int, int> item in consumeList.Consumes)
+        //{
+        //    BattleItemUI itemButton = Managers.UI.MakeSubItem<BattleItemUI>(itemLayout.transform, "ItemButton");
+        //    //itemButton.SetItem(item.Key, item.Value, );
+        //}
+
         Managers.UI.uiState = UIState.Move;
         Managers.BattleUI.PlayerMovePhaseUI();
 
@@ -145,7 +153,8 @@ public class ActUI : UI_Popup
         Managers.UI.uiState = UIState.Idle;
         Managers.BattleUI.PlayerBattlePhaseUI();
 
-        rangeUI.ClearMoveRangeUI();
+        rangeUI.ClearMoveRange();
+        cameraController.ChangeOffSet(1, 2, -3, 30);   // Ä³¸¯ÅÍ Çàµ¿ UI offset
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
         Managers.BattleUI.cameraMode = CameraMode.Follow;
     }
@@ -158,6 +167,6 @@ public class ActUI : UI_Popup
 
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
         Managers.BattleUI.cameraMode = CameraMode.Follow;
-        skillRangeUI.ClearSkillRangeUI();
+        skillRangeUI.ClearSkillRange();
     }
 }

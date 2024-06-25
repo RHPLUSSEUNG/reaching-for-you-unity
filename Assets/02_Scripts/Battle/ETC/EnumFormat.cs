@@ -80,6 +80,7 @@ public enum AnimState
     Move,
     Attack,
     Hit,
+    Potion,
     Roll
 }
 public enum Direction
@@ -91,7 +92,8 @@ public enum Direction
 public enum CameraMode
 {
     Static,
-    Follow
+    Follow,
+    Move
 }
 
 public enum RangeType

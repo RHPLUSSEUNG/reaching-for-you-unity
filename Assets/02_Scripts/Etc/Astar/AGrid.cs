@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
@@ -64,23 +65,45 @@ public class AGrid : MonoBehaviour
         }
     }
 
-    public List<Node> GetNeighbours(Node node, int radius)  //radius 크기만큼 떨어져 있는 노드만 검색
+    public List<Node> GetNeighbours(Node node, int radius, RangeType type)  //radius 크기만큼 떨어져 있는 노드만 검색
     {
         List<Node> neigbours = new List<Node>();
-        for (int x = -radius; x <= radius; x ++) 
+        if (type == RangeType.Normal)
         {
-            for (int y = -radius; y <= radius; y ++)
+            for (int x = -radius; x <= radius; x++)
             {
-                if (Mathf.Abs(x) != radius && Mathf.Abs(y) != radius) continue;
-
-                int checkX = node.gridX + x;
-                int checkY = node.gridY + y;
-
-                if(CheckGridBound(checkX,checkY))
+                for (int y = -radius; y <= radius; y++)
                 {
-                    neigbours.Add(grid[checkX, checkY]);
+                    if (Mathf.Abs(x) != radius && Mathf.Abs(y) != radius) 
+                        continue;
+
+                    int checkX = node.gridX + x;
+                    int checkY = node.gridY + y;
+
+                    if (CheckGridBound(checkX, checkY))
+                    {
+                        neigbours.Add(grid[checkX, checkY]);
+                    }
                 }
             }
+        }
+        else if (type == RangeType.Cross)
+        {
+            int checkX = node.gridX + radius;
+            int checkY = node.gridY + radius;
+
+            if (CheckGridBound(checkX, node.gridY))
+                neigbours.Add(grid[checkX, node.gridY]);
+            if (CheckGridBound(node.gridX, checkY))
+                neigbours.Add(grid[node.gridX, checkY]);
+
+            checkX = node.gridX - radius;
+            checkY = node.gridY - radius;
+
+            if (CheckGridBound(checkX, node.gridY))
+                neigbours.Add(grid[checkX, node.gridY]);
+            if (CheckGridBound(node.gridX, checkY))
+                neigbours.Add(grid[node.gridX, checkY]);
         }
         return neigbours;
     }
@@ -143,7 +166,6 @@ public class AGrid : MonoBehaviour
     }
     public GameObject GetTileFromNode(Node node)
     {
-        RaycastHit ray;
         GameObject Tile = null;
         int tileLayer = 1 << LayerMask.NameToLayer("Tile");
         if (Physics.Raycast(node.worldPosition, Vector3.down, out RaycastHit hit, nodesize, tileLayer))

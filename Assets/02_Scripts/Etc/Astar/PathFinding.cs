@@ -17,7 +17,7 @@ public class PathFinding : MonoBehaviour
     }
     public void StartFindPath(Vector3 startPos, Vector3 targetPos)
     {
-        FindPath(startPos, targetPos);
+        FindPath(startPos, targetPos, true);
     }
     public void StartSearch(Vector3 startPos, int radius, string tag)
     {
@@ -34,15 +34,17 @@ public class PathFinding : MonoBehaviour
             case RangeType.Normal:
                 SkillRange(startPos, radius);
                 break;
-            case RangeType.Move: 
+            case RangeType.Move:
+                MoveRange(startPos, radius);
                 break;
             case RangeType.Cross: 
+                CrossRange(startPos, radius);
                 break;
         }
     }
-    void FindPath(Vector3 startPos, Vector3 targetPos)
+    List<Vector3> FindPath(Vector3 startPos, Vector3 targetPos, bool isCallback)
     {
-        Vector3[] path = new Vector3[0];
+        List<Vector3> path = new();
         bool success = false;
 
         Node startNode = grid.GetNodeFromWorldPosition(startPos);
@@ -79,7 +81,7 @@ public class PathFinding : MonoBehaviour
                     break;
                 }
 
-                foreach (Node node in grid.GetNeighbours(currentNode, 1))
+                foreach (Node node in grid.GetNeighbours(currentNode, 1, RangeType.Normal))
                 {
                     if (!node.walkable && node != targetNode || closedList.Contains(node)) continue;
 
@@ -112,14 +114,17 @@ public class PathFinding : MonoBehaviour
             }
         }
         if (success)
-        {
             path = GetPath(startNode, targetNode);
-        }
+        else
+            path = null;
 
-        pathfinder.FinishProcessingPath(path, success);
+        if (isCallback)
+            pathfinder.FinishProcessingPath(path, success);
+
+            return path;
     }
 
-    Vector3[] GetPath(Node startNode, Node endNode)
+    List<Vector3> GetPath(Node startNode, Node endNode)
     {
         List<Node> nodeList = new List<Node>();
         Node currentNode = endNode;
@@ -130,20 +135,20 @@ public class PathFinding : MonoBehaviour
             currentNode = currentNode.parent;
         }
 
-        Vector3[] path = NodeListToVector3(nodeList);
-        Array.Reverse(path);
+        List<Vector3> path = NodeListToVector3(nodeList);
+        path.Reverse();
 
         return path;
     }
 
-    Vector3[] NodeListToVector3(List<Node> nodeList)
+    List<Vector3> NodeListToVector3(List<Node> nodeList)
     {
         List<Vector3> path = new List<Vector3>();
         for (int i = 0; i < nodeList.Count; i++)
         {
             path.Add(nodeList[i].worldPosition);
         }
-        return path.ToArray();
+        return path;
     }
     int GetDistanceCost(Node a, Node b)
     {
@@ -172,7 +177,7 @@ public class PathFinding : MonoBehaviour
         int distance = 0;
         for (int i = 1; i <= radius; i++)
         {
-            foreach (Node node in grid.GetNeighbours(startNode, i))
+            foreach (Node node in grid.GetNeighbours(startNode, i, RangeType.Normal))
             {
                 targetObj = grid.CheckTag(node.gridX, node.gridY, tag);
                 if (targetObj != null)
@@ -225,11 +230,16 @@ public class PathFinding : MonoBehaviour
         Node startNode = grid.GetNodeFromWorldPosition(startPos);
         Vector3 targetPos = startPos;
         List<GameObject> targetTiles = new();
+        GameObject tile;
         for (int i = 1; i <= radius; i++)
         {
-            foreach (Node node in grid.GetNeighbours(startNode, i))
+            foreach (Node node in grid.GetNeighbours(startNode, i, RangeType.Normal))
             {
-                targetTiles.Add(grid.GetTileFromNode(node));
+                tile = grid.GetTileFromNode(node);
+                if (tile != null)
+                {
+                    targetTiles.Add(grid.GetTileFromNode(node));
+                }
             }
         }
         pathfinder.FinishProcessingSkillRange(targetTiles);
@@ -237,36 +247,41 @@ public class PathFinding : MonoBehaviour
     void MoveRange(Vector3 startPos, int radius)
     {
         Node startNode = grid.GetNodeFromWorldPosition(startPos);
-        Vector3 targetPos = startPos;
         List<GameObject> targetTiles = new();
-
-        void OnPathFound(Vector3[] path, bool success)
-        {
-            if (success)
-            {
-                foreach (Vector3 pos in path)
-                {
-                    GameObject tile = grid.GetTileFromNode(grid.GetNodeFromWorldPosition(pos));
-                    if (targetTiles.Contains(tile))
-                        continue;
-                    else
-                    {
-                        targetTiles.Add(tile);
-                    }
-                }
-            }
-        }
 
         for (int i = 1; i <= radius; i++)
         {
-            foreach (Node node in grid.GetNeighbours(startNode, i))
+            foreach (Node node in grid.GetNeighbours(startNode, i, RangeType.Normal))
             {
                 if (!node.walkable)
                     continue;
-                else if(targetTiles.Contains(grid.GetTileFromNode(node)))
-                    continue;
                 else
-                    PathFinder.RequestPath(startPos, targetPos, OnPathFound);
+                {
+                    List<Vector3> path = FindPath(startPos, grid.GetWorldPositionFromNode(node.gridX, node.gridY), false);
+
+                    if (path.Count != 0 && path.Count <= radius)
+                    {
+                            GameObject tile = grid.GetTileFromNode(node);
+                            if (tile != null)
+                                targetTiles.Add(tile);
+                    }
+                }
+                   
+            }
+        }
+        pathfinder.FinishProcessingSkillRange(targetTiles);
+    }
+
+    void CrossRange(Vector3 startPos, int radius)
+    {
+        Node startNode = grid.GetNodeFromWorldPosition(startPos);
+        Vector3 targetPos = startPos;
+        List<GameObject> targetTiles = new();
+        for (int i = 1; i <= radius; i++)
+        {
+            foreach (Node node in grid.GetNeighbours(startNode, i, RangeType.Cross))
+            {
+                targetTiles.Add(grid.GetTileFromNode(node));
             }
         }
         pathfinder.FinishProcessingSkillRange(targetTiles);

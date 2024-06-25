@@ -8,14 +8,14 @@ using UnityEngine;
 public class PlayerBattle : MonoBehaviour
 {
     [SerializeField]
-    float speed =10;
+    float speed = 10;
 
     GameObject mainCamera;
     CameraController cameraController;
 
     SpriteController spriteController;
     PlayerStat stat;
-    Vector3[] path;
+    List<Vector3> path;
     private int targetIndex;
 
     CapsuleCollider collider;
@@ -70,6 +70,8 @@ public class PlayerBattle : MonoBehaviour
                 else
                 {
                     Debug.Log("Can't Move There!");
+                    Managers.BattleUI.warningUI.SetText("이동할 수 없습니다!");
+                    Managers.BattleUI.warningUI.ShowWarningUI();
                     return;
                 }
             }
@@ -91,19 +93,22 @@ public class PlayerBattle : MonoBehaviour
     {
         spriteController.SetAnimState(AnimState.Idle);
     }
-    public void OnPathFound(Vector3[] newpath, bool succsess)
+    public void OnPathFound(List<Vector3> newpath, bool succsess)
     {
-        if (newpath.Length ==0)
+        if (newpath.Count == 0)
         {
             return;
         }
         if (succsess)
         {
-            if (newpath.Length * 10 > stat.ActPoint || newpath.Length * 10 > stat.MovePoint) 
+            if (newpath.Count * 10 > stat.ActPoint || newpath.Count * 10 > stat.MovePoint)
             {
                 Debug.Log("행동력 or 이동력 부족!");
+                Managers.BattleUI.warningUI.SetText("이동할 수 없습니다!");
+                Managers.BattleUI.warningUI.ShowWarningUI();
                 return;
             }
+            Managers.BattleUI.actUI.GetComponent<MoveRangeUI>().ShowPathRange(newpath);
             spriteController.SetAnimState(AnimState.Move);
             path = newpath;
             isMoving = true;
@@ -120,13 +125,20 @@ public class PlayerBattle : MonoBehaviour
         isMoving = false;
         isMoved = true;
         spriteController.SetAnimState(AnimState.Idle);
+        Managers.BattleUI.actUI.GetComponent<MoveRangeUI>().ClearPathRange();
         //cameraController.ChangeCameraMode(CameraMode.Follow, true);
+    }
+
+    public void PotionUse()
+    {
+        spriteController.SetAnimState(AnimState.Potion);
+        Invoke("OnHitEnd", 0.1f);
     }
     IEnumerator FollowPath()
     {
         targetIndex = 0;
         Vector3 currentWaypoint = path[targetIndex];
-
+        
         while (true)
         {
             if (transform.position.x > currentWaypoint.x)   //현재 위치와 이동 대상 x 좌표 비교해 스프라이트 회전
@@ -137,12 +149,12 @@ public class PlayerBattle : MonoBehaviour
             {
                 spriteController.Flip(Direction.Right);
             }
+            Vector3 moveTarget = new Vector3(currentWaypoint.x, transform.position.y, currentWaypoint.z);   // y좌표 배제
+            transform.position = Vector3.MoveTowards(transform.position, moveTarget, speed * Time.deltaTime);
 
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
-
-            if (transform.position == currentWaypoint)
+            if (transform.position == moveTarget)
             {
-                if (targetIndex + 1 >= path.Length)
+                if (targetIndex + 1 >= path.Count)
                 {
                     stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
                     stat.MovePoint -= 10 * (targetIndex + 1);
