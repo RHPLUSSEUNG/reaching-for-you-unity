@@ -925,17 +925,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &788966572 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3588641250324763201, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
-  m_PrefabInstance: {fileID: 2058721274}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afd81f2fbed43134f9195ad2537b4b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &883962076
 GameObject:
   m_ObjectHideFlags: 0
@@ -3790,6 +3779,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1296cf3862e0454e97d8f80d6ec468b, type: 3}
+--- !u!114 &1823633398 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7303633214719604547, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+  m_PrefabInstance: {fileID: 2058721274}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55c9d5552cb99c4a82068784ca8a1a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2049066808
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3929,7 +3929,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[0].action
-      value: GiveQuest
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.size
@@ -3942,7 +3942,7 @@ PrefabInstance:
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 788966572}
+      objectReference: {fileID: 1823633398}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -3953,7 +3953,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: QuestGiver, Assembly-CSharp
+      value: QuestHandler, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -3961,6 +3961,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7036559570982308586, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: quest
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d462fb3f83031a4db81f2ae307e2943, type: 2}
+    - target: {fileID: 7303633214719604547, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: questToGive
       value: 
       objectReference: {fileID: 11400000, guid: 4d462fb3f83031a4db81f2ae307e2943, type: 2}
     - target: {fileID: 7875700743041940680, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
@@ -4034,7 +4038,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4669419514549747141, guid: 794670bf944467f4682ebed0e4ab6ffe, type: 3}
   m_PrefabInstance: {fileID: 2064392887}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2094348048 stripped
+--- !u!114 &2074146301 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7303633214719604547, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+  m_PrefabInstance: {fileID: 1994760280434421459}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55c9d5552cb99c4a82068784ca8a1a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2074146302 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 354014016804562102, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
   m_PrefabInstance: {fileID: 1994760280434421459}
@@ -4043,17 +4058,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2489902a93b3c3644bfbff943dbd76d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2094348054 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 36416969822393023, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
-  m_PrefabInstance: {fileID: 1994760280434421459}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b107e6358b13e224fbd78c6f819cc1b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2116304861
@@ -4266,11 +4270,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[0].action
-      value: EnterTheDungeon
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[1].action
-      value: "\uAD8C\uD76C\uC900\uACFC \uB300\uD654"
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.size
@@ -4295,15 +4299,15 @@ PrefabInstance:
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2094348048}
+      objectReference: {fileID: 2074146301}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[1].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2094348054}
+      objectReference: {fileID: 2074146302}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[1].onTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 2094348054}
+      objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -4318,11 +4322,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: EnterTheDungeon
+      value: CompleteObjective
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[1].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CompleteObjective
+      value: EnterTheDungeon
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[1].onTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -4330,11 +4334,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DialogueTriggerFunction, Assembly-CSharp
+      value: QuestHandler, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[1].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: QuestCompletion, Assembly-CSharp
+      value: DialogueTriggerFunction, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: triggerStruct.Array.data[1].onTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -4360,6 +4364,14 @@ PrefabInstance:
       propertyPath: triggerStruct.Array.data[1].onTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 7303633214719604547, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: objective
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7303633214719604547, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: questToComplete
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d462fb3f83031a4db81f2ae307e2943, type: 2}
     - target: {fileID: 7875700743041940680, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
       propertyPath: dialogue
       value: 

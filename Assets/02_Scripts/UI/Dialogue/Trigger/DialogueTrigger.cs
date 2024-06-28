@@ -13,6 +13,7 @@ public enum TriggerActionList
     COMPLETE_OBJECTIVE,
     REQUEST_ITEM,
     INCREASE_FRIENDSHIP,
+    CHANGE_SCENE,
 }
 
 

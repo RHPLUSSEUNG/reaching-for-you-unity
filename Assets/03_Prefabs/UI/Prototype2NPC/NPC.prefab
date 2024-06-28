@@ -414,8 +414,7 @@ GameObject:
   - component: {fileID: 7875700743041940680}
   - component: {fileID: 6689558612626955307}
   - component: {fileID: 354014016804562102}
-  - component: {fileID: 3588641250324763201}
-  - component: {fileID: 36416969822393023}
+  - component: {fileID: 7303633214719604547}
   - component: {fileID: 661942222715427963}
   m_Layer: 0
   m_Name: Dialogue_Quest
@@ -482,7 +481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   friendShipLevel: 0
---- !u!114 &3588641250324763201
+--- !u!114 &7303633214719604547
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -491,23 +490,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8985439598175716821}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afd81f2fbed43134f9195ad2537b4b57, type: 3}
+  m_Script: {fileID: 11500000, guid: e55c9d5552cb99c4a82068784ca8a1a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quest: {fileID: 0}
---- !u!114 &36416969822393023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8985439598175716821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b107e6358b13e224fbd78c6f819cc1b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  quest: {fileID: 0}
+  questToGive: {fileID: 0}
+  questToComplete: {fileID: 0}
   objective: 
 --- !u!135 &661942222715427963
 SphereCollider:
