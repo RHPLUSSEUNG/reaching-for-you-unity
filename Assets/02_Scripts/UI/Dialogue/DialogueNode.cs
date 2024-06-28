@@ -11,8 +11,8 @@ public class DialogueNode : ScriptableObject
     [SerializeField] string text;
     [SerializeField] List<string> children = new List<string>();
     [SerializeField] Rect rect = new Rect(0, 0, 200, 100);
-    [SerializeField] string onEnterAction;
-    [SerializeField] string onExitAction;
+    [SerializeField] TriggerActionList onEnterAction;
+    [SerializeField] TriggerActionList onExitAction;
     [SerializeField] Condition condition;
 
     public Rect GetRect()
@@ -35,12 +35,12 @@ public class DialogueNode : ScriptableObject
         return isPlayerSpeaking;
     }
 
-    public string GetOnEnterAction()
+    public TriggerActionList GetOnEnterAction()
     {
         return onEnterAction;
     }
 
-    public string GetOnExitAction()
+    public TriggerActionList GetOnExitAction()
     {
         return onExitAction;
     }

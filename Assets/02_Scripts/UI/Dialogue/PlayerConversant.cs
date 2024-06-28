@@ -144,9 +144,9 @@ public class PlayerConversant : MonoBehaviour
         }
     }
 
-    void TriggerAction(string action)
+    void TriggerAction(TriggerActionList action)
     {
-        if(action == "")
+        if(action == TriggerActionList.NONE)
         {
             return;
         }
