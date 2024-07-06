@@ -7,13 +7,14 @@ using TMPro;
 public class DialogueUI : MonoBehaviour
 {
     PlayerConversant playerConversant;
-    [SerializeField] TextMeshProUGUI NPCText;
-    [SerializeField] Button nextButton;
+    [SerializeField] TextMeshProUGUI NPCText;    
     [SerializeField] GameObject NPCResponse;
     [SerializeField] Transform choiceRoot;
     [SerializeField] GameObject choicePrefab;
+    //[SerializeField] Button nextButton;
     //[SerializeField] Button quitButton;
     [SerializeField] TextMeshProUGUI conversantName;
+    [SerializeField] TextMeshProUGUI nextText;
     [SerializeField] TextMeshProUGUI quitText;
 
     float typingSpeed = 0.02f;    
@@ -23,10 +24,11 @@ public class DialogueUI : MonoBehaviour
     {
         playerConversant = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponent<PlayerConversant>();
         playerConversant.onConversationUpdated += UpdateUI;
-        nextButton.onClick.AddListener(() => playerConversant.Next());
+        //nextButton.onClick.AddListener(() => playerConversant.Next());
         //quitButton.onClick.AddListener(() => playerConversant.Quit());
-        nextButton.gameObject.SetActive(false);
+        //nextButton.gameObject.SetActive(false);
         //quitButton.gameObject.SetActive(false);
+        nextText.gameObject.SetActive(false);
         quitText.gameObject.SetActive(false);        
         UpdateUI();
     }    
@@ -39,11 +41,12 @@ public class DialogueUI : MonoBehaviour
         {
             return;
         }
-        nextButton.gameObject.SetActive(false);
+        //nextButton.gameObject.SetActive(false);
         //quitButton.gameObject.SetActive(false);
         conversantName.text = playerConversant.GetCurrentConversantName();
         NPCResponse.SetActive(!playerConversant.IsChoosing());
         choiceRoot.gameObject.SetActive(playerConversant.IsChoosing());
+        nextText.gameObject.SetActive(false);
         quitText.gameObject.SetActive(false);        
 
         if(playerConversant.IsChoosing())
@@ -95,7 +98,10 @@ public class DialogueUI : MonoBehaviour
         {
             if(playerConversant.HasNext())
             {
-                nextButton.gameObject.SetActive(true);
+                //nextButton.gameObject.SetActive(true);
+                StartCoroutine(NextDialgoue());
+                nextText.gameObject.SetActive(true);
+
             } 
             else
             {
@@ -104,6 +110,20 @@ public class DialogueUI : MonoBehaviour
                 quitText.gameObject.SetActive(true);
             }
         }     
+    }
+
+    IEnumerator NextDialgoue()
+    {
+        while (true)
+        {
+            yield return null;
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                playerConversant.Next();
+                yield break;
+            }
+        }
     }
 
     IEnumerator ExitDialogue()
