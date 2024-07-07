@@ -1,52 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RandomPassage : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] wallPrefabs;
+
+    int DoorCount = 0;
+
     List<Transform> passageChildren = new List<Transform>();
-    int activeCount = 0;
+    List<GameObject> wallChildren = new List<GameObject>();
 
     void Start()
     {
         foreach (Transform t in transform)
         {
-            int randomIndex = Random.Range(0, wallPrefabs.Length);
-            GameObject wallInMap = Instantiate(wallPrefabs[randomIndex], t);
-            wallInMap.transform.SetParent(t);
-
             passageChildren.Add(t);
         }
 
+        DoorCount = Random.Range(0, passageChildren.Count - 1) + 1;
+        AddPassage();
+    }
 
-        // Transform passage = transform.Find("Passage");
+    public void AddPassage()
+    {
+        int index = 0;
+        GameObject wallInMap;
+        
+        for(; index < DoorCount; index++)
+        {
+            wallInMap = Instantiate(wallPrefabs[1], passageChildren[index]);
+            wallInMap.transform.SetParent(passageChildren[index]);
 
-        // if (passage != null)
-        // {
-        //     foreach (Transform child in passage)
-        //     {
-        //         passageChildren.Add(child);
-        //     }
+            wallChildren.Add(wallInMap);
+        }
 
-        //     foreach (Transform child in passageChildren)
-        //     {
-        //         bool activate = Random.Range(0, 2) == 0;
+        for(; index < passageChildren.Count; index++)
+        {
+            wallInMap = Instantiate(wallPrefabs[0], passageChildren[index]);
+            wallInMap.transform.SetParent(passageChildren[index]);
 
-        //         child.gameObject.SetActive(activate);
-        //         if(!child.gameObject.activeSelf) activeCount++; // 비활성화 체크
-        //     }
-        // }
-        // else
-        // {
-        //     Debug.LogError("Passage object not found!");
-        // }
+            wallChildren.Add(wallInMap);
+        }
+    }
 
-        // if(activeCount == 4)
-        // {
-        //     int randomIndex = Random.Range(0, passageChildren.Count);
-        //     passageChildren[randomIndex].gameObject.SetActive(true);
-        // }
+    public void DeletePassage() 
+    {
+        DoorCount = Random.Range(0, passageChildren.Count) + 1;
+        foreach(GameObject wall in wallChildren)
+        {
+            Destroy(wall);
+        }
     }
 }
