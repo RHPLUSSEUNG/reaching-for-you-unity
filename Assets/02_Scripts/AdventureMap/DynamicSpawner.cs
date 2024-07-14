@@ -8,11 +8,12 @@ public class DynamicSpawner : MonoBehaviour
     [SerializeField]
     GameObject planeObject;
     [SerializeField]
-    GameObject objectPrefab = null;
+    GameObject[] objectPrefab;
     BoxCollider rangeCollider;
 
     public int maxSpawnCount = 10;
     private List<Vector3> spawnedPositions = new List<Vector3>();
+    private List<GameObject> spawnedObject = new List<GameObject>();
 
     void Awake()
     {
@@ -21,7 +22,7 @@ public class DynamicSpawner : MonoBehaviour
 
     void Start()
     {
-        RandomSpawn();
+        // RandomSpawn();
     }
 
     Vector3 RandomPosition()
@@ -30,13 +31,13 @@ public class DynamicSpawner : MonoBehaviour
         Vector3 planePosition = planeObject.transform.position;
 
         // Plane Size
-        float rangeX = rangeCollider.bounds.size.x;
-        float rangeZ = rangeCollider.bounds.size.z;
+        float rangeX = rangeCollider.bounds.size.x - 1.0f;
+        float rangeZ = rangeCollider.bounds.size.z - 1.0f;
 
         // RandomPosition Range
         rangeX = Random.Range((rangeX / 2) * -1, rangeX / 2);
         rangeZ = Random.Range((rangeZ / 2) * -1, rangeZ / 2);
-        Vector3 randomPosition = new Vector3(rangeX, 0.5f, rangeZ);
+        Vector3 randomPosition = new Vector3(rangeX, 0.0f, rangeZ);
 
         Vector3 spawnPosition = planePosition + randomPosition;
 
@@ -55,19 +56,31 @@ public class DynamicSpawner : MonoBehaviour
         return false;
     }
 
-    void RandomSpawn() {
-        int spawnCount = Random.Range(1, maxSpawnCount);
+    public void RandomSpawn() {
+        DestroyObject();
 
+        int spawnCount = Random.Range(1, maxSpawnCount);
         for (int i = 0; i < spawnCount; i++)
         {
+            int objectNum = Random.Range(0, objectPrefab.Length);
             Vector3 spawnPosition;
             do
             {
                 spawnPosition = RandomPosition();
             } while (IsOverlapping(spawnPosition)); // If overlapping, re-position
+            spawnPosition += objectPrefab[objectNum].transform.position;
             spawnedPositions.Add(spawnPosition);
 
-            Instantiate(objectPrefab, spawnPosition, Quaternion.identity);
+            GameObject spawned = Instantiate(objectPrefab[objectNum], spawnPosition, Quaternion.identity);
+            spawnedObject.Add(spawned);
+        }
+    }
+
+    public void DestroyObject()
+    {
+        foreach(GameObject o in spawnedObject)
+        {
+            Destroy(o);
         }
     }
 }

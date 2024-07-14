@@ -1,39 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RandomPassage : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject[] wallPrefabs;
+
+    int DoorCount = 0;
+
     List<Transform> passageChildren = new List<Transform>();
-    int activeCount = 0;
-    void Start()
+    List<GameObject> wallChildren = new List<GameObject>();
+
+    public void Init()
     {
-        Transform passage = transform.Find("Passage");
-
-        if (passage != null)
+        foreach (Transform t in transform)
         {
-            foreach (Transform child in passage)
-            {
-                passageChildren.Add(child);
-            }
-
-            foreach (Transform child in passageChildren)
-            {
-                bool activate = Random.Range(0, 2) == 0;
-
-                child.gameObject.SetActive(activate);
-                if(!child.gameObject.activeSelf) activeCount++; // 비활성화 체크
-            }
-        }
-        else
-        {
-            Debug.LogError("Passage object not found!");
+            passageChildren.Add(t);
         }
 
-        if(activeCount == 4)
+        DoorCount = Random.Range(0, passageChildren.Count - 1) + 1;
+        AddPassage();
+    }
+
+    public void AddPassage()
+    {
+        int index = 0;
+        GameObject wallInMap;
+        
+        for(; index < DoorCount; index++)
         {
-            int randomIndex = Random.Range(0, passageChildren.Count);
-            passageChildren[randomIndex].gameObject.SetActive(true);
+            wallInMap = Instantiate(wallPrefabs[1], passageChildren[index]);
+            wallInMap.transform.SetParent(passageChildren[index]);
+
+            wallChildren.Add(wallInMap);
+        }
+
+        for(; index < passageChildren.Count; index++)
+        {
+            wallInMap = Instantiate(wallPrefabs[0], passageChildren[index]);
+            wallInMap.transform.SetParent(passageChildren[index]);
+
+            wallChildren.Add(wallInMap);
+        }
+    }
+
+    public void DeletePassage() 
+    {
+        DoorCount = Random.Range(0, passageChildren.Count) + 1;
+        foreach(GameObject wall in wallChildren)
+        {
+            Destroy(wall);
         }
     }
 }
