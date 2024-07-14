@@ -17,6 +17,7 @@ public class AdventureManager : MonoBehaviour
 
     public RandomPassage randomPassage;
     public RandomPlane randomPlane;
+    public DynamicSpawner dynamicSpawner;
 
     void Awake()
     {
@@ -29,6 +30,8 @@ public class AdventureManager : MonoBehaviour
         {
             randomPlane.SpawnBasic();
             randomPassage.Init();
+
+            dynamicSpawner.RandomSpawn();
         }
         else
         {
@@ -36,11 +39,15 @@ public class AdventureManager : MonoBehaviour
             {
                 randomPassage.DeletePassage();
                 randomPlane.SpawnSave();
+
+                dynamicSpawner.DestroyObject();
             }
             else 
             {
                 randomPassage.DeletePassage();
                 randomPlane.SpawnCure();
+
+                dynamicSpawner.DestroyObject();
             }
         }
     }
@@ -52,6 +59,8 @@ public class AdventureManager : MonoBehaviour
             randomPlane.SpawnBasic();
             randomPassage.DeletePassage();
             randomPassage.AddPassage();
+
+            dynamicSpawner.RandomSpawn();
         }
         else
         {
@@ -59,11 +68,15 @@ public class AdventureManager : MonoBehaviour
             {
                 randomPassage.DeletePassage();
                 randomPlane.SpawnSave();
+
+                dynamicSpawner.DestroyObject();
             }
             else 
             {
                 randomPassage.DeletePassage();
                 randomPlane.SpawnCure();
+
+                dynamicSpawner.DestroyObject();
             }
         }
     }
