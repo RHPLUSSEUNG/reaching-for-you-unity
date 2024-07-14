@@ -1,18 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RandomPlane : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject BasicPlane;
+    public GameObject CurePlane;
+    public GameObject SavePlane;
+
+    public void SpawnBasic() 
     {
-        
+        BasicPlane.SetActive(true);
+        CurePlane.SetActive(false);
+        SavePlane.SetActive(false);
+    } 
+
+    public void SpawnCure()
+    {
+        BasicPlane.SetActive(false);
+        CurePlane.SetActive(true);
+        SavePlane.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SpawnSave()
     {
-        
+        BasicPlane.SetActive(false);
+        CurePlane.SetActive(false);
+        SavePlane.SetActive(true);
     }
 }

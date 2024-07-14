@@ -13,7 +13,7 @@ public class RandomPassage : MonoBehaviour
     List<Transform> passageChildren = new List<Transform>();
     List<GameObject> wallChildren = new List<GameObject>();
 
-    void Start()
+    public void Init()
     {
         foreach (Transform t in transform)
         {

@@ -13,9 +13,15 @@ public class SpawnPassage : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         if(other.gameObject.CompareTag("Player"))
         {
-            // other.gameObject.transform.parent.GetComponent<Transform>().localPosition = Vector3.zero;
-            randomPassage.DeletePassage();
-            randomPassage.AddPassage();
+            AdventureManager.StageCount++;
+            //Debug.Log(AdventureManager.StageCount);
+            
+            if((AdventureManager.StageCount % 5) != 0)
+                gameObject.GetComponent<CameraZone>().spwanIndex = 1;
+            else
+                gameObject.GetComponent<CameraZone>().spwanIndex = 2;
+
+            AdventureManager.adventure.SpawnPlane();
         }
     }
 }
