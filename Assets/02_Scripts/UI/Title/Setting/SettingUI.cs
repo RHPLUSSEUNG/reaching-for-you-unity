@@ -47,11 +47,11 @@ public class SettingUI : MonoBehaviour
             }
             else
             {
-                scrollbar.value = Mathf.Lerp(scrollbar.value, 0.5f, Time.deltaTime * 10f);
+                scrollbar.value = Mathf.Lerp(scrollbar.value, 1f, Time.deltaTime * 10f);
 
-                if (Mathf.Approximately(scrollbar.value, 0.5f))
+                if (Mathf.Approximately(scrollbar.value, 1f))
                 {
-                    scrollbar.value = 0.5f;
+                    scrollbar.value = 1f;
                     yield break;
                 }
             }
