@@ -31,6 +31,7 @@ public class EnemyAI_Crab : EnemyAI_Base
             }
             else
             {
+                spriteController.SetAnimState(AnimState.Skill2);
                 isHide = false; // 2�� ������ �� ����
                 hideLapse = 0;
             }
@@ -39,6 +40,7 @@ public class EnemyAI_Crab : EnemyAI_Base
         {
             // ��ũ���� ��ų ����
             Debug.Log("Skill Used!");
+            spriteController.SetAnimState(AnimState.Skill1);
             isAttacked = true;
             stat.ActPoint -= 70;
             stat.Mp -= 60;
@@ -93,8 +95,6 @@ public class EnemyAI_Crab : EnemyAI_Base
         {
             BeforeTrunEnd();
         }
-
-
     }
     public override void OnPathFailed()
     {
@@ -129,6 +129,7 @@ public class EnemyAI_Crab : EnemyAI_Base
     }
     public override void OnHit(int damage)
     {
+        spriteController.SetAnimState(AnimState.Hit);
         stat.Hp -= damage;
         lastDamaged += damage;
     }

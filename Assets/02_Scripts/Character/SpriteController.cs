@@ -14,7 +14,7 @@ public class SpriteController : MonoBehaviour
     Direction direction = Direction.Right;
     GameObject mainCamera;
 
-    Animator anim;
+    protected Animator anim;
     float targetAngleX;
     float targetAngleY;
     float targetAngleZ;
@@ -53,7 +53,7 @@ public class SpriteController : MonoBehaviour
         {
             return;
         }
-        switch(state)
+        switch (state)
         {
             case (AnimState.Idle):
                 anim.SetInteger("State", (int)AnimState.Idle);
@@ -67,13 +67,14 @@ public class SpriteController : MonoBehaviour
             case (AnimState.Attack):
                 anim.SetInteger("State", (int)AnimState.Attack);
                 break;
-            case (AnimState.Potion):
-                anim.SetInteger("State", (int)AnimState.Potion);
+            case (AnimState.Skill1):
+                anim.SetInteger("State", (int)AnimState.Skill1);
                 break;
-            //case (AnimState.Roll):
-            //    anim.SetInteger("State", (int)AnimState.Roll);
-            //    break;
+            case (AnimState.Skill2):
+                anim.SetInteger("State", (int)AnimState.Skill2);
+                break;
         }
+        anim.SetInteger("State", (int)AnimState.Idle);
     }
     public void Flip(Direction _direction)  //입력 방향에 맞게 스프라이트를 회전
     {

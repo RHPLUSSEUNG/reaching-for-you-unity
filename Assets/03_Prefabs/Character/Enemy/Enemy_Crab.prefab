@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 5513198752815309063}
   - component: {fileID: 2355838914545662156}
   - component: {fileID: 4317451743883351007}
-  - component: {fileID: 7161518087375597541}
   - component: {fileID: -1324778867648382908}
   - component: {fileID: -6419096828168542366}
   - component: {fileID: 7113086498765480012}
+  - component: {fileID: 4260214949722054565}
   m_Layer: 7
   m_Name: Enemy_Crab
   m_TagString: Monster
@@ -87,21 +87,6 @@ MonoBehaviour:
   _oxygen: 0
   _bind: 0
   _shock: 0
---- !u!114 &7161518087375597541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924857992452620357}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87cf5eb9663271b439f291a9d8120d15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotateSpeed: 5
-  direction: 1
-  cameraChanged: 0
 --- !u!114 &-1324778867648382908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +154,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &4260214949722054565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924857992452620357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87cf5eb9663271b439f291a9d8120d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeed: 5
+  direction: 1
+  cameraChanged: 0
 --- !u!1 &4346342542465229821
 GameObject:
   m_ObjectHideFlags: 0

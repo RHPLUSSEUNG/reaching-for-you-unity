@@ -38,10 +38,6 @@ public abstract class EnemyAI_Base : MonoBehaviour
         skillList = GetComponent<SkillList>();
         //skillList.AddSkill(Managers.Skill.Instantiate(0)); 각 몬스터마다 해당하는 번호의 스킬 가져오기
     }
-    private void LateUpdate()
-    {
-        spriteController.SetAnimState(AnimState.Idle);
-    }
     public abstract void ProceedTurn(); // 턴 진행
     public abstract void SpecialCheck();  // 고유 기믹 체크
     public abstract void OnTargetFoundSuccess();  // 이동할 대상 발견 시 행동
