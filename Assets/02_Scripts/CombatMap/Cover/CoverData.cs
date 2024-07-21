@@ -2,49 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CoverData", menuName = "Reaching-for-you/CoverData")]
-public class CoverData : ScriptableObject
+public class CoverData : MonoBehaviour
 {
-    [SerializeField]
-    private int hp;
+    public int hp;
 
-    private int step;
+    public int maxStep = 3;
+    public int step;
 
-    public GameObject coverGameObject;
+    RaycastHit hitInfo;
+
     public Map map;
     public bool isHiding = false; // 플레이어가 엄폐하고 있는지 확인하는 변수, 기본값은 false
 
-    private float damagePercent;
+    public float damagePercent;
 
     GameObject character;
     CharacterState characterstate;
     EntityStat characterstat;
 
     public Vector3 playerPosition; // 플레이어의 위치를 저장하는 변수
-
-    public void Init() {
-        if(hp > 100) return;
-
-        if(hp <= 70) 
-        {
-            step = 3;
-            damagePercent = 1f;
-        }
-        
-        else if(hp <= 40) 
-        {
-            step = 2;
-            damagePercent = 0.8f;
-        }
-
-        else if(hp <= 10) 
-        {
-            step = 1;
-            damagePercent = 0.5f;
-        }
-
-        else damagePercent = 0;
-    }
 
     public void CalculateStep() 
     {
@@ -100,13 +76,10 @@ public class CoverData : ScriptableObject
     }
 
     // 플레이어의 위치를 저장하고 엄폐 상태를 설정하는 메서드
-    public void UpdatePlayerPosition(Vector3 newPosition)
+    public void UpdatePlayerPosition(Vector3 coverGameObjectPos)
     {
-        playerPosition = newPosition;
-
         // 엄폐물의 사방면을 확인하여 플레이어가 있는지 확인
-        Vector3 coverPosition = coverGameObject.transform.position;
-        if (IsPlayerNearCover(coverPosition, newPosition))
+        if (IsPlayerNearCover(coverGameObjectPos))
         {
             SetHiding(true);
         }
@@ -117,16 +90,16 @@ public class CoverData : ScriptableObject
     }
 
     // 플레이어가 엄폐물 근처에 있는지 확인하는 메서드
-    private bool IsPlayerNearCover(Vector3 coverPosition, Vector3 playerPosition)
+    private bool IsPlayerNearCover(Vector3 coverPosition)
     {
-        // 사방면을 확인
-        if (playerPosition == coverPosition + Vector3.forward ||
-            playerPosition == coverPosition + Vector3.back ||
-            playerPosition == coverPosition + Vector3.left ||
-            playerPosition == coverPosition + Vector3.right)
-        {
-            return true;
-        }
+        if(Physics.Raycast(coverPosition, Vector3.forward, out hitInfo, 1f) ||
+            Physics.Raycast(coverPosition, Vector3.back, out hitInfo, 1f) ||
+            Physics.Raycast(coverPosition, Vector3.left, out hitInfo, 1f) ||
+            Physics.Raycast(coverPosition, Vector3.right, out hitInfo, 1f)) 
+            {
+                if(hitInfo.collider.tag == "Player")
+                    return true;
+            }
         return false;
     }
 }
