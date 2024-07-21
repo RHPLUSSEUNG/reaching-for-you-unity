@@ -1,41 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BattleInfoUI : UI_Popup
+public class MapInfoUI : UI_Popup
 {
-    enum battleInfoUI
+    enum mapInfoUI
     {
-        CharacterIcon,
-        Hp,
-        Mp,
-        // TODO : CharacterState 추가
+        TileName,
+        TileIcon,
+        TileText
     }
-
     public override void Init()
     {
         base.Init();
 
-        Bind<GameObject>(typeof(battleInfoUI));
-
-        Managers.BattleUI.battleInfoUI = gameObject.GetComponent<BattleInfoUI>();
+        Bind<GameObject>(typeof(mapInfoUI));
     }
 
-    public void SetInfo(GameObject character)
-    {         
-        EntityStat stat = character.GetComponent<EntityStat>();
-        CharacterState state = character.GetComponent<CharacterState>();
-
-        Image icon = GetObject((int)battleInfoUI.CharacterIcon).GetComponent<Image>();
-        // TODO : Character Icon 반영
-
-        string hpText;
-        string mpText;
-        hpText = $"{stat.MaxHp} / {stat.Hp}";
-        GetObject((int)battleInfoUI.Hp).GetComponent<Text>().text = hpText;
-        mpText = $"{stat.MaxMp} / {stat.Mp}";
-        GetObject((int)battleInfoUI.Mp).GetComponent<Text>().text = mpText;
-
-        // TODO : State 반영
+    public void SetInfo(GameObject tile)
+    {
+        Image icon = GetObject((int)mapInfoUI.TileIcon).GetComponent<Image>();
+        TextMeshPro tileName = GetObject((int)mapInfoUI.TileName).GetComponent<TextMeshPro>();
+        TextMeshPro tileText = GetObject((int)mapInfoUI.TileText).GetComponent<TextMeshPro>();
     }
 
     public void SetPosition()
