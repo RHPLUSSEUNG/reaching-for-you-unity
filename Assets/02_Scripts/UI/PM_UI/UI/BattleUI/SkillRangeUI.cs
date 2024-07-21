@@ -62,7 +62,6 @@ public class SkillRangeUI : MonoBehaviour
     
     public void ClearSkillRange()
     {
-        Debug.Log("범위 표시 삭제");
         // 스킬 사용하면 범위 없애기
         int colorCount = 0;
         foreach(GameObject tile in tiles)
