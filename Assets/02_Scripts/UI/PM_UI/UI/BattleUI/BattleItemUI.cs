@@ -34,7 +34,7 @@ public class BattleItemUI : UI_Base
         cameraController = mainCamera.GetComponent<CameraController>();
     }
 
-    public void SetItem(GameObject item, int itemCount, int item_ID)
+    public void SetItem(int item_ID, int itemCount)
     {
         ItemData consume_Data = Managers.Data.GetItemData(item_ID, false);
 
@@ -44,7 +44,7 @@ public class BattleItemUI : UI_Base
         Text count = GetObject((int)battleItemUI.ItemCount).GetComponent<Text>();
         count.text = itemCount.ToString();
 
-        saveItem = item;
+        // saveItem = item;
         saveItemCount = itemCount;
         saveItem_ID = item_ID;
     }
