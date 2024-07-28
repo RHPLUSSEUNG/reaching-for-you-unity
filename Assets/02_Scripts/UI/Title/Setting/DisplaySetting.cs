@@ -5,7 +5,7 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GeneralSetting : MonoBehaviour
+public class DisplaySetting : MonoBehaviour
 {    
     [SerializeField] Toggle fullScreenButton;
     [SerializeField] TMP_Dropdown resolutionDropdown;
