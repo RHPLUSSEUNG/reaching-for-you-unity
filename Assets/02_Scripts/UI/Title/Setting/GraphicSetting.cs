@@ -10,39 +10,39 @@ public class GraphicSetting : MonoBehaviour
 {
     [SerializeField] TMP_Dropdown qualityDropdown;
     [SerializeField] TMP_Text currentQualityText;
-    int textureQuality;
-    int antiAliasing;
-    int vSync;
     [SerializeField] Slider brightnessSlider;
     float brightnessValue = 0.5f;
 
     private void Start()
     {
-        brightnessSlider.onValueChanged.AddListener(BrightnessChanged);
+        brightnessSlider.onValueChanged.AddListener(OnBrightnessChanged);
+        InitializeGraphicsSettings();
     }
 
-    public void InitializeGraphic()
+    public void InitializeGraphicsSettings()
     {
         qualityDropdown.ClearOptions();
         qualityDropdown.AddOptions(QualitySettings.names.ToList());
         qualityDropdown.value = QualitySettings.GetQualityLevel();
-        //currentQualityText.text = $"Current Quality : {QualitySettings.names[QualitySettings.GetQualityLevel()]}";
+        qualityDropdown.onValueChanged.AddListener(OnQualityDropdownChanged);
 
-        // 드롭다운의 값이 변경될 때마다 ChangeQuality 함수를 호출합니다.
-        qualityDropdown.onValueChanged.AddListener(ChangeQuality);
+        //UpdateCurrentQualityText(QualitySettings.GetQualityLevel());
     }
 
-    void BrightnessChanged(float value)
+    void OnBrightnessChanged(float value)
     {
         brightnessValue = value;
-        print(brightnessValue);
         Screen.brightness = brightnessValue;
     }
 
-    void ChangeQuality(int index)
+    void OnQualityDropdownChanged(int index)
     {
         QualitySettings.SetQualityLevel(index, true);
-        //currentQualityText.text = $"Current Quality : {QualitySettings.names[index]}";
+        //UpdateCurrentQualityText(index);
     }
-    
+
+    void UpdateCurrentQualityText(int qualityLevel)
+    {
+        currentQualityText.text = QualitySettings.names[qualityLevel];
+    }
 }

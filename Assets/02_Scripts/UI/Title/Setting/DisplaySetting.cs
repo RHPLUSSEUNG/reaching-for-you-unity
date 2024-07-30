@@ -6,8 +6,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class DisplaySetting : MonoBehaviour
-{    
-    [SerializeField] Toggle fullScreenButton;
+{
+    [SerializeField] Toggle fullScreenToggle;
     [SerializeField] TMP_Dropdown resolutionDropdown;
     [SerializeField] TMP_Dropdown frameRateDropdown;
     FullScreenMode screenMode;
@@ -21,62 +21,48 @@ public class DisplaySetting : MonoBehaviour
     }
 
     void InitializeScreen()
-    {        
+    {
         resolutions.AddRange(Screen.resolutions);
         resolutionDropdown.options.Clear();
 
         int optionNum = 0;
 
-        foreach(Resolution resolution in resolutions)
+        foreach (Resolution resolution in resolutions)
         {
             TMP_Dropdown.OptionData optionData = new TMP_Dropdown.OptionData();
             optionData.text = resolution.width + "x" + resolution.height;
             resolutionDropdown.options.Add(optionData);
 
-            if(resolution.width == Screen.width && resolution.height == Screen.height)
+            if (resolution.width == Screen.width && resolution.height == Screen.height)
             {
-                resolutionDropdown.value = optionNum;                
+                resolutionDropdown.value = optionNum;
             }
             optionNum++;
-        }      
-        
+        }
+
         resolutionDropdown.RefreshShownValue();
 
-        if(Screen.fullScreenMode.Equals(FullScreenMode.FullScreenWindow))
-        {
-            fullScreenButton.isOn = true;
-        }
-        else
-        {
-            fullScreenButton.isOn = false;
-        }
+        fullScreenToggle.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
 
         Application.targetFrameRate = 60;
     }
 
-    public void FullScreenSelect(bool _isFullScreen)
+    public void OnFullScreenToggleChanged(bool isFullScreen)
     {
-        if (_isFullScreen)
-        {
-            screenMode = FullScreenMode.FullScreenWindow;
-        }
-        else
-        {
-            screenMode = FullScreenMode.Windowed;
-        }
-
-    }
-
-    public void ChangeResolution(int _resolutionIndex)
-    {
-        resolutionIndex = _resolutionIndex;
+        screenMode = isFullScreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
         Screen.SetResolution(resolutions[resolutionIndex].width, resolutions[resolutionIndex].height, screenMode);
     }
-    
-    public void ChangeFrameRate(int _frameIndex)
+
+    public void OnResolutionDropdownChanged(int resolutionIndex)
     {
-        frameIndex = _frameIndex;
-        switch(frameIndex)
+        this.resolutionIndex = resolutionIndex;
+        Screen.SetResolution(resolutions[resolutionIndex].width, resolutions[resolutionIndex].height, screenMode);
+    }
+
+    public void OnFrameRateDropdownChanged(int frameIndex)
+    {
+        this.frameIndex = frameIndex;
+        switch (frameIndex)
         {
             case 0:
                 Application.targetFrameRate = 30;
@@ -91,10 +77,8 @@ public class DisplaySetting : MonoBehaviour
                 Application.targetFrameRate = 240;
                 break;
             default:
-                Debug.Log("non-existent fps");
+                Debug.Log("Non-existent fps");
                 break;
         }
-        
     }
-
 }
