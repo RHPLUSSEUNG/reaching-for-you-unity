@@ -31,7 +31,7 @@ public class EnemyAI_Crab : EnemyAI_Base
             }
             else
             {
-                spriteController.SetAnimState(AnimState.Skill2);
+                spriteController.SetAnimState(AnimState.Trigger2);
                 isHide = false; // 2�� ������ �� ����
                 hideLapse = 0;
             }
@@ -40,7 +40,7 @@ public class EnemyAI_Crab : EnemyAI_Base
         {
             // ��ũ���� ��ų ����
             Debug.Log("Skill Used!");
-            spriteController.SetAnimState(AnimState.Skill1);
+            spriteController.SetAnimState(AnimState.Trigger1);
             isAttacked = true;
             stat.ActPoint -= 70;
             stat.Mp -= 60;

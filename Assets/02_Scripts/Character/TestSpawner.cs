@@ -12,8 +12,8 @@ public class TestSpawner : MonoBehaviour
     void Start()
     {
         idle = canvas.transform.GetChild(0).GetComponent<Button>();
-        hit = canvas.transform.GetChild(1).GetComponent<Button>();
-        attack = canvas.transform.GetChild(2).GetComponent<Button>();
+        attack = canvas.transform.GetChild(1).GetComponent<Button>();
+        hit = canvas.transform.GetChild(2).GetComponent<Button>();
         skill1 = canvas.transform.GetChild(3).GetComponent<Button>();
         skill2 = canvas.transform.GetChild(4).GetComponent<Button>();
         skill3 = canvas.transform.GetChild(5).GetComponent<Button>();
@@ -89,8 +89,8 @@ public class TestSpawner : MonoBehaviour
         idle.onClick.AddListener(() => GameObject.FindGameObjectWithTag("Monster").GetComponent<SpriteController>().SetAnimState(AnimState.Idle));
         hit.onClick.AddListener(() => GameObject.FindGameObjectWithTag("Monster").GetComponent<SpriteController>().SetAnimState(AnimState.Hit));
         attack.onClick.AddListener(() => GameObject.FindGameObjectWithTag("Monster").GetComponent<SpriteController>().SetAnimState(AnimState.Attack));
-        skill1.onClick.AddListener(() => GameObject.FindGameObjectWithTag("Monster").GetComponent<SpriteController>().SetAnimState(AnimState.Skill1));
-        skill2.onClick.AddListener(() => GameObject.FindGameObjectWithTag("Monster").GetComponent<SpriteController>().SetAnimState(AnimState.Skill2));
-        skill3.onClick.AddListener(() => GameObject.FindGameObjectWithTag("Monster").GetComponent<SpriteController>().SetAnimState(AnimState.Skill3));
+        skill1.onClick.AddListener(() => GameObject.FindGameObjectWithTag("Monster").GetComponent<SpriteController>().SetAnimState(AnimState.Trigger1));
+        skill2.onClick.AddListener(() => GameObject.FindGameObjectWithTag("Monster").GetComponent<SpriteController>().SetAnimState(AnimState.Trigger2));
+        skill3.onClick.AddListener(() => GameObject.FindGameObjectWithTag("Monster").GetComponent<SpriteController>().SetAnimState(AnimState.State1));
     }
 }

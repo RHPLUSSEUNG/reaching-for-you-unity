@@ -62,19 +62,18 @@ public class SpriteController : MonoBehaviour
                 anim.SetInteger("State", (int)AnimState.Move);
                 break;
             case (AnimState.Hit):
-                anim.SetInteger("State", (int)AnimState.Hit);
+                anim.SetTrigger("Hit");
                 break;
             case (AnimState.Attack):
-                anim.SetInteger("State", (int)AnimState.Attack);
+                anim.SetTrigger("Attack");
                 break;
-            case (AnimState.Skill1):
-                anim.SetInteger("State", (int)AnimState.Skill1);
+            case (AnimState.Trigger1):
+                anim.SetTrigger("Trigger1");
                 break;
-            case (AnimState.Skill2):
-                anim.SetInteger("State", (int)AnimState.Skill2);
+            case (AnimState.Trigger2):
+                anim.SetTrigger("Trigger2");
                 break;
         }
-        anim.SetInteger("State", (int)AnimState.Idle);
     }
     public void Flip(Direction _direction)  //입력 방향에 맞게 스프라이트를 회전
     {
