@@ -217,6 +217,34 @@ public class CharacterState : MonoBehaviour
     }
     #endregion
 
+    #region SkillState_Fire
+    int enchantFire = 0;
+    int recoveryFire = 0;
+    public void ChangeEnchantFire(int stack)
+    {
+        enchantFire += stack;
+    }
+
+    public bool GetEnchantFire()
+    {
+        if (enchantFire < 0)
+            return true;
+        return false;
+    }
+
+    public void ChangeRecoveryFire(int stack)
+    {
+        recoveryFire += stack;
+    }
+
+    public bool GetRecoveryFire()
+    {
+        if (recoveryFire < 0)
+            return true;
+        return false;
+    }
+    #endregion
+
     #region Charcter Condition
     public bool IsStun()
     {

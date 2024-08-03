@@ -6,7 +6,15 @@ public class Burn : Debuff
     public override void TimeCheck()
     {
         remainTurn--;
-        Managers.Active.Damage(target, tickDmg, ElementType.Fire);
+        if (target.GetComponent<CharacterState>().GetRecoveryFire())
+        {
+            Managers.Active.Heal(target, tickDmg);
+        }
+        else
+        {
+            Managers.Active.Damage(target, tickDmg, ElementType.Fire);
+        }
+        
         if(remainTurn == 0)
         {
             DeleteEffect();

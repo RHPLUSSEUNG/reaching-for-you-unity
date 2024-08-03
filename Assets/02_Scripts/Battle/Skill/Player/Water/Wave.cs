@@ -8,7 +8,7 @@ public class Wave : Active
     GameObject[] targets = new GameObject[2];
     int healing;
 
-    int compareDistance(GameObject character1, GameObject character2)
+    int CompareDistance(GameObject character1, GameObject character2)
     {
         Vector3 curpos = target.transform.position;
         return Vector3.Distance(curpos, character1.transform.position) < Vector3.Distance(curpos, character1.transform.position) ? -1 : 1;
@@ -17,7 +17,7 @@ public class Wave : Active
     {
         SkillExtent extent = Managers.Skill.extent.GetComponent<SkillExtent>();
         List<GameObject> targets = extent.SetArea(range, target_object, Managers.Battle.currentCharacter.transform.position, false);
-        targets.Sort(compareDistance);
+        targets.Sort(CompareDistance);
 
         switch (targets.Count) 
         {
