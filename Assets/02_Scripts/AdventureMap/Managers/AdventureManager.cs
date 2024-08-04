@@ -52,7 +52,7 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
-    public void SpawnPlane()
+    public void SpawnPlane(Collider collider)
     {
         if((StageCount % 5) != 0)
         {
@@ -75,6 +75,9 @@ public class AdventureManager : MonoBehaviour
             {
                 randomPassage.DeletePassage();
                 randomPlane.SpawnCure();
+                
+                PlayerStat player = collider.gameObject.GetComponentInParent<PlayerStat>();
+                player.Hp = player.MaxHp;
 
                 dynamicSpawner.DestroyObject();
             }

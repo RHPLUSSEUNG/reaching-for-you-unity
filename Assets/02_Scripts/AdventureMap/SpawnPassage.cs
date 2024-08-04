@@ -21,7 +21,7 @@ public class SpawnPassage : MonoBehaviour
             else
                 gameObject.GetComponent<CameraZone>().spwanIndex = 2;
 
-            AdventureManager.adventure.SpawnPlane();
+            AdventureManager.adventure.SpawnPlane(other);
         }
     }
 }
