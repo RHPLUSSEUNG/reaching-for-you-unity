@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AdventureManager : MonoBehaviour
@@ -18,6 +17,10 @@ public class AdventureManager : MonoBehaviour
     public RandomPassage randomPassage;
     public RandomPlane randomPlane;
     public DynamicSpawner dynamicSpawner;
+
+    [SerializeField]
+    private GameObject heal_effect;
+    public bool is_effect = false;
 
     void Awake()
     {
@@ -79,8 +82,22 @@ public class AdventureManager : MonoBehaviour
                 PlayerStat player = collider.gameObject.GetComponentInParent<PlayerStat>();
                 player.Hp = player.MaxHp;
 
+                StartCoroutine(StartEffect(heal_effect));
                 dynamicSpawner.DestroyObject();
             }
         }
+    }
+
+    public IEnumerator StartEffect(GameObject effect)
+    {
+        yield return new WaitForSeconds(1.5f);
+        
+        effect.GetComponent<ParticleSystem>().Play();
+        is_effect = true;
+        while(effect.GetComponent<ParticleSystem>().isPlaying)
+        {
+            yield return null;
+        }
+        is_effect = false;
     }
 }
