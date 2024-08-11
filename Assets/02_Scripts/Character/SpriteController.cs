@@ -73,6 +73,12 @@ public class SpriteController : MonoBehaviour
             case (AnimState.Trigger2):
                 anim.SetTrigger("Trigger2");
                 break;
+            case (AnimState.State1):
+                anim.SetInteger("State", (int)AnimState.State1);
+                break;
+            case (AnimState.State2):
+                anim.SetInteger("State", (int)AnimState.State2);
+                break;
         }
     }
     public void Flip(Direction _direction)  //입력 방향에 맞게 스프라이트를 회전
