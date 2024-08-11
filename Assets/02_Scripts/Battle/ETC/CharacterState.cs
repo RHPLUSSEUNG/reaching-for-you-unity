@@ -96,6 +96,7 @@ public class CharacterState : MonoBehaviour
     #region SkillState_Ground
     private bool ghost = false;
     private bool endure = false;
+    private int _bind = 0;
     private int accumulateDmg = 0;
 
     public void ChangeGhost(bool ghost)
@@ -131,6 +132,23 @@ public class CharacterState : MonoBehaviour
     public void ResetAccumulateDmg()
     {
         this.accumulateDmg = 0;
+    }
+
+    public void ChangeBind(bool bind)
+    {
+        if (bind)
+            _bind++;
+        else
+            _bind--;
+    }
+
+    public bool IsBind()
+    {
+        if(_bind > 0)
+        {
+            return true;
+        }
+        return false;
     }
     #endregion
 
@@ -196,6 +214,34 @@ public class CharacterState : MonoBehaviour
             return false;
         }
         return true;
+    }
+    #endregion
+
+    #region SkillState_Fire
+    int enchantFire = 0;
+    int recoveryFire = 0;
+    public void ChangeEnchantFire(int stack)
+    {
+        enchantFire += stack;
+    }
+
+    public bool GetEnchantFire()
+    {
+        if (enchantFire < 0)
+            return true;
+        return false;
+    }
+
+    public void ChangeRecoveryFire(int stack)
+    {
+        recoveryFire += stack;
+    }
+
+    public bool GetRecoveryFire()
+    {
+        if (recoveryFire < 0)
+            return true;
+        return false;
     }
     #endregion
 
