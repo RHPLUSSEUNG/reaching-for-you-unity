@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SettingUI : MonoBehaviour
 {
     [Header("Top Button Panel")]
+    [SerializeField] Button exitButton;
     [SerializeField] Button generalButton;
     [SerializeField] Button controlButton;
     [SerializeField] Scrollbar scrollbar;
@@ -15,8 +16,14 @@ public class SettingUI : MonoBehaviour
 
     private void Start()
     {
+        exitButton.onClick.AddListener(ExitButtonClick);
         generalButton.onClick.AddListener(() => TopButtonClick(true));
         controlButton.onClick.AddListener(() => TopButtonClick(false));
+    }
+
+    void ExitButtonClick()
+    {
+        transform.gameObject.SetActive(false);
     }
 
     void TopButtonClick(bool _isGeneral)
