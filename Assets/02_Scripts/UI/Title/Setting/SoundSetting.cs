@@ -16,21 +16,29 @@ public class SoundSetting : MonoBehaviour
     {
         masterSoundSlider.onValueChanged.AddListener(OnMasterSoundChanged);
         bgmSoundSlider.onValueChanged.AddListener(OnBGMSoundChanged);
-        sfxSoundSlider.onValueChanged.AddListener(OnSFXSoundChanged);        
+        sfxSoundSlider.onValueChanged.AddListener(OnSFXSoundChanged);
+
+        masterSoundSlider.value = 0.5f;
+        bgmSoundSlider.value = 0.5f;
+        sfxSoundSlider.value = 0.5f;
     }
 
     void OnMasterSoundChanged(float value)
     {
         audioMixer.SetFloat("Master", Mathf.Log10(value) * 20);
+        SoundManager.Instance.SetBGMVolume(value);
+        SoundManager.Instance.SetSFXVolume(value);
     }
 
     void OnBGMSoundChanged(float value)
     {
         audioMixer.SetFloat("BGM", Mathf.Log10(value) * 20);
+        SoundManager.Instance.SetBGMVolume(value);
     }
     
     void OnSFXSoundChanged(float value)
     {
         audioMixer.SetFloat("SFX", Mathf.Log10(value) * 20);
+        SoundManager.Instance.SetSFXVolume(value);
     }
 }

@@ -145,5 +145,15 @@ public class SoundManager:MonoBehaviour
             yield return null;
         }
     }
+
+    public void SetBGMVolume(float volume)
+    {
+        bgmAudio.volume = volume;
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        sfxAudio.volume = volume;
+    }
 }
 
