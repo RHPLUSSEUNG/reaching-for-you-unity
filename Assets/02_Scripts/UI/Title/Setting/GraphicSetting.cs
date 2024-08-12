@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
 public class GraphicSetting : MonoBehaviour
 {
     [SerializeField] TMP_Dropdown qualityDropdown;
@@ -33,6 +34,7 @@ public class GraphicSetting : MonoBehaviour
 
     void OnBrightnessChanged(float value)
     {
+        //[TODO:LSH] Difficult to work with URP
         brightnessValue = value;
         Screen.brightness = brightnessValue;
     }

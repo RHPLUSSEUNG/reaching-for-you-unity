@@ -17,6 +17,9 @@ public class DisplaySetting : MonoBehaviour
 
     private void Start()
     {
+        fullScreenToggle.onValueChanged.AddListener(OnFullScreenToggleChanged);
+        resolutionDropdown.onValueChanged.AddListener(OnResolutionDropdownChanged);
+        frameRateDropdown.onValueChanged.AddListener(OnFrameRateDropdownChanged);
         InitializeScreen();
     }
 
@@ -43,19 +46,21 @@ public class DisplaySetting : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
 
         fullScreenToggle.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
-
+        frameRateDropdown.value = 1;
         Application.targetFrameRate = 60;
     }
 
     public void OnFullScreenToggleChanged(bool isFullScreen)
     {
         screenMode = isFullScreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
+        Debug.Log("screenMode: " + screenMode + "resol: " + resolutions[resolutionIndex].width + "x" + resolutions[resolutionIndex].height);
         Screen.SetResolution(resolutions[resolutionIndex].width, resolutions[resolutionIndex].height, screenMode);
     }
 
     public void OnResolutionDropdownChanged(int resolutionIndex)
     {
         this.resolutionIndex = resolutionIndex;
+        Debug.Log("screenMode: " + screenMode + "resol: " + resolutions[resolutionIndex].width + "x" + resolutions[resolutionIndex].height);
         Screen.SetResolution(resolutions[resolutionIndex].width, resolutions[resolutionIndex].height, screenMode);
     }
 
