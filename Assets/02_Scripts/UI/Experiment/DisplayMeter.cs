@@ -33,7 +33,7 @@ public class DisplayMeter : MonoBehaviour
 
         // Current Resolution
         Resolution resolution = Screen.currentResolution;
-        string resolutionText = string.Format("{0} x {1} @ {2}Hz", resolution.width, resolution.height, resolution.refreshRate);
+        string resolutionText = string.Format("{0} x {1}", resolution.width, resolution.height);
 
         // Graphics Quality
         string qualityLevel = QualitySettings.names[QualitySettings.GetQualityLevel()];
