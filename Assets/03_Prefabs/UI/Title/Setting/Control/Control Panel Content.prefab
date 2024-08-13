@@ -566,7 +566,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 451735786945046123}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1101920660115214880}
+        m_TargetAssemblyTypeName: KeyBindManager, Assembly-CSharp
+        m_MethodName: BindKey
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1416135498112479163
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,7 +833,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6305301633482679777}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1101920660115214880}
+        m_TargetAssemblyTypeName: KeyBindManager, Assembly-CSharp
+        m_MethodName: BindKey
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1677512579923884751
 GameObject:
   m_ObjectHideFlags: 0
@@ -1611,7 +1635,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 733949771059076678}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1101920660115214880}
+        m_TargetAssemblyTypeName: KeyBindManager, Assembly-CSharp
+        m_MethodName: BindKey
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3572600151382280330
 GameObject:
   m_ObjectHideFlags: 0
@@ -1732,7 +1768,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1737573085653391759}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1101920660115214880}
+        m_TargetAssemblyTypeName: KeyBindManager, Assembly-CSharp
+        m_MethodName: BindKey
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3708316051025840517
 GameObject:
   m_ObjectHideFlags: 0
@@ -2419,7 +2467,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3942600901955768660}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1101920660115214880}
+        m_TargetAssemblyTypeName: KeyBindManager, Assembly-CSharp
+        m_MethodName: BindKey
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4350794623744279895
 GameObject:
   m_ObjectHideFlags: 0
@@ -3895,7 +3955,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5531804450600833147}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1101920660115214880}
+        m_TargetAssemblyTypeName: KeyBindManager, Assembly-CSharp
+        m_MethodName: BindKey
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8277786125437266090
 GameObject:
   m_ObjectHideFlags: 0
@@ -4310,6 +4382,7 @@ GameObject:
   - component: {fileID: 651367351446166224}
   - component: {fileID: 2585388431164056838}
   - component: {fileID: 1101920660115214880}
+  - component: {fileID: 1336484670277484466}
   m_Layer: 5
   m_Name: Control Panel Content
   m_TagString: Untagged
@@ -4391,6 +4464,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9637e584e2ff37649bb34e25ccd0f662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1336484670277484466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8805832045869538305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797b30dacaeb92347a5e7255532ade13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyText:
+  - {fileID: 3065691486199075092}
+  - {fileID: 2442356820661354253}
+  - {fileID: 331239047303663915}
+  - {fileID: 2642641921666926755}
+  - {fileID: 5984852340005275542}
+  - {fileID: 8996619107869650743}
 --- !u!1 &8927389010323847539
 GameObject:
   m_ObjectHideFlags: 0
