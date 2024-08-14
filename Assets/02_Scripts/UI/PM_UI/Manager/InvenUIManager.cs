@@ -7,6 +7,8 @@ public class InvenUIManager
     public Image head;
     public Image body;
     public Image weapon;
+    public GameObject consumeLayout;
+
     public Image equipIcon;
     public Image changeIcon;
     public GameObject invenContent;
@@ -58,7 +60,16 @@ public class InvenUIManager
 
     private void SetPlayerConsumeUI(Equip_Item equipInfo)
     {
+        if (player.GetComponent<Equip_Item>().Consumes.Count == 0)
+        {
+            return;
+        }
+        for (int i = 0; i < consumeLayout.transform.childCount; i++)
+        {
+            GameObject consume = consumeLayout.transform.GetChild(i).gameObject;
+            Image equip = Util.FindChild(consume, "EquipIcon").GetComponent<Image>();
 
+        }
     }
 
     public void SetInventory()
@@ -133,7 +144,7 @@ public class InvenUIManager
 
     public void EquipInvenUI()
     {
-        // Managers.Item.EquipItem(focusItem.GetComponent<EquipItemUI>().invenItem, player);
+        Managers.Item.EquipItem(focusItem.GetComponent<EquipItemUI>().invenItemID, player);
         equipIcon.sprite = changeIcon.sprite;       /// 아이템 데이터를 적용
         Managers.Prefab.Destroy(focusItem);
     }
@@ -158,6 +169,8 @@ public class InvenUIManager
         }
         if (prev_Item == null)
         {
+            Debug.Log($"player : {player}");
+            Debug.Log($"prev_item : {prev_Item}");
             return;
         }
         EquipItemUI itemUI = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
