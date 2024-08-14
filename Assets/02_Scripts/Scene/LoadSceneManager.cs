@@ -38,7 +38,7 @@ public class LoadSceneManager : MonoBehaviour
         {
             case SceneType.TITLE:
                 {
-                    nextScene = "ui-settings";
+                    nextScene = "setting-key-bind";
                     break;
                 }
             case SceneType.AM:
