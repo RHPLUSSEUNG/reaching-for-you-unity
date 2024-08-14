@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ public class InvenUI : UI_Base
         BodyEquip,
         WeaponEquip,
         InvenContent,
+        ConsumeLayout,
+        CharacterLayout,
         WeaponTab,
         ArmorTab,
         ConsumeTab,
@@ -34,6 +37,7 @@ public class InvenUI : UI_Base
         Managers.InvenUI.head = GetObject((int)invenUI.HeadEquip).GetComponent<Image>();
         Managers.InvenUI.body = GetObject((int)invenUI.BodyEquip).GetComponent<Image>();
         Managers.InvenUI.weapon = GetObject((int)invenUI.WeaponEquip).GetComponent<Image>();
+        Managers.InvenUI.consumeLayout = GetObject((int)invenUI.ConsumeLayout).GetComponent<GameObject>();
         Managers.InvenUI.invenContent = GetObject((int)invenUI.InvenContent);
 
         BindEvent(GetObject((int)invenUI.HeadEquip), HeadEquipButtonClick, Define.UIEvent.Click);
@@ -47,7 +51,7 @@ public class InvenUI : UI_Base
         armorRect = GetObject((int)invenUI.ArmorTab).GetComponent<RectTransform>();
         consumeRect = GetObject((int)invenUI.ConsumeTab).GetComponent<RectTransform>();
 
-        // Managers.InvenUI.SetInventory(); Inven Setting
+        Managers.InvenUI.SetInventory();
     }
 
     public void HeadEquipButtonClick(PointerEventData data)

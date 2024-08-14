@@ -6,7 +6,9 @@ public class InvenTest : MonoBehaviour
     public GameObject Test;
     void Start()
     {
-       
+        Managers.Item.AddItem(0);
+        Managers.Item.AddItem(1);
+        Managers.Item.AddItem(2);
     }
 
     private void Update()
