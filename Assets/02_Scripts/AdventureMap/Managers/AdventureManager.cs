@@ -17,6 +17,7 @@ public class AdventureManager : MonoBehaviour
     public RandomPassage randomPassage;
     public RandomPlane randomPlane;
     public DynamicSpawner dynamicSpawner;
+    public StaticSpawner staticSpawner;
 
     [SerializeField]
     private GameObject heal_effect;
@@ -34,6 +35,7 @@ public class AdventureManager : MonoBehaviour
             randomPlane.SpawnBasic();
             randomPassage.Init();
 
+            staticSpawner.RandomSpawn();
             dynamicSpawner.RandomSpawn();
         }
         else
@@ -43,6 +45,7 @@ public class AdventureManager : MonoBehaviour
                 randomPassage.DeletePassage();
                 randomPlane.SpawnSave();
 
+                staticSpawner.DestroyObject();
                 dynamicSpawner.DestroyObject();
             }
             else 
@@ -50,6 +53,7 @@ public class AdventureManager : MonoBehaviour
                 randomPassage.DeletePassage();
                 randomPlane.SpawnCure();
 
+                staticSpawner.DestroyObject();
                 dynamicSpawner.DestroyObject();
             }
         }
@@ -63,6 +67,7 @@ public class AdventureManager : MonoBehaviour
             randomPassage.DeletePassage();
             randomPassage.AddPassage();
 
+            staticSpawner.RandomSpawn();
             dynamicSpawner.RandomSpawn();
         }
         else
@@ -72,6 +77,7 @@ public class AdventureManager : MonoBehaviour
                 randomPassage.DeletePassage();
                 randomPlane.SpawnSave();
 
+                staticSpawner.DestroyObject();
                 dynamicSpawner.DestroyObject();
             }
             else 
@@ -83,6 +89,7 @@ public class AdventureManager : MonoBehaviour
                 player.Hp = player.MaxHp;
 
                 StartCoroutine(StartEffect(heal_effect));
+                staticSpawner.DestroyObject();
                 dynamicSpawner.DestroyObject();
             }
         }
