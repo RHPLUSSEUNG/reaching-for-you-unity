@@ -15,9 +15,8 @@ public class CoverData : MonoBehaviour
     public bool isHiding = false; // 플레이어가 엄폐하고 있는지 확인하는 변수, 기본값은 false
 
     public float damagePercent;
+    public float angle;
 
-    GameObject character;
-    CharacterState characterstate;
     EntityStat characterstat;
 
     public Vector3 playerPosition; // 플레이어의 위치를 저장하는 변수
@@ -64,15 +63,9 @@ public class CoverData : MonoBehaviour
     public void SetHiding(bool hiding)
     {
         isHiding = hiding;
-    }
 
-    // 두 위치 간의 각도를 계산하는 메서드
-    public float CalculateAngle(Vector3 fromPosition, Vector3 toPosition)
-    {
-        Vector3 direction = toPosition - fromPosition;
-        float calculatedAngle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
-        calculatedAngle = Mathf.Abs(calculatedAngle);
-        return calculatedAngle;
+        if(characterstat)
+            characterstat.Hidden = isHiding;
     }
 
     // 플레이어의 위치를 저장하고 엄폐 상태를 설정하는 메서드
@@ -98,7 +91,10 @@ public class CoverData : MonoBehaviour
             Physics.Raycast(coverPosition, Vector3.right, out hitInfo, 1f)) 
             {
                 if(hitInfo.collider.tag == "Player")
+                {
+                    characterstat = hitInfo.collider.gameObject.GetComponentInParent<EntityStat>();
                     return true;
+                }
             }
         return false;
     }
