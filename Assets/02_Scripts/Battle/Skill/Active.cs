@@ -30,5 +30,6 @@ public abstract class Active : Skill
         {
             other = true;
         }
+        Effect = Managers.Skill.InstantiateEffect(this.name, false);
     }
 }

@@ -7,30 +7,52 @@ public class StaticSpawner : MonoBehaviour
     [SerializeField]
     GameObject[] objectPosition = null;
     [SerializeField]
-    GameObject objectPrefab = null;
+    GameObject[] objectPrefab = null;
     bool[] isActive;
+
+    private List<GameObject> spawnedObject = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
         isActive = new bool[objectPosition.Length];
-        RandomSpawn();
+        // RandomSpawn();
     }
 
     // Spawns objects randomly at each position in the objectPosition array
-    void RandomSpawn()
+    public void RandomSpawn()
     {
+        DestroyObject();
         int spawnCount = Random.Range(1, objectPosition.Length);
 
         for(int i = 0; i < spawnCount; i++) 
         {
-            int randomIndex = Random.Range(0, objectPosition.Length);
+            int randomPositionIndex = Random.Range(0, objectPosition.Length);
+            int randomIndex = Random.Range(0, objectPrefab.Length);
 
-            if(!isActive[randomIndex])
+            Vector3 spawnPosition;
+
+            if(!isActive[randomPositionIndex])
             {
-                isActive[randomIndex] = true;
-                Instantiate(objectPrefab, objectPosition[randomIndex].transform.position + (Vector3.up * 0.5f), Quaternion.identity);
+                isActive[randomPositionIndex] = true;
+                spawnPosition = objectPosition[randomPositionIndex].transform.position + objectPrefab[randomIndex].transform.position;
+
+                GameObject spawned = Instantiate(objectPrefab[randomIndex], spawnPosition, Quaternion.identity);
+                spawnedObject.Add(spawned);
             }
+        }
+    }
+
+    public void DestroyObject()
+    {
+        foreach(GameObject o in spawnedObject)
+        {
+            Destroy(o);
+        }
+
+        for(int i = 0; i < isActive.Length; i++)
+        {
+            isActive[i] = false;
         }
     }
 }

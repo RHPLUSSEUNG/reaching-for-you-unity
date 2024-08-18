@@ -76,6 +76,9 @@ public class ActUI : UI_Popup
         rangeUI.SetMapInfo();
         skillRangeUI = gameObject.GetComponent<SkillRangeUI>();
         skillRangeUI.SetMapInfo();
+
+        // Consume Test
+        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<Equip_Item>().AddConsume(1, 3);
     }
 
     public void UpdateCharacterInfo()
@@ -84,7 +87,7 @@ public class ActUI : UI_Popup
         Managers.UI.ShowUI(gameObject);
 
         SkillList skillList = Managers.Battle.currentCharacter.GetComponent<SkillList>();
-        // Equip_Item consumeList = Managers.Battle.currentCharacter.GetComponent<Equip_Item>();
+        Equip_Item consumeList = Managers.Battle.currentCharacter.GetComponent<Equip_Item>();
 
         int curMp = Managers.Battle.currentCharacter.GetComponent<EntityStat>().Mp;
         for (int i = 0; i < skillList.list.Count; i++)
@@ -105,11 +108,11 @@ public class ActUI : UI_Popup
             }
         }
 
-        //foreach (KeyValuePair<int, int> item in consumeList.Consumes)
-        //{
-        //    BattleItemUI itemButton = Managers.UI.MakeSubItem<BattleItemUI>(itemLayout.transform, "ItemButton");
-        //    //itemButton.SetItem(item.Key, item.Value, );
-        //}
+        foreach (KeyValuePair<int, int> item in consumeList.Consumes)
+        {
+            BattleItemUI itemButton = Managers.UI.MakeSubItem<BattleItemUI>(itemLayout.transform, "ItemButton");
+            // itemButton.SetItem(item.Key, item.Value);
+        }
 
         Managers.UI.uiState = UIState.Move;
         Managers.BattleUI.PlayerMovePhaseUI();

@@ -38,7 +38,7 @@ public class LoadSceneManager : MonoBehaviour
         {
             case SceneType.TITLE:
                 {
-                    nextScene = "TITLE_PT_3";
+                    nextScene = "setting-key-bind";
                     break;
                 }
             case SceneType.AM:

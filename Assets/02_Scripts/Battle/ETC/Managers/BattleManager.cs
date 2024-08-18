@@ -174,6 +174,11 @@ public class BattleManager
             yield break;
         }
 
+        if (currentCharacter.GetComponent<CharacterState>().IsBind())
+        {
+            currentCharacter.GetComponent<EntityStat>().MovePoint = 0;
+        }
+
         if (currentCharacter.CompareTag("Player"))
         {
             Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Player Turn!"));

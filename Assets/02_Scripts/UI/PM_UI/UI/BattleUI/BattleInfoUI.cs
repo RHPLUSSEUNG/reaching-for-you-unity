@@ -6,8 +6,8 @@ public class BattleInfoUI : UI_Popup
     enum battleInfoUI
     {
         CharacterIcon,
-        HpText,
-        MpText,
+        Hp,
+        Mp,
         // TODO : CharacterState 추가
     }
 
@@ -21,8 +21,7 @@ public class BattleInfoUI : UI_Popup
     }
 
     public void SetInfo(GameObject character)
-    {
-        // 현재 character가 collider를 들고오는중
+    {         
         EntityStat stat = character.GetComponent<EntityStat>();
         CharacterState state = character.GetComponent<CharacterState>();
 
@@ -31,11 +30,43 @@ public class BattleInfoUI : UI_Popup
 
         string hpText;
         string mpText;
-        hpText = $"{stat.MaxHp}/{stat.Hp}";
-        GetObject((int)battleInfoUI.HpText).GetComponent<Text>().text = hpText;
-        mpText = $"{stat.MaxMp}/{stat.Mp}";
-        GetObject((int)battleInfoUI.MpText).GetComponent<Text>().text = mpText;
+        hpText = $"{stat.MaxHp} / {stat.Hp}";
+        GetObject((int)battleInfoUI.Hp).GetComponent<Text>().text = hpText;
+        mpText = $"{stat.MaxMp} / {stat.Mp}";
+        GetObject((int)battleInfoUI.Mp).GetComponent<Text>().text = mpText;
 
         // TODO : State 반영
+    }
+
+    public void SetPosition()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        RectTransform uiTransform = gameObject.GetComponent<RectTransform>();
+
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        float uiWidth = uiTransform.rect.width;
+        float uiHeight = uiTransform.rect.height;
+
+        Vector3 uiPos = mousePos;
+        if (mousePos.x + uiWidth > screenWidth)
+        {
+            uiPos.x = mousePos.x - (uiWidth / 2);
+        }
+        else
+        {
+            uiPos.x = mousePos.x + (uiWidth / 2);
+        }
+        if (mousePos.y - uiHeight < 0)
+        {
+            uiPos.y = mousePos.y + (uiHeight / 2);
+        }
+        else
+        {
+            uiPos.y = mousePos.y;
+        }
+
+        uiTransform.position = uiPos;
     }
 }

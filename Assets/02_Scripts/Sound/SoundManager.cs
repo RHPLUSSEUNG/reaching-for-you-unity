@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager:MonoBehaviour
 {
-    public static SoundManager Instance;   
-
+    public static SoundManager Instance;    
     [SerializeField] AudioSource bgmAudio;
     [SerializeField] AudioSource sfxAudio;
     Dictionary<string, AudioClip> bgmClips = new Dictionary<string, AudioClip>();
@@ -145,13 +145,13 @@ public class SoundManager:MonoBehaviour
             yield return null;
         }
     }
-    
-    public void SetMusicVolume(float volume)
+
+    public void SetBGMVolume(float volume)
     {
         bgmAudio.volume = volume;
     }
 
-    public void SetSfxsVolume(float volume)
+    public void SetSFXVolume(float volume)
     {
         sfxAudio.volume = volume;
     }
