@@ -11,13 +11,19 @@ public class InvenUIManager
 
     public Image equipIcon;
     public Image changeIcon;
+    public GameObject invenUI;
     public GameObject invenContent;
     public GameObject player;
     public GameObject focusItem;
     public EquipUI equipUI = null;
     public ItemType type;
     public EquipPart part;
+    public bool inven_state = false;
 
+    //test
+    public Sprite[] test_sprite = new Sprite[3];
+
+    #region Character Equip Info
     public void SetPlayerEquipUI(Equip_Item equipInfo)
     {
         SetPlayerHeadUI(equipInfo);
@@ -71,9 +77,12 @@ public class InvenUIManager
 
         }
     }
+    #endregion
+
 
     public void SetInventory()
     {
+        Debug.Log("인벤토리 세팅");
         for (int i = 0; i< Managers.Item.equipmentInven.Count; i++)
         {
             EquipItemUI equipItem = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
@@ -83,15 +92,12 @@ public class InvenUIManager
         }
         foreach (KeyValuePair<int, int> consume in Managers.Item.consumeInven)
         {
-            ConsumeRepairUI consumeItem = Managers.UI.MakeSubItem<ConsumeRepairUI>(invenContent.transform, "ConsumeRepairUI");
-            // Image icon = consume.Key.GetComponent<Image>();
-            // consumeItem.SetInfo(icon, consume.Value);
+            ConsumeItemUI consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
+            consumeItem.invenItemID = consume.Key;
+            Debug.Log($"invenItemID : {consumeItem.invenItemID}");
+            consumeItem.SetItemInfo(test_sprite[consume.Key]);      // test 스프라이트 적용
+            Managers.UI.HideUI(consumeItem.gameObject);
         }
-    }
-
-    public void CreateEquipUI()
-    {
-        equipUI = Managers.UI.CreatePopupUI<EquipUI>("EquipUI");
     }
 
     public void UpdateInvenUI()
@@ -192,5 +198,15 @@ public class InvenUIManager
     public void ConsumeEquipUI()
     {
 
+    }
+
+    public void CreateEquipUI()
+    {
+        equipUI = Managers.UI.CreatePopupUI<EquipUI>("EquipUI");
+    }
+
+    public void ManageInvenUI()
+    {
+        invenUI.SetActive(inven_state);
     }
 }

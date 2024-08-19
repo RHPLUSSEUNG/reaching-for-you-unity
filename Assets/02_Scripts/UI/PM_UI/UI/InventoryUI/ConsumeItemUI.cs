@@ -18,19 +18,20 @@ public class ConsumeItemUI : InvenItemUI
     {
         Bind<GameObject>(typeof(consumeItemUI));
         BindEvent(gameObject, ClickConsumeItem, Define.UIEvent.Click);
+    }
+
+    public void SetItemInfo(Sprite item)
+    {
+        // 아이템의 정보로 변경
+        ItemData itemData = Managers.Data.GetItemData(invenItemID);
+        itemType = itemData.ItemType;
 
         itemIcon = GetObject((int)consumeItemUI.ItemIcon).GetComponent<Image>();
         itemCount = GetObject((int)consumeItemUI.ItemCount).GetComponent<Text>();
         itemCount.text = count.ToString();
-    }
-
-    public void SetItemInfo(Image item)
-    {
-        // 아이템의 정보로 변경
-        itemType = invenItem.GetComponent<Item>().type;
-
-        itemIcon = GetObject((int)consumeItemUI.ItemIcon).GetComponent<Image>();
-        itemIcon.sprite = item.sprite;
+        Text itemName = GetObject((int)consumeItemUI.ItemName).GetComponent<Text>();
+        itemName.text = itemData.ItemName;
+        itemIcon.sprite = item;
     }
     
     public void IncreaseCountUI()

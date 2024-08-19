@@ -1,20 +1,46 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InvenTest : MonoBehaviour
 {
     public GameObject Test;
-    void Start()
+
+    public Sprite[] test_sprite = new Sprite[3];
+    void Awake ()
     {
+        Debug.Log("아이템 생성");
         Managers.Item.AddItem(0);
         Managers.Item.AddItem(1);
         Managers.Item.AddItem(2);
+
+        for(int i = 0; i < test_sprite.Length; i++)
+        {
+            Managers.InvenUI.test_sprite[i] = test_sprite[i];
+        }
+        Debug.Log("아이템 생성 완료");
+
+        Managers.InvenUI.SetInventory();
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Managers.InvenUI.inven_state = !Managers.InvenUI.inven_state;
+            Managers.InvenUI.ManageInvenUI();
+        }
+    }
+
+    private void TempUpdate()
+    {
         if(Input.GetKeyDown(KeyCode.I))
         {
+            foreach(KeyValuePair<int, int> consume in Managers.Item.consumeInven)
+            {
+                Debug.Log($"consumeInven Count : {Managers.Item.consumeInven.Count}");
+                Debug.Log($"consume : {consume.Key}, {consume.Value}");
+            }
             Managers.InvenUI.player = gameObject;
             Equip_Item equipInfo = Managers.InvenUI.player.GetComponent<Equip_Item>();
             Managers.InvenUI.SetPlayerEquipUI(equipInfo);
@@ -35,7 +61,7 @@ public class InvenTest : MonoBehaviour
                     ConsumeItemUI consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
                     consumeItem.invenItem = Test.transform.GetChild(i).gameObject;
                     Image itemIcon = Test.transform.GetChild(i).gameObject.GetComponent<Image>();
-                    consumeItem.SetItemInfo(itemIcon);
+                    consumeItem.SetItemInfo(itemIcon.sprite);
                     Managers.UI.HideUI(consumeItem.gameObject);
                 }
             }
