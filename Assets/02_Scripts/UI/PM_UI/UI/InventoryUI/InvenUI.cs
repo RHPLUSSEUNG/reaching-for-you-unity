@@ -51,7 +51,9 @@ public class InvenUI : UI_Base
         armorRect = GetObject((int)invenUI.ArmorTab).GetComponent<RectTransform>();
         consumeRect = GetObject((int)invenUI.ConsumeTab).GetComponent<RectTransform>();
 
-        Managers.InvenUI.SetInventory();
+        Managers.InvenUI.invenUI = gameObject;
+        Managers.InvenUI.inven_state = false;
+        Managers.UI.HideUI(gameObject);
     }
 
     public void HeadEquipButtonClick(PointerEventData data)
