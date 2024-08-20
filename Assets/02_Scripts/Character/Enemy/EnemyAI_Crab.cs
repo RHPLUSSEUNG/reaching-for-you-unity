@@ -31,6 +31,7 @@ public class EnemyAI_Crab : EnemyAI_Base
             }
             else
             {
+                spriteController.SetAnimState(AnimState.Trigger2);
                 isHide = false; // 2�� ������ �� ����
                 hideLapse = 0;
             }
@@ -39,6 +40,7 @@ public class EnemyAI_Crab : EnemyAI_Base
         {
             // ��ũ���� ��ų ����
             Debug.Log("Skill Used!");
+            spriteController.SetAnimState(AnimState.Trigger1);
             isAttacked = true;
             stat.ActPoint -= 70;
             stat.Mp -= 60;
@@ -87,14 +89,12 @@ public class EnemyAI_Crab : EnemyAI_Base
 
         if (!isMoved)
         {
-            PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
+            GetRandomLoc(stat.MovePoint);
         }
         else
         {
             BeforeTrunEnd();
         }
-
-
     }
     public override void OnPathFailed()
     {
@@ -129,6 +129,7 @@ public class EnemyAI_Crab : EnemyAI_Base
     }
     public override void OnHit(int damage)
     {
+        spriteController.SetAnimState(AnimState.Hit);
         stat.Hp -= damage;
         lastDamaged += damage;
     }

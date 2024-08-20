@@ -38,6 +38,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
                 PathFinder.RequestSkillRange(transform.position, stat.AttackRange, RangeType.Normal, OnSkillRangeFound);
                 isSIzeMode = false;
                 tailPos = this.transform.GetChild(0).transform.GetChild(2);
+                projectile.SetActive(true);
                 projectile.GetComponent<ArcProjectile>().Shoot(tailPos, targetObj.transform);
                 Attack(50);
             }
@@ -47,11 +48,13 @@ public class EnemyAI_Lizard : EnemyAI_Base
                 Debug.Log("Skill Used!");
                 stat.ActPoint -= 60;
                 stat.Mp -= 60;
+                spriteController.SetAnimState(AnimState.Trigger2);
                 skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetObj.transform.parent.gameObject);
                 BeforeTrunEnd();
             }
             else  // �� ������ X, ������ 2ĭ ��
             {
+                spriteController.SetAnimState(AnimState.Trigger1);
                 isAttacked = true;
                 stat.ActPoint -= 50;
                 isSIzeMode = true;
@@ -106,7 +109,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
         if (!isMoved)
         {
             isSIzeMode = false;
-            PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
+            GetRandomLoc(stat.MovePoint);
         }
         else
             BeforeTrunEnd();

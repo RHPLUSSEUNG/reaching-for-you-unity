@@ -23,7 +23,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
     protected int targetDistance;
 
     protected bool isMoved;
-    protected bool isTargetEmpty;
+    protected bool isTargetFound;
     protected bool isAttacked;
 
     protected int actPoint;
@@ -38,14 +38,10 @@ public abstract class EnemyAI_Base : MonoBehaviour
         skillList = GetComponent<SkillList>();
         //skillList.AddSkill(Managers.Skill.Instantiate(0)); 각 몬스터마다 해당하는 번호의 스킬 가져오기
     }
-    private void LateUpdate()
-    {
-        spriteController.SetAnimState(AnimState.Idle);
-    }
     public abstract void ProceedTurn(); // 턴 진행
     public abstract void SpecialCheck();  // 고유 기믹 체크
-    public abstract void OnTargetFoundSuccess();  // 이동할 대상 발견 시 행동
-    public abstract void OnTargetFoundFail(); // 이동할 대상 발견 실패 시 행동
+    public abstract void OnTargetFoundSuccess();  // 대상 발견 시 행동
+    public abstract void OnTargetFoundFail(); // 대상 발견 실패 시 행동
     public abstract void OnPathFailed();    // 경로를 찾을 수 없을 때
     public abstract void OnHit(int damage);
     public abstract void OnMoveEnd();   // 이동이 끝났을 때
@@ -84,7 +80,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
             Debug.Log("Search Success");
             targetPos = newTargetPos;
             targetObj = newTargetObj;
-            isTargetEmpty = false;
+            isTargetFound = true;
             SetDirection();
             OnTargetFoundSuccess();
         }
@@ -146,14 +142,14 @@ public abstract class EnemyAI_Base : MonoBehaviour
         Managers.Active.Damage(targetObj.transform.parent.gameObject, stat.BaseDamage); //targetObj 반환값 = 콜라이더를 가지고 있는 오브젝트 > 플레이어는 하위 오브젝트에 콜라이더 존재
         OnAttackSuccess();
     }
-    public void GetRandomLoc()
+    public void GetRandomLoc(int radius)
     {
-        PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
+        PathFinder.RequestRandomLoc(transform.position, radius, OnRandomLoc);
     }    
     public void OnRandomLoc(Vector3 newTargetPos)
     {
         targetPos = newTargetPos;
-        isTargetEmpty = true;
+        isTargetFound = false;
         Move();
     }
     public void SetTargetTag(string tag)
@@ -183,7 +179,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
     IEnumerator FollowPath()
     {
         targetIndex = 0;
-        if (path.Count == 0 || (path.Count <= stat.AttackRange && !isTargetEmpty))   // 이동할 필요 X
+        if (path.Count == 0 || (path.Count <= stat.AttackRange && isTargetFound))   // 이동할 필요 X
         {
             Debug.Log("Already At The Position");
             stat.ActPoint -= 10 * (targetIndex + 1);    // 이동 시 소모할 행동력
@@ -209,7 +205,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
 
             if (transform.position == moveTarget)
             {
-                if (isTargetEmpty)  // 대상 칸까지 이동 시
+                if (!isTargetFound)  // 대상 칸까지 이동 시
                 {
                     if (targetIndex + 1 >= path.Count || targetIndex + 1 >= stat.MovePoint)
                     {
