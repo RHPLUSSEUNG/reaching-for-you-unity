@@ -51,14 +51,14 @@ public class TestSpawner : MonoBehaviour
     public void SpawnGolem()
     {
         Despawn();
-        GameObject obj = Resources.Load<GameObject>("Prefabs/Monster/Enemy_Crab");
+        GameObject obj = Resources.Load<GameObject>("Prefabs/Monster/Enemy_Golem");
         Instantiate(obj, Vector3.zero, Quaternion.identity);
         SetButton();
     }
     public void SpawnWorker()
     {
         Despawn();
-        GameObject obj = Resources.Load<GameObject>("Prefabs/Monster/Enemy_Crab");
+        GameObject obj = Resources.Load<GameObject>("Prefabs/Monster/Enemy_Worker");
         Instantiate(obj, Vector3.zero, Quaternion.identity);
         SetButton();
 
@@ -66,7 +66,7 @@ public class TestSpawner : MonoBehaviour
     public void SpawnSoldier()
     {
         Despawn();
-        GameObject obj = Resources.Load<GameObject>("Prefabs/Monster/Enemy_Crab");
+        GameObject obj = Resources.Load<GameObject>("Prefabs/Monster/Enemy_Soldier");
         Instantiate(obj, Vector3.zero, Quaternion.identity);
         SetButton();
 
@@ -74,7 +74,7 @@ public class TestSpawner : MonoBehaviour
     public void SpawnQueen()
     {
         Despawn();
-        GameObject obj = Resources.Load<GameObject>("Prefabs/Monster/Enemy_Crab");
+        GameObject obj = Resources.Load<GameObject>("Prefabs/Monster/Enemy_Queen");
         Instantiate(obj, Vector3.zero, Quaternion.identity);
         SetButton();
     }

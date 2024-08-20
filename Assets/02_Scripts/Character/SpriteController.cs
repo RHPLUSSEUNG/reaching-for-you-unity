@@ -7,6 +7,7 @@ public class SpriteController : MonoBehaviour
 {
     private Transform sprite;
     private Transform character;
+    private Transform char_base;
     private Transform shadow;
     [SerializeField]
     float rotateSpeed = 5.0f;
@@ -27,6 +28,7 @@ public class SpriteController : MonoBehaviour
     {
         sprite = this.transform.GetChild(0);
         character = sprite.GetChild(0);
+        char_base = character.GetChild(0);
         shadow = sprite.GetChild(1);
         anim = character.GetComponent<Animator>();
         isIdle = true;
@@ -46,6 +48,7 @@ public class SpriteController : MonoBehaviour
             StartCoroutine(RotateCharacter(Direction.Right));
         }
         StartCoroutine(RotateSprite(mainCamera.transform.eulerAngles.y));
+        shadow.position = char_base.position;   // 캐릭터 아래쪽 그림자 position
     }
     public void SetAnimState(AnimState state)
     {

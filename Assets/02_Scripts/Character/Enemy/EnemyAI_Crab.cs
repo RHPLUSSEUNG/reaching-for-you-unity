@@ -89,7 +89,7 @@ public class EnemyAI_Crab : EnemyAI_Base
 
         if (!isMoved)
         {
-            PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
+            GetRandomLoc(stat.MovePoint);
         }
         else
         {

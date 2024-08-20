@@ -1,14 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class EnemyAI_Queen : EnemyAI_Base
 {
-    protected int egg_count;
-    protected bool isAnyAllyNearby;
+    protected int egg_Count;
+
+    private void Start()
+    {
+        stat = GetComponent<EnemyStat>();
+        spriteController = GetComponent<SpriteController>();
+        isTurnEnd = true;
+        skillList = GetComponent<SkillList>();
+        //skillList.AddSkill(Managers.Skill.InstantiateSkill(0, true));
+        SetTargetTag("Monster");
+    }
     public override void BeforeTrunEnd()
     {
-        throw new System.NotImplementedException();
+        TurnEnd();
     }
 
     public override void OnAttackFail()
@@ -23,48 +33,51 @@ public class EnemyAI_Queen : EnemyAI_Base
 
     public override void OnHit(int damage)
     {
-        throw new System.NotImplementedException();
+        spriteController.SetAnimState(AnimState.Hit);
+        stat.Hp -= damage;
     }
 
     public override void OnMoveEnd()
     {
-        throw new System.NotImplementedException();
+        // 공격력 or 방어력 증가 스킬 사용
+        BeforeTrunEnd();
     }
 
     public override void OnPathFailed()
     {
-        throw new System.NotImplementedException();
+        OnMoveEnd();
     }
 
     public override void OnTargetFoundFail()
     {
-        throw new System.NotImplementedException();
+        GetRandomLoc(stat.MovePoint);   //가까운 아군 미발견 시 이동범위 랜덤 이동
     }
 
     public override void OnTargetFoundSuccess()
     {
-        throw new System.NotImplementedException();
+        Move();
     }
 
     public override void ProceedTurn()
     {
-        throw new System.NotImplementedException();
+        if (!isTurnEnd)
+            return;
+
+        OnTurnStart();
+        SpecialCheck();
+        if (!isAttacked)
+        {
+            Search(stat.Sight);
+        }
     }
 
     public override void SpecialCheck()
     {
-        throw new System.NotImplementedException();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(egg_Count < 3)   // 임시 숫자
+        {
+            GetRandomLoc(5);
+            //해당 위치에 알 생성
+            isAttacked = true;
+        }
     }
 }

@@ -109,7 +109,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
         if (!isMoved)
         {
             isSIzeMode = false;
-            PathFinder.RequestRandomLoc(transform.position, stat.MovePoint, OnRandomLoc);
+            GetRandomLoc(stat.MovePoint);
         }
         else
             BeforeTrunEnd();
