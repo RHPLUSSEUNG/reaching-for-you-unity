@@ -25,17 +25,21 @@ public class EquipItemUI : InvenItemUI
         itemIcon = GetObject((int)invenItemUI.ItemIcon).GetComponent<Image>();
     }
 
-    public void SetItemInfo(Image item)
+    public void SetItemInfo()
     {
+        ItemData itemData = Managers.Data.GetItemData(invenItemID);
         // 아이템의 정보로 변경
-        itemType = invenItem.GetComponent<Item>().type;
+        itemType = itemData.ItemType;
         if (itemType == ItemType.Equipment)
         {
-            equipPart = invenItem.GetComponent<Equipment>().part;
+            // 장비템 Part
         }
         
         itemIcon = GetObject((int)invenItemUI.ItemIcon).GetComponent<Image>();
-        itemIcon.sprite = item.sprite;
+        // 아이콘에 Sprite 삽입
+        Text itemName = GetObject((int)invenItemUI.ItemName).GetComponent<Text>();
+        itemName.text = itemData.ItemName;
+        
     }
 
     public void ClickInvenItem(PointerEventData data)

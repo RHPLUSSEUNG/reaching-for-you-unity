@@ -27,8 +27,22 @@ public class InvenTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            Managers.InvenUI.inven_state = !Managers.InvenUI.inven_state;
-            Managers.InvenUI.ManageInvenUI();
+            if(Managers.InvenUI.inven_state == false)
+            {
+                Managers.InvenUI.inven_state = true;
+                Managers.UI.ShowUI(Managers.InvenUI.invenUI);
+            }
+            else
+            {
+                Managers.InvenUI.inven_state = false;
+                Managers.UI.HideUI(Managers.InvenUI.invenUI);
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            Managers.Item.AddItem(0);
+            Managers.InvenUI.TempInvenUI(0);
         }
     }
 
@@ -53,7 +67,7 @@ public class InvenTest : MonoBehaviour
                     EquipItemUI equipItem = Managers.UI.MakeSubItem<EquipItemUI>(Managers.InvenUI.invenContent.transform, "EquipItem");
                     equipItem.invenItem = Test.transform.GetChild(i).gameObject;
                     Image itemIcon = Test.transform.GetChild(i).gameObject.GetComponent<Image>();       // 아이템 정보 가져오기
-                    equipItem.SetItemInfo(itemIcon);
+                    equipItem.SetItemInfo();
                     Managers.UI.HideUI(equipItem.gameObject);
                 }
                 else

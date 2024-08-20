@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -82,21 +83,54 @@ public class InvenUIManager
 
     public void SetInventory()
     {
-        Debug.Log("인벤토리 세팅");
         for (int i = 0; i< Managers.Item.equipmentInven.Count; i++)
         {
             EquipItemUI equipItem = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
-            // equipItem.invenItem = Managers.Item.equipmentInven[i];
-            // equipItem.SetItemInfo();  아이템 정보 가져오기
+            equipItem.invenItemID = Managers.Item.equipmentInven[i];
+            equipItem.SetItemInfo();
             Managers.UI.HideUI(equipItem.gameObject);
         }
         foreach (KeyValuePair<int, int> consume in Managers.Item.consumeInven)
         {
             ConsumeItemUI consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
             consumeItem.invenItemID = consume.Key;
-            Debug.Log($"invenItemID : {consumeItem.invenItemID}");
             consumeItem.SetItemInfo(test_sprite[consume.Key]);      // test 스프라이트 적용
             Managers.UI.HideUI(consumeItem.gameObject);
+        }
+    }
+
+    public void TempInvenUI(int itemID)       // 아이템 획득 시 인벤토리 최신화(생성 후)
+    {
+        ItemData itemData = Managers.Data.GetItemData(itemID);
+        if(itemData.ItemType == ItemType.Equipment)
+        {
+            EquipItemUI equipItem = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
+            equipItem.invenItemID = itemID;
+            equipItem.SetItemInfo();
+            Managers.UI.HideUI(equipItem.gameObject);
+        }
+        else
+        {
+            if(Managers.Item.consumeInven.ContainsKey(itemID))
+            {
+                // Count 증가, 보완 필요
+                for(int i = 0; i < invenContent.transform.childCount; i++)
+                {
+                    InvenItemUI InvenItem = invenContent.transform.GetChild(i).GetComponent<InvenItemUI>();
+                    if(itemID == InvenItem.invenItemID)
+                    {
+                        ConsumeItemUI consumeItem = invenContent.transform.GetChild(i).GetComponent<ConsumeItemUI>();
+                        consumeItem.IncreaseCountUI();
+                    }
+                }
+            }
+            else
+            {
+                ConsumeItemUI consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
+                consumeItem.invenItemID = itemID;
+                consumeItem.SetItemInfo(test_sprite[itemID]);      // test 스프라이트 적용
+                Managers.UI.HideUI(consumeItem.gameObject);
+            }
         }
     }
 
@@ -182,7 +216,7 @@ public class InvenUIManager
         EquipItemUI itemUI = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
         Image unequipIcon = prev_Item.GetComponent<Image>();
         itemUI.invenItem = prev_Item;
-        itemUI.SetItemInfo(unequipIcon);        // 아이템 데이터를 적용
+        itemUI.SetItemInfo();        // 아이템 데이터를 적용
 
         Managers.Item.UnEquipItem(prev_Item, player);
         equipIcon.sprite = null;
