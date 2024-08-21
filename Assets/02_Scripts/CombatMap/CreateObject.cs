@@ -256,7 +256,6 @@ public class CreateObject : MonoBehaviour
     public void PlaceEnemy()
     {
         int monsterCount = 3;
-        Debug.Log(monsterCount);
         Managers.Party.MakeMonsterParty(monsterCount);
 
         for(int i = 0; i < monsterCount; )
@@ -344,10 +343,6 @@ public class CreateObject : MonoBehaviour
             if (!IsWallAtPosition(randomCoord.X, randomCoord.Z))
             {
                 // 랜덤한 인덱스 생성
-                // int randomIndex = Random.Range(0, coverDataArray.Length);
-                // CoverData selectedCoverData = coverDataArray[randomIndex];
-
-                // Vector3 obstaclePosition = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y + 0.82f, 0);
                 Vector3 obstaclePosition = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, coverPrefab.transform.position.y + 0.82f, 0);
                 GameObject obstacleInstance = Instantiate(coverPrefab, obstaclePosition, Quaternion.identity, this.transform);
                 obstacleInstance.transform.SetParent(mapHolder);

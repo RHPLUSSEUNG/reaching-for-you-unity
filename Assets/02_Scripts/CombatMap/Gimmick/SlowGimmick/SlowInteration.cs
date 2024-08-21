@@ -19,6 +19,7 @@ public class SlowInteration : GimmickInteraction
     private void Awake() {
         warningColor = new Color32(60, 100, 180, 255);
         TurnCnt = 2;
+        EGimmickName = GimmickName.SlowGimmick;
     }
 
     private void OnTriggerEnter(Collider other) 
