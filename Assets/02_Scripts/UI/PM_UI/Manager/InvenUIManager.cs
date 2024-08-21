@@ -24,7 +24,7 @@ public class InvenUIManager
     //test
     public Sprite[] test_sprite = new Sprite[3];
 
-    #region Character Equip Info
+    #region Set Character Equip Info
     public void SetPlayerEquipUI(Equip_Item equipInfo)
     {
         SetPlayerHeadUI(equipInfo);
@@ -80,7 +80,6 @@ public class InvenUIManager
     }
     #endregion
 
-
     public void SetInventory()
     {
         for (int i = 0; i< Managers.Item.equipmentInven.Count; i++)
@@ -94,7 +93,7 @@ public class InvenUIManager
         {
             ConsumeItemUI consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
             consumeItem.invenItemID = consume.Key;
-            consumeItem.SetItemInfo(test_sprite[consume.Key]);      // test 스프라이트 적용
+            consumeItem.SetItemInfo(test_sprite[consume.Key], consume.Value);      // test 스프라이트 적용
             Managers.UI.HideUI(consumeItem.gameObject);
         }
     }
@@ -111,16 +110,17 @@ public class InvenUIManager
         }
         else
         {
+            Managers.Item.consumeInven.TryGetValue(itemID, out int count);      // ContainsKey 함수를 TryGetValue로 바꾸기
+            Debug.Log($"Item ID : {itemID}, value : {count}");  
             if(Managers.Item.consumeInven.ContainsKey(itemID))
             {
-                // Count 증가, 보완 필요
-                for(int i = 0; i < invenContent.transform.childCount; i++)
+                for (int i = 0; i < invenContent.transform.childCount; i++)
                 {
                     InvenItemUI InvenItem = invenContent.transform.GetChild(i).GetComponent<InvenItemUI>();
                     if(itemID == InvenItem.invenItemID)
                     {
                         ConsumeItemUI consumeItem = invenContent.transform.GetChild(i).GetComponent<ConsumeItemUI>();
-                        consumeItem.IncreaseCountUI();
+                        consumeItem.UpdateConsumeValue(Managers.Item.consumeInven[itemID]);
                     }
                 }
             }
@@ -128,7 +128,7 @@ public class InvenUIManager
             {
                 ConsumeItemUI consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
                 consumeItem.invenItemID = itemID;
-                consumeItem.SetItemInfo(test_sprite[itemID]);      // test 스프라이트 적용
+                consumeItem.SetItemInfo(test_sprite[itemID], Managers.Item.consumeInven[itemID]);      // test 스프라이트 적용
                 Managers.UI.HideUI(consumeItem.gameObject);
             }
         }
@@ -177,9 +177,9 @@ public class InvenUIManager
         }
         else
         {
-            // 소모품 인벤
+            // ConsumeEquipUI(itemID, capacity)
         }
-        
+
     }
 
     public void EquipInvenUI()
@@ -229,18 +229,36 @@ public class InvenUIManager
 
     }
 
-    public void ConsumeEquipUI()
+    public void ConsumeEquipUI(int itemID, int capacity)
     {
-
+        if(Managers.Item.EquipConsume(itemID, capacity) <= 0)
+        {
+            for (int i = 0; i < invenContent.transform.childCount; i++)
+            {
+                InvenItemUI InvenItem = invenContent.transform.GetChild(i).GetComponent<InvenItemUI>();
+                if (itemID == InvenItem.invenItemID)
+                {
+                    GameObject removeItem = invenContent.transform.GetChild(i).gameObject;
+                    Managers.Prefab.Destroy(removeItem);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < invenContent.transform.childCount; i++)
+            {
+                InvenItemUI InvenItem = invenContent.transform.GetChild(i).GetComponent<InvenItemUI>();
+                if (itemID == InvenItem.invenItemID)
+                {
+                    ConsumeItemUI consumeItem = invenContent.transform.GetChild(i).GetComponent<ConsumeItemUI>();
+                    consumeItem.UpdateConsumeValue(Managers.Item.consumeInven[itemID]);
+                }
+            }
+        }
     }
 
     public void CreateEquipUI()
     {
         equipUI = Managers.UI.CreatePopupUI<EquipUI>("EquipUI");
-    }
-
-    public void ManageInvenUI()
-    {
-        invenUI.SetActive(inven_state);
     }
 }
