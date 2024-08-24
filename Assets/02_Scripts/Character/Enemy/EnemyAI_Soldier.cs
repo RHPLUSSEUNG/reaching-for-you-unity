@@ -8,10 +8,15 @@ public class EnemyAI_Soldier : EnemyAI_Base
     private void Start()
     {
         stat = GetComponent<EnemyStat>();
+        stat.enemyName = "Soldier";
         spriteController = GetComponent<SpriteController>();
         isTurnEnd = true;
         skillList = GetComponent<SkillList>();
         //skillList.AddSkill(Managers.Skill.InstantiateSkill(0, true));
+
+        actDic = new Dictionary<string, float>();    //행동 확률
+        actDic.Add("Attack", 0.5f);
+        actDic.Add("Skill", 0.5f);
     }
     public override void BeforeTrunEnd()
     {
@@ -69,6 +74,15 @@ public class EnemyAI_Soldier : EnemyAI_Base
 
     public override void SpecialCheck()
     {
-        throw new System.NotImplementedException();
+        switch (RandChoose(actDic))  // 랜덤 액션
+        {
+            case "Attack":
+                // 기본 공격
+                break;
+            case "Skill":
+                // 스킬 사용
+                break;
+        }
+        BeforeTrunEnd();
     }
 }

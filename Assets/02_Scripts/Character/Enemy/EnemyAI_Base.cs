@@ -30,6 +30,8 @@ public abstract class EnemyAI_Base : MonoBehaviour
 
     public bool isTurnEnd;
 
+    public Dictionary<string, float> actDic;   // 확률 행동 딕셔너리
+
     private void Start()
     {
         stat = GetComponent<EnemyStat>();
@@ -38,6 +40,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
         skillList = GetComponent<SkillList>();
         //skillList.AddSkill(Managers.Skill.Instantiate(0)); 각 몬스터마다 해당하는 번호의 스킬 가져오기
     }
+
     public abstract void ProceedTurn(); // 턴 진행
     public abstract void SpecialCheck();  // 고유 기믹 체크
     public abstract void OnTargetFoundSuccess();  // 대상 발견 시 행동
@@ -230,6 +233,27 @@ public abstract class EnemyAI_Base : MonoBehaviour
             }
             yield return null;
         }
+    }
+    public string RandChoose(Dictionary<string, float> dic)  // 행동 이름, 확률 인자, 확률 총합 1이여야 함
+    {
+        float randValue = Random.Range(0f, 1f);
+        float sum = 0;
+
+        foreach (KeyValuePair<string, float> kvp in dic)
+        {
+            sum += kvp.Value;
+        }
+        if (sum != 1)   // 확률 총합 검사
+            return "Chane Sum is Not 1";
+
+        sum = 0;
+        foreach (KeyValuePair<string, float> kvp in dic)
+        {
+            sum += kvp.Value;
+            if (randValue <= sum)
+                return kvp.Key;
+        }
+        return null;
     }
 }
 

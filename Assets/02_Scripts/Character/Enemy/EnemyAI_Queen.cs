@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class EnemyAI_Queen : EnemyAI_Base
 {
-    protected int egg_Count;
+    protected int eggCount;
+    protected int layCount;
 
     private void Start()
     {
         stat = GetComponent<EnemyStat>();
+        stat.enemyName = "Queen";
         spriteController = GetComponent<SpriteController>();
         isTurnEnd = true;
         skillList = GetComponent<SkillList>();
@@ -73,10 +75,13 @@ public class EnemyAI_Queen : EnemyAI_Base
 
     public override void SpecialCheck()
     {
-        if(egg_Count < 3)   // 임시 숫자
+        if(eggCount < 3)   // 임시 숫자
         {
-            GetRandomLoc(5);
-            //해당 위치에 알 생성
+            for (int i=0;i<layCount; i++)   // 산란 횟수만큼
+            {
+                GetRandomLoc(5);
+                //해당 위치에 알 생성
+            }
             isAttacked = true;
         }
     }
