@@ -135,6 +135,14 @@ public class UIManager
         ClosePopupUI();
     }
 
+    public void CloseAllPopupUI()
+    {
+        while (popupStack.Count > 0)
+        {
+            ClosePopupUI();
+        }
+    }
+
     public void ShowUI(GameObject ui)
     {
         if(ui == null)
