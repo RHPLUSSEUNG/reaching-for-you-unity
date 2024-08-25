@@ -6,7 +6,8 @@ public class EquipUI : UI_Popup
     enum equipUI
     {
         EquipPanel,
-        EquipButton
+        EquipButton,
+        ExplainButton
     }
 
     public override void Init()
@@ -15,6 +16,8 @@ public class EquipUI : UI_Popup
         Bind<GameObject>(typeof(equipUI));
         GameObject equipBtn = GetObject((int)equipUI.EquipButton);
         BindEvent(equipBtn, EquipButtonClick, Define.UIEvent.Click);
+        GameObject explainBtn = GetObject((int)equipUI.ExplainButton);
+        BindEvent(explainBtn, ExplainButtonClick, Define.UIEvent.Click);
     }
 
     public void SetUIPosition()
@@ -35,5 +38,11 @@ public class EquipUI : UI_Popup
         }
         Managers.InvenUI.UpdateInvenUI();
         Managers.UI.ClosePopupUI();
+    }
+    public void ExplainButtonClick(PointerEventData data)
+    {
+        ItemExplainUI explainUI = Managers.UI.CreatePopupUI<ItemExplainUI>("ItemExplainUI");
+        explainUI.SetItemInfo();
+        Managers.Prefab.Destroy(gameObject);
     }
 }
