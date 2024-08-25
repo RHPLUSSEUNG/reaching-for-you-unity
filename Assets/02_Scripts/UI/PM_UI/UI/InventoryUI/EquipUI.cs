@@ -28,6 +28,7 @@ public class EquipUI : UI_Popup
     {
         if(Managers.InvenUI.type == ItemType.Consume)
         {
+            Managers.InvenUI.consume_equip_state = true;
             Managers.UI.CreatePopupUI<ConsumeCountUI>("ConsumeCountUI");
             Managers.Prefab.Destroy(gameObject);
             return;

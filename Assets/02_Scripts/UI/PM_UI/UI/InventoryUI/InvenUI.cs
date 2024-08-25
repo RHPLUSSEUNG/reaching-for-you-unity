@@ -68,6 +68,7 @@ public class InvenUI : UI_Base
         MoveArmorTab();
         Managers.InvenUI.part = EquipPart.Body;
         Managers.InvenUI.UnEquipInvenUI();
+
     }
 
     public void WeaponEquipButtonClick(PointerEventData data)
@@ -204,12 +205,14 @@ public class InvenUI : UI_Base
     public void ConsumeEquipedUI(int index, int itemID)
     {
         GameObject consumeLayout = GetObject((int)invenUI.ConsumeLayout);
-        GameObject consumeFrame = consumeLayout.transform.GetChild(index).gameObject;
+        GameObject consumeEquip = consumeLayout.transform.GetChild(index).gameObject;
 
+        ConsumeEquipUI equip = consumeEquip.GetComponent<ConsumeEquipUI>();
+        equip.invenItemID = itemID;
         int count = Managers.InvenUI.player.GetComponent<Equip_Item>().Consumes[itemID];
-        Image equipIcon = Util.FindChild(consumeFrame, "EquipIcon").GetComponent<Image>();
+        Image equipIcon = Util.FindChild(consumeEquip, "EquipIcon").GetComponent<Image>();
         equipIcon.sprite = Managers.InvenUI.changeIcon.sprite;
-        TextMeshProUGUI countText = Util.FindChild(consumeFrame, "ConsumeCount").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI countText = Util.FindChild(consumeEquip, "ConsumeCount").GetComponent<TextMeshProUGUI>();
         countText.text = count.ToString();
     }
 }

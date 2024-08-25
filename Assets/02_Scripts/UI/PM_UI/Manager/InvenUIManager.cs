@@ -21,6 +21,7 @@ public class InvenUIManager
     public ItemType type;
     public EquipPart part;
     public bool inven_state = false;
+    public bool consume_equip_state = false;
 
     List<int> equip_consume_ui = new List<int>();
     //test
@@ -178,8 +179,15 @@ public class InvenUIManager
             }
         }
         else
-        {            
-            ConsumeEquipUI(count);
+        {          
+            if(consume_equip_state)
+            {
+                ConsumeEquipUI(count);
+            }
+            else
+            {
+                ConsumeUnEquipUI(count);
+            }
         }
 
     }
@@ -250,7 +258,7 @@ public class InvenUIManager
         {
             equip_consume_ui.Add(focusItemID);
         }
-        // TODO : equip_conume_ui 초기화, equip_cousume_ui 총 용량 예외 처리 필요성 고려
+        // TODO : equip_conume_ui 초기화(플레이어 변경 시), equip_cousume_ui 총 용량 예외 처리 필요성 고려
 
         int index = 0;
         for(int i = 0; i < equip_consume_ui.Count; i++)
@@ -272,6 +280,46 @@ public class InvenUIManager
         {
             focusItem.GetComponent<ConsumeItemUI>().UpdateConsumeValue(0);
         }
+    }
+
+    public void ConsumeUnEquipUI(int capacity = 1)
+    {
+        Equip_Item character_equip = player.GetComponent<Equip_Item>();
+        if (character_equip == null)
+        {
+            Debug.Log("Character_Equip Error");
+            return;
+        }
+
+        if (capacity == 0)
+        {
+            return;
+        }
+
+        character_equip.DeleteConsume(focusItemID);
+        equip_consume_ui.Remove(focusItemID);
+        Debug.Log("UnEquip Success");
+        // TODO : 특정 갯수만 UnEquip
+        ConsumeItemUI consumeItem;
+        if (Managers.Item.consumeInven.TryGetValue(focusItemID, out int remainValue))
+        {
+            for(int i = 0; i < invenContent.transform.childCount; i++)
+            {
+                InvenItemUI invenItem = invenContent.transform.GetChild(i).GetComponent<InvenItemUI>();
+                if(focusItemID == invenItem.invenItemID)
+                {
+                    consumeItem = invenContent.transform.GetChild(i).GetComponent<ConsumeItemUI>();
+                    consumeItem.UpdateConsumeValue(remainValue);
+                    return;
+                }
+            }
+        }
+        consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
+        consumeItem.invenItemID = focusItemID;
+        consumeItem.SetItemInfo(test_sprite[focusItemID], remainValue);      // test 스프라이트 적용
+        Managers.UI.HideUI(consumeItem.gameObject);
+        // remainValue가 1이 뜨는 문제는 ItemManager에서 AddItem 함수에서 num값 조정 필요
+        invenUI.GetComponent<InvenUI>().MoveConsumeTab();
     }
 
     public void CreateEquipUI()
