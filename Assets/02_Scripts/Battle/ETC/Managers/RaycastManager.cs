@@ -9,8 +9,8 @@ public class RaycastManager
     public GameObject character;
     public CharacterState characterstate;
     public EntityStat characterstat;
+
     Equip_Item itemList;
-  
     Active activeSkill;
     Consume consume;
     List<GameObject> targets;
@@ -140,6 +140,10 @@ public class RaycastManager
     public void CallbackTargets(List<GameObject> list)
     {
         targets = list;
+        if(activeSkill.target_object == TargetObject.Friendly)
+        {
+            list.Add(Managers.Battle.currentCharacter);
+        }
     }
 
     public bool DetectTargets(GameObject target)
