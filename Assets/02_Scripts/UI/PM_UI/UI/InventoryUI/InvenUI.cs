@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -198,5 +199,17 @@ public class InvenUI : UI_Base
         consumeTabSize.x = activeTabXSize;
         consumeTabSize.y = activeTabYSize;
         consumeRect.sizeDelta = consumeTabSize;
+    }
+
+    public void ConsumeEquipedUI(int index, int itemID)
+    {
+        GameObject consumeLayout = GetObject((int)invenUI.ConsumeLayout);
+        GameObject consumeFrame = consumeLayout.transform.GetChild(index).gameObject;
+
+        int count = Managers.InvenUI.player.GetComponent<Equip_Item>().Consumes[itemID];
+        Image equipIcon = Util.FindChild(consumeFrame, "EquipIcon").GetComponent<Image>();
+        equipIcon.sprite = Managers.InvenUI.changeIcon.sprite;
+        TextMeshProUGUI countText = Util.FindChild(consumeFrame, "ConsumeCount").GetComponent<TextMeshProUGUI>();
+        countText.text = count.ToString();
     }
 }

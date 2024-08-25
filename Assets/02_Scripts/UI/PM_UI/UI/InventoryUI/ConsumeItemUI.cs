@@ -47,6 +47,7 @@ public class ConsumeItemUI : InvenItemUI
     public void ClickConsumeItem(PointerEventData data)
     {
         Managers.InvenUI.focusItem = gameObject;
+        Managers.InvenUI.focusItemID = invenItemID;
         Managers.InvenUI.type = itemType;
         Image itemIcon = GetObject((int)consumeItemUI.ItemIcon).GetComponent<Image>();
         Managers.InvenUI.changeIcon = itemIcon;

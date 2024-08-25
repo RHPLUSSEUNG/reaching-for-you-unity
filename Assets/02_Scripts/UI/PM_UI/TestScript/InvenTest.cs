@@ -33,6 +33,7 @@ public class InvenTest : MonoBehaviour
             {
                 Managers.InvenUI.inven_state = true;
                 Managers.UI.ShowUI(Managers.InvenUI.invenUI);
+                Managers.InvenUI.invenUI.GetComponent<InvenUI>().MoveWeaponTab();
             }
             else
             {
@@ -44,7 +45,7 @@ public class InvenTest : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E))
         {
             Managers.Item.AddItem(0);
-            Managers.InvenUI.TempInvenUI(0);
+            Managers.InvenUI.UpdateItemUI(0);
         }
     }   
 }

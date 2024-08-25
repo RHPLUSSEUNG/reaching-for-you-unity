@@ -26,6 +26,12 @@ public class EquipUI : UI_Popup
     }
     public void EquipButtonClick(PointerEventData data)
     {
+        if(Managers.InvenUI.type == ItemType.Consume)
+        {
+            Managers.UI.CreatePopupUI<ConsumeCountUI>("ConsumeCountUI");
+            Managers.Prefab.Destroy(gameObject);
+            return;
+        }
         Managers.InvenUI.UpdateInvenUI();
         Managers.UI.ClosePopupUI();
     }
