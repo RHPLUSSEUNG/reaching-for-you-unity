@@ -11,7 +11,9 @@ public class ResultCharacterUI : UI_Base
     {
         CharacterImage,
         CharacterName,
-        CharacterState,
+        Deal,
+        Defense,
+        Heal,
         Level,
         Exp,
         ExpText
@@ -27,14 +29,14 @@ public class ResultCharacterUI : UI_Base
     {
         Bind<GameObject>(typeof(CharacterUI));
 
-        GameObject characterState = GetObject((int)CharacterUI.CharacterState);
+        GameObject characterDeal = GetObject((int)CharacterUI.Deal);
         charcterImage = GetObject((int)CharacterUI.CharacterImage).GetComponent<Image>();
         level = GetObject((int)CharacterUI.Level).GetComponent<TextMeshProUGUI>();
         exp = GetObject((int)CharacterUI.Exp);
         expText = GetObject((int)CharacterUI.ExpText).GetComponent<TextMeshProUGUI>();
 
-        BindEvent(characterState, OnEnterCharacterState, Define.UIEvent.Enter);
-        BindEvent(characterState, OnExitCharacterState, Define.UIEvent.Exit);
+        BindEvent(characterDeal, OnEnterCharacterState, Define.UIEvent.Enter);
+        BindEvent(characterDeal, OnExitCharacterState, Define.UIEvent.Exit);
 
         UpdateCharacterExp(50, 132, 100);
     }

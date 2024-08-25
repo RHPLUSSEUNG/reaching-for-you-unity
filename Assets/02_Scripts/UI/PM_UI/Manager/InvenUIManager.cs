@@ -103,7 +103,6 @@ public class InvenUIManager
 
     public void UpdateItemUI(int itemID)       // 아이템 획득 시 인벤토리 최신화(생성 후)
     {
-        // 갯수
         ItemData itemData = Managers.Data.GetItemData(itemID);
         if(itemData.ItemType == ItemType.Equipment)
         {
@@ -114,10 +113,8 @@ public class InvenUIManager
         }
         else
         {
-            Managers.Item.consumeInven.TryGetValue(itemID, out int count);      // ContainsKey 함수를 TryGetValue로 바꾸기
-            Debug.Log($"Item ID : {itemID}, value : {count}");
             ConsumeItemUI consumeItem;
-            if(Managers.Item.consumeInven.ContainsKey(itemID))
+            if(Managers.Item.consumeInven.TryGetValue(itemID, out int count))
             {
                 for (int i = 0; i < invenContent.transform.childCount; i++)
                 {
@@ -125,14 +122,14 @@ public class InvenUIManager
                     if(itemID == InvenItem.invenItemID)
                     {
                         consumeItem = invenContent.transform.GetChild(i).GetComponent<ConsumeItemUI>();
-                        consumeItem.UpdateConsumeValue(Managers.Item.consumeInven[itemID]);
+                        consumeItem.UpdateConsumeValue(count);
                         return;
                     }
                 }
             }
             consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
             consumeItem.invenItemID = itemID;
-            consumeItem.SetItemInfo(test_sprite[itemID], Managers.Item.consumeInven[itemID]);      // test 스프라이트 적용
+            consumeItem.SetItemInfo(test_sprite[itemID], count);      // test 스프라이트 적용
             Managers.UI.HideUI(consumeItem.gameObject);
         }
     }
