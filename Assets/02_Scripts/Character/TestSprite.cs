@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
-public class SpriteController : MonoBehaviour
+public class TestSprite : MonoBehaviour
 {
     private Transform sprite;
     private Transform character;
@@ -37,17 +37,9 @@ public class SpriteController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        SetRotation(mainCamera.transform.eulerAngles.x, mainCamera.transform.eulerAngles.y);
-        
-        if (direction == Direction.Left)
-        {
-            StartCoroutine(RotateCharacter(Direction.Left));
-        }
-        else
-        {
-            StartCoroutine(RotateCharacter(Direction.Right));
-        }
-        StartCoroutine(RotateSprite(mainCamera.transform.eulerAngles.y));
+        character.transform.rotation = mainCamera.transform.rotation;
+
+
         shadow.position = char_base.position;   // 캐릭터 아래쪽 그림자 position
     }
     public void SetAnimState(AnimState state)
