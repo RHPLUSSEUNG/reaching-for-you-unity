@@ -6,15 +6,16 @@ using UnityEngine;
 public class ObjectiveTalkType : Objective
 {
     [SerializeField] string npcName;
-    [SerializeField] int moveToComplete;
+    [SerializeField] bool talkToComplete;
 
     public void ReiceiveNPCName(string _npcName)
     {
         if (npcName == _npcName)
         {
-            //ISAchieved()
+            talkToComplete = true;
         }
     }
+
     public override bool IsAchieved()
     {
         return true;
@@ -22,7 +23,10 @@ public class ObjectiveTalkType : Objective
 
     public override void UpdateObjective()
     {
-
+        if(talkToComplete)
+        {
+            CompleteObjective();
+        }
     }
 
     public override void CompleteObjective()
