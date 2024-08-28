@@ -50,7 +50,7 @@ public class Quest : ScriptableObject
     {
         foreach(var objective in objectives)
         {
-            if(objective.reference == objectiveReference)
+            if(objective.GetReference() == objectiveReference)
             {
                 return true;
             }
