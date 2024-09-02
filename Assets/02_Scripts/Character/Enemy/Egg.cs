@@ -72,11 +72,15 @@ public class Egg : EnemyAI_Base
             switch (RandChoose(actDic))  // 랜덤 액션
             {
                 case "Worker":
-                    // 일벨 소환
+                    Managers.Party.InstantiateMonster("Worker");
+                    // Managers.Party.AddMonster(); //보호 수준으로 접근 불가
                     break;
                 case "Soldier":
-                    // 병정벨 소환
+                    Managers.Party.InstantiateMonster("Soldier");
+                    // Managers.Party.AddMonster(); //보호 수준으로 접근 불가
                     break;
+
+               // 턴 종료 후 객체 파괴 필요
             }
             BeforeTrunEnd();
         }
