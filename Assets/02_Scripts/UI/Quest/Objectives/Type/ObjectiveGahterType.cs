@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Objective[Gather]", menuName = "Quest / Objectives[Gather]", order = 2)]
-public class ObjectiveGahterType : Objective
+public class ObjectiveGatherType : Objective
 {
     [SerializeField] int itemID;
     [SerializeField] int gatherToComplete;
