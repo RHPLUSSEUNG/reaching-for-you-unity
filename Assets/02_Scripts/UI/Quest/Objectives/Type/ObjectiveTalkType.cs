@@ -7,7 +7,7 @@ public class ObjectiveTalkType : Objective
 {
     [SerializeField] string npcName;
     [SerializeField] bool talkToComplete;
-
+    
     public void ReiceiveNPCName(string _npcName)
     {
         if (npcName == _npcName)

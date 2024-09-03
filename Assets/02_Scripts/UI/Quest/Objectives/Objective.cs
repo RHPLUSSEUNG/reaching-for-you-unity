@@ -15,12 +15,12 @@ public abstract class Objective : ScriptableObject
 {
     [SerializeField] ObjectiveType objectiveType;
     [SerializeField] protected string reference;
-    [SerializeField] protected string description;
+    [SerializeField] protected string description;    
 
     public abstract bool IsAchieved();
     public abstract void UpdateObjective();
     public abstract void CompleteObjective();   
 
     public abstract string GetReference();
-    public abstract string GetDescription();
+    public abstract string GetDescription();    
 }

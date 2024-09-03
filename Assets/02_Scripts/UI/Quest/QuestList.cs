@@ -10,6 +10,10 @@ public enum QuestPredicates
     HASQUEST,
     COMPLETEDQUEST,
     COMPLETEDOBJECTIVE,
+    HASKILLED,
+    HASGATHERED,
+    HASMOVED,
+    HASTALKED,
 }
 
 public class QuestList : MonoBehaviour, IPredicateEvaluator
