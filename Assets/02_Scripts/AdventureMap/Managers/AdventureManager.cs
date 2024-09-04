@@ -1,10 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class AdventureManager : MonoBehaviour
 {
     static AdventureManager _adventure;
     public static AdventureManager adventure { get { return _adventure; } }
+
+    [SerializeField] UnityEvent[] respawnedRoom;
 
     private static int stageCount = 1;
     public static int StageCount {
@@ -28,33 +31,41 @@ public class AdventureManager : MonoBehaviour
         _adventure = this;
     }
 
+    void BasicSpawn()
+    {
+        randomPlane.SpawnBasic();
+
+        staticSpawner.RandomSpawn();
+        dynamicSpawner.RandomSpawn();
+    }
+
+    void SpecificSpawn()
+    {
+        randomPassage.DeletePassage();
+        
+
+        staticSpawner.DestroyObject();
+        dynamicSpawner.DestroyObject();   
+    }
+
     void Start()
     {
         if((StageCount % 5) != 0)
         {
-            randomPlane.SpawnBasic();
+            BasicSpawn();
             randomPassage.Init();
-
-            staticSpawner.RandomSpawn();
-            dynamicSpawner.RandomSpawn();
         }
         else
         {
             if((StageCount % 2) == 0)
             {
-                randomPassage.DeletePassage();
+                SpecificSpawn();
                 randomPlane.SpawnSave();
-
-                staticSpawner.DestroyObject();
-                dynamicSpawner.DestroyObject();
             }
             else 
             {
-                randomPassage.DeletePassage();
+                SpecificSpawn();
                 randomPlane.SpawnCure();
-
-                staticSpawner.DestroyObject();
-                dynamicSpawner.DestroyObject();
             }
         }
     }
@@ -63,34 +74,26 @@ public class AdventureManager : MonoBehaviour
     {
         if((StageCount % 5) != 0)
         {
-            randomPlane.SpawnBasic();
+            BasicSpawn();
             randomPassage.DeletePassage();
             randomPassage.AddPassage();
-
-            staticSpawner.RandomSpawn();
-            dynamicSpawner.RandomSpawn();
         }
         else
         {
             if((StageCount % 2) == 0)
             {
-                randomPassage.DeletePassage();
+                SpecificSpawn();
                 randomPlane.SpawnSave();
-
-                staticSpawner.DestroyObject();
-                dynamicSpawner.DestroyObject();
             }
             else 
             {
-                randomPassage.DeletePassage();
+                SpecificSpawn();
                 randomPlane.SpawnCure();
                 
                 PlayerStat player = collider.gameObject.GetComponentInParent<PlayerStat>();
                 player.Hp = player.MaxHp;
 
                 StartCoroutine(StartEffect(heal_effect));
-                staticSpawner.DestroyObject();
-                dynamicSpawner.DestroyObject();
             }
         }
     }
