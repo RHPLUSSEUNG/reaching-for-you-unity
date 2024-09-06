@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class CharacterState : MonoBehaviour
 {
@@ -414,11 +416,14 @@ public class CharacterState : MonoBehaviour
 
     public void CalcTurn()
     {
+        Vector3 pos = Managers.Battle.currentCharacter.transform.position;
         if (debuffs.Count > 0)
         {
             foreach (Debuff debuff in debuffs)
             {
                 debuff.TimeCheck();
+                Managers.Manager.StartCoroutine(Managers.Skill.StartBuffEffect(debuff.effect, pos));
+
             }
         }
 
@@ -427,6 +432,7 @@ public class CharacterState : MonoBehaviour
             foreach (Buff buff in buffs)
             {
                 buff.TimeCheck();
+                Managers.Manager.StartCoroutine(Managers.Skill.StartBuffEffect(buff.effect, pos));
             }
         }
 

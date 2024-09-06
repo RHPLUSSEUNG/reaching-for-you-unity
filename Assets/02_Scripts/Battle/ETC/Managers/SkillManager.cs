@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SkillManager
 {
@@ -68,6 +69,13 @@ public class SkillManager
         return Effect;
     }
 
+    public GameObject InstantiateEffect(string name, GameObject target)
+    {
+        GameObject effect = Managers.Prefab.Instantiate($"Effect/BuffDebuff/{name}", target.transform);
+        effect.transform.localPosition = new Vector3(0, 0, -0.5f);
+        return effect;
+    }
+
     public IEnumerator StartEffect(GameObject effect, Vector3 pos, bool other = false)
     {
         effect.transform.position = pos;
@@ -85,6 +93,16 @@ public class SkillManager
         is_effect = false;
     }
 
+    public IEnumerator StartBuffEffect(GameObject effect, Vector3 pos)
+    {
+        effect.transform.position = pos;
+        effect.GetComponent<ParticleSystem>().Play();
+        is_effect = true;
+        yield return new WaitForSeconds(1.5f);
+        effect.GetComponent<ParticleSystem>().Stop();
+        is_effect = false;
+    }
+
     public void UseElementSkill(ElementType type)
     {
         CharacterState state = Managers.Battle.currentCharacter.GetComponent<CharacterState>();
@@ -99,10 +117,5 @@ public class SkillManager
         }
     }
 
-    public GameObject InstantiateEffect(string name, GameObject target)
-    {
-        GameObject effect = Managers.Prefab.Instantiate($"Effect/BuffDebuff/{name}", target.transform);
-        effect.transform.localPosition = new Vector3(0,0,-0.5f);
-        return effect;
-    }
+    
 }
