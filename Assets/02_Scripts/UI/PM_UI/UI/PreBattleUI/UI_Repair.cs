@@ -12,7 +12,6 @@ public class UI_Repair : UI_Popup
         CharacterName,
         HPBar,
         MPBar,
-        CharacterLayout,
         CloseButton
     }
 
@@ -26,15 +25,7 @@ public class UI_Repair : UI_Popup
 
         Bind<GameObject>(typeof(repairUI));
 
-        GameObject charLayout = GetObject((int)repairUI.CharacterLayout);
-        for(int i = 0; i < charLayout.transform.childCount; i++)
-        {
-            UI_CharInfo charInfo = charLayout.transform.GetChild(i).GetComponent<UI_CharInfo>();
-            charInfo.character = playerList[i];
-        }
-
-
-        Managers.InvenUI.player = playerList[0];
+        // Managers.InvenUI.player = playerList[0];
         GameObject close = GetObject((int)repairUI.CloseButton);
         BindEvent(close, OnCloseButton, Define.UIEvent.Click);
     }
