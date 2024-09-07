@@ -21,6 +21,8 @@ public class ConsumeCountUI : UI_Popup
     int count;
     public override void Init()
     {
+        base.Init();
+
         Bind<GameObject>(typeof(consumeCntUI));
 
         countText = GetObject((int)consumeCntUI.CountText).GetComponent<TextMeshProUGUI>();

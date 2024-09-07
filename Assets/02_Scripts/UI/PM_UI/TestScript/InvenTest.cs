@@ -22,7 +22,7 @@ public class InvenTest : MonoBehaviour
         Debug.Log("아이템 생성 완료");
 
         Managers.InvenUI.player = gameObject;
-        Managers.InvenUI.SetInventory();
+        // Managers.InvenUI.SetInventory();
     }
 
     private void Update()

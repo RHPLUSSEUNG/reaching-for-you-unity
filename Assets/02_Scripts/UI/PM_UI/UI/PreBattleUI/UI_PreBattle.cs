@@ -92,9 +92,10 @@ public class UI_PreBattle : UI_Scene
         if(repairUI == null)
         {
             repairUI = Managers.UI.CreatePopupUI<UI_Repair>("RepairUI");
+            Managers.InvenUI.SetInventory();
         }
         Managers.UI.ShowUI(repairUI.gameObject);
-        repairUI.UpdatePlayerInfo();
+        // repairUI.UpdatePlayerInfo();
     }
 
     public void OnSaveButton(PointerEventData data)
