@@ -10,6 +10,12 @@ public class Box : MonoBehaviour
     PlayerController player;
     GameObject boxObject;
 
+    // 인터랙션 후 상자 효과
+    [SerializeField]
+    Animator BoxOpenAnim;
+    [SerializeField]
+    ParticleSystem BoxOpenEffect;
+    
     void Start()
     {
         button = GetComponentInChildren<Button>();
@@ -26,8 +32,10 @@ public class Box : MonoBehaviour
         {
             button.gameObject.SetActive(false);
             isActive = false;
-
-            Destroy(boxObject);
+            
+            BoxOpenAnim.SetTrigger("BoxOpenTrigger");
+            BoxOpenEffect.Play();
+            Destroy(boxObject, 2f);
         }
     }
     private void OnTriggerEnter(Collider collider)
