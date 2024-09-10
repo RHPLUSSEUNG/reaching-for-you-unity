@@ -54,9 +54,20 @@ public class Quest : ScriptableObject
             {
                 return true;
             }
-        }
-
+        }        
         return false;
+    }
+
+    public Objective GetObjective(ObjectiveType objectiveType)
+    {         
+        foreach(var objective in objectives)
+        {
+            if(objective.GetObjectiveType() == objectiveType)
+            {
+                return objective;
+            }
+        }
+        return null;
     }
 
     public static Quest GetByName(string questName)

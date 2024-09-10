@@ -17,21 +17,10 @@ public class ObjectiveGatherType : Objective
         }
     }
 
-    public override bool IsAchieved()
+    public override ObjectiveType GetObjectiveType()
     {
-        return true;
+        return objectiveType;
     }
-
-    public override void UpdateObjective()
-    {
-
-    }
-
-    public override void CompleteObjective()
-    {
-
-    }    
-
     public override string GetReference()
     {
         return reference;
