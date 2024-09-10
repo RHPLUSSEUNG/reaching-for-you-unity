@@ -98,6 +98,54 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
         }
     }
 
+    public void ReceiveReport(ObjectiveType _objectiveType, int targetID, int count)
+    {
+        foreach(QuestStatus status in statuses)
+        {
+            Quest quest = status.GetQuest();
+
+            switch (_objectiveType)
+            {
+                case ObjectiveType.KILL:
+                    {
+                        ObjectiveKillType objective = quest.GetObjective(_objectiveType) as ObjectiveKillType;
+                        if (objective.GetTargetID() == targetID)
+                        {
+                            status.CompleteObjective(objective.GetReference());
+                        }
+                        break;
+                    }
+                case ObjectiveType.GATHER:
+                    {
+                        ObjectiveGatherType objective = quest.GetObjective(_objectiveType) as ObjectiveGatherType;
+                        if (objective.GetTargetID() == targetID)
+                        {
+                            status.CompleteObjective(objective.GetReference());
+                        }
+                        break;
+                    }
+                case ObjectiveType.TALK:
+                    {
+                        ObjectiveTalkType objective = quest.GetObjective(_objectiveType) as ObjectiveTalkType;
+                        if (objective.GetTargetID() == targetID)
+                        {
+                            status.CompleteObjective(objective.GetReference());
+                        }
+                        break;
+                    }
+                case ObjectiveType.MOVE:
+                    {
+                        ObjectiveMoveType objective = quest.GetObjective(_objectiveType) as ObjectiveMoveType;
+                        if (objective.GetTargetID() == targetID)
+                        {
+                            status.CompleteObjective(objective.GetReference());
+                        }
+                        break;
+                    }
+            }
+        }
+    }
+
     #region RequireSaveSystem
     //[TODO:LSH][Require] Save System
     public object CaptureState()

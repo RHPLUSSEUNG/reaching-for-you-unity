@@ -13,14 +13,11 @@ public enum ObjectiveType
 
 public abstract class Objective : ScriptableObject
 {
-    [SerializeField] ObjectiveType objectiveType;
+    [SerializeField] protected ObjectiveType objectiveType;
     [SerializeField] protected string reference;
     [SerializeField] protected string description;    
-
-    public abstract bool IsAchieved();
-    public abstract void UpdateObjective();
-    public abstract void CompleteObjective();   
-
+    
+    public abstract ObjectiveType GetObjectiveType();
     public abstract string GetReference();
     public abstract string GetDescription();    
 }

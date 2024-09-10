@@ -5,33 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Objective[Kill]", menuName = "Quest / Objectives[Kill]", order = 1)]
 public class ObjectiveKillType : Objective
 {
-    //[TODO:LSH] [SerializeField] EnemyType enemyType;
-    [SerializeField] int killsToComplete;
+    [SerializeField] int targetID;
 
-    public void ReiceiveEnemyName(int _enemyType, int _enemyCount)
+    public int GetTargetID()
     {
-        //if(enemyType == _enemyType){}
-        if (killsToComplete == _enemyCount)
-        {
-            //IsAchieved()
-        }
+        return targetID;
     }
 
-    public override bool IsAchieved()
+    public override ObjectiveType GetObjectiveType()
     {
-        return true;
+        return objectiveType;
     }
-
-    public override void UpdateObjective()
-    {
-
-    }
-
-    public override void CompleteObjective()
-    {
-
-    }
-
     public override string GetReference()
     {
         return reference;
