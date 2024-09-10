@@ -97,7 +97,8 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
             //}
         }
     }
-
+    
+    //Objective가 count를 추적하여야 한다.
     public void ReceiveReport(ObjectiveType _objectiveType, int targetID, int count)
     {
         foreach(QuestStatus status in statuses)
@@ -115,33 +116,33 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                         }
                         break;
                     }
-                case ObjectiveType.GATHER:
-                    {
-                        ObjectiveGatherType objective = quest.GetObjective(_objectiveType) as ObjectiveGatherType;
-                        if (objective.GetTargetID() == targetID)
-                        {
-                            status.CompleteObjective(objective.GetReference());
-                        }
-                        break;
-                    }
-                case ObjectiveType.TALK:
-                    {
-                        ObjectiveTalkType objective = quest.GetObjective(_objectiveType) as ObjectiveTalkType;
-                        if (objective.GetTargetID() == targetID)
-                        {
-                            status.CompleteObjective(objective.GetReference());
-                        }
-                        break;
-                    }
-                case ObjectiveType.MOVE:
-                    {
-                        ObjectiveMoveType objective = quest.GetObjective(_objectiveType) as ObjectiveMoveType;
-                        if (objective.GetTargetID() == targetID)
-                        {
-                            status.CompleteObjective(objective.GetReference());
-                        }
-                        break;
-                    }
+                //case ObjectiveType.GATHER:
+                //    {
+                //        ObjectiveGatherType objective = quest.GetObjective(_objectiveType) as ObjectiveGatherType;
+                //        if (objective.GetTargetID() == targetID)
+                //        {
+                //            status.CompleteObjective(objective.GetReference());
+                //        }
+                //        break;
+                //    }
+                //case ObjectiveType.TALK:
+                //    {
+                //        ObjectiveTalkType objective = quest.GetObjective(_objectiveType) as ObjectiveTalkType;
+                //        if (objective.GetTargetID() == targetID)
+                //        {
+                //            status.CompleteObjective(objective.GetReference());
+                //        }
+                //        break;
+                //    }
+                //case ObjectiveType.MOVE:
+                //    {
+                //        ObjectiveMoveType objective = quest.GetObjective(_objectiveType) as ObjectiveMoveType;
+                //        if (objective.GetTargetID() == targetID)
+                //        {
+                //            status.CompleteObjective(objective.GetReference());
+                //        }
+                //        break;
+                //    }
             }
         }
     }
