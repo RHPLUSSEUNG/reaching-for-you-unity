@@ -5,7 +5,21 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Objective[Move]", menuName = "Quest / Objectives[Move]", order = 4)]
 public class ObjectiveMoveType : Objective
 {    
-    [SerializeField] int moveToComplete;
+    [SerializeField] string destinationName;
+    bool moveToComplete = false;
+
+    public void ReceiveDestinationName(string _destinationName)
+    {
+        if (destinationName == _destinationName)
+        {
+            moveToComplete = true;
+        }
+    }
+
+    public override bool IsComplete()
+    {
+        return moveToComplete;
+    }
 
     public override ObjectiveType GetObjectiveType()
     {
