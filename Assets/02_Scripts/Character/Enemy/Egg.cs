@@ -73,11 +73,9 @@ public class Egg : EnemyAI_Base
             {
                 case "Worker":
                     Managers.Party.InstantiateMonster("Worker");
-                    // Managers.Party.AddMonster(); //보호 수준으로 접근 불가
                     break;
                 case "Soldier":
                     Managers.Party.InstantiateMonster("Soldier");
-                    // Managers.Party.AddMonster(); //보호 수준으로 접근 불가
                     break;
 
                // 턴 종료 후 객체 파괴 필요
