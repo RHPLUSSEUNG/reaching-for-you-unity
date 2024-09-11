@@ -30,7 +30,5 @@ public class DialogueTriggerFunction : MonoBehaviour
     public void EnterTheDungeon()
     {
         SceneChanger.Instance.ChangeScene(SceneType.BATTLE);
-    }
-
-    
+    }    
 }
