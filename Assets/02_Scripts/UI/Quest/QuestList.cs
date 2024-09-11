@@ -116,9 +116,10 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
 
                             if (objective.IsComplete())
                             {
-                                status.CompleteObjective(objective.GetReference());
+                                //If receive reward through NPC, Change this code to "status.CompleteObjective(objective);"
+                                CompleteObjective(quest, objective.GetReference());
                             }
-                        }
+                        }                        
                         break;
                     }
                 case ObjectiveType.GATHER:
