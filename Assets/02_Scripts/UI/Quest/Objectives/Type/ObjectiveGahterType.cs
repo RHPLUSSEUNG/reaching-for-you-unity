@@ -5,16 +5,27 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Objective[Gather]", menuName = "Quest / Objectives[Gather]", order = 2)]
 public class ObjectiveGatherType : Objective
 {
-    [SerializeField] int itemID;
-    [SerializeField] int gatherToComplete;
-    
+    [SerializeField] int targetID;
+    [SerializeField] int targetCount;
+    int count = 0;
+
+    public int GetTargetID()
+    {
+        return targetID;
+    }
+
     public void ReiceiveItem(int _itemID, int _objectCount)
     {
-        if(itemID == _itemID)
+        if(targetID == _itemID)
         {
             //[TODO:LSH] gatherToComplete == player's ItemCountCheck(int _objectID);
             // IsAchieved();
         }
+    }
+
+    public override bool IsComplete()
+    {
+        return count >= targetCount;
     }
 
     public override ObjectiveType GetObjectiveType()

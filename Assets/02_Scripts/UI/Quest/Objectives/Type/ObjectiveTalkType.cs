@@ -6,14 +6,19 @@ using UnityEngine;
 public class ObjectiveTalkType : Objective
 {
     [SerializeField] string npcName;
-    [SerializeField] bool talkToComplete;
+    bool talkToComplete = false;
     
-    public void ReiceiveNPCName(string _npcName)
+    public void ReceiveNPCName(string _npcName)
     {
         if (npcName == _npcName)
         {
             talkToComplete = true;
         }
+    }
+
+    public override bool IsComplete()
+    {
+        return talkToComplete;
     }
 
     public override ObjectiveType GetObjectiveType()

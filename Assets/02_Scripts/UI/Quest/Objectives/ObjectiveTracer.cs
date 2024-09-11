@@ -4,6 +4,7 @@ using UnityEngine;
 public class ObjectiveTracer : MonoBehaviour
 {
     public static ObjectiveTracer Instance;
+    QuestList questList;
 
     private void Awake()
     {
@@ -18,39 +19,48 @@ public class ObjectiveTracer : MonoBehaviour
         }
     }
 
-    ////KILL TYPE
-    //public void ReportEnemyDefeated(Enemy _enemy)
-    //{
-    //    ObjectiveType objectveType = ObjectiveType.KILL;
-    //    object target = monster.MonsterId;
-    //    int successCount = 1;
+    private void Start()
+    {
+        questList = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponent<QuestList>();
+    }
 
-    //    QuestManager.Instance.ReceiveReport(objectveType, target, successCount);
-    //}
+    //[TODO:LSH][Require] ID of each Object
 
-    ////GATHER TYPE
-    //public void ReportItemPurchased(Item item)
-    //{
-    //    ObjectiveType objectveType = ObjectiveType.GATHER;
-    //    object target = item.ItemId;
-    //    int successCount = item.Quantity;
+    //KILL TYPE
+    public void ReportEnemyKilled(GameObject _enemy)
+    {
+        ObjectiveType objectveType = ObjectiveType.KILL;
+        int target = 12341234;// = _enemy.enemyID;
+        int count = 1;
 
-    //    QuestManager.Instance.ReceiveReport(objectveType, target, successCount);
-    //}
+        questList.ReceiveReport(objectveType, target, count);
+    }
 
-    ////MOVE TYPE
-    //public void ReportHarvestedCrop(Transform move)
-    //{
-        
-    //}
+    //GATHER TYPE
+    public void ReportIItemCollected(GameObject _item, int _count)
+    {
+        ObjectiveType objectveType = ObjectiveType.GATHER;
+        int target = 12341234; //_item.ItemId;
+        int count = _count;
 
-    ////TALK TYPE
-    //public void ReportTalkedToNPC(NPC npc)
-    //{
-    //    ObjectiveType objectveType = ObjectiveType.TALK;
-    //    object target = npc.NPCId;
-    //    int successCount = 1;
+        questList.ReceiveReport(objectveType, target, count);
+    }
 
-    //    QuestManager.Instance.ReceiveReport(objectveType, target, successCount);
-    //}
+    //MOVE TYPE
+    public void ReportDestinationArrived(string _destination)
+    {
+        ObjectiveType objectveType = ObjectiveType.MOVE;
+        string destination = _destination;
+
+        questList.ReceiveReport(objectveType, destination);
+    }
+
+    //TALK TYPE
+    public void ReportNPCTalked(string _npcName)
+    {
+        ObjectiveType objectveType = ObjectiveType.TALK;
+        string npcName = _npcName;
+
+        questList.ReceiveReport(objectveType, npcName);
+    }
 }
