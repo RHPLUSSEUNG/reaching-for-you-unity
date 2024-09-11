@@ -37,7 +37,28 @@ public class QuestTooltipUI : MonoBehaviour
             }
             GameObject objectiveInstance = Instantiate(prefab, objectiveContainer);
             TextMeshProUGUI objectiveText = objectiveInstance.GetComponentInChildren<TextMeshProUGUI>();
-            objectiveText.text = objective.GetDescription();
+
+            switch (objective.GetObjectiveType())
+            {
+                case ObjectiveType.KILL:
+                    {
+                        ObjectiveKillType objectiveKill = objective as ObjectiveKillType;
+                        objectiveText.text = objectiveKill.GetDescription() + " " + objectiveKill.GetKillCount() + " / " + objectiveKill.GetTargetCount();
+                        break;
+                    }
+                case ObjectiveType.GATHER:
+                    {
+                        ObjectiveGatherType objectiveGather = objective as ObjectiveGatherType;
+                        objectiveText.text = objectiveGather.GetDescription() + " " + objectiveGather.GetItemCount() + " / " + objectiveGather.GetTargetCount();
+                        break;
+                    }
+                case ObjectiveType.TALK:
+                case ObjectiveType.MOVE:
+                    {
+                        objectiveText.text = objective.GetDescription();
+                        break;
+                    }                                
+            }                                 
         }
         //rewardText.text = GetRewardText(quest);
     }

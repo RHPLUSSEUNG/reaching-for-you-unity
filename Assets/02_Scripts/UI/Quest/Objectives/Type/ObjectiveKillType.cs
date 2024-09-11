@@ -7,7 +7,7 @@ public class ObjectiveKillType : Objective
 {
     [SerializeField] int targetID;
     [SerializeField] int targetCount;
-    int count = 0;
+    [SerializeField] int count = 0;
 
     public int GetTargetID()
     {
@@ -17,6 +17,15 @@ public class ObjectiveKillType : Objective
     public void ReiceiveKillCount(int _count)
     {
         count += _count;
+    }
+
+    public int GetKillCount()
+    {
+        return count;
+    }
+    public int GetTargetCount()
+    {
+        return targetCount;
     }
 
     public override bool IsComplete()

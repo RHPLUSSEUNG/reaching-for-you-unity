@@ -23,6 +23,16 @@ public class ObjectiveGatherType : Objective
         }
     }
 
+    public int GetItemCount()
+    {
+        return count;
+    }
+
+    public int GetTargetCount()
+    {
+        return targetCount;
+    }
+
     public override bool IsComplete()
     {
         return count >= targetCount;

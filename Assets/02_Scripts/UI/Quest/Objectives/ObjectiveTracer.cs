@@ -27,10 +27,10 @@ public class ObjectiveTracer : MonoBehaviour
     //[TODO:LSH][Require] ID of each Object
 
     //KILL TYPE
-    public void ReportEnemyKilled(GameObject _enemy)
+    public void ReportEnemyKilled(TestQuestEnemy _enemy)
     {
         ObjectiveType objectveType = ObjectiveType.KILL;
-        int target = 12341234;// = _enemy.enemyID;
+        int target = _enemy.targetId;
         int count = 1;
 
         questList.ReceiveReport(objectveType, target, count);
