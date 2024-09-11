@@ -6,6 +6,7 @@ public class EnemyAI_Crab : EnemyAI_Base
     private void Start()
     {
         stat = GetComponent<EnemyStat>();
+        stat.enemyName = "Crab";
         spriteController = GetComponent<SpriteController>();
         isTurnEnd = true;
         skillList = GetComponent<SkillList>();

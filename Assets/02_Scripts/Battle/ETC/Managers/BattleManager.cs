@@ -170,7 +170,7 @@ public class BattleManager
         //Stun cant active turn
         if (currentCharacter.GetComponent<CharacterState>().IsStun())
         {
-            NextTurn();
+            NextTurn();  
             yield break;
         }
 

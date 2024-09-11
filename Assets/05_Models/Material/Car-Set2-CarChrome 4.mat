@@ -24,10 +24,11 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 3000
   stringTagMap:
-    RenderType: Opaque
-  disabledShaderPasses: []
+    RenderType: Transparent
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_LockedProperties: _LightContribution
   m_SavedProperties:
     serializedVersion: 3
@@ -100,7 +101,7 @@ Material:
     - _DetailMapBlendingMode: 0
     - _DetailMapImpact: 0
     - _DetailNormalMapScale: 1
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _FlatRimAmount: 0.5
     - _FlatRimEdgeSmoothness: 0.483
     - _FlatRimEnabled: 1
@@ -155,8 +156,8 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularEnabled: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Surface: 0
+    - _SrcBlend: 5
+    - _Surface: 1
     - _TextureBlendingMode: 0
     - _TextureImpact: 1
     - _UVSec: 0
@@ -166,7 +167,7 @@ Material:
     - _UnityShadowSharpness: 6.67
     - _VertexColorsEnabled: 0
     - _VertexExtrusionSmoothNormals: 0
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
     - _BaseColor: {r: 0.9150943, g: 0.7802306, b: 0.6517889, a: 1}
     - _Color: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}

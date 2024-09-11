@@ -54,12 +54,14 @@ public class CameraController : MonoBehaviour
         if (isFollowMode)
         {
             transform.eulerAngles = new Vector3(rotateX, 0, 0);
-            ChangeFollowTarget(followTarget, true);
+            ChangeFollowTarget(followTargets[0], true);
+            mode = CameraMode.Follow;
         }
         else
         {
             ChangeCameraTarget(cameraIndex, false);
         }
+        BasicOffset();
     }
     void FixedUpdate()
     {

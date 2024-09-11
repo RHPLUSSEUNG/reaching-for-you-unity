@@ -13,6 +13,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
     private void Start()
     {
         stat = GetComponent<EnemyStat>();
+        stat.enemyName = "Lizard";
         spriteController = GetComponent<SpriteController>();
         skillList = GetComponent<SkillList>();
         skillList.AddSkill(Managers.Skill.InstantiateSkill(1, true));
