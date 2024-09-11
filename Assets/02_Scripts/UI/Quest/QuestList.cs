@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum QuestPredicates
 {
     NONE,
@@ -111,7 +110,7 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                     {
                         ObjectiveKillType objective = quest.GetObjective(_objectiveType) as ObjectiveKillType;
 
-                        if (objective.GetTargetID() == targetID)
+                        if (objective.GetTargetID() == targetID && !objective.IsComplete())
                         {
                             objective.ReiceiveKillCount(count);
 
