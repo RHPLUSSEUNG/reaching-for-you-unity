@@ -11,7 +11,7 @@ public enum QuestType
     COMPLETED_QUEST,
 }
 
-[CreateAssetMenu(fileName = "Quests", menuName = "Quest", order = 0)]
+[CreateAssetMenu(fileName = "Quests", menuName = "Quest / Quests", order = 0)]
 public class Quest : ScriptableObject
 {
     [SerializeField] QuestType questType;
@@ -24,13 +24,6 @@ public class Quest : ScriptableObject
         [Min(1)]
         public int number;
         public GameObject item;
-    }
-
-    [System.Serializable]
-    public class Objective
-    {
-        public string reference;
-        public string description;
     }
 
     public string GetTitle()
@@ -57,13 +50,24 @@ public class Quest : ScriptableObject
     {
         foreach(var objective in objectives)
         {
-            if(objective.reference == objectiveReference)
+            if(objective.GetReference() == objectiveReference)
             {
                 return true;
             }
-        }
-
+        }        
         return false;
+    }
+
+    public Objective GetObjective(ObjectiveType objectiveType)
+    {         
+        foreach(var objective in objectives)
+        {
+            if(objective.GetObjectiveType() == objectiveType)
+            {
+                return objective;
+            }
+        }
+        return null;
     }
 
     public static Quest GetByName(string questName)

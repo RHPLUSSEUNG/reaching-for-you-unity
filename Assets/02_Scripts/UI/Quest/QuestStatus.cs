@@ -39,7 +39,7 @@ public class QuestStatus
     {
         foreach(var objective in quest.GetObjectives())
         {
-            if(!completedObjectives.Contains(objective.reference))
+            if(!completedObjectives.Contains(objective.GetReference()))
             {
                 return false; 
             }

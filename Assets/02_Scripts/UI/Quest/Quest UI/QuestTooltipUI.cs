@@ -31,13 +31,34 @@ public class QuestTooltipUI : MonoBehaviour
         foreach (var objective in quest.GetObjectives())
         {
             GameObject prefab = objectiveIncompletePrefab;
-            if (status.IsObjectiveComplete(objective.reference))
+            if (status.IsObjectiveComplete(objective.GetReference()))
             {
                 prefab = objectivePrefab;
             }
             GameObject objectiveInstance = Instantiate(prefab, objectiveContainer);
             TextMeshProUGUI objectiveText = objectiveInstance.GetComponentInChildren<TextMeshProUGUI>();
-            objectiveText.text = objective.description;
+
+            switch (objective.GetObjectiveType())
+            {
+                case ObjectiveType.KILL:
+                    {
+                        ObjectiveKillType objectiveKill = objective as ObjectiveKillType;
+                        objectiveText.text = objectiveKill.GetDescription() + " " + objectiveKill.GetKillCount() + " / " + objectiveKill.GetTargetCount();
+                        break;
+                    }
+                case ObjectiveType.GATHER:
+                    {
+                        ObjectiveGatherType objectiveGather = objective as ObjectiveGatherType;
+                        objectiveText.text = objectiveGather.GetDescription() + " " + objectiveGather.GetItemCount() + " / " + objectiveGather.GetTargetCount();
+                        break;
+                    }
+                case ObjectiveType.TALK:
+                case ObjectiveType.MOVE:
+                    {
+                        objectiveText.text = objective.GetDescription();
+                        break;
+                    }                                
+            }                                 
         }
         //rewardText.text = GetRewardText(quest);
     }
