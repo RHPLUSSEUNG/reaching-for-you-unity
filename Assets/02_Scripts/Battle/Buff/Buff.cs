@@ -32,17 +32,12 @@ public abstract class Buff
     public void StartAnimation()
     {
         effect = Managers.Skill.InstantiateEffect(name, target);
-        if (effect != null)
-        {
-            effect.GetComponent<ParticleSystem>().Play();
-        }
     }
 
     public void EndAnimation()
     {
         if (effect != null)
         {
-            effect.GetComponent<ParticleSystem>().Pause();
             Managers.Destroy(effect);
         }
     }
