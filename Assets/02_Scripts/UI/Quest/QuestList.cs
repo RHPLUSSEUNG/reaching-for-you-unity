@@ -17,8 +17,7 @@ public enum QuestPredicates
 
 public class QuestList : MonoBehaviour, IPredicateEvaluator
 {
-    List<QuestStatus> statuses = new List<QuestStatus>();
-    List<QuestStatus> completeStatuses = new List<QuestStatus>();
+    List<QuestStatus> statuses = new List<QuestStatus>();    
 
     public event Action onUpdate;
 
