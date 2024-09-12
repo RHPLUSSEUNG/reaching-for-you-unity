@@ -18,6 +18,7 @@ public enum QuestPredicates
 public class QuestList : MonoBehaviour, IPredicateEvaluator
 {
     List<QuestStatus> statuses = new List<QuestStatus>();
+    List<QuestStatus> completeStatuses = new List<QuestStatus>();
 
     public event Action onUpdate;
 
@@ -100,9 +101,9 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
     //Count Type
     public void ReceiveReport(ObjectiveType _objectiveType, int targetID, int count)
     {
-        foreach (QuestStatus status in statuses)
-        {
-            Quest quest = status.GetQuest();
+        for (int i = 0; i < statuses.Count; i++)
+        {            
+            Quest quest = statuses[i].GetQuest();
 
             switch (_objectiveType)
             {
@@ -118,6 +119,13 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                             {
                                 //If receive reward through NPC, Change this code to "status.CompleteObjective(objective);"
                                 CompleteObjective(quest, objective.GetReference());
+
+                                if(statuses[i].IsComplete())
+                                {                                    
+                                    quest.SetQuestType(QuestType.COMPLETED_QUEST);
+                                    onUpdate?.Invoke();
+                                    statuses.Remove(statuses[i]);
+                                }
                             }
                         }                        
                         break;
@@ -128,7 +136,7 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
 
                         if (objective.GetTargetID() == targetID)
                         {
-                            status.CompleteObjective(objective.GetReference());
+                            statuses[i].CompleteObjective(objective.GetReference());
                         }
 
                         break;
