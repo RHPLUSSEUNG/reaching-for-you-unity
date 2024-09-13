@@ -74,6 +74,7 @@ public class ActiveManager
         #endregion
         if (target.GetComponent<EnemyAI_Base>() != null)
         {
+            target.GetComponent<EntityStat>().Hp -= damage;
             target.GetComponent<EnemyAI_Base>().OnHit(damage);
             return damage;
         }else if (target.GetComponent<PlayerBattle>() != null)
