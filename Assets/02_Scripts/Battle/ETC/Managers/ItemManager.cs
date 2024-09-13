@@ -17,12 +17,16 @@ public class ItemManager
             if (consumeInven.ContainsKey(itemID))
             {
                 consumeInven[itemID] += num;
+                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID, num);
                 return true;
             }
             else if (inventoryCnt < inventoryMaxCnt)
             {
                 consumeInven.Add(itemID, 1);
                 inventoryCnt++;
+                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID, num);
                 return true;
             }
         }
@@ -32,11 +36,11 @@ public class ItemManager
             {
                 equipmentInven.Add(itemID);
                 inventoryCnt++;
+                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID, num);
                 return true;
             }
-        }
-        //[2024-09-13][LSH's Code]: [quest-objective-gather]
-        ObjectiveTracer.Instance.ReportIItemCollected(itemID, num);
+        }        
         Debug.Log("Inventory is Already Full");
         return false;
     }
@@ -53,6 +57,7 @@ public class ItemManager
                 consumeInven.Remove(itemID);
                 inventoryCnt--;
                 
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID, num);
                 return true;
             }
         }
@@ -62,6 +67,8 @@ public class ItemManager
             {
                 equipmentInven.Remove(itemID);
                 inventoryCnt--;
+               
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID, num);
                 return true;
             }
         }
