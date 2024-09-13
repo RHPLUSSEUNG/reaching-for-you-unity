@@ -7,7 +7,7 @@ public class ObjectiveGatherType : Objective
 {
     [SerializeField] int targetID;
     [SerializeField] int targetCount;
-    int count = 0;
+    [SerializeField] int count = 0;
 
     public int GetTargetID()
     {
