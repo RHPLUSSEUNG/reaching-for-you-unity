@@ -84,11 +84,19 @@ public class PartyManager
         }
         return null;
     }
-    public GameObject InstantiateMonster(string character)
+    public GameObject InstantiateMonster(string character, bool afterTurn = false)
     {
         GameObject go = Managers.Prefab.Instantiate($"Monster/{character}");
         AddMonster(go);
-        Managers.Battle.ObjectList.Add(go);
+        if (afterTurn)
+        {
+            Managers.Battle.InstantAfterPhaseList.Add(go);
+        }
+        else
+        {
+            Managers.Battle.ObjectList.Add(go);
+        }
+        Managers.Battle.monsterLive++;
         return go;
     }
 }
