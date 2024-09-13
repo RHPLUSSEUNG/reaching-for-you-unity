@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BattleManager
@@ -8,6 +9,7 @@ public class BattleManager
     public short playerLive;
     public short monsterLive;
     public List<GameObject> ObjectList = new();
+    public List<GameObject> InstantAfterPhaseList = new();
     public GameObject currentCharacter;
 
     public int totalTurnCnt = 0;
@@ -67,7 +69,6 @@ public class BattleManager
 
     public void BattleStart()
     {
-        monsterLive = (short)Managers.Party.monsterParty.Count;
         if ((playerLive == 0))
         {
             Result();
@@ -90,6 +91,14 @@ public class BattleManager
         {
             phase++;
             turnCnt %= ObjectList.Count;
+            
+
+            for (int i = 0; i < InstantAfterPhaseList.Count; i++)
+            {
+                ObjectList.Add(InstantAfterPhaseList[i]);
+            }
+            InstantAfterPhaseList.Clear();
+
             ObjectList.Sort(compareDefense);
         }
 
