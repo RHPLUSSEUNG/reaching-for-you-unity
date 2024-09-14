@@ -45,7 +45,15 @@ public class ActiveManager
         damage -= (int)target.GetComponent<EntityStat>().Defense;
 
         CharacterState state = target.GetComponent<CharacterState>();
-        
+
+        if (state.GetEvasion() > 0)
+        {
+            int value = Random.Range(1, 101);
+            if (value <= state.GetEvasion())
+            {
+                return 0;
+            }
+        }
         #region Electric
         if (element == ElementType.Electric)
         {
