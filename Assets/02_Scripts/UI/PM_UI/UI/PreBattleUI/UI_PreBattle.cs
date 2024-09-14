@@ -58,6 +58,7 @@ public class UI_PreBattle : UI_Scene
         Managers.UI.CreateSceneUI<BattleUI>("BattleUI");
         ActUI actUI = Managers.UI.CreatePopupUI<ActUI>("ActUI");
         Managers.BattleUI.actUI = actUI;
+        UI_ActTurn turnUI = Managers.UI.CreateSceneUI<UI_ActTurn>("TurnUI");
         Managers.UI.HideUI(actUI.gameObject);
         if (batchUI != null)
         {

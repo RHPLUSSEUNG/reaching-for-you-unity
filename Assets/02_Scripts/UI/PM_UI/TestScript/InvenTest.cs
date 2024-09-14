@@ -45,7 +45,7 @@ public class InvenTest : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E))
         {
             Managers.Item.AddItem(0);
-            Managers.InvenUI.UpdateItemUI(0);
+            Managers.InvenUI.UpdateItemUI(0);       // 인벤토리 UI가 없을때 NUll에러 뜨는 부분 예외처리
         }
     }   
 }
