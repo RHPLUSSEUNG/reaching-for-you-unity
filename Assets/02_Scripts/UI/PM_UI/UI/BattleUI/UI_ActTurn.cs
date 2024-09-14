@@ -3,7 +3,10 @@ using UnityEngine.UI;
 
 public class UI_ActTurn : UI_Scene
 {
-    int objectCount;
+    enum turnUI
+    {
+        ActTurnPanel
+    }
 
     // Temp
     [SerializeField] Sprite playerSprite;
@@ -11,28 +14,30 @@ public class UI_ActTurn : UI_Scene
     [SerializeField] Sprite lizardSprite;
 
     Color actedColor = Color.gray;
-
-
+    GameObject turnPanel;
     // 보완 필요
-
     public override void Init()
     {
-        objectCount = Managers.Battle.ObjectList.Count;
-        
-        for(int i = 0; i < objectCount; i++)
+        base.Init();
+
+        Bind<GameObject>(typeof(turnUI));
+
+        turnPanel = GetObject((int)turnUI.ActTurnPanel);
+        for(int i = 0; i < Managers.Battle.ObjectList.Count; i++)
         {
-            Managers.Prefab.Instantiate("UI/SubItem/Turn", gameObject.transform);
+            Managers.Prefab.Instantiate("UI/SubItem/Turn", turnPanel.transform); // ActTurnPanel을 부모로 해서 생성
         }
         Managers.BattleUI.turnUI = gameObject.GetComponent<UI_ActTurn>();
     }
 
-    public void SetTurnUI()
+    public void UpdateTurnUI()
     {
         for(int i = 0; i < Managers.Battle.ObjectList.Count; i++)
         {
-            // GetChild 두 번 수정?
-            Image turnImage = transform.GetChild((Managers.Battle.ObjectList.Count-1)-i).GetChild(0).gameObject.GetComponent<Image>();
+            Image turnImage = turnPanel.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
             Sprite charImage = Managers.Battle.ObjectList[i].GetComponent<Sprite>();            // 캐릭터 스프라이트를 가져온다
+
+            Debug.Log($"Object : {Managers.Battle.ObjectList[i]}");
 
             // Temp
             if (Managers.Battle.ObjectList[i].CompareTag("Player"))
@@ -49,10 +54,8 @@ public class UI_ActTurn : UI_Scene
                 {
                     turnImage.sprite = lizardSprite;
                 }
-                
-            }
 
-            // turnImage.sprite = charImage;
+            }
         }
     }
 
@@ -60,13 +63,29 @@ public class UI_ActTurn : UI_Scene
     {
         Image newTurn = Managers.Prefab.Instantiate("UI/SubItem/Turn", gameObject.transform).GetComponent<Image>();
         newTurn.sprite = newObj;
-        SetTurnUI();
+        UpdateTurnUI();
     }
 
     public void DestroyTurnUI()
     {
         Destroy(transform.GetChild(0).gameObject);
-        SetTurnUI();
+        UpdateTurnUI();
+    }
+
+    public void ProceedTurnUI()
+    {
+        Image firstChar = turnPanel.transform.GetChild(0).GetChild(0).GetComponent<Image>();
+
+        for (int i = 1; i < turnPanel.transform.childCount; i++)
+        {
+            Image updateImg = turnPanel.transform.GetChild(i - 1).GetChild(0).GetComponent<Image>();
+            Image moveImg = turnPanel.transform.GetChild(i).GetChild(0).GetComponent<Image>();
+
+            updateImg.sprite = moveImg.sprite;
+        }
+
+        Image lastChar = turnPanel.transform.GetChild(turnPanel.transform.childCount - 1).GetChild(0).GetComponent<Image>();
+        lastChar.sprite = firstChar.sprite;
     }
 
     public void TurnUpdate()
