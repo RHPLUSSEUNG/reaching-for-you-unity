@@ -17,6 +17,8 @@ public class AdventureManager : MonoBehaviour
         }
     }
 
+    public const int DESERT = 0, WATER = 1;
+
     public RandomPassage randomPassage;
     public RandomPlane randomPlane;
     public DynamicSpawner dynamicSpawner;
