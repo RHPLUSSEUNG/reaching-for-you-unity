@@ -14,13 +14,9 @@ public class ObjectiveGatherType : Objective
         return targetID;
     }
 
-    public void ReiceiveItem(int _itemID, int _objectCount)
+    public void ReiceiveItemCount(int _count)
     {
-        if(targetID == _itemID)
-        {
-            //[TODO:LSH] gatherToComplete == player's ItemCountCheck(int _objectID);
-            // IsAchieved();
-        }
+        count += _count;
     }
 
     public int GetItemCount()
