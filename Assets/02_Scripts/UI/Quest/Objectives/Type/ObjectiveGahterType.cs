@@ -7,20 +7,16 @@ public class ObjectiveGatherType : Objective
 {
     [SerializeField] int targetID;
     [SerializeField] int targetCount;
-    int count = 0;
+    [SerializeField] int count = 0;
 
     public int GetTargetID()
     {
         return targetID;
     }
 
-    public void ReiceiveItem(int _itemID, int _objectCount)
+    public void ReiceiveItemCount(int _count)
     {
-        if(targetID == _itemID)
-        {
-            //[TODO:LSH] gatherToComplete == player's ItemCountCheck(int _objectID);
-            // IsAchieved();
-        }
+        count = _count;
     }
 
     public int GetItemCount()

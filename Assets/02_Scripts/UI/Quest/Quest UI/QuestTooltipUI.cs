@@ -35,6 +35,10 @@ public class QuestTooltipUI : MonoBehaviour
             {
                 prefab = objectivePrefab;
             }
+            else
+            {
+                prefab = objectiveIncompletePrefab;
+            }
             GameObject objectiveInstance = Instantiate(prefab, objectiveContainer);
             TextMeshProUGUI objectiveText = objectiveInstance.GetComponentInChildren<TextMeshProUGUI>();
 

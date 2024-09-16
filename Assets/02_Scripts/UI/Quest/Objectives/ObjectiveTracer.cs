@@ -37,11 +37,11 @@ public class ObjectiveTracer : MonoBehaviour
     }
 
     //GATHER TYPE
-    public void ReportIItemCollected(GameObject _item, int _count)
+    public void ReportIItemCollected(int _itemID)
     {
         ObjectiveType objectveType = ObjectiveType.GATHER;
-        int target = 12341234; //_item.ItemId;
-        int count = _count;
+        int target = _itemID; //_item.ItemId;
+        int count = Managers.Item.SearchItem(_itemID);
 
         questList.ReceiveReport(objectveType, target, count);
     }

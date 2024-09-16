@@ -135,9 +135,31 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
 
                         if (objective.GetTargetID() == targetID)
                         {
-                            statuses[i].CompleteObjective(objective.GetReference());
-                        }
+                            objective.ReiceiveItemCount(count);
+                            onUpdate?.Invoke();
 
+                            if (objective.IsComplete())
+                            {
+                                //If receive reward through NPC, Change this code to "status.CompleteObjective(objective);"
+                                CompleteObjective(quest, objective.GetReference());
+
+                                if (statuses[i].IsComplete())
+                                {
+                                    quest.SetQuestType(QuestType.COMPLETED_QUEST);
+                                    onUpdate?.Invoke();
+                                    statuses.Remove(statuses[i]);
+                                }
+                            }
+                            else
+                            {
+                                if(statuses[i].IsObjectiveComplete(objective.GetReference()))
+                                {
+                                    statuses[i].InCompleteObjective(objective.GetReference());
+                                    onUpdate?.Invoke();
+                                }
+                            }
+                                                        
+                        }
                         break;
                     }
             }
