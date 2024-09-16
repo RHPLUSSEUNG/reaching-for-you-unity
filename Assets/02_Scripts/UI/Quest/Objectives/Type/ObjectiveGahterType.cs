@@ -16,7 +16,7 @@ public class ObjectiveGatherType : Objective
 
     public void ReiceiveItemCount(int _count)
     {
-        count += _count;
+        count = _count;
     }
 
     public int GetItemCount()

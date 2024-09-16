@@ -18,7 +18,7 @@ public class ItemManager
             {
                 consumeInven[itemID] += num;
                 //[2024-09-13][LSH's Code]: [quest-objective-gather]
-                ObjectiveTracer.Instance.ReportIItemCollected(itemID, num);
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
                 return true;
             }
             else if (inventoryCnt < inventoryMaxCnt)
@@ -26,7 +26,7 @@ public class ItemManager
                 consumeInven.Add(itemID, 1);
                 inventoryCnt++;
                 //[2024-09-13][LSH's Code]: [quest-objective-gather]
-                ObjectiveTracer.Instance.ReportIItemCollected(itemID, num);
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
                 return true;
             }
         }
@@ -37,7 +37,7 @@ public class ItemManager
                 equipmentInven.Add(itemID);
                 inventoryCnt++;
                 //[2024-09-13][LSH's Code]: [quest-objective-gather]
-                ObjectiveTracer.Instance.ReportIItemCollected(itemID, num);
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
                 return true;
             }
         }        
@@ -56,8 +56,8 @@ public class ItemManager
                 consumeInven[itemID] -= num;
                 consumeInven.Remove(itemID);
                 inventoryCnt--;
-                
-                ObjectiveTracer.Instance.ReportIItemCollected(itemID, num);
+                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
                 return true;
             }
         }
@@ -67,13 +67,39 @@ public class ItemManager
             {
                 equipmentInven.Remove(itemID);
                 inventoryCnt--;
-               
-                ObjectiveTracer.Instance.ReportIItemCollected(itemID, num);
+                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
                 return true;
             }
-        }
-        ObjectiveTracer.Instance.ReportIItemCollected(itemID, num);
+        }                   
         return false;
+    }
+
+    //[2024-09-16][LSH's Code]: [quest-objective-gather]
+    public int SearchItem(int itemID)
+    {
+        ItemData itemData = Managers.Data.GetItemData(itemID);
+        if (itemData.ItemType == ItemType.Consume)
+        {
+            if (consumeInven.ContainsKey(itemID))
+            {
+                return consumeInven[itemID];
+            }
+        }
+        else if (itemData.ItemType == ItemType.Equipment)
+        {
+            int equipCount = 0;
+            for (int i = 0; i < equipmentInven.Count; i++)
+            {
+                if (equipmentInven[i] == itemID)
+                {
+                    equipCount++;
+                }
+            }
+
+            return equipCount;
+        }
+        return 0;
     }
 
     public GameObject InstantiateConsumeItem(int itemID)

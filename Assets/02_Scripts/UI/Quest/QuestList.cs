@@ -133,9 +133,10 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                     {
                         ObjectiveGatherType objective = quest.GetObjective(_objectiveType) as ObjectiveGatherType;
 
-                        if (objective.GetTargetID() == targetID && !objective.IsComplete())
+                        if (objective.GetTargetID() == targetID)
                         {
                             objective.ReiceiveItemCount(count);
+                            onUpdate?.Invoke();
 
                             if (objective.IsComplete())
                             {
@@ -149,6 +150,15 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                                     statuses.Remove(statuses[i]);
                                 }
                             }
+                            else
+                            {
+                                if(statuses[i].IsObjectiveComplete(objective.GetReference()))
+                                {
+                                    statuses[i].InCompleteObjective(objective.GetReference());
+                                    onUpdate?.Invoke();
+                                }
+                            }
+                                                        
                         }
                         break;
                     }
