@@ -67,6 +67,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
         {
             isAttacked = true;
             isMoved = true;
+            spriteController.SetAnimState(AnimState.Trigger1);
             stat.ActPoint -= 50;
             isSIzeMode = true;
             BeforeTrunEnd();

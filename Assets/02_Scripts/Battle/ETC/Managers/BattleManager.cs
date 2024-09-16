@@ -157,7 +157,7 @@ public class BattleManager
         //camera setting
         cameraController.ChangeFollowTarget(currentCharacter, true);
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
-        cameraController.ChangeOffSet(0, 1, -3, 20);
+        cameraController.ChangeOffSet(-3, 1, -3, 20, 45);
 
         //Calculate Area Remain Turn
         if (Areas.Count != 0)
