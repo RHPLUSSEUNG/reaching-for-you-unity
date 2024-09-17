@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,6 +12,8 @@ public class InvenUI : UI_Base
         BodyEquip,
         WeaponEquip,
         InvenContent,
+        ConsumeLayout,
+        CharacterLayout,
         WeaponTab,
         ArmorTab,
         ConsumeTab,
@@ -34,6 +38,7 @@ public class InvenUI : UI_Base
         Managers.InvenUI.head = GetObject((int)invenUI.HeadEquip).GetComponent<Image>();
         Managers.InvenUI.body = GetObject((int)invenUI.BodyEquip).GetComponent<Image>();
         Managers.InvenUI.weapon = GetObject((int)invenUI.WeaponEquip).GetComponent<Image>();
+        Managers.InvenUI.consumeLayout = GetObject((int)invenUI.ConsumeLayout).GetComponent<GameObject>();
         Managers.InvenUI.invenContent = GetObject((int)invenUI.InvenContent);
 
         BindEvent(GetObject((int)invenUI.HeadEquip), HeadEquipButtonClick, Define.UIEvent.Click);
@@ -47,7 +52,9 @@ public class InvenUI : UI_Base
         armorRect = GetObject((int)invenUI.ArmorTab).GetComponent<RectTransform>();
         consumeRect = GetObject((int)invenUI.ConsumeTab).GetComponent<RectTransform>();
 
-        // Managers.InvenUI.SetInventory(); Inven Setting
+        Managers.InvenUI.invenUI = gameObject;
+        Managers.InvenUI.inven_state = false;
+        Managers.UI.HideUI(gameObject);
     }
 
     public void HeadEquipButtonClick(PointerEventData data)
@@ -61,6 +68,7 @@ public class InvenUI : UI_Base
         MoveArmorTab();
         Managers.InvenUI.part = EquipPart.Body;
         Managers.InvenUI.UnEquipInvenUI();
+
     }
 
     public void WeaponEquipButtonClick(PointerEventData data)
@@ -192,5 +200,19 @@ public class InvenUI : UI_Base
         consumeTabSize.x = activeTabXSize;
         consumeTabSize.y = activeTabYSize;
         consumeRect.sizeDelta = consumeTabSize;
+    }
+
+    public void ConsumeEquipedUI(int index, int itemID)
+    {
+        GameObject consumeLayout = GetObject((int)invenUI.ConsumeLayout);
+        GameObject consumeEquip = consumeLayout.transform.GetChild(index).gameObject;
+
+        ConsumeEquipUI equip = consumeEquip.GetComponent<ConsumeEquipUI>();
+        equip.invenItemID = itemID;
+        int count = Managers.InvenUI.player.GetComponent<Equip_Item>().Consumes[itemID];
+        Image equipIcon = Util.FindChild(consumeEquip, "EquipIcon").GetComponent<Image>();
+        equipIcon.sprite = Managers.InvenUI.changeIcon.sprite;
+        TextMeshProUGUI countText = Util.FindChild(consumeEquip, "ConsumeCount").GetComponent<TextMeshProUGUI>();
+        countText.text = count.ToString();
     }
 }

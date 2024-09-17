@@ -17,12 +17,16 @@ public class ItemManager
             if (consumeInven.ContainsKey(itemID))
             {
                 consumeInven[itemID] += num;
+                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
                 return true;
             }
             else if (inventoryCnt < inventoryMaxCnt)
             {
                 consumeInven.Add(itemID, 1);
                 inventoryCnt++;
+                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
                 return true;
             }
         }
@@ -32,11 +36,70 @@ public class ItemManager
             {
                 equipmentInven.Add(itemID);
                 inventoryCnt++;
+                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
+                return true;
+            }
+        }        
+        Debug.Log("Inventory is Already Full");
+        return false;
+    }
+
+    //[2024-09-13][LSH's Code]: [quest-objective-gather]
+    public bool RemoveItem(int itemID, int num = 1)
+    {
+        ItemData itemData = Managers.Data.GetItemData(itemID);
+        if (itemData.ItemType == ItemType.Consume)
+        {
+            if (consumeInven.ContainsKey(itemID) && consumeInven[itemID] >= num)
+            {
+                consumeInven[itemID] -= num;
+                consumeInven.Remove(itemID);
+                inventoryCnt--;
+                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
                 return true;
             }
         }
-        Debug.Log("Inventory is Already Full");
+        else if (itemData.ItemType == ItemType.Equipment)
+        {
+            if (equipmentInven.Contains(itemID))
+            {
+                equipmentInven.Remove(itemID);
+                inventoryCnt--;
+                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
+                return true;
+            }
+        }                   
         return false;
+    }
+
+    //[2024-09-16][LSH's Code]: [quest-objective-gather]
+    public int SearchItem(int itemID)
+    {
+        ItemData itemData = Managers.Data.GetItemData(itemID);
+        if (itemData.ItemType == ItemType.Consume)
+        {
+            if (consumeInven.ContainsKey(itemID))
+            {
+                return consumeInven[itemID];
+            }
+        }
+        else if (itemData.ItemType == ItemType.Equipment)
+        {
+            int equipCount = 0;
+            for (int i = 0; i < equipmentInven.Count; i++)
+            {
+                if (equipmentInven[i] == itemID)
+                {
+                    equipCount++;
+                }
+            }
+
+            return equipCount;
+        }
+        return 0;
     }
 
     public GameObject InstantiateConsumeItem(int itemID)

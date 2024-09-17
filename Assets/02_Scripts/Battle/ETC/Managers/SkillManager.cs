@@ -8,6 +8,7 @@ public class SkillManager
     GameObject target;
     GameObject usingSkill;
     GameObject usingEffect;
+    
     public GameObject extent;
 
     public bool is_effect = false;
@@ -86,10 +87,13 @@ public class SkillManager
         }
         effect.GetComponent<ParticleSystem>().Play();
         is_effect = true;
-        while(effect.GetComponent<ParticleSystem>().isPlaying)
+
+        yield return new WaitForSeconds(0.5f);
+        if (effect.GetComponent<ParticleSystem>().isPlaying)
         {
-            yield return null;
+            effect.GetComponent<ParticleSystem>().Stop();
         }
+        
         is_effect = false;
     }
 

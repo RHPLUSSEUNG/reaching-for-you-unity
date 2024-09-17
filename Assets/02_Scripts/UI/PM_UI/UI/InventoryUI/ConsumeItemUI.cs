@@ -18,41 +18,36 @@ public class ConsumeItemUI : InvenItemUI
     {
         Bind<GameObject>(typeof(consumeItemUI));
         BindEvent(gameObject, ClickConsumeItem, Define.UIEvent.Click);
+    }
+
+    public void SetItemInfo(Sprite item, int value)
+    {
+        // 아이템의 정보로 변경
+        ItemData itemData = Managers.Data.GetItemData(invenItemID);
+        itemType = itemData.ItemType;
 
         itemIcon = GetObject((int)consumeItemUI.ItemIcon).GetComponent<Image>();
         itemCount = GetObject((int)consumeItemUI.ItemCount).GetComponent<Text>();
-        itemCount.text = count.ToString();
-    }
-
-    public void SetItemInfo(Image item)
-    {
-        // 아이템의 정보로 변경
-        itemType = invenItem.GetComponent<Item>().type;
-
-        itemIcon = GetObject((int)consumeItemUI.ItemIcon).GetComponent<Image>();
-        itemIcon.sprite = item.sprite;
+        itemCount.text = value.ToString();
+        Text itemName = GetObject((int)consumeItemUI.ItemName).GetComponent<Text>();
+        itemName.text = itemData.ItemName;
+        itemIcon.sprite = item;
     }
     
-    public void IncreaseCountUI()
+    public void UpdateConsumeValue(int value)
     {
-        count++;
-        itemCount.text = count.ToString();
-    }
-
-    public void DecreaseCountUI()
-    {
-        count--;
-        if (count == 0)
+        if(value == 0)
         {
             Managers.Prefab.Destroy(gameObject);
             return;
         }
-        itemCount.text = count.ToString();
+        itemCount.text = value.ToString();
     }
 
     public void ClickConsumeItem(PointerEventData data)
     {
         Managers.InvenUI.focusItem = gameObject;
+        Managers.InvenUI.focusItemID = invenItemID;
         Managers.InvenUI.type = itemType;
         Image itemIcon = GetObject((int)consumeItemUI.ItemIcon).GetComponent<Image>();
         Managers.InvenUI.changeIcon = itemIcon;

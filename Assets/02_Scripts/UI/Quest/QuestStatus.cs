@@ -39,7 +39,7 @@ public class QuestStatus
     {
         foreach(var objective in quest.GetObjectives())
         {
-            if(!completedObjectives.Contains(objective.reference))
+            if(!completedObjectives.Contains(objective.GetReference()))
             {
                 return false; 
             }
@@ -64,6 +64,14 @@ public class QuestStatus
         {
             completedObjectives.Add(objective);
         }        
+    }
+
+    public void InCompleteObjective(string objective)
+    {
+        if (quest.HasObjective(objective) && completedObjectives.Contains(objective))
+        {
+            completedObjectives.Remove(objective);
+        }
     }
 
     public object CaptureState()

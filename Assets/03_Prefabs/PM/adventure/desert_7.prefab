@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 60a0183c6e1d10f4bba6da103c91b2f7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.09591519
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 60a0183c6e1d10f4bba6da103c91b2f7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -62,14 +62,44 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 60a0183c6e1d10f4bba6da103c91b2f7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3365375257319658601}
+      addedObject: {fileID: 2455424520400435302}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 60a0183c6e1d10f4bba6da103c91b2f7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2734802907586124368}
   m_SourcePrefab: {fileID: 100100000, guid: 60a0183c6e1d10f4bba6da103c91b2f7, type: 3}
 --- !u!1 &1348126554673589991 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 60a0183c6e1d10f4bba6da103c91b2f7, type: 3}
   m_PrefabInstance: {fileID: 2194634162296198070}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &3365375257319658601
+--- !u!54 &2455424520400435302
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348126554673589991}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 122
+  m_CollisionDetection: 0
+--- !u!65 &2734802907586124368
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
