@@ -10,6 +10,12 @@ public enum EObstacle
     Ground,
 }
 
+public enum StageType
+{
+    DESERT = 0,
+    WATER = 1,
+}
+
 public struct Map
 {
     public GameObject ObjectPrefab;
@@ -60,7 +66,7 @@ public class CreateObject : MonoBehaviour
     public float wallPercent; // 벽이 맵 안에 존재하는 정도
 
     [Header("Map")]
-    public GameObject MapPrefab;
+    public GameObject[] MapPrefab;
 
     [Header("Gimmick")]
     public GameObject[] Gimmicks;
@@ -82,20 +88,38 @@ public class CreateObject : MonoBehaviour
 
     public LayerMask wallLayerMask; // Wall 레이어 마스크
 
+    [SerializeField]
+    private StageType stageType;
+    private int stageIndex;
+
     #endregion
 
     void Start()
     {
+        ConvertStageType(stageType);
         GenerateMap();
 
         PlaceObstacles();
         PlaceGimmicks();
         PlaceEnemy();
 
-        GameObject mapInstance = Instantiate(MapPrefab);
-        mapInstance.transform.position = MapPrefab.transform.position;
+        GameObject mapInstance = Instantiate(MapPrefab[stageIndex]);
+        mapInstance.transform.position = MapPrefab[stageIndex].transform.position;
 
         manager.active = true;
+    }
+
+    void ConvertStageType(StageType _type)
+    {
+        switch(_type)
+        {
+            case StageType.DESERT:
+                stageIndex = 0;
+                break;
+            case StageType.WATER:
+                stageIndex = 1;
+                break;
+        }
     }
 
     public void GenerateMap()
@@ -128,9 +152,8 @@ public class CreateObject : MonoBehaviour
             for (int z = 0; z < Height; z++)
             {
                 // 큐브 랜덤하게 생성
-                int randomIndex = Random.Range(0, cubePrefab.Length); 
+                int randomIndex = Random.Range(4 * stageIndex, (4 * stageIndex) + 4);
                 // 새로운 Cube 오브젝트 생성
-
                 Vector3 tilePosition = CoordToPosition(x, z);
                 GameObject newCube = Instantiate(cubePrefab[randomIndex], tilePosition, Quaternion.identity);
                 // 부모 설정 (이 스크립트를 추가한 게임 오브젝트를 부모로 설정)
