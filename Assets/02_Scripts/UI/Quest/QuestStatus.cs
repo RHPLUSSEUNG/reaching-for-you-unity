@@ -8,6 +8,7 @@ public class QuestStatus
 {
     Quest quest;
     List<string> completedObjectives = new List<string>();
+    bool isTimeToTalk = false;
 
     [System.Serializable]
     class QuestStatusRecord
@@ -63,7 +64,9 @@ public class QuestStatus
         if(quest.HasObjective(objective) && !completedObjectives.Contains(objective))
         {
             completedObjectives.Add(objective);
-        }        
+        }
+
+        ControlTimeToTalk();
     }
 
     public void InCompleteObjective(string objective)
@@ -72,6 +75,25 @@ public class QuestStatus
         {
             completedObjectives.Remove(objective);
         }
+
+        ControlTimeToTalk();
+    }
+
+    void ControlTimeToTalk()
+    {
+        if (quest.GetObjectiveCount() - 1 == completedObjectives.Count)
+        {
+            isTimeToTalk = true;
+        }
+        else
+        {
+            isTimeToTalk = false;
+        }
+    }
+
+    public bool GetisTimeToTalk()
+    {
+        return isTimeToTalk;
     }
 
     public object CaptureState()

@@ -117,10 +117,9 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                             if (objective.IsComplete())
                             {
                                 //If receive reward through NPC, Change this code to "status.CompleteObjective(objective);"
-                                statuses[i].CompleteObjective(objective.GetReference());
-                                //CompleteObjective(quest, objective.GetReference());
+                                CompleteObjective(quest, objective.GetReference());
 
-                                if (statuses[i].IsComplete())
+                                if(statuses[i].IsComplete())
                                 {                                    
                                     quest.SetQuestType(QuestType.COMPLETED_QUEST);
                                     onUpdate?.Invoke();
@@ -142,8 +141,7 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                             if (objective.IsComplete())
                             {
                                 //If receive reward through NPC, Change this code to "status.CompleteObjective(objective);"
-                                statuses[i].CompleteObjective(objective.GetReference());
-                                //CompleteObjective(quest, objective.GetReference());
+                                CompleteObjective(quest, objective.GetReference());
 
                                 if (statuses[i].IsComplete())
                                 {
@@ -171,9 +169,9 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
     //Name Type
     public void ReceiveReport(ObjectiveType _objectiveType, string name)
     {
-        foreach (QuestStatus status in statuses)
+        for (int i = 0; i < statuses.Count; i++)
         {
-            Quest quest = status.GetQuest();
+            Quest quest = statuses[i].GetQuest();
 
             switch (_objectiveType)
             {
@@ -182,9 +180,16 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                         ObjectiveTalkType objective = quest.GetObjective(_objectiveType) as ObjectiveTalkType;
                         objective.ReceiveNPCName(name);
 
-                        if (objective.IsComplete())
+                        if (objective.IsComplete() && statuses[i].GetisTimeToTalk())
                         {
-                            status.CompleteObjective(objective.GetReference());
+                            CompleteObjective(quest, objective.GetReference());
+
+                            if (statuses[i].IsComplete())
+                            {
+                                quest.SetQuestType(QuestType.COMPLETED_QUEST);
+                                onUpdate?.Invoke();
+                                statuses.Remove(statuses[i]);
+                            }
                         }
 
                         break;
@@ -196,7 +201,7 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
 
                         if (objective.IsComplete())
                         {
-                            status.CompleteObjective(objective.GetReference());
+                            CompleteObjective(quest, objective.GetReference());
                         }
 
                         break;
