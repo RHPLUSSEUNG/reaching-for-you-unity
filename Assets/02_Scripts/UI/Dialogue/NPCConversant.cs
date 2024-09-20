@@ -63,4 +63,14 @@ public class NPCConversant : MonoBehaviour
     {
         return conversantName;
     }
+
+    public bool GetIsOffActionButton()
+    {
+        return actionButton.IsActive();
+    }
+
+    public Button GetActionButton()
+    {
+        return actionButton;
+    }
 }
