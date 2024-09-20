@@ -556,6 +556,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.16, y: 0.16, z: 0.05}
   m_Center: {x: 0.096, y: 0, z: -0.18}
+--- !u!4 &129240134 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+  m_PrefabInstance: {fileID: 864924155}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &167851708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1175,6 +1180,10 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: e89bd518f36ae8c47af84a551bba0267, type: 2}
+    - target: {fileID: 7875700743041940680, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: conversantName
+      value: TEST NPC
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1878,6 +1887,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: -0.15, y: -0.05, z: 0.15}
+--- !u!114 &514521112 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7303633214719604547, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+  m_PrefabInstance: {fileID: 864924155}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55c9d5552cb99c4a82068784ca8a1a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &556800922
 GameObject:
   m_ObjectHideFlags: 0
@@ -2511,6 +2531,119 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
   m_PrefabInstance: {fileID: 1537058281}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &864924155
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1073558408}
+    m_Modifications:
+    - target: {fileID: 188765305828568747, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_text
+      value: E
+      objectReference: {fileID: 0}
+    - target: {fileID: 559491011550193173, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_Name
+      value: TEST COM NPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 1307492970686908935, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f139ddf0634ebde428eb8602f473ef89, type: 3}
+    - target: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -60.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9961947
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.08715578
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4270945979546468272, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: triggerStruct.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: triggerStruct.Array.data[0].action
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 514521112}
+    - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GiveQuest
+      objectReference: {fileID: 0}
+    - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: QuestHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6689558612626955307, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: triggerStruct.Array.data[0].onTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7303633214719604547, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: questToGive
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7303633214719604547, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: questToComplete
+      value: 
+      objectReference: {fileID: 11400000, guid: 3392939e100cfad4c86cc9ee72c5c3c1, type: 2}
+    - target: {fileID: 7875700743041940680, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: dialogue
+      value: 
+      objectReference: {fileID: 11400000, guid: 2dc8e40b31cc450429633b50611a6307, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
 --- !u!4 &865337649 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 206727465561895357, guid: c931c1b2057f68840ba4c39685107435, type: 3}
@@ -3430,6 +3563,7 @@ Transform:
   - {fileID: 267220813}
   - {fileID: 2056676150}
   - {fileID: 828332450}
+  - {fileID: 129240134}
   - {fileID: 1671903527}
   - {fileID: 1473658819}
   - {fileID: 405064316}
@@ -5116,6 +5250,10 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: 37f2f6d8c6f177b41b65b2670ba5ce71, type: 2}
+    - target: {fileID: 7875700743041940680, guid: 49b7f138fbcc712478c3b953e395cdaf, type: 3}
+      propertyPath: conversantName
+      value: TALKTONPC
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -6,7 +6,7 @@ using UnityEngine;
 public class ObjectiveTalkType : Objective
 {
     [SerializeField] string npcName;
-    bool talkToComplete = false;
+    [SerializeField] bool talkToComplete = false;
     
     public void ReceiveNPCName(string _npcName)
     {
