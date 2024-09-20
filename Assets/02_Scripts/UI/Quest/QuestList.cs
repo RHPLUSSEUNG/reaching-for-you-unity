@@ -117,9 +117,10 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                             if (objective.IsComplete())
                             {
                                 //If receive reward through NPC, Change this code to "status.CompleteObjective(objective);"
-                                CompleteObjective(quest, objective.GetReference());
+                                statuses[i].CompleteObjective(objective.GetReference());
+                                //CompleteObjective(quest, objective.GetReference());
 
-                                if(statuses[i].IsComplete())
+                                if (statuses[i].IsComplete())
                                 {                                    
                                     quest.SetQuestType(QuestType.COMPLETED_QUEST);
                                     onUpdate?.Invoke();
@@ -141,7 +142,8 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                             if (objective.IsComplete())
                             {
                                 //If receive reward through NPC, Change this code to "status.CompleteObjective(objective);"
-                                CompleteObjective(quest, objective.GetReference());
+                                statuses[i].CompleteObjective(objective.GetReference());
+                                //CompleteObjective(quest, objective.GetReference());
 
                                 if (statuses[i].IsComplete())
                                 {
