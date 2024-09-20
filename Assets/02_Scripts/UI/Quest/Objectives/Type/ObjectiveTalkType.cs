@@ -16,6 +16,11 @@ public class ObjectiveTalkType : Objective
         }
     }
 
+    public string GetNPCName()
+    {
+        return npcName;
+    }
+
     public override bool IsComplete()
     {
         return talkToComplete;
