@@ -34,7 +34,7 @@ public class FloatingIconHandler : MonoBehaviour
 
     private void Update()
     {
-        if (questHandler.GetIsQuestGiven() && !npcConversant.GetIsOffActionButton())
+        if (questHandler.GetPlzLookAtMe() && !npcConversant.GetIsOffActionButton())
         {
             exclamationMark.gameObject.SetActive(true);
 

@@ -81,18 +81,27 @@ public class QuestStatus
 
     void ControlTimeToTalk()
     {
+        //[LSH:TODO] Need Refactor
         if (quest.GetObjectiveCount() - 1 == completedObjectives.Count)
         {
             isTimeToTalk = true;
+            ObjectiveTalkType objective = quest.GetObjective(ObjectiveType.TALK) as ObjectiveTalkType;
+            GameObject TargetNPC = GameObject.Find(objective.GetNPCName());
+
+            TargetNPC.transform.GetChild(1).GetComponent<QuestHandler>().SetPlzLookAtMe(true);
         }
         else
         {
             isTimeToTalk = false;
+            ObjectiveTalkType objective = quest.GetObjective(ObjectiveType.TALK) as ObjectiveTalkType;
+            GameObject TargetNPC = GameObject.Find(objective.GetNPCName());
+
+            TargetNPC.transform.GetChild(1).GetComponent<QuestHandler>().SetPlzLookAtMe(false);
         }
     }
 
     public bool GetisTimeToTalk()
-    {
+    {        
         return isTimeToTalk;
     }
 

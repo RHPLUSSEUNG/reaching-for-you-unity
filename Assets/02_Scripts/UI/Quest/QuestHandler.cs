@@ -8,13 +8,13 @@ public class QuestHandler : MonoBehaviour
     [SerializeField] Quest questToGive;
     [SerializeField] Quest questToComplete;
     [SerializeField] string objective;
-    bool isQuestGiven = false;
+    bool plzLookAtMe = false;
 
     private void Start()
     {
         if(questToGive != null)
-        {            
-            isQuestGiven = true;
+        {
+            plzLookAtMe = true;
         }
     }
 
@@ -22,7 +22,7 @@ public class QuestHandler : MonoBehaviour
     {
         QuestList questList = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponent<QuestList>();
         questList.AddQuest(questToGive);
-        isQuestGiven = false;
+        plzLookAtMe = false;
     }    
 
     public void CompleteObjective()
@@ -31,8 +31,13 @@ public class QuestHandler : MonoBehaviour
         questList.CompleteObjective(questToComplete, objective);
     }
 
-    public bool GetIsQuestGiven()
+    public bool GetPlzLookAtMe()
     {
-        return isQuestGiven;
+        return plzLookAtMe;
+    }
+
+    public void SetPlzLookAtMe(bool _plzLookAtMe)
+    {
+        plzLookAtMe = true;
     }
 }
