@@ -7,7 +7,8 @@ public class AdventureManager : MonoBehaviour
     static AdventureManager _adventure;
     public static AdventureManager adventure { get { return _adventure; } }
 
-    [SerializeField] UnityEvent[] respawnedRoom;
+    private const int DESERT = 0, WATER = 1;
+    public static int StageNumber = WATER;
 
     private static int stageCount = 1;
     public static int StageCount {
@@ -16,8 +17,6 @@ public class AdventureManager : MonoBehaviour
             stageCount = value;
         }
     }
-
-    public const int DESERT = 0, WATER = 1;
 
     public RandomPassage randomPassage;
     public RandomPlane randomPlane;

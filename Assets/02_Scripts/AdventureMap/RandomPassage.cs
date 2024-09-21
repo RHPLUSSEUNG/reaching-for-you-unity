@@ -9,6 +9,7 @@ public class RandomPassage : MonoBehaviour
     private GameObject[] wallPrefabs;
 
     int DoorCount = 0;
+    int stageIndex;
 
     List<Transform> passageChildren = new List<Transform>();
     List<GameObject> wallChildren = new List<GameObject>();
@@ -21,6 +22,7 @@ public class RandomPassage : MonoBehaviour
         }
 
         DoorCount = Random.Range(0, passageChildren.Count - 1) + 1;
+        stageIndex = AdventureManager.StageNumber;
         AddPassage();
     }
 
@@ -31,7 +33,7 @@ public class RandomPassage : MonoBehaviour
         
         for(; index < DoorCount; index++)
         {
-            wallInMap = Instantiate(wallPrefabs[1], passageChildren[index]);
+            wallInMap = Instantiate(wallPrefabs[(2 * stageIndex) + 1], passageChildren[index]);
             wallInMap.transform.SetParent(passageChildren[index]);
 
             wallChildren.Add(wallInMap);
@@ -39,7 +41,7 @@ public class RandomPassage : MonoBehaviour
 
         for(; index < passageChildren.Count; index++)
         {
-            wallInMap = Instantiate(wallPrefabs[0], passageChildren[index]);
+            wallInMap = Instantiate(wallPrefabs[2 * stageIndex], passageChildren[index]);
             wallInMap.transform.SetParent(passageChildren[index]);
 
             wallChildren.Add(wallInMap);
