@@ -7,8 +7,8 @@ public class Friend : MonoBehaviour
 {
     [SerializeField] string friendName;
     [SerializeField] int friendID;
-    [SerializeField] Image friendnPortrait;
-    [SerializeField] int friendship = 1;    
+    [SerializeField] Sprite friendPortrait;
+    [SerializeField] int friendship = 0;    
 
     public void RiseFriendshipLevel(int level)
     {
@@ -44,9 +44,9 @@ public class Friend : MonoBehaviour
         return friendID;
     }
 
-    public Image GetFriendnPortrait()
+    public Sprite GetFriendPortrait()
     {
-        return friendnPortrait;
+        return friendPortrait;
     }
 
     public int GetFriendship()

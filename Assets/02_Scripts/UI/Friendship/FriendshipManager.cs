@@ -28,13 +28,14 @@ public class FriendshipManager : MonoBehaviour
         if(!friends.Contains(_friend))
         {
             friends.Add(_friend);
+            onUpdate.Invoke();
         }        
     }
 
     public void FriendshipHandler(Friend _friend, int level)
     {
         if(friends.Contains(_friend))
-        {
+        {            
             if (level > 0)
             {
                 _friend.RiseFriendshipLevel(level);
@@ -43,6 +44,7 @@ public class FriendshipManager : MonoBehaviour
             {
                 _friend.FallFriendshipLevel(level);
             }
+            onUpdate.Invoke();
         }
         else
         {
