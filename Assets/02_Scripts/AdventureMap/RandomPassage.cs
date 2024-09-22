@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[System.Serializable]
+public class Stage
+{
+    public string name;
+    public GameObject[] wallPrepavs;
+}
+
 public class RandomPassage : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] wallPrefabs;
+    [SerializeField]
+    private Stage[] stages;
 
     int DoorCount = 0;
     int stageIndex;
