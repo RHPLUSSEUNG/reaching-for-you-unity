@@ -7,7 +7,6 @@ public class SpriteController : MonoBehaviour
 {
     private Transform sprite;
     private Transform character;
-    private Transform char_base;
     [SerializeField]
     float rotateSpeed = 5.0f;
     [SerializeField]
@@ -27,7 +26,6 @@ public class SpriteController : MonoBehaviour
     {
         sprite = this.transform.GetChild(0);
         character = sprite.GetChild(0);
-        char_base = character.GetChild(0);
         anim = character.GetComponent<Animator>();
         isIdle = true;
         mainCamera = GameObject.Find("Main Camera");
