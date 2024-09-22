@@ -1,11 +1,15 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class UI_ActTurn : UI_Scene
 {
     enum turnUI
     {
-        ActTurnPanel
+        ActTurnPanel,
+        TurnOrderButton
     }
 
     // Temp
@@ -13,9 +17,16 @@ public class UI_ActTurn : UI_Scene
     [SerializeField] Sprite crabSprite;
     [SerializeField] Sprite lizardSprite;
 
-    Color actedColor = Color.gray;
     GameObject turnPanel;
-    // 보완 필요
+    Button turnUIBtn;
+
+    float moveDuration = 0.4f;
+    float moveDistance = 300f;
+    bool state = false;
+    bool isMoving = false;
+
+    RectTransform uiRect;
+
     public override void Init()
     {
         base.Init();
@@ -23,11 +34,21 @@ public class UI_ActTurn : UI_Scene
         Bind<GameObject>(typeof(turnUI));
 
         turnPanel = GetObject((int)turnUI.ActTurnPanel);
-        for(int i = 0; i < Managers.Battle.ObjectList.Count; i++)
+        turnUIBtn = GetObject((int)turnUI.TurnOrderButton).GetComponent<Button>();
+        BindEvent(turnUIBtn.gameObject, ClickTurnOrderButton, Define.UIEvent.Click);
+
+        uiRect = turnPanel.GetComponent<RectTransform>();
+
+        Managers.BattleUI.turnUI = gameObject.GetComponent<UI_ActTurn>();
+    }
+
+    public void InstantiateTurnOrderUI()
+    {
+        for (int i = 0; i < Managers.Battle.ObjectList.Count; i++)
         {
             Managers.Prefab.Instantiate("UI/SubItem/Turn", turnPanel.transform); // ActTurnPanel을 부모로 해서 생성
         }
-        Managers.BattleUI.turnUI = gameObject.GetComponent<UI_ActTurn>();
+        ShowTurnOrderUI();
     }
 
     public void UpdateTurnUI()
@@ -36,8 +57,6 @@ public class UI_ActTurn : UI_Scene
         {
             Image turnImage = turnPanel.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
             Sprite charImage = Managers.Battle.ObjectList[i].GetComponent<Sprite>();            // 캐릭터 스프라이트를 가져온다
-
-            Debug.Log($"Object : {Managers.Battle.ObjectList[i]}");
 
             // Temp
             if (Managers.Battle.ObjectList[i].CompareTag("Player"))
@@ -72,43 +91,92 @@ public class UI_ActTurn : UI_Scene
         UpdateTurnUI();
     }
 
-    public void ProceedTurnUI()
+    public void ProceedTurnUI(int turnCnt)
     {
-        Image firstChar = turnPanel.transform.GetChild(0).GetChild(0).GetComponent<Image>();
-
-        for (int i = 1; i < turnPanel.transform.childCount; i++)
+        int circleIdx = turnCnt;
+        for (int i = 0; i < turnPanel.transform.childCount; i++)
         {
-            Image updateImg = turnPanel.transform.GetChild(i - 1).GetChild(0).GetComponent<Image>();
-            Image moveImg = turnPanel.transform.GetChild(i).GetChild(0).GetComponent<Image>();
+            Image turnImg = turnPanel.transform.GetChild(i).GetChild(0).GetComponent<Image>();
+            Sprite charImage = Util.FindChild(Managers.Battle.ObjectList[circleIdx], "Character", true).GetComponent<SpriteRenderer>().sprite;
 
-            updateImg.sprite = moveImg.sprite;
+            turnImg.sprite = charImage;
+            circleIdx++;
+            if (circleIdx == Managers.Battle.ObjectList.Count)
+            {
+                circleIdx = 0;
+            }
         }
-
-        Image lastChar = turnPanel.transform.GetChild(turnPanel.transform.childCount - 1).GetChild(0).GetComponent<Image>();
-        lastChar.sprite = firstChar.sprite;
+        if(turnCnt > 0)
+        {
+            GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - turnCnt).GetChild(1).gameObject;
+            pastPanel.SetActive(true);
+        }
     }
 
-    public void TurnUpdate()
+    public void ShowTurnOrderUI()
     {
-        // 반복문 childCount 범위 재설정
-        Image curChar = transform.GetChild(transform.childCount - 1).GetChild(0).GetComponent<Image>();
-        Sprite curSprite = curChar.sprite;
-
-        for (int i = transform.childCount - 2; i >= 0; i--)
-        {
-            Image turnImg = transform.GetChild(i + 1).GetChild(0).GetComponent<Image>();
-            Image moveImg = transform.GetChild(i).GetChild(0).GetComponent<Image>();
-
-            turnImg.sprite = moveImg.sprite;
-        }
-        Image lastImg = transform.GetChild(0).GetChild(0).GetComponent<Image>();
-        lastImg.sprite = curSprite;
-        // TODO : Color 변경. 모든 캐릭터가 한 번씩 행동했을 시 색 초기화
+        if (isMoving) return;
+        state = true;
+        StartCoroutine(MoveUI(false));
     }
 
-    public void TempTurnUpdate()
+    public void HideTurnOrderUI()
     {
-        Image lastImg = transform.GetChild(0).GetComponent<Image>();
-        lastImg.color = actedColor;
+        if (isMoving) return;
+        state = false;
+        StartCoroutine(MoveUI(true));
+    }
+
+    IEnumerator MoveUI(bool flag)
+    {
+        isMoving = true;
+        turnUIBtn.interactable = false;
+        float distance = moveDistance;
+        if(!flag)
+        {
+            distance = -moveDistance;
+        }
+
+        Vector3 startPos = uiRect.anchoredPosition;
+        Vector3 endPos = startPos + new Vector3(0, distance, 0);
+
+        float elapsedTime = 0;
+
+        while (elapsedTime < moveDuration)
+        {
+            uiRect.anchoredPosition = Vector3.Lerp(startPos, endPos, elapsedTime / moveDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        uiRect.anchoredPosition = endPos;
+        turnUIBtn.interactable = true;
+        isMoving = false;
+    }
+    
+    public void ResetPastPanel()
+    {
+        for(int i = 0; i < turnPanel.transform.childCount; i++)
+        {
+            GameObject pastPanel = turnPanel.transform.GetChild(i).GetChild(1).gameObject;
+            pastPanel.SetActive(false);
+        }
+    }
+
+    public bool GetState()
+    {
+        return state;
+    }
+
+    public void ClickTurnOrderButton(PointerEventData data)
+    {
+        if(state)
+        {
+            HideTurnOrderUI();
+        }
+        else
+        {
+            ShowTurnOrderUI();
+        }
     }
 }
