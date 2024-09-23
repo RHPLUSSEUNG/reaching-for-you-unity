@@ -80,6 +80,7 @@ public class EnemyAI_Queen : EnemyAI_Base
             for (int i=0;i<layCount; i++)   // 산란 횟수만큼
             {
                 GetRandomLoc(5);
+                //skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetPos);
                 //해당 위치에 알 생성
             }
             isAttacked = true;

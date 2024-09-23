@@ -14,17 +14,19 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     List<GameObject> followTargets;
     [SerializeField]
-    float basicOffsetX = 0.0f;
+    float basicOffsetX;
     [SerializeField]
-    float basicOffsetY = 2.0f;
+    float basicOffsetY;
     [SerializeField]
-    float basicOffsetZ = -3.0f;
+    float basicOffsetZ;
     [SerializeField]
-    float basicRotateX = 30.0f;
+    float basicRotateX ;
     [SerializeField]
-    float cameraSpeed = 10.0f;
+    float basicRotateY;
+    [SerializeField]
+    float cameraSpeed;
 
-    float offsetX,offsetY,offsetZ,rotateX;
+    float offsetX,offsetY,offsetZ,rotateX, rotateY;
     [SerializeField]
     bool isFollowMode;
 
@@ -45,6 +47,7 @@ public class CameraController : MonoBehaviour
 
     private void Awake()
     {
+        BasicOffset();
         if (cameraList != null)
         {
             cameraTargets = cameraList.GetComponentsInChildren<Transform>();
@@ -53,7 +56,7 @@ public class CameraController : MonoBehaviour
 
         if (isFollowMode)
         {
-            transform.eulerAngles = new Vector3(rotateX, 0, 0);
+            transform.eulerAngles = new Vector3(rotateX, rotateY, 0);
             ChangeFollowTarget(followTargets[0], true);
             mode = CameraMode.Follow;
         }
@@ -61,7 +64,7 @@ public class CameraController : MonoBehaviour
         {
             ChangeCameraTarget(cameraIndex, false);
         }
-        BasicOffset();
+        
     }
     void FixedUpdate()
     {
@@ -81,6 +84,7 @@ public class CameraController : MonoBehaviour
                 }
                 break;
             case CameraMode.Follow:
+
                 setPos = new Vector3(
                    targetTransform.position.x + offsetX,
                    targetTransform.position.y + offsetY,
@@ -94,7 +98,6 @@ public class CameraController : MonoBehaviour
                 {
                     transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
                 }
-                transform.eulerAngles = new Vector3(rotateX, 0, 0);
                 break;
             case CameraMode.Move:
                 CameraInput();
@@ -134,7 +137,7 @@ public class CameraController : MonoBehaviour
     }
     public void ChangeFollowTarget(GameObject target, bool _isSmoothMove)
     {
-        transform.eulerAngles = new Vector3(rotateX, 0, 0);
+        transform.eulerAngles = new Vector3(rotateX, rotateY, 0);
         isSmoothMove = _isSmoothMove;
         followTarget = target;
         targetTransform = followTarget.transform;
@@ -154,7 +157,7 @@ public class CameraController : MonoBehaviour
             case CameraMode.Follow:
                 mode = CameraMode.Follow;
                 isFollowMode = true;
-                transform.eulerAngles = new Vector3(rotateX, 0, 0);
+                transform.eulerAngles = new Vector3(rotateX, rotateY, 0);
                 targetTransform = followTarget.transform;
                 break;
             case CameraMode.Move:
@@ -170,7 +173,6 @@ public class CameraController : MonoBehaviour
         Debug.Log("Changed Mode");
 
         transform.position = setPos;    //1회만 설정
-        transform.rotation = targetTransform.rotation;
     }
     public void AddFollowList(GameObject target)
     {
@@ -181,12 +183,13 @@ public class CameraController : MonoBehaviour
         targetTransform = target;
         setPos = target.position;
     }
-    public void ChangeOffSet(float x, float y, float z, float _rotateX)
+    public void ChangeOffSet(float x, float y, float z, float _rotateX, float _rotateY)
     {
         offsetX = x;
         offsetY = y;
         offsetZ = z;
         rotateX = _rotateX;
+        rotateY = _rotateY;
     }
     public void BasicOffset()
     {
@@ -194,6 +197,7 @@ public class CameraController : MonoBehaviour
         offsetY = basicOffsetY;
         offsetZ = basicOffsetZ;
         rotateX = basicRotateX;
+        rotateY = basicRotateY;
     }
     private void CameraInput()
     {

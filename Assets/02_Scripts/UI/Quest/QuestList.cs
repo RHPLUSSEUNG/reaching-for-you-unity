@@ -173,6 +173,7 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
         {
             Quest quest = statuses[i].GetQuest();
 
+
             switch (_objectiveType)
             {
                 case ObjectiveType.TALK:

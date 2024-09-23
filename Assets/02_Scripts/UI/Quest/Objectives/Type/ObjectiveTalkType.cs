@@ -15,12 +15,12 @@ public class ObjectiveTalkType : Objective
             talkToComplete = true;
         }
     }
-
+    
     public string GetNPCName()
     {
         return npcName;
     }
-
+    
     public override bool IsComplete()
     {
         return talkToComplete;

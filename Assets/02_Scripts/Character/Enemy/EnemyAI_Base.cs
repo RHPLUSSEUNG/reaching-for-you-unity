@@ -30,10 +30,14 @@ public abstract class EnemyAI_Base : MonoBehaviour
 
     public bool isTurnEnd;
 
+    protected GameObject cover;
+
     public Dictionary<string, float> actDic;   // 확률 행동 딕셔너리
 
     private void Start()
     {
+        cover = null;
+
         stat = GetComponent<EnemyStat>();
         spriteController = GetComponent<SpriteController>();
         isTurnEnd = true;
@@ -140,8 +144,11 @@ public abstract class EnemyAI_Base : MonoBehaviour
         }
         TurnEnd();
     }
+
     public void AttackEvent()
     {
+        if(cover != null)
+            Managers.Active.SetCoverData(cover);
         Managers.Active.Damage(targetObj.transform.parent.gameObject, stat.BaseDamage); //targetObj 반환값 = 콜라이더를 가지고 있는 오브젝트 > 플레이어는 하위 오브젝트에 콜라이더 존재
         OnAttackSuccess();
     }

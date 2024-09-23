@@ -105,6 +105,14 @@ public class QuestStatus
         return isTimeToTalk;
     }
 
+    public void InCompleteObjective(string objective)
+    {
+        if (quest.HasObjective(objective) && completedObjectives.Contains(objective))
+        {
+            completedObjectives.Remove(objective);
+        }
+    }
+
     public object CaptureState()
     {
         QuestStatusRecord state = new QuestStatusRecord();

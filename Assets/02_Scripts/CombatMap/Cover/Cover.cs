@@ -9,148 +9,137 @@ public class Cover : CoverData
     GameObject coverObject;
 
     private void Awake() {
-        setStep();
+        Init();
     }
 
-    private void setStep() 
+    private void Init() 
     {
-        step = Random.Range(0, maxStep + 1);
-        
+        step = Random.Range(1, maxStep + 1);
+        currentStep = step;
+      
         switch (step)
         {
-            case 0:
-            case 1:
+            case 1: // 1단계 (피격확률 80)
                 damagePercent = 0.8f;
-                hp = 40;
+                hp = Random.Range(10, 41);
                 coverObject = Instantiate(coverPrefab[0], transform);
                 coverObject.transform.SetParent(transform);
                 break;
-            case 2:
+            case 2: // 2단계 (피격확률 50)
                 damagePercent = 0.5f;
-                hp = 70;
+                hp = Random.Range(40, 71);
                 coverObject = Instantiate(coverPrefab[1], transform);
                 coverObject.transform.SetParent(transform);
                 break;
-            case 3:
+            case 3: // 3단계 (피격확률 0)
                 damagePercent = 0f;
-                hp = 100;
+                hp = Random.Range(70, 101);
                 coverObject = Instantiate(coverPrefab[2], transform);
                 coverObject.transform.SetParent(transform);
-                break;
+                break;            
         }
     }
 
-    void Update()
+    public Cover returnCoverData()
     {
-        UpdatePlayerPosition(coverObject.transform.position);
+        return gameObject.GetComponent<Cover>();
     }
 
-    // 두 위치 간의 각도를 계산하는 메서드
+    public void AttackCover(int damage)
+    {
+        hp -= damage;
+
+        CalculateHp();
+        CalculateDamagePercent();
+        CalculateStep();
+    }
+
+    public void CalculateDamagePercent()
+    {
+        switch (step)
+        {
+            case 0:
+                damagePercent = 1f;
+                break;
+            case 1:
+                damagePercent = 0.8f;
+                break;
+            case 2:
+                damagePercent = 0.5f;
+                break;
+            case 3:
+                damagePercent = 0f;
+                break;
+        }
+    }
+    public void CalculateHp()
+    {
+        if(hp >= 70)
+            step = 3;
+        else if(hp >= 40)
+            step = 2;
+        else if(hp >= 10)
+            step = 1;
+        else 
+            step = 0;
+    }
+
+    public void CalculateStep() 
+    {
+        if(step >= 0)
+        {
+            if(currentStep != step)
+            {
+                currentStep = step;
+
+                if(coverObject != null)
+                    Destroy(coverObject);
+                else 
+                    return;
+                
+                if(step > 0)
+                {
+                    coverObject = Instantiate(coverPrefab[currentStep - 1], transform);
+                    coverObject.transform.SetParent(transform);
+                }
+            }
+        }
+    }
+
+    // 두 위치 간의 각도를 계산하는 메서드 (to: target)
     public float CalculateAngle(Vector3 fromPosition, Vector3 toPosition)
     {
         Vector3 direction = toPosition - fromPosition;
         float calculatedAngle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
         calculatedAngle = Mathf.Abs(calculatedAngle);
-        angle = calculatedAngle;
+        SetAngle(calculatedAngle);
         return calculatedAngle;
     }
 
-    // public void UpdatePlayerPosition(Vector3 newPosition) // 현재 위치 갱신
-    // {
-    //     // for (int x = 0; x < createObject.Width; x++)
-    //     // {
-    //     //     for (int z = 0; z < createObject.Height; z++)
-    //     //     {
-    //     //         if (map[x, z].eObstacle == EObstacle.Obstacle)
-    //     //         {
-    //     //             CoverData coverData = GetCoverDataAtPosition(map[x, z].ObjectLocation);
-    //     //             if (coverData != null)
-    //     //             {
-    //     //                 coverData.UpdatePlayerPosition(newPosition);
-    //     //             }
-    //     //         }
-    //     //     }
-    //     // }
-    // }
+    public bool CheckTarget(int damage, Vector3 fromPosition, Vector3 toPosition)
+    {
+        // 각도 계산
+        CalculateAngle(fromPosition, toPosition);
 
-    // void CheckTarget(Vector3 targetPosition) {
-    //     Map[,] map = createObject.GetMap();
-    //     int x = Mathf.RoundToInt(targetPosition.x);
-    //     int z = Mathf.RoundToInt(targetPosition.z);
+        // 각도에 따른 엄폐 확률
+        float coverEffectiveness = CalculateCoverEffectiveness(GetAngle(), step);
 
-    //     if (x >= 0 && x < map.GetLength(0) && z >= 0 && z < map.GetLength(1))
-    //     {
-    //         Map targetMap = map[x, z];
-    //         if (targetMap.eObstacle == EObstacle.Obstacle)
-    //         {
-    //             CoverData coverData = GetCoverDataAtPosition(targetMap.ObjectLocation);
-    //             if (coverData != null)
-    //             {
-    //                 Vector3 playerPosition = coverData.playerPosition; // 플레이어 위치 가져오기
-    //                 float damagePercent = coverData.GetDamagePercent();
-
-    //                 // 플레이어와 적 사이 각도 계산
-    //                 float coverAngle = coverData.CalculateAngle(coverData.coverGameObject.transform.position, playerPosition);
-
-    //                 // 각도에 따른 엄폐 확률
-    //                 float coverEffectiveness = CalculateCoverEffectiveness(coverAngle, coverData.GetStep());
-
-    //                 // 플레이어가 엄폐 중? 엄폐 확률 계산 : 데미지 100%
-    //                 if (coverData.isHiding && Random.value > coverEffectiveness) // 엄폐 효과에 따라 피격 확률 계산
-    //                 {
-    //                     Debug.Log("엄폐물로 인해 데미지가 들어가지 않음");
-    //                 }
-    //                 else
-    //                 {
-    //                     Debug.Log($"데미지가 {damagePercent * 100}%의 확률로 드감");
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
-    // void AttackCover(Vector3 targetPosition)
-    // {
-    //     Map[,] map = createObject.GetMap();
-    //     int x = Mathf.RoundToInt(targetPosition.x);
-    //     int z = Mathf.RoundToInt(targetPosition.z);
-
-    //     if (x >= 0 && x < map.GetLength(0) && z >= 0 && z < map.GetLength(1))
-    //     {
-    //         Map targetMap = map[x, z];
-    //         if (targetMap.eObstacle == EObstacle.Obstacle)
-    //         {
-    //             CoverData coverData = GetCoverDataAtPosition(targetMap.ObjectLocation);
-    //             if (coverData != null)
-    //             {
-    //                 coverData.AttackCover();
-    //                 Debug.Log("엄폐물을 공격하여 step이 감소함");
-    //             }
-    //         }
-    //     }
-    // }
-
-    // CoverData GetCoverDataAtPosition(Vector3 position)
-    // {
-    //     Map[,] map = createObject.GetMap();
-    //     for (int x = 0; x < map.GetLength(0); x++)
-    //     {
-    //         for (int z = 0; z < map.GetLength(1); z++)
-    //         {
-    //             if (map[x, z].ObjectLocation == position)
-    //             {
-    //                 foreach (CoverData coverData in createObject.coverDataArray)
-    //                 {
-    //                     if (coverData.map.ObjectLocation == position)
-    //                     {
-    //                         return coverData;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return null;
-    // }
+        // 플레이어가 엄폐 중? 엄폐 확률 계산 : 데미지 100%
+        if (Random.value < coverEffectiveness) // 엄폐 효과에 따라 피격 확률 계산
+        {
+            Debug.Log("엄폐물로 인해 데미지가 들어가지 않음");
+            // 해당 부분에서 엄폐물 hp 감소
+            // 엄폐물 파괴 관련
+            AttackCover(damage);
+            return false;
+        }
+        else
+        {
+            Debug.Log($"데미지가 {damagePercent * 100}%의 확률로 드감");
+            return true;
+            // 해당 부분에서 플레이어 데미지 얻음
+        }
+    }
 
     public float CalculateCoverEffectiveness(float angle, int step)
     {
@@ -163,11 +152,11 @@ public class Cover : CoverData
             case 2:
                 if (angle <= 90f)
                 {
-                    return 0.1f; // 90도 이내일 때 엄폐 확률 90%
+                    return 0.1f; // 90도 이내일 때 엄폐 확률 10%
                 }
                 else if (angle <= 120f)
                 {
-                    return 0.4f; // 120도 이내일 때 엄폐 확률 60%
+                    return 0.4f; // 120도 이내일 때 엄폐 확률 40%
                 }
                 else if (angle <= 180f)
                 {
@@ -178,18 +167,18 @@ public class Cover : CoverData
             case 1:
                 if (angle <= 90f)
                 {
-                    return 0f; // 90도 이내일 때 엄폐 확률 100%
+                    return 0f; // 90도 이내일 때 엄폐 확률 0%
                 }
                 else if (angle <= 120f)
                 {
-                    return 0.1f; // 120도 이내일 때 엄폐 확률 90%
+                    return 0.1f; // 120도 이내일 때 엄폐 확률 10%
                 }
                 else if (angle <= 180f)
                 {
-                    return 0.2f; // 180도 이내일 때 엄폐 확률 80%
+                    return 0.2f; // 180도 이내일 때 엄폐 확률 20%
                 }
                 break;
         }
-        return 0f; // 그 외의 경우 엄폐 확률 10%
+        return 0f; // 그 외의 경우 엄폐 확률 0%
     }
 }

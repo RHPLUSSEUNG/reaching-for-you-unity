@@ -78,8 +78,10 @@ public class EnemyAI_Soldier : EnemyAI_Base
         {
             case "Attack":
                 // 기본 공격
+                Attack(50);
                 break;
             case "Skill":
+                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetObj.transform.parent.gameObject);
                 // 스킬 사용
                 break;
         }
