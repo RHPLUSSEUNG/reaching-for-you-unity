@@ -39,6 +39,11 @@ public class Cover : CoverData
         }
     }
 
+    public Cover returnCoverData()
+    {
+        return gameObject.GetComponent<Cover>();
+    }
+
     public void AttackCover(int damage)
     {
         hp -= damage;

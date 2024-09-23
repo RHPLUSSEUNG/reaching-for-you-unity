@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class ActiveManager
 {
+    Cover cover;
+
+    public void GetCoverData(Cover _cover)
+    {
+        cover = _cover;
+    }
+
     public void Dead(GameObject character)
     {
         if (character.CompareTag("Player"))
