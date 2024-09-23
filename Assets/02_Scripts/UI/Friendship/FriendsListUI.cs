@@ -6,7 +6,7 @@ using UnityEngine;
 public class FriendsListUI : MonoBehaviour
 {
     [SerializeField] Transform friendsContent;
-    [SerializeField] FriendItemUI firendsInformationPrefab;
+    [SerializeField] FriendItemUI friendsInformationPrefab;
     void Start()
     {
         FriendshipManager.Instance.onUpdate += Redraw;
@@ -22,8 +22,17 @@ public class FriendsListUI : MonoBehaviour
 
         foreach (Friend friend in FriendshipManager.Instance.GetFriends())
         {
-            FriendItemUI uiInstance = Instantiate<FriendItemUI>(firendsInformationPrefab, friendsContent);
+            FriendItemUI uiInstance = Instantiate<FriendItemUI>(friendsInformationPrefab, friendsContent);
             uiInstance.Setup(friend);
         }
     }
+
+    void OnDestroy()
+    {        
+        if (FriendshipManager.Instance != null)
+        {
+            FriendshipManager.Instance.onUpdate -= Redraw;
+        }
+    }
+
 }

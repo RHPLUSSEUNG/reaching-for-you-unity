@@ -28,7 +28,7 @@ public class FriendshipManager : MonoBehaviour
         if(!friends.Contains(_friend))
         {
             friends.Add(_friend);
-            onUpdate.Invoke();
+            onUpdate?.Invoke();
         }        
     }
 
@@ -44,7 +44,7 @@ public class FriendshipManager : MonoBehaviour
             {
                 _friend.FallFriendshipLevel(level);
             }
-            onUpdate.Invoke();
+            onUpdate?.Invoke();
         }
         else
         {

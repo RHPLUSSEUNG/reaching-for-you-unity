@@ -64,4 +64,12 @@ public class QuestListUI : MonoBehaviour
             uiInstance.Setup(status);
         }
     }
+
+    private void OnDestroy()
+    {        
+        if (questList != null)
+        {
+            questList.onUpdate -= Redraw;
+        }
+    }
 }
