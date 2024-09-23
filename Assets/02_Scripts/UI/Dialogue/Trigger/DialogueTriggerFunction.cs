@@ -14,18 +14,17 @@ public class DialogueTriggerFunction : MonoBehaviour
 {
     [SerializeField] NPCType type;
     [SerializeField]int friendShipLevel = 0;
-    
-    public void RiseFriendShipLevel(int level)
+
+    public void JoinToFriend()
     {
-        friendShipLevel += level;
-        Debug.Log("Rise Friendship Level " + level);
+        FriendshipManager.Instance.JoinToFriends(transform.GetComponent<Friend>());
     }
 
-    public void FallFriendShipLevel(int level)
-    {
-        friendShipLevel -= level;
-        Debug.Log("Fall Friendship Level " + level);
-    }
+    public void ChangeFriendship(int level)
+    {        
+        FriendshipManager.Instance.FriendshipHandler(transform.GetComponent<Friend>(), level);
+        Debug.Log("Rise Friendship Level " + level);
+    }    
 
     public void EnterTheDungeon()
     {

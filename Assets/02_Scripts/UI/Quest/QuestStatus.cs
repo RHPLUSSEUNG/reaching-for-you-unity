@@ -8,6 +8,7 @@ public class QuestStatus
 {
     Quest quest;
     List<string> completedObjectives = new List<string>();
+    bool isTimeToTalk = false;
 
     [System.Serializable]
     class QuestStatusRecord
@@ -63,7 +64,45 @@ public class QuestStatus
         if(quest.HasObjective(objective) && !completedObjectives.Contains(objective))
         {
             completedObjectives.Add(objective);
-        }        
+        }
+
+        ControlTimeToTalk();
+    }
+
+    public void InCompleteObjective(string objective)
+    {
+        if (quest.HasObjective(objective) && completedObjectives.Contains(objective))
+        {
+            completedObjectives.Remove(objective);
+        }
+
+        ControlTimeToTalk();
+    }
+
+    void ControlTimeToTalk()
+    {
+        //[LSH:TODO] Need Refactor
+        if (quest.GetObjectiveCount() - 1 == completedObjectives.Count)
+        {
+            isTimeToTalk = true;
+            ObjectiveTalkType objective = quest.GetObjective(ObjectiveType.TALK) as ObjectiveTalkType;
+            GameObject TargetNPC = GameObject.Find(objective.GetNPCName());
+
+            TargetNPC.transform.GetChild(1).GetComponent<QuestHandler>().SetPlzLookAtMe(true);
+        }
+        else
+        {
+            isTimeToTalk = false;
+            ObjectiveTalkType objective = quest.GetObjective(ObjectiveType.TALK) as ObjectiveTalkType;
+            GameObject TargetNPC = GameObject.Find(objective.GetNPCName());
+
+            TargetNPC.transform.GetChild(1).GetComponent<QuestHandler>().SetPlzLookAtMe(false);
+        }
+    }
+
+    public bool GetisTimeToTalk()
+    {        
+        return isTimeToTalk;
     }
 
     public void InCompleteObjective(string objective)
