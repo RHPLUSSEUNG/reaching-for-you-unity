@@ -20,23 +20,31 @@ public class Cover : CoverData
         {
             case 1: // 1단계 (피격확률 80)
                 damagePercent = 0.8f;
-                SetHp(Random.Range(10, 41));
+                hp = Random.Range(10, 41);
                 coverObject = Instantiate(coverPrefab[0], transform);
                 coverObject.transform.SetParent(transform);
                 break;
             case 2: // 2단계 (피격확률 50)
                 damagePercent = 0.5f;
-                SetHp(Random.Range(40, 71));
+                hp = Random.Range(40, 71);
                 coverObject = Instantiate(coverPrefab[1], transform);
                 coverObject.transform.SetParent(transform);
                 break;
             case 3: // 3단계 (피격확률 0)
                 damagePercent = 0f;
-                SetHp(Random.Range(70, 101));
+                hp = Random.Range(70, 101);
                 coverObject = Instantiate(coverPrefab[2], transform);
                 coverObject.transform.SetParent(transform);
                 break;            
         }
+    }
+
+    public void AttackCover(int damage)
+    {
+        hp -= damage;
+
+        CalculateHp();
+        CalculateStep();
     }
 
     // 두 위치 간의 각도를 계산하는 메서드 (to: target)

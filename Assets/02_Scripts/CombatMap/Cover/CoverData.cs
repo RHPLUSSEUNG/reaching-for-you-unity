@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CoverData : MonoBehaviour
 {
-    private int hp;
+    public int hp;
 
     public int maxStep = 3;
     private int step;
@@ -46,13 +46,6 @@ public class CoverData : MonoBehaviour
             step = 0;
     }
 
-    public void AttackCover(int damage)
-    {
-        hp -= damage;
-
-        CalculateHp();
-        CalculateStep();
-    }
 
     public int GetStep()
     {
@@ -62,16 +55,6 @@ public class CoverData : MonoBehaviour
     public void SetStep(int _step)
     {
         step = _step;
-    }
-
-    public int GetHp()
-    {
-        return hp;
-    }
-
-    public void SetHp(int _hp)
-    {
-        hp = _hp;
     }
 
     public float GetAngle()
