@@ -4,23 +4,16 @@ using UnityEngine;
 
 public class CoverData : MonoBehaviour
 {
-    public int hp;
+    private int hp;
 
     public int maxStep = 3;
-    public int step;
+    private int step;
 
-    RaycastHit hitInfo;
-
-    public Map map;
     public bool isHiding = false; // 플레이어가 엄폐하고 있는지 확인하는 변수, 기본값은 false
 
     public float damagePercent; // 피격 확률
 
-    public float angle;
-
-    EntityStat characterstat;
-
-    private Vector3 playerPosition; // 플레이어의 위치를 저장하는 변수
+    private float angle;
 
     public void CalculateStep() 
     {
@@ -53,55 +46,41 @@ public class CoverData : MonoBehaviour
             step = 0;
     }
 
-    public void AttackCover()
+    public void AttackCover(int damage)
     {
+        hp -= damage;
+
         CalculateHp();
         CalculateStep();
     }
 
-    // 플레이어가 엄폐 상태인지 설정하는 메서드
-    public void SetHiding(bool hiding)
+    public int GetStep()
     {
-        isHiding = hiding;
-
-        if(characterstat)
-            characterstat.Hidden = isHiding;
+        return step;
     }
 
-    // 플레이어의 위치를 저장하고 엄폐 상태를 설정하는 메서드
-    public void UpdatePlayerPosition(Vector3 coverGameObjectPos)
+    public void SetStep(int _step)
     {
-        // 엄폐물의 사방면을 확인하여 플레이어가 있는지 확인
-        if (IsPlayerNearCover(coverGameObjectPos))
-        {
-            SetHiding(true);
-        }
-        else
-        {
-            SetHiding(false);
-        }
+        step = _step;
     }
 
-    // 플레이어가 엄폐물 근처에 있는지 확인하는 메서드
-    private bool IsPlayerNearCover(Vector3 coverPosition)
+    public int GetHp()
     {
-        if(Physics.Raycast(coverPosition, Vector3.forward, out hitInfo, 1f) ||
-            Physics.Raycast(coverPosition, Vector3.back, out hitInfo, 1f) ||
-            Physics.Raycast(coverPosition, Vector3.left, out hitInfo, 1f) ||
-            Physics.Raycast(coverPosition, Vector3.right, out hitInfo, 1f)) 
-            {
-                if(hitInfo.collider.tag == "Player")
-                {
-                    characterstat = hitInfo.collider.gameObject.GetComponentInParent<EntityStat>();
-                    playerPosition = characterstat.gameObject.transform.position;
-                    return true;
-                }
-            }
-        return false;
+        return hp;
     }
 
-    public Vector3 GetPlayerPos()
+    public void SetHp(int _hp)
     {
-        return playerPosition;
+        hp = _hp;
+    }
+
+    public float GetAngle()
+    {
+        return angle;
+    }
+
+    public void SetAngle(float _angle)
+    {
+        angle = _angle;
     }
 }

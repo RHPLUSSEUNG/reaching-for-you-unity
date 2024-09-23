@@ -9,39 +9,34 @@ public class Cover : CoverData
     GameObject coverObject;
 
     private void Awake() {
-        setStep();
+        Init();
     }
 
-    private void setStep() 
+    private void Init() 
     {
-        step = Random.Range(0, maxStep + 1);
+        SetStep(Random.Range(1, maxStep + 1));
         
-        switch (step)
+        switch (GetStep())
         {
             case 1: // 1단계 (피격확률 80)
                 damagePercent = 0.8f;
-                hp = Random.Range(10, 41);
+                SetHp(Random.Range(10, 41));
                 coverObject = Instantiate(coverPrefab[0], transform);
                 coverObject.transform.SetParent(transform);
                 break;
             case 2: // 2단계 (피격확률 50)
                 damagePercent = 0.5f;
-                hp = Random.Range(40, 71);
+                SetHp(Random.Range(40, 71));
                 coverObject = Instantiate(coverPrefab[1], transform);
                 coverObject.transform.SetParent(transform);
                 break;
             case 3: // 3단계 (피격확률 0)
                 damagePercent = 0f;
-                hp = Random.Range(70, 101);
+                SetHp(Random.Range(70, 101));
                 coverObject = Instantiate(coverPrefab[2], transform);
                 coverObject.transform.SetParent(transform);
-                break;                
+                break;            
         }
-    }
-
-    void Update()
-    {
-        UpdatePlayerPosition(coverObject.transform.position);
     }
 
     // 두 위치 간의 각도를 계산하는 메서드 (to: target)
@@ -50,18 +45,13 @@ public class Cover : CoverData
         Vector3 direction = toPosition - fromPosition;
         float calculatedAngle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
         calculatedAngle = Mathf.Abs(calculatedAngle);
-        angle = calculatedAngle;
+        SetAngle(calculatedAngle);
         return calculatedAngle;
     }
 
-    void CheckTarget(Vector3 fromPosition) {
-        Vector3 toPosition = GetPlayerPos(); 
-
-        // 플레이어와 적 사이 각도 계산
-        float coverAngle = CalculateAngle(fromPosition, toPosition);
-
+    public void CheckTarget() {
         // 각도에 따른 엄폐 확률
-        float coverEffectiveness = CalculateCoverEffectiveness(coverAngle, step);
+        float coverEffectiveness = CalculateCoverEffectiveness(GetAngle(), GetStep());
 
         // 플레이어가 엄폐 중? 엄폐 확률 계산 : 데미지 100%
         if (isHiding && Random.value > coverEffectiveness) // 엄폐 효과에 따라 피격 확률 계산
@@ -69,7 +59,7 @@ public class Cover : CoverData
             Debug.Log("엄폐물로 인해 데미지가 들어가지 않음");
             // 해당 부분에서 엄폐물 hp 감소
             // 엄폐물 파괴 관련
-            AttackCover();
+            // AttackCover();
         }
         else
         {
