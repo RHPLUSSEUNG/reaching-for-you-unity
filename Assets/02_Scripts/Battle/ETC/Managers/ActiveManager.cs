@@ -8,9 +8,9 @@ public class ActiveManager
     Cover cover;
     #endregion
     #region Getter & Setter
-    public void SetCoverData(Cover _cover)
+    public void SetCoverData(GameObject _cover)
     {
-        cover = _cover;
+        cover = _cover.GetComponent<Cover>();
     }
     #endregion
     public void Dead(GameObject character)
