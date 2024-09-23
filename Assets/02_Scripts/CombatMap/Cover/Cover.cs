@@ -15,7 +15,7 @@ public class Cover : CoverData
     private void Init() 
     {
         SetStep(Random.Range(1, maxStep + 1));
-        
+      
         switch (GetStep())
         {
             case 1: // 1단계 (피격확률 80)
