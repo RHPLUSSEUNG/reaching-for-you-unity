@@ -11,7 +11,7 @@ public class ActiveManager
     public void SetCoverData(GameObject _cover)
     {
         Debug.Log(_cover);
-        cover = _cover.GetComponent<Cover>();
+        cover = _cover.transform.parent.GetComponent<Cover>();
     }
     #endregion
     public void Dead(GameObject character)
