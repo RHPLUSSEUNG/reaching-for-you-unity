@@ -2,6 +2,15 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
+[System.Serializable]
+public class Stage
+{
+    public string name;
+    public int stageNum;
+    public GameObject[] wallPrefabs;
+}
+
+
 public class AdventureManager : MonoBehaviour
 {
     static AdventureManager _adventure;

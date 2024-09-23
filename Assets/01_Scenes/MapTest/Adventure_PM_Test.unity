@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -135,10 +135,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: desert_10
       objectReference: {fileID: 0}
-    - target: {fileID: 70163480651867307, guid: f56663af28b3f3f489bae9afed96e41c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 842900993170865681, guid: f56663af28b3f3f489bae9afed96e41c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.0077967644
@@ -182,10 +178,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 70163480651867307, guid: f56663af28b3f3f489bae9afed96e41c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1576044479}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f56663af28b3f3f489bae9afed96e41c, type: 3}
 --- !u!1 &6820748
 GameObject:
@@ -1538,18 +1531,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77119af7303efcd45a028392f75e5021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallPrefabs:
-  - {fileID: 4283533020126547998, guid: eafc4cfbd90e0584a85a385cdf5f63af, type: 3}
-  - {fileID: 2291032283343769293, guid: 87d4e2bdd597ef34e8c9b8c64a86cd52, type: 3}
-  - {fileID: 4116701422631423197, guid: 52fc528921eebab4e8ceac2df2c323bf, type: 3}
-  - {fileID: 7286087700539435094, guid: f1a0f415353f2b5438570fb5ef4f163d, type: 3}
   stages:
   - name: desert
-    wallPrepavs:
-    - {fileID: 4283533020126547998, guid: eafc4cfbd90e0584a85a385cdf5f63af, type: 3}
+    stageNum: 0
+    wallPrefabs:
     - {fileID: 2291032283343769293, guid: 87d4e2bdd597ef34e8c9b8c64a86cd52, type: 3}
+    - {fileID: 4283533020126547998, guid: eafc4cfbd90e0584a85a385cdf5f63af, type: 3}
   - name: water
-    wallPrepavs:
+    stageNum: 1
+    wallPrefabs:
     - {fileID: 4116701422631423197, guid: 52fc528921eebab4e8ceac2df2c323bf, type: 3}
     - {fileID: 7286087700539435094, guid: f1a0f415353f2b5438570fb5ef4f163d, type: 3}
 --- !u!1 &617455018
@@ -2068,10 +2058,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: desert_floor
       objectReference: {fileID: 0}
-    - target: {fileID: 7161788801645057075, guid: 8d85d09e6a99b054d8928e1407470753, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7505275532311580297, guid: 8d85d09e6a99b054d8928e1407470753, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.0077967644
@@ -2115,42 +2101,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7161788801645057075, guid: 8d85d09e6a99b054d8928e1407470753, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 966915589}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d85d09e6a99b054d8928e1407470753, type: 3}
 --- !u!4 &966915587 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7505275532311580297, guid: 8d85d09e6a99b054d8928e1407470753, type: 3}
   m_PrefabInstance: {fileID: 966915586}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &966915588 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7161788801645057075, guid: 8d85d09e6a99b054d8928e1407470753, type: 3}
-  m_PrefabInstance: {fileID: 966915586}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &966915589
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 966915588}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 8.981552, y: 0.0000013565063, z: 8.290172}
-  m_Center: {x: 0, y: -0.00000048446657, z: 0}
 --- !u!1 &972386905
 GameObject:
   m_ObjectHideFlags: 0
@@ -2914,33 +2871,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraIndex: 1
   spwanIndex: 1
---- !u!1 &1576044476 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 70163480651867307, guid: f56663af28b3f3f489bae9afed96e41c, type: 3}
-  m_PrefabInstance: {fileID: 292744}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &1576044479
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1576044476}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1692592120673912446, guid: bf93bf81897da1647bc6e1295f7dd66d, type: 3}
 --- !u!1 &1594110192
 GameObject:
   m_ObjectHideFlags: 0

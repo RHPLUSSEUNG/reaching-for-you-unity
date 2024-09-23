@@ -3,19 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[System.Serializable]
-public class Stage
-{
-    public string name;
-    public GameObject[] wallPrepavs;
-}
-
 public class RandomPassage : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] wallPrefabs;
-    [SerializeField]
     private Stage[] stages;
+    private GameObject[] wallPrefabs;
 
     int DoorCount = 0;
     int stageIndex;
@@ -31,8 +23,20 @@ public class RandomPassage : MonoBehaviour
         }
 
         DoorCount = Random.Range(0, passageChildren.Count - 1) + 1;
-        stageIndex = AdventureManager.StageNumber;
+        
+        InitWallPrefab();
         AddPassage();
+    }
+
+    private void InitWallPrefab()
+    {
+        int index = AdventureManager.StageNumber;
+        wallPrefabs = new GameObject[2];
+        
+        for(int i = 0; i < stages[index].wallPrefabs.Length; i++)
+        {
+            wallPrefabs[i] = stages[index].wallPrefabs[i];
+        }
     }
 
     public void AddPassage()
@@ -42,7 +46,7 @@ public class RandomPassage : MonoBehaviour
         
         for(; index < DoorCount; index++)
         {
-            wallInMap = Instantiate(wallPrefabs[(2 * stageIndex) + 1], passageChildren[index]);
+            wallInMap = Instantiate(wallPrefabs[1], passageChildren[index]);
             wallInMap.transform.SetParent(passageChildren[index]);
 
             wallChildren.Add(wallInMap);
@@ -50,7 +54,7 @@ public class RandomPassage : MonoBehaviour
 
         for(; index < passageChildren.Count; index++)
         {
-            wallInMap = Instantiate(wallPrefabs[2 * stageIndex], passageChildren[index]);
+            wallInMap = Instantiate(wallPrefabs[0], passageChildren[index]);
             wallInMap.transform.SetParent(passageChildren[index]);
 
             wallChildren.Add(wallInMap);
