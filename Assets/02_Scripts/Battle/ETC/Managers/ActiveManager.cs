@@ -60,6 +60,7 @@ public class ActiveManager
         if (target.CompareTag("Player") & cover != null)
         {
             cover.CheckTarget(damage, Managers.Battle.currentCharacter.transform.position, target.transform.position);
+            return damage;
         }
         #endregion
         if (state.GetEvasion() > 0)
