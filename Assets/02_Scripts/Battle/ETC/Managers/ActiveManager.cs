@@ -10,6 +10,7 @@ public class ActiveManager
     #region Getter & Setter
     public void SetCoverData(GameObject _cover)
     {
+        Debug.Log(_cover);
         cover = _cover.GetComponent<Cover>();
     }
     #endregion
