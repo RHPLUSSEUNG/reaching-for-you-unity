@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class ActiveManager
 {
+    #region Attribute
     Cover cover;
-
-    public void GetCoverData(Cover _cover)
+    #endregion
+    #region Getter & Setter
+    public void SetCoverData(Cover _cover)
     {
         cover = _cover;
     }
-
+    #endregion
     public void Dead(GameObject character)
     {
         if (character.CompareTag("Player"))
@@ -28,9 +30,9 @@ public class ActiveManager
 
     public void Damage(GameObject target)
     {
-        
+
         GameObject character = Managers.Battle.currentCharacter;
-        if(character.GetComponent<EntityStat>().BaseDamage <= 0)
+        if (character.GetComponent<EntityStat>().BaseDamage <= 0)
         {
             return;
         }
@@ -53,6 +55,12 @@ public class ActiveManager
 
         CharacterState state = target.GetComponent<CharacterState>();
 
+        #region Cover
+        if (target.CompareTag("Player") & cover != null)
+        {
+            cover.CheckTarget(damage, Managers.Battle.currentCharacter.transform.position, target.transform.position);
+        }
+        #endregion
         if (state.GetEvasion() > 0)
         {
             int value = Random.Range(1, 101);
@@ -81,7 +89,7 @@ public class ActiveManager
         if (state.HasBarrier())
         {
             damage = state.DeleteBarrier(damage);
-            if(damage <= 0 )
+            if (damage <= 0)
             {
                 return 0;
             }
@@ -89,10 +97,10 @@ public class ActiveManager
         #endregion
         if (target.GetComponent<EnemyAI_Base>() != null)
         {
-            target.GetComponent<EntityStat>().Hp -= damage;
             target.GetComponent<EnemyAI_Base>().OnHit(damage);
             return damage;
-        }else if (target.GetComponent<PlayerBattle>() != null)
+        }
+        else if (target.GetComponent<PlayerBattle>() != null)
         {
             //Debug.Log("Player Damaged");
             target.GetComponent<PlayerBattle>().OnHit(damage);

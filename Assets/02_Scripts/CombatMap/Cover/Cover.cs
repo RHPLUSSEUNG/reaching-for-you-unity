@@ -62,7 +62,11 @@ public class Cover : CoverData
         return calculatedAngle;
     }
 
-    public void CheckTarget() {
+    public void CheckTarget(int damage, Vector3 fromPosition, Vector3 toPosition)
+    {
+        // 각도 계산
+        CalculateAngle(fromPosition, toPosition);
+
         // 각도에 따른 엄폐 확률
         float coverEffectiveness = CalculateCoverEffectiveness(GetAngle(), GetStep());
 
@@ -72,7 +76,7 @@ public class Cover : CoverData
             Debug.Log("엄폐물로 인해 데미지가 들어가지 않음");
             // 해당 부분에서 엄폐물 hp 감소
             // 엄폐물 파괴 관련
-            // AttackCover();
+            AttackCover(damage);
         }
         else
         {
