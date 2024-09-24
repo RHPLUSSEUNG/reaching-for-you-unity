@@ -45,12 +45,12 @@ public class SkillExtent : MonoBehaviour
 
             if(rotate.magnitude <= range)
             {
-                Debug.Log("rotate magnitude");
+                //Debug.Log("rotate magnitude");
                 float dot = Vector3.Dot(interV.normalized, rotate);
                 float theta = Mathf.Acos(dot);
                 float degree = Mathf.Rad2Deg * theta;
-                Debug.Log($"Degree : {degree}");
-                Debug.Log($"Standard : {range / 2f}");
+                //Debug.Log($"Degree : {degree}");
+                //Debug.Log($"Standard : {range / 2f}");
                 if (degree <= range / 2f)
                     targets.Add(c.gameObject.transform.parent.gameObject);
             }

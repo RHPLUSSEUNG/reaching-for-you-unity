@@ -133,7 +133,7 @@ public class CameraController : MonoBehaviour
         targetTransform = cameraTargets[targetIndex];
         isFollowMode = false;
         ChangePos(targetTransform);
-        Debug.Log("Changed CameraTarget To " + targetIndex);
+        //Debug.Log("Changed CameraTarget To " + targetIndex);
     }
     public void ChangeFollowTarget(GameObject target, bool _isSmoothMove)
     {
@@ -142,7 +142,7 @@ public class CameraController : MonoBehaviour
         followTarget = target;
         targetTransform = followTarget.transform;
         isFollowMode = true;
-        Debug.Log("Changed FollowTarget To " + target);
+        //Debug.Log("Changed FollowTarget To " + target);
     }
     public void ChangeCameraMode(CameraMode _mode, bool isOrthographic, bool _isSmoothMove)
     {
@@ -170,7 +170,7 @@ public class CameraController : MonoBehaviour
         gameObject.GetComponent<Camera>().orthographic = isOrthographic;
         isSmoothMove = _isSmoothMove;
         setPos = targetTransform.position;
-        Debug.Log("Changed Mode");
+        //Debug.Log("Changed Mode");
 
         transform.position = setPos;    //1회만 설정
     }

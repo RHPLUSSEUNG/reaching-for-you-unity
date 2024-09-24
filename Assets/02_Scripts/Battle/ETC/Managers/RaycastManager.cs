@@ -155,7 +155,7 @@ public class RaycastManager
 
     public bool DetectTargets(GameObject target)
     {
-        Debug.Log(target);
+        //Debug.Log(target);
         targets = extent.SetArea(activeSkill.range, activeSkill.target_object, Managers.Battle.currentCharacter.transform.position, false);
         foreach (GameObject obj in targets)
         {
