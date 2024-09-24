@@ -37,7 +37,7 @@ public class EnemyAI_Crab : EnemyAI_Base
                 hideLapse = 0;
             }
         }
-        else if (lastDamaged > 50 && stat.ActPoint >= 70 && stat.Mp >= 60)    // �� �Ͽ� ���� �̻� �ǰ� ��
+        else if (lastDamaged >= 50 && stat.ActPoint >= 70 && stat.Mp >= 60)    // �� �Ͽ� ���� �̻� �ǰ� ��
         {
             // ��ũ���� ��ų ����
             Debug.Log("Skill Used!");
@@ -141,5 +141,10 @@ public class EnemyAI_Crab : EnemyAI_Base
 
         lastDamaged = 0;
         TurnEnd();
+    }
+
+    public override void RadomTile()
+    {
+        throw new System.NotImplementedException();
     }
 }

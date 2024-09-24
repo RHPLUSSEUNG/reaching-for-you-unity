@@ -29,7 +29,15 @@ public class BattleManager
     {
         if (currentCharacter == null || currentCharacter.CompareTag("Monster"))
         {
-            return true;
+            if (Managers.Skill.is_effect)
+            {
+                Debug.Log("Wait for skill effect End");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         else if(battleState == BattleState.Defeat && battleState == BattleState.Victory)
         {
@@ -41,11 +49,11 @@ public class BattleManager
             Debug.Log("Wait for skill effect End");
             return false;
         }
-        else if (currentCharacter.GetComponent<PlayerBattle>().isMoving)
-        {
-            Debug.Log("Wait for Character Moving");
-            return false;
-        }
+        //else if (currentCharacter.GetComponent<PlayerBattle>().isMoving)
+        //{
+        //    Debug.Log("Wait for Character Moving");
+        //    return false;
+        //}
         
         return true;
     }

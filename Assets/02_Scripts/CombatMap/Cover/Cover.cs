@@ -71,7 +71,7 @@ public class Cover : CoverData
         float coverEffectiveness = CalculateCoverEffectiveness(GetAngle(), GetStep());
 
         // 플레이어가 엄폐 중? 엄폐 확률 계산 : 데미지 100%
-        if (isHiding && Random.value > coverEffectiveness) // 엄폐 효과에 따라 피격 확률 계산
+        if (Random.value > coverEffectiveness) // 엄폐 효과에 따라 피격 확률 계산
         {
             Debug.Log("엄폐물로 인해 데미지가 들어가지 않음");
             // 해당 부분에서 엄폐물 hp 감소

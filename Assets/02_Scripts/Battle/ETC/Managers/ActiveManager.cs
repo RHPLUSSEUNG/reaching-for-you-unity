@@ -11,7 +11,12 @@ public class ActiveManager
     public void SetCoverData(GameObject _cover)
     {
         Debug.Log(_cover);
-        cover = _cover.GetComponent<Cover>();
+        if(_cover == null)
+        {
+            cover = null;
+            return;
+        }
+        cover = _cover.transform.parent.GetComponent<Cover>();
     }
     #endregion
     public void Dead(GameObject character)
@@ -60,6 +65,7 @@ public class ActiveManager
         if (target.CompareTag("Player") & cover != null)
         {
             cover.CheckTarget(damage, Managers.Battle.currentCharacter.transform.position, target.transform.position);
+            return damage;
         }
         #endregion
         if (state.GetEvasion() > 0)

@@ -117,4 +117,9 @@ public class EnemyAI_Golem : EnemyAI_Base
 
         TurnEnd();
     }
+
+    public override void RadomTile()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -18,7 +18,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
     protected SkillList skillList;
 
     List<Vector3> path;
-    Vector3 targetPos;
+    protected Vector3 targetPos;
     protected int targetIndex;
     protected int targetDistance;
 
@@ -55,6 +55,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
     public abstract void OnAttackSuccess(); //공격 성공 시
     public abstract void OnAttackFail();    // 공격 실패 시
     public abstract void BeforeTrunEnd();
+    public abstract void RadomTile();
 
     public void OnTurnStart()
     {
@@ -154,12 +155,23 @@ public abstract class EnemyAI_Base : MonoBehaviour
     public void GetRandomLoc(int radius)
     {
         PathFinder.RequestRandomLoc(transform.position, radius, OnRandomLoc);
-    }    
+    }
+    public void GetRandomLoc(int radius, bool randTile) //임시 타일 탐색
+    {
+        PathFinder.RequestRandomLoc(transform.position, radius, OnRandomTile);
+    }
     public void OnRandomLoc(Vector3 newTargetPos)
     {
         targetPos = newTargetPos;
         isTargetFound = false;
         Move();
+    }
+    public void OnRandomTile(Vector3 newTargetPos)
+    {
+        Debug.Log(newTargetPos);
+        targetPos = newTargetPos;
+        isTargetFound = false;
+        RadomTile();
     }
     public void SetTargetTag(string tag)
     {
