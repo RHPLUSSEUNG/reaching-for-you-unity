@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,9 @@ public class ItemManager
     short inventoryMaxCnt = 100;
     int gold = 0;
 
+    public event Action onUpdate;
+
+    //[2024-09-13][LSH's Code]: [quest-objective-gather]
     public bool AddItem(int itemID, int num = 1)
     {
         ItemData itemData = Managers.Data.GetItemData(itemID);
@@ -17,16 +21,16 @@ public class ItemManager
             if (consumeInven.ContainsKey(itemID))
             {
                 consumeInven[itemID] += num;
-                //[2024-09-13][LSH's Code]: [quest-objective-gather]
                 ObjectiveTracer.Instance.ReportIItemCollected(itemID);
+                onUpdate?.Invoke();
                 return true;
             }
             else if (inventoryCnt < inventoryMaxCnt)
             {
                 consumeInven.Add(itemID, 1);
-                inventoryCnt++;
-                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                inventoryCnt++;                
                 ObjectiveTracer.Instance.ReportIItemCollected(itemID);
+                onUpdate?.Invoke();
                 return true;
             }
         }
@@ -35,9 +39,9 @@ public class ItemManager
             if (inventoryCnt < inventoryMaxCnt)
             {
                 equipmentInven.Add(itemID);
-                inventoryCnt++;
-                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                inventoryCnt++;                
                 ObjectiveTracer.Instance.ReportIItemCollected(itemID);
+                onUpdate?.Invoke();
                 return true;
             }
         }        
@@ -55,8 +59,7 @@ public class ItemManager
             {
                 consumeInven[itemID] -= num;
                 consumeInven.Remove(itemID);
-                inventoryCnt--;
-                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                inventoryCnt--;                
                 ObjectiveTracer.Instance.ReportIItemCollected(itemID);
                 return true;
             }
@@ -66,8 +69,7 @@ public class ItemManager
             if (equipmentInven.Contains(itemID))
             {
                 equipmentInven.Remove(itemID);
-                inventoryCnt--;
-                //[2024-09-13][LSH's Code]: [quest-objective-gather]
+                inventoryCnt--;                
                 ObjectiveTracer.Instance.ReportIItemCollected(itemID);
                 return true;
             }
@@ -228,6 +230,17 @@ public class ItemManager
     }
 
     #endregion
+
+    //[2024-09-24][LSH's Code]: [gift-function]
+    public Dictionary<int, int> GetConsumeItem()
+    {
+        return consumeInven;
+    }
+    
+    public List<int> GetEquipmentItem()
+    {
+        return equipmentInven;
+    }
 }
 
 
