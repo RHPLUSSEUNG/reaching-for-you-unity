@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TestQuestGather : MonoBehaviour
 {
+    [SerializeField] int itemID;
     [SerializeField] bool isAddItem;
     [SerializeField] bool isRemoveItem;
     [SerializeField] int count = 0;
@@ -17,12 +18,12 @@ public class TestQuestGather : MonoBehaviour
     {
         if(isAddItem)
         {
-            Managers.Item.AddItem(0, count);
+            Managers.Item.AddItem(itemID, count);
             isAddItem = false;
         }
         if (isRemoveItem)
         {
-            Managers.Item.RemoveItem(0, count);
+            Managers.Item.RemoveItem(itemID, count);
             isRemoveItem = false;
         }
     }
