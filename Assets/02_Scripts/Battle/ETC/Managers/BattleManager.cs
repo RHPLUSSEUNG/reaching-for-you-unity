@@ -49,11 +49,11 @@ public class BattleManager
             Debug.Log("Wait for skill effect End");
             return false;
         }
-        else if (currentCharacter.GetComponent<PlayerBattle>().isMoving)
-        {
-            Debug.Log("Wait for Character Moving");
-            return false;
-        }
+        //else if (currentCharacter.GetComponent<PlayerBattle>().isMoving)
+        //{
+        //    Debug.Log("Wait for Character Moving");
+        //    return false;
+        //}
         
         return true;
     }

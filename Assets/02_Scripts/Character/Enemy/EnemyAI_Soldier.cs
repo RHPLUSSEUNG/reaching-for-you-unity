@@ -87,4 +87,9 @@ public class EnemyAI_Soldier : EnemyAI_Base
         }
         BeforeTrunEnd();
     }
+
+    public override void RadomTile()
+    {
+        throw new System.NotImplementedException();
+    }
 }

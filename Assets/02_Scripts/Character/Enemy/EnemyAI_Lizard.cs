@@ -54,6 +54,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
                     if (hit.collider.gameObject.CompareTag("Cover"))
                     {
                         cover = hit.collider.gameObject;
+                        Debug.Log("cover detected");
                     }
                 }
                     Attack(50);
@@ -162,5 +163,10 @@ public class EnemyAI_Lizard : EnemyAI_Base
     public override void BeforeTrunEnd()
     {
         TurnEnd();
+    }
+
+    public override void RadomTile()
+    {
+        throw new System.NotImplementedException();
     }
 }

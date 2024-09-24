@@ -31,7 +31,7 @@ public abstract class Buff
     }
     public void StartAnimation()
     {
-        effect = Managers.Skill.InstantiateEffect(name, target);
+        //effect = Managers.Skill.InstantiateEffect(name, target);
     }
 
     public void EndAnimation()

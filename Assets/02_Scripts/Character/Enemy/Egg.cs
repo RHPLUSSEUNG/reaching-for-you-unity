@@ -8,11 +8,12 @@ public class Egg : EnemyAI_Base
 
     private void Start()
     {
+        turnElasped = 0;
+
         stat = GetComponent<EnemyStat>();
         stat.enemyName = "Egg";
-        spriteController = GetComponent<SpriteController>();
-        skillList = GetComponent<SkillList>();
-        skillList.AddSkill(Managers.Skill.InstantiateSkill(1, true));
+        //spriteController = GetComponent<SpriteController>();
+
         isTurnEnd = true;
 
         actDic = new Dictionary<string, float>();    //Çàµ¿ È®·ü
@@ -21,7 +22,8 @@ public class Egg : EnemyAI_Base
     }
     public override void BeforeTrunEnd()
     {
-        throw new System.NotImplementedException();
+        turnElasped++;
+        TurnEnd();
     }
 
     public override void OnAttackFail()
@@ -62,12 +64,16 @@ public class Egg : EnemyAI_Base
 
     public override void ProceedTurn()
     {
-        throw new System.NotImplementedException();
+        if (!isTurnEnd)
+            return;
+
+        OnTurnStart();
+        SpecialCheck();
     }
 
     public override void SpecialCheck()
     {
-        if (turnElasped >0) 
+        if (turnElasped >1) 
         {
             switch (RandChoose(actDic))  // ·£´ý ¾×¼Ç
             {
@@ -80,7 +86,12 @@ public class Egg : EnemyAI_Base
 
                // ÅÏ Á¾·á ÈÄ °´Ã¼ ÆÄ±« ÇÊ¿ä
             }
-            BeforeTrunEnd();
         }
+        BeforeTrunEnd();
+    }
+
+    public override void RadomTile()
+    {
+        throw new System.NotImplementedException();
     }
 }

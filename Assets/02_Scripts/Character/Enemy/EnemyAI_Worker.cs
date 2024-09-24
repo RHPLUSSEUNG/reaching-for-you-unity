@@ -89,4 +89,9 @@ public class EnemyAI_Worker : EnemyAI_Base
             BeforeTrunEnd();
         }
     }
+
+    public override void RadomTile()
+    {
+        throw new System.NotImplementedException();
+    }
 }
