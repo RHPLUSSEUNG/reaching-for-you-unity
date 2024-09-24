@@ -46,16 +46,17 @@ public abstract class EnemyAI_Base : MonoBehaviour
     }
 
     public abstract void ProceedTurn(); // 턴 진행
-    public abstract void SpecialCheck();  // 고유 기믹 체크
     public abstract void OnTargetFoundSuccess();  // 대상 발견 시 행동
     public abstract void OnTargetFoundFail(); // 대상 발견 실패 시 행동
     public abstract void OnPathFailed();    // 경로를 찾을 수 없을 때
-    public abstract void OnHit(int damage);
     public abstract void OnMoveEnd();   // 이동이 끝났을 때
+    public abstract void SpecialCheck();  // 고유 기믹 체크
+
     public abstract void OnAttackSuccess(); //공격 성공 시
     public abstract void OnAttackFail();    // 공격 실패 시
     public abstract void BeforeTrunEnd();
     public abstract void RadomTile();
+    public abstract void OnHit(int damage);
 
     public void OnTurnStart()
     {
@@ -68,12 +69,12 @@ public abstract class EnemyAI_Base : MonoBehaviour
     {
         if (!isTurnEnd)
         {
-            isTurnEnd = true;
             NextTurn();
         }
     }
     public void NextTurn()
     {
+        isTurnEnd = true;
         Managers.Battle.NextTurn();
     }
     public void Search(int radius)
@@ -94,6 +95,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
         }
         else
         {
+            isTargetFound = false;
             targetDistance = 999;
             Debug.Log("Search Failed");
             OnTargetFoundFail();

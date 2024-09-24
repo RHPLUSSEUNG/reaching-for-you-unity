@@ -76,17 +76,7 @@ public class Egg : EnemyAI_Base
     {
         if (turnElasped >1) 
         {
-            switch (RandChoose(actDic))  // ·£´ý ¾×¼Ç
-            {
-                case "Worker":
-                    Managers.Party.InstantiateMonster("Worker");
-                    break;
-                case "Soldier":
-                    Managers.Party.InstantiateMonster("Soldier");
-                    break;
-
-               // ÅÏ Á¾·á ÈÄ °´Ã¼ ÆÄ±« ÇÊ¿ä
-            }
+            Destroy(gameObject);
         }
         BeforeTrunEnd();
     }
@@ -94,5 +84,23 @@ public class Egg : EnemyAI_Base
     public override void RadomTile()
     {
         throw new System.NotImplementedException();
+    }
+
+    private void OnDestroy()
+    {
+        GameObject newObj = new GameObject();
+        switch (RandChoose(actDic))  // ·£´ý ¾×¼Ç
+        {
+            case "Worker":
+                newObj = Managers.Party.InstantiateMonster("Enemy_Worker");
+                newObj.transform.position = this.transform.position;
+                break;
+            case "Soldier":
+                newObj = Managers.Party.InstantiateMonster("Enemy_Soldier");
+                newObj.transform.position = this.transform.position;
+                break;
+        }
+        Managers.Battle.CameraAllocate(newObj);
+        TurnEnd();
     }
 }

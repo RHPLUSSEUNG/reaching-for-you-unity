@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 3979649062912710212}
   - component: {fileID: 3802345096836478511}
   - component: {fileID: 8314747496885272196}
-  - component: {fileID: 1516062302648057414}
   m_Layer: 7
   m_Name: Enemy_Worker
   m_TagString: Monster
@@ -168,21 +167,6 @@ MonoBehaviour:
   speed: 10
   targetTag: Player
   isTurnEnd: 0
---- !u!114 &1516062302648057414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2775013803095486998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e84f976b929ff1242837ee9a9d5d2dfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  targetTag: Player
-  isTurnEnd: 0
 --- !u!1 &2994126653509603772
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,7 +179,7 @@ GameObject:
   - component: {fileID: 442428256251823790}
   - component: {fileID: 1895056778980180814}
   - component: {fileID: 2399890931761387819}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7775392894175276665}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8062057721113313534}
   - component: {fileID: 1902790730253693554}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,7 +382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5043061635244387070}
   - component: {fileID: 8169084505934673970}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

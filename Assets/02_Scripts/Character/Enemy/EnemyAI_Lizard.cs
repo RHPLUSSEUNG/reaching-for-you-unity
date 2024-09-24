@@ -30,6 +30,47 @@ public class EnemyAI_Lizard : EnemyAI_Base
         OnTurnStart();
         Search(stat.Sight);
     }
+    public override void OnTargetFoundSuccess()
+    {
+        if (isTurnEnd)
+            return;
+
+        if (!isAttacked)
+            SpecialCheck();
+        else
+            BeforeTrunEnd();
+    }
+    public override void OnTargetFoundFail()
+    {
+        if (isTurnEnd)
+            return;
+
+        if (!isMoved)
+        {
+            isSIzeMode = false;
+            // 돌 없는 애니메이션 재생
+            spriteController.SetAnimState(AnimState.Idle);
+            GetRandomLoc(stat.MovePoint);
+        }
+        else
+            BeforeTrunEnd();
+    }
+    public override void OnPathFailed()
+    {
+        GetRandomLoc(stat.MovePoint);
+    }
+    public override void OnMoveEnd()
+    {
+        if (isTurnEnd)
+            return;
+
+        if (isAttacked)
+            BeforeTrunEnd();
+        else
+        {
+            SpecialCheck();
+        }
+    }
     public override void SpecialCheck()
     {
         if (isTurnEnd)
@@ -58,7 +99,6 @@ public class EnemyAI_Lizard : EnemyAI_Base
                     }
                 }
                     Attack(50);
-
             }
             else if (targetDistance <= 2) // 장전상태가 아니고, 적이 2칸 이내에 있을 경우
             {
@@ -92,59 +132,6 @@ public class EnemyAI_Lizard : EnemyAI_Base
             BeforeTrunEnd();
         }
     }
-    public override void OnMoveEnd()
-    {
-        if (isTurnEnd)
-            return;
-
-        if (isAttacked)
-            BeforeTrunEnd();
-        else
-        {
-            SpecialCheck();
-        }
-    }
-    public override void OnHit(int damage)
-    {
-        stat.Hp -= damage;
-        if (isSIzeMode)
-        {
-            isSIzeMode = false;
-            spriteController.SetAnimState(AnimState.Idle);
-        }
-    }
-    public override void OnTargetFoundSuccess()
-    {
-        if (isTurnEnd)
-            return;
-
-        if (!isAttacked)
-            SpecialCheck();
-        else
-            BeforeTrunEnd();
-    }
-    public override void OnTargetFoundFail()
-    {
-        if (isTurnEnd)
-            return;
-
-        if (!isMoved)
-        {
-            isSIzeMode = false;
-            // 돌 없는 애니메이션 재생
-            spriteController.SetAnimState(AnimState.Idle);
-            GetRandomLoc(stat.MovePoint);
-        }
-        else
-            BeforeTrunEnd();
-    }
-    public override void OnPathFailed()
-    {
-        if (isTurnEnd)
-            return;
-
-        BeforeTrunEnd();
-    }
     public override void OnAttackSuccess()
     {
         if (isTurnEnd)
@@ -164,9 +151,17 @@ public class EnemyAI_Lizard : EnemyAI_Base
     {
         TurnEnd();
     }
-
     public override void RadomTile()
     {
         throw new System.NotImplementedException();
+    }
+    public override void OnHit(int damage)
+    {
+        stat.Hp -= damage;
+        if (isSIzeMode)
+        {
+            isSIzeMode = false;
+            spriteController.SetAnimState(AnimState.Idle);
+        }
     }
 }

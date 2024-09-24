@@ -33,52 +33,6 @@ public class EnemyAI_Queen : EnemyAI_Base
         actDic.Add("AtkUp", 0.5f);
         actDic.Add("DefUp", 0.5f);
     }
-    public override void BeforeTrunEnd()
-    {
-        eggLapse++;
-        atkLapse++;
-        defLapse++;
-
-        TurnEnd();
-    }
-
-    public override void OnAttackFail()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void OnAttackSuccess()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void OnHit(int damage)
-    {
-        spriteController.SetAnimState(AnimState.Hit);
-        stat.Hp -= damage;
-    }
-
-    public override void OnMoveEnd()
-    {
-        SpecialCheck();
-        BeforeTrunEnd();
-    }
-
-    public override void OnPathFailed()
-    {
-        OnMoveEnd();
-    }
-
-    public override void OnTargetFoundFail()
-    {
-        GetRandomLoc(stat.MovePoint);   //가까운 아군 미발견 시 이동범위 랜덤 이동
-    }
-
-    public override void OnTargetFoundSuccess()
-    {
-        Move();
-    }
-
     public override void ProceedTurn()
     {
         if (!isTurnEnd)
@@ -90,14 +44,30 @@ public class EnemyAI_Queen : EnemyAI_Base
             Search(stat.Sight);
         }
     }
-
+    public override void OnTargetFoundSuccess()
+    {
+        Move();
+    }
+    public override void OnTargetFoundFail()
+    {
+        GetRandomLoc(stat.MovePoint);   //가까운 아군 미발견 시 이동범위 랜덤 이동
+    }
+    public override void OnPathFailed()
+    {
+        GetRandomLoc(stat.MovePoint);
+    }
+    public override void OnMoveEnd()
+    {
+        SpecialCheck();
+        BeforeTrunEnd();
+    }
     public override void SpecialCheck()
     {
-        if(eggCount < 3 && eggLapse > 2)   // 임시 숫자 이하의 알
+        if (eggCount < 3 && eggLapse > 2)   // 임시 숫자 이하의 알
         {
-            for (int i=0;i<layCount; i++)   // 산란 횟수만큼
+            for (int i = 0; i < layCount; i++)   // 산란 횟수만큼
             {
-                GetRandomLoc(5,true);
+                GetRandomLoc(5, true);
 
             }
             eggLapse = 0;
@@ -127,7 +97,7 @@ public class EnemyAI_Queen : EnemyAI_Base
                 skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetPos);
                 atkLapse = 0;
             }
-            else if (defLapse> 2)   // 방어 버프만
+            else if (defLapse > 2)   // 방어 버프만
             {
                 spriteController.SetAnimState(AnimState.Trigger3);
                 skillList.list[1].GetComponent<MonsterSkill>().SetTarget(targetPos);
@@ -137,11 +107,31 @@ public class EnemyAI_Queen : EnemyAI_Base
 
         isAttacked = true;
     }
+    public override void OnAttackSuccess()
+    {
+        throw new System.NotImplementedException();
+    }
+    public override void OnAttackFail()
+    {
+        throw new System.NotImplementedException();
+    }
+    public override void BeforeTrunEnd()
+    {
+        eggLapse++;
+        atkLapse++;
+        defLapse++;
 
+        TurnEnd();
+    }
     public override void RadomTile()
     {
         spriteController.SetAnimState(AnimState.Trigger1);
         skillList.list[2].GetComponent<MonsterSkill>().SetTarget(targetPos);
         //해당 위치에 알 생성
+    }
+    public override void OnHit(int damage)
+    {
+        spriteController.SetAnimState(AnimState.Hit);
+        stat.Hp -= damage;
     }
 }
