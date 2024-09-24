@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class SkillManager
 {
@@ -28,6 +27,7 @@ public class SkillManager
         }
     }
 
+    #region Instantiate Prefab
     public GameObject InstantiateSkill(int id, bool monster = false)
     {
         GameObject go;
@@ -76,7 +76,9 @@ public class SkillManager
         effect.transform.localPosition = new Vector3(0, 0, -0.5f);
         return effect;
     }
+    #endregion
 
+    #region Animation
     public IEnumerator StartEffect(GameObject effect, Vector3 pos, bool other = false)
     {
         effect.transform.position = pos;
@@ -106,6 +108,7 @@ public class SkillManager
         effect.GetComponent<ParticleSystem>().Stop();
         is_effect = false;
     }
+    #endregion
 
     public void UseElementSkill(ElementType type)
     {

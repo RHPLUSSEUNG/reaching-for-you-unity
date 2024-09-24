@@ -29,7 +29,7 @@ public abstract class MonsterSkill : Skill
             Debug.Log("Fail to Active Skill");
             return false;
         }
-        //Managers.Manager.StartCoroutine(Managers.Skill.StartEffect(Effect, target.transform.position));
+        //Managers.Manager.StartCoroutine(Managers.Skill.StartEffect(Effect, targetpos));
         return true;
     }
 

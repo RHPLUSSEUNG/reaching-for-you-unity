@@ -13,8 +13,15 @@ public class RaycastManager
     Equip_Item itemList;
     Active activeSkill;
     Consume consume;
-    List<GameObject> targets;
+
+    List<GameObject> ranges;
     GameObject target;
+    List<GameObject> targets;
+    SkillExtent extent;
+    public void OnStart()
+    {
+        extent= GameObject.Find("SkillExtent").GetComponent<SkillExtent>();
+    }
     public void OnUpdate()
     {
         if (Managers.Battle.currentCharacter != null && Managers.Battle.currentCharacter.CompareTag("Player"))
@@ -149,11 +156,10 @@ public class RaycastManager
     public bool DetectTargets(GameObject target)
     {
         Debug.Log(target);
-        float posx = target.transform.position.x;
-        float posz = target.transform.position.z;
+        targets = extent.SetArea(activeSkill.range, activeSkill.target_object, Managers.Battle.currentCharacter.transform.position, false);
         foreach (GameObject obj in targets)
         {
-            if(obj.transform.position.x == posx && obj.transform.position.z == posz)
+            if(target == obj)
             {
                 return true;
             }
@@ -202,7 +208,7 @@ public class RaycastManager
         yield break;
     }
 
-
+    #region Raycast
     private GameObject RaycastTile(Ray ray)
     {
         RaycastHit hit;
@@ -235,4 +241,5 @@ public class RaycastManager
         }
         return null;
     }
+    #endregion
 }
