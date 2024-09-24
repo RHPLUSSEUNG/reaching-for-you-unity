@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Egg : EnemyAI_Base
 {
+
     protected int turnElasped;
 
     private void Start()

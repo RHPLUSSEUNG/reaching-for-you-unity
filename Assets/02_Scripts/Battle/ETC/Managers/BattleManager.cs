@@ -202,4 +202,11 @@ public class BattleManager
         }
         yield break;
     }
+
+    #region Camera
+    public void CameraAllocate(GameObject target)
+    {
+        cameraController.ChangeFollowTarget(target, true);
+    }
+    #endregion
 }
