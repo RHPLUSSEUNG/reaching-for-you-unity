@@ -53,7 +53,10 @@ public class ItemManager
             if (consumeInven.ContainsKey(itemID) && consumeInven[itemID] >= num)
             {
                 consumeInven[itemID] -= num;
-                consumeInven.Remove(itemID);
+                if(consumeInven[itemID] <= 0)
+                {
+                    consumeInven.Remove(itemID);
+                }                
                 inventoryCnt--;                
                 ObjectiveTracer.Instance.ReportIItemCollected(itemID);
                 return true;
