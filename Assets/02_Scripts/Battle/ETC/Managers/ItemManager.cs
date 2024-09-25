@@ -8,9 +8,7 @@ public class ItemManager
     public List<int> equipmentInven = new();
     short inventoryCnt =  0;
     short inventoryMaxCnt = 100;
-    int gold = 0;
-
-    public event Action onUpdate;
+    int gold = 0;    
 
     //[2024-09-13][LSH's Code]: [quest-objective-gather]
     public bool AddItem(int itemID, int num = 1)
@@ -21,8 +19,7 @@ public class ItemManager
             if (consumeInven.ContainsKey(itemID))
             {
                 consumeInven[itemID] += num;
-                ObjectiveTracer.Instance.ReportIItemCollected(itemID);      
-                onUpdate?.Invoke();
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);                      
                 return true;
             }
             else if (inventoryCnt < inventoryMaxCnt)
