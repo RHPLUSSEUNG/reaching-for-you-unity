@@ -8,11 +8,11 @@ public class DynamicSpawner : MonoBehaviour
     [SerializeField]
     GameObject planeObject;
     [SerializeField]
-    GameObject[] objectPrefab;
+    private Stage[] stages;
     BoxCollider rangeCollider;
 
     public int maxSpawnCount = 10;
-    private List<Vector3> spawnedPositions = new List<Vector3>();
+    public static List<Vector3> spawnedPositions = new List<Vector3>();
     private List<GameObject> spawnedObject = new List<GameObject>();
 
     void Awake()
@@ -31,8 +31,8 @@ public class DynamicSpawner : MonoBehaviour
         Vector3 planePosition = planeObject.transform.position;
 
         // Plane Size
-        float rangeX = rangeCollider.bounds.size.x - 1.0f;
-        float rangeZ = rangeCollider.bounds.size.z - 1.0f;
+        float rangeX = rangeCollider.bounds.size.x - 2.0f;
+        float rangeZ = rangeCollider.bounds.size.z - 2.0f;
 
         // RandomPosition Range
         rangeX = Random.Range((rangeX / 2) * -1, rangeX / 2);
@@ -59,19 +59,21 @@ public class DynamicSpawner : MonoBehaviour
     public void RandomSpawn() {
         DestroyObject();
 
+        int index = AdventureManager.StageNumber;
+
         int spawnCount = Random.Range(1, maxSpawnCount);
         for (int i = 0; i < spawnCount; i++)
         {
-            int objectNum = Random.Range(0, objectPrefab.Length);
+            int objectNum = Random.Range(0, stages[index].stageOfPrefabs.Length);
             Vector3 spawnPosition;
             do
             {
                 spawnPosition = RandomPosition();
             } while (IsOverlapping(spawnPosition)); // If overlapping, re-position
-            spawnPosition += objectPrefab[objectNum].transform.position;
+            spawnPosition += stages[index].stageOfPrefabs[objectNum].transform.position;
             spawnedPositions.Add(spawnPosition);
 
-            GameObject spawned = Instantiate(objectPrefab[objectNum], spawnPosition, Quaternion.identity);
+            GameObject spawned = Instantiate(stages[index].stageOfPrefabs[objectNum], spawnPosition, Quaternion.identity);
             spawnedObject.Add(spawned);
         }
     }

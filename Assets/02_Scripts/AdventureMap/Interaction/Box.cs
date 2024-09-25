@@ -41,19 +41,13 @@ public class Box : MonoBehaviour
         }
     }
 
-    IEnumerator ActiveCollider()
-    {
-        gameObject.GetComponent<CapsuleCollider>().enabled = false;
-        yield return null;
-        gameObject.GetComponent<CapsuleCollider>().enabled = true;
-    }
-
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.transform.tag != "Untagged" && collider.transform.CompareTag("Player"))
         {
             isActive = true;
-            button.gameObject.SetActive(true);
+            StopAllCoroutines();
+            StartCoroutine(ButtonActiveCoroutine());
         }
     }
     private void OnTriggerExit(Collider collider)
@@ -63,5 +57,18 @@ public class Box : MonoBehaviour
             isActive = false;
             button.gameObject.SetActive(false);
         }
+    }
+
+    IEnumerator ActiveCollider()
+    {
+        gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        yield return null;
+        gameObject.GetComponent<CapsuleCollider>().enabled = true;
+    }
+
+    IEnumerator ButtonActiveCoroutine()
+    {
+        yield return new WaitForSeconds(0.2f);
+        button.gameObject.SetActive(true);
     }
 }

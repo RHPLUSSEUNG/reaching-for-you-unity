@@ -7,7 +7,7 @@ public class Stage
 {
     public string name;
     public int stageNum;
-    public GameObject[] wallPrefabs;
+    public GameObject[] stageOfPrefabs;
 }
 
 

@@ -33,9 +33,9 @@ public class RandomPassage : MonoBehaviour
         int index = AdventureManager.StageNumber;
         wallPrefabs = new GameObject[2];
         
-        for(int i = 0; i < stages[index].wallPrefabs.Length; i++)
+        for(int i = 0; i < stages[index].stageOfPrefabs.Length; i++)
         {
-            wallPrefabs[i] = stages[index].wallPrefabs[i];
+            wallPrefabs[i] = stages[index].stageOfPrefabs[i];
         }
     }
 

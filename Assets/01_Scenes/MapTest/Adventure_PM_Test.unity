@@ -253,11 +253,25 @@ MonoBehaviour:
   - {fileID: 1239720057}
   - {fileID: 874251326}
   - {fileID: 182436979}
-  objectPrefab:
-  - {fileID: 4908081680523308786, guid: ae36a3b6ada23594d959d31e2f321f43, type: 3}
-  - {fileID: 3516295762617294980, guid: 68893428d777a1540aa40ee48d6178d1, type: 3}
-  - {fileID: 8823925921333505174, guid: 0cdcfdfdc09196b418d3bd54abbf5581, type: 3}
-  - {fileID: 1348126554673589991, guid: 7b8b69ecdae9dd944ab950336712d73b, type: 3}
+  stages:
+  - name: desert
+    stageNum: 0
+    stageOfPrefabs:
+    - {fileID: 4908081680523308786, guid: ae36a3b6ada23594d959d31e2f321f43, type: 3}
+    - {fileID: 3516295762617294980, guid: 68893428d777a1540aa40ee48d6178d1, type: 3}
+    - {fileID: 8823925921333505174, guid: 0cdcfdfdc09196b418d3bd54abbf5581, type: 3}
+    - {fileID: 1348126554673589991, guid: 7b8b69ecdae9dd944ab950336712d73b, type: 3}
+  - name: water
+    stageNum: 1
+    stageOfPrefabs:
+    - {fileID: 644417757255106563, guid: c3545c606e3a270418ad894a6341ca32, type: 3}
+    - {fileID: 8200324099234601304, guid: af02b0933568465478014d0222b69596, type: 3}
+    - {fileID: 3996983991327799937, guid: 73df527b3f2ad424f9ca57bb3ccf1511, type: 3}
+    - {fileID: 7339917111343701968, guid: 5d5448fe5af89a34ca00218444ef19d3, type: 3}
+    - {fileID: 6214701484441184675, guid: 7ede3a76a78b0be4c99427cc27e1db6c, type: 3}
+    - {fileID: 4231407081792545742, guid: 2c1bc04fc3c49e54d93dcff3cc09c7a5, type: 3}
+    - {fileID: 5104260078846048501, guid: 9de9e16e1c0a3f843ba2a7508ae1282a, type: 3}
+    - {fileID: 2420344341716933134, guid: 2e8f1cbad48e0f44dba06292725f6114, type: 3}
 --- !u!4 &51725950
 Transform:
   m_ObjectHideFlags: 0
@@ -1534,12 +1548,12 @@ MonoBehaviour:
   stages:
   - name: desert
     stageNum: 0
-    wallPrefabs:
-    - {fileID: 2291032283343769293, guid: 87d4e2bdd597ef34e8c9b8c64a86cd52, type: 3}
+    stageOfPrefabs:
     - {fileID: 4283533020126547998, guid: eafc4cfbd90e0584a85a385cdf5f63af, type: 3}
+    - {fileID: 2291032283343769293, guid: 87d4e2bdd597ef34e8c9b8c64a86cd52, type: 3}
   - name: water
     stageNum: 1
-    wallPrefabs:
+    stageOfPrefabs:
     - {fileID: 4116701422631423197, guid: 52fc528921eebab4e8ceac2df2c323bf, type: 3}
     - {fileID: 7286087700539435094, guid: f1a0f415353f2b5438570fb5ef4f163d, type: 3}
 --- !u!1 &617455018
@@ -2771,9 +2785,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planeObject: {fileID: 99575619}
-  objectPrefab:
-  - {fileID: 5974859915094323858, guid: 1d7f47e0aa9872e41a27e0005a363dd9, type: 3}
-  maxSpawnCount: 7
+  stages:
+  - name: desert
+    stageNum: 0
+    stageOfPrefabs:
+    - {fileID: 5974859915094323858, guid: 1d7f47e0aa9872e41a27e0005a363dd9, type: 3}
+  - name: water
+    stageNum: 1
+    stageOfPrefabs:
+    - {fileID: 1947515561542621659, guid: b1c532e987a274544aee4f1a7988c190, type: 3}
+  maxSpawnCount: 5
 --- !u!4 &1503634442
 Transform:
   m_ObjectHideFlags: 0
