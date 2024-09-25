@@ -31,7 +31,7 @@ public class GiftAlertUI : MonoBehaviour
 
     public void SetAcceptButtonAction()
     {
-        Managers.Item.RemoveItem(itemID);
+        Managers.Item.RemoveItem(itemID, 1);
         FriendshipManager.Instance.FriendshipHandler(friend, friendshipLevel);
         GiftUI.Instance.HideGiftPanel();        
         this.transform.gameObject.SetActive(false);

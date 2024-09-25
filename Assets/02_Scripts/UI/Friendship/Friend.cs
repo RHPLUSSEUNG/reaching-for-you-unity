@@ -8,7 +8,13 @@ public class Friend : MonoBehaviour
     [SerializeField] string friendName;
     [SerializeField] int friendID;
     [SerializeField] Sprite friendPortrait;
-    [SerializeField] int friendship = 0;    
+    [SerializeField] int friendship = 0;
+    [SerializeField] GameObject friendshipEffect;
+
+    void Start()
+    {
+        friendshipEffect.SetActive(false);
+    }
 
     public void RiseFriendshipLevel(int level)
     {
@@ -19,7 +25,8 @@ public class Friend : MonoBehaviour
         else
         {
             friendship += level;
-        }        
+            ActiveFriendshipEffect();
+        }
     }
 
     public void FallFriendshipLevel(int level)
@@ -52,5 +59,10 @@ public class Friend : MonoBehaviour
     public int GetFriendship()
     {
         return friendship;
+    }
+
+    void ActiveFriendshipEffect()
+    {
+        friendshipEffect.SetActive(true);
     }
 }
