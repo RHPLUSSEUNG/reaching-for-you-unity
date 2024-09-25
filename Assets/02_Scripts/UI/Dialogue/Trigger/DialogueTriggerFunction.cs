@@ -34,7 +34,7 @@ public class DialogueTriggerFunction : MonoBehaviour
 
     public void RequestItem()
     {
-        GiftUI.Instance.ShowGiftList();
+        GiftUI.Instance.ShowGiftPanel();
         GiftUI.Instance.ReportTargetNPC(transform.GetComponent<Friend>());
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class GiftUI : MonoBehaviour
     [SerializeField] GiftListUI giftListUI;
     [SerializeField] Transform giftPanel;
     [SerializeField] Transform alertPanel;
+    bool isGiftActive = false;
+
+    public event Action onGiftPanelUpdated;
 
     private void Awake()
     {
@@ -28,8 +32,10 @@ public class GiftUI : MonoBehaviour
         alertPanel.gameObject.SetActive(false);
     }
 
-    public void ShowGiftList()
+    public void ShowGiftPanel()
     {
+        onGiftPanelUpdated?.Invoke();
+        SetGiftActive(true);
         giftPanel.gameObject.SetActive(true);        
     }
 
@@ -40,6 +46,18 @@ public class GiftUI : MonoBehaviour
 
     public void HideGiftPanel()
     {
-        giftPanel.gameObject.SetActive(false);
+        SetGiftActive(false);
+        giftPanel.gameObject.SetActive(false);        
     }
+
+    public void SetGiftActive(bool _isActive)
+    {
+        isGiftActive = _isActive;
+    }
+
+    public bool GetGiftActive()
+    {
+        return isGiftActive;
+    }
+
 }

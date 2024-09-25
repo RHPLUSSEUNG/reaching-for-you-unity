@@ -14,7 +14,7 @@ public class GiftListUI : MonoBehaviour
 
     private void Start()
     {        
-        Managers.Item.onUpdate += ReDraw;
+        GiftUI.Instance.onGiftPanelUpdated += ReDraw;
         ReDraw();
         alertPanel.gameObject.SetActive(false);
     }

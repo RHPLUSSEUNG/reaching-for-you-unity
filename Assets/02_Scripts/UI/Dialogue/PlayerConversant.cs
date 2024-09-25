@@ -89,22 +89,25 @@ public class PlayerConversant : MonoBehaviour
 
     public void Next()
     {
-        int numPlayerResponse = FilterOnCondition(currentDialogue.GetPlayerChildren(currentNode)).Count();
-        
-        if(numPlayerResponse > 0) 
+        if(!GiftUI.Instance.GetGiftActive())
         {
-            isChoosing = true;
-            TriggerExitAction();
-            onConversationUpdated();
-            return;
-        }
+            int numPlayerResponse = FilterOnCondition(currentDialogue.GetPlayerChildren(currentNode)).Count();
 
-        DialogueNode[] children = FilterOnCondition(currentDialogue.GetNPCChildren(currentNode)).ToArray();
-        int randomIndex = UnityEngine.Random.Range(0, children.Count());
-        TriggerExitAction();
-        currentNode =  children[randomIndex];
-        TriggerEnterAction();
-        onConversationUpdated();
+            if (numPlayerResponse > 0)
+            {
+                isChoosing = true;
+                TriggerExitAction();
+                onConversationUpdated();
+                return;
+            }
+
+            DialogueNode[] children = FilterOnCondition(currentDialogue.GetNPCChildren(currentNode)).ToArray();
+            int randomIndex = UnityEngine.Random.Range(0, children.Count());
+            TriggerExitAction();
+            currentNode = children[randomIndex];
+            TriggerEnterAction();
+            onConversationUpdated();
+        }        
     }
 
     public bool HasNext()
