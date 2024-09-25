@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ public enum NPCType
 public class DialogueTriggerFunction : MonoBehaviour
 {
     [SerializeField] NPCType type;
-    [SerializeField]int friendShipLevel = 0;
+    [SerializeField]int friendShipLevel = 0;    
 
     public void JoinToFriend()
     {
@@ -30,4 +31,10 @@ public class DialogueTriggerFunction : MonoBehaviour
     {
         SceneChanger.Instance.ChangeScene(SceneType.BATTLE);
     }    
+
+    public void RequestItem()
+    {
+        GiftUI.Instance.ShowGiftList();
+        GiftUI.Instance.ReportTargetNPC(transform.GetComponent<Friend>());
+    }
 }

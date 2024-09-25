@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
+using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class GiftListUI : MonoBehaviour
 {
     [SerializeField] Transform giftContent;
     [SerializeField] GiftItemUI giftItemPrefab;
-    DataList dataList;
+    [SerializeField] Transform alertPanel;
+    Friend currentNpc;    
 
     private void Start()
-    {
-        dataList = GameObject.Find("DataList").GetComponent<DataList>();
+    {        
         Managers.Item.onUpdate += ReDraw;
         ReDraw();
+        alertPanel.gameObject.SetActive(false);
     }
 
     private void ReDraw()
@@ -31,25 +34,42 @@ public class GiftListUI : MonoBehaviour
             int itemID = entry.Key;
             int itemCount = entry.Value;
 
-            ConsumeData itemData = dataList.consumeList.Find(data => data.ItemID == itemID);
-
+            ConsumeData itemData = Managers.Data.GetItemData(itemID, false) as ConsumeData;
+            
             if (itemData != null)
             {
                 GiftItemUI giftItemInstance = Instantiate(giftItemPrefab, giftContent);
                 giftItemInstance.SetUp(itemID, itemCount, itemData.itemSprite);
+
+                Button itemButton = giftItemInstance.GetComponentInChildren<Button>();
+                itemButton.onClick.AddListener(() => ShowAlertPanel(itemData));
             }
         }
         
         foreach (int equipItemID in equipmentItems)
         {
-            EquipmentData equipData = dataList.equipmentList.Find(data => data.ItemID == equipItemID);
+            EquipmentData equipData = Managers.Data.GetItemData(equipItemID, false) as EquipmentData;
 
             if (equipData != null)
             {
-                GiftItemUI equipItemInstance = Instantiate(giftItemPrefab, giftContent);
-                equipItemInstance.SetUp(equipItemID, 1, equipData.itemSprite);
+                GiftItemUI giftItemInstance = Instantiate(giftItemPrefab, giftContent);
+                giftItemInstance.SetUp(equipItemID, 1, equipData.itemSprite);
+
+                Button itemButton = giftItemInstance.GetComponentInChildren<Button>();
+                itemButton.onClick.AddListener(() => ShowAlertPanel(equipData));
             }
         }
+    }
+
+    public void SetNPC(Friend friendNPC)
+    {
+        currentNpc = friendNPC;
+    }
+
+    void ShowAlertPanel(ItemData itemData)
+    {        
+        alertPanel.gameObject.SetActive(true);
+        alertPanel.GetComponent<GiftAlertUI>().SetUp(itemData.ItemID, currentNpc, itemData.ItemName);
     }
 }
 

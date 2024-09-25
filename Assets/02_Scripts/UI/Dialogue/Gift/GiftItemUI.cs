@@ -10,19 +10,14 @@ public class GiftItemUI : MonoBehaviour
     [SerializeField] Image itemImage;
     [SerializeField] Button itemButton;
     [SerializeField] TextMeshProUGUI itemCountText;
+
     public void SetUp(int itemID, int itemCount, Sprite itemSprite)
     {
         this.itemID = itemID;
 
         itemImage.sprite = itemSprite;
 
-        itemCountText.text = $"x{itemCount}";
-        
-        itemButton.onClick.AddListener(() => GiveItem());
+        itemCountText.text = $"x{itemCount}";                
     }
 
-    private void GiveItem()
-    {        
-        Debug.Log($"Item {itemID} used");
-    }
 }

@@ -21,7 +21,7 @@ public class ItemManager
             if (consumeInven.ContainsKey(itemID))
             {
                 consumeInven[itemID] += num;
-                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);      
                 onUpdate?.Invoke();
                 return true;
             }
@@ -29,8 +29,7 @@ public class ItemManager
             {
                 consumeInven.Add(itemID, 1);
                 inventoryCnt++;                
-                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
-                onUpdate?.Invoke();
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);                
                 return true;
             }
         }
@@ -40,8 +39,7 @@ public class ItemManager
             {
                 equipmentInven.Add(itemID);
                 inventoryCnt++;                
-                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
-                onUpdate?.Invoke();
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);                
                 return true;
             }
         }        

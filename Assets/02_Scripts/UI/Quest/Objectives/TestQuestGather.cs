@@ -8,6 +8,7 @@ public class TestQuestGather : MonoBehaviour
     [SerializeField] bool isAddItem;
     [SerializeField] bool isRemoveItem;
     [SerializeField] int count = 0;
+
     private void Start()
     {
         isAddItem = false;
