@@ -2,27 +2,34 @@ using UnityEngine;
 
 public class RandomPlane : MonoBehaviour
 {
-    public GameObject BasicPlane;
+    public GameObject desertBasicPlane;
+    public GameObject waterBasicPlane;
+
     public GameObject CurePlane;
     public GameObject SavePlane;
 
     public void SpawnBasic() 
     {
-        BasicPlane.SetActive(true);
+        if(AdventureManager.StageNumber == 0)
+            desertBasicPlane.SetActive(true);
+        else if(AdventureManager.StageNumber == 1)
+            waterBasicPlane.SetActive(true);
         CurePlane.SetActive(false);
         SavePlane.SetActive(false);
     } 
 
     public void SpawnCure()
     {
-        BasicPlane.SetActive(false);
+        desertBasicPlane.SetActive(false);
+        waterBasicPlane.SetActive(false);
         CurePlane.SetActive(true);
         SavePlane.SetActive(false);
     }
 
     public void SpawnSave()
     {
-        BasicPlane.SetActive(false);
+        desertBasicPlane.SetActive(false);
+        waterBasicPlane.SetActive(false);
         CurePlane.SetActive(false);
         SavePlane.SetActive(true);
     }

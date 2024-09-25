@@ -7,10 +7,18 @@ public class StaticSpawner : MonoBehaviour
     [SerializeField]
     GameObject[] objectPosition = null;
     [SerializeField]
-    GameObject[] objectPrefab = null;
+    private Stage[] stages;
     bool[] isActive;
 
     private List<GameObject> spawnedObject = new List<GameObject>();
+
+    void Awake()
+    {
+        foreach(GameObject go in objectPosition)
+        {
+            DynamicSpawner.spawnedPositions.Add(go.transform.position);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -24,20 +32,21 @@ public class StaticSpawner : MonoBehaviour
     {
         DestroyObject();
         int spawnCount = Random.Range(1, objectPosition.Length);
+        int index = AdventureManager.StageNumber;
 
         for(int i = 0; i < spawnCount; i++) 
         {
-            int randomPositionIndex = Random.Range(0, objectPosition.Length);
-            int randomIndex = Random.Range(0, objectPrefab.Length);
+            int randomPositionIndex = Random.Range(0, stages[index].stageOfPrefabs.Length);
+            int randomIndex = Random.Range(0, stages[index].stageOfPrefabs.Length);
 
             Vector3 spawnPosition;
 
             if(!isActive[randomPositionIndex])
             {
                 isActive[randomPositionIndex] = true;
-                spawnPosition = objectPosition[randomPositionIndex].transform.position + objectPrefab[randomIndex].transform.position;
+                spawnPosition = objectPosition[randomPositionIndex].transform.position + stages[index].stageOfPrefabs[randomIndex].transform.position;
 
-                GameObject spawned = Instantiate(objectPrefab[randomIndex], spawnPosition, Quaternion.identity);
+                GameObject spawned = Instantiate(stages[index].stageOfPrefabs[randomIndex], spawnPosition, Quaternion.identity);
                 spawnedObject.Add(spawned);
             }
         }
