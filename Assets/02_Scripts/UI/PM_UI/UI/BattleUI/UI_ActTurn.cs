@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
@@ -22,6 +23,9 @@ public class UI_ActTurn : UI_Scene
 
     float moveDuration = 0.4f;
     float moveDistance = 300f;
+    float animDuration = 0.5f;
+    float animDistance = 100f;
+
     bool state = false;
     bool isMoving = false;
 
@@ -46,7 +50,8 @@ public class UI_ActTurn : UI_Scene
     {
         for (int i = 0; i < Managers.Battle.ObjectList.Count; i++)
         {
-            Managers.Prefab.Instantiate("UI/SubItem/Turn", turnPanel.transform); // ActTurnPanel을 부모로 해서 생성
+            GameObject newTurnUI = Managers.Prefab.Instantiate("UI/SubItem/Turn", turnPanel.transform);
+            newTurnUI.AddComponent<CanvasGroup>();
         }
         ShowTurnOrderUI();
     }
@@ -78,14 +83,15 @@ public class UI_ActTurn : UI_Scene
         }
     }
 
-    public void MakeTurnUI(Sprite newObj)
+    // TODO : Turn 생성 및 삭제
+    public void MakeTurnUI(Sprite newObj, int turnCnt)
     {
         Image newTurn = Managers.Prefab.Instantiate("UI/SubItem/Turn", gameObject.transform).GetComponent<Image>();
         newTurn.sprite = newObj;
         UpdateTurnUI();
     }
 
-    public void DestroyTurnUI()
+    public void DestroyTurnUI(int turnCnt)
     {
         Destroy(transform.GetChild(0).gameObject);
         UpdateTurnUI();
@@ -93,41 +99,86 @@ public class UI_ActTurn : UI_Scene
 
     public void ProceedTurnUI(int turnCnt)
     {
-        int circleIdx = turnCnt;
-        for (int i = 0; i < turnPanel.transform.childCount; i++)
+        if (turnCnt == 0)
         {
-            Image turnImg = turnPanel.transform.GetChild(i).GetChild(0).GetComponent<Image>();
-            Sprite charImage = Util.FindChild(Managers.Battle.ObjectList[circleIdx], "Character", true).GetComponent<SpriteRenderer>().sprite;
+            return;
+        }
+        StartCoroutine(MoveTurnUIAnim());
+        
+    }
 
-            turnImg.sprite = charImage;
-            circleIdx++;
-            if (circleIdx == Managers.Battle.ObjectList.Count)
-            {
-                circleIdx = 0;
-            }
-        }
-        if(turnCnt > 0)
+    IEnumerator MoveTurnUIAnim()
+    {
+        isMoving = true;
+        turnUIBtn.interactable = false;
+        CanvasGroup firstChildCanvasGroup = turnPanel.transform.GetChild(0).GetComponent<CanvasGroup>();
+
+        Vector3 startPos = uiRect.anchoredPosition;
+        Vector3 endPos = startPos + new Vector3(-animDistance, 0, 0);
+
+        float elapsedTime = 0;
+
+        StartCoroutine(FadeOut(firstChildCanvasGroup, animDuration));
+
+        while (elapsedTime < animDuration)
         {
-            GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - turnCnt).GetChild(1).gameObject;
-            pastPanel.SetActive(true);
+            uiRect.anchoredPosition = Vector3.Lerp(startPos, endPos, elapsedTime / animDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+
+        uiRect.anchoredPosition = endPos;
+
+        turnPanel.transform.GetChild(0).SetSiblingIndex(turnPanel.transform.childCount - 1);
+        GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - 1).GetChild(1).gameObject;
+        pastPanel.SetActive(true);
+
+        uiRect.anchoredPosition = startPos;
+
+        StartCoroutine(FadeIn(firstChildCanvasGroup, animDuration));
+        turnUIBtn.interactable = true;
+        isMoving = false;
+    }
+
+    IEnumerator FadeOut(CanvasGroup canvasGroup, float duration)
+    {
+        float elapsedTime = 0;
+        while (elapsedTime < duration)
+        {
+            canvasGroup.alpha = Mathf.Lerp(1, 0, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        canvasGroup.alpha = 0;
+    }
+
+    IEnumerator FadeIn(CanvasGroup canvasGroup, float duration)
+    {
+        float elapsedTime = 0;
+        while (elapsedTime < duration)
+        {
+            canvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        canvasGroup.alpha = 1;
     }
 
     public void ShowTurnOrderUI()
     {
         if (isMoving) return;
         state = true;
-        StartCoroutine(MoveUI(false));
+        StartCoroutine(VisibleToggleUI(false));
     }
 
     public void HideTurnOrderUI()
     {
         if (isMoving) return;
         state = false;
-        StartCoroutine(MoveUI(true));
+        StartCoroutine(VisibleToggleUI(true));
     }
 
-    IEnumerator MoveUI(bool flag)
+    IEnumerator VisibleToggleUI(bool flag)
     {
         isMoving = true;
         turnUIBtn.interactable = false;
@@ -156,9 +207,12 @@ public class UI_ActTurn : UI_Scene
     
     public void ResetPastPanel()
     {
-        for(int i = 0; i < turnPanel.transform.childCount; i++)
+        turnPanel.transform.GetChild(0).SetSiblingIndex(turnPanel.transform.childCount - 1);
+        GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - 1).GetChild(1).gameObject;
+        pastPanel.SetActive(true);
+        for (int i = 0; i < turnPanel.transform.childCount; i++)
         {
-            GameObject pastPanel = turnPanel.transform.GetChild(i).GetChild(1).gameObject;
+            pastPanel = turnPanel.transform.GetChild(i).GetChild(1).gameObject;
             pastPanel.SetActive(false);
         }
     }
