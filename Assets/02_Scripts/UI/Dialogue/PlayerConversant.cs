@@ -102,6 +102,11 @@ public class PlayerConversant : MonoBehaviour
             }
 
             DialogueNode[] children = FilterOnCondition(currentDialogue.GetNPCChildren(currentNode)).ToArray();
+            if (children.Count() == 0)
+            {
+                Quit();
+                return;
+            }
             int randomIndex = UnityEngine.Random.Range(0, children.Count());
             TriggerExitAction();
             currentNode = children[randomIndex];
