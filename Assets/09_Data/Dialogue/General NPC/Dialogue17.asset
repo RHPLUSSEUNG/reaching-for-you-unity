@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8252978491161784249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: fd6e4af1-2ce9-42df-ac6f-607bf3c81154
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: " \uD558\uAE34 \uC694\uC998 \uACFC\uC81C\uAC00 \uB298\uAE34\uD588\uB294\uB370.. 
+    \uADF8 \uC815\uB3C4\uC778\uAC00?"
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 229.6
+    y: 0
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and: []
+--- !u!114 &-285879706208556143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 7fe211de-86a1-420b-ab06-5a4ccf580284
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uC694\uC998 (\uB9C8\uBC95\uB3C4\uAD6C\uAD00\uB9AC\uD559\uC774\uB984 \uBBF8\uC815)
+    \uAD50\uC218\uB2D8 \uD53C\uACE4\uD574 \uBCF4\uC774\uC9C0 \uC54A\uC544?"
+  children:
+  - fd6e4af1-2ce9-42df-ac6f-607bf3c81154
+  rect:
+    serializedVersion: 2
+    x: 0
+    y: -0.79999924
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f00cc4d1c5b96842abc1f50692b7245, type: 3}
+  m_Name: Dialogue17
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: -285879706208556143}
+  - {fileID: -8252978491161784249}

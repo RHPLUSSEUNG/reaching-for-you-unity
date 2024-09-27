@@ -2,12 +2,22 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
+[System.Serializable]
+public class Stage
+{
+    public string name;
+    public int stageNum;
+    public GameObject[] stageOfPrefabs;
+}
+
+
 public class AdventureManager : MonoBehaviour
 {
     static AdventureManager _adventure;
     public static AdventureManager adventure { get { return _adventure; } }
 
-    [SerializeField] UnityEvent[] respawnedRoom;
+    private const int DESERT = 0, WATER = 1;
+    public static int StageNumber = WATER;
 
     private static int stageCount = 1;
     public static int StageCount {

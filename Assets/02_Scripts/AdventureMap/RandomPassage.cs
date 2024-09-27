@@ -6,9 +6,11 @@ using UnityEngine;
 public class RandomPassage : MonoBehaviour
 {
     [SerializeField]
+    private Stage[] stages;
     private GameObject[] wallPrefabs;
 
     int DoorCount = 0;
+    int stageIndex;
 
     List<Transform> passageChildren = new List<Transform>();
     List<GameObject> wallChildren = new List<GameObject>();
@@ -21,7 +23,20 @@ public class RandomPassage : MonoBehaviour
         }
 
         DoorCount = Random.Range(0, passageChildren.Count - 1) + 1;
+        
+        InitWallPrefab();
         AddPassage();
+    }
+
+    private void InitWallPrefab()
+    {
+        int index = AdventureManager.StageNumber;
+        wallPrefabs = new GameObject[2];
+        
+        for(int i = 0; i < stages[index].stageOfPrefabs.Length; i++)
+        {
+            wallPrefabs[i] = stages[index].stageOfPrefabs[i];
+        }
     }
 
     public void AddPassage()

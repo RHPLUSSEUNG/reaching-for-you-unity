@@ -64,8 +64,8 @@ public class ActiveManager
         #region Cover
         if (target.CompareTag("Player") & cover != null)
         {
-            cover.CheckTarget(damage, Managers.Battle.currentCharacter.transform.position, target.transform.position);
-            return damage;
+            if(!cover.CheckTarget(damage, Managers.Battle.currentCharacter.transform.position, target.transform.position))
+                return damage;
         }
         #endregion
         if (state.GetEvasion() > 0)
@@ -104,6 +104,7 @@ public class ActiveManager
         #endregion
         if (target.GetComponent<EnemyAI_Base>() != null)
         {
+            target.GetComponent<EntityStat>().Hp -= damage;
             target.GetComponent<EnemyAI_Base>().OnHit(damage);
             return damage;
         }
