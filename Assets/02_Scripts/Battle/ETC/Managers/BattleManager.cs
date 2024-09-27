@@ -20,18 +20,18 @@ public class BattleManager
 
     public CameraController cameraController;
 
-    private int compareDefense(GameObject character1,  GameObject character2)
+    private int compareDefense(GameObject character1, GameObject character2)
     {
         return character1.GetComponent<EntityStat>().Defense < character2.GetComponent<EntityStat>().Defense ? -1 : 1;
     }
 
     public bool Can_Continue()
     {
-        if (currentCharacter == null || currentCharacter.CompareTag("Monster"))
+        if (currentCharacter == null)
         {
             return true;
         }
-        else if(battleState == BattleState.Defeat && battleState == BattleState.Victory)
+        else if (battleState == BattleState.Defeat && battleState == BattleState.Victory)
         {
             Debug.Log("Battle is End");
             return false;
@@ -41,13 +41,15 @@ public class BattleManager
             Debug.Log("Wait for skill effect End");
             return false;
         }
-        else if (currentCharacter.GetComponent<PlayerBattle>().isMoving)
+        //else if (currentCharacter.GetComponent<PlayerBattle>().isMoving)
+        //{
+        //    Debug.Log("Wait for Character Moving");
+        //    return false;
+        //}
+        else
         {
-            Debug.Log("Wait for Character Moving");
-            return false;
-        }
-        
-        return true;
+            return true;
+        }   
     }
 
     public void BattleReady()
@@ -81,7 +83,7 @@ public class BattleManager
 
     public void CalcTurn()
     {
-        if(currentCharacter != null && currentCharacter.GetComponent<CharacterState>() != null)
+        if (currentCharacter != null && currentCharacter.GetComponent<CharacterState>() != null)
         {
             currentCharacter.GetComponent<CharacterState>().CalcTurn();
         }
@@ -91,7 +93,7 @@ public class BattleManager
         {
             phase++;
             turnCnt %= ObjectList.Count;
-            
+
 
             for (int i = 0; i < InstantAfterPhaseList.Count; i++)
             {
@@ -149,15 +151,15 @@ public class BattleManager
 
         SceneChanger.Instance.ChangeScene(SceneType.AM);
     }
+
     public IEnumerator NextTurnCoroutine()
     {
+        yield return new WaitForSeconds(0.5f);
         //wait for animation end
-        while(!Can_Continue())
+        while (!Can_Continue())
         {
-            yield return null;
+            yield return null; //돌아오는 장소
         }
-        yield return new WaitForSeconds(1.5f);
-
         //calculate turn
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
@@ -177,11 +179,11 @@ public class BattleManager
                 Debug.Log(area.name);
             }
         }
-
+        
         //Stun cant active turn
         if (currentCharacter.GetComponent<CharacterState>().IsStun())
         {
-            NextTurn();  
+            NextTurn();
             yield break;
         }
 
@@ -200,4 +202,11 @@ public class BattleManager
         }
         yield break;
     }
+
+    #region Camera
+    public void CameraAllocate(GameObject target)
+    {
+        cameraController.ChangeFollowTarget(target, true);
+    }
+    #endregion
 }

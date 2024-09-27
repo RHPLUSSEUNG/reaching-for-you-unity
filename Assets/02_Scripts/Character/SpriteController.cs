@@ -71,6 +71,9 @@ public class SpriteController : MonoBehaviour
             case (AnimState.Trigger2):
                 anim.SetTrigger("Trigger2");
                 break;
+            case (AnimState.Trigger3):
+                anim.SetTrigger("Trigger3");
+                break;
             case (AnimState.State1):
                 anim.SetInteger("State", (int)AnimState.State1);
                 break;

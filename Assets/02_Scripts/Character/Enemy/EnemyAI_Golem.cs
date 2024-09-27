@@ -13,21 +13,6 @@ public class EnemyAI_Golem : EnemyAI_Base
         fruitCount = 2;
     }
     public int fruitCount;
-    public override void SpecialCheck()
-    {
-        if (isTurnEnd)
-            return;
-
-        if (stat.Hp <= stat.MaxMp/2) 
-        {
-            if (fruitCount > 0) 
-            {
-                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);
-                fruitCount--;
-                BeforeTrunEnd();
-            }
-        }
-    }
     public override void ProceedTurn()
     {
         if (!isTurnEnd)
@@ -76,10 +61,7 @@ public class EnemyAI_Golem : EnemyAI_Base
     }
     public override void OnPathFailed()
     {
-        if (isTurnEnd)
-            return;
-
-        BeforeTrunEnd();
+        GetRandomLoc(stat.MovePoint);
     }
     public override void OnMoveEnd()
     {
@@ -90,6 +72,21 @@ public class EnemyAI_Golem : EnemyAI_Base
         if (isMoved && isAttacked)
             BeforeTrunEnd();
         Search(stat.Sight);
+    }
+    public override void SpecialCheck()
+    {
+        if (isTurnEnd)
+            return;
+
+        if (stat.Hp <= stat.MaxMp / 2)
+        {
+            if (fruitCount > 0)
+            {
+                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);
+                fruitCount--;
+                BeforeTrunEnd();
+            }
+        }
     }
     public override void OnAttackSuccess()
     {
@@ -105,16 +102,21 @@ public class EnemyAI_Golem : EnemyAI_Base
 
         BeforeTrunEnd();
     }
-    public override void OnHit(int damage)
-    {
-        spriteController.SetAnimState(AnimState.Hit);
-        stat.Hp -= damage;
-    }
     public override void BeforeTrunEnd()
     {
         if (isTurnEnd)
             return;
 
         TurnEnd();
+    }
+
+    public override void RadomTile()
+    {
+        throw new System.NotImplementedException();
+    }
+    public override void OnHit(int damage)
+    {
+        spriteController.SetAnimState(AnimState.Hit);
+        stat.Hp -= damage;
     }
 }

@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Egg : EnemyAI_Base
 {
+
     protected int turnElasped;
 
     private void Start()
     {
+        turnElasped = 0;
+
         stat = GetComponent<EnemyStat>();
         stat.enemyName = "Egg";
-        spriteController = GetComponent<SpriteController>();
-        skillList = GetComponent<SkillList>();
-        skillList.AddSkill(Managers.Skill.InstantiateSkill(1, true));
+        //spriteController = GetComponent<SpriteController>();
+
         isTurnEnd = true;
 
         actDic = new Dictionary<string, float>();    //Çàµ¿ È®·ü
@@ -21,7 +23,8 @@ public class Egg : EnemyAI_Base
     }
     public override void BeforeTrunEnd()
     {
-        throw new System.NotImplementedException();
+        turnElasped++;
+        TurnEnd();
     }
 
     public override void OnAttackFail()
@@ -62,25 +65,42 @@ public class Egg : EnemyAI_Base
 
     public override void ProceedTurn()
     {
-        throw new System.NotImplementedException();
+        if (!isTurnEnd)
+            return;
+
+        OnTurnStart();
+        SpecialCheck();
     }
 
     public override void SpecialCheck()
     {
-        if (turnElasped >0) 
+        if (turnElasped >1) 
         {
-            switch (RandChoose(actDic))  // ·£´ý ¾×¼Ç
-            {
-                case "Worker":
-                    Managers.Party.InstantiateMonster("Worker");
-                    break;
-                case "Soldier":
-                    Managers.Party.InstantiateMonster("Soldier");
-                    break;
-
-               // ÅÏ Á¾·á ÈÄ °´Ã¼ ÆÄ±« ÇÊ¿ä
-            }
-            BeforeTrunEnd();
+            Destroy(gameObject);
         }
+        BeforeTrunEnd();
+    }
+
+    public override void RadomTile()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void OnDestroy()
+    {
+        GameObject newObj = new GameObject();
+        switch (RandChoose(actDic))  // ·£´ý ¾×¼Ç
+        {
+            case "Worker":
+                newObj = Managers.Party.InstantiateMonster("Enemy_Worker");
+                newObj.transform.position = this.transform.position;
+                break;
+            case "Soldier":
+                newObj = Managers.Party.InstantiateMonster("Enemy_Soldier");
+                newObj.transform.position = this.transform.position;
+                break;
+        }
+        Managers.Battle.CameraAllocate(newObj);
+        TurnEnd();
     }
 }

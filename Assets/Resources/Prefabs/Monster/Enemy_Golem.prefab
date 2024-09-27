@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5158375782294323619}
   - component: {fileID: 7873283411122069207}
   - component: {fileID: 3554440614666488824}
+  - component: {fileID: 498927196313756523}
   m_Layer: 7
   m_Name: Enemy_Golem
   m_TagString: Monster
@@ -151,6 +152,22 @@ MonoBehaviour:
   rotateSpeed: 5
   direction: 1
   cameraChanged: 0
+--- !u!114 &498927196313756523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563782313537585837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286d9053e9eb4934fa473be0fd726f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  targetTag: Player
+  isTurnEnd: 0
+  fruitCount: 0
 --- !u!1 &1669511493203663132
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8228149700979666272}
   - component: {fileID: 634255288830412077}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,7 +231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8425992190061828753}
   - component: {fileID: 9122704201675649391}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8959702336931918007}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +319,7 @@ GameObject:
   - component: {fileID: 201214624615532164}
   - component: {fileID: 3029377025697157087}
   - component: {fileID: 2803993635943719565}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}

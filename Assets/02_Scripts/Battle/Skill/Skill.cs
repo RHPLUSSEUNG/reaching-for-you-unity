@@ -10,4 +10,5 @@ public abstract class Skill : MonoBehaviour
 
     public TargetObject target_object;
     public abstract void Start();
+
 }

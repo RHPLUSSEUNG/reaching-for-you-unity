@@ -32,7 +32,7 @@ public class SlideEffect : MonoBehaviour
             cameraController.ChangeFollowTarget(Managers.Battle.currentCharacter, true);
             cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
             Managers.BattleUI.cameraMode = CameraMode.Follow;
-            cameraController.ChangeOffSet(-3, 1, -3, 20,45);
+            cameraController.ChangeOffSet(-2, 2, -2, 20,45);
             Debug.Log("Camera Set");
         }
 

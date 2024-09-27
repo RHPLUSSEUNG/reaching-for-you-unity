@@ -11,6 +11,11 @@ public class ActiveManager
     public void SetCoverData(GameObject _cover)
     {
         Debug.Log(_cover);
+        if(_cover == null)
+        {
+            cover = null;
+            return;
+        }
         cover = _cover.transform.parent.GetComponent<Cover>();
     }
     #endregion

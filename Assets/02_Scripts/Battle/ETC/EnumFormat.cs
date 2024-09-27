@@ -84,6 +84,7 @@ public enum AnimState
     State2,
     Trigger1,
     Trigger2,
+    Trigger3,
     Potion,
     Roll
 }

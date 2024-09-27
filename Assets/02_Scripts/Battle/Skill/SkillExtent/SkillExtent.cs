@@ -5,21 +5,23 @@ using UnityEngine;
 
 public class SkillExtent : MonoBehaviour
 {
+    [SerializeField]
     protected Collider[] colliders;
+    [SerializeField]
     protected int range;
+    [SerializeField]
     protected TargetObject targetType;
 
-
+    [SerializeField]
     private List<GameObject> targets = new();
     float angle = 90f;
     Vector3 rotate;
-
     public List<GameObject> SetArea(int range, TargetObject targetType, Vector3 pos, bool Circular)
     {
         this.range = range;
         this.targetType = targetType;
         this.gameObject.transform.position = pos;
-
+        targets.Clear();
         if(Circular)
         {
             rotate = Managers.Battle.currentCharacter.transform.position - pos;
@@ -27,7 +29,7 @@ public class SkillExtent : MonoBehaviour
         }
         else
         {
-            GetCharacter();
+            RectCharacter();
         }
         return targets;
     }
@@ -39,18 +41,18 @@ public class SkillExtent : MonoBehaviour
         transform.position = Managers.Battle.currentCharacter.transform.position;
         foreach (Collider c in colliders)
         {
-            GameObject go = c.gameObject;
-
-            Vector3 interV = go.transform.position - transform.position;
+            Vector3 interV = c.transform.position - transform.position;
 
             if(rotate.magnitude <= range)
             {
+                //Debug.Log("rotate magnitude");
                 float dot = Vector3.Dot(interV.normalized, rotate);
                 float theta = Mathf.Acos(dot);
                 float degree = Mathf.Rad2Deg * theta;
-
-                if(degree <= range / 2f)
-                    targets.Add(go);
+                //Debug.Log($"Degree : {degree}");
+                //Debug.Log($"Standard : {range / 2f}");
+                if (degree <= range / 2f)
+                    targets.Add(c.gameObject.transform.parent.gameObject);
             }
         }
     }
@@ -58,15 +60,26 @@ public class SkillExtent : MonoBehaviour
     protected void RectCharacter()
     {
         GetCharacter();
-        foreach (Collider c in colliders)
+        if(targetType == TargetObject.Tile)
         {
-            targets.Add(c.gameObject);
+            foreach (Collider c in colliders)
+            {
+                targets.Add(c.gameObject);
+            }
         }
+        else
+        {
+            foreach (Collider c in colliders)
+            {
+                targets.Add(c.gameObject.transform.parent.gameObject);
+            }
+        }
+        
     }
 
     protected void GetCharacter()
     {
-        colliders = Physics.OverlapBox(this.transform.position, new Vector3(range / 2, 3 / 2, range / 2), Managers.Battle.currentCharacter.transform.rotation, CalcLayer(targetType));
+        colliders = Physics.OverlapBox(this.transform.position, new Vector3(range, 3, range), new Quaternion(0,0,0,0), CalcLayer(targetType));
     }
 
     protected int CalcLayer(TargetObject targetType)
@@ -83,7 +96,6 @@ public class SkillExtent : MonoBehaviour
         return mask;
     }
 
-#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Handles.color = Color.red;
@@ -91,5 +103,5 @@ public class SkillExtent : MonoBehaviour
         Handles.DrawSolidArc(transform.position, Vector3.up, rotate, angle / 2, (float)range);
         Handles.DrawSolidArc(transform.position, Vector3.up, rotate, -angle / 2, (float)range);
     }
-#endif
+
 }
