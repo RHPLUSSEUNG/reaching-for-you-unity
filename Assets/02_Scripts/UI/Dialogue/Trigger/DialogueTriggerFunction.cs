@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement; //[Prototype2SH]
 public enum NPCType
 {
     NPC,
-    BUDDY,
+    FRIENDS,
     ENEMY,
 }
 
