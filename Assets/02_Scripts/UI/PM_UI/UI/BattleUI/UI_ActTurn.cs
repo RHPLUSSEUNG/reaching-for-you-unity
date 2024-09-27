@@ -1,8 +1,6 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class UI_ActTurn : UI_Scene
@@ -19,7 +17,7 @@ public class UI_ActTurn : UI_Scene
     [SerializeField] Sprite lizardSprite;
 
     GameObject turnPanel;
-    Button turnUIBtn;
+    public Button turnUIBtn;
 
     float moveDuration = 0.4f;
     float moveDistance = 300f;
@@ -44,6 +42,7 @@ public class UI_ActTurn : UI_Scene
         uiRect = turnPanel.GetComponent<RectTransform>();
 
         Managers.BattleUI.turnUI = gameObject.GetComponent<UI_ActTurn>();
+        turnUIBtn.gameObject.SetActive(false);
     }
 
     public void InstantiateTurnOrderUI()
