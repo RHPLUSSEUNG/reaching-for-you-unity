@@ -29,7 +29,7 @@ public class DialogueTriggerFunction : MonoBehaviour
 
     public void EnterTheDungeon()
     {
-        SceneChanger.Instance.ChangeScene(SceneType.BATTLE);
+        SceneChanger.Instance.ChangeScene(SceneType.PM_COMBAT);
     }    
 
     public void RequestItem()
