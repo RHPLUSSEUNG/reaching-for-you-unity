@@ -25,7 +25,6 @@ public class FallingObjectInteraction : GimmickInteraction
     private void Awake() {
         warningColor = new Color32(180, 75, 75, 255);
         TurnCnt = 2;
-        EGimmickName = GimmickName.FallingGimmick;
     }
 
     void Start()
