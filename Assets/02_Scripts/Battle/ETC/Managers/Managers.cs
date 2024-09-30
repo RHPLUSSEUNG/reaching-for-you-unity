@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Managers : MonoBehaviour
 {
@@ -58,8 +59,23 @@ public class Managers : MonoBehaviour
     public void OnEnable()
     {
         _data.OnAwake();
-        _skill.OnAwake();
-        _battle.BattleReady();
-        _raycast.OnStart();
+        SceneManager.sceneLoaded += OnSceneLoad;
+    }
+
+    void OnSceneLoad(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log(scene.name);
+        Debug.Log(mode);
+        switch (mode)
+        {
+            case (LoadSceneMode)4:
+                _skill.OnAwake();
+                _battle.BattleReady();
+                _raycast.OnStart();
+                break;
+            case (LoadSceneMode)2:
+                _data.OnAwake();
+                break;
+        }
     }
 }
