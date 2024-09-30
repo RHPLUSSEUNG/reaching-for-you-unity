@@ -32,6 +32,11 @@ public class DialogueTriggerFunction : MonoBehaviour
         SceneChanger.Instance.ChangeScene(SceneType.PM_COMBAT);
     }    
 
+    public void SelectAdventureMap()
+    {
+        AdventureMapSelectUI.Instance.OpenPanel();
+    }
+
     public void RequestItem()
     {
         GiftUI.Instance.ShowGiftPanel();

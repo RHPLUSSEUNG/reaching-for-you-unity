@@ -41,7 +41,8 @@ public class NPCConversant : MonoBehaviour
             playerConversant.GetComponent<PlayerConversant>().StartDialogue(this, dialogue);
             actionButton.gameObject.SetActive(false);
             playerConversant = null;
-            ObjectiveTracer.Instance.ReportNPCTalked(conversantName);
+            ObjectiveTracer.Instance.ReportMovedToNPC(conversantName);
+            ObjectiveTracer.Instance.ReportNPCTalked(conversantName);            
         }
     }
 
