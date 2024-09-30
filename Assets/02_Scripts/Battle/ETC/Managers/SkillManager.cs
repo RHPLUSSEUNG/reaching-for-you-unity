@@ -17,6 +17,7 @@ public class SkillManager
         usingSkill = GameObject.Find("UsingSkill");
         extent = GameObject.Find("SkillExtent");
         usingEffect = GameObject.Find("Effect");
+        Debug.Log("Skill Ready Complete");
     }
 
     public void ReadyGameSkill()
@@ -25,6 +26,11 @@ public class SkillManager
         {
             character.GetComponent<SkillList>().AddSkill(character.CompareTag("Monster"));
         }
+    }
+
+    public void ReadyGameSkill(GameObject character)
+    {
+        character.GetComponent<SkillList>().AddSkill(character.CompareTag("Monster"));
     }
 
     #region Instantiate Prefab

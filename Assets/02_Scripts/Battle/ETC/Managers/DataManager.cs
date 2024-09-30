@@ -11,6 +11,7 @@ public class DataManager
         equipmentList = data.equipmentList;
         playerSkillList = data.playerSkillList;
         monsterSkillList = data.monsterSkillList;
+        Debug.Log("Data Loading Complete");
     }
 
     #region Map & Monster

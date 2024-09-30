@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Managers : MonoBehaviour
 {
@@ -62,12 +63,23 @@ public class Managers : MonoBehaviour
     public void OnEnable()
     {
         _data.OnAwake();
-        //[2024-09-30][LSH's Code]: [enter-adventure-map-ui]
-        if(LoadSceneManager.sceneType != SceneType.AM)
+        SceneManager.sceneLoaded += OnSceneLoad;
+    }
+
+    void OnSceneLoad(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log(scene.name);
+        Debug.Log(mode);
+        switch (mode)
         {
-            _skill.OnAwake();
-            _battle.BattleReady();
-            _raycast.OnStart();
-        }        
+            case (LoadSceneMode)4:
+                _skill.OnAwake();
+                _battle.BattleReady();
+                _raycast.OnStart();
+                break;
+            case (LoadSceneMode)2:
+                _data.OnAwake();
+                break;
+        }
     }
 }
