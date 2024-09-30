@@ -104,11 +104,21 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
         {            
             Quest quest = statuses[i].GetQuest();
 
+            if (quest.GetQuestType() == QuestType.COMPLETED_QUEST)
+            {
+                continue;
+            }
+
             switch (_objectiveType)
             {
                 case ObjectiveType.KILL:
                     {
                         ObjectiveKillType objective = quest.GetObjective(_objectiveType) as ObjectiveKillType;
+
+                        if (objective == null)
+                        {
+                            continue;
+                        }
 
                         if (objective.GetTargetID() == targetID && !objective.IsComplete())
                         {
@@ -119,12 +129,7 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                                 //If receive reward through NPC, Change this code to "status.CompleteObjective(objective);"
                                 CompleteObjective(quest, objective.GetReference());
 
-                                if(statuses[i].IsComplete())
-                                {                                    
-                                    quest.SetQuestType(QuestType.COMPLETED_QUEST);
-                                    onUpdate?.Invoke();
-                                    statuses.Remove(statuses[i]);
-                                }
+                                onUpdate?.Invoke();
                             }
                         }                        
                         break;
@@ -133,6 +138,11 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                     {
                         ObjectiveGatherType objective = quest.GetObjective(_objectiveType) as ObjectiveGatherType;
 
+                        if (objective == null)
+                        {
+                            continue;
+
+                        }
                         if (objective.GetTargetID() == targetID)
                         {
                             objective.ReiceiveItemCount(count);
@@ -145,9 +155,7 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
 
                                 if (statuses[i].IsComplete())
                                 {
-                                    quest.SetQuestType(QuestType.COMPLETED_QUEST);
                                     onUpdate?.Invoke();
-                                    statuses.Remove(statuses[i]);
                                 }
                             }
                             else
@@ -173,23 +181,33 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
         {
             Quest quest = statuses[i].GetQuest();
 
+            if(quest.GetQuestType() == QuestType.COMPLETED_QUEST)
+            {
+                continue;
+            }
 
             switch (_objectiveType)
             {
                 case ObjectiveType.TALK:
                     {
                         ObjectiveTalkType objective = quest.GetObjective(_objectiveType) as ObjectiveTalkType;
+                        
+                        if (objective == null)
+                        {
+                            continue;
+                        }
+
                         objective.ReceiveNPCName(name);
 
                         if (objective.IsComplete() && statuses[i].GetisTimeToTalk())
                         {
                             CompleteObjective(quest, objective.GetReference());
+                            onUpdate?.Invoke();
 
                             if (statuses[i].IsComplete())
                             {
                                 quest.SetQuestType(QuestType.COMPLETED_QUEST);
-                                onUpdate?.Invoke();
-                                statuses.Remove(statuses[i]);
+                                onUpdate?.Invoke();                                
                             }
                         }
 
@@ -198,11 +216,18 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                 case ObjectiveType.MOVE:
                     {
                         ObjectiveMoveType objective = quest.GetObjective(_objectiveType) as ObjectiveMoveType;
-                        objective.ReceiveDestinationName(name);
+                        
+                        if (objective == null)
+                        {
+                            continue;
+                        }
+
+                        objective.ReceiveNPCName(name);
 
                         if (objective.IsComplete())
                         {
                             CompleteObjective(quest, objective.GetReference());
+                            onUpdate?.Invoke();
                         }
 
                         break;
@@ -255,7 +280,14 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
                 }
             case QuestPredicates.COMPLETEDQUEST:
                 {
-                    return GetQuestStatus(Quest.GetByName(parameters[0])).IsComplete();
+                    if (HasQuest(Quest.GetByName(parameters[0])))
+                    {
+                        return GetQuestStatus(Quest.GetByName(parameters[0])).IsComplete();
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             case QuestPredicates.COMPLETEDOBJECTIVE:
                 {

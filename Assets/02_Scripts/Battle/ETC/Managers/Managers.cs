@@ -53,7 +53,11 @@ public class Managers : MonoBehaviour
     #endregion
     public void Update()
     {
-        raycast.OnUpdate();
+        //[2024-09-30][LSH's Code]: [enter-adventure-map-ui]
+        if (LoadSceneManager.sceneType != SceneType.AM)
+        {
+            raycast.OnUpdate();
+        }          
     }
 
     public void OnEnable()

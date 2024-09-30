@@ -55,10 +55,19 @@ public class ObjectiveTracer : MonoBehaviour
         questList.ReceiveReport(objectveType, destination);
     }
 
-    //TALK TYPE
+    //TALK TYPE (Last Objective)
     public void ReportNPCTalked(string _npcName)
     {
         ObjectiveType objectveType = ObjectiveType.TALK;
+        string npcName = _npcName;
+
+        questList.ReceiveReport(objectveType, npcName);
+    }
+
+    //MOVE TYPE
+    public void ReportMovedToNPC(string _npcName)
+    {
+        ObjectiveType objectveType = ObjectiveType.MOVE;
         string npcName = _npcName;
 
         questList.ReceiveReport(objectveType, npcName);
