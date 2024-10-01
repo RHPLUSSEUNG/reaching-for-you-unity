@@ -78,6 +78,8 @@ public class BattleManager
         battleState = BattleState.PlayerTurn;
         Managers.Skill.ReadyGameSkill();
         ObjectList.Sort(compareDefense);
+        Managers.BattleUI.turnUI.InstantiateAllTurnOrderUI();
+        Managers.BattleUI.turnUI.UpdateTurnUI(turnCnt);
         NextTurn();
     }
 
@@ -92,6 +94,7 @@ public class BattleManager
         if (turnCnt >= ObjectList.Count)
         {
             phase++;
+            Managers.BattleUI.turnUI.ResetPastPanel();
             turnCnt %= ObjectList.Count;
 
 
@@ -102,6 +105,7 @@ public class BattleManager
             InstantAfterPhaseList.Clear();
 
             ObjectList.Sort(compareDefense);
+            Managers.BattleUI.turnUI.UpdateTurnUI(turnCnt);
         }
 
     }
@@ -116,6 +120,7 @@ public class BattleManager
         isPlayerTurn = true;
         currentCharacter.GetComponent<PlayerBattle>().OnTurnStart();
         Managers.BattleUI.actUI.UpdateCharacterInfo();
+        Managers.BattleUI.turnUI.HideTurnOrderUI();
     }
     public void EnemyTurn()
     {
@@ -169,6 +174,10 @@ public class BattleManager
         cameraController.ChangeFollowTarget(currentCharacter, true);
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
         cameraController.ChangeOffSet(-3, 1, -3, 20, 45);
+        if(!Managers.BattleUI.turnUI.GetState())
+        {            
+            Managers.BattleUI.turnUI.ShowTurnOrderUI();
+        }
 
         //Calculate Area Remain Turn
         if (Areas.Count != 0)
@@ -200,6 +209,7 @@ public class BattleManager
         {
             Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Enemy Turn!"));
         }
+        Managers.BattleUI.turnUI.ProceedTurnUI(turnCnt);
         yield break;
     }
 

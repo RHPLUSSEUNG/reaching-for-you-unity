@@ -10,6 +10,9 @@ public class WorldHPUI : UI_Base
 
     EntityStat stat;
     Transform character;
+    Camera mainCamera;
+    CapsuleCollider characterCollider;
+    Slider bar;
 
     public override void Init()
     {
@@ -21,27 +24,37 @@ public class WorldHPUI : UI_Base
 
         character = transform.parent;
         stat = character.GetComponent<EntityStat>();
+
+        mainCamera = Camera.main;
+        characterCollider = character.GetComponentInChildren<CapsuleCollider>();
+        bar = GetObject((int)WorldHpBar.HpBar).GetComponent<Slider>();
     }
 
-    // TODO : ratio설정 Update문 사용 안하기
     private void Update()
     {
-        if (Managers.BattleUI.cameraMode == CameraMode.Follow)
-        {
-            transform.position = character.position + Vector3.up * (character.GetComponentInChildren<Collider>().bounds.size.y / 2);
-        }
-        else if (Managers.BattleUI.cameraMode == CameraMode.Static)
-        {
-            transform.position = character.position + Vector3.up * (character.GetComponentInChildren<Collider>().bounds.size.y);
-        }
-        transform.rotation = Camera.main.transform.rotation;
+        UpdateHealthBarPosition();
 
         float ratio = stat.Hp / (float)stat.MaxHp;
         SetHpRatio(ratio);
     }
 
+    private void UpdateHealthBarPosition()
+    {
+        if (characterCollider != null)
+        {
+            float characterHeight = characterCollider.bounds.size.y;
+
+            Vector3 healthBarPosition = character.position + Vector3.up * characterHeight;
+            transform.position = healthBarPosition;
+        }
+
+        Vector3 lookAtPosition = transform.position + mainCamera.transform.forward;
+
+        transform.LookAt(lookAtPosition);
+    }
+
     private void SetHpRatio(float ratio)
     {
-        GetObject((int)WorldHpBar.HpBar).GetComponent<Slider>().value = ratio;
+        bar.value = ratio;
     }
 }

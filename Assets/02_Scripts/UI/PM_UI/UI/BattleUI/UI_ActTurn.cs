@@ -19,6 +19,7 @@ public class UI_ActTurn : UI_Scene
     GameObject turnPanel;
     public Button turnUIBtn;
 
+    int turnCnt;
     float moveDuration = 0.4f;
     float moveDistance = 300f;
     float animDuration = 0.5f;
@@ -47,57 +48,70 @@ public class UI_ActTurn : UI_Scene
 
     public void InstantiateTurnOrderUI()
     {
+        GameObject newTurnUI = Managers.Prefab.Instantiate("UI/SubItem/Turn", turnPanel.transform);
+        newTurnUI.AddComponent<CanvasGroup>();
+    }
+
+    public void InstantiateAllTurnOrderUI()
+    {
         for (int i = 0; i < Managers.Battle.ObjectList.Count; i++)
         {
-            GameObject newTurnUI = Managers.Prefab.Instantiate("UI/SubItem/Turn", turnPanel.transform);
-            newTurnUI.AddComponent<CanvasGroup>();
+            InstantiateTurnOrderUI();
         }
         ShowTurnOrderUI();
     }
 
-    public void UpdateTurnUI()
+    public void UpdateTurnUI(int turnCnt)
     {
-        for(int i = 0; i < Managers.Battle.ObjectList.Count; i++)
+        if(turnCnt == -1)
+        {
+            turnCnt = 0;
+        }
+        int circleIdx = turnCnt;
+        for (int i = 0; i < Managers.Battle.ObjectList.Count; i++)
         {
             Image turnImage = turnPanel.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
-            Sprite charImage = Managers.Battle.ObjectList[i].GetComponent<Sprite>();            // 캐릭터 스프라이트를 가져온다
+            Sprite charImage = Util.FindChild(Managers.Battle.ObjectList[circleIdx], "Character", true).GetComponent<SpriteRenderer>().sprite;
 
-            // Temp
-            if (Managers.Battle.ObjectList[i].CompareTag("Player"))
+            turnImage.sprite = charImage;
+            circleIdx++;
+            if (circleIdx == Managers.Battle.ObjectList.Count)
             {
-                turnImage.sprite = playerSprite;
-            }
-            else if (Managers.Battle.ObjectList[i].CompareTag("Monster"))
-            {
-                if (Managers.Battle.ObjectList[i].name == "Enemy_Crab(Clone)")
-                {
-                    turnImage.sprite = crabSprite;
-                }
-                else if (Managers.Battle.ObjectList[i].name == "Enemy_Lizard(Clone)")
-                {
-                    turnImage.sprite = lizardSprite;
-                }
-
+                circleIdx = 0;
             }
         }
     }
 
     // TODO : Turn 생성 및 삭제
-    public void MakeTurnUI(Sprite newObj, int turnCnt)
+    public void MakeTurnUI()
     {
-        Image newTurn = Managers.Prefab.Instantiate("UI/SubItem/Turn", gameObject.transform).GetComponent<Image>();
-        newTurn.sprite = newObj;
-        UpdateTurnUI();
+        // 소환 스킬을 했을 때, 소환수가 이번 페이즈에 행동하는가? 아니면 다음 행동부터 행동하는지 구별할 게 필요
+        InstantiateTurnOrderUI();
+        UpdateTurnUI(turnCnt);
+
+        // 소환수가 이번 페이즈에 행동을 할 때
+        // 소환수 스킬 더 추가 시 모듈화 또는 수정 필요
+        for (int i = 0; i < Managers.Battle.ObjectList.Count; i++)
+        {
+            GameObject pastPanel = turnPanel.transform.GetChild(i).GetChild(1).gameObject;
+            pastPanel.SetActive(false);
+        }
+        for (int i = 0; i < turnCnt; i++)
+        {
+            GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - 1 - i).GetChild(1).gameObject;
+            pastPanel.SetActive(true);
+        }
     }
 
-    public void DestroyTurnUI(int turnCnt)
+    public void DestroyTurnUI()
     {
         Destroy(transform.GetChild(0).gameObject);
-        UpdateTurnUI();
+        UpdateTurnUI(turnCnt);
     }
 
     public void ProceedTurnUI(int turnCnt)
     {
+        this.turnCnt = turnCnt;
         if (turnCnt == 0)
         {
             return;
@@ -108,6 +122,7 @@ public class UI_ActTurn : UI_Scene
 
     IEnumerator MoveTurnUIAnim()
     {
+        Debug.Log("Check B");
         isMoving = true;
         turnUIBtn.interactable = false;
         CanvasGroup firstChildCanvasGroup = turnPanel.transform.GetChild(0).GetComponent<CanvasGroup>();
@@ -137,6 +152,7 @@ public class UI_ActTurn : UI_Scene
         StartCoroutine(FadeIn(firstChildCanvasGroup, animDuration));
         turnUIBtn.interactable = true;
         isMoving = false;
+        Debug.Log("Check B End");
     }
 
     IEnumerator FadeOut(CanvasGroup canvasGroup, float duration)
@@ -179,6 +195,7 @@ public class UI_ActTurn : UI_Scene
 
     IEnumerator VisibleToggleUI(bool flag)
     {
+        Debug.Log("Check A");
         isMoving = true;
         turnUIBtn.interactable = false;
         float distance = moveDistance;
@@ -202,13 +219,15 @@ public class UI_ActTurn : UI_Scene
         uiRect.anchoredPosition = endPos;
         turnUIBtn.interactable = true;
         isMoving = false;
+        Debug.Log("Check A End");
     }
-    
+
     public void ResetPastPanel()
     {
         turnPanel.transform.GetChild(0).SetSiblingIndex(turnPanel.transform.childCount - 1);
         GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - 1).GetChild(1).gameObject;
         pastPanel.SetActive(true);
+
         for (int i = 0; i < turnPanel.transform.childCount; i++)
         {
             pastPanel = turnPanel.transform.GetChild(i).GetChild(1).gameObject;
