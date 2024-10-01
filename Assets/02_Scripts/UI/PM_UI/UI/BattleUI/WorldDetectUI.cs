@@ -17,6 +17,21 @@ public class WorldDetectUI : UI_Base
         Bind<Image>(typeof(worldDetectUI));
 
         detectImage = GetImage((int)worldDetectUI.DetectImage);
+        detectImage.gameObject.SetActive(false);
+    }
+
+    public bool ShowDetectImage()
+    {
+        detectImage.gameObject.SetActive(true);
+        state = true;
+        return state;
+    }
+
+    public bool HideDetectImage()
+    {
+        detectImage.gameObject.SetActive(false);
+        state = false;
+        return state;
     }
 
     public Image GetDetectImage()

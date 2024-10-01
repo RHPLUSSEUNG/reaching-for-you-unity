@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4856925049091351769}
   - component: {fileID: 3246667811824633445}
   - component: {fileID: 7260638453071826983}
+  - component: {fileID: 6642233961098008805}
   m_Layer: 5
   m_Name: WorldDetectUI
   m_TagString: Untagged
@@ -84,7 +85,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7260638453071826983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +103,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6642233961098008805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505022186607038811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b83a9a2c2f2c0e46bef4e2e3dc43508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5019845211780083743
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,13 +283,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 64
-  m_fontSizeBase: 64
+  m_fontSize: 54
+  m_fontSizeBase: 54
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
