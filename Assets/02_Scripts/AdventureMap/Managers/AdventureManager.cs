@@ -36,6 +36,9 @@ public class AdventureManager : MonoBehaviour
     private GameObject heal_effect;
     public bool is_effect = false;
 
+    private float gimmickpercent;
+    public static bool isGimmickRoom;
+
     void Awake()
     {
         _adventure = this;
@@ -44,6 +47,20 @@ public class AdventureManager : MonoBehaviour
     void BasicSpawn()
     {
         randomPlane.SpawnBasic();
+        gimmickpercent = Random.Range(0, 2);
+
+        if(gimmickpercent < 0.3f) // 30% 확률로 기믹
+        {
+            isGimmickRoom = true;
+            Debug.Log("gimmick방");
+        }
+            
+        else   
+        {
+            isGimmickRoom = false;
+            Debug.Log("말짱방");
+        }
+            
 
         staticSpawner.RandomSpawn();
         dynamicSpawner.RandomSpawn();
@@ -53,7 +70,6 @@ public class AdventureManager : MonoBehaviour
     {
         randomPassage.DeletePassage();
         
-
         staticSpawner.DestroyObject();
         dynamicSpawner.DestroyObject();   
     }
