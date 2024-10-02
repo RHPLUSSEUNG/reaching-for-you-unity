@@ -106,9 +106,13 @@ public class UI_ActTurn : UI_Scene
         }
     }
 
-    public void DestroyTurnUI()
+    public void DestroyTurnUI(int dead_Index)
     {
-        Destroy(transform.GetChild(0).gameObject);
+        Destroy(turnPanel.transform.GetChild(0).gameObject);
+        if(dead_Index < turnCnt)
+        {
+            turnCnt--;
+        }
         UpdateTurnUI(turnCnt);
     }
 

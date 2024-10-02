@@ -29,10 +29,12 @@ public class ActiveManager
         { 
             Managers.Battle.monsterLive--;
         }
+        int dead_Index = Managers.Battle.ObjectList.IndexOf(character);         // ì¶”ê°€ : UI ìƒì„±
         Managers.Battle.ObjectList.Remove(character);
         character.SetActive(false);
+        Managers.BattleUI.turnUI.DestroyTurnUI(dead_Index);     // ì¶”ê°€ : UI ìƒì„±
 
-        #region ÀÓ½Ã °á°ú Á¶°Ç
+        #region ì„ì‹œ ê²°ê³¼ ì¡°ê±´
         if (Managers.Battle.monsterLive == 0 || Managers.Battle.playerLive == 0)
             Managers.Battle.Result();
         #endregion
@@ -111,7 +113,7 @@ public class ActiveManager
             //target.GetComponent<EntityStat>().Hp -= damage;
             target.GetComponent<EnemyAI_Base>().OnHit(damage);
 
-            #region ÀÓ½Ã Ã¼Å© ÄÚµå - ±ÇÈñÁØ
+            #region ì„ì‹œ ì²´í¬ ì½”ë“œ - ê¶Œí¬ì¤€
             if (target.GetComponent<EntityStat>().Hp <= 0)
             {
                 Dead(target);
