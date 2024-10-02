@@ -20,7 +20,7 @@ public class ConsumeItemUI : InvenItemUI
         BindEvent(gameObject, ClickConsumeItem, Define.UIEvent.Click);
     }
 
-    public void SetItemInfo(Sprite item, int value)
+    public void SetItemInfo(int value)
     {
         // 아이템의 정보로 변경
         ItemData itemData = Managers.Data.GetItemData(invenItemID);
@@ -31,7 +31,7 @@ public class ConsumeItemUI : InvenItemUI
         itemCount.text = value.ToString();
         Text itemName = GetObject((int)consumeItemUI.ItemName).GetComponent<Text>();
         itemName.text = itemData.ItemName;
-        itemIcon.sprite = item;
+        itemIcon.sprite = itemData.itemSprite;
     }
     
     public void UpdateConsumeValue(int value)

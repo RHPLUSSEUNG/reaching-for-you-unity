@@ -22,6 +22,11 @@ public class ConsumeEquipUI : InvenItemUI
 
     public void ClickConsumeEquipUI(PointerEventData data)
     {
+        if (invenItemID == -1)
+        {
+            Debug.Log("Empty Consume Item");
+            return;
+        }
         Managers.InvenUI.focusItemID = invenItemID;
         Managers.InvenUI.consume_equip_state = false;
 

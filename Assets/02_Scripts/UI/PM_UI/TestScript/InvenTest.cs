@@ -4,42 +4,31 @@ using UnityEngine.UI;
 
 public class InvenTest : MonoBehaviour
 {
-    public GameObject Test;
-
-    public Sprite[] test_sprite = new Sprite[3];
-    void Awake ()
-    {
-        for(int i = 0; i < test_sprite.Length; i++)
-        {
-            Managers.InvenUI.test_sprite[i] = test_sprite[i];
-        }
-        Debug.Log("아이템 생성 완료");
-
-        Managers.InvenUI.player = gameObject;
-        // Managers.InvenUI.SetInventory();
-    }
-
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if(Input.GetKeyDown(KeyCode.B))
         {
-            if(Managers.InvenUI.inven_state == false)
+            Debug.Log("Add Consume Item");
+            Managers.Item.AddItem(0);
+            if (Managers.InvenUI.invenContent != null)
             {
-                Managers.InvenUI.inven_state = true;
-                Managers.UI.ShowUI(Managers.InvenUI.invenUI);
-                Managers.InvenUI.invenUI.GetComponent<InvenUI>().MoveWeaponTab();
+                Managers.InvenUI.UpdateItemUI(0);
             }
-            else
+
+            Managers.Item.AddItem(1);
+            if (Managers.InvenUI.invenContent != null)
             {
-                Managers.InvenUI.inven_state = false;
-                Managers.UI.HideUI(Managers.InvenUI.invenUI);
+                Managers.InvenUI.UpdateItemUI(1);
             }
         }
-
-        if(Input.GetKeyDown(KeyCode.E))
+        if(Input.GetKeyDown(KeyCode.N))
         {
-            Managers.Item.AddItem(0);
-            Managers.InvenUI.UpdateItemUI(0);       // 인벤토리 UI가 없을때 NUll에러 뜨는 부분 예외처리
+            Debug.Log("Add Equip Item");
+            // Managers.Item.AddItem(15, 1, true);
+            if (Managers.InvenUI.invenContent != null)
+            {
+                Managers.InvenUI.UpdateItemUI(15, true);
+            }
         }
     }   
 }
