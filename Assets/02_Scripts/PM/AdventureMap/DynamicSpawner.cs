@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
 public class DynamicSpawner : MonoBehaviour
 {
     [SerializeField]
@@ -10,6 +11,9 @@ public class DynamicSpawner : MonoBehaviour
     [SerializeField]
     private Stage[] stages;
     BoxCollider rangeCollider;
+
+    [SerializeField]
+    private GameObject waterGimmick;
 
     public int maxSpawnCount = 10;
     public static List<Vector3> spawnedPositions = new List<Vector3>();
@@ -74,6 +78,25 @@ public class DynamicSpawner : MonoBehaviour
             spawnedPositions.Add(spawnPosition);
 
             GameObject spawned = Instantiate(stages[index].stageOfPrefabs[objectNum], spawnPosition, Quaternion.identity);
+            spawnedObject.Add(spawned);
+        }
+    }
+
+    public void RandomGimmick()
+    {
+        int spawnCount = AdventureManager.GimmickCount;
+
+        for (int i = 0; i < spawnCount; i++)
+        {
+            Vector3 spawnPosition;
+            do
+            {
+                spawnPosition = RandomPosition();
+            } while (IsOverlapping(spawnPosition)); // If overlapping, re-position
+            spawnPosition += waterGimmick.transform.position;
+            spawnedPositions.Add(spawnPosition);
+
+            GameObject spawned = Instantiate(waterGimmick, spawnPosition, Quaternion.identity);
             spawnedObject.Add(spawned);
         }
     }

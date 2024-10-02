@@ -12,7 +12,7 @@ public class RandomPassage : MonoBehaviour
     int DoorCount = 0;
 
     List<Transform> passageChildren = new List<Transform>();
-    List<BoxCollider> gimmickTrigger = new List<BoxCollider>();
+    public static List<BoxCollider> gimmickTrigger = new List<BoxCollider>();
     List<GameObject> wallChildren = new List<GameObject>();
 
     public void Init()
@@ -51,7 +51,7 @@ public class RandomPassage : MonoBehaviour
             wallInMap = Instantiate(wallPrefabs[1], passageChildren[index]);
             wallInMap.transform.SetParent(passageChildren[index]);
 
-            if(AdventureManager.isGimmickRoom)
+            if(AdventureManager.StageNumber > 0 && AdventureManager.isGimmickRoom)
             {
                 gimmickTrigger[index].gameObject.tag = "Untagged";
                 gimmickTrigger[index].isTrigger = false;
