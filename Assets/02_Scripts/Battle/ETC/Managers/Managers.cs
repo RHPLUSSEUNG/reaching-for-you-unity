@@ -70,14 +70,15 @@ public class Managers : MonoBehaviour
     {
         Debug.Log(scene.name);
         Debug.Log(mode);
-        switch (mode)
+        
+        switch (scene.name)
         {
-            case (LoadSceneMode)4:
+            case "Battle_PT_5":
                 _skill.OnAwake();
                 _battle.BattleReady();
                 _raycast.OnStart();
                 break;
-            case (LoadSceneMode)2:
+            case "TITLE_PT_5":
                 _data.OnAwake();
                 break;
         }
