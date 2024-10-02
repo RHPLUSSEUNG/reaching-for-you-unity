@@ -7,15 +7,12 @@ public class UI_ActTurn : UI_Scene
 {
     enum turnUI
     {
+        TurnUIPanel,
         ActTurnPanel,
         TurnOrderButton
     }
 
-    // Temp
-    [SerializeField] Sprite playerSprite;
-    [SerializeField] Sprite crabSprite;
-    [SerializeField] Sprite lizardSprite;
-
+    GameObject uiPanel;
     GameObject turnPanel;
     public Button turnUIBtn;
 
@@ -29,18 +26,20 @@ public class UI_ActTurn : UI_Scene
     bool isMoving = false;
 
     RectTransform uiRect;
-
+    RectTransform turnRect;
     public override void Init()
     {
         base.Init();
 
         Bind<GameObject>(typeof(turnUI));
 
+        uiPanel = GetObject((int)turnUI.TurnUIPanel);
         turnPanel = GetObject((int)turnUI.ActTurnPanel);
         turnUIBtn = GetObject((int)turnUI.TurnOrderButton).GetComponent<Button>();
         BindEvent(turnUIBtn.gameObject, ClickTurnOrderButton, Define.UIEvent.Click);
 
-        uiRect = turnPanel.GetComponent<RectTransform>();
+        uiRect = uiPanel.GetComponent<RectTransform>();
+        turnRect = turnPanel.GetComponent<RectTransform>();
 
         Managers.BattleUI.turnUI = gameObject.GetComponent<UI_ActTurn>();
         turnUIBtn.gameObject.SetActive(false);
@@ -127,7 +126,7 @@ public class UI_ActTurn : UI_Scene
         turnUIBtn.interactable = false;
         CanvasGroup firstChildCanvasGroup = turnPanel.transform.GetChild(0).GetComponent<CanvasGroup>();
 
-        Vector3 startPos = uiRect.anchoredPosition;
+        Vector3 startPos = turnRect.anchoredPosition;
         Vector3 endPos = startPos + new Vector3(-animDistance, 0, 0);
 
         float elapsedTime = 0;
@@ -136,18 +135,18 @@ public class UI_ActTurn : UI_Scene
 
         while (elapsedTime < animDuration)
         {
-            uiRect.anchoredPosition = Vector3.Lerp(startPos, endPos, elapsedTime / animDuration);
+            turnRect.anchoredPosition = Vector3.Lerp(startPos, endPos, elapsedTime / animDuration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        uiRect.anchoredPosition = endPos;
+        turnRect.anchoredPosition = endPos;
 
         turnPanel.transform.GetChild(0).SetSiblingIndex(turnPanel.transform.childCount - 1);
         GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - 1).GetChild(1).gameObject;
         pastPanel.SetActive(true);
 
-        uiRect.anchoredPosition = startPos;
+        turnRect.anchoredPosition = startPos;
 
         StartCoroutine(FadeIn(firstChildCanvasGroup, animDuration));
         turnUIBtn.interactable = true;

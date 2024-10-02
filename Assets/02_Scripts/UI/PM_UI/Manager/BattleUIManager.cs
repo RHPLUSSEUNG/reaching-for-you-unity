@@ -67,8 +67,11 @@ public class BattleUIManager
             return;
         }
         player.transform.position = pos.transform.position + new Vector3(0f,0.8f,0);
-        Managers.Battle.ObjectList.Add(player);
-        Managers.Battle.playerLive++;
+        if (!Managers.Battle.ObjectList.Contains(player))
+        {
+            Managers.Battle.ObjectList.Add(player);
+            Managers.Battle.playerLive++;
+        }
         Managers.UI.uiState = UIState.Idle;
         Managers.UI.ShowUI(batchUI.playerSpawn);
         Managers.UI.ShowUI(batchUI.finishBtn);
