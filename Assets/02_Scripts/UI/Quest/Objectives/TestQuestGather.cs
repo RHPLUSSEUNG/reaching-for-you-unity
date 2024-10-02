@@ -17,8 +17,7 @@ public class TestQuestGather : MonoBehaviour
         for (int i = 0; i < 15; i++)
         {
             int randomCount = Random.Range(1, 5);
-            Managers.Item.AddItem(i, randomCount);
-            Debug.Log($"Add Item ID: {i}, Count: {randomCount}");
+            Managers.Item.AddItem(i, randomCount);            
         }
     }
 
