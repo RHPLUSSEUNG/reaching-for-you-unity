@@ -96,6 +96,7 @@ public class SkillExtent : MonoBehaviour
         return mask;
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Handles.color = Color.red;
@@ -103,5 +104,5 @@ public class SkillExtent : MonoBehaviour
         Handles.DrawSolidArc(transform.position, Vector3.up, rotate, angle / 2, (float)range);
         Handles.DrawSolidArc(transform.position, Vector3.up, rotate, -angle / 2, (float)range);
     }
-
+#endif
 }
