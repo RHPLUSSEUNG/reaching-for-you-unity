@@ -97,6 +97,7 @@ public class CreateObject : MonoBehaviour
     void Start()
     {
         ConvertStageType(stageType);
+        stageIndex = AdventureManager.StageNumber;
         GenerateMap();
 
         PlaceObstacles();

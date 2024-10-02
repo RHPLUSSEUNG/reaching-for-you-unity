@@ -58,7 +58,7 @@ public class AdventureManager : MonoBehaviour
         randomEncounter = Random.Range(0, 5);
         if(randomEncounter < 1)
         {
-            // LoadSceneManager.LoadScene();
+            SceneChanger.Instance.ChangeScene(SceneType.PM_COMBAT);
         }
 
         if(StageNumber > 0) // 30% 확률로 기믹
