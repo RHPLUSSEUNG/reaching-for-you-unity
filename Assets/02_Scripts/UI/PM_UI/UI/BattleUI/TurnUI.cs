@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurnUI : UI_Base
 {
@@ -9,30 +10,19 @@ public class TurnUI : UI_Base
         TurnImage
     }
 
-    RectTransform turnFrameRect;
-    RectTransform turnImageRect;
+    Image turnImage;
     public override void Init()
     {
         Bind<GameObject>(typeof(turnUI));
-        turnFrameRect = GetComponent<RectTransform>();
-        turnImageRect = GetObject((int)turnUI.TurnImage).GetComponent<RectTransform>();
-
-        FitTurnImage();
+        turnImage = GetObject((int)turnUI.TurnImage).GetComponent<Image>();
     }
 
-    void FitTurnImage()
+    public Image GetTurnImage()
     {
-        if (turnImageRect != null && turnFrameRect != null)
+        if(turnImage == null)
         {
-            float parentWidth = turnFrameRect.rect.width;
-            float parentHeight = turnFrameRect.rect.height;
-
-            float imageWidth = turnImageRect.rect.width;
-            float imageHeight = turnImageRect.rect.height;
-            
-            float scaleFactor = Mathf.Min(parentWidth / imageWidth, parentHeight / imageHeight);
-
-            turnImageRect.localScale = new Vector3(scaleFactor, scaleFactor, 1);
+            return null;
         }
+        return turnImage;
     }
 }

@@ -69,10 +69,14 @@ public class UI_ActTurn : UI_Scene
         int circleIdx = turnCnt;
         for (int i = 0; i < Managers.Battle.ObjectList.Count; i++)
         {
-            Image turnImage = turnPanel.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
-            Sprite charImage = Util.FindChild(Managers.Battle.ObjectList[circleIdx], "Character", true).GetComponent<SpriteRenderer>().sprite;
+            TurnUI turnUI = turnPanel.transform.GetChild(i).GetComponent<TurnUI>();
+            Image turnImg = turnUI.GetTurnImage();
+            // Image turnImage = turnPanel.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
+            Sprite charSprite = Util.FindChild(Managers.Battle.ObjectList[circleIdx], "Character", true).GetComponent<SpriteRenderer>().sprite;
+            RectTransform turnImgRect = turnImg.GetComponent<RectTransform>();
 
-            turnImage.sprite = charImage;
+            turnImgRect.sizeDelta = TurnUIAspectAdjust(charSprite, turnImg);
+            turnImg.sprite = charSprite;
             circleIdx++;
             if (circleIdx == Managers.Battle.ObjectList.Count)
             {
@@ -245,5 +249,45 @@ public class UI_ActTurn : UI_Scene
         {
             ShowTurnOrderUI();
         }
+    }
+
+    private Vector2 TurnUIAspectAdjust(Sprite charSprite, Image turnImg)
+    {
+        float spriteWidth = charSprite.rect.width;
+        float spriteHeight = charSprite.rect.height;
+        float aspectRatio = spriteWidth / spriteHeight;
+
+        RectTransform turnImgRect = turnImg.GetComponent<RectTransform>();
+        RectTransform parentRect = turnImgRect.parent.GetComponent<RectTransform>();
+
+        float parentWidth = parentRect.rect.width;
+        float parentHeight = parentRect.rect.height;
+
+        float newWidth, newHeight;
+
+        if (parentWidth / parentHeight > aspectRatio)
+        {
+            newHeight = parentHeight;
+            newWidth = newHeight * aspectRatio;
+
+            if (newWidth > parentWidth)
+            {
+                newWidth = parentWidth;
+                newHeight = newWidth / aspectRatio;
+            }
+        }
+        else
+        {
+            newWidth = parentWidth;
+            newHeight = newWidth / aspectRatio;
+
+            if (newHeight > parentHeight)
+            {
+                newHeight = parentHeight;
+                newWidth = newHeight * aspectRatio;
+            }
+        }
+
+        return new Vector2(newWidth, newHeight);
     }
 }
