@@ -9,7 +9,7 @@ public enum DessertMonster
     //Enemy_Golem = 1,
     Enemy_Lizard =2,
 
-    //Enemy_Worker =3,
-   // Enemy_Soldier =4,
+    Enemy_Worker =3,
+    Enemy_Soldier =4,
    // Enemy_Queen =5
 }
