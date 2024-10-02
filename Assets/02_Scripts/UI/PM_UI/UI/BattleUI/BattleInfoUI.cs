@@ -1,15 +1,22 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class BattleInfoUI : UI_Popup
 {
     enum battleInfoUI
     {
+        Blocker,
+        InfoPanel,
+        InfoNameText,
         CharacterIcon,
-        Hp,
-        Mp,
+        HP,
+        MP,
         // TODO : CharacterState 추가
     }
+
+    RectTransform panelRect;
 
     public override void Init()
     {
@@ -18,6 +25,11 @@ public class BattleInfoUI : UI_Popup
         Bind<GameObject>(typeof(battleInfoUI));
 
         Managers.BattleUI.battleInfoUI = gameObject.GetComponent<BattleInfoUI>();
+
+        GameObject blocker = GetObject((int)battleInfoUI.Blocker);
+        BindEvent(blocker, ClickBlocker, Define.UIEvent.Click);
+
+        panelRect = GetObject((int)battleInfoUI.InfoPanel).GetComponent<RectTransform>();
     }
 
     public void SetInfo(GameObject character)
@@ -25,15 +37,22 @@ public class BattleInfoUI : UI_Popup
         EntityStat stat = character.GetComponent<EntityStat>();
         CharacterState state = character.GetComponent<CharacterState>();
 
+        TextMeshProUGUI nameText = GetObject((int)battleInfoUI.InfoNameText).GetComponent<TextMeshProUGUI>();
+        string originalName = character.name;
+        string cleanName = originalName.Replace("(Clone)", "").Trim();
+        nameText.text = cleanName;
         Image icon = GetObject((int)battleInfoUI.CharacterIcon).GetComponent<Image>();
         // TODO : Character Icon 반영
+        // Temp : 임시로 스프라이트 가져오기
+        Sprite charImage = Util.FindChild(character, "Character", true).GetComponent<SpriteRenderer>().sprite;
+        icon.sprite = charImage;
 
         string hpText;
         string mpText;
-        hpText = $"{stat.MaxHp} / {stat.Hp}";
-        GetObject((int)battleInfoUI.Hp).GetComponent<Text>().text = hpText;
-        mpText = $"{stat.MaxMp} / {stat.Mp}";
-        GetObject((int)battleInfoUI.Mp).GetComponent<Text>().text = mpText;
+        hpText = $"{stat.Hp} / {stat.MaxHp}";
+        GetObject((int)battleInfoUI.HP).GetComponent<TextMeshProUGUI>().text = hpText;
+        mpText = $"{stat.Mp} / {stat.MaxMp}";
+        GetObject((int)battleInfoUI.MP).GetComponent<TextMeshProUGUI>().text = mpText;
 
         // TODO : State 반영
     }
@@ -41,13 +60,12 @@ public class BattleInfoUI : UI_Popup
     public void SetPosition()
     {
         Vector3 mousePos = Input.mousePosition;
-        RectTransform uiTransform = gameObject.GetComponent<RectTransform>();
 
         float screenWidth = Screen.width;
         float screenHeight = Screen.height;
 
-        float uiWidth = uiTransform.rect.width;
-        float uiHeight = uiTransform.rect.height;
+        float uiWidth = panelRect.rect.width;
+        float uiHeight = panelRect.rect.height;
 
         Vector3 uiPos = mousePos;
         if (mousePos.x + uiWidth > screenWidth)
@@ -67,6 +85,11 @@ public class BattleInfoUI : UI_Popup
             uiPos.y = mousePos.y;
         }
 
-        uiTransform.position = uiPos;
+        panelRect.position = uiPos;
+    }
+
+    public void ClickBlocker(PointerEventData data)
+    {
+        Managers.Prefab.Destroy(gameObject);
     }
 }

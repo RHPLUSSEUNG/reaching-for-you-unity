@@ -14,7 +14,7 @@ public class SpawnPassage : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             AdventureManager.StageCount++;
-            //Debug.Log(AdventureManager.StageCount);
+            Debug.Log(AdventureManager.StageCount);
             
             if((AdventureManager.StageCount % 5) != 0)
                 gameObject.GetComponent<CameraZone>().spwanIndex = 1;

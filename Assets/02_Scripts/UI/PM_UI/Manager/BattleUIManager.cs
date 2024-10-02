@@ -45,12 +45,11 @@ public class BattleUIManager
     {
         if(battleInfoUI == null)
         {
-            battleInfoUI = Managers.UI.CreatePopupUI<BattleInfoUI>("BattleInfoUI");
+            battleInfoUI = Managers.UI.CreatePopupUI<BattleInfoUI>("CharacterInfoUI");
         }
-        GameObject character = hit.transform.parent.gameObject;
-        battleInfoUI.SetInfo(character);
+        battleInfoUI.SetInfo(hit);
         Managers.UI.ShowUI(battleInfoUI.gameObject);
-        // UI ²ô´Â°Å ÇÊ¿ä
+        Managers.BattleUI.battleInfoUI.SetPosition();
     }
 
     public void SetPosition(GameObject pos)

@@ -10,7 +10,6 @@ public class Stage
     public GameObject[] stageOfPrefabs;
 }
 
-
 public class AdventureManager : MonoBehaviour
 {
     static AdventureManager _adventure;
@@ -36,6 +35,10 @@ public class AdventureManager : MonoBehaviour
     private GameObject heal_effect;
     public bool is_effect = false;
 
+    private float gimmickpercent;
+    public static int GimmickCount;
+    public static bool isGimmickRoom;
+
     void Awake()
     {
         _adventure = this;
@@ -44,18 +47,35 @@ public class AdventureManager : MonoBehaviour
     void BasicSpawn()
     {
         randomPlane.SpawnBasic();
-
+            
         staticSpawner.RandomSpawn();
         dynamicSpawner.RandomSpawn();
+
+        gimmickpercent = Random.Range(0, 2);
+
+        if(gimmickpercent < 0.3f) // 30% 확률로 기믹
+        {
+            isGimmickRoom = true;
+            GimmickCount = Random.Range(1, 5);
+            dynamicSpawner.FillWater();
+            dynamicSpawner.RandomGimmick();
+            Debug.Log("gimmick방");
+        }     
+        else   
+        {
+            isGimmickRoom = false;
+            dynamicSpawner.ClearWater();
+            Debug.Log("말짱방");
+        }
     }
 
     void SpecificSpawn()
     {
         randomPassage.DeletePassage();
         
-
         staticSpawner.DestroyObject();
-        dynamicSpawner.DestroyObject();   
+        dynamicSpawner.DestroyObject();  
+        dynamicSpawner.ClearWater();
     }
 
     void Start()

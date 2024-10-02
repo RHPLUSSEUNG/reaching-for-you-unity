@@ -24,7 +24,8 @@ public class ItemManager
             }
             else if (inventoryCnt < inventoryMaxCnt)
             {
-                consumeInven.Add(itemID, 1);
+                //[2024-10-02][LSH's Code]: [prototype-5]
+                consumeInven.Add(itemID, num);
                 inventoryCnt++;                
                 ObjectiveTracer.Instance.ReportIItemCollected(itemID);                
                 return true;

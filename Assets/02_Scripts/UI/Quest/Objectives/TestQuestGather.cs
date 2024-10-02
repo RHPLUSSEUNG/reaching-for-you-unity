@@ -8,11 +8,17 @@ public class TestQuestGather : MonoBehaviour
     [SerializeField] bool isAddItem;
     [SerializeField] bool isRemoveItem;
     [SerializeField] int count = 0;
-
+    
     private void Start()
     {
         isAddItem = false;
         isRemoveItem = false;
+        
+        for (int i = 0; i < 15; i++)
+        {
+            int randomCount = Random.Range(1, 5);
+            Managers.Item.AddItem(i, randomCount);            
+        }
     }
 
     private void Update()
