@@ -121,7 +121,6 @@ public class UI_ActTurn : UI_Scene
 
     IEnumerator MoveTurnUIAnim()
     {
-        Debug.Log("Check B");
         isMoving = true;
         turnUIBtn.interactable = false;
         CanvasGroup firstChildCanvasGroup = turnPanel.transform.GetChild(0).GetComponent<CanvasGroup>();
@@ -151,7 +150,6 @@ public class UI_ActTurn : UI_Scene
         StartCoroutine(FadeIn(firstChildCanvasGroup, animDuration));
         turnUIBtn.interactable = true;
         isMoving = false;
-        Debug.Log("Check B End");
     }
 
     IEnumerator FadeOut(CanvasGroup canvasGroup, float duration)
@@ -194,7 +192,6 @@ public class UI_ActTurn : UI_Scene
 
     IEnumerator VisibleToggleUI(bool flag)
     {
-        Debug.Log("Check A");
         isMoving = true;
         turnUIBtn.interactable = false;
         float distance = moveDistance;
@@ -218,7 +215,6 @@ public class UI_ActTurn : UI_Scene
         uiRect.anchoredPosition = endPos;
         turnUIBtn.interactable = true;
         isMoving = false;
-        Debug.Log("Check A End");
     }
 
     public void ResetPastPanel()

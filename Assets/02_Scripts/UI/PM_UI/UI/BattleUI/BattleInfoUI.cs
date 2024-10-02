@@ -1,13 +1,17 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class BattleInfoUI : UI_Popup
 {
     enum battleInfoUI
     {
+        Blocker,
+        InfoNameText,
         CharacterIcon,
-        Hp,
-        Mp,
+        HP,
+        MP,
         // TODO : CharacterState 추가
     }
 
@@ -18,6 +22,9 @@ public class BattleInfoUI : UI_Popup
         Bind<GameObject>(typeof(battleInfoUI));
 
         Managers.BattleUI.battleInfoUI = gameObject.GetComponent<BattleInfoUI>();
+
+        GameObject blocker = GetObject((int)battleInfoUI.Blocker);
+        BindEvent(blocker, ClickBlocker, Define.UIEvent.Click);
     }
 
     public void SetInfo(GameObject character)
@@ -25,15 +32,22 @@ public class BattleInfoUI : UI_Popup
         EntityStat stat = character.GetComponent<EntityStat>();
         CharacterState state = character.GetComponent<CharacterState>();
 
+        TextMeshProUGUI nameText = GetObject((int)battleInfoUI.InfoNameText).GetComponent<TextMeshProUGUI>();
+        string originalName = character.name;
+        string cleanName = originalName.Replace("(Clone)", "").Trim();
+        nameText.text = cleanName;
         Image icon = GetObject((int)battleInfoUI.CharacterIcon).GetComponent<Image>();
         // TODO : Character Icon 반영
+        // Temp : 임시로 스프라이트 가져오기
+        Sprite charImage = Util.FindChild(character, "Character", true).GetComponent<SpriteRenderer>().sprite;
+        icon.sprite = charImage;
 
         string hpText;
         string mpText;
-        hpText = $"{stat.MaxHp} / {stat.Hp}";
-        GetObject((int)battleInfoUI.Hp).GetComponent<Text>().text = hpText;
-        mpText = $"{stat.MaxMp} / {stat.Mp}";
-        GetObject((int)battleInfoUI.Mp).GetComponent<Text>().text = mpText;
+        hpText = $"{stat.Hp} / {stat.MaxHp}";
+        GetObject((int)battleInfoUI.HP).GetComponent<TextMeshProUGUI>().text = hpText;
+        mpText = $"{stat.Mp} / {stat.MaxMp}";
+        GetObject((int)battleInfoUI.MP).GetComponent<TextMeshProUGUI>().text = mpText;
 
         // TODO : State 반영
     }
@@ -68,5 +82,10 @@ public class BattleInfoUI : UI_Popup
         }
 
         uiTransform.position = uiPos;
+    }
+
+    public void ClickBlocker(PointerEventData data)
+    {
+        Managers.Prefab.Destroy(gameObject);
     }
 }
