@@ -96,6 +96,9 @@ public class BattleManager
             phase++;
             Managers.BattleUI.turnUI.ResetPastPanel();
             turnCnt %= ObjectList.Count;
+            #region 수정 코드
+            turnCnt = 0;        // 위 코드로 가면 몬스터가 죽으면서 turnCnt가 0으로 가는게 아니라 1로 가는 경우 발생
+            #endregion
 
 
             for (int i = 0; i < InstantAfterPhaseList.Count; i++)

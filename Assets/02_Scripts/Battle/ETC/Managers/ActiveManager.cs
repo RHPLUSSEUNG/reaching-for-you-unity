@@ -29,8 +29,10 @@ public class ActiveManager
         {
             Managers.Battle.monsterLive--;
         }
+        int dead_Index = Managers.Battle.ObjectList.IndexOf(character);         // 眠啊 : UI 积己
         Managers.Battle.ObjectList.Remove(character);
         character.SetActive(false);
+        Managers.BattleUI.turnUI.DestroyTurnUI(dead_Index);     // 眠啊 : UI 积己
         Managers.Battle.Result();
     }
 
