@@ -38,6 +38,7 @@ public class EnvironmentObject : MonoBehaviour
         {
             isReseting = false;
             isTransparent = false;
+            SetMaterialOpaque();
             StopCoroutine(resetCoroutine);
         }
 
@@ -51,7 +52,15 @@ public class EnvironmentObject : MonoBehaviour
         material.SetFloat("_Mode", mode);
         material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
         material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-        material.SetInt("ZWrite", 0);
+
+        if (mode == 0f)// opaque
+        {
+            material.SetInt("_ZWrite", 0); // ZWrite 활성화
+        }
+        else if (mode == 3f) // transparent
+        {
+            material.SetInt("_ZWrite", 0); // ZWrite 비활성화
+        }
         material.DisableKeyword("_ALPHATEST_ON");
         material.EnableKeyword("_ALPHABLEND_ON");
         material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
@@ -82,7 +91,6 @@ public class EnvironmentObject : MonoBehaviour
 
     public void ResetOriginalTransparent()
     {
-        SetMaterialOpaque();
         resetCoroutine = StartCoroutine(ResetOriginalTransparentCoroutine());
     }
 

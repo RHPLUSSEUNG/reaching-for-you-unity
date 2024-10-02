@@ -11,6 +11,8 @@ public abstract class EnemyAI_Base : MonoBehaviour
     float speed = 10;
     [SerializeField]
     string targetTag = "Player";
+    [SerializeField]
+    WorldDetectUI detectUI;
 
     protected EnemyStat stat;
     protected GameObject targetObj;
@@ -90,12 +92,14 @@ public abstract class EnemyAI_Base : MonoBehaviour
             targetPos = newTargetPos;
             targetObj = newTargetObj;
             isTargetFound = true;
+            detectUI.ShowDetectImage();
             SetDirection();
             OnTargetFoundSuccess();
         }
         else
         {
             isTargetFound = false;
+            detectUI.HideDetectImage();
             targetDistance = 999;
             Debug.Log("Search Failed");
             OnTargetFoundFail();

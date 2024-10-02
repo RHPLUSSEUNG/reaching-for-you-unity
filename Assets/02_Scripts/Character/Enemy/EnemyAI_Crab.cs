@@ -135,7 +135,7 @@ public class EnemyAI_Crab : EnemyAI_Base
     }
     public override void RadomTile()
     {
-        throw new System.NotImplementedException();
+        
     }
     public override void OnHit(int damage)
     {
