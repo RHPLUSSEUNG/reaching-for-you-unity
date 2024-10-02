@@ -57,12 +57,14 @@ public class AdventureManager : MonoBehaviour
         {
             isGimmickRoom = true;
             GimmickCount = Random.Range(1, 5);
+            dynamicSpawner.FillWater();
             dynamicSpawner.RandomGimmick();
             Debug.Log("gimmick방");
         }     
         else   
         {
             isGimmickRoom = false;
+            dynamicSpawner.ClearWater();
             Debug.Log("말짱방");
         }
     }
@@ -72,7 +74,8 @@ public class AdventureManager : MonoBehaviour
         randomPassage.DeletePassage();
         
         staticSpawner.DestroyObject();
-        dynamicSpawner.DestroyObject();   
+        dynamicSpawner.DestroyObject();  
+        dynamicSpawner.ClearWater();
     }
 
     void Start()

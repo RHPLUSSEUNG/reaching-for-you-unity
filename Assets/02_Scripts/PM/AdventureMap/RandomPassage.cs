@@ -53,8 +53,7 @@ public class RandomPassage : MonoBehaviour
 
             if(AdventureManager.StageNumber > 0 && AdventureManager.isGimmickRoom)
             {
-                gimmickTrigger[index].gameObject.tag = "Untagged";
-                gimmickTrigger[index].isTrigger = false;
+                StartCoroutine(CloseDoor());
             }
                 
             else
@@ -72,6 +71,17 @@ public class RandomPassage : MonoBehaviour
             wallInMap.transform.SetParent(passageChildren[index]);
 
             wallChildren.Add(wallInMap);
+        }
+    }
+
+    private IEnumerator CloseDoor()
+    {
+        yield return new WaitForSeconds(1f);
+
+        for (int i = 0; i < passageChildren.Count; i++)
+        {
+            gimmickTrigger[i].gameObject.tag = "Untagged";
+            gimmickTrigger[i].isTrigger = false;
         }
     }
 

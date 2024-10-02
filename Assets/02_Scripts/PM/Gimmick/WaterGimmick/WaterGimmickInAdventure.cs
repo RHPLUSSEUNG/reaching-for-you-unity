@@ -7,7 +7,7 @@ public class WaterGimmickInAdventure : MonoBehaviour
 {
     bool isActive;
     Button button;
-    
+
     void Start()
     {
         button = GetComponentInChildren<Button>();
@@ -61,9 +61,6 @@ public class WaterGimmickInAdventure : MonoBehaviour
         {
             isActive = false;
             button.gameObject.SetActive(false);
-
-            StopAllCoroutines();
-            StartCoroutine(ActiveCollider());
         }
     }
 

@@ -13,7 +13,13 @@ public class DynamicSpawner : MonoBehaviour
     BoxCollider rangeCollider;
 
     [SerializeField]
+    private GameObject waterRemoveGimmick;
+    [SerializeField]
     private GameObject waterGimmick;
+
+    public static GameObject go_water;
+    private Vector3 originPos;
+    private Vector3 newVec;
 
     public int maxSpawnCount = 10;
     public static List<Vector3> spawnedPositions = new List<Vector3>();
@@ -22,6 +28,11 @@ public class DynamicSpawner : MonoBehaviour
     void Awake()
     {
         rangeCollider = planeObject.GetComponent<BoxCollider>();
+        originPos = waterGimmick.transform.position;
+
+        newVec = new Vector3(originPos.x, originPos.y * -1, originPos.z);
+
+        go_water = Instantiate(waterGimmick, newVec, Quaternion.identity);
     }
 
     void Start()
@@ -93,10 +104,10 @@ public class DynamicSpawner : MonoBehaviour
             {
                 spawnPosition = RandomPosition();
             } while (IsOverlapping(spawnPosition)); // If overlapping, re-position
-            spawnPosition += waterGimmick.transform.position;
+            spawnPosition += waterRemoveGimmick.transform.position;
             spawnedPositions.Add(spawnPosition);
 
-            GameObject spawned = Instantiate(waterGimmick, spawnPosition, Quaternion.identity);
+            GameObject spawned = Instantiate(waterRemoveGimmick, spawnPosition, Quaternion.identity);
             spawnedObject.Add(spawned);
         }
     }
@@ -107,5 +118,15 @@ public class DynamicSpawner : MonoBehaviour
         {
             Destroy(o);
         }
+    }
+
+    public void FillWater()
+    {
+        go_water.transform.position = originPos;
+    }
+
+    public void ClearWater()
+    {
+        go_water.transform.position = newVec;
     }
 }
