@@ -7,18 +7,16 @@ public class UI_ActTurn : UI_Scene
 {
     enum turnUI
     {
+        TurnUIPanel,
         ActTurnPanel,
         TurnOrderButton
     }
 
-    // Temp
-    [SerializeField] Sprite playerSprite;
-    [SerializeField] Sprite crabSprite;
-    [SerializeField] Sprite lizardSprite;
-
+    GameObject uiPanel;
     GameObject turnPanel;
     public Button turnUIBtn;
 
+    int turnCnt;
     float moveDuration = 0.4f;
     float moveDistance = 300f;
     float animDuration = 0.5f;
@@ -28,18 +26,20 @@ public class UI_ActTurn : UI_Scene
     bool isMoving = false;
 
     RectTransform uiRect;
-
+    RectTransform turnRect;
     public override void Init()
     {
         base.Init();
 
         Bind<GameObject>(typeof(turnUI));
 
+        uiPanel = GetObject((int)turnUI.TurnUIPanel);
         turnPanel = GetObject((int)turnUI.ActTurnPanel);
         turnUIBtn = GetObject((int)turnUI.TurnOrderButton).GetComponent<Button>();
         BindEvent(turnUIBtn.gameObject, ClickTurnOrderButton, Define.UIEvent.Click);
 
-        uiRect = turnPanel.GetComponent<RectTransform>();
+        uiRect = uiPanel.GetComponent<RectTransform>();
+        turnRect = turnPanel.GetComponent<RectTransform>();
 
         Managers.BattleUI.turnUI = gameObject.GetComponent<UI_ActTurn>();
         turnUIBtn.gameObject.SetActive(false);
@@ -47,57 +47,74 @@ public class UI_ActTurn : UI_Scene
 
     public void InstantiateTurnOrderUI()
     {
+        GameObject newTurnUI = Managers.Prefab.Instantiate("UI/SubItem/Turn", turnPanel.transform);
+        newTurnUI.AddComponent<CanvasGroup>();
+    }
+
+    public void InstantiateAllTurnOrderUI()
+    {
         for (int i = 0; i < Managers.Battle.ObjectList.Count; i++)
         {
-            GameObject newTurnUI = Managers.Prefab.Instantiate("UI/SubItem/Turn", turnPanel.transform);
-            newTurnUI.AddComponent<CanvasGroup>();
+            InstantiateTurnOrderUI();
         }
         ShowTurnOrderUI();
     }
 
-    public void UpdateTurnUI()
+    public void UpdateTurnUI(int turnCnt)
     {
-        for(int i = 0; i < Managers.Battle.ObjectList.Count; i++)
+        if(turnCnt == -1)
         {
-            Image turnImage = turnPanel.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
-            Sprite charImage = Managers.Battle.ObjectList[i].GetComponent<Sprite>();            // 캐릭터 스프라이트를 가져온다
+            turnCnt = 0;
+        }
+        int circleIdx = turnCnt;
+        for (int i = 0; i < Managers.Battle.ObjectList.Count; i++)
+        {
+            TurnUI turnUI = turnPanel.transform.GetChild(i).GetComponent<TurnUI>();
+            Image turnImg = turnUI.GetTurnImage();
+            // Image turnImage = turnPanel.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
+            Sprite charSprite = Util.FindChild(Managers.Battle.ObjectList[circleIdx], "Character", true).GetComponent<SpriteRenderer>().sprite;
+            RectTransform turnImgRect = turnImg.GetComponent<RectTransform>();
 
-            // Temp
-            if (Managers.Battle.ObjectList[i].CompareTag("Player"))
+            turnImgRect.sizeDelta = TurnUIAspectAdjust(charSprite, turnImg);
+            turnImg.sprite = charSprite;
+            circleIdx++;
+            if (circleIdx == Managers.Battle.ObjectList.Count)
             {
-                turnImage.sprite = playerSprite;
-            }
-            else if (Managers.Battle.ObjectList[i].CompareTag("Monster"))
-            {
-                if (Managers.Battle.ObjectList[i].name == "Enemy_Crab(Clone)")
-                {
-                    turnImage.sprite = crabSprite;
-                }
-                else if (Managers.Battle.ObjectList[i].name == "Enemy_Lizard(Clone)")
-                {
-                    turnImage.sprite = lizardSprite;
-                }
-
+                circleIdx = 0;
             }
         }
     }
 
     // TODO : Turn 생성 및 삭제
-    public void MakeTurnUI(Sprite newObj, int turnCnt)
+    public void MakeTurnUI()
     {
-        Image newTurn = Managers.Prefab.Instantiate("UI/SubItem/Turn", gameObject.transform).GetComponent<Image>();
-        newTurn.sprite = newObj;
-        UpdateTurnUI();
+        // 소환 스킬을 했을 때, 소환수가 이번 페이즈에 행동하는가? 아니면 다음 행동부터 행동하는지 구별할 게 필요
+        InstantiateTurnOrderUI();
+        UpdateTurnUI(turnCnt);
+
+        // 소환수가 이번 페이즈에 행동을 할 때
+        // 소환수 스킬 더 추가 시 모듈화 또는 수정 필요
+        for (int i = 0; i < Managers.Battle.ObjectList.Count; i++)
+        {
+            GameObject pastPanel = turnPanel.transform.GetChild(i).GetChild(1).gameObject;
+            pastPanel.SetActive(false);
+        }
+        for (int i = 0; i < turnCnt; i++)
+        {
+            GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - 1 - i).GetChild(1).gameObject;
+            pastPanel.SetActive(true);
+        }
     }
 
-    public void DestroyTurnUI(int turnCnt)
+    public void DestroyTurnUI()
     {
         Destroy(transform.GetChild(0).gameObject);
-        UpdateTurnUI();
+        UpdateTurnUI(turnCnt);
     }
 
     public void ProceedTurnUI(int turnCnt)
     {
+        this.turnCnt = turnCnt;
         if (turnCnt == 0)
         {
             return;
@@ -112,7 +129,7 @@ public class UI_ActTurn : UI_Scene
         turnUIBtn.interactable = false;
         CanvasGroup firstChildCanvasGroup = turnPanel.transform.GetChild(0).GetComponent<CanvasGroup>();
 
-        Vector3 startPos = uiRect.anchoredPosition;
+        Vector3 startPos = turnRect.anchoredPosition;
         Vector3 endPos = startPos + new Vector3(-animDistance, 0, 0);
 
         float elapsedTime = 0;
@@ -121,18 +138,18 @@ public class UI_ActTurn : UI_Scene
 
         while (elapsedTime < animDuration)
         {
-            uiRect.anchoredPosition = Vector3.Lerp(startPos, endPos, elapsedTime / animDuration);
+            turnRect.anchoredPosition = Vector3.Lerp(startPos, endPos, elapsedTime / animDuration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        uiRect.anchoredPosition = endPos;
+        turnRect.anchoredPosition = endPos;
 
         turnPanel.transform.GetChild(0).SetSiblingIndex(turnPanel.transform.childCount - 1);
         GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - 1).GetChild(1).gameObject;
         pastPanel.SetActive(true);
 
-        uiRect.anchoredPosition = startPos;
+        turnRect.anchoredPosition = startPos;
 
         StartCoroutine(FadeIn(firstChildCanvasGroup, animDuration));
         turnUIBtn.interactable = true;
@@ -203,12 +220,13 @@ public class UI_ActTurn : UI_Scene
         turnUIBtn.interactable = true;
         isMoving = false;
     }
-    
+
     public void ResetPastPanel()
     {
         turnPanel.transform.GetChild(0).SetSiblingIndex(turnPanel.transform.childCount - 1);
         GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - 1).GetChild(1).gameObject;
         pastPanel.SetActive(true);
+
         for (int i = 0; i < turnPanel.transform.childCount; i++)
         {
             pastPanel = turnPanel.transform.GetChild(i).GetChild(1).gameObject;
@@ -231,5 +249,45 @@ public class UI_ActTurn : UI_Scene
         {
             ShowTurnOrderUI();
         }
+    }
+
+    private Vector2 TurnUIAspectAdjust(Sprite charSprite, Image turnImg)
+    {
+        float spriteWidth = charSprite.rect.width;
+        float spriteHeight = charSprite.rect.height;
+        float aspectRatio = spriteWidth / spriteHeight;
+
+        RectTransform turnImgRect = turnImg.GetComponent<RectTransform>();
+        RectTransform parentRect = turnImgRect.parent.GetComponent<RectTransform>();
+
+        float parentWidth = parentRect.rect.width;
+        float parentHeight = parentRect.rect.height;
+
+        float newWidth, newHeight;
+
+        if (parentWidth / parentHeight > aspectRatio)
+        {
+            newHeight = parentHeight;
+            newWidth = newHeight * aspectRatio;
+
+            if (newWidth > parentWidth)
+            {
+                newWidth = parentWidth;
+                newHeight = newWidth / aspectRatio;
+            }
+        }
+        else
+        {
+            newWidth = parentWidth;
+            newHeight = newWidth / aspectRatio;
+
+            if (newHeight > parentHeight)
+            {
+                newHeight = parentHeight;
+                newWidth = newHeight * aspectRatio;
+            }
+        }
+
+        return new Vector2(newWidth, newHeight);
     }
 }

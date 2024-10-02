@@ -128,6 +128,9 @@ public class EnemyAI_Queen : EnemyAI_Base
         spriteController.SetAnimState(AnimState.Trigger1);
         skillList.list[2].GetComponent<MonsterSkill>().SetTarget(targetPos);
         //해당 위치에 알 생성
+
+        // [PM_UI] 생성한 알 TurnOrder 반영
+        Managers.BattleUI.turnUI.MakeTurnUI();
     }
     public override void OnHit(int damage)
     {
