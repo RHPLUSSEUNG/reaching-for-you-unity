@@ -103,8 +103,8 @@ public class CreateObject : MonoBehaviour
         PlaceGimmicks();
         PlaceEnemy();
 
-        GameObject mapInstance = Instantiate(MapPrefab[stageIndex]);
-        mapInstance.transform.position = MapPrefab[stageIndex].transform.position;
+        //GameObject mapInstance = Instantiate(MapPrefab[stageIndex]);
+        //mapInstance.transform.position = MapPrefab[stageIndex].transform.position;
 
         manager.active = true;
     }

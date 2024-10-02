@@ -109,11 +109,11 @@ public class EnemyAI_Queen : EnemyAI_Base
     }
     public override void OnAttackSuccess()
     {
-        throw new System.NotImplementedException();
+        
     }
     public override void OnAttackFail()
     {
-        throw new System.NotImplementedException();
+        
     }
     public override void BeforeTrunEnd()
     {

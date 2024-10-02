@@ -9,7 +9,7 @@ public class EnemyAI_Golem : EnemyAI_Base
         spriteController = GetComponent<SpriteController>();
         isTurnEnd = true;
         skillList = GetComponent<SkillList>();
-        //skillList.AddSkill(Managers.Skill.InstantiateSkill(0, true));
+        skillList.AddSkill(Managers.Skill.InstantiateSkill(7, true));
         fruitCount = 2;
         spriteController.SetAnimState(AnimState.State2);
     }
@@ -84,6 +84,7 @@ public class EnemyAI_Golem : EnemyAI_Base
             skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);
             fruitCount--;
             spriteController.SetAnimState(AnimState.State1);
+            spriteController.SetAnimState(AnimState.Trigger1);
             BeforeTrunEnd();
         }
         else if (fruitCount ==1 && stat.Hp <= stat.MaxHp / 4)
@@ -91,6 +92,7 @@ public class EnemyAI_Golem : EnemyAI_Base
             skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);
             fruitCount--;
             spriteController.SetAnimState(AnimState.State0);
+            spriteController.SetAnimState(AnimState.Trigger1);
             BeforeTrunEnd();
         }
     }
@@ -118,7 +120,7 @@ public class EnemyAI_Golem : EnemyAI_Base
 
     public override void RadomTile()
     {
-        throw new System.NotImplementedException();
+        
     }
     public override void OnHit(int damage)
     {
