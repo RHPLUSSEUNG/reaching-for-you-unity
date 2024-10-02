@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Stage
@@ -16,7 +17,7 @@ public class AdventureManager : MonoBehaviour
     public static AdventureManager adventure { get { return _adventure; } }
 
     private const int DESERT = 0, WATER = 1;
-    public static int StageNumber = WATER;
+    public static int StageNumber = DESERT;
 
     private static int stageCount = 1;
     public static int StageCount {
@@ -39,6 +40,8 @@ public class AdventureManager : MonoBehaviour
     public static int GimmickCount;
     public static bool isGimmickRoom;
 
+    public int randomEncounter;
+
     void Awake()
     {
         _adventure = this;
@@ -52,20 +55,26 @@ public class AdventureManager : MonoBehaviour
         dynamicSpawner.RandomSpawn();
 
         gimmickpercent = Random.Range(0, 2);
+        randomEncounter = Random.Range(0, 5);
+        if(randomEncounter < 1)
+        {
+            // LoadSceneManager.LoadScene();
+        }
 
-        if(gimmickpercent < 0.3f) // 30% 확률로 기믹
+        if(StageNumber > 0) // 30% 확률로 기믹
         {
-            isGimmickRoom = true;
-            GimmickCount = Random.Range(1, 5);
-            dynamicSpawner.FillWater();
-            dynamicSpawner.RandomGimmick();
-            Debug.Log("gimmick방");
-        }     
-        else   
-        {
-            isGimmickRoom = false;
-            dynamicSpawner.ClearWater();
-            Debug.Log("말짱방");
+            if(gimmickpercent < 0.3f)
+            {
+                isGimmickRoom = true;
+                GimmickCount = Random.Range(1, 5);
+                dynamicSpawner.FillWater();
+                dynamicSpawner.RandomGimmick();
+            }     
+            else   
+            {
+                isGimmickRoom = false;
+                dynamicSpawner.ClearWater();
+            }
         }
     }
 
