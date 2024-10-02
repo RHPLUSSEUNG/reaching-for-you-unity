@@ -8,12 +8,15 @@ public class BattleInfoUI : UI_Popup
     enum battleInfoUI
     {
         Blocker,
+        InfoPanel,
         InfoNameText,
         CharacterIcon,
         HP,
         MP,
         // TODO : CharacterState Ãß°¡
     }
+
+    RectTransform panelRect;
 
     public override void Init()
     {
@@ -25,6 +28,8 @@ public class BattleInfoUI : UI_Popup
 
         GameObject blocker = GetObject((int)battleInfoUI.Blocker);
         BindEvent(blocker, ClickBlocker, Define.UIEvent.Click);
+
+        panelRect = GetObject((int)battleInfoUI.InfoPanel).GetComponent<RectTransform>();
     }
 
     public void SetInfo(GameObject character)
@@ -55,13 +60,12 @@ public class BattleInfoUI : UI_Popup
     public void SetPosition()
     {
         Vector3 mousePos = Input.mousePosition;
-        RectTransform uiTransform = gameObject.GetComponent<RectTransform>();
 
         float screenWidth = Screen.width;
         float screenHeight = Screen.height;
 
-        float uiWidth = uiTransform.rect.width;
-        float uiHeight = uiTransform.rect.height;
+        float uiWidth = panelRect.rect.width;
+        float uiHeight = panelRect.rect.height;
 
         Vector3 uiPos = mousePos;
         if (mousePos.x + uiWidth > screenWidth)
@@ -81,7 +85,7 @@ public class BattleInfoUI : UI_Popup
             uiPos.y = mousePos.y;
         }
 
-        uiTransform.position = uiPos;
+        panelRect.position = uiPos;
     }
 
     public void ClickBlocker(PointerEventData data)

@@ -49,6 +49,7 @@ public class BattleUIManager
         }
         battleInfoUI.SetInfo(hit);
         Managers.UI.ShowUI(battleInfoUI.gameObject);
+        Managers.BattleUI.battleInfoUI.SetPosition();
     }
 
     public void SetPosition(GameObject pos)
