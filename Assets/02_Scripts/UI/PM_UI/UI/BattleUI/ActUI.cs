@@ -147,6 +147,7 @@ public class ActUI : UI_Popup
     {
         Managers.UI.HideUI(gameObject);
         Managers.BattleUI.PlayerPhaseEndUI();
+        Managers.Battle.isPlayerTurn = false;
         cameraController.ChangeCameraMode(CameraMode.Static, true, true);
         Managers.BattleUI.cameraMode = CameraMode.Static;
         Managers.Battle.NextTurn();
