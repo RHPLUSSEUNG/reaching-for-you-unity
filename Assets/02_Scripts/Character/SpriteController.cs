@@ -54,10 +54,10 @@ public class SpriteController : MonoBehaviour
         switch (state)
         {
             case (AnimState.Idle):
-                anim.SetInteger("State", (int)AnimState.Idle);
+                anim.SetInteger("Idle", (int)AnimState.Idle);
                 break;
             case (AnimState.Move):
-                anim.SetInteger("State", (int)AnimState.Move);
+                anim.SetInteger("Idle", (int)AnimState.Move);
                 break;
             case (AnimState.Hit):
                 anim.SetTrigger("Hit");
@@ -74,11 +74,14 @@ public class SpriteController : MonoBehaviour
             case (AnimState.Trigger3):
                 anim.SetTrigger("Trigger3");
                 break;
+            case (AnimState.State0):
+                anim.SetInteger("State", 0);
+                break;
             case (AnimState.State1):
-                anim.SetInteger("State", (int)AnimState.State1);
+                anim.SetInteger("State", 1);
                 break;
             case (AnimState.State2):
-                anim.SetInteger("State", (int)AnimState.State2);
+                anim.SetInteger("State", 2);
                 break;
         }
     }

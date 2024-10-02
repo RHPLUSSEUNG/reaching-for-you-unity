@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5158375782294323619}
   - component: {fileID: 7873283411122069207}
   - component: {fileID: 3554440614666488824}
+  - component: {fileID: 3113633694172776444}
   m_Layer: 7
   m_Name: Enemy_Golem
   m_TagString: Monster
@@ -151,6 +152,23 @@ MonoBehaviour:
   rotateSpeed: 5
   direction: 1
   cameraChanged: 0
+--- !u!114 &3113633694172776444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563782313537585837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286d9053e9eb4934fa473be0fd726f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  targetTag: Player
+  detectUI: {fileID: 0}
+  isTurnEnd: 0
+  fruitCount: 0
 --- !u!1 &1669511493203663132
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +220,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 1, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4042497006604334458
 GameObject:
@@ -285,7 +303,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 201214624615532164}
@@ -302,6 +320,7 @@ GameObject:
   - component: {fileID: 201214624615532164}
   - component: {fileID: 3029377025697157087}
   - component: {fileID: 2803993635943719565}
+  - component: {fileID: 7617555586025351627}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -398,3 +417,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7617555586025351627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8771755112282827735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82e97255fc1e91449aeb97f2d2ba41ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

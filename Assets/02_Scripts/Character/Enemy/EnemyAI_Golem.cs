@@ -11,6 +11,7 @@ public class EnemyAI_Golem : EnemyAI_Base
         skillList = GetComponent<SkillList>();
         //skillList.AddSkill(Managers.Skill.InstantiateSkill(0, true));
         fruitCount = 2;
+        spriteController.SetAnimState(AnimState.State2);
     }
     public int fruitCount;
     public override void ProceedTurn()
@@ -78,14 +79,19 @@ public class EnemyAI_Golem : EnemyAI_Base
         if (isTurnEnd)
             return;
 
-        if (stat.Hp <= stat.MaxMp / 2)
+        if (fruitCount ==2 && stat.Hp <= stat.MaxHp / 2)
         {
-            if (fruitCount > 0)
-            {
-                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);
-                fruitCount--;
-                BeforeTrunEnd();
-            }
+            skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);
+            fruitCount--;
+            spriteController.SetAnimState(AnimState.State1);
+            BeforeTrunEnd();
+        }
+        else if (fruitCount ==1 && stat.Hp <= stat.MaxHp / 4)
+        {
+            skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);
+            fruitCount--;
+            spriteController.SetAnimState(AnimState.State0);
+            BeforeTrunEnd();
         }
     }
     public override void OnAttackSuccess()
