@@ -26,12 +26,16 @@ public class ActiveManager
             Managers.Battle.playerLive--;
         }
         else
-        {
+        { 
             Managers.Battle.monsterLive--;
         }
         Managers.Battle.ObjectList.Remove(character);
         character.SetActive(false);
-        Managers.Battle.Result();
+
+        #region 임시 결과 조건
+        if (Managers.Battle.monsterLive == 0 || Managers.Battle.playerLive == 0)
+            Managers.Battle.Result();
+        #endregion
     }
 
     public void Damage(GameObject target)
@@ -104,8 +108,16 @@ public class ActiveManager
         #endregion
         if (target.GetComponent<EnemyAI_Base>() != null)
         {
-            target.GetComponent<EntityStat>().Hp -= damage;
+            //target.GetComponent<EntityStat>().Hp -= damage;
             target.GetComponent<EnemyAI_Base>().OnHit(damage);
+
+            #region 임시 체크 코드 - 권희준
+            if (target.GetComponent<EntityStat>().Hp <= 0)
+            {
+                Dead(target);
+            }
+            #endregion
+
             return damage;
         }
         else if (target.GetComponent<PlayerBattle>() != null)

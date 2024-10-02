@@ -29,12 +29,12 @@ public class Egg : EnemyAI_Base
 
     public override void OnAttackFail()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void OnAttackSuccess()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void OnHit(int damage)
@@ -45,22 +45,22 @@ public class Egg : EnemyAI_Base
 
     public override void OnMoveEnd()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void OnPathFailed()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void OnTargetFoundFail()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void OnTargetFoundSuccess()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void ProceedTurn()
@@ -83,7 +83,7 @@ public class Egg : EnemyAI_Base
 
     public override void RadomTile()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     private void OnDestroy()

@@ -79,11 +79,9 @@ public class EnemyAI_Soldier : EnemyAI_Base
     }
     public override void OnAttackSuccess()
     {
-        throw new System.NotImplementedException();
     }
     public override void OnAttackFail()
     {
-        throw new System.NotImplementedException();
     }
     public override void BeforeTrunEnd()
     {
@@ -91,7 +89,6 @@ public class EnemyAI_Soldier : EnemyAI_Base
     }
     public override void RadomTile()
     {
-        throw new System.NotImplementedException();
     }
     public override void OnHit(int damage)
     {
