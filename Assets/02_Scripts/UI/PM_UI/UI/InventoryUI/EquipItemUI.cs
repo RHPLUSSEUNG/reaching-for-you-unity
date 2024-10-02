@@ -27,16 +27,27 @@ public class EquipItemUI : InvenItemUI
 
     public void SetItemInfo()
     {
-        ItemData itemData = Managers.Data.GetItemData(invenItemID);
+        EquipmentData itemData = Managers.Data.GetItemData(invenItemID, true) as EquipmentData;
         // 아이템의 정보로 변경
         itemType = itemData.ItemType;
         if (itemType == ItemType.Equipment)
         {
-            // 장비템 Part
+            switch(itemData.part)
+            {
+                case EquipPart.Head:
+                    equipPart = EquipPart.Head;
+                    break;
+                case EquipPart.Body:
+                    equipPart = EquipPart.Body;
+                    break;
+                case EquipPart.Weapon:
+                    equipPart = EquipPart.Weapon;
+                    break;
+            }
         }
         
         itemIcon = GetObject((int)invenItemUI.ItemIcon).GetComponent<Image>();
-        // 아이콘에 Sprite 삽입
+        itemIcon.sprite = itemData.itemSprite;
         Text itemName = GetObject((int)invenItemUI.ItemName).GetComponent<Text>();
         itemName.text = itemData.ItemName;
         

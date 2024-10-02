@@ -20,12 +20,10 @@ public class InvenUIManager
     public EquipUI equipUI = null;
     public ItemType type;
     public EquipPart part;
-    public bool inven_state = false;
+    // public bool inven_state = false;
     public bool consume_equip_state = false;
 
     List<int> equip_consume_ui = new List<int>();
-    //test
-    public Sprite[] test_sprite = new Sprite[3];
 
     #region Set Character Equip Info
     public void SetPlayerEquipUI(Equip_Item equipInfo)
@@ -96,14 +94,14 @@ public class InvenUIManager
         {
             ConsumeItemUI consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
             consumeItem.invenItemID = consume.Key;
-            consumeItem.SetItemInfo(test_sprite[consume.Key], consume.Value);      // test 스프라이트 적용
+            consumeItem.SetItemInfo(consume.Value);      // test 스프라이트 적용
             Managers.UI.HideUI(consumeItem.gameObject);
         }
     }
 
-    public void UpdateItemUI(int itemID)       // 아이템 획득 시 인벤토리 최신화(생성 후)
+    public void UpdateItemUI(int itemID, bool equipment = false)       // 아이템 획득 시 인벤토리 최신화(생성 후)
     {
-        ItemData itemData = Managers.Data.GetItemData(itemID);
+        ItemData itemData = Managers.Data.GetItemData(itemID, equipment);
         if(itemData.ItemType == ItemType.Equipment)
         {
             EquipItemUI equipItem = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
@@ -129,7 +127,7 @@ public class InvenUIManager
             }
             consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
             consumeItem.invenItemID = itemID;
-            consumeItem.SetItemInfo(test_sprite[itemID], count);      // test 스프라이트 적용
+            consumeItem.SetItemInfo(count);      // test 스프라이트 적용
             Managers.UI.HideUI(consumeItem.gameObject);
         }
     }
@@ -215,13 +213,13 @@ public class InvenUIManager
                 break;
         }
         if (prev_Item == null)
-        {
-            Debug.Log($"player : {player}");
-            Debug.Log($"prev_item : {prev_Item}");
+        {   
             return;
         }
-        EquipItemUI itemUI = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
-        Image unequipIcon = prev_Item.GetComponent<Image>();
+
+        Equipment equipItem = prev_Item.GetComponent<Equipment>();
+        EquipItemUI itemUI = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");        
+        itemUI.invenItemID = equipItem.itemId;
         itemUI.invenItem = prev_Item;
         itemUI.SetItemInfo();        // 아이템 데이터를 적용
 
@@ -313,9 +311,8 @@ public class InvenUIManager
         }
         consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
         consumeItem.invenItemID = focusItemID;
-        consumeItem.SetItemInfo(test_sprite[focusItemID], remainValue);      // test 스프라이트 적용
+        consumeItem.SetItemInfo(remainValue);
         Managers.UI.HideUI(consumeItem.gameObject);
-        // remainValue가 1이 뜨는 문제는 ItemManager에서 AddItem 함수에서 num값 조정 필요
         invenUI.GetComponent<InvenUI>().MoveConsumeTab();
     }
 
