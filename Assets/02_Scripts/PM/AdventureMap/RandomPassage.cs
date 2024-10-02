@@ -10,16 +10,18 @@ public class RandomPassage : MonoBehaviour
     private GameObject[] wallPrefabs;
 
     int DoorCount = 0;
-    int stageIndex;
 
     List<Transform> passageChildren = new List<Transform>();
+    public static List<BoxCollider> gimmickTrigger = new List<BoxCollider>();
     List<GameObject> wallChildren = new List<GameObject>();
 
     public void Init()
     {
         foreach (Transform t in transform)
         {
+            BoxCollider collider = t.Find("Interaction").GetComponent<BoxCollider>();
             passageChildren.Add(t);
+            gimmickTrigger.Add(collider);
         }
 
         DoorCount = Random.Range(0, passageChildren.Count - 1) + 1;
@@ -49,6 +51,17 @@ public class RandomPassage : MonoBehaviour
             wallInMap = Instantiate(wallPrefabs[1], passageChildren[index]);
             wallInMap.transform.SetParent(passageChildren[index]);
 
+            if(AdventureManager.StageNumber > 0 && AdventureManager.isGimmickRoom)
+            {
+                StartCoroutine(CloseDoor());
+            }
+                
+            else
+            {
+                gimmickTrigger[index].gameObject.tag = "Teleport";
+                gimmickTrigger[index].isTrigger = true;
+            }
+                
             wallChildren.Add(wallInMap);
         }
 
@@ -58,6 +71,17 @@ public class RandomPassage : MonoBehaviour
             wallInMap.transform.SetParent(passageChildren[index]);
 
             wallChildren.Add(wallInMap);
+        }
+    }
+
+    private IEnumerator CloseDoor()
+    {
+        yield return new WaitForSeconds(1f);
+
+        for (int i = 0; i < passageChildren.Count; i++)
+        {
+            gimmickTrigger[i].gameObject.tag = "Untagged";
+            gimmickTrigger[i].isTrigger = false;
         }
     }
 

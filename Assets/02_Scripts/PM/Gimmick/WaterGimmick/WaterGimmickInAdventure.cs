@@ -1,28 +1,18 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Box : MonoBehaviour
+public class WaterGimmickInAdventure : MonoBehaviour
 {
     bool isActive;
     Button button;
 
-    // PlayerController player;
-    GameObject boxObject;
-
-    // 인터랙션 후 상자 효과
-    [SerializeField]
-    Animator BoxOpenAnim;
-    [SerializeField]
-    ParticleSystem BoxOpenEffect;
-    
     void Start()
     {
         button = GetComponentInChildren<Button>();
         button.gameObject.SetActive(false);
         isActive = false;
-        // player = GameObject.Find("Player_Girl").GetComponent<PlayerController>();
-        boxObject = transform.parent.gameObject;
 
         StartCoroutine(ActiveCollider());
     }
@@ -34,11 +24,26 @@ public class Box : MonoBehaviour
         {
             button.gameObject.SetActive(false);
             isActive = false;
+            AdventureManager.GimmickCount--;
+            if(AdventureManager.GimmickCount <= 0) 
+            {
+                ClearGimmick();
+                Debug.Log("모든 기믹 해제!");
+            }
             
-            BoxOpenAnim.SetTrigger("BoxOpenTrigger");
-            BoxOpenEffect.Play();
-            Destroy(boxObject, 2f);
+            gameObject.GetComponent<CapsuleCollider>().enabled = false;
         }
+    }
+    
+    public void ClearGimmick()
+    {
+        for (int i = 0; i < RandomPassage.gimmickTrigger.Count; i++)
+        {
+            RandomPassage.gimmickTrigger[i].gameObject.tag = "Teleport";
+            RandomPassage.gimmickTrigger[i].isTrigger = true;
+        }
+        
+        AdventureManager.isGimmickRoom = false;
     }
 
     private void OnTriggerEnter(Collider collider)

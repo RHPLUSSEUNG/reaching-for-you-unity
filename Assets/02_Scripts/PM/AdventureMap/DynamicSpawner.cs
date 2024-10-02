@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
 public class DynamicSpawner : MonoBehaviour
 {
     [SerializeField]
@@ -11,6 +12,15 @@ public class DynamicSpawner : MonoBehaviour
     private Stage[] stages;
     BoxCollider rangeCollider;
 
+    [SerializeField]
+    private GameObject waterRemoveGimmick;
+    [SerializeField]
+    private GameObject waterGimmick;
+
+    public static GameObject go_water;
+    private Vector3 originPos;
+    private Vector3 newVec;
+
     public int maxSpawnCount = 10;
     public static List<Vector3> spawnedPositions = new List<Vector3>();
     private List<GameObject> spawnedObject = new List<GameObject>();
@@ -18,6 +28,11 @@ public class DynamicSpawner : MonoBehaviour
     void Awake()
     {
         rangeCollider = planeObject.GetComponent<BoxCollider>();
+        originPos = waterGimmick.transform.position;
+
+        newVec = new Vector3(originPos.x, originPos.y * -1, originPos.z);
+
+        go_water = Instantiate(waterGimmick, newVec, Quaternion.identity);
     }
 
     void Start()
@@ -78,11 +93,40 @@ public class DynamicSpawner : MonoBehaviour
         }
     }
 
+    public void RandomGimmick()
+    {
+        int spawnCount = AdventureManager.GimmickCount;
+
+        for (int i = 0; i < spawnCount; i++)
+        {
+            Vector3 spawnPosition;
+            do
+            {
+                spawnPosition = RandomPosition();
+            } while (IsOverlapping(spawnPosition)); // If overlapping, re-position
+            spawnPosition += waterRemoveGimmick.transform.position;
+            spawnedPositions.Add(spawnPosition);
+
+            GameObject spawned = Instantiate(waterRemoveGimmick, spawnPosition, Quaternion.identity);
+            spawnedObject.Add(spawned);
+        }
+    }
+
     public void DestroyObject()
     {
         foreach(GameObject o in spawnedObject)
         {
             Destroy(o);
         }
+    }
+
+    public void FillWater()
+    {
+        go_water.transform.position = originPos;
+    }
+
+    public void ClearWater()
+    {
+        go_water.transform.position = newVec;
     }
 }
