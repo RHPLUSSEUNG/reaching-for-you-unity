@@ -47,12 +47,12 @@ public class LoadSceneManager : MonoBehaviour
                 }
             case SceneType.PM_ADVENTURE:
                 {
-                    nextScene = "Adventure_PM_5";
+                    nextScene = "Adventure_PT_5";
                     break;
                 }
             case SceneType.PM_COMBAT:
                 {
-                    nextScene = "PM_COMBAT_5";
+                    nextScene = "Battle_PT_5";
                     break;
                 }
             default:

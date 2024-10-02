@@ -56,7 +56,7 @@ public class AdventureManager : MonoBehaviour
 
         gimmickpercent = Random.Range(0, 2);
         randomEncounter = Random.Range(0, 5);
-        if(randomEncounter < 1)
+        if(randomEncounter < 3)
         {
             SceneChanger.Instance.ChangeScene(SceneType.PM_COMBAT);
         }
