@@ -41,6 +41,7 @@ public class AdventureManager : MonoBehaviour
     public static bool isGimmickRoom;
 
     public int randomEncounter;
+    public int roomCount = 0;
 
     void Awake()
     {
@@ -56,7 +57,10 @@ public class AdventureManager : MonoBehaviour
 
         gimmickpercent = Random.Range(0, 2);
         randomEncounter = Random.Range(0, 5);
-        if(randomEncounter < 3)
+
+        roomCount++;
+
+        if(randomEncounter < 2 && roomCount > 1)
         {
             SceneChanger.Instance.ChangeScene(SceneType.PM_COMBAT);
         }
