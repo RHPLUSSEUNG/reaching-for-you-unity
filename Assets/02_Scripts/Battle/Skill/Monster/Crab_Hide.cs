@@ -7,7 +7,7 @@ public class Crab_Skill: MonsterSkill
         GameObject current = Managers.Battle.currentCharacter;
 
         // È¸º¹·®
-        Managers.Active.Heal(target,100);
+        Managers.Active.Heal(target,20);
 
         return true;
     }

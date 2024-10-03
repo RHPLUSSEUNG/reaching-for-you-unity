@@ -49,7 +49,7 @@ public class SoundManager:MonoBehaviour
                     }
                     break;
                 }
-            case SceneType.PM:
+            case SceneType.PM_ADVENTURE:
                 {
                     foreach (AudioClip bgm in Resources.LoadAll<AudioClip>("Sounds/BGM/Adventure"))
                     {
@@ -57,7 +57,7 @@ public class SoundManager:MonoBehaviour
                     }
                     break;
                 }
-            case SceneType.BATTLE:
+            case SceneType.PM_COMBAT:
                 {
                     foreach (AudioClip bgm in Resources.LoadAll<AudioClip>("Sounds/BGM/Battle"))
                     {

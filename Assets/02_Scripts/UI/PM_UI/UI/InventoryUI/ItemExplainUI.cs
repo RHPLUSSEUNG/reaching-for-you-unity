@@ -28,6 +28,9 @@ public class ItemExplainUI : UI_Popup
 
         GameObject closeBtn = GetObject((int)itemExplainUI.CloseButton);
         BindEvent(closeBtn, ClickCloseButton, Define.UIEvent.Click);
+
+        RectTransform panelRect = GetObject((int)itemExplainUI.ItemExplainPanel).GetComponent<RectTransform>();
+        StartCoroutine(AnimPopup(panelRect));
     }
 
     public void SetItemInfo()
@@ -36,7 +39,7 @@ public class ItemExplainUI : UI_Popup
         
         Image itemIcon = GetObject((int)itemExplainUI.ItemIcon).GetComponent<Image>();
         TextMeshProUGUI itemName = GetObject((int)itemExplainUI.ItemName).GetComponent<TextMeshProUGUI>();
-        itemIcon.sprite = Managers.InvenUI.test_sprite[Managers.InvenUI.focusItemID];
+        itemIcon.sprite = itemData.itemSprite;
         itemName.text = itemData.ItemName;
     }
 

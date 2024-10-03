@@ -9,9 +9,8 @@ public enum SceneType
 {
     TITLE,
     AM,
-    PM,
-    BATTLE,
-
+    PM_ADVENTURE,
+    PM_COMBAT,
 }
 
 public class LoadSceneManager : MonoBehaviour
@@ -38,21 +37,22 @@ public class LoadSceneManager : MonoBehaviour
         {
             case SceneType.TITLE:
                 {
-                    nextScene = "setting-key-bind";
+                    nextScene = "TITLE_PT_5";
                     break;
                 }
             case SceneType.AM:
                 {
-                    nextScene = "AM_PT_3";
+                    nextScene = "AM_PT_5";
                     break;
                 }
-            case SceneType.PM:
+            case SceneType.PM_ADVENTURE:
                 {
+                    nextScene = "Adventure_PT_5";
                     break;
                 }
-            case SceneType.BATTLE:
+            case SceneType.PM_COMBAT:
                 {
-                    nextScene = "BATTLE_PT_3";
+                    nextScene = "Battle_PT_5";
                     break;
                 }
             default:
@@ -61,7 +61,7 @@ public class LoadSceneManager : MonoBehaviour
                 }
         }
 
-        SceneManager.LoadScene("LOADING_PT_3");
+        SceneManager.LoadScene("LOADING_PT_5");
     }
 
     void NextSceneBGMPlay(SceneType sceneType)
@@ -78,12 +78,12 @@ public class LoadSceneManager : MonoBehaviour
                     SoundManager.Instance.PlayMusic("AM_School");
                     break;
                 }
-            case SceneType.PM:
+            case SceneType.PM_ADVENTURE:
                 {
                     //SoundManager.Instance.PlayMusic("Main_Theme");
                     break;
                 }
-            case SceneType.BATTLE:
+            case SceneType.PM_COMBAT:
                 {
                     SoundManager.Instance.PlayMusic("Stage1_Battle");
                     break;

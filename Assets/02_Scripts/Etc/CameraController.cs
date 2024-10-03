@@ -30,6 +30,8 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     bool isFollowMode;
 
+    bool isWaiting;
+
     CameraMode mode;
 
     private bool isSmoothMove = true;
@@ -47,6 +49,8 @@ public class CameraController : MonoBehaviour
 
     private void Awake()
     {
+        isWaiting =false;
+
         BasicOffset();
         if (cameraList != null)
         {
@@ -68,6 +72,10 @@ public class CameraController : MonoBehaviour
     }
     void FixedUpdate()
     {
+        if(isWaiting)
+        {
+            return;
+        }
 
        switch(mode)
         {
@@ -107,6 +115,10 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
+        if (isWaiting)
+        {
+            return;
+        }
         if (isFollowMode)
         {
             Vector3 direction = (targetTransform.position - transform.position).normalized;
@@ -133,7 +145,9 @@ public class CameraController : MonoBehaviour
         targetTransform = cameraTargets[targetIndex];
         isFollowMode = false;
         ChangePos(targetTransform);
-        Debug.Log("Changed CameraTarget To " + targetIndex);
+        //Debug.Log("Changed CameraTarget To " + targetIndex);
+
+        isWaiting = false;
     }
     public void ChangeFollowTarget(GameObject target, bool _isSmoothMove)
     {
@@ -142,7 +156,9 @@ public class CameraController : MonoBehaviour
         followTarget = target;
         targetTransform = followTarget.transform;
         isFollowMode = true;
-        Debug.Log("Changed FollowTarget To " + target);
+        //Debug.Log("Changed FollowTarget To " + target);
+
+        isWaiting = false;
     }
     public void ChangeCameraMode(CameraMode _mode, bool isOrthographic, bool _isSmoothMove)
     {
@@ -170,7 +186,7 @@ public class CameraController : MonoBehaviour
         gameObject.GetComponent<Camera>().orthographic = isOrthographic;
         isSmoothMove = _isSmoothMove;
         setPos = targetTransform.position;
-        Debug.Log("Changed Mode");
+        //Debug.Log("Changed Mode");
 
         transform.position = setPos;    //1회만 설정
     }
@@ -223,5 +239,9 @@ public class CameraController : MonoBehaviour
 
             transform.Translate(pos);
         }
+    }
+    public void WaitForNewTarget()
+    {
+        isWaiting = true;
     }
 }

@@ -11,6 +11,11 @@ public class ActiveManager
     public void SetCoverData(GameObject _cover)
     {
         Debug.Log(_cover);
+        if(_cover == null)
+        {
+            cover = null;
+            return;
+        }
         cover = _cover.transform.parent.GetComponent<Cover>();
     }
     #endregion
@@ -21,12 +26,18 @@ public class ActiveManager
             Managers.Battle.playerLive--;
         }
         else
-        {
+        { 
             Managers.Battle.monsterLive--;
         }
+        int dead_Index = Managers.Battle.ObjectList.IndexOf(character);         // 추가 : UI 생성
         Managers.Battle.ObjectList.Remove(character);
         character.SetActive(false);
-        Managers.Battle.Result();
+        Managers.BattleUI.turnUI.DestroyTurnUI(dead_Index);     // 추가 : UI 생성
+
+        #region 임시 결과 조건
+        if (Managers.Battle.monsterLive == 0 || Managers.Battle.playerLive == 0)
+            Managers.Battle.Result();
+        #endregion
     }
 
     public void Damage(GameObject target)
@@ -99,8 +110,16 @@ public class ActiveManager
         #endregion
         if (target.GetComponent<EnemyAI_Base>() != null)
         {
-            target.GetComponent<EntityStat>().Hp -= damage;
+            //target.GetComponent<EntityStat>().Hp -= damage;
             target.GetComponent<EnemyAI_Base>().OnHit(damage);
+
+            #region 임시 체크 코드 - 권희준
+            if (target.GetComponent<EntityStat>().Hp <= 0)
+            {
+                Dead(target);
+            }
+            #endregion
+
             return damage;
         }
         else if (target.GetComponent<PlayerBattle>() != null)

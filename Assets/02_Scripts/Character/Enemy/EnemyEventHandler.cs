@@ -11,4 +11,12 @@ public class EnemyEventHandler : MonoBehaviour
     {
         gameObject.GetComponentInParent<EnemyAI_Base>().AttackEvent();
     }
+    void SkillEventStart()
+    {
+        Managers.Skill.is_effect = true;
+    }
+    void SkillEventEnd()
+    {
+        Managers.Skill.is_effect = false;
+    }
 }

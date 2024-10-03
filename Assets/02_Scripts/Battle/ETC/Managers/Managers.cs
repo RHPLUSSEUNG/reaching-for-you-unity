@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Managers : MonoBehaviour
 {
@@ -52,13 +53,34 @@ public class Managers : MonoBehaviour
     #endregion
     public void Update()
     {
-        raycast.OnUpdate();
+        //[2024-09-30][LSH's Code]: [enter-adventure-map-ui]
+        if (LoadSceneManager.sceneType != SceneType.AM)
+        {
+            raycast.OnUpdate();
+        }          
     }
 
     public void OnEnable()
     {
         _data.OnAwake();
-        _skill.OnAwake();
-        _battle.BattleReady();
+        SceneManager.sceneLoaded += OnSceneLoad;
+    }
+
+    void OnSceneLoad(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log(scene.name);
+        Debug.Log(mode);
+        
+        switch (scene.name)
+        {
+            case "Battle_PT_5":
+                _skill.OnAwake();
+                _battle.BattleReady();
+                _raycast.OnStart();
+                break;
+            case "TITLE_PT_5":
+                _data.OnAwake();
+                break;
+        }
     }
 }

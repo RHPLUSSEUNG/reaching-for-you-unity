@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9092946702075226111}
-  m_Layer: 0
+  - component: {fileID: 4439265463153786184}
+  - component: {fileID: -3909726358138431777}
+  m_Layer: 10
   m_Name: SlowGimmick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,6 +34,42 @@ Transform:
   - {fileID: 3138821675243380799}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4439265463153786184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4325361710194012238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbea06fcd66ba1d40bad1e70e8adf674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gimmickForUI:
+    name: "\uC2AC\uB85C\uC6B0"
+    description: "\uB290\uB824\uC9C0\uB294 \uAE30\uBBF9"
+--- !u!65 &-3909726358138431777
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4325361710194012238}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5827793801201189639
 GameObject:
   m_ObjectHideFlags: 0

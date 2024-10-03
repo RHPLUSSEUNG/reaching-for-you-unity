@@ -4,21 +4,27 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Objective[Move]", menuName = "Quest / Objectives[Move]", order = 4)]
 public class ObjectiveMoveType : Objective
-{    
-    [SerializeField] string destinationName;
-    bool moveToComplete = false;
+{
+    [SerializeField] string npcName;
+    [SerializeField] bool talkToComplete = false;
 
-    public void ReceiveDestinationName(string _destinationName)
+    //[TODO:LSH] [Need Refactoring]
+    public void ReceiveNPCName(string _npcName)
     {
-        if (destinationName == _destinationName)
+        if (npcName == _npcName)
         {
-            moveToComplete = true;
+            talkToComplete = true;
         }
+    }
+
+    public string GetNPCName()
+    {
+        return npcName;
     }
 
     public override bool IsComplete()
     {
-        return moveToComplete;
+        return talkToComplete;
     }
 
     public override ObjectiveType GetObjectiveType()

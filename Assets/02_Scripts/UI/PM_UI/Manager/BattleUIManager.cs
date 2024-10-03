@@ -45,12 +45,11 @@ public class BattleUIManager
     {
         if(battleInfoUI == null)
         {
-            battleInfoUI = Managers.UI.CreatePopupUI<BattleInfoUI>("BattleInfoUI");
+            battleInfoUI = Managers.UI.CreatePopupUI<BattleInfoUI>("CharacterInfoUI");
         }
-        GameObject character = hit.transform.parent.gameObject;
-        battleInfoUI.SetInfo(character);
+        battleInfoUI.SetInfo(hit);
         Managers.UI.ShowUI(battleInfoUI.gameObject);
-        // UI ²ô´Â°Å ÇÊ¿ä
+        Managers.BattleUI.battleInfoUI.SetPosition();
     }
 
     public void SetPosition(GameObject pos)
@@ -67,8 +66,11 @@ public class BattleUIManager
             return;
         }
         player.transform.position = pos.transform.position + new Vector3(0f,0.8f,0);
-        Managers.Battle.ObjectList.Add(player);
-        Managers.Battle.playerLive++;
+        if (!Managers.Battle.ObjectList.Contains(player))
+        {
+            Managers.Battle.ObjectList.Add(player);
+            Managers.Battle.playerLive++;
+        }
         Managers.UI.uiState = UIState.Idle;
         Managers.UI.ShowUI(batchUI.playerSpawn);
         Managers.UI.ShowUI(batchUI.finishBtn);

@@ -11,6 +11,8 @@ public abstract class EnemyAI_Base : MonoBehaviour
     float speed = 10;
     [SerializeField]
     string targetTag = "Player";
+    [SerializeField]
+    WorldDetectUI detectUI;
 
     protected EnemyStat stat;
     protected GameObject targetObj;
@@ -18,7 +20,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
     protected SkillList skillList;
 
     List<Vector3> path;
-    Vector3 targetPos;
+    protected Vector3 targetPos;
     protected int targetIndex;
     protected int targetDistance;
 
@@ -32,7 +34,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
 
     protected GameObject cover;
 
-    public Dictionary<string, float> actDic;   // È®·ü Çàµ¿ µñ¼Å³Ê¸®
+    public Dictionary<string, float> actDic;   // í™•ë¥  í–‰ë™ ë”•ì…”ë„ˆë¦¬
 
     private void Start()
     {
@@ -42,19 +44,21 @@ public abstract class EnemyAI_Base : MonoBehaviour
         spriteController = GetComponent<SpriteController>();
         isTurnEnd = true;
         skillList = GetComponent<SkillList>();
-        //skillList.AddSkill(Managers.Skill.Instantiate(0)); °¢ ¸ó½ºÅÍ¸¶´Ù ÇØ´çÇÏ´Â ¹øÈ£ÀÇ ½ºÅ³ °¡Á®¿À±â
+        //skillList.AddSkill(Managers.Skill.Instantiate(0)); ê° ëª¬ìŠ¤í„°ë§ˆë‹¤ í•´ë‹¹í•˜ëŠ” ë²ˆí˜¸ì˜ ìŠ¤í‚¬ ê°€ì ¸ì˜¤ê¸°
     }
 
-    public abstract void ProceedTurn(); // ÅÏ ÁøÇà
-    public abstract void SpecialCheck();  // °íÀ¯ ±â¹Í Ã¼Å©
-    public abstract void OnTargetFoundSuccess();  // ´ë»ó ¹ß°ß ½Ã Çàµ¿
-    public abstract void OnTargetFoundFail(); // ´ë»ó ¹ß°ß ½ÇÆĞ ½Ã Çàµ¿
-    public abstract void OnPathFailed();    // °æ·Î¸¦ Ã£À» ¼ö ¾øÀ» ¶§
-    public abstract void OnHit(int damage);
-    public abstract void OnMoveEnd();   // ÀÌµ¿ÀÌ ³¡³µÀ» ¶§
-    public abstract void OnAttackSuccess(); //°ø°İ ¼º°ø ½Ã
-    public abstract void OnAttackFail();    // °ø°İ ½ÇÆĞ ½Ã
+    public abstract void ProceedTurn(); // í„´ ì§„í–‰
+    public abstract void OnTargetFoundSuccess();  // ëŒ€ìƒ ë°œê²¬ ì‹œ í–‰ë™
+    public abstract void OnTargetFoundFail(); // ëŒ€ìƒ ë°œê²¬ ì‹¤íŒ¨ ì‹œ í–‰ë™
+    public abstract void OnPathFailed();    // ê²½ë¡œë¥¼ ì°¾ì„ ìˆ˜ ì—†ì„ ë•Œ
+    public abstract void OnMoveEnd();   // ì´ë™ì´ ëë‚¬ì„ ë•Œ
+    public abstract void SpecialCheck();  // ê³ ìœ  ê¸°ë¯¹ ì²´í¬
+
+    public abstract void OnAttackSuccess(); //ê³µê²© ì„±ê³µ ì‹œ
+    public abstract void OnAttackFail();    // ê³µê²© ì‹¤íŒ¨ ì‹œ
     public abstract void BeforeTrunEnd();
+    public abstract void RadomTile();
+    public abstract void OnHit(int damage);
 
     public void OnTurnStart()
     {
@@ -67,12 +71,12 @@ public abstract class EnemyAI_Base : MonoBehaviour
     {
         if (!isTurnEnd)
         {
-            isTurnEnd = true;
             NextTurn();
         }
     }
     public void NextTurn()
     {
+        isTurnEnd = true;
         Managers.Battle.NextTurn();
     }
     public void Search(int radius)
@@ -88,11 +92,14 @@ public abstract class EnemyAI_Base : MonoBehaviour
             targetPos = newTargetPos;
             targetObj = newTargetObj;
             isTargetFound = true;
+            detectUI.ShowDetectImage();
             SetDirection();
             OnTargetFoundSuccess();
         }
         else
         {
+            isTargetFound = false;
+            detectUI.HideDetectImage();
             targetDistance = 999;
             Debug.Log("Search Failed");
             OnTargetFoundFail();
@@ -115,7 +122,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
         if (succsess)
         {
             path = newpath;
-            StartCoroutine(FollowPath());  // ÀÌµ¿ ½ÇÇà ÈÄ ³¡³¯ ¶§ ±îÁö ´ë±â
+            StartCoroutine(FollowPath());  // ì´ë™ ì‹¤í–‰ í›„ ëë‚  ë•Œ ê¹Œì§€ ëŒ€ê¸°
         }
         else
         {
@@ -132,10 +139,10 @@ public abstract class EnemyAI_Base : MonoBehaviour
         isAttacked = true;
         if (stat.ActPoint >= actPoint)
         {
-            Debug.Log("Attack");    // °ø°İ ½ÇÇà
+            Debug.Log("Attack");    // ê³µê²© ì‹¤í–‰
             stat.ActPoint -= actPoint;
             spriteController.SetAnimState(AnimState.Attack);
-            // ÅÒ Ãß°¡?
+            // í…€ ì¶”ê°€?
         }
         else
         {
@@ -147,20 +154,30 @@ public abstract class EnemyAI_Base : MonoBehaviour
 
     public void AttackEvent()
     {
-        if(cover != null)
-            Managers.Active.SetCoverData(cover);
-        Managers.Active.Damage(targetObj.transform.parent.gameObject, stat.BaseDamage); //targetObj ¹İÈ¯°ª = Äİ¶óÀÌ´õ¸¦ °¡Áö°í ÀÖ´Â ¿ÀºêÁ§Æ® > ÇÃ·¹ÀÌ¾î´Â ÇÏÀ§ ¿ÀºêÁ§Æ®¿¡ Äİ¶óÀÌ´õ Á¸Àç
+        Managers.Active.SetCoverData(cover);
+        Managers.Active.Damage(targetObj.transform.parent.gameObject, stat.BaseDamage); //targetObj ë°˜í™˜ê°’ = ì½œë¼ì´ë”ë¥¼ ê°€ì§€ê³  ìˆëŠ” ì˜¤ë¸Œì íŠ¸ > í”Œë ˆì´ì–´ëŠ” í•˜ìœ„ ì˜¤ë¸Œì íŠ¸ì— ì½œë¼ì´ë” ì¡´ì¬
         OnAttackSuccess();
     }
     public void GetRandomLoc(int radius)
     {
         PathFinder.RequestRandomLoc(transform.position, radius, OnRandomLoc);
-    }    
+    }
+    public void GetRandomLoc(int radius, bool randTile) //ì„ì‹œ íƒ€ì¼ íƒìƒ‰
+    {
+        PathFinder.RequestRandomLoc(transform.position, radius, OnRandomTile);
+    }
     public void OnRandomLoc(Vector3 newTargetPos)
     {
         targetPos = newTargetPos;
         isTargetFound = false;
         Move();
+    }
+    public void OnRandomTile(Vector3 newTargetPos)
+    {
+        Debug.Log(newTargetPos);
+        targetPos = newTargetPos;
+        isTargetFound = false;
+        RadomTile();
     }
     public void SetTargetTag(string tag)
     {
@@ -168,7 +185,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
     }
     public void SetDirection()
     {
-        if (transform.position.x > targetObj.transform.position.x)   //ÇöÀç À§Ä¡¿Í ÀÌµ¿ ´ë»ó x ÁÂÇ¥ ºñ±³ÇØ ½ºÇÁ¶óÀÌÆ® È¸Àü
+        if (transform.position.x > targetObj.transform.position.x)   //í˜„ì¬ ìœ„ì¹˜ì™€ ì´ë™ ëŒ€ìƒ x ì¢Œí‘œ ë¹„êµí•´ ìŠ¤í”„ë¼ì´íŠ¸ íšŒì „
         {
             spriteController.Flip(Direction.Left);
         }
@@ -184,15 +201,15 @@ public abstract class EnemyAI_Base : MonoBehaviour
     }
     void OffSkillRange()
     {
-        Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange(); //¹üÀ§ Ç¥½Ã Á¦°Å
+        Managers.BattleUI.actUI.GetComponent<SkillRangeUI>().ClearSkillRange(); //ë²”ìœ„ í‘œì‹œ ì œê±°
     }
     IEnumerator FollowPath()
     {
         targetIndex = 0;
-        if (path.Count == 0 || (path.Count <= stat.AttackRange && isTargetFound))   // ÀÌµ¿ÇÒ ÇÊ¿ä X
+        if (path.Count == 0 || (path.Count <= stat.AttackRange && isTargetFound))   // ì´ë™í•  í•„ìš” X
         {
             Debug.Log("Already At The Position");
-            stat.ActPoint -= 10 * (targetIndex + 1);    // ÀÌµ¿ ½Ã ¼Ò¸ğÇÒ Çàµ¿·Â
+            stat.ActPoint -= 10 * (targetIndex + 1);    // ì´ë™ ì‹œ ì†Œëª¨í•  í–‰ë™ë ¥
             isMoved = true;
             OnMoveEnd();
             yield break;
@@ -201,7 +218,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
 
         while (true)
         {
-            if (transform.position.x > currentWaypoint.x)   //ÇöÀç À§Ä¡¿Í ÀÌµ¿ ´ë»ó x ÁÂÇ¥ ºñ±³ÇØ ½ºÇÁ¶óÀÌÆ® È¸Àü
+            if (transform.position.x > currentWaypoint.x)   //í˜„ì¬ ìœ„ì¹˜ì™€ ì´ë™ ëŒ€ìƒ x ì¢Œí‘œ ë¹„êµí•´ ìŠ¤í”„ë¼ì´íŠ¸ íšŒì „
             {
                 spriteController.Flip(Direction.Left);
             }
@@ -210,16 +227,16 @@ public abstract class EnemyAI_Base : MonoBehaviour
                 spriteController.Flip(Direction.Right);
             }
 
-            Vector3 moveTarget = new Vector3(currentWaypoint.x, transform.position.y, currentWaypoint.z);   // yÁÂÇ¥ ¹èÁ¦
+            Vector3 moveTarget = new Vector3(currentWaypoint.x, transform.position.y, currentWaypoint.z);   // yì¢Œí‘œ ë°°ì œ
             transform.position = Vector3.MoveTowards(transform.position, moveTarget, speed * Time.deltaTime);
 
             if (transform.position == moveTarget)
             {
-                if (!isTargetFound)  // ´ë»ó Ä­±îÁö ÀÌµ¿ ½Ã
+                if (!isTargetFound)  // ëŒ€ìƒ ì¹¸ê¹Œì§€ ì´ë™ ì‹œ
                 {
                     if (targetIndex + 1 >= path.Count || targetIndex + 1 >= stat.MovePoint)
                     {
-                        stat.ActPoint -= 10 * (targetIndex + 1);    // ÀÌµ¿ ½Ã ¼Ò¸ğÇÒ Çàµ¿·Â
+                        stat.ActPoint -= 10 * (targetIndex + 1);    // ì´ë™ ì‹œ ì†Œëª¨í•  í–‰ë™ë ¥
                         isMoved = true;
                         OnMoveEnd();
                         yield break;
@@ -227,9 +244,9 @@ public abstract class EnemyAI_Base : MonoBehaviour
                 }
                 else
                 { 
-                    if (targetIndex + stat.AttackRange + 1 >= path.Count || targetIndex + 1 >= stat.MovePoint)  // »ç°Å¸® ´êÀ» ½Ã or ÀÌµ¿°Å¸® ÃÊ°ú ½Ã
+                    if (targetIndex + stat.AttackRange + 1 >= path.Count || targetIndex + 1 >= stat.MovePoint)  // ì‚¬ê±°ë¦¬ ë‹¿ì„ ì‹œ or ì´ë™ê±°ë¦¬ ì´ˆê³¼ ì‹œ
                     {
-                        stat.ActPoint -= 10 * (targetIndex + 1);    // ÀÌµ¿ ½Ã ¼Ò¸ğÇÒ Çàµ¿·Â
+                        stat.ActPoint -= 10 * (targetIndex + 1);    // ì´ë™ ì‹œ ì†Œëª¨í•  í–‰ë™ë ¥
                         isMoved = true;
                         OnMoveEnd();
                         yield break;
@@ -241,7 +258,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
             yield return null;
         }
     }
-    public string RandChoose(Dictionary<string, float> dic)  // Çàµ¿ ÀÌ¸§, È®·ü ÀÎÀÚ, È®·ü ÃÑÇÕ 1ÀÌ¿©¾ß ÇÔ
+    public string RandChoose(Dictionary<string, float> dic)  // í–‰ë™ ì´ë¦„, í™•ë¥  ì¸ì, í™•ë¥  ì´í•© 1ì´ì—¬ì•¼ í•¨
     {
         float randValue = Random.Range(0f, 1f);
         float sum = 0;
@@ -250,7 +267,7 @@ public abstract class EnemyAI_Base : MonoBehaviour
         {
             sum += kvp.Value;
         }
-        if (sum != 1)   // È®·ü ÃÑÇÕ °Ë»ç
+        if (sum != 1)   // í™•ë¥  ì´í•© ê²€ì‚¬
             return "Chane Sum is Not 1";
 
         sum = 0;

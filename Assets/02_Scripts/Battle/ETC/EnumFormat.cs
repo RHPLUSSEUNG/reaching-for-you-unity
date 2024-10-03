@@ -80,10 +80,12 @@ public enum AnimState
     Move,
     Attack,
     Hit,
+    State0,
     State1,
     State2,
     Trigger1,
     Trigger2,
+    Trigger3,
     Potion,
     Roll
 }

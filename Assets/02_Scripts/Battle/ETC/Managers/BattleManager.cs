@@ -20,18 +20,18 @@ public class BattleManager
 
     public CameraController cameraController;
 
-    private int compareDefense(GameObject character1,  GameObject character2)
+    private int compareDefense(GameObject character1, GameObject character2)
     {
         return character1.GetComponent<EntityStat>().Defense < character2.GetComponent<EntityStat>().Defense ? -1 : 1;
     }
 
     public bool Can_Continue()
     {
-        if (currentCharacter == null || currentCharacter.CompareTag("Monster"))
+        if (currentCharacter == null)
         {
             return true;
         }
-        else if(battleState == BattleState.Defeat && battleState == BattleState.Victory)
+        else if (battleState == BattleState.Defeat && battleState == BattleState.Victory)
         {
             Debug.Log("Battle is End");
             return false;
@@ -41,13 +41,15 @@ public class BattleManager
             Debug.Log("Wait for skill effect End");
             return false;
         }
-        else if (currentCharacter.GetComponent<PlayerBattle>().isMoving)
+        //else if (currentCharacter.GetComponent<PlayerBattle>().isMoving)
+        //{
+        //    Debug.Log("Wait for Character Moving");
+        //    return false;
+        //}
+        else
         {
-            Debug.Log("Wait for Character Moving");
-            return false;
-        }
-        
-        return true;
+            return true;
+        }   
     }
 
     public void BattleReady()
@@ -76,12 +78,14 @@ public class BattleManager
         battleState = BattleState.PlayerTurn;
         Managers.Skill.ReadyGameSkill();
         ObjectList.Sort(compareDefense);
+        Managers.BattleUI.turnUI.InstantiateAllTurnOrderUI();
+        Managers.BattleUI.turnUI.UpdateTurnUI(turnCnt);
         NextTurn();
     }
 
     public void CalcTurn()
     {
-        if(currentCharacter != null && currentCharacter.GetComponent<CharacterState>() != null)
+        if (currentCharacter != null && currentCharacter.GetComponent<CharacterState>() != null)
         {
             currentCharacter.GetComponent<CharacterState>().CalcTurn();
         }
@@ -90,8 +94,12 @@ public class BattleManager
         if (turnCnt >= ObjectList.Count)
         {
             phase++;
+            Managers.BattleUI.turnUI.ResetPastPanel();
             turnCnt %= ObjectList.Count;
-            
+            #region 수정 코드
+            turnCnt = 0;        // 위 코드로 가면 몬스터가 죽으면서 turnCnt가 0으로 가는게 아니라 1로 가는 경우 발생
+            #endregion
+
 
             for (int i = 0; i < InstantAfterPhaseList.Count; i++)
             {
@@ -100,6 +108,7 @@ public class BattleManager
             InstantAfterPhaseList.Clear();
 
             ObjectList.Sort(compareDefense);
+            Managers.BattleUI.turnUI.UpdateTurnUI(turnCnt);
         }
 
     }
@@ -114,6 +123,7 @@ public class BattleManager
         isPlayerTurn = true;
         currentCharacter.GetComponent<PlayerBattle>().OnTurnStart();
         Managers.BattleUI.actUI.UpdateCharacterInfo();
+        Managers.BattleUI.turnUI.HideTurnOrderUI();
     }
     public void EnemyTurn()
     {
@@ -149,15 +159,15 @@ public class BattleManager
 
         SceneChanger.Instance.ChangeScene(SceneType.AM);
     }
+
     public IEnumerator NextTurnCoroutine()
     {
+        yield return new WaitForSeconds(0.5f);
         //wait for animation end
-        while(!Can_Continue())
+        while (!Can_Continue())
         {
-            yield return null;
+            yield return null; //돌아오는 장소
         }
-        yield return new WaitForSeconds(1.5f);
-
         //calculate turn
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
@@ -166,7 +176,11 @@ public class BattleManager
         //camera setting
         cameraController.ChangeFollowTarget(currentCharacter, true);
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
-        cameraController.ChangeOffSet(-3, 1, -3, 20, 45);
+        cameraController.ChangeOffSet(-3, 1.5f, -3, 20, 45);
+        if(!Managers.BattleUI.turnUI.GetState())
+        {            
+            Managers.BattleUI.turnUI.ShowTurnOrderUI();
+        }
 
         //Calculate Area Remain Turn
         if (Areas.Count != 0)
@@ -177,11 +191,11 @@ public class BattleManager
                 Debug.Log(area.name);
             }
         }
-
+        
         //Stun cant active turn
         if (currentCharacter.GetComponent<CharacterState>().IsStun())
         {
-            NextTurn();  
+            NextTurn();
             yield break;
         }
 
@@ -198,6 +212,14 @@ public class BattleManager
         {
             Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Enemy Turn!"));
         }
+        Managers.BattleUI.turnUI.ProceedTurnUI(turnCnt);
         yield break;
     }
+
+    #region Camera
+    public void CameraAllocate(GameObject target)
+    {
+        cameraController.ChangeFollowTarget(target, true);
+    }
+    #endregion
 }

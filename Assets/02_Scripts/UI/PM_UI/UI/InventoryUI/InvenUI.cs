@@ -52,9 +52,11 @@ public class InvenUI : UI_Base
         armorRect = GetObject((int)invenUI.ArmorTab).GetComponent<RectTransform>();
         consumeRect = GetObject((int)invenUI.ConsumeTab).GetComponent<RectTransform>();
 
+        Managers.InvenUI.player = GameObject.FindGameObjectWithTag("Player");        
         Managers.InvenUI.invenUI = gameObject;
-        Managers.InvenUI.inven_state = false;
-        Managers.UI.HideUI(gameObject);
+        // Managers.InvenUI.inven_state = false;
+
+        Managers.InvenUI.SetInventory();
     }
 
     public void HeadEquipButtonClick(PointerEventData data)
@@ -200,6 +202,11 @@ public class InvenUI : UI_Base
         consumeTabSize.x = activeTabXSize;
         consumeTabSize.y = activeTabYSize;
         consumeRect.sizeDelta = consumeTabSize;
+    }
+
+    private void OnEnable()
+    {
+        MoveWeaponTab();
     }
 
     public void ConsumeEquipedUI(int index, int itemID)

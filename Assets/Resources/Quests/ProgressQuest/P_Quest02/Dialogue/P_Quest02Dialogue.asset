@@ -1,0 +1,272 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4847799215396783840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 1828393b-5aeb-4053-b249-640b2dda5152
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uB098\uC911\uC5D0 \uB610 \uBD10."
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1528.8
+    y: 4.799988
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and: []
+--- !u!114 &-3107149846470379854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: cb0e485c-b921-480c-a110-1a67fadf1b0d
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: "\uB098\uC911\uC5D0 \uB610 \uBD10."
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 252.80002
+    y: 138.4
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and:
+    - or:
+      - predicate: 1
+        parameters:
+        - "\uD0D0\uD5D8\uC5D0\uB300\uD558\uC5EC"
+        negate: 0
+--- !u!114 &-1565321727682259182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 0c0c6461-ad08-487c-b82a-1a6fb67b5bfb
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uC548\uB155!"
+  children:
+  - 45548406-9557-4b18-a5c1-fe4b5095c6c9
+  - cb0e485c-b921-480c-a110-1a67fadf1b0d
+  rect:
+    serializedVersion: 2
+    x: 0
+    y: -0.80000305
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f00cc4d1c5b96842abc1f50692b7245, type: 3}
+  m_Name: P_Quest02Dialogue
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: -1565321727682259182}
+  - {fileID: 6365985772974680168}
+  - {fileID: 3541638176622058842}
+  - {fileID: 1534700066846176785}
+  - {fileID: 6436258938156818975}
+  - {fileID: 1206539830469840157}
+  - {fileID: 9121261660208299115}
+  - {fileID: -4847799215396783840}
+  - {fileID: -3107149846470379854}
+--- !u!114 &1206539830469840157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: f50a4398-d5d8-4969-868f-bf955ed8d223
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uC88B\uC544. \uCE74\uBC00\uC5D0\uAC8C \uAC00\uC11C \uB9D0\uC744 \uAC78\uC5B4\uBD10."
+  children:
+  - 19970491-ecfb-46c5-b601-829326733b67
+  rect:
+    serializedVersion: 2
+    x: 999.2
+    y: -1.6000061
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and: []
+--- !u!114 &1534700066846176785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: a631a9b1-64d9-40cb-93e9-471f59ca18be
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: "\uD0D0\uD5D8 \uC88B\uC9C0"
+  children:
+  - f50a4398-d5d8-4969-868f-bf955ed8d223
+  rect:
+    serializedVersion: 2
+    x: 778.4
+    y: -4.800003
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and: []
+--- !u!114 &3541638176622058842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 08dccf16-43fa-480b-9d52-632792849145
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uD639\uC2DC \uD0D0\uD5D8\uC5D0 \uB300\uD574 \uAD00\uC2EC \uC5C6\uC5B4?"
+  children:
+  - a631a9b1-64d9-40cb-93e9-471f59ca18be
+  - f34576a6-c540-4ebf-b117-ff78813aa61f
+  rect:
+    serializedVersion: 2
+    x: 496.00006
+    y: -0.000015258789
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and:
+    - or:
+      - predicate: 1
+        parameters:
+        - "\uD0D0\uD5D8\uC5D0\uB300\uD558\uC5EC"
+        negate: 1
+--- !u!114 &6365985772974680168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 45548406-9557-4b18-a5c1-fe4b5095c6c9
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: "\uC548\uB155 \uC88B\uC740 \uD558\uB8E8\uC57C"
+  children:
+  - 08dccf16-43fa-480b-9d52-632792849145
+  rect:
+    serializedVersion: 2
+    x: 252.79999
+    y: -1.6000137
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and:
+    - or:
+      - predicate: 1
+        parameters:
+        - "\uD0D0\uD5D8\uC5D0\uB300\uD558\uC5EC"
+        negate: 1
+--- !u!114 &6436258938156818975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: f34576a6-c540-4ebf-b117-ff78813aa61f
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: "\uC5C6\uC5B4."
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 766.4
+    y: 149.59999
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and: []
+--- !u!114 &9121261660208299115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 19970491-ecfb-46c5-b601-829326733b67
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: "\uC88B\uC544."
+  children:
+  - 1828393b-5aeb-4053-b249-640b2dda5152
+  rect:
+    serializedVersion: 2
+    x: 1264
+    y: -0.80000305
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 1
+  condition:
+    and: []

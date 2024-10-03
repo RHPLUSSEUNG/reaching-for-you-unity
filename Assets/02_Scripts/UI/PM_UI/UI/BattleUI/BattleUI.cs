@@ -57,14 +57,20 @@ public class BattleUI : UI_Scene
         {
             cameraController.ChangeCameraMode(CameraMode.Move, true, true);
             Managers.BattleUI.cameraMode = CameraMode.Move;
-            Managers.UI.HideUI(Managers.BattleUI.actUI.gameObject);
+            if(Managers.Battle.isPlayerTurn)
+            {
+                Managers.UI.HideUI(Managers.BattleUI.actUI.gameObject);
+            }
         }
         else if(Managers.BattleUI.cameraMode == CameraMode.Move)
         {
-            cameraController.ChangeOffSet(-2,2,-3,30,45);   // 캐릭터 행동 UI offset
+            cameraController.ChangeOffSet(-2,1.5f,-3,30,45);   // 캐릭터 행동 UI offset
             cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
             Managers.BattleUI.cameraMode = CameraMode.Follow;
-            Managers.UI.ShowUI(Managers.BattleUI.actUI.gameObject);
+            if(Managers.Battle.isPlayerTurn)
+            {
+                Managers.UI.ShowUI(Managers.BattleUI.actUI.gameObject);
+            }
         }
     }
 }
