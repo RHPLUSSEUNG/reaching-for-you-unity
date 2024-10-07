@@ -41,15 +41,33 @@ public class BattleUIManager
         return item.GetComponent<Consume>();
     }
 
-    public void ShowCharacterInfo(GameObject hit)
+    public void ShowBattleInfo(GameObject obj)
     {
-        if(battleInfoUI == null)
+        if(obj == null)
         {
-            battleInfoUI = Managers.UI.CreatePopupUI<BattleInfoUI>("CharacterInfoUI");
+            Debug.Log("Obj Null");
+            return;
         }
-        battleInfoUI.SetInfo(hit);
+
+        int objLayer = obj.layer;
+
+        if (objLayer == LayerMask.NameToLayer("Enemy") || objLayer == LayerMask.NameToLayer("Friendly"))
+        {
+            battleInfoUI = Managers.UI.CreatePopupUI<CharacterInfoUI>("CharacterInfoUI");
+        }
+        else if (objLayer == LayerMask.NameToLayer("Gimmick"))
+        {
+            battleInfoUI = Managers.UI.CreatePopupUI<MapInfoUI>("MapInfoUI");
+        }
+        else
+        {
+            Debug.Log("No Target");
+            return;
+        }
+
+        battleInfoUI.SetInfo(obj);
         Managers.UI.ShowUI(battleInfoUI.gameObject);
-        Managers.BattleUI.battleInfoUI.SetPosition();
+        battleInfoUI.SetPosition();
     }
 
     public void SetPosition(GameObject pos)
