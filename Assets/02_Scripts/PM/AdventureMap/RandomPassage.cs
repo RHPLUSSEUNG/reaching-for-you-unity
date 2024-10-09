@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 public class RandomPassage : MonoBehaviour
@@ -12,7 +13,7 @@ public class RandomPassage : MonoBehaviour
     int DoorCount = 0;
 
     List<Transform> passageChildren = new List<Transform>();
-    public static List<BoxCollider> gimmickTrigger = new List<BoxCollider>();
+    [SerializeField] List<BoxCollider> gimmickTrigger = new List<BoxCollider>();
     List<GameObject> wallChildren = new List<GameObject>();
 
     public void Init()
@@ -54,6 +55,12 @@ public class RandomPassage : MonoBehaviour
             if(AdventureManager.StageNumber > 0 && AdventureManager.isGimmickRoom)
             {
                 StartCoroutine(CloseDoor());
+
+                WaterGimmickInAdventure[] gimmicks = FindObjectsOfType<WaterGimmickInAdventure>();
+                foreach(var g in gimmicks)
+                {
+                    g.clearGimmickDelegate += ClearGimmick;
+                }
             }
                 
             else
@@ -83,6 +90,17 @@ public class RandomPassage : MonoBehaviour
             gimmickTrigger[i].gameObject.tag = "Untagged";
             gimmickTrigger[i].isTrigger = false;
         }
+    }
+
+    public void ClearGimmick()
+    {
+        for (int i = 0; i < gimmickTrigger.Count; i++)
+        {
+            gimmickTrigger[i].gameObject.tag = "Teleport";
+            gimmickTrigger[i].isTrigger = true;
+        }
+        
+        AdventureManager.isGimmickRoom = false;
     }
 
     public void DeletePassage() 

@@ -8,6 +8,9 @@ public class WaterGimmickInAdventure : MonoBehaviour
     bool isActive;
     Button button;
 
+    public delegate void ClearGimmickDelegate();
+    public ClearGimmickDelegate clearGimmickDelegate;
+
     void Start()
     {
         button = GetComponentInChildren<Button>();
@@ -27,23 +30,12 @@ public class WaterGimmickInAdventure : MonoBehaviour
             AdventureManager.GimmickCount--;
             if(AdventureManager.GimmickCount <= 0) 
             {
-                ClearGimmick();
+                clearGimmickDelegate();
                 Debug.Log("모든 기믹 해제!");
             }
             
             gameObject.GetComponent<CapsuleCollider>().enabled = false;
         }
-    }
-    
-    public void ClearGimmick()
-    {
-        for (int i = 0; i < RandomPassage.gimmickTrigger.Count; i++)
-        {
-            RandomPassage.gimmickTrigger[i].gameObject.tag = "Teleport";
-            RandomPassage.gimmickTrigger[i].isTrigger = true;
-        }
-        
-        AdventureManager.isGimmickRoom = false;
     }
 
     private void OnTriggerEnter(Collider collider)
