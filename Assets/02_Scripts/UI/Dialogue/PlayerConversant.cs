@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerConversant : MonoBehaviour
 {
     [SerializeField] string playerName;
+    [SerializeField] Friend playerCharacterData;
 
     Dialogue currentDialogue;
     DialogueNode currentNode = null;
@@ -163,6 +164,25 @@ public class PlayerConversant : MonoBehaviour
         {
             trigger.Trigger(action);
         }
+    }
+
+    public Sprite GetPlayerExpression(int index)
+    {
+        return playerCharacterData.GetExpression(index);
+    }
+
+    public DialogueNode GetCurrentNode()
+    {
+        return currentNode;
+    }
+
+    public Sprite GetNPCExpression(int index)
+    {
+        if (currentConversant != null)
+        {
+            return currentConversant.GetNPCExpression(index);
+        }
+        return null;
     }
 
     private void OnTriggerEnter(Collider other)

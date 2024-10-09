@@ -10,6 +10,7 @@ public class Friend : MonoBehaviour
     [SerializeField] Sprite friendPortrait;
     [SerializeField] int friendship = 0;
     [SerializeField] GameObject friendshipEffect;
+    [SerializeField] List<Sprite> expressions = new List<Sprite>();
 
     void Start()
     {
@@ -64,5 +65,14 @@ public class Friend : MonoBehaviour
     void ActiveFriendshipEffect()
     {
         friendshipEffect.SetActive(true);
+    }
+
+    public Sprite GetExpression(int index)
+    {
+        if (index >= 0 && index < expressions.Count)
+        {
+            return expressions[index];
+        }
+        return null;
     }
 }

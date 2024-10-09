@@ -16,6 +16,7 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI conversantName;
     [SerializeField] TextMeshProUGUI nextText;
     [SerializeField] TextMeshProUGUI quitText;
+    [SerializeField] Image characterPortrait;
 
     float typingSpeed = 0.02f;    
     //bool isSkip = false;
@@ -29,27 +30,41 @@ public class DialogueUI : MonoBehaviour
         //nextButton.gameObject.SetActive(false);
         //quitButton.gameObject.SetActive(false);
         nextText.gameObject.SetActive(false);
-        quitText.gameObject.SetActive(false);        
+        quitText.gameObject.SetActive(false);
+        characterPortrait.gameObject.SetActive(false);
         UpdateUI();
     }    
     
     void UpdateUI()
     {        
-        gameObject.SetActive(playerConversant.IsActive());
-
-        if(!playerConversant.IsActive())
+        gameObject.SetActive(playerConversant.IsActive());      
+        
+        if (!playerConversant.IsActive())
         {
             return;
         }
-        //nextButton.gameObject.SetActive(false);
-        //quitButton.gameObject.SetActive(false);
+        
         conversantName.text = playerConversant.GetCurrentConversantName();
         NPCResponse.SetActive(!playerConversant.IsChoosing());
-        choiceRoot.gameObject.SetActive(playerConversant.IsChoosing());
+        choiceRoot.gameObject.SetActive(playerConversant.IsChoosing());        
         nextText.gameObject.SetActive(false);
-        quitText.gameObject.SetActive(false);        
+        quitText.gameObject.SetActive(false);
+        characterPortrait.gameObject.SetActive(true);
 
-        if(playerConversant.IsChoosing())
+        DialogueNode currentNode = playerConversant.GetCurrentNode();
+        if (currentNode != null)
+        {
+            if (playerConversant.IsChoosing())
+            {                
+                characterPortrait.sprite = playerConversant.GetPlayerExpression((int)currentNode.GetCharacterExpression());
+            }
+            else
+            {                
+                characterPortrait.sprite = playerConversant.GetNPCExpression((int)currentNode.GetCharacterExpression());
+            }
+        }
+
+        if (playerConversant.IsChoosing())
         {
             BuildChoiceList();
         }        
@@ -134,6 +149,7 @@ public class DialogueUI : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
+                characterPortrait.gameObject.SetActive(false);
                 playerConversant.Quit();
                 yield break;
             }
