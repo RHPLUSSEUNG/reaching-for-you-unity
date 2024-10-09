@@ -9,6 +9,7 @@ public class NPCConversant : MonoBehaviour
     [SerializeField] Dialogue dialogue = null;
     [SerializeField] Button actionButton;
     //[SerializeField] Dialogue endDialgoue = null;
+    [SerializeField] Friend npcCharacterData;
 
     PlayerConversant playerConversant;
     bool isDialogueAction = false;
@@ -73,5 +74,10 @@ public class NPCConversant : MonoBehaviour
     public Button GetActionButton()
     {
         return actionButton;
+    }
+
+    public Sprite GetNPCExpression(int index)
+    {
+        return npcCharacterData.GetExpression(index);
     }
 }

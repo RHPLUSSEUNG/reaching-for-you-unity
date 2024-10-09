@@ -5,6 +5,14 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
+public enum Expression
+{
+    DEFAULT,
+    ANGRY,
+    SAD,
+    SURPRISED,
+    HAPPY
+}
 public class DialogueNode : ScriptableObject
 {
     [SerializeField] bool isPlayerSpeaking = false;    
@@ -14,6 +22,7 @@ public class DialogueNode : ScriptableObject
     [SerializeField] TriggerActionList onEnterAction;
     [SerializeField] TriggerActionList onExitAction;
     [SerializeField] Condition condition;
+    [SerializeField] Expression characterExpression = Expression.DEFAULT;
 
     public Rect GetRect()
     {
@@ -48,6 +57,11 @@ public class DialogueNode : ScriptableObject
     public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators)
     {
         return condition.Check(evaluators);
+    }
+
+    public Expression GetCharacterExpression()
+    {
+        return characterExpression;
     }
 
 #if UNITY_EDITOR
@@ -89,6 +103,12 @@ public class DialogueNode : ScriptableObject
         EditorUtility.SetDirty(this);
     }
 
+    public void SetCharacterExpression(Expression newExpression)
+    {
+        Undo.RecordObject(this, "Update Character Expresion");
+        characterExpression = newExpression;
+        EditorUtility.SetDirty(this);
+    }
 #endif
 
 }

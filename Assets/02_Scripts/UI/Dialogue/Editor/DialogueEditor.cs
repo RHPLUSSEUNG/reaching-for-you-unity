@@ -189,6 +189,8 @@ public class DialogueEditor : EditorWindow
 
         GUILayout.EndHorizontal();
 
+        node.SetCharacterExpression((Expression)EditorGUILayout.EnumPopup(node.GetCharacterExpression()));
+
         GUILayout.EndArea();
     }
 
