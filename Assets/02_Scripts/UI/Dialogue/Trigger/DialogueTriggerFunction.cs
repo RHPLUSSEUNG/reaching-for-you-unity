@@ -16,15 +16,21 @@ public class DialogueTriggerFunction : MonoBehaviour
     [SerializeField] NPCType type;
     [SerializeField]int friendShipLevel = 0;
     AMCharacterData characterData;
-    public void JoinToFriend()
+    FloatingIconHandler floatingIconHandler;
+    private void Start()
     {
         characterData = GetComponent<CharcterDataHandler>().GetCharacterData();
+        floatingIconHandler = GetComponent<FloatingIconHandler>();
+    }
+
+    public void JoinToFriend()
+    {        
         FriendshipManager.Instance.JoinToFriends(characterData);
     }
 
     public void ChangeFriendship(int level)
     {        
-        FriendshipManager.Instance.FriendshipHandler(characterData, level);
+        FriendshipManager.Instance.FriendshipHandler(floatingIconHandler, characterData, level);
         Debug.Log("Rise Friendship Level " + level);
     }    
 
@@ -41,6 +47,6 @@ public class DialogueTriggerFunction : MonoBehaviour
     public void RequestItem()
     {
         GiftUI.Instance.ShowGiftPanel();
-        GiftUI.Instance.ReportTargetNPC(characterData);
+        GiftUI.Instance.ReportTargetNPC(floatingIconHandler, characterData);
     }
 }

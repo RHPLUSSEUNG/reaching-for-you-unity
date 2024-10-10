@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class FloatingIconHandler : MonoBehaviour
-{    
+{
+    [Header("Exclamation Mark")]
     [SerializeField] Image exclamationMark;
     NPCConversant npcConversant;
     QuestHandler questHandler;
@@ -18,6 +19,10 @@ public class FloatingIconHandler : MonoBehaviour
     float rotateSpeed = 5.0f;
     float elapsedTime = 0f;
 
+    [Header("Friendship Heart Image")]
+    [SerializeField] GameObject friendshipHeartEffect;
+    [SerializeField] RectTransform friendshipEffectPivot;    
+
     private void Start()
     {
         npcConversant = GetComponent<NPCConversant>();
@@ -29,7 +34,9 @@ public class FloatingIconHandler : MonoBehaviour
         actionButtonRectTransform = actionButton.GetComponent<RectTransform>();
         actionButtonOriginalPosition = actionButtonRectTransform.localPosition;
 
-        mainCamera = Camera.main;
+        mainCamera = Camera.main;        
+
+        friendshipHeartEffect.SetActive(false);        
     }
 
     private void Update()
@@ -71,5 +78,11 @@ public class FloatingIconHandler : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void ActiveFriendshipEffect()
+    {
+        GameObject friendshipEffect = Instantiate(friendshipHeartEffect, friendshipEffectPivot);
+        friendshipEffect.SetActive(true);
     }
 }

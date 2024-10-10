@@ -12,7 +12,7 @@ public class GiftUI : MonoBehaviour
     [SerializeField] Transform alertPanel;
     bool isGiftActive = false;
 
-    public event Action onGiftPanelUpdated;
+    public event Action OnGiftPanelUpdated;
 
     private void Awake()
     {
@@ -34,14 +34,14 @@ public class GiftUI : MonoBehaviour
 
     public void ShowGiftPanel()
     {
-        onGiftPanelUpdated?.Invoke();
+        OnGiftPanelUpdated?.Invoke();
         SetGiftActive(true);
         giftPanel.gameObject.SetActive(true);        
     }
 
-    public void ReportTargetNPC(AMCharacterData friendNPC)
+    public void ReportTargetNPC(FloatingIconHandler floatingIcon, AMCharacterData friendNPC)
     {
-        giftListUI.SetNPC(friendNPC);
+        giftListUI.SetNPC(floatingIcon, friendNPC);
     }
 
     public void HideGiftPanel()

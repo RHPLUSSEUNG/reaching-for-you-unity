@@ -11,6 +11,8 @@ public class GiftAlertUI : MonoBehaviour
     [SerializeField] Button refuseButton;
     [SerializeField] Button exitButton;
     AMCharacterData friend;
+    FloatingIconHandler floatingIconHandler;
+
     int itemID;
     int friendshipLevel = 1;
 
@@ -21,8 +23,9 @@ public class GiftAlertUI : MonoBehaviour
         exitButton.onClick.AddListener(SetRefuseButtonAction);
     }
 
-    public void SetUp(int _itemID, AMCharacterData friendNPC, string itemName)
+    public void SetUp(FloatingIconHandler _floatingIconHandler, int _itemID, AMCharacterData friendNPC, string itemName)
     {
+        floatingIconHandler = _floatingIconHandler; 
         friend = friendNPC;
         itemID = _itemID;
         descriptionText.text = $"{friend.GetCharacterName()} 에게 {itemName} 주기";
@@ -31,7 +34,7 @@ public class GiftAlertUI : MonoBehaviour
     public void SetAcceptButtonAction()
     {
         Managers.Item.RemoveItem(itemID, 1);
-        FriendshipManager.Instance.FriendshipHandler(friend, friendshipLevel);
+        FriendshipManager.Instance.FriendshipHandler(floatingIconHandler, friend, friendshipLevel);
         GiftUI.Instance.HideGiftPanel();        
         this.transform.gameObject.SetActive(false);
     }

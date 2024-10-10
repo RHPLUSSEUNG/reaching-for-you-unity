@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Friend", menuName = "Character/Friend")]
+[System.Serializable]
 public class AMFriendData : AMCharacterData
 {
-    [SerializeField] int friendship = 0;
-    [SerializeField] GameObject friendshipEffect;
-
-    void Start()
-    {
-        friendshipEffect.SetActive(false);
-    }
+    [SerializeField] int friendship = 0;        
 
     public void RiseFriendshipLevel(int level)
     {
@@ -21,8 +16,7 @@ public class AMFriendData : AMCharacterData
         }
         else
         {
-            friendship += level;
-            ActiveFriendshipEffect();
+            friendship += level;            
         }
     }
 
@@ -42,9 +36,5 @@ public class AMFriendData : AMCharacterData
     {
         return friendship;
     }
-
-    void ActiveFriendshipEffect()
-    {
-        friendshipEffect.SetActive(true);
-    }
+    
 }

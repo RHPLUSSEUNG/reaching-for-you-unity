@@ -177,6 +177,16 @@ public class PlayerConversant : MonoBehaviour
         return currentNode;
     }
 
+    public DialogueNode GetNextNode()
+    {
+        DialogueNode[] children = FilterOnCondition(currentDialogue.GetPlayerChildren(currentNode)).ToArray();
+        if (children.Length > 0)
+        {
+            return children[0];
+        }
+        return null;
+    }
+
     public Sprite GetNPCExpression(int index)
     {
         if (currentConversant != null)

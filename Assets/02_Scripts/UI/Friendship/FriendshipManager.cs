@@ -10,6 +10,7 @@ public class FriendshipManager : MonoBehaviour
     List<AMCharacterData> friends = new List<AMCharacterData>();
 
     public event Action onUpdate;
+    public event Action<AMCharacterData> OnFriendshipLevelChanged;
 
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class FriendshipManager : MonoBehaviour
         }        
     }
 
-    public void FriendshipHandler(AMCharacterData _friend, int level)
+    public void FriendshipHandler(FloatingIconHandler targetNPCEffect,AMCharacterData _friend, int level)
     {
         AMFriendData friend = _friend as AMFriendData;
         if (friends.Contains(_friend))
@@ -40,12 +41,14 @@ public class FriendshipManager : MonoBehaviour
             if (level > 0)
             {
                 friend.RiseFriendshipLevel(level);
+                targetNPCEffect.ActiveFriendshipEffect();
             }
             else
             {
                 friend.FallFriendshipLevel(level);
             }
             onUpdate?.Invoke();
+
         }
         else
         {

@@ -9,11 +9,12 @@ public class GiftListUI : MonoBehaviour
     [SerializeField] Transform giftContent;
     [SerializeField] GiftItemUI giftItemPrefab;
     [SerializeField] Transform alertPanel;
-    AMCharacterData currentNpc;    
+    AMCharacterData currentNpc;
+    FloatingIconHandler currentFloatingIcon;
 
     private void Start()
     {        
-        GiftUI.Instance.onGiftPanelUpdated += ReDraw;
+        GiftUI.Instance.OnGiftPanelUpdated += ReDraw;
         ReDraw();
         alertPanel.gameObject.SetActive(false);
     }
@@ -60,15 +61,16 @@ public class GiftListUI : MonoBehaviour
         }
     }
 
-    public void SetNPC(AMCharacterData friendNPC)
+    public void SetNPC(FloatingIconHandler floatingIcon, AMCharacterData friendNPC)
     {
+        currentFloatingIcon = floatingIcon;
         currentNpc = friendNPC;
     }
 
     void ShowAlertPanel(ItemData itemData)
     {        
         alertPanel.gameObject.SetActive(true);
-        alertPanel.GetComponent<GiftAlertUI>().SetUp(itemData.ItemID, currentNpc, itemData.ItemName);
+        alertPanel.GetComponent<GiftAlertUI>().SetUp(currentFloatingIcon, itemData.ItemID, currentNpc, itemData.ItemName);
     }
 }
 
