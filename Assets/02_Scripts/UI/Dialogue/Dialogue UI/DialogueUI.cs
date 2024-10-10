@@ -52,19 +52,28 @@ public class DialogueUI : MonoBehaviour
         quitText.gameObject.SetActive(false);
         characterPortrait.gameObject.SetActive(true);
 
-        DialogueNode currentNode = playerConversant.GetCurrentNode();
+        DialogueNode currentNode = playerConversant.GetCurrentNode();        
+        DialogueNode nextNode = playerConversant.GetNextNode();
+
         if (currentNode != null)
         {
             if (playerConversant.IsChoosing())
             {                
-                characterPortrait.sprite = playerConversant.GetPlayerExpression((int)currentNode.GetCharacterExpression());
+                if (nextNode != null)
+                {
+                    characterPortrait.sprite = playerConversant.GetPlayerExpression((int)nextNode.GetCharacterExpression());
+                }
+                else
+                {                    
+                    characterPortrait.sprite = playerConversant.GetPlayerExpression((int)Expression.DEFAULT);
+                }
             }
             else
-            {                
+            {
                 characterPortrait.sprite = playerConversant.GetNPCExpression((int)currentNode.GetCharacterExpression());
             }
         }
-        
+
         if (playerConversant.IsChoosing())
         {
             BuildChoiceList();
