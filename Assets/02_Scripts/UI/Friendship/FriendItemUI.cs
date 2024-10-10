@@ -10,14 +10,14 @@ public class FriendItemUI : MonoBehaviour
     [SerializeField] Image friendPortrait;
     [SerializeField] Sprite filledHeartSprite;
     [SerializeField] Sprite emptyHeartSprite;
-    [SerializeField] List<Image> friendship;    
-    Friend friend;
+    [SerializeField] List<Image> friendship;
+    AMFriendData friend;
 
-    public void Setup(Friend _friend)
+    public void Setup(AMCharacterData _friend)
     {
-        friend = _friend;
-        friendName.text = friend.GetFriendName();
-        friendPortrait.sprite = friend.GetFriendPortrait();
+        friend = _friend as AMFriendData;        
+        friendName.text = friend.GetCharacterName();
+        friendPortrait.sprite = friend.GetCharacterPortrait();
 
         for (int i = 0; i < friendship.Count; i++)
         {

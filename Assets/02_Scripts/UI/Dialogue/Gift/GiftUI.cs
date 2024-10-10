@@ -39,7 +39,7 @@ public class GiftUI : MonoBehaviour
         giftPanel.gameObject.SetActive(true);        
     }
 
-    public void ReportTargetNPC(Friend friendNPC)
+    public void ReportTargetNPC(AMCharacterData friendNPC)
     {
         giftListUI.SetNPC(friendNPC);
     }

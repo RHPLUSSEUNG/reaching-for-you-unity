@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Friend : MonoBehaviour
+public class Friendasd : MonoBehaviour
 {
     [SerializeField] string friendName;
     [SerializeField] int friendID;

@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerConversant : MonoBehaviour
 {
     [SerializeField] string playerName;
-    [SerializeField] Friend playerCharacterData;
+    AMCharacterData playerCharacterData;
 
     Dialogue currentDialogue;
     DialogueNode currentNode = null;
@@ -20,8 +20,9 @@ public class PlayerConversant : MonoBehaviour
     private void Awake()
     {        
         playerController = GetComponentInParent<PlayerController>();
-    }
-      
+        playerCharacterData = GetComponent<CharcterDataHandler>().GetCharacterData();
+    }    
+
     public void StartDialogue(NPCConversant newConversant, Dialogue newDialogue)
     {
         playerController.ChangeActive(false);

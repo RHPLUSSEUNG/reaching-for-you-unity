@@ -9,7 +9,7 @@ public class GiftListUI : MonoBehaviour
     [SerializeField] Transform giftContent;
     [SerializeField] GiftItemUI giftItemPrefab;
     [SerializeField] Transform alertPanel;
-    Friend currentNpc;    
+    AMCharacterData currentNpc;    
 
     private void Start()
     {        
@@ -60,7 +60,7 @@ public class GiftListUI : MonoBehaviour
         }
     }
 
-    public void SetNPC(Friend friendNPC)
+    public void SetNPC(AMCharacterData friendNPC)
     {
         currentNpc = friendNPC;
     }

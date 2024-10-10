@@ -10,7 +10,7 @@ public class GiftAlertUI : MonoBehaviour
     [SerializeField] Button acceptButton;
     [SerializeField] Button refuseButton;
     [SerializeField] Button exitButton;
-    Friend friend;
+    AMCharacterData friend;
     int itemID;
     int friendshipLevel = 1;
 
@@ -21,11 +21,11 @@ public class GiftAlertUI : MonoBehaviour
         exitButton.onClick.AddListener(SetRefuseButtonAction);
     }
 
-    public void SetUp(int _itemID, Friend friendNPC, string itemName)
+    public void SetUp(int _itemID, AMCharacterData friendNPC, string itemName)
     {
         friend = friendNPC;
         itemID = _itemID;
-        descriptionText.text = $"{friend.GetFriendName()} 에게 {itemName} 주기";
+        descriptionText.text = $"{friend.GetCharacterName()} 에게 {itemName} 주기";
     }
 
     public void SetAcceptButtonAction()
