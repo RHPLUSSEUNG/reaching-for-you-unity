@@ -25,6 +25,7 @@ public class DialogueUI : MonoBehaviour
     {
         playerConversant = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponent<PlayerConversant>();
         playerConversant.onConversationUpdated += UpdateUI;
+        playerConversant.onConversationUpdated += OnConversationEnd;
         //nextButton.onClick.AddListener(() => playerConversant.Next());
         //quitButton.onClick.AddListener(() => playerConversant.Quit());
         //nextButton.gameObject.SetActive(false);
@@ -63,7 +64,7 @@ public class DialogueUI : MonoBehaviour
                 characterPortrait.sprite = playerConversant.GetNPCExpression((int)currentNode.GetCharacterExpression());
             }
         }
-
+        
         if (playerConversant.IsChoosing())
         {
             BuildChoiceList();
@@ -97,6 +98,14 @@ public class DialogueUI : MonoBehaviour
                 playerConversant.SelectChoice(choice);                
             });
         }
+    }
+
+    public void OnConversationEnd()
+    {
+        if(!playerConversant.IsActive())
+        {
+            characterPortrait.gameObject.SetActive(false);
+        }        
     }
 
     IEnumerator TypingScript(string text, float typingSpeed)
@@ -149,7 +158,6 @@ public class DialogueUI : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                characterPortrait.gameObject.SetActive(false);
                 playerConversant.Quit();
                 yield break;
             }
