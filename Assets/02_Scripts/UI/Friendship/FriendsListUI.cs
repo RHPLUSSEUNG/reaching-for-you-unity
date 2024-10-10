@@ -20,7 +20,7 @@ public class FriendsListUI : MonoBehaviour
             Destroy(item.gameObject);
         }
 
-        foreach (Friend friend in FriendshipManager.Instance.GetFriends())
+        foreach (AMCharacterData friend in FriendshipManager.Instance.GetFriends())
         {
             FriendItemUI uiInstance = Instantiate<FriendItemUI>(friendsInformationPrefab, friendsContent);
             uiInstance.Setup(friend);

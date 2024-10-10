@@ -1,16 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class Friend : MonoBehaviour
+[CreateAssetMenu(fileName = "New Friend", menuName = "Character/Friend")]
+public class AMFriendData : AMCharacterData
 {
-    [SerializeField] string friendName;
-    [SerializeField] int friendID;
-    [SerializeField] Sprite friendPortrait;
     [SerializeField] int friendship = 0;
     [SerializeField] GameObject friendshipEffect;
-    [SerializeField] List<Sprite> expressions = new List<Sprite>();
 
     void Start()
     {
@@ -19,7 +15,7 @@ public class Friend : MonoBehaviour
 
     public void RiseFriendshipLevel(int level)
     {
-        if(friendship + level >= 6)
+        if (friendship + level >= 6)
         {
             friendship = 6;
         }
@@ -32,29 +28,14 @@ public class Friend : MonoBehaviour
 
     public void FallFriendshipLevel(int level)
     {
-        if(friendship - level <= 0)
+        if (friendship - level <= 0)
         {
             friendship = 0;
         }
         else
         {
             friendship -= level;
-        }       
-    }
-
-    public string GetFriendName()
-    {
-        return friendName;
-    }
-
-    public int GetFriendID()
-    {
-        return friendID;
-    }
-
-    public Sprite GetFriendPortrait()
-    {
-        return friendPortrait;
+        }
     }
 
     public int GetFriendship()
@@ -65,14 +46,5 @@ public class Friend : MonoBehaviour
     void ActiveFriendshipEffect()
     {
         friendshipEffect.SetActive(true);
-    }
-
-    public Sprite GetExpression(int index)
-    {
-        if (index >= 0 && index < expressions.Count)
-        {
-            return expressions[index];
-        }
-        return null;
     }
 }

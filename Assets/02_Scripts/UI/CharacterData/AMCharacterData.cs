@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CharacterData : ScriptableObject
+public abstract class AMCharacterData : ScriptableObject
 {
     [SerializeField] string characterName;
     [SerializeField] int characterID;
-    [SerializeField] Sprite characterPortrait;    
-    [SerializeField] GameObject friendshipEffect;
+    [SerializeField] Sprite characterPortrait;        
     [SerializeField] List<Sprite> expressions = new List<Sprite>();
-
+    
     public string GetCharacterName()
     {
         return characterName;

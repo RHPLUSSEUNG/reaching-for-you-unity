@@ -7,7 +7,7 @@ using UnityEngine;
 public class FriendshipManager : MonoBehaviour
 {
     public static FriendshipManager Instance;
-    List<Friend> friends = new List<Friend>();
+    List<AMCharacterData> friends = new List<AMCharacterData>();
 
     public event Action onUpdate;
 
@@ -23,7 +23,7 @@ public class FriendshipManager : MonoBehaviour
         }
     }
 
-    public void JoinToFriends(Friend _friend)
+    public void JoinToFriends(AMCharacterData _friend)
     {
         if(!friends.Contains(_friend))
         {
@@ -32,17 +32,18 @@ public class FriendshipManager : MonoBehaviour
         }        
     }
 
-    public void FriendshipHandler(Friend _friend, int level)
+    public void FriendshipHandler(AMCharacterData _friend, int level)
     {
-        if(friends.Contains(_friend))
+        AMFriendData friend = _friend as AMFriendData;
+        if (friends.Contains(_friend))
         {            
             if (level > 0)
             {
-                _friend.RiseFriendshipLevel(level);
+                friend.RiseFriendshipLevel(level);
             }
             else
             {
-                _friend.FallFriendshipLevel(level);
+                friend.FallFriendshipLevel(level);
             }
             onUpdate?.Invoke();
         }
@@ -53,7 +54,7 @@ public class FriendshipManager : MonoBehaviour
         }        
     }
 
-    public List<Friend> GetFriends()
+    public List<AMCharacterData> GetFriends()
     {
         return friends;
     }

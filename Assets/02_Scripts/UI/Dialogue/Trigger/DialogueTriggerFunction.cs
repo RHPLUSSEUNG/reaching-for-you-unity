@@ -14,16 +14,17 @@ public enum NPCType
 public class DialogueTriggerFunction : MonoBehaviour
 {
     [SerializeField] NPCType type;
-    [SerializeField]int friendShipLevel = 0;    
-
+    [SerializeField]int friendShipLevel = 0;
+    AMCharacterData characterData;
     public void JoinToFriend()
     {
-        FriendshipManager.Instance.JoinToFriends(transform.GetComponent<Friend>());
+        characterData = GetComponent<CharcterDataHandler>().GetCharacterData();
+        FriendshipManager.Instance.JoinToFriends(characterData);
     }
 
     public void ChangeFriendship(int level)
     {        
-        FriendshipManager.Instance.FriendshipHandler(transform.GetComponent<Friend>(), level);
+        FriendshipManager.Instance.FriendshipHandler(characterData, level);
         Debug.Log("Rise Friendship Level " + level);
     }    
 
@@ -40,6 +41,6 @@ public class DialogueTriggerFunction : MonoBehaviour
     public void RequestItem()
     {
         GiftUI.Instance.ShowGiftPanel();
-        GiftUI.Instance.ReportTargetNPC(transform.GetComponent<Friend>());
+        GiftUI.Instance.ReportTargetNPC(characterData);
     }
 }
