@@ -11,6 +11,7 @@ public class FriendItemUI : MonoBehaviour
     [SerializeField] Sprite filledHeartSprite;
     [SerializeField] Sprite emptyHeartSprite;
     [SerializeField] List<Image> friendship;
+    [SerializeField] List<Image> preferenceGift;
     AMFriendData friend;
 
     public void Setup(AMCharacterData _friend)
@@ -28,6 +29,20 @@ public class FriendItemUI : MonoBehaviour
             else
             {
                 friendship[i].sprite = emptyHeartSprite;
+            }
+        }
+
+
+        int giftCount = 0;
+        foreach (int itemID in friend.GetPreferenceItemID())
+        {
+            if(giftCount < friend.GetPreferenceItemID().Count)
+            {
+                preferenceGift[giftCount++].sprite = Managers.Data.GetItemData(itemID, false).itemSprite;
+            }     
+            else
+            {
+                break;
             }
         }
     }
