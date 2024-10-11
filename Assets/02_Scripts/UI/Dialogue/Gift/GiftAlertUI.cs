@@ -29,6 +29,17 @@ public class GiftAlertUI : MonoBehaviour
         friend = friendNPC;
         itemID = _itemID;
         descriptionText.text = $"{friend.GetCharacterName()} 에게 {itemName} 주기";
+
+        AMFriendData friendData = friend as AMFriendData;
+
+        foreach(int preferenceItemID in friendData.GetPreferenceItemID())
+        {
+            if (preferenceItemID == itemID)
+            {
+                friendshipLevel = 2;
+                break;
+            }
+        }
     }
 
     public void SetAcceptButtonAction()

@@ -6,7 +6,8 @@ using UnityEngine;
 [System.Serializable]
 public class AMFriendData : AMCharacterData
 {
-    [SerializeField] int friendship = 0;        
+    [SerializeField] int friendship = 0;
+    [SerializeField] List<int> preferenceItemID = new List<int>();
 
     public void RiseFriendshipLevel(int level)
     {
@@ -37,4 +38,8 @@ public class AMFriendData : AMCharacterData
         return friendship;
     }
     
+    public List<int> GetPreferenceItemID()
+    {
+        return preferenceItemID;
+    }
 }
