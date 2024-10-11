@@ -57,6 +57,7 @@ public class BattleGuideManager : MonoBehaviour
         maxTime = 100;
         currentHitZone = 0;
         isPlaying = true;
+        canHit = true;
         boxCollider = plane.GetComponent<BoxCollider>();
     }
     private void Start()
@@ -111,6 +112,7 @@ public class BattleGuideManager : MonoBehaviour
             return;
 
         life--;
+        Debug.Log("Hit");
         HitTimeCheck();
         if (life <= 0 )
         {
@@ -121,7 +123,7 @@ public class BattleGuideManager : MonoBehaviour
 
     public void GameOver()
     {
-        StopCoroutine(spawnHitZoneCoroutine());
+        StopAllCoroutines();
         score = currentTime * life;
     }
     void HitTimeCheck()
@@ -134,13 +136,12 @@ public class BattleGuideManager : MonoBehaviour
     IEnumerator HitTimer()
     {
         //플레이어 무적 이펙트
-        hitTimer += Time.deltaTime;
-        if( hitTimer >= hitInterval) 
-        { 
-            canHit = true;
-            yield break;
+        while (hitTimer < hitInterval)
+        {
+            hitTimer += Time.deltaTime;
+            yield return null;
         }
-        yield return null;
+        canHit = true;
     }
     IEnumerator spawnHitZoneCoroutine()
     {
