@@ -15,9 +15,15 @@ public class HitZone : MonoBehaviour
     {
         if (Physics.CheckSphere(gameObject.transform.position, gameObject.transform.localScale.x / 2, playerMask))
         {
+            Debug.Log("player Detected");
             bgManager.Hit();
         }
         bgManager.HitZoneDestroy();
         Destroy(gameObject);
+    }
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(transform.position, gameObject.transform.localScale.x / 2);
     }
 }
