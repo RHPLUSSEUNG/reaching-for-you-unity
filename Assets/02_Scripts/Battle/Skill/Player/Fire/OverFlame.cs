@@ -11,7 +11,7 @@ public class OverFlame : Active
 
         foreach (GameObject opponent in opponents)
         {
-            if (opponent != null)
+            if (opponent != null || opponent.GetComponent<CharacterState>()!= null)
             {
                 Managers.Active.Damage(opponent, 35, element);
                 Burn burn = new Burn();

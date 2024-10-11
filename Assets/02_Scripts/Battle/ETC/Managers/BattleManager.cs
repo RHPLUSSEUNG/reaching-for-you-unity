@@ -59,7 +59,7 @@ public class BattleManager
         ObjectList.Clear();
         GameObject go = Managers.Party.InstantiatePlayer("Player_Girl_Battle");
 
-        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(0);
+        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(2);
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(39);
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(3);
         Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(8);
@@ -110,9 +110,15 @@ public class BattleManager
             ObjectList.Sort(compareDefense);
             Managers.BattleUI.turnUI.UpdateTurnUI(turnCnt);
         }
-
     }
-
+    public bool CheckGameEnd()
+    {
+        if (playerLive == 0 || monsterLive == 0)
+        {
+            return true;
+        }
+        return false;
+    }
     public void PlayerTurn()
     {
         //Camera Movement
@@ -156,7 +162,7 @@ public class BattleManager
             battleState = BattleState.Defeat;
             Debug.Log("Defeat");
         }
-
+        //CameraAllocate(null);
         SceneChanger.Instance.ChangeScene(SceneType.AM);
     }
 
@@ -169,6 +175,11 @@ public class BattleManager
             yield return null; //돌아오는 장소
         }
         //calculate turn
+        if (CheckGameEnd())
+        {
+            Result();
+            yield break;
+        }
         CalcTurn();
         currentCharacter = ObjectList[turnCnt];
         Debug.Log($"Turn : {currentCharacter}");

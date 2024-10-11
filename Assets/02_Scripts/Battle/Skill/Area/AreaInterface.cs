@@ -42,9 +42,11 @@ public abstract class AreaInterface : MonoBehaviour
     protected void DestroyArea()
     {
         remainTurn--;
-        if(remainTurn ==  0)
+        if (remainTurn == 0)
         {
+            Managers.Battle.Areas.Remove(gameObject);
             Destroy(gameObject);
         }
     }
+
 }
