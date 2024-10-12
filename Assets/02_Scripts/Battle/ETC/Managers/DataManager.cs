@@ -35,8 +35,26 @@ public class DataManager
     List<EquipmentData> equipmentList;
     List<SkillData> playerSkillList;
     List<SkillData> monsterSkillList;
+    List<string> charcterList;
+    /*
+   public ScriptableObject ParsingData(int id)
+    {
+        int idx = id % 1000;
+        switch (id / 1000)
+        {
+            case 0:
+                return GetItemData(idx);
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
 
-   
+
+        }
+    }
+    */
     public SkillData GetPlayerSkillData(int skillid)
     {
         return playerSkillList[skillid];
@@ -56,7 +74,14 @@ public class DataManager
         else
             return consumeList[itemid];
     }
-
+    public ItemData GetConsumeData(int itemid)
+    {
+        return consumeList[itemid];
+    }
+    public ItemData GetEquipmentData(int itemid)
+    {
+        return equipmentList[itemid];
+    }
     public void SetItem(int itemid, Consume item)
     {
         item.name = consumeList[itemid].name;
@@ -108,7 +133,7 @@ public class DataManager
         skill.target_object = monsterSkillList[skillid].target;
     }
 
-    public void SetSkill(int skillid, Travel skill)
+    public void SetTravelSkill(int skillid, Travel skill)
     {
         skill.skillName = playerSkillList[skillid].name;
         skill.type = playerSkillList[skillid].SkillType;

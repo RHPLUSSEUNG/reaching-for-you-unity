@@ -7,6 +7,26 @@ public class PartyManager
     public List<GameObject> playerParty = new();
     public List<GameObject> monsterParty = new();
 
+    public bool AddParty(string character)
+    {
+        if (playerParty.Count < 5)
+        {
+            GameObject chr = Managers.Party.InstantiatePlayer(character);
+            playerParty.Add(chr);
+            return true;
+        }
+        return false;
+    }
+
+    public bool RemoveParty(string character)
+    {
+        if (playerParty.Count > 2) 
+        {
+            playerParty.Remove(FindPlayer(character));
+            return true;
+        }
+        return false;
+    }
     public bool AddParty(GameObject character)
     {
         if (FindPlayer(character.name))
@@ -37,7 +57,7 @@ public class PartyManager
     {
         foreach(GameObject character in playerParty)
         {
-            if (character.name == name)
+            if (character.name == $"{name}(clone)")
             {
                 return character;
             }
