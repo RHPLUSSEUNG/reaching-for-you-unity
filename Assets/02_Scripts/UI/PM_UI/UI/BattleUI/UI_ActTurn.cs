@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,6 +12,9 @@ public class UI_ActTurn : UI_Scene
         ActTurnPanel,
         TurnOrderButton
     }
+
+    [SerializeField]
+    List<Sprite> character_sprite_List = new List<Sprite>();
 
     GameObject uiPanel;
     GameObject turnPanel;
@@ -71,10 +75,9 @@ public class UI_ActTurn : UI_Scene
         {
             TurnUI turnUI = turnPanel.transform.GetChild(i).GetComponent<TurnUI>();
             Image turnImg = turnUI.GetTurnImage();
-            Sprite charSprite = Util.FindChild(Managers.Battle.ObjectList[circleIdx], "Character", true).GetComponent<SpriteRenderer>().sprite;
-            RectTransform turnImgRect = turnImg.GetComponent<RectTransform>();
+            // Sprite charSprite = Util.FindChild(Managers.Battle.ObjectList[circleIdx], "Character", true).GetComponent<SpriteRenderer>().sprite;
+            Sprite charSprite = ApplyTurnUISprite(Managers.Battle.ObjectList[circleIdx].name);
 
-            turnImgRect.sizeDelta = TurnUIAspectAdjust(charSprite, turnImg);
             turnImg.sprite = charSprite;
             circleIdx++;
             if (circleIdx == Managers.Battle.ObjectList.Count)
@@ -253,44 +256,38 @@ public class UI_ActTurn : UI_Scene
         }
     }
 
-    private Vector2 TurnUIAspectAdjust(Sprite charSprite, Image turnImg)
+    Sprite ApplyTurnUISprite(string character_name)
     {
-        float padding = 1.0f;
-        float spriteWidth = charSprite.rect.width;
-        float spriteHeight = charSprite.rect.height;
-        float aspectRatio = spriteWidth / spriteHeight;
-
-        RectTransform turnImgRect = turnImg.GetComponent<RectTransform>();
-        RectTransform frameRect = turnImgRect.parent.GetComponent<RectTransform>();
-
-        float frameWidth = frameRect.rect.width;
-        float frameHeight = frameRect.rect.height;
-
-        float newWidth, newHeight;
-
-        if (frameWidth / frameHeight > aspectRatio)
+        Sprite character_sprite = null;
+        switch(character_name)
         {
-            newHeight = frameHeight * padding;
-            newWidth = newHeight * aspectRatio;
+            case "Player_Girl_Battle(Clone)":
+                character_sprite = character_sprite_List[0];
+                break;
+            case "Enemy_Crab(Clone)":
+                character_sprite = character_sprite_List[1];
+                break;
+            case "Enemy_Lizard(Clone)":
+                character_sprite = character_sprite_List[2];
+                break;
+            case "Enemy_Worker(Clone)":
+                character_sprite = character_sprite_List[3];
+                break;
+            case "Enemy_Soldier(Clone)":
+                character_sprite = character_sprite_List[4];
+                break;
+            case "Enmey_Golem(Clone)":
+                character_sprite = character_sprite_List[5];
+                break;
+            case "Enemy_Queen(Clone)":
+                character_sprite = character_sprite_List[6];
+                break;
 
-            if (newWidth > frameWidth)
-            {
-                newWidth = frameWidth * padding;
-                newHeight = newWidth / aspectRatio;
-            }
-        }
-        else
-        {
-            newWidth = frameWidth * padding;
-            newHeight = newWidth / aspectRatio;
-
-            if (newHeight > frameHeight)
-            {
-                newHeight = frameHeight * padding;
-                newWidth = newHeight * aspectRatio;
-            }
+            default:
+                Debug.Log("Not In Character_Sprite List");
+                break;
         }
 
-        return new Vector2(newWidth, newHeight);
+        return character_sprite;
     }
 }
