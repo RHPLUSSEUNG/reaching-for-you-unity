@@ -142,5 +142,6 @@ public class EnemyAI_Crab : EnemyAI_Base
         spriteController.SetAnimState(AnimState.Hit);
         stat.Hp -= damage;
         lastDamaged += damage;
+        Managers.BattleUI.ShowDamageUI(damage, transform);
     }
 }

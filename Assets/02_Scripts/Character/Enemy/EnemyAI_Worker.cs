@@ -114,5 +114,6 @@ public class EnemyAI_Worker : EnemyAI_Base
     {
         spriteController.SetAnimState(AnimState.Hit);
         stat.Hp -= damage;
+        Managers.BattleUI.ShowDamageUI(damage, transform);
     }
 }

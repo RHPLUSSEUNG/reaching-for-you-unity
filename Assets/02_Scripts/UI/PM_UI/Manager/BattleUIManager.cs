@@ -70,6 +70,25 @@ public class BattleUIManager
         battleInfoUI.SetPosition();
     }
 
+    public void ShowDamageUI(int damage, Transform character)
+    {
+        Collider collider = Util.FindChild(character.gameObject, "Collider").GetComponent<Collider>();
+        float heightOffset = collider.bounds.size.y / 2;
+
+        Vector3 worldPos = character.position;
+        worldPos += Vector3.up * heightOffset;
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+
+        DamageTextUI damageText = Managers.UI.MakeSubItem<DamageTextUI>(Managers.BattleUI.battleUI.transform, "DamageText");
+
+        damageText.transform.localScale = Vector3.one;
+
+        damageText.transform.position = screenPos;
+
+        damageText.ShowDamageText(damage);
+
+    }
+
     public void SetPosition(GameObject pos)
     {
         GameObject mapSpawner = GameObject.Find("MapSpawner");      // 임시, 변경 필요 : 위치 이동 or 색 비교

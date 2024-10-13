@@ -13,7 +13,6 @@ public class ConsumeItemUI : InvenItemUI
     }
 
     Text itemCount;
-    int count = 1;
     public override void Init()
     {
         Bind<GameObject>(typeof(consumeItemUI));

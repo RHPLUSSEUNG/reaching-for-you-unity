@@ -71,7 +71,6 @@ public class UI_ActTurn : UI_Scene
         {
             TurnUI turnUI = turnPanel.transform.GetChild(i).GetComponent<TurnUI>();
             Image turnImg = turnUI.GetTurnImage();
-            // Image turnImage = turnPanel.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Image>();
             Sprite charSprite = Util.FindChild(Managers.Battle.ObjectList[circleIdx], "Character", true).GetComponent<SpriteRenderer>().sprite;
             RectTransform turnImgRect = turnImg.GetComponent<RectTransform>();
 
@@ -85,7 +84,6 @@ public class UI_ActTurn : UI_Scene
         }
     }
 
-    // TODO : Turn 생성 및 삭제
     public void MakeTurnUI()
     {
         // 소환 스킬을 했을 때, 소환수가 이번 페이즈에 행동하는가? 아니면 다음 행동부터 행동하는지 구별할 게 필요
@@ -257,37 +255,38 @@ public class UI_ActTurn : UI_Scene
 
     private Vector2 TurnUIAspectAdjust(Sprite charSprite, Image turnImg)
     {
+        float padding = 1.0f;
         float spriteWidth = charSprite.rect.width;
         float spriteHeight = charSprite.rect.height;
         float aspectRatio = spriteWidth / spriteHeight;
 
         RectTransform turnImgRect = turnImg.GetComponent<RectTransform>();
-        RectTransform parentRect = turnImgRect.parent.GetComponent<RectTransform>();
+        RectTransform frameRect = turnImgRect.parent.GetComponent<RectTransform>();
 
-        float parentWidth = parentRect.rect.width;
-        float parentHeight = parentRect.rect.height;
+        float frameWidth = frameRect.rect.width;
+        float frameHeight = frameRect.rect.height;
 
         float newWidth, newHeight;
 
-        if (parentWidth / parentHeight > aspectRatio)
+        if (frameWidth / frameHeight > aspectRatio)
         {
-            newHeight = parentHeight;
+            newHeight = frameHeight * padding;
             newWidth = newHeight * aspectRatio;
 
-            if (newWidth > parentWidth)
+            if (newWidth > frameWidth)
             {
-                newWidth = parentWidth;
+                newWidth = frameWidth * padding;
                 newHeight = newWidth / aspectRatio;
             }
         }
         else
         {
-            newWidth = parentWidth;
+            newWidth = frameWidth * padding;
             newHeight = newWidth / aspectRatio;
 
-            if (newHeight > parentHeight)
+            if (newHeight > frameHeight)
             {
-                newHeight = parentHeight;
+                newHeight = frameHeight * padding;
                 newWidth = newHeight * aspectRatio;
             }
         }
