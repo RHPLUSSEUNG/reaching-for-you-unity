@@ -42,12 +42,17 @@ public class BattleGuideManager : MonoBehaviour
     [Range(0f, 3f)]
     protected float maxSpwanInterval;
     [SerializeField]
-    [Range(0f, 1f)]
+    [Range(0f, 5f)]
     protected float minRadius;
     [SerializeField]
-    [Range(0f, 1f)]
+    [Range(0f, 5f)]
     protected float maxRadius;
-
+    [Range(0f, 5f)]
+    [SerializeField]
+    protected float minFillSpeed;
+    [SerializeField]
+    [Range(0f, 5f)]
+    protected float maxFillSpeed;
 
     private void Awake()
     {
@@ -83,7 +88,10 @@ public class BattleGuideManager : MonoBehaviour
         currentHitZone++;
         canSpawnTime = false;
         spawnTimer = 0;
-        Instantiate(hitZone, GetRandPosition(), Quaternion.Euler(90, 0, 0));
+        GameObject hitzone = Instantiate(hitZone, GetRandPosition(), Quaternion.Euler(90, 0, 0));
+        float radius = GetRandRadiusSize();
+        hitzone.transform.localScale = new Vector3(radius, radius,1);
+        hitzone.GetComponentInChildren<CircleMaskFill>().fillSpeed= GetRandFillSpeed();
         randSpwanTime = GetRandSpawnTime();
     }
     public Vector3 GetRandPosition()
@@ -105,6 +113,14 @@ public class BattleGuideManager : MonoBehaviour
     float GetRandSpawnTime()
     {
         return Random.Range(minSpwanInterval, maxSpwanInterval);
+    }
+    float GetRandRadiusSize()
+    {
+        return Random.Range(minRadius, maxRadius);
+    }
+    float GetRandFillSpeed()
+    {
+        return Random.Range(minFillSpeed, maxFillSpeed);
     }
     public void Hit()
     {
