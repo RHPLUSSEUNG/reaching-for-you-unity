@@ -10,7 +10,6 @@ public class ActiveManager
     #region Getter & Setter
     public void SetCoverData(GameObject _cover)
     {
-        Debug.Log(_cover);
         if(_cover == null)
         {
             cover = null;
@@ -58,7 +57,7 @@ public class ActiveManager
     public int Damage(GameObject target, int damage, ElementType element = ElementType.None, bool close = false)
     {
         //Debug.Log(target);
-        if (damage <= 0)
+        if (damage <= 0 || target.GetComponent<EntityStat>() == null)
         {
             return 0;
         }

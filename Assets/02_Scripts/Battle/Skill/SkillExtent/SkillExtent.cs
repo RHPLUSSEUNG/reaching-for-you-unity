@@ -24,7 +24,7 @@ public class SkillExtent : MonoBehaviour
         targets.Clear();
         if(Circular)
         {
-            rotate = Managers.Battle.currentCharacter.transform.position - pos;
+            rotate = pos - Managers.Battle.currentCharacter.transform.position;
             CircularCharacter();
         }
         else
@@ -38,22 +38,27 @@ public class SkillExtent : MonoBehaviour
     protected void CircularCharacter()
     {
         GetCharacter();
-        transform.position = Managers.Battle.currentCharacter.transform.position;
+        //transform.position = Managers.Battle.currentCharacter.transform.position;
         foreach (Collider c in colliders)
         {
-            Vector3 interV = c.transform.position - transform.position;
-
-            if(rotate.magnitude <= range)
+            Vector3 interV = (c.transform.position - transform.position).normalized;
+            if(Vector3.Angle(transform.forward, interV) > angle / 2f || c.gameObject.transform.parent.gameObject.GetComponent<CharacterState>()!= null)
             {
-                //Debug.Log("rotate magnitude");
-                float dot = Vector3.Dot(interV.normalized, rotate);
-                float theta = Mathf.Acos(dot);
-                float degree = Mathf.Rad2Deg * theta;
-                //Debug.Log($"Degree : {degree}");
-                //Debug.Log($"Standard : {range / 2f}");
-                if (degree <= range / 2f)
-                    targets.Add(c.gameObject.transform.parent.gameObject);
+                targets.Add(c.gameObject.transform.parent.gameObject);
             }
+            //if (rotate.magnitude <= range)
+            //{
+            //    Debug.Log(interV);
+            //    float dot = Vector3.Dot(interV.normalized, rotate);
+            //    Debug.Log($"Dot : {dot}");
+            //    float theta = Mathf.Acos(dot);
+            //    Debug.Log($"Theta : {theta}");
+            //    float degree = Mathf.Rad2Deg * theta;
+            //    Debug.Log($"Degree : {degree}");
+            //    Debug.Log($"Standard : {angle / 2f}");
+            //    if (0 <= degree || degree <= angle)
+            //        targets.Add(c.gameObject.transform.parent.gameObject);
+            //}
         }
     }
 
