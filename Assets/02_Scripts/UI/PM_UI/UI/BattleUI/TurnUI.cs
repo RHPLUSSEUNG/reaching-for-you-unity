@@ -7,6 +7,7 @@ public class TurnUI : UI_Base
 {
     enum turnUI
     {
+        TurnFrame,
         TurnImage
     }
 
