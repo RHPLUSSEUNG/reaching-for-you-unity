@@ -41,15 +41,52 @@ public class BattleUIManager
         return item.GetComponent<Consume>();
     }
 
-    public void ShowCharacterInfo(GameObject hit)
+    public void ShowBattleInfo(GameObject obj)
     {
-        if(battleInfoUI == null)
+        if(obj == null)
         {
-            battleInfoUI = Managers.UI.CreatePopupUI<BattleInfoUI>("CharacterInfoUI");
+            Debug.Log("Obj Null");
+            return;
         }
-        battleInfoUI.SetInfo(hit);
+
+        int objLayer = obj.layer;
+
+        if (objLayer == LayerMask.NameToLayer("Enemy") || objLayer == LayerMask.NameToLayer("Friendly"))
+        {
+            battleInfoUI = Managers.UI.CreatePopupUI<CharacterInfoUI>("CharacterInfoUI");
+        }
+        else if (objLayer == LayerMask.NameToLayer("Gimmick"))
+        {
+            battleInfoUI = Managers.UI.CreatePopupUI<MapInfoUI>("MapInfoUI");
+        }
+        else
+        {
+            Debug.Log("No Target");
+            return;
+        }
+
+        battleInfoUI.SetInfo(obj);
         Managers.UI.ShowUI(battleInfoUI.gameObject);
-        Managers.BattleUI.battleInfoUI.SetPosition();
+        battleInfoUI.SetPosition();
+    }
+
+    public void ShowDamageUI(int damage, Transform character)
+    {
+        Collider collider = Util.FindChild(character.gameObject, "Collider").GetComponent<Collider>();
+        float heightOffset = collider.bounds.size.y / 2;
+
+        Vector3 worldPos = character.position;
+        worldPos += Vector3.up * heightOffset;
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+
+        DamageTextUI damageText = Managers.UI.MakeSubItem<DamageTextUI>(Managers.BattleUI.battleUI.transform, "DamageText");
+
+        damageText.transform.localScale = Vector3.one;
+
+        damageText.transform.position = screenPos;
+
+        damageText.ShowDamageText(damage);
+
     }
 
     public void SetPosition(GameObject pos)

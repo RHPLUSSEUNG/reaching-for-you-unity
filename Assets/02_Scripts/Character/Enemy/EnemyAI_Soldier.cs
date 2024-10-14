@@ -94,5 +94,6 @@ public class EnemyAI_Soldier : EnemyAI_Base
     {
         spriteController.SetAnimState(AnimState.Hit);
         stat.Hp -= damage;
+        Managers.BattleUI.ShowDamageUI(damage, transform);
     }
 }

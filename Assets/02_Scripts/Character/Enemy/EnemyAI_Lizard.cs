@@ -157,5 +157,6 @@ public class EnemyAI_Lizard : EnemyAI_Base
             isSIzeMode = false;
             spriteController.SetAnimState(AnimState.Idle);
         }
+        Managers.BattleUI.ShowDamageUI(damage, transform);
     }
 }
