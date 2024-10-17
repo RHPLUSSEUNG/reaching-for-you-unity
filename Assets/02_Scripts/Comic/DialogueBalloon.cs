@@ -9,7 +9,7 @@ public class DialogueBalloon : MonoBehaviour
     [SerializeField] string dialogue;
     TextMeshProUGUI dialogueText;
     ComicPage comicPage;
-    float typingSpeed = 0.02f;
+    float typingSpeed = 0.03f;
 
     private void Start()
     {
@@ -30,6 +30,7 @@ public class DialogueBalloon : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
 
+        comicPage.SetIsTyping(false);
         comicPage.CheckAllDialogueShown();
     }
 }

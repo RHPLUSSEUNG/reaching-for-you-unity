@@ -10,6 +10,7 @@ public class ComicPage : MonoBehaviour
     Button pageButton;
     int balloonIndex = 0;
     bool allDialoguesShown = false;
+    bool isTyping = false;
     float typingSpeed = 0.02f;
 
     ComicController comicController;
@@ -46,9 +47,10 @@ public class ComicPage : MonoBehaviour
     {
         if (!allDialoguesShown)
         {
-            if (balloonIndex < dialogueBalloons.Count)
+            if (balloonIndex < dialogueBalloons.Count && !isTyping)
             {
-                StartCoroutine(ShowNextBalloon(dialogueBalloons[balloonIndex], 0.5f));
+                isTyping = true;
+                StartCoroutine(ShowNextBalloon(dialogueBalloons[balloonIndex], 0.25f));
                 balloonIndex++;
             }
         }
@@ -90,5 +92,10 @@ public class ComicPage : MonoBehaviour
         {
             allDialoguesShown = true;
         }
-    }                
+    }       
+    
+    public void SetIsTyping(bool _isTyping)
+    {
+        isTyping = _isTyping;
+    }
 }
