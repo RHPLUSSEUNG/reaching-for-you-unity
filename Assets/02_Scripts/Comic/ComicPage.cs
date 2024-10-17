@@ -1,21 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ComicPage : MonoBehaviour
 {
-    List<CanvasGroup> dialogueBalloons = new List<CanvasGroup>();
-    Button pageButton;    
+    List<CanvasGroup> dialogueBalloons = new List<CanvasGroup>();    
+    Button pageButton;
     int balloonIndex = 0;
     bool allDialoguesShown = false;
+    float typingSpeed = 0.02f;
 
     ComicController comicController;
 
     private void Awake()
     {
         pageButton = GetComponent<Button>();
-        dialogueBalloons.Clear();
+        dialogueBalloons.Clear();        
     }
 
     void Start()
@@ -23,10 +25,12 @@ public class ComicPage : MonoBehaviour
         foreach (Transform child in transform)
         {
             CanvasGroup balloonGroup = child.GetComponent<CanvasGroup>();
+            balloonGroup.GetComponent<DialogueBalloon>().SetComicPage(this);
             if (balloonGroup != null)
             {
-                dialogueBalloons.Add(balloonGroup);
-                balloonGroup.alpha = 0;                
+                dialogueBalloons.Add(balloonGroup);                
+
+                balloonGroup.alpha = 0;
             }
         }
 
@@ -34,23 +38,18 @@ public class ComicPage : MonoBehaviour
         {
             allDialoguesShown = true;
         }
-        
+
         pageButton.onClick.AddListener(OnPageClicked);
     }
-    
+
     public void OnPageClicked()
     {
         if (!allDialoguesShown)
         {
             if (balloonIndex < dialogueBalloons.Count)
-            {                
+            {
                 StartCoroutine(ShowNextBalloon(dialogueBalloons[balloonIndex], 0.5f));
                 balloonIndex++;
-            }
-           
-            if (balloonIndex >= dialogueBalloons.Count)
-            {
-                allDialoguesShown = true;
             }
         }
         else
@@ -58,19 +57,21 @@ public class ComicPage : MonoBehaviour
             OnPageFinished();
         }
     }
-    
+
     IEnumerator ShowNextBalloon(CanvasGroup balloon, float duration)
-    {        
+    {
         float elapsedTime = 0f;
-        
+
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            balloon.alpha = Mathf.Lerp(0, 1, elapsedTime / duration);            
+            balloon.alpha = Mathf.Lerp(0, 1, elapsedTime / duration);
             yield return null;
         }
-        
-        balloon.alpha = 1;        
+
+        yield return StartCoroutine(balloon.GetComponent<DialogueBalloon>().TypingScript());
+
+        balloon.alpha = 1;
     }    
 
     public void OnPageFinished()
@@ -82,4 +83,12 @@ public class ComicPage : MonoBehaviour
     {
         comicController = _comicController;
     }
+    
+    public void CheckAllDialogueShown()
+    {
+        if (balloonIndex >= dialogueBalloons.Count)
+        {
+            allDialoguesShown = true;
+        }
+    }                
 }
