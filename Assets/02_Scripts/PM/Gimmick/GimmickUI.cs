@@ -18,6 +18,10 @@ public class GimmickUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     [SerializeField]
     private GimmickForUI gimmickForUI;
 
+    public GimmickForUI GimmickInfo
+    {
+        get { return gimmickForUI; }
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
         // UI 켜기

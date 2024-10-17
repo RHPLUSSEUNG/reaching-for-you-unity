@@ -6,7 +6,6 @@ public class MoveRangeUI : MonoBehaviour
     GameObject[,] battleMap;
     List<GameObject> obstacleMap = new List<GameObject>();
 
-    int moveCost = 10;
     float mapWidth;
     float mapHeight;
     Color highlightColor = Color.cyan;
