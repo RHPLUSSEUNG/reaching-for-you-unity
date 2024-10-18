@@ -28,7 +28,8 @@ public class UI_Hud : UI_Scene
     PlayerStat playerStat;
     CharacterState playerState;
 
-    public Sprite buff_Image;     // test
+    // test
+    public Sprite buff_Image;
     public Sprite Debuff_Image;
 
     public override void Init()
@@ -44,7 +45,7 @@ public class UI_Hud : UI_Scene
         debuffLayout = GetObject((int)HUDUI.DeBuffLayout);
         status_effectLayout = GetObject((int)HUDUI.Status_EffectLayout);
 
-        player = GameObject.Find("Player_Girl");            // 남캐일 때 문제 발생
+        player = GameObject.Find("Player_Girl");            // 남캐일 때 문제 발생 + Player 교체 코드 필요
 
         playerStat = player.GetComponent<PlayerStat>();
         playerState = player.GetComponent<CharacterState>();
@@ -80,10 +81,40 @@ public class UI_Hud : UI_Scene
 
     }
 
+    private void Start()
+    {
+        ChangeProfile(playerStat, playerState);         // 함수 호출 순서에 따른 에러 발생 가능성
+    }
+
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
+            ChangeProfile(playerStat, playerState);
+        }
+        // Test : KeyCode를 통해 인게임하면서 State 생성, 삭제와 같이 갱신 잘 되는지 확인
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            GhostBuff ghost_Buff = new GhostBuff();
+            ghost_Buff.SetBuff(2, player);
+            ChangeProfile(playerStat, playerState);
+        }
+
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            playerState.buffs.RemoveAt(0);
+            ChangeProfile(playerStat, playerState);
+        }
+
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            Freeze freeze = new Freeze();
+            freeze.SetDebuff(2, player);
+            ChangeProfile(playerStat, playerState);
+        }
+        if(Input.GetKeyDown(KeyCode.N))
+        {
+            playerState.debuffs.RemoveAt(0);
             ChangeProfile(playerStat, playerState);
         }
     }
