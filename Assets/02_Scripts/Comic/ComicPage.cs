@@ -98,4 +98,9 @@ public class ComicPage : MonoBehaviour
     {
         isTyping = _isTyping;
     }
+
+    public void SetInteractable(bool interactable)
+    {
+        pageButton.interactable = interactable;
+    }
 }
