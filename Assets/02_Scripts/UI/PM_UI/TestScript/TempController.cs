@@ -18,9 +18,9 @@ public class TempController : MonoBehaviour
     {
         hud = Managers.UI.CreateSceneUI<UI_Hud>("HudUI");
         pause = Managers.UI.CreatePopupUI<UI_Pause>("PauseUI");
-        hud.tempImage = testImage;
+        // hud.tempImage = testImage;
         Managers.UI.HideUI(pause.gameObject);
-        hud.ChangeProfile(playerList[0]);  // test
+        // hud.ChangeProfile(playerList[0]);  // test
     }
     void Update()
     {
@@ -49,7 +49,7 @@ public class TempController : MonoBehaviour
             {
                 tempTurn = 0;
             }
-            hud.ChangeProfile(playerList[tempTurn]);
+            // hud.ChangeProfile(playerList[tempTurn]);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))

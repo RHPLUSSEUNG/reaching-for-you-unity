@@ -21,10 +21,10 @@ public class HUDEffectUI : UI_Base
         BindEvent(statusIcon, StatusClick, Define.UIEvent.Click);
     }
 
-    public void SetStatusImage(Image icon)
+    public void SetStatusImage(Sprite icon)
     {
         Image statusImage = statusIcon.GetComponent<Image>();
-        statusImage.sprite = icon.sprite;
+        statusImage.sprite = icon;
     }
 
     public void StatusClick(PointerEventData data)
