@@ -8,8 +8,6 @@ public class BattleUIManager
     public UI_ActTurn turnUI;
     public WarningUI warningUI;
     public BattleInfoUI battleInfoUI;
-    // Adventure
-    public UI_Hud hudUI;
 
     public GameObject actPanel;
     public GameObject magicPanel;

@@ -1,6 +1,4 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_Hud : UI_Scene
@@ -13,10 +11,7 @@ public class UI_Hud : UI_Scene
         DeBuffLayout,
         Status_EffectLayout,
         HPBar,
-        MPBar,
-        AcquireItemUI,
-        SearchCountText,
-        EncounterText
+        MPBar
     }
 
     [SerializeField]
@@ -49,15 +44,11 @@ public class UI_Hud : UI_Scene
         buffLayout = GetObject((int)HUDUI.BuffLayout);
         debuffLayout = GetObject((int)HUDUI.DeBuffLayout);
         status_effectLayout = GetObject((int)HUDUI.Status_EffectLayout);
-        GameObject acqItem = GetObject((int)HUDUI.AcquireItemUI);
-        BindEvent(acqItem, ClickAcqItemUI, Define.UIEvent.Click);
 
         player = GameObject.Find("Player_Girl");            // 남캐일 때 문제 발생 + Player 교체 코드 필요
 
         playerStat = player.GetComponent<PlayerStat>();
         playerState = player.GetComponent<CharacterState>();
-
-        Managers.BattleUI.hudUI = GetComponent<UI_Hud>();
 
         #region Test Setting
         IncreaseAtk testBuff_1 = new IncreaseAtk();
@@ -218,24 +209,5 @@ public class UI_Hud : UI_Scene
         #endregion
 
         // TODO : 상태이상 HUD
-    }
-
-    public void UpdateSearchCountTextUI(int count)
-    {
-        TextMeshProUGUI countText = GetObject((int)HUDUI.SearchCountText).GetComponent<TextMeshProUGUI>();
-
-        countText.text = $"탐색 횟수 : {count.ToString()}번";
-    }
-
-    public void UpdateEncounterTextUI(float chance)
-    {
-        TextMeshProUGUI chanceText = GetObject((int)HUDUI.EncounterText).GetComponent<TextMeshProUGUI>();
-
-        chanceText.text = $"조우 확률 : {chance * 100} %";
-    }
-
-    public void ClickAcqItemUI(PointerEventData data)
-    {
-        Managers.UI.CreatePopupUI<AcquiredItemUI>("AcqItemUI");
     }
 }
