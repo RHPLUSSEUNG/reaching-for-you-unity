@@ -16,6 +16,7 @@ public class DynamicSpawner : MonoBehaviour
     private GameObject waterRemoveGimmick;
     [SerializeField]
     private GameObject waterGimmick;
+    private float gimmickCount;
 
     public static GameObject go_water;
     private Vector3 originPos;
@@ -38,6 +39,17 @@ public class DynamicSpawner : MonoBehaviour
     void Start()
     {
         // RandomSpawn();
+        gimmickCount = waterRemoveGimmick.GetComponentInChildren<WaterGimmickInAdventure>().gimmickCount;
+    }
+
+    void Update()
+    {
+        if(AdventureManager.isGimmickRoom)
+        {
+            gimmickCount -= Time.deltaTime;
+            if(gimmickCount < 0f)
+                SceneChanger.Instance.ChangeScene(SceneType.AM);
+        }
     }
 
     Vector3 RandomPosition()

@@ -17,7 +17,7 @@ public class AdventureManager : MonoBehaviour
     public static AdventureManager adventure { get { return _adventure; } }
 
     private const int DESERT = 0, WATER = 1;
-    public static int StageNumber = DESERT;
+    public static int StageNumber = WATER;
 
     private static int stageCount = 1;
     public static int StageCount {

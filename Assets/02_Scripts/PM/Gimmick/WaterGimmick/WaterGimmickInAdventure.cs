@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class WaterGimmickInAdventure : MonoBehaviour
 {
     bool isActive;
+    bool isClear = false;
     Button button;
 
-    int gimmickCount; // 특정 시간 내에 기믹 해제 실패 시 오전 맵으로
+    public float gimmickCount = 7; // 특정 시간 내에 기믹 해제 실패 시 오전 맵으로
 
     public delegate void ClearGimmickDelegate();
     public ClearGimmickDelegate clearGimmickDelegate;
@@ -28,6 +29,8 @@ public class WaterGimmickInAdventure : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && isActive)
         {
             button.gameObject.SetActive(false);
+            isActive = false;
+            isClear = true;
 
             AdventureManager.GimmickCount--;
             if(AdventureManager.GimmickCount <= 0) 
@@ -42,7 +45,7 @@ public class WaterGimmickInAdventure : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.transform.tag != "Untagged" && collider.transform.CompareTag("Player"))
+        if (collider.transform.tag != "Untagged" && collider.transform.CompareTag("Player") && !isClear)
         {
             isActive = true;
             StopAllCoroutines();
