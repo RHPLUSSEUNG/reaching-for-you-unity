@@ -34,6 +34,7 @@ public class DynamicSpawner : MonoBehaviour
         newVec = new Vector3(originPos.x, originPos.y * -1, originPos.z);
 
         go_water = Instantiate(waterGimmick, newVec, Quaternion.identity);
+        spawnedPositions.Add(new Vector3(0f, 0.66f, 0f)); // 플레이어 시작 위치에서 스폰 X
     }
 
     void Start()
