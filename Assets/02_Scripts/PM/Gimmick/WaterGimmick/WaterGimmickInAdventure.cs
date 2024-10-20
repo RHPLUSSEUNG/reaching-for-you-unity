@@ -8,6 +8,8 @@ public class WaterGimmickInAdventure : MonoBehaviour
     bool isActive;
     Button button;
 
+    int gimmickCount; // 특정 시간 내에 기믹 해제 실패 시 오전 맵으로
+
     public delegate void ClearGimmickDelegate();
     public ClearGimmickDelegate clearGimmickDelegate;
 
@@ -26,7 +28,7 @@ public class WaterGimmickInAdventure : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && isActive)
         {
             button.gameObject.SetActive(false);
-            isActive = false;
+
             AdventureManager.GimmickCount--;
             if(AdventureManager.GimmickCount <= 0) 
             {
