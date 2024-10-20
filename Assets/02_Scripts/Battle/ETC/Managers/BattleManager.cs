@@ -78,8 +78,10 @@ public class BattleManager
         battleState = BattleState.PlayerTurn;
         Managers.Skill.ReadyGameSkill();
         ObjectList.Sort(compareDefense);
+
         Managers.BattleUI.turnUI.InstantiateAllTurnOrderUI();
         Managers.BattleUI.turnUI.UpdateTurnUI(turnCnt);
+
         NextTurn();
     }
 

@@ -108,3 +108,8 @@ public enum RangeType
     Move,
     Cross
 }
+
+public enum characterType
+{
+    NPC
+}
