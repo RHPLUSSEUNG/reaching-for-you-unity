@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: fe3b7438f19898143817101c743db3fe, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -2297,6 +2297,8 @@ MonoBehaviour:
   staticSpawner: {fileID: 51725949}
   heal_effect: {fileID: 141899833}
   is_effect: 0
+  randomEncounter: 0
+  roomCount: 0
 --- !u!4 &1185905713
 Transform:
   m_ObjectHideFlags: 0
@@ -2697,7 +2699,7 @@ MonoBehaviour:
     - {fileID: 1947515561542621659, guid: b1c532e987a274544aee4f1a7988c190, type: 3}
   waterRemoveGimmick: {fileID: 4303062242304789592, guid: 17bf8740c9e3bf34db61a2a145042275, type: 3}
   waterGimmick: {fileID: 1432727961019417969, guid: 7a4ffa3cec3384a4fa9dc1db8439f14c, type: 3}
-  maxSpawnCount: 5
+  maxSpawnCount: 3
 --- !u!4 &1503634442
 Transform:
   m_ObjectHideFlags: 0

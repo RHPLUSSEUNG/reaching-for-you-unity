@@ -66,7 +66,8 @@ public class CreateObject : MonoBehaviour
     public float wallPercent; // 벽이 맵 안에 존재하는 정도
 
     [Header("Map")]
-    public GameObject[] MapPrefab;
+    [SerializeField]
+    private GameObject desertMap;
 
     [Header("Gimmick")]
     public GameObject[] Gimmicks;
@@ -104,8 +105,10 @@ public class CreateObject : MonoBehaviour
         PlaceGimmicks();
         PlaceEnemy();
 
-        //GameObject mapInstance = Instantiate(MapPrefab[stageIndex]);
-        //mapInstance.transform.position = MapPrefab[stageIndex].transform.position;
+        if(stageIndex == 0)
+            desertMap.SetActive(true);
+        else 
+            desertMap.SetActive(false);
 
         manager.active = true;
     }

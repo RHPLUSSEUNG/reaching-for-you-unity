@@ -17,7 +17,7 @@ public class AdventureManager : MonoBehaviour
     public static AdventureManager adventure { get { return _adventure; } }
 
     private const int DESERT = 0, WATER = 1;
-    public static int StageNumber = DESERT;
+    public static int StageNumber = WATER;
 
     private static int stageCount = 1;
     public static int StageCount {
@@ -36,12 +36,13 @@ public class AdventureManager : MonoBehaviour
     private GameObject heal_effect;
     public bool is_effect = false;
 
-    private float gimmickpercent;
+    private int gimmickpercent;
     public static int GimmickCount;
     public static bool isGimmickRoom;
 
-    public int randomEncounter;
-    public int roomCount = 0;
+    int roll;
+    int currentStep = 0;
+    int roomCount = 0;
 
     void Awake()
     {
@@ -55,19 +56,24 @@ public class AdventureManager : MonoBehaviour
         staticSpawner.RandomSpawn();
         dynamicSpawner.RandomSpawn();
 
-        gimmickpercent = Random.Range(0, 2);
-        randomEncounter = Random.Range(0, 5);
+        gimmickpercent = Random.Range(1, 100);
 
+        // 랜덤 인카운트(점점 5%로씩 확률 높임)
+        roll = Random.Range(1, 100);
+        currentStep += 5;
         roomCount++;
 
-        if(randomEncounter < 2 && roomCount > 1)
+        if(roomCount > 1 && roll <= currentStep)
         {
+            currentStep = 0;
+            roomCount = 0;
+
             SceneChanger.Instance.ChangeScene(SceneType.PM_COMBAT);
         }
 
-        if(StageNumber > 0) // 30% 확률로 기믹
+        if(StageNumber > 0) // 2 스테이지부터 기믹 有
         {
-            if(gimmickpercent < 0.3f)
+            if(gimmickpercent <= 30) // 30% 확률로 기믹
             {
                 isGimmickRoom = true;
                 GimmickCount = Random.Range(1, 5);

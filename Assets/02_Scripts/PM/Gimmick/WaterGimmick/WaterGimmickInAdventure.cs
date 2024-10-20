@@ -6,7 +6,13 @@ using UnityEngine.UI;
 public class WaterGimmickInAdventure : MonoBehaviour
 {
     bool isActive;
+    bool isClear = false;
     Button button;
+
+    public float gimmickCount = 7; // 특정 시간 내에 기믹 해제 실패 시 오전 맵으로
+
+    public delegate void ClearGimmickDelegate();
+    public ClearGimmickDelegate clearGimmickDelegate;
 
     void Start()
     {
@@ -24,31 +30,22 @@ public class WaterGimmickInAdventure : MonoBehaviour
         {
             button.gameObject.SetActive(false);
             isActive = false;
+            isClear = true;
+
             AdventureManager.GimmickCount--;
             if(AdventureManager.GimmickCount <= 0) 
             {
-                ClearGimmick();
+                clearGimmickDelegate();
                 Debug.Log("모든 기믹 해제!");
             }
             
             gameObject.GetComponent<CapsuleCollider>().enabled = false;
         }
     }
-    
-    public void ClearGimmick()
-    {
-        for (int i = 0; i < RandomPassage.gimmickTrigger.Count; i++)
-        {
-            RandomPassage.gimmickTrigger[i].gameObject.tag = "Teleport";
-            RandomPassage.gimmickTrigger[i].isTrigger = true;
-        }
-        
-        AdventureManager.isGimmickRoom = false;
-    }
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.transform.tag != "Untagged" && collider.transform.CompareTag("Player"))
+        if (collider.transform.tag != "Untagged" && collider.transform.CompareTag("Player") && !isClear)
         {
             isActive = true;
             StopAllCoroutines();
