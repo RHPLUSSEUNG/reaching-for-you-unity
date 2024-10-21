@@ -9,7 +9,6 @@ public class DataManager
     {
         DataList data = GameObject.Find("DataList").GetComponent<DataList>();
         consumeList = data.consumeList;
-        equipmentList = data.equipmentList;
         playerSkillList = data.playerSkillList;
         monsterSkillList = data.monsterSkillList;
         characterList = data.characterList;
@@ -49,23 +48,16 @@ public class DataManager
     public ScriptableObject ParsingData(int id)
     {
         int idx = id % 1000;
-        switch (id / 1000)
+        return (id / 1000) switch
         {
-            case 1:
-                return GetCharacterData(idx);
-            case 2:
-                return GetNPCData(idx);
-            case 3:
-                return GetMonsterData(idx);
-            case 4:
-                return GetWeaponData(idx);
-            case 5:
-                return GetArmorData(idx);
-            case 6:
-                return GetConsumeData(idx);
-            default:
-                return null;
-        }
+            1 => GetCharacterData(idx),
+            2 => GetNPCData(idx),
+            3 => GetMonsterData(idx),
+            4 => GetWeaponData(idx),
+            5 => GetArmorData(idx),
+            6 => GetConsumeData(idx),
+            _ => null,
+        };
     }
 
     public EquipmentData GetWeaponData(int id)

@@ -11,9 +11,6 @@ public class DataList : MonoBehaviour
     public List<EquipmentData> armorList;
     public List<ConsumeData> consumeList;
 
-
-
-    public List<EquipmentData> equipmentList;
     public List<SkillData> playerSkillList;
     public List<SkillData> monsterSkillList;
 }
