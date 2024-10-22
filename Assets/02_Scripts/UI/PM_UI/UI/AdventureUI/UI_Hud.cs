@@ -107,6 +107,12 @@ public class UI_Hud : UI_Scene
             GhostBuff ghost_Buff = new GhostBuff();
             ghost_Buff.SetBuff(2, player);
             ChangeProfile(playerStat, playerState);
+
+            for(int i = 0; i < playerState.buffs.Count; i++)
+            {
+                Debug.Log($"Buff {i}번 째 : {playerState.buffs[i]}");
+                Debug.Log($"남은 버프 Turn : {playerState.buffs[i].remainTurn}");
+            }
         }
 
         if(Input.GetKeyDown(KeyCode.M))
@@ -120,6 +126,11 @@ public class UI_Hud : UI_Scene
             Freeze freeze = new Freeze();
             freeze.SetDebuff(2, player);
             ChangeProfile(playerStat, playerState);
+            for (int i = 0; i < playerState.debuffs.Count; i++)
+            {
+                Debug.Log($"DeBuff {i}번 째 : {playerState.debuffs[i]}");
+                Debug.Log($"남은 버프 Turn : {playerState.buffs[i].remainTurn}");
+            }
         }
         if(Input.GetKeyDown(KeyCode.N))
         {
@@ -128,22 +139,22 @@ public class UI_Hud : UI_Scene
         }
     }
 
-    public void CreateStatus(HUDUI type, Sprite icon = null)
+    public void CreateStatus(HUDUI type, Sprite icon = null, int value = 1)
     {
         HUDEffectUI effectUI;
         switch(type)
         {
             case HUDUI.BuffLayout:
                 effectUI = Managers.UI.MakeSubItem<HUDEffectUI>(buffLayout.transform, "Effect");
-                effectUI.SetStatusImage(icon);
+                effectUI.SetStatusImage(icon, value);
                 break;
             case HUDUI.DeBuffLayout:
                 effectUI = Managers.UI.MakeSubItem<HUDEffectUI>(debuffLayout.transform, "Effect");
-                effectUI.SetStatusImage(icon);
+                effectUI.SetStatusImage(icon, value);
                 break;
             case HUDUI.Status_EffectLayout:
                 effectUI = Managers.UI.MakeSubItem<HUDEffectUI>(status_effectLayout.transform, "Effect");
-                effectUI.SetStatusImage(icon);
+                effectUI.SetStatusImage(icon, value);
                 break;
             default:
                 Debug.Log("Incorrect Access");
@@ -175,7 +186,8 @@ public class UI_Hud : UI_Scene
         {
             effectUI = buffLayout.transform.GetChild(i).gameObject.GetComponent<HUDEffectUI>();
             // Image changeIcon = state.buffs[i].GetComponent<Image>();       // Buff Icon
-            effectUI.SetStatusImage(buff_Image);
+            int value = state.buffs[i].remainTurn;
+            effectUI.SetStatusImage(buff_Image, value);
             if (i > effectUI.Max_Display_Child - 1)
             {
                 Managers.UI.HideUI(effectUI.gameObject);
@@ -201,8 +213,9 @@ public class UI_Hud : UI_Scene
         for (int i = 0; i < state.debuffs.Count;i++)
         {
             effectUI = debuffLayout.transform.GetChild(i).gameObject.GetComponent<HUDEffectUI>();
-            // Image changeIcon = state.debuffs[i].GetComponent<Image>();     // Test
-            effectUI.SetStatusImage(Debuff_Image);
+            // Image changeIcon = state.debuffs[i].GetComponent<Image>();     // Debuff Icon
+            int value = state.debuffs[i].remainTurn;
+            effectUI.SetStatusImage(Debuff_Image, value);
             if (i > effectUI.Max_Display_Child - 1)
             {
                 Managers.UI.HideUI(effectUI.gameObject);
