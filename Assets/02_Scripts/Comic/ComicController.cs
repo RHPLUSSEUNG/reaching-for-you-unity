@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,9 @@ public class ComicController : MonoBehaviour
     [SerializeField] ComicAnimationType animationType = ComicAnimationType.None;
     [SerializeField] ScrollRect scrollView;
     [SerializeField] CanvasGroup fadeOverlay;
-    [SerializeField] List<ComicPage> pages = new List<ComicPage>();
+    List<ComicPage> pages = new List<ComicPage>();
+    [SerializeField] ComicData comicData;
+    Comic currentComic;
 
     Transform content;
     int currentPageIndex = 0;
@@ -33,24 +36,55 @@ public class ComicController : MonoBehaviour
     void Start()
     {
         fadeOverlay.alpha = 1.0f;
-        
-        foreach (Transform child in content)
-        {
-            ComicPage page = child.GetComponent<ComicPage>();
-            if (page != null)
-            {
-                pages.Add(page);
-                page.SetComicController(this);
-            }
-        }
-
-        DeactivateAllPages();
-
-        if (pages.Count > 0)
-        {            
-            StartCoroutine(FadeInFirstPage());
-        }
+                
+        DeactivateAllPages();     
     }
+
+    public void StartComic(ComicType comicType)
+    {        
+        currentComic = comicData.GetComic(comicType);
+        
+        if(pages != null)
+        {
+            for(int i = 0; i < pages.Count; i++)
+            {
+                Destroy(pages[i].gameObject);
+            }
+            pages.Clear();
+        }        
+        
+        foreach (ComicPage pageData in currentComic.GetComicPages)
+        {
+            GameObject newPage = Instantiate(pageData.gameObject, transform);            
+            pages.Add(pageData);
+            
+            ComicPage pageComponent = newPage.GetComponent<ComicPage>();
+            if (pageComponent != null)
+            {
+                pages.Add(pageComponent);
+                pageComponent.SetComicController(this);
+            }
+        }        
+        
+        //scrollView.horizontalNormalizedPosition = 0;
+
+        StartCoroutine(FadeInFirstPage());
+    }
+
+    //public void StartComic(ComicType comicType)
+    //{
+    //    currentComic = comicData.GetComic(comicType);
+        
+    //    foreach (Transform child in content)
+    //    {
+    //        ComicPage page = child.GetComponent<ComicPage>();
+    //        if (page != null)
+    //        {
+    //            pages.Add(page);
+    //            page.SetComicController(this);
+    //        }
+    //    }
+    //}
 
     private void DeactivateAllPages()
     {
@@ -85,7 +119,7 @@ public class ComicController : MonoBehaviour
         }
     }
 
-    IEnumerator FadeInFirstPage()
+    public IEnumerator FadeInFirstPage()
     {
         fadeOverlay.blocksRaycasts = true;
 
@@ -102,6 +136,20 @@ public class ComicController : MonoBehaviour
 
         fadeOverlay.alpha = 0;
         fadeOverlay.blocksRaycasts = false;
+    }
+
+    public IEnumerator FadeOutLastPage()
+    {
+        float elapsedTime = 0f;
+        fadeOverlay.blocksRaycasts = true;
+
+        while (elapsedTime < fadeInDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            fadeOverlay.alpha = Mathf.Lerp(1, 0, elapsedTime / fadeInDuration);
+            yield return null;
+        }
+        fadeOverlay.alpha = 1;        
     }
 
     IEnumerator SlideToNextPage(float targetPosition)
