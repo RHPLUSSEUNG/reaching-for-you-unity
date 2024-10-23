@@ -57,13 +57,13 @@ public class BattleManager
         cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
 
         ObjectList.Clear();
-        GameObject go = Managers.Party.InstantiatePlayer("Player_Girl_Battle");
-
-        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(2);
-        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(39);
-        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(3);
-        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(8);
-        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<SkillList>().AddSkill(9);
+        Managers.Party.AddParty("Player_Girl_Battle");
+        GameObject player = Managers.Party.FindPlayer("Player_Girl_Battle");
+        player.GetComponent<SkillList>().AddSkill(2);
+        player.GetComponent<SkillList>().AddSkill(39);
+        player.GetComponent<SkillList>().AddSkill(3);
+        player.GetComponent<SkillList>().AddSkill(8);
+        player.GetComponent<SkillList>().AddSkill(9);
         battleState = BattleState.Start;
         turnCnt = -1;
         phase = 1;
@@ -78,8 +78,10 @@ public class BattleManager
         battleState = BattleState.PlayerTurn;
         Managers.Skill.ReadyGameSkill();
         ObjectList.Sort(compareDefense);
+
         Managers.BattleUI.turnUI.InstantiateAllTurnOrderUI();
         Managers.BattleUI.turnUI.UpdateTurnUI(turnCnt);
+
         NextTurn();
     }
 

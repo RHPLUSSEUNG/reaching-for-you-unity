@@ -42,7 +42,7 @@ public class SkillExtent : MonoBehaviour
         foreach (Collider c in colliders)
         {
             Vector3 interV = (c.transform.position - transform.position).normalized;
-            if(Vector3.Angle(transform.forward, interV) > angle / 2f || c.gameObject.transform.parent.gameObject.GetComponent<CharacterState>()!= null)
+            if(Vector3.Angle(transform.forward, interV) > angle / 2f && c.gameObject.transform.parent.gameObject.GetComponent<CharacterState>()!= null)
             {
                 targets.Add(c.gameObject.transform.parent.gameObject);
             }
@@ -76,7 +76,10 @@ public class SkillExtent : MonoBehaviour
         {
             foreach (Collider c in colliders)
             {
-                targets.Add(c.gameObject.transform.parent.gameObject);
+                if(c.gameObject.transform.parent.gameObject.GetComponent<CharacterState>() != null)
+                {
+                    targets.Add(c.gameObject.transform.parent.gameObject);
+                }
             }
         }
         

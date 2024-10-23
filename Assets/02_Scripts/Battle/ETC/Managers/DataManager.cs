@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DataManager
@@ -8,9 +9,11 @@ public class DataManager
     {
         DataList data = GameObject.Find("DataList").GetComponent<DataList>();
         consumeList = data.consumeList;
-        equipmentList = data.equipmentList;
         playerSkillList = data.playerSkillList;
         monsterSkillList = data.monsterSkillList;
+        characterList = data.characterList;
+        NPCList = data.npcList;
+        monsterList = data.monsterList;
         Debug.Log("Data Loading Complete");
     }
 
@@ -31,30 +34,54 @@ public class DataManager
     #endregion
 
     #region Skill & Item
-    List<ConsumeData> consumeList;
     List<EquipmentData> equipmentList;
     List<SkillData> playerSkillList;
     List<SkillData> monsterSkillList;
-    List<string> charcterList;
-    /*
-   public ScriptableObject ParsingData(int id)
+
+    List<CharacterData> characterList;
+    List<AMNPCData> NPCList;
+    List<MonsterData> monsterList;
+    public List<EquipmentData> weaponList;
+    public List<EquipmentData> armorList;
+    List<ConsumeData> consumeList;
+
+    public ScriptableObject ParsingData(int id)
     {
         int idx = id % 1000;
-        switch (id / 1000)
+        return (id / 1000) switch
         {
-            case 0:
-                return GetItemData(idx);
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-
-
-        }
+            1 => GetCharacterData(idx),
+            2 => GetNPCData(idx),
+            3 => GetMonsterData(idx),
+            4 => GetWeaponData(idx),
+            5 => GetArmorData(idx),
+            6 => GetConsumeData(idx),
+            _ => null,
+        };
     }
-    */
+
+    public EquipmentData GetWeaponData(int id)
+    {
+        return weaponList[id];
+    }
+    public EquipmentData GetArmorData(int id)
+    {
+        return armorList[id];
+    }
+
+    public CharacterData GetCharacterData(int characterId)
+    {
+        return characterList[characterId];
+    }
+
+    public AMNPCData GetNPCData(int npcId)
+    {
+        return NPCList[npcId];
+    }
+    public MonsterData GetMonsterData(int monsterId)
+    {
+        return monsterList[monsterId];
+    }
     public SkillData GetPlayerSkillData(int skillid)
     {
         return playerSkillList[skillid];

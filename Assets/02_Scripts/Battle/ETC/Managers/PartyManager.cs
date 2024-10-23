@@ -9,7 +9,7 @@ public class PartyManager
 
     public bool AddParty(string character)
     {
-        if (playerParty.Count < 5)
+        if (playerParty.Count < 5 && FindPlayer(character)== null)
         {
             GameObject chr = Managers.Party.InstantiatePlayer(character);
             playerParty.Add(chr);
@@ -29,7 +29,7 @@ public class PartyManager
     }
     public bool AddParty(GameObject character)
     {
-        if (FindPlayer(character.name))
+        if (FindPlayer(character.name) != null)
         {
             return false;
         }
@@ -57,7 +57,7 @@ public class PartyManager
     {
         foreach(GameObject character in playerParty)
         {
-            if (character.name == $"{name}(clone)")
+            if (character.name == $"{name}(Clone)")
             {
                 return character;
             }
