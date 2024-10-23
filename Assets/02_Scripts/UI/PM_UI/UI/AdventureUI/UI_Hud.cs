@@ -76,9 +76,6 @@ public class UI_Hud : UI_Scene
         Freeze testDebuff_1 = new Freeze();
         testDebuff_1.SetDebuff(5, player, 30);
 
-        Cold testDebuff_2 = new Cold();
-        testDebuff_2.SetDebuff(3, player, 30);
-
         Poision testDebuff_3 = new Poision();
         testDebuff_3.SetDebuff(2, player);
 
@@ -118,11 +115,11 @@ public class UI_Hud : UI_Scene
         }
 
 
-        //if (Input.GetKeyDown(KeyCode.M))
-        //{
-        //    playerState.CalcTurn();
-        //    ChangeProfile(playerStat, playerState);
-        //}
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            playerState.CalcTurn();
+            ChangeProfile(playerStat, playerState);
+        }
     }
 
     public void CreateStatus(HUDUI type, Sprite icon = null, int value = 1)
