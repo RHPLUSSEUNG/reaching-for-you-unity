@@ -37,6 +37,7 @@ public class UI_Hud : UI_Scene
     public Sprite buff_Image;
     public Sprite Debuff_Image;
 
+    public int Max_Display_Status = 3;
     public override void Init()
     {
         base.Init();
@@ -107,18 +108,6 @@ public class UI_Hud : UI_Scene
             GhostBuff ghost_Buff = new GhostBuff();
             ghost_Buff.SetBuff(2, player);
             ChangeProfile(playerStat, playerState);
-
-            for(int i = 0; i < playerState.buffs.Count; i++)
-            {
-                Debug.Log($"Buff {i}번 째 : {playerState.buffs[i]}");
-                Debug.Log($"남은 버프 Turn : {playerState.buffs[i].remainTurn}");
-            }
-        }
-
-        if(Input.GetKeyDown(KeyCode.M))
-        {
-            playerState.buffs.RemoveAt(0);
-            ChangeProfile(playerStat, playerState);
         }
 
         if(Input.GetKeyDown(KeyCode.L))
@@ -126,17 +115,14 @@ public class UI_Hud : UI_Scene
             Freeze freeze = new Freeze();
             freeze.SetDebuff(2, player);
             ChangeProfile(playerStat, playerState);
-            for (int i = 0; i < playerState.debuffs.Count; i++)
-            {
-                Debug.Log($"DeBuff {i}번 째 : {playerState.debuffs[i]}");
-                Debug.Log($"남은 버프 Turn : {playerState.buffs[i].remainTurn}");
-            }
         }
-        if(Input.GetKeyDown(KeyCode.N))
-        {
-            playerState.debuffs.RemoveAt(0);
-            ChangeProfile(playerStat, playerState);
-        }
+
+
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    playerState.CalcTurn();
+        //    ChangeProfile(playerStat, playerState);
+        //}
     }
 
     public void CreateStatus(HUDUI type, Sprite icon = null, int value = 1)
@@ -173,6 +159,7 @@ public class UI_Hud : UI_Scene
 
     public void ChangeEffectUI(CharacterState state)
     {
+        int displayCnt = 0;
         #region HUD Buff Setting
         HUDEffectUI effectUI;
         if (buffLayout.transform.childCount < state.buffs.Count)
@@ -188,10 +175,13 @@ public class UI_Hud : UI_Scene
             // Image changeIcon = state.buffs[i].GetComponent<Image>();       // Buff Icon
             int value = state.buffs[i].remainTurn;
             effectUI.SetStatusImage(buff_Image, value);
-            if (i > effectUI.Max_Display_Child - 1)
+            
+            if (displayCnt >= Max_Display_Status || value == 0)
             {
                 Managers.UI.HideUI(effectUI.gameObject);
+                continue;
             }
+            displayCnt++;
         }
         if(buffLayout.transform.childCount > state.buffs.Count)
         {
@@ -202,6 +192,7 @@ public class UI_Hud : UI_Scene
         }
         #endregion
 
+        displayCnt = 0;
         #region HUD Debuff Setting
         if (debuffLayout.transform.childCount < state.debuffs.Count)
         {
@@ -216,10 +207,13 @@ public class UI_Hud : UI_Scene
             // Image changeIcon = state.debuffs[i].GetComponent<Image>();     // Debuff Icon
             int value = state.debuffs[i].remainTurn;
             effectUI.SetStatusImage(Debuff_Image, value);
-            if (i > effectUI.Max_Display_Child - 1)
+
+            if (displayCnt >= Max_Display_Status || value == 0)
             {
                 Managers.UI.HideUI(effectUI.gameObject);
+                continue;
             }
+            displayCnt++;
         }
         if (debuffLayout.transform.childCount > state.debuffs.Count)
         {
