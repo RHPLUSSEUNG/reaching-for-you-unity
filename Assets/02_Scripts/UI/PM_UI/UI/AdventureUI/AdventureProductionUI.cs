@@ -4,13 +4,14 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class AdventureEnterUI : UI_Popup
+public class AdventureProductionUI : UI_Popup
 {
-    enum mapEnterUI
+    enum ProductionUI
     {
-        TextPanel,
+        EnterTextPanel,
         MapNameText,
-        MapDescriptText
+        MapDescriptText,
+        EncounterPanel
     }
 
     TextMeshProUGUI mapName;
@@ -20,13 +21,15 @@ public class AdventureEnterUI : UI_Popup
     {
         base.Init();
 
-        Bind<GameObject>(typeof(mapEnterUI));
+        Bind<GameObject>(typeof(ProductionUI));
 
-        mapName = GetObject((int)mapEnterUI.MapNameText).GetComponent<TextMeshProUGUI>();
-        mapDescript = GetObject((int)mapEnterUI.MapDescriptText).GetComponent<TextMeshProUGUI>();
+        mapName = GetObject((int)ProductionUI.MapNameText).GetComponent<TextMeshProUGUI>();
+        mapDescript = GetObject((int)ProductionUI.MapDescriptText).GetComponent<TextMeshProUGUI>();
+
+        Managers.BattleUI.productionUI = GetComponent<AdventureProductionUI>();
 
         SetMapText();
-        StartFadeEffect();
+        StartEnterFadeEffect();
     }
 
     public void SetMapText()
@@ -42,11 +45,17 @@ public class AdventureEnterUI : UI_Popup
         }
     }
 
-    public void StartFadeEffect()
+    public void StartEnterFadeEffect()
     {
-        GetObject((int)mapEnterUI.TextPanel).GetComponent<ImageFadeEffect>().StartFadeEffect();
-        GetObject((int)mapEnterUI.MapNameText).GetComponent<TextFadeEffect>().StartFadeEffect();
-        GetObject((int)mapEnterUI.MapDescriptText).GetComponent<TextFadeEffect>().StartFadeEffect();
+        GetObject((int)ProductionUI.EnterTextPanel).GetComponent<ImageFadeEffect>().StartFadeEffect();
+        GetObject((int)ProductionUI.MapNameText).GetComponent<TextFadeEffect>().StartFadeEffect();
+        GetObject((int)ProductionUI.MapDescriptText).GetComponent<TextFadeEffect>().StartFadeEffect();
+    }
+
+    public void EncounterProduction()
+    {
+        EncounterProduction production = GetObject((int)ProductionUI.EncounterPanel).GetComponent<EncounterProduction>();
+        StartCoroutine(production.Encounter());
     }
 
     void SettingDesertUI()

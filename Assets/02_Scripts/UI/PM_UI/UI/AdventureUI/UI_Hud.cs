@@ -156,6 +156,7 @@ public class UI_Hud : UI_Scene
 
     public void ChangeEffectUI(CharacterState state)
     {
+        // TODO : Refactoring
         int displayCnt = 0;
         #region HUD Buff Setting
         HUDEffectUI effectUI;
