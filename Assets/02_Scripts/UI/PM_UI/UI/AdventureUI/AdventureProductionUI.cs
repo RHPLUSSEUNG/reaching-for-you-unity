@@ -27,6 +27,7 @@ public class AdventureProductionUI : UI_Popup
         mapDescript = GetObject((int)ProductionUI.MapDescriptText).GetComponent<TextMeshProUGUI>();
 
         Managers.BattleUI.productionUI = GetComponent<AdventureProductionUI>();
+        GetObject((int)ProductionUI.EncounterPanel).SetActive(false);
 
         SetMapText();
         StartEnterFadeEffect();
@@ -54,6 +55,7 @@ public class AdventureProductionUI : UI_Popup
 
     public void EncounterProduction()
     {
+        GetObject((int)ProductionUI.EncounterPanel).SetActive(true);
         EncounterProduction production = GetObject((int)ProductionUI.EncounterPanel).GetComponent<EncounterProduction>();
         StartCoroutine(production.Encounter());
     }
