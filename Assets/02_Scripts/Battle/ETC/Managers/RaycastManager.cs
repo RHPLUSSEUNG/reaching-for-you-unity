@@ -171,7 +171,7 @@ public class RaycastManager
     {
         Managers.Battle.cameraController.ChangeFollowTarget(target, true);
         Managers.Battle.cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
-        Managers.Battle.cameraController.ChangeOffSet(-3, 1.5f, -3, 20, 45);
+        //Managers.Battle.cameraController.ChangeOffSet(-3, 1.5f, -3, 20, 45);
 
         yield return new WaitForSeconds(1f);
 
@@ -192,7 +192,7 @@ public class RaycastManager
     {
         Managers.Battle.cameraController.ChangeFollowTarget(target, true);
         Managers.Battle.cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
-        Managers.Battle.cameraController.ChangeOffSet(-3, 1.5f, -3, 20,45);
+        //Managers.Battle.cameraController.ChangeOffSet(-3, 1.5f, -3, 20,45);
 
         yield return new WaitForSeconds(1f);
 

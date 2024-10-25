@@ -159,8 +159,8 @@ public class ActUI : UI_Popup
         Managers.BattleUI.PlayerBattlePhaseUI();
 
         rangeUI.ClearMoveRange();
-        cameraController.ChangeOffSet(-2, 1.5f, -3, 30, 45);   // 캐릭터 행동 UI offset
-        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        //cameraController.ChangeOffSet(-2, 1.5f, -3, 30, 45);   // 캐릭터 행동 UI offset
+        cameraController.ChangeCameraMode(CameraMode.UI, false, true);
         Managers.BattleUI.cameraMode = CameraMode.Follow;
     }
 
