@@ -544,6 +544,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1444600455}
+  - {fileID: 1173901106}
   - {fileID: 423665172}
   m_Father: {fileID: 1492986653}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -817,7 +818,7 @@ GameObject:
   - component: {fileID: 779297445}
   - component: {fileID: 779297444}
   m_Layer: 5
-  m_Name: PerfectRect
+  m_Name: Perfect Rect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -936,7 +937,7 @@ GameObject:
   - component: {fileID: 781311828}
   - component: {fileID: 781311827}
   m_Layer: 5
-  m_Name: BadRect
+  m_Name: Bad Rect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1185,6 +1186,103 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1173901105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1173901106}
+  - component: {fileID: 1173901109}
+  - component: {fileID: 1173901108}
+  - component: {fileID: 1173901107}
+  m_Layer: 5
+  m_Name: JudgementEffect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1173901106
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173901105}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 509904016}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 150, y: 232}
+  m_SizeDelta: {x: 256, y: 256}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &1173901107
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173901105}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 47638ad883e85124394c3117806050b3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1173901108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173901105}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a8a96b393ae247944940f3c361cea157, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1173901109
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173901105}
+  m_CullTransparentMesh: 1
 --- !u!1 &1444600454
 GameObject:
   m_ObjectHideFlags: 0
@@ -1271,9 +1369,10 @@ GameObject:
   - component: {fileID: 1492986653}
   - component: {fileID: 1492986655}
   - component: {fileID: 1492986654}
-  - component: {fileID: 1492986657}
   - component: {fileID: 1492986658}
+  - component: {fileID: 1492986657}
   - component: {fileID: 1492986659}
+  - component: {fileID: 1492986660}
   m_Layer: 5
   m_Name: GamePanel
   m_TagString: Untagged
@@ -1419,6 +1518,26 @@ MonoBehaviour:
   - {fileID: 1614045085}
   - {fileID: 1555704245}
   - {fileID: 781311826}
+--- !u!114 &1492986660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492986652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c99f61f926466447a1434eff95f229a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  judgementAnimator: {fileID: 1173901107}
+  judgementImage: {fileID: 1173901108}
+  judgementSprites:
+  - {fileID: 21300000, guid: a8a96b393ae247944940f3c361cea157, type: 3}
+  - {fileID: 21300000, guid: a3fea863cf1d7cb4b8de8b526684fae9, type: 3}
+  - {fileID: 21300000, guid: 25460ca3f7dc58c4eaadcad36787092b, type: 3}
+  - {fileID: 21300000, guid: 92245521cb90bfe4dbad3cf981f8a999, type: 3}
+  - {fileID: 21300000, guid: 5c9461cec3b6f5748b124b621fabf68a, type: 3}
 --- !u!1 &1502499362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1499,7 +1618,7 @@ GameObject:
   - component: {fileID: 1555704247}
   - component: {fileID: 1555704246}
   m_Layer: 5
-  m_Name: CoolRect
+  m_Name: Cool Rect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1574,7 +1693,7 @@ GameObject:
   - component: {fileID: 1614045087}
   - component: {fileID: 1614045086}
   m_Layer: 5
-  m_Name: GoodRect
+  m_Name: Good Rect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

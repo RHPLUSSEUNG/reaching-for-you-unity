@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimingManager : MonoBehaviour
 {
@@ -10,10 +11,14 @@ public class TimingManager : MonoBehaviour
     [SerializeField] Transform center = null; // perfect 판정
     [SerializeField] RectTransform[] timingRect = null; // 판정 범위
     Vector2[] timingBoxs = null; // 판정 범위 최솟값, 최댓값
-
+    
+    JudgementEffect judgementEffect = null;
+    
     // Start is called before the first frame update
     void Start()
     {
+        judgementEffect = GetComponent<JudgementEffect>();
+
         // 타이밍 박스 설정
         timingBoxs = new Vector2[timingRect.Length];
 
@@ -36,12 +41,12 @@ public class TimingManager : MonoBehaviour
                 {
                     Destroy(boxNoteList[i]);
                     boxNoteList.RemoveAt(i);
-                    Debug.Log("Hit: "+ timingRect[j].name);
+                    
+                    judgementEffect.JudgementAnim(j);
                     return;
                 }
             }
         }
-
-        // Debug.Log("Miss");
+        judgementEffect.JudgementAnim(timingRect.Length);
     }
 }

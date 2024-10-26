@@ -12,10 +12,12 @@ public class NoteManager : MonoBehaviour
     [SerializeField] GameObject goNote = null;
 
     TimingManager timingManager = null;
+    JudgementEffect judgementEffect = null;
 
     void Start()
     {
         timingManager = GetComponent<TimingManager>();
+        judgementEffect = GetComponent<JudgementEffect>();
     }
 
     // Update is called once per frame
@@ -32,13 +34,14 @@ public class NoteManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other) 
+    private void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.CompareTag("Note"))
         {
+            judgementEffect.JudgementAnim(4);
+
             timingManager.boxNoteList.Remove(other.gameObject);
             Destroy(other.gameObject, 0.1f);
-            Debug.Log("Miss");
         }   
     }
 }
