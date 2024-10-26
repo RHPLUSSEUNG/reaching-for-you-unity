@@ -6,6 +6,6 @@ public class AdventureEncounterTrigger : MonoBehaviour
 {
     private void OnDisable()
     {
-        AdventureManager.adventure.EncounterChance();
+        // AdventureManager.adventure.EncounterChance();
     }
 }

@@ -42,7 +42,6 @@ public class AdventureManager : MonoBehaviour
 
     public int randomEncounter;
     public int roomCount = 0;
-    public float encounterChance = 0.4f;
 
     void Awake()
     {
@@ -60,8 +59,6 @@ public class AdventureManager : MonoBehaviour
         randomEncounter = Random.Range(0, 5);
 
         roomCount++;
-        Managers.BattleUI.hudUI.UpdateSearchCountTextUI(roomCount);
-        Managers.BattleUI.hudUI.UpdateEncounterTextUI(encounterChance);
 
         if(randomEncounter < 2 && roomCount > 1)
         {
