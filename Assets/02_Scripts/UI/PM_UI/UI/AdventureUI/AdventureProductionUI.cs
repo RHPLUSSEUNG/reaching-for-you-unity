@@ -11,6 +11,7 @@ public class AdventureProductionUI : UI_Popup
         EnterTextPanel,
         MapNameText,
         MapDescriptText,
+        EncounterSign,
         EncounterPanel
     }
 
@@ -27,6 +28,7 @@ public class AdventureProductionUI : UI_Popup
         mapDescript = GetObject((int)ProductionUI.MapDescriptText).GetComponent<TextMeshProUGUI>();
 
         Managers.BattleUI.productionUI = GetComponent<AdventureProductionUI>();
+        GetObject((int)ProductionUI.EncounterSign).SetActive(false);
         GetObject((int)ProductionUI.EncounterPanel).SetActive(false);
 
         SetMapText();
@@ -55,6 +57,7 @@ public class AdventureProductionUI : UI_Popup
 
     public float EncounterProduction()
     {
+        GetObject((int)ProductionUI.EncounterSign).SetActive(true);
         GetObject((int)ProductionUI.EncounterPanel).SetActive(true);
         EncounterProduction production = GetObject((int)ProductionUI.EncounterPanel).GetComponent<EncounterProduction>();
         StartCoroutine(production.Encounter());
