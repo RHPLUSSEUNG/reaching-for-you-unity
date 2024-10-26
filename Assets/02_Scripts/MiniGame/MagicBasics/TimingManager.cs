@@ -11,13 +11,15 @@ public class TimingManager : MonoBehaviour
     [SerializeField] Transform center = null; // perfect 판정
     [SerializeField] RectTransform[] timingRect = null; // 판정 범위
     Vector2[] timingBoxs = null; // 판정 범위 최솟값, 최댓값
-    
+
     JudgementEffect judgementEffect = null;
+    MagicBasicsScore score = null;
     
     // Start is called before the first frame update
     void Start()
     {
         judgementEffect = GetComponent<JudgementEffect>();
+        score = FindObjectOfType<MagicBasicsScore>();
 
         // 타이밍 박스 설정
         timingBoxs = new Vector2[timingRect.Length];
@@ -43,6 +45,9 @@ public class TimingManager : MonoBehaviour
                     boxNoteList.RemoveAt(i);
                     
                     judgementEffect.JudgementAnim(j);
+
+                    // 점수 증가
+                    score.IncreaseScore(j);
                     return;
                 }
             }

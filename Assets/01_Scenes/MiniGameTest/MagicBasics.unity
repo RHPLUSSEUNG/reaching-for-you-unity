@@ -208,7 +208,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -334,6 +334,7 @@ GameObject:
   - component: {fileID: 359949367}
   - component: {fileID: 359949369}
   - component: {fileID: 359949368}
+  - component: {fileID: 359949370}
   m_Layer: 5
   m_Name: ScorePanel
   m_TagString: Untagged
@@ -399,6 +400,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 359949366}
   m_CullTransparentMesh: 1
+--- !u!114 &359949370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359949366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9157a44c296f774bacd17d8fdfa1e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreSlider: {fileID: 86574602}
+  increaseScore: 10
+  weight:
+  - 1
+  - 0.8
+  - 0.5
+  - 0.2
 --- !u!1 &423665171
 GameObject:
   m_ObjectHideFlags: 0
