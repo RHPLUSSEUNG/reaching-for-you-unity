@@ -17,6 +17,7 @@ public class SkillUI : UI_Base
     [SerializeField]
     int skill_ID;
     bool isSelected = false;
+    bool isEquiped = false;     // TODO : Equip한 스킬 구분 (스킬 장착 해제 기능)
 
     public void SetSkillID(int id)
     {
@@ -64,13 +65,21 @@ public class SkillUI : UI_Base
     {
         if (isSelected)
         {
-            isSelected = false;
-            selectPanel.SetActive(false);
+            bool flag = Managers.BattleUI.skillSelectUI.RemoveSelectSkillList(skill_ID);
+            if(flag)
+            {
+                isSelected = false;
+                selectPanel.SetActive(false);
+            }
         }
         else
         {
-            isSelected = true;
-            selectPanel.SetActive(true);
+            bool flag = Managers.BattleUI.skillSelectUI.AddSelectSkillList(skill_ID);
+            if(flag)
+            {
+                isSelected = true;
+                selectPanel.SetActive(true);
+            }
         }
     }
 }

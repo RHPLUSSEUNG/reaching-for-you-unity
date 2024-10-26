@@ -25,6 +25,8 @@ public class UI_Repair : UI_Popup
 
         Bind<GameObject>(typeof(repairUI));
 
+        Managers.BattleUI.repairUI = GetComponent<UI_Repair>();
+
         // Managers.InvenUI.player = playerList[0];
         GameObject close = GetObject((int)repairUI.CloseButton);
         BindEvent(close, OnCloseButton, Define.UIEvent.Click);
