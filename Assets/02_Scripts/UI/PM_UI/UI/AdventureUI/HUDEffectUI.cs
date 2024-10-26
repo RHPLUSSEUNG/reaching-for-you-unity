@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,24 +8,30 @@ public class HUDEffectUI : UI_Base
     enum StatusUI
     {
         StatusIcon,
-
+        RemainText
     }
-    public int Max_Display_Child = 3;
     GameObject statusIcon;
+    TextMeshProUGUI remainText;
     public override void Init()
     {
         Bind<GameObject>(typeof(StatusUI));
 
         statusIcon = GetObject((int)StatusUI.StatusIcon).gameObject;
+        remainText = GetObject((int)StatusUI.RemainText).gameObject.GetComponent<TextMeshProUGUI>();
         // BindEvent(statusIcon, StatusEnter, Define.UIEvent.Enter);
-        BindEvent(statusIcon, StatusExit, Define.UIEvent.Exit);
-        BindEvent(statusIcon, StatusClick, Define.UIEvent.Click);
+        BindEvent(gameObject, StatusExit, Define.UIEvent.Exit);
+        BindEvent(gameObject, StatusClick, Define.UIEvent.Click);
     }
 
-    public void SetStatusImage(Image icon)
+    public void SetStatusImage(Sprite icon, int value = 1)
     {
         Image statusImage = statusIcon.GetComponent<Image>();
-        statusImage.sprite = icon.sprite;
+        statusImage.sprite = icon;
+        remainText.text = value.ToString();
+        if (value == 1)
+        {
+            remainText.gameObject.SetActive(false);
+        }
     }
 
     public void StatusClick(PointerEventData data)
@@ -33,6 +40,11 @@ public class HUDEffectUI : UI_Base
         for (int i = 0; i < layout.transform.childCount; i++)
         {
             Transform childStatus = layout.transform.GetChild(i);
+            string valueText = childStatus.GetComponent<HUDEffectUI>().remainText.text;
+            if (valueText.Equals("0"))
+            {
+                continue;
+            }
             childStatus.gameObject.SetActive(true);
         }
     }
@@ -50,10 +62,22 @@ public class HUDEffectUI : UI_Base
     public void StatusExit(PointerEventData data)
     {
         GameObject layout = gameObject.transform.parent.gameObject;
-        for (int i = Max_Display_Child; i < layout.transform.childCount; i++)
+        int displayCnt = 0;
+        for (int i = 0; i < layout.transform.childCount; i++)
         {
             Transform childStatus = layout.transform.GetChild(i);
-            childStatus.gameObject.SetActive(false);
+            if(displayCnt >= Managers.BattleUI.hudUI.Max_Display_Status)
+            {
+                childStatus.gameObject.SetActive(false);
+                continue;
+            }
+            string valueText = childStatus.GetComponent<HUDEffectUI>().remainText.text;
+            if (valueText.Equals("0"))
+            {
+                continue;
+            }
+            childStatus.gameObject.SetActive(true);
+            displayCnt++;
         }
     }
 }
