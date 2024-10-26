@@ -21,6 +21,11 @@ public class EncounterProduction : MonoBehaviour
     bool isFastPhasee = false;
     float slowSpeed = 0.5f;
 
+    public float AddWaitTime()
+    {
+        return slowDuration + productionDuration + fadeDuration;
+    }
+
     public IEnumerator Encounter()
     {
         cameraTransform = Camera.main.transform;

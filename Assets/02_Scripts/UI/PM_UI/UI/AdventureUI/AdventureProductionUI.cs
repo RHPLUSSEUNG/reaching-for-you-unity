@@ -53,11 +53,15 @@ public class AdventureProductionUI : UI_Popup
         GetObject((int)ProductionUI.MapDescriptText).GetComponent<TextFadeEffect>().StartFadeEffect();
     }
 
-    public void EncounterProduction()
+    public float EncounterProduction()
     {
         GetObject((int)ProductionUI.EncounterPanel).SetActive(true);
         EncounterProduction production = GetObject((int)ProductionUI.EncounterPanel).GetComponent<EncounterProduction>();
         StartCoroutine(production.Encounter());
+
+        float waitTime = production.AddWaitTime();
+
+        return waitTime;
     }
 
     void SettingDesertUI()
