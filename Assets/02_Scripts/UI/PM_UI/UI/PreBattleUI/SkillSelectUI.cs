@@ -18,11 +18,19 @@ public class SkillSelectUI : UI_Popup
         SkillEquipButton
     }
 
+    [SerializeField]
     int equip_Skill_Count = 0;
+    [SerializeField]
     int max_equip_skill = 5;
+    [SerializeField]
     List<int> select_skill_list = new List<int>();
+    [SerializeField]
+    List<GameObject> skill_UI_List = new List<GameObject>();
 
+    [SerializeField]
     GameObject player;
+
+    // [TODO] : 동료 추가 시 동료 스킬 반영
 
     public override void Init()
     {
@@ -34,7 +42,7 @@ public class SkillSelectUI : UI_Popup
         GameObject skillEquipBtn = GetObject((int)SelectUI.SkillEquipButton);
         BindEvent(skillEquipBtn, ClickSkillEquipButton, Define.UIEvent.Click);
 
-        player = Managers.Party.playerParty[0];         // Temp
+        player = Managers.Party.playerParty[0];         // Temp(동료 추가 시 변경 고려)
         Debug.Log($"player : {player}");
 
         SetCharacterInfo();
@@ -50,9 +58,15 @@ public class SkillSelectUI : UI_Popup
         charName.text = "아나스타샤";        // 캐릭터 이름 설정
     }
 
-    public void AddSelectSkill(int skillID)
+    public void AddSelectSkill(int id)
     {
+        Transform content = GetObject((int)SelectUI.SkillContent).transform;
+        SkillUI skill_ui = Managers.UI.MakeSubItem<SkillUI>(content, "Skill");
+        SkillData skillData = Managers.Data.GetPlayerSkillData(id);
+        skill_ui.SetSkillID(id);
+        skill_ui.SetInfo(skillData);
 
+        skill_ui.transform.SetSiblingIndex(id);
     }
 
     public void AddAllSelectSkill()
@@ -70,7 +84,7 @@ public class SkillSelectUI : UI_Popup
         
     }
 
-    public bool AddSelectSkillList(int skill_ID)
+    public bool AddSelectSkillList(int skill_ID, GameObject skill_UI)
     {
         if(equip_Skill_Count >= max_equip_skill)
         {
@@ -85,11 +99,12 @@ public class SkillSelectUI : UI_Popup
             return false;
         }
         select_skill_list.Add(skill_ID);
+        skill_UI_List.Add(skill_UI);
         equip_Skill_Count++;
         return true;
     }
 
-    public bool RemoveSelectSkillList(int skill_ID)
+    public bool RemoveSelectSkillList(int skill_ID, GameObject skill_UI)
     {
         if (equip_Skill_Count <= 0)
         {
@@ -102,6 +117,7 @@ public class SkillSelectUI : UI_Popup
             return false;
         }
         select_skill_list.Remove(skill_ID);
+        skill_UI_List.Remove(skill_UI);
         equip_Skill_Count--;
         return true;
     }
@@ -114,9 +130,25 @@ public class SkillSelectUI : UI_Popup
             int id = select_skill_list[idx];
             SkillUI skillUI = Managers.UI.MakeSubItem<SkillUI>(equipPanel, "Skill");
             SkillData skillData = Managers.Data.GetPlayerSkillData(id);
+            skillUI.isEquiped = true;
             skillUI.SetSkillID(id);
             skillUI.SetInfo(skillData);
         }
+    }
+
+    public void UnEquipSkill(int id)
+    {
+        if (equip_Skill_Count <= 0)
+        {
+            Debug.Log("Skill is None");
+            return;
+        }
+        equip_Skill_Count--;
+        select_skill_list.Remove(id);
+        SkillList skillList = player.GetComponent<SkillList>();
+        skillList.RemoveSkill(id);
+
+        AddSelectSkill(id);
     }
 
     public void ClickSkillEquipButton(PointerEventData data)
@@ -133,9 +165,9 @@ public class SkillSelectUI : UI_Popup
             skillList.AddSkill(select_skill_list[i]);
         }
 
-        for(int i = 0; i < skillList.idList.Count; i++)
+        for(int i = 0; i < skill_UI_List.Count;i++)
         {
-            Debug.Log($"Skill ID : {skillList.idList[i]}");
+            Managers.Prefab.Destroy(skill_UI_List[i]);
         }
 
         UpdateEquipSkillUI();

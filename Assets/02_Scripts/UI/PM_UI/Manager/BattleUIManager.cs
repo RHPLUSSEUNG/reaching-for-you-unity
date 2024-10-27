@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class BattleUIManager
 {
+    // PreBattleUI
+    public UI_Repair repairUI;
+    public SkillSelectUI skillSelectUI;
+    //
     public ActUI actUI;
     public BatchUI batchUI;
     public BattleUI battleUI;

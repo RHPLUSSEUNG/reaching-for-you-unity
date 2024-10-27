@@ -78,7 +78,7 @@ public class ActUI : UI_Popup
         skillRangeUI.SetMapInfo();
 
         // Consume Test
-        Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<Equip_Item>().AddConsume(1, 3);
+        // Managers.Party.FindPlayer("Player_Girl_Battle(Clone)").GetComponent<Equip_Item>().AddConsume(1, 3);
     }
 
     public void UpdateCharacterInfo()

@@ -16,8 +16,9 @@ public class SkillUI : UI_Base
     GameObject selectPanel;
     [SerializeField]
     int skill_ID;
+    [SerializeField]
     bool isSelected = false;
-    bool isEquiped = false;     // TODO : Equip한 스킬 구분 (스킬 장착 해제 기능)
+    public bool isEquiped = false;
 
     public void SetSkillID(int id)
     {
@@ -63,9 +64,16 @@ public class SkillUI : UI_Base
 
     public void ClickSelectPanel(PointerEventData data)
     {
+        if (isEquiped)
+        {
+            Managers.BattleUI.skillSelectUI.UnEquipSkill(skill_ID);
+            Managers.Prefab.Destroy(gameObject);
+            return;
+        }
+
         if (isSelected)
         {
-            bool flag = Managers.BattleUI.skillSelectUI.RemoveSelectSkillList(skill_ID);
+            bool flag = Managers.BattleUI.skillSelectUI.RemoveSelectSkillList(skill_ID, gameObject);
             if(flag)
             {
                 isSelected = false;
@@ -74,7 +82,7 @@ public class SkillUI : UI_Base
         }
         else
         {
-            bool flag = Managers.BattleUI.skillSelectUI.AddSelectSkillList(skill_ID);
+            bool flag = Managers.BattleUI.skillSelectUI.AddSelectSkillList(skill_ID, gameObject);
             if(flag)
             {
                 isSelected = true;
