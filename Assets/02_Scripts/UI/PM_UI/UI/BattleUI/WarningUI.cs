@@ -26,6 +26,7 @@ public class WarningUI : UI_Popup
 
     public void ShowWarningUI()
     {
+        GetComponent<Canvas>().sortingOrder = 100;
         Managers.UI.ShowUI(gameObject);
         StartCoroutine(ShowWarningCoroutine());
     }
