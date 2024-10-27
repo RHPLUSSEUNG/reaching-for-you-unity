@@ -45,7 +45,6 @@ public class UI_Repair : UI_Popup
 
         repairPanel = GetObject((int)repairUI.RepairPanel);
         skillPanel = GetObject((int)repairUI.SkillSelectPanel);
-        skillPanel.SetActive(false);
     }
 
     public void UpdatePlayerInfo()
