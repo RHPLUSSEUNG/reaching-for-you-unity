@@ -10,7 +10,6 @@ public class SkillSelectUI : UI_Popup
 {
     enum SelectUI
     {
-        SkillSelectPanel,
         PortraitName,
         CharacterPortrait,
         EquipSkillPanel,

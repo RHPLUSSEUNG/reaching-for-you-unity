@@ -6,18 +6,24 @@ public class UI_Repair : UI_Popup
 {
     enum repairUI
     {
+        RepairPanel,
+        SkillSelectPanel,
         Level,
         CharacterIcon,
         ElementIcon,
         CharacterName,
         HPBar,
         MPBar,
-        CloseButton
+        CloseButton,
+        InvenTabButton,
+        SkillTabButton
     }
 
     public Equip_Item focusEquip;
     public PlayerStat focusStat;
 
+    GameObject repairPanel;
+    GameObject skillPanel;
     GameObject[] playerList = new GameObject[4];
     public override void Init()
     {
@@ -30,6 +36,16 @@ public class UI_Repair : UI_Popup
         // Managers.InvenUI.player = playerList[0];
         GameObject close = GetObject((int)repairUI.CloseButton);
         BindEvent(close, OnCloseButton, Define.UIEvent.Click);
+
+        GameObject invenTabBtn = GetObject((int)repairUI.InvenTabButton);
+        BindEvent(invenTabBtn, ClickInvenTab, Define.UIEvent.Click);
+
+        GameObject skillTabBtn = GetObject((int)repairUI.SkillTabButton);
+        BindEvent(skillTabBtn, ClickSkillTab, Define.UIEvent.Click);
+
+        repairPanel = GetObject((int)repairUI.RepairPanel);
+        skillPanel = GetObject((int)repairUI.SkillSelectPanel);
+        skillPanel.SetActive(false);
     }
 
     public void UpdatePlayerInfo()
@@ -64,5 +80,17 @@ public class UI_Repair : UI_Popup
     public void OnCloseButton(PointerEventData data)
     {
         Managers.UI.HideUI(gameObject);
+    }
+
+    public void ClickInvenTab(PointerEventData data)
+    {
+        repairPanel.SetActive(true);
+        skillPanel.SetActive(false);
+    }
+
+    public void ClickSkillTab(PointerEventData data)
+    {
+        repairPanel.SetActive(false);
+        skillPanel.SetActive(true);
     }
 }
