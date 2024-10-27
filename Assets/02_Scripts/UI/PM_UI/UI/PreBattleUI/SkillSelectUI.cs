@@ -19,13 +19,19 @@ public class SkillSelectUI : UI_Popup
     }
 
     [SerializeField]
-    int equip_Skill_Count = 0;
+    int select_Skill_Count = 0;
     [SerializeField]
-    int max_equip_skill = 5;
+    int equip_Skill_Count = 0;
+    
     [SerializeField]
     List<int> select_skill_list = new List<int>();
     [SerializeField]
+    List<int> equip_skill_list = new List<int>();
+    [SerializeField]
     List<GameObject> skill_UI_List = new List<GameObject>();
+
+    [SerializeField]
+    int max_equip_skill = 5;
 
     [SerializeField]
     GameObject player;
@@ -86,10 +92,10 @@ public class SkillSelectUI : UI_Popup
 
     public bool AddSelectSkillList(int skill_ID, GameObject skill_UI)
     {
-        if(equip_Skill_Count >= max_equip_skill)
+        if(select_Skill_Count >= max_equip_skill)
         {
-            Debug.Log("Equip Skill Count Over!");
-            Managers.BattleUI.warningUI.SetText("캐릭터는 마법을 5개까지만 외울 수 있습니다!");
+            Debug.Log("Select Skill Count Over!");
+            Managers.BattleUI.warningUI.SetText("캐릭터는 한번에 마법을 5개까지만 외울 수 있습니다!");
             Managers.BattleUI.warningUI.ShowWarningUI();
             return false;
         }
@@ -100,15 +106,15 @@ public class SkillSelectUI : UI_Popup
         }
         select_skill_list.Add(skill_ID);
         skill_UI_List.Add(skill_UI);
-        equip_Skill_Count++;
+        select_Skill_Count++;
         return true;
     }
 
     public bool RemoveSelectSkillList(int skill_ID, GameObject skill_UI)
     {
-        if (equip_Skill_Count <= 0)
+        if (select_Skill_Count <= 0)
         {
-            equip_Skill_Count = 0;
+            select_Skill_Count = 0;
             return false;
         }
         if(!select_skill_list.Contains(skill_ID))
@@ -118,12 +124,19 @@ public class SkillSelectUI : UI_Popup
         }
         select_skill_list.Remove(skill_ID);
         skill_UI_List.Remove(skill_UI);
-        equip_Skill_Count--;
+        select_Skill_Count--;
         return true;
     }
 
     public void UpdateEquipSkillUI()
     {
+        equip_Skill_Count += select_Skill_Count;
+        select_Skill_Count = 0;
+        for(int i = 0; i < select_skill_list.Count; i++)
+        {
+            equip_skill_list.Add(select_skill_list[i]);
+        }
+
         Transform equipPanel = GetObject((int)SelectUI.EquipSkillPanel).transform;
         for(int idx = 0; idx < select_skill_list.Count; idx++)
         {
@@ -134,6 +147,8 @@ public class SkillSelectUI : UI_Popup
             skillUI.SetSkillID(id);
             skillUI.SetInfo(skillData);
         }
+
+        select_skill_list.Clear();
     }
 
     public void UnEquipSkill(int id)
@@ -144,7 +159,7 @@ public class SkillSelectUI : UI_Popup
             return;
         }
         equip_Skill_Count--;
-        select_skill_list.Remove(id);
+        equip_skill_list.Remove(id);
         SkillList skillList = player.GetComponent<SkillList>();
         skillList.RemoveSkill(id);
 
@@ -160,6 +175,13 @@ public class SkillSelectUI : UI_Popup
         }
 
         SkillList skillList = player.GetComponent<SkillList>();
+        int equipCount = skillList.idList.Count + select_Skill_Count;
+        if(equipCount > max_equip_skill)
+        {
+            Managers.BattleUI.warningUI.SetText("캐릭터는 한번에 마법을 5개까지만 외울 수 있습니다!");
+            Managers.BattleUI.warningUI.ShowWarningUI();
+            return;
+        }
         for(int i = 0; i < select_skill_list.Count; i++)
         {
             skillList.AddSkill(select_skill_list[i]);
@@ -169,6 +191,7 @@ public class SkillSelectUI : UI_Popup
         {
             Managers.Prefab.Destroy(skill_UI_List[i]);
         }
+        skill_UI_List.Clear();
 
         UpdateEquipSkillUI();
     }
