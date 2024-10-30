@@ -1,25 +1,21 @@
-using System.ComponentModel;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI_Crab : EnemyAI_Base
+public class EnemyAI_Mermaid : EnemyAI_Base
 {
     private void Start()
     {
         stat = GetComponent<EnemyStat>();
-        stat.enemyName = "Crab";
+        stat.enemyName = "Mermaid";
         spriteController = GetComponent<SpriteController>();
         isTurnEnd = true;
         skillList = GetComponent<SkillList>();
         skillList.AddSkill(Managers.Skill.InstantiateSkill(0, true));
-        isHide = false;
-        hideLapse = 0;
     }
-    public int lastDamaged = 0;
-    public bool isHide;
-    public int hideLapse;
     public override void ProceedTurn()
     {
-        if(!isTurnEnd)
+        if (!isTurnEnd)
             return;
 
         OnTurnStart();
@@ -82,33 +78,7 @@ public class EnemyAI_Crab : EnemyAI_Base
         if (isTurnEnd)
             return;
 
-        if (isHide)
-        {
-            if (hideLapse < 2)
-            {
-                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);
-                hideLapse++;
-                BeforeTrunEnd();
-            }
-            else
-            {
-                spriteController.SetAnimState(AnimState.Trigger2);
-                isHide = false;
-                hideLapse = 0;
-            }
-        }
-        else if (lastDamaged >= 50 && stat.ActPoint >= 70 && stat.Mp >= 60)
-        {
-            Debug.Log("Skill Used!");
-            spriteController.SetAnimState(AnimState.Trigger1);
-            isAttacked = true;
-            stat.ActPoint -= 70;
-            stat.Mp -= 60;
-            lastDamaged = 0;
-            isHide = true;
-            skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);
-            TurnEnd();
-        }
+        // 범위 기술 로직 추가
     }
     public override void OnAttackSuccess()
     {
@@ -129,7 +99,6 @@ public class EnemyAI_Crab : EnemyAI_Base
         if (isTurnEnd)
             return;
 
-        lastDamaged = 0;
         TurnEnd();
     }
     public override void RadomTile()
@@ -140,7 +109,6 @@ public class EnemyAI_Crab : EnemyAI_Base
     {
         spriteController.SetAnimState(AnimState.Hit);
         stat.Hp -= damage;
-        lastDamaged += damage;
         Managers.BattleUI.ShowDamageUI(damage, transform);
     }
 }

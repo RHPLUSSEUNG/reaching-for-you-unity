@@ -1,12 +1,13 @@
-using System.ComponentModel;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI_Crab : EnemyAI_Base
+public class EnemyAI_Snail : EnemyAI_Base
 {
     private void Start()
     {
         stat = GetComponent<EnemyStat>();
-        stat.enemyName = "Crab";
+        stat.enemyName = "Snail";
         spriteController = GetComponent<SpriteController>();
         isTurnEnd = true;
         skillList = GetComponent<SkillList>();
@@ -14,12 +15,11 @@ public class EnemyAI_Crab : EnemyAI_Base
         isHide = false;
         hideLapse = 0;
     }
-    public int lastDamaged = 0;
     public bool isHide;
     public int hideLapse;
     public override void ProceedTurn()
     {
-        if(!isTurnEnd)
+        if (!isTurnEnd)
             return;
 
         OnTurnStart();
@@ -41,7 +41,7 @@ public class EnemyAI_Crab : EnemyAI_Base
             if (CanAttack(stat.AttackRange))
             {
                 PathFinder.RequestSkillRange(transform.position, stat.AttackRange, RangeType.Normal, OnSkillRangeFound);
-                Attack(30);
+                Attack(80); //추위 스탯 부여
             }
             else
             {
@@ -97,14 +97,13 @@ public class EnemyAI_Crab : EnemyAI_Base
                 hideLapse = 0;
             }
         }
-        else if (lastDamaged >= 50 && stat.ActPoint >= 70 && stat.Mp >= 60)
+        else if (stat.Hp <= stat.MaxHp*0.4 && stat.ActPoint >= 60 && stat.Mp >= 50)
         {
             Debug.Log("Skill Used!");
             spriteController.SetAnimState(AnimState.Trigger1);
             isAttacked = true;
-            stat.ActPoint -= 70;
-            stat.Mp -= 60;
-            lastDamaged = 0;
+            stat.ActPoint -= 60;
+            stat.Mp -= 50;
             isHide = true;
             skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);
             TurnEnd();
@@ -140,7 +139,6 @@ public class EnemyAI_Crab : EnemyAI_Base
     {
         spriteController.SetAnimState(AnimState.Hit);
         stat.Hp -= damage;
-        lastDamaged += damage;
         Managers.BattleUI.ShowDamageUI(damage, transform);
     }
 }
