@@ -59,6 +59,9 @@ public class CameraController : MonoBehaviour
 
     float time = 1.0f;
 
+    [SerializeField]
+    GameObject worldCamera;
+
     private void Awake()
     {
         isWaiting =false;
@@ -103,6 +106,7 @@ public class CameraController : MonoBehaviour
                     transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, Time.deltaTime * cameraSpeed);
                 }
                 break;
+            case CameraMode.UI:
             case CameraMode.Follow:
 
                 setPos = new Vector3(
@@ -190,8 +194,6 @@ public class CameraController : MonoBehaviour
                 targetTransform = followTarget.transform;
                 break;
             case CameraMode.Move:
-                targetTransform = cameraTargets[1].transform;
-                //transform.eulerAngles = cameraTargets[1].transform.eulerAngles;
                 break;
         }
         mode = _mode;
@@ -236,27 +238,17 @@ public class CameraController : MonoBehaviour
     private void CameraInput()
     {
         Vector3 vec = new Vector3();
-        if (Input.GetKey(KeyCode.W) || Input.mousePosition.y >= Screen.height - screenEdge)
-            vec += new Vector3(0, 1f, 0);
-        if (Input.GetKey(KeyCode.S) || Input.mousePosition.y <= Screen.height - screenEdge)
-            vec += new Vector3(0, -1f, 0);
-        if (Input.GetKey(KeyCode.A) || Input.mousePosition.x >= Screen.height - screenEdge)
-            vec += new Vector3(-1f, 0, 0);
-        if (Input.GetKey(KeyCode.D) || Input.mousePosition.x <= Screen.height - screenEdge)
-            vec += new Vector3(1f, 0, 0);
+        if (Input.GetKey(KeyCode.W)) //|| Input.mousePosition.y >= Screen.height - screenEdge
+            vec += new Vector3(1f, 0, 1f);
+        if (Input.GetKey(KeyCode.S)) //|| Input.mousePosition.y <= screenEdge
+            vec += new Vector3(-1f, 0, -1f);
+        if (Input.GetKey(KeyCode.D)) //|| Input.mousePosition.x >=  screenEdge
+            vec += new Vector3(1f, 0, -1f);
+        if (Input.GetKey(KeyCode.A)) //|| Input.mousePosition.x <= Screen.width - screenEdge
+            vec += new Vector3(-1f, 0, 1f);
 
-        Vector3 pos = vec;
-        if (pos.sqrMagnitude > 0)
-        {
-            time += Time.deltaTime;
-            pos = pos * time * 1.0f;
-
-            pos.x = Mathf.Clamp(pos.x, -inputSpeed, inputSpeed);
-            pos.y = Mathf.Clamp(pos.y, -inputSpeed, inputSpeed);
-            pos.z = Mathf.Clamp(pos.z, -inputSpeed, inputSpeed);
-
-            transform.Translate(pos);
-        }
+        vec.Normalize();
+        worldCamera.transform.position += vec * inputSpeed * Time.deltaTime;
     }
     public void WaitForNewTarget()
     {

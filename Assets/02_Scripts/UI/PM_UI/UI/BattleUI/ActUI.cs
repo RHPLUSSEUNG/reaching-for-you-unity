@@ -119,8 +119,8 @@ public class ActUI : UI_Popup
 
         rangeUI.DisplayMoveRange();
 
-        cameraController.ChangeCameraMode(CameraMode.Static, true, true);
-        Managers.BattleUI.cameraMode = CameraMode.Static;
+        //cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        //Managers.BattleUI.cameraMode = CameraMode.Follow;
     }
 
     public void UseMagicButtonClick(PointerEventData data)
@@ -138,8 +138,8 @@ public class ActUI : UI_Popup
     public void UseDefenseButtonClick(PointerEventData data)
     {
         Managers.UI.HideUI(gameObject);
-        cameraController.ChangeCameraMode(CameraMode.Static, true, true);
-        Managers.BattleUI.cameraMode = CameraMode.Static;
+        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        Managers.BattleUI.cameraMode = CameraMode.Follow;
         Managers.Battle.NextTurn();
     }
 
@@ -148,8 +148,8 @@ public class ActUI : UI_Popup
         Managers.UI.HideUI(gameObject);
         Managers.BattleUI.PlayerPhaseEndUI();
         Managers.Battle.isPlayerTurn = false;
-        cameraController.ChangeCameraMode(CameraMode.Static, true, true);
-        Managers.BattleUI.cameraMode = CameraMode.Static;
+        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        Managers.BattleUI.cameraMode = CameraMode.Follow;
         Managers.Battle.NextTurn();
     }
 
@@ -161,7 +161,7 @@ public class ActUI : UI_Popup
         rangeUI.ClearMoveRange();
         //cameraController.ChangeOffSet(-2, 1.5f, -3, 30, 45);   // 캐릭터 행동 UI offset
         cameraController.ChangeCameraMode(CameraMode.UI, false, true);
-        Managers.BattleUI.cameraMode = CameraMode.Follow;
+        Managers.BattleUI.cameraMode = CameraMode.UI;
     }
 
     public void MagicCancleButtonClick(PointerEventData data)
@@ -170,8 +170,8 @@ public class ActUI : UI_Popup
         Managers.BattleUI.skill = null;
         Managers.BattleUI.PlayerBattlePhaseUI();
 
-        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
-        Managers.BattleUI.cameraMode = CameraMode.Follow;
+        cameraController.ChangeCameraMode(CameraMode.UI, false, true);
+        Managers.BattleUI.cameraMode = CameraMode.UI;
         skillRangeUI.ClearSkillRange();
     }
 }

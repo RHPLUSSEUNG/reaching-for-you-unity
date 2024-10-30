@@ -6958,6 +6958,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486170345}
   m_CullTransparentMesh: 1
+--- !u!1 &1490959750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1490959751}
+  m_Layer: 0
+  m_Name: WorldCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1490959751
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490959750}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1971979143}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1525086219
 GameObject:
   m_ObjectHideFlags: 0
@@ -7435,7 +7467,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1490959751}
     m_Modifications:
     - target: {fileID: -1256347705377244828, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: m_StopNaN
@@ -7467,11 +7499,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: uiOffsetX
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: uiOffsetY
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: uiOffsetZ
@@ -7491,11 +7523,11 @@ PrefabInstance:
       objectReference: {fileID: 1596937950}
     - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: inputSpeed
-      value: 0.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: screenEdge
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: targetList
@@ -7505,6 +7537,10 @@ PrefabInstance:
       propertyPath: cameraSpeed
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
+      propertyPath: worldCamera
+      value: 
+      objectReference: {fileID: 1490959750}
     - target: {fileID: 1052094743398877105, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: basicOffsetX
       value: 0
@@ -7551,7 +7587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1994380315938795719, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.49
+      value: 13.715589
       objectReference: {fileID: 0}
     - target: {fileID: 1994380315938795719, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8771,6 +8807,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1953047083}
   m_CullTransparentMesh: 1
+--- !u!4 &1971979143 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1994380315938795719, guid: 93cf2a4b065863741b13fabbeabc4027, type: 3}
+  m_PrefabInstance: {fileID: 1624087516}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2008316357
 GameObject:
   m_ObjectHideFlags: 0
@@ -9551,10 +9592,10 @@ SceneRoots:
   - {fileID: 1826895039}
   - {fileID: 110254975}
   - {fileID: 285855535}
-  - {fileID: 1624087516}
   - {fileID: 1596937951}
   - {fileID: 1881408305}
   - {fileID: 1952487450}
   - {fileID: 1112941103}
   - {fileID: 491648840}
   - {fileID: 1685214879}
+  - {fileID: 1490959751}

@@ -53,9 +53,9 @@ public class BattleUI : UI_Scene
     public void OnCameraButton(PointerEventData data)
     {
         Debug.Log("Camera Mode Move");
-        if (Managers.BattleUI.cameraMode == CameraMode.Follow)
+        if (Managers.BattleUI.cameraMode == CameraMode.Follow || Managers.BattleUI.cameraMode == CameraMode.UI)
         {
-            cameraController.ChangeCameraMode(CameraMode.Move, true, true);
+            cameraController.ChangeCameraMode(CameraMode.Move, false, true);
             Managers.BattleUI.cameraMode = CameraMode.Move;
             if(Managers.Battle.isPlayerTurn)
             {
@@ -64,12 +64,21 @@ public class BattleUI : UI_Scene
         }
         else if(Managers.BattleUI.cameraMode == CameraMode.Move)
         {
-            //cameraController.ChangeOffSet(-2,1.5f,-3,30,45);   // 캐릭터 행동 UI offset
             cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
             Managers.BattleUI.cameraMode = CameraMode.Follow;
             if(Managers.Battle.isPlayerTurn)
             {
                 Managers.UI.ShowUI(Managers.BattleUI.actUI.gameObject);
+                if (Managers.UI.uiState == UIState.Idle)// Idle 상태일 경우 follow offset
+                {
+                    cameraController.ChangeCameraMode(CameraMode.UI, false, true);
+                    Managers.BattleUI.cameraMode = CameraMode.UI;
+                }
+                else
+                {
+                    cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+                    Managers.BattleUI.cameraMode = CameraMode.Follow;
+                }
             }
         }
     }
