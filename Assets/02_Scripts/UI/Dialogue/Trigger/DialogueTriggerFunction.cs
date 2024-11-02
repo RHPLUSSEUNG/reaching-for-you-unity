@@ -49,4 +49,9 @@ public class DialogueTriggerFunction : MonoBehaviour
         GiftUI.Instance.ShowGiftPanel();
         GiftUI.Instance.ReportTargetNPC(floatingIconHandler, characterData);
     }
+
+    public void StartComic(int _comicNumber)
+    {
+
+    }
 }
