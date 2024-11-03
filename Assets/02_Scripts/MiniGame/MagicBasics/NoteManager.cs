@@ -12,6 +12,8 @@ public class NoteManager : MonoBehaviour
 
     [SerializeField]
     Slider timeSlider;
+    [SerializeField]
+    GameObject rankingPanel;
 
     // 노트 출현
     public int appearTime = 0;
@@ -27,6 +29,7 @@ public class NoteManager : MonoBehaviour
     {
         timingManager = GetComponent<TimingManager>();
         judgementEffect = GetComponent<JudgementEffect>();
+        rankingPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -46,6 +49,11 @@ public class NoteManager : MonoBehaviour
                 timingManager.boxNoteList.Add(note);
                 currentAppearTime -= 60d / appearTime;
             }
+        }
+        else 
+        {
+            rankingPanel.SetActive(true);
+            MagicBasicsScore.Instance.Ranking();
         }
     }
 

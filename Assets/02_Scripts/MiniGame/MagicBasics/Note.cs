@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Note : MonoBehaviour
 {
-    public float noteSpeed = 400;
+    public float noteSpeed = 300;
 
     void Update()
     {
