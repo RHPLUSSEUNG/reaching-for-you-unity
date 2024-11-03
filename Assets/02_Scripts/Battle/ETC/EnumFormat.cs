@@ -99,6 +99,7 @@ public enum CameraMode
 {
     Static,
     Follow,
+    UI,
     Move
 }
 

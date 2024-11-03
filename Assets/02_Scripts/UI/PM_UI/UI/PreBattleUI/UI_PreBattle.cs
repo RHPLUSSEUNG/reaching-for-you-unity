@@ -121,13 +121,18 @@ public class UI_PreBattle : UI_Scene
     {
         if (Managers.BattleUI.cameraMode != CameraMode.Move)
         {
-            cameraController.ChangeCameraMode(CameraMode.Move, true, true);
+            cameraController.ChangeCameraMode(CameraMode.Move, false, true);
             Managers.BattleUI.cameraMode = CameraMode.Move;
         }
-        else
+        else if(Managers.BattleUI.cameraMode != CameraMode.Follow)
         {
             cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
             Managers.BattleUI.cameraMode = CameraMode.Follow;
+        }
+        else if (Managers.BattleUI.cameraMode != CameraMode.UI)
+        {
+            cameraController.ChangeCameraMode(CameraMode.UI, false, true);
+            Managers.BattleUI.cameraMode = CameraMode.UI;
         }
     }
 }

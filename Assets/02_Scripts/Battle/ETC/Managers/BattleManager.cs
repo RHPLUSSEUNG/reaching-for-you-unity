@@ -189,7 +189,7 @@ public class BattleManager
         //camera setting
         cameraController.ChangeFollowTarget(currentCharacter, true);
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
-        cameraController.ChangeOffSet(-3, 1.5f, -3, 20, 45);
+        //cameraController.ChangeOffSet(-3, 1.5f, -3, 20, 45);
         if(!Managers.BattleUI.turnUI.GetState())
         {            
             Managers.BattleUI.turnUI.ShowTurnOrderUI();

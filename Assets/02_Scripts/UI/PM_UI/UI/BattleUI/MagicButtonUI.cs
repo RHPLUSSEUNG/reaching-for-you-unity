@@ -92,8 +92,8 @@ public class MagicButtonUI : UI_Base
             Managers.BattleUI.skill_ID = saveSkill_ID;
             Managers.BattleUI.PlayerActPhaseUI();
 
-            cameraController.ChangeCameraMode(CameraMode.Static, true, true);
-            Managers.BattleUI.cameraMode = CameraMode.Static;
+            cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+            Managers.BattleUI.cameraMode = CameraMode.Follow;
 
             Managers.BattleUI.actUI.skillRangeUI.DisplaySkillRange();
         }
@@ -114,5 +114,7 @@ public class MagicButtonUI : UI_Base
     public void MagicButtonExit(PointerEventData data)
     {
         Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
+        cameraController.ChangeCameraMode(CameraMode.UI, false, true);
+        Managers.BattleUI.cameraMode = CameraMode.UI;
     }
 }

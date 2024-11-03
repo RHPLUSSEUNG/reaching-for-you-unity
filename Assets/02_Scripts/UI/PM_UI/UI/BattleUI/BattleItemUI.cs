@@ -59,8 +59,8 @@ public class BattleItemUI : UI_Base
         Managers.UI.HideUI(Managers.BattleUI.itemPanel);
         Managers.UI.HideUI(Managers.BattleUI.actUI.gameObject);
 
-        cameraController.ChangeCameraMode(CameraMode.Static, true, true);
-        Managers.BattleUI.cameraMode = CameraMode.Static;
+        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
+        Managers.BattleUI.cameraMode = CameraMode.Follow;
     }
 
     public void ItemButtonEnter(PointerEventData data)

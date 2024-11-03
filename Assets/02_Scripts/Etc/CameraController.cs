@@ -14,22 +14,35 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     List<GameObject> followTargets;
     [SerializeField]
-    float basicOffsetX;
-    [SerializeField]
-    float basicOffsetY;
-    [SerializeField]
-    float basicOffsetZ;
-    [SerializeField]
-    float basicRotateX ;
-    [SerializeField]
-    float basicRotateY;
-    [SerializeField]
     float cameraSpeed;
+    [Header("Follow Mode Offset")]
+    [SerializeField]
+    float followOffsetX;
+    [SerializeField]
+    float followOffsetY;
+    [SerializeField]
+    float followOffsetZ;
+    [SerializeField]
+    float followRotateX;
+    [SerializeField]
+    float followRotateY;
+    [Header("UI Mode Offset")]
+    [SerializeField]
+    float uiOffsetX;
+    [SerializeField]
+    float uiOffsetY;
+    [SerializeField]
+    float uiOffsetZ;
+    [SerializeField]
+    float uiRotateX;
+    [SerializeField]
+    float uiRotateY;
+
+    [SerializeField]
+    float screenEdge;
 
     float offsetX,offsetY,offsetZ,rotateX, rotateY;
-    [SerializeField]
     bool isFollowMode;
-
     bool isWaiting;
 
     CameraMode mode;
@@ -41,25 +54,27 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     GameObject followTarget;
 
-
     [SerializeField]
     float inputSpeed = 10;
 
     float time = 1.0f;
 
+    [SerializeField]
+    GameObject worldCamera;
+
     private void Awake()
     {
         isWaiting =false;
 
-        BasicOffset();
         if (cameraList != null)
         {
             cameraTargets = cameraList.GetComponentsInChildren<Transform>();
             cameraIndex = 1;     // GetComponentsInChildren 사용 시 0번엔 부모 오브젝트 정보가 위치함으로 Index를 1부터
         }
 
-        if (isFollowMode)
+        if (mode == CameraMode.Follow)
         {
+            FollowOffset();
             transform.eulerAngles = new Vector3(rotateX, rotateY, 0);
             ChangeFollowTarget(followTargets[0], true);
             mode = CameraMode.Follow;
@@ -91,6 +106,7 @@ public class CameraController : MonoBehaviour
                     transform.rotation = Quaternion.Lerp(transform.rotation, targetTransform.rotation, Time.deltaTime * cameraSpeed);
                 }
                 break;
+            case CameraMode.UI:
             case CameraMode.Follow:
 
                 setPos = new Vector3(
@@ -105,6 +121,7 @@ public class CameraController : MonoBehaviour
                 else
                 {
                     transform.position = Vector3.Lerp(transform.position, setPos, Time.deltaTime * cameraSpeed);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotateX,rotateY,0), Time.deltaTime * cameraSpeed);
                 }
                 break;
             case CameraMode.Move:
@@ -119,7 +136,7 @@ public class CameraController : MonoBehaviour
         {
             return;
         }
-        if (isFollowMode)
+        if (mode == CameraMode.Follow)
         {
             Vector3 direction = (targetTransform.position - transform.position).normalized;
             float distance = Vector3.Distance(transform.position, targetTransform.position);
@@ -151,7 +168,6 @@ public class CameraController : MonoBehaviour
     }
     public void ChangeFollowTarget(GameObject target, bool _isSmoothMove)
     {
-        transform.eulerAngles = new Vector3(rotateX, rotateY, 0);
         isSmoothMove = _isSmoothMove;
         followTarget = target;
         targetTransform = followTarget.transform;
@@ -165,30 +181,26 @@ public class CameraController : MonoBehaviour
         switch (_mode)
         {
             case CameraMode.Static:
-                mode = CameraMode.Static;
-                isFollowMode = false;
                 targetTransform = cameraTargets[cameraIndex].transform;
                 transform.eulerAngles = cameraTargets[cameraIndex].transform.eulerAngles;
+                transform.position = setPos;    //1회만 설정
                 break;
             case CameraMode.Follow:
-                mode = CameraMode.Follow;
-                isFollowMode = true;
-                transform.eulerAngles = new Vector3(rotateX, rotateY, 0);
+                FollowOffset();
+                targetTransform = followTarget.transform;
+                break;
+            case CameraMode.UI:
+                UIOffset();
                 targetTransform = followTarget.transform;
                 break;
             case CameraMode.Move:
-                mode = CameraMode.Move;
-                isFollowMode = false;
-                targetTransform = cameraTargets[1].transform;
-                transform.eulerAngles = cameraTargets[1].transform.eulerAngles;
                 break;
         }
+        mode = _mode;
         gameObject.GetComponent<Camera>().orthographic = isOrthographic;
         isSmoothMove = _isSmoothMove;
         setPos = targetTransform.position;
-        //Debug.Log("Changed Mode");
 
-        transform.position = setPos;    //1회만 설정
     }
     public void AddFollowList(GameObject target)
     {
@@ -207,38 +219,36 @@ public class CameraController : MonoBehaviour
         rotateX = _rotateX;
         rotateY = _rotateY;
     }
-    public void BasicOffset()
+    public void FollowOffset()
     {
-        offsetX = basicOffsetX;
-        offsetY = basicOffsetY;
-        offsetZ = basicOffsetZ;
-        rotateX = basicRotateX;
-        rotateY = basicRotateY;
+        offsetX = followOffsetX;
+        offsetY = followOffsetY;
+        offsetZ = followOffsetZ;
+        rotateX = followRotateX;
+        rotateY = followRotateY;
+    }
+    public void UIOffset()
+    {
+        offsetX = uiOffsetX;
+        offsetY = uiOffsetY;
+        offsetZ = uiOffsetZ;
+        rotateX = uiRotateX;
+        rotateY = uiRotateY;
     }
     private void CameraInput()
     {
         Vector3 vec = new Vector3();
-        if (Input.GetKey(KeyCode.W))
-            vec += new Vector3(0, 1f, 0);
-        if (Input.GetKey(KeyCode.S))
-            vec += new Vector3(0, -1f, 0);
-        if (Input.GetKey(KeyCode.A))
-            vec += new Vector3(-1f, 0, 0);
-        if (Input.GetKey(KeyCode.D))
-            vec += new Vector3(1f, 0, 0);
+        if (Input.GetKey(KeyCode.W)) //|| Input.mousePosition.y >= Screen.height - screenEdge
+            vec += new Vector3(1f, 0, 1f);
+        if (Input.GetKey(KeyCode.S)) //|| Input.mousePosition.y <= screenEdge
+            vec += new Vector3(-1f, 0, -1f);
+        if (Input.GetKey(KeyCode.D)) //|| Input.mousePosition.x >=  screenEdge
+            vec += new Vector3(1f, 0, -1f);
+        if (Input.GetKey(KeyCode.A)) //|| Input.mousePosition.x <= Screen.width - screenEdge
+            vec += new Vector3(-1f, 0, 1f);
 
-        Vector3 pos = vec;
-        if (pos.sqrMagnitude > 0)
-        {
-            time += Time.deltaTime;
-            pos = pos * time * 1.0f;
-
-            pos.x = Mathf.Clamp(pos.x, -inputSpeed, inputSpeed);
-            pos.y = Mathf.Clamp(pos.y, -inputSpeed, inputSpeed);
-            pos.z = Mathf.Clamp(pos.z, -inputSpeed, inputSpeed);
-
-            transform.Translate(pos);
-        }
+        vec.Normalize();
+        worldCamera.transform.position += vec * inputSpeed * Time.deltaTime;
     }
     public void WaitForNewTarget()
     {
