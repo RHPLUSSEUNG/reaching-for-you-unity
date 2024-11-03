@@ -41,7 +41,8 @@ public class RaycastManager
             {
                 target = RaycastTile(ray);
                 Debug.Log(target.transform.position);
-                Managers.BattleUI.SetPosition(target);
+                if(target.GetComponent<MouseHover>().canWalk)
+                    Managers.BattleUI.SetPosition(target);
             }
             else if (Managers.Battle.battleState == BattleState.PlayerTurn)
             {
