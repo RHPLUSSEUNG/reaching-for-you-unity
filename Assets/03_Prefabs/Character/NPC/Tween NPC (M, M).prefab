@@ -1,93 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &644567547585650125
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3859939913409453419}
-  - component: {fileID: 495356764480246137}
-  - component: {fileID: 8131086470553830244}
-  - component: {fileID: 8330994489573478666}
-  m_Layer: 0
-  m_Name: Heart Effect Image
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &3859939913409453419
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 644567547585650125}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1331815420462221298}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.5, y: 0.5}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &495356764480246137
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 644567547585650125}
-  m_CullTransparentMesh: 1
---- !u!114 &8131086470553830244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 644567547585650125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 2130481972, guid: 977d586d9b225294db8fbb653ad253ed, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &8330994489573478666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 644567547585650125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da48a5754108d2346bd5ade059491540, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2941351003535636355
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +33,7 @@ RectTransform:
   m_Children:
   - {fileID: 9133389805296722762}
   - {fileID: 6349107928378257259}
-  - {fileID: 3859939913409453419}
+  - {fileID: 2802590719784363773}
   m_Father: {fileID: 7135100871359574983}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -192,6 +104,41 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &3474133235176416893
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2802590719784363773}
+  m_Layer: 0
+  m_Name: Friendship Effect Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2802590719784363773
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3474133235176416893}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1331815420462221298}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4567274785931304208
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +152,7 @@ GameObject:
   - component: {fileID: 6952057320738604303}
   - component: {fileID: 2595390066781560464}
   m_Layer: 0
-  m_Name: Tween NPC (M, F)
+  m_Name: Tween NPC (M, M)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -303,7 +250,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1667346703539105270}
   - component: {fileID: 8380075114989650883}
-  - component: {fileID: 573239775566073338}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -368,7 +314,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bda999947b89a824fb4db0a7116fcf25, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f139ddf0634ebde428eb8602f473ef89, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -379,27 +325,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &573239775566073338
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6755558898380549228}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: daeedb24db0a5ee4f80f3ccc52a7f695, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6954654870551178162
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,7 +340,7 @@ GameObject:
   - component: {fileID: 8469177693134322237}
   - component: {fileID: 3797431149210507672}
   - component: {fileID: 147069214904046533}
-  - component: {fileID: 6494961974260990341}
+  - component: {fileID: 4101513670568255506}
   m_Layer: 0
   m_Name: NPC Data
   m_TagString: NPC
@@ -529,7 +454,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exclamationMark: {fileID: 7243276461239616284}
---- !u!114 &6494961974260990341
+  friendshipHeartEffect: {fileID: 5993128113846900001, guid: aa1c7a74505cde540b1f14a3729f398b, type: 3}
+  friendshipEffectPivot: {fileID: 2802590719784363773}
+--- !u!114 &4101513670568255506
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -538,14 +465,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6954654870551178162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2ff327e746e4f8408b15ccfe31fd655, type: 3}
+  m_Script: {fileID: 11500000, guid: 20cafa416905f3c46a2f8128c6888559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  friendName: "\uC5EC\uD559\uC0DD"
-  friendID: 0
-  friendPortrait: {fileID: 21300000, guid: 76b87fc7bcd860c42911aa23e6715a11, type: 3}
-  friendship: 0
-  friendshipEffect: {fileID: 644567547585650125}
+  characterData: {fileID: 11400000, guid: 1429b8b848561a24480664cafcf98ef4, type: 2}
 --- !u!1 &7016320524255248689
 GameObject:
   m_ObjectHideFlags: 0
@@ -662,7 +585,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2823152343637445375}
   - component: {fileID: 2926861893965054033}
-  - component: {fileID: 2606230667329967662}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -738,27 +660,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &2606230667329967662
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7498958543967538316}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5e9a03bcbf60b034a997b9ec1ef4cc53, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8066793376948941699
 GameObject:
   m_ObjectHideFlags: 0
