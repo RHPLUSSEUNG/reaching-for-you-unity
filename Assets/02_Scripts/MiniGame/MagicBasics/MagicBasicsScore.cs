@@ -7,7 +7,8 @@ public class MagicBasicsScore : MonoBehaviour
 {
     [SerializeField] Slider scoreSlider = null;
 
-    [SerializeField] float increaseScore = 10;    
+    [SerializeField] float increaseScore = 1;   
+    float totalScore = 100f; 
     [SerializeField] float[] weight = null;
 
     float currentScore = 0;
@@ -27,6 +28,6 @@ public class MagicBasicsScore : MonoBehaviour
         currentScore += temp;
 
         // Slider에 반영
-        scoreSlider.value = currentScore / 1000;
+        scoreSlider.value = currentScore / totalScore;
     }
 }

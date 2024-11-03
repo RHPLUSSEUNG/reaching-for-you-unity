@@ -9,6 +9,6 @@ public class Note : MonoBehaviour
 
     void Update()
     {
-        transform.localPosition += Vector3.right * noteSpeed * Time.deltaTime;
+        transform.localPosition += Vector3.right * (noteSpeed * (NoteManager.timeLimit / NoteManager.remainTime)) * Time.deltaTime;
     }
 }

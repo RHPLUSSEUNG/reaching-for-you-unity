@@ -2,11 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NoteManager : MonoBehaviour
 {
+    // 제한시간
+    public static float timeLimit = 30f;
+    public static float remainTime = 30f;
+
+    [SerializeField]
+    Slider timeSlider;
+
+    // 노트 출현
     public int appearTime = 0;
-    private double currentTime = 0d;
+    private double currentAppearTime = 0d;
 
     [SerializeField] Transform noteAppearTf = null;
     [SerializeField] GameObject goNote = null;
@@ -23,14 +32,20 @@ public class NoteManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentTime += Time.deltaTime;
-
-        if(currentTime >= 60d / appearTime)
+        if(remainTime >= 0)
         {
-            GameObject note = Instantiate(goNote, noteAppearTf.position, Quaternion.identity);
-            note.transform.SetParent(this.transform);
-            timingManager.boxNoteList.Add(note);
-            currentTime -= 60d / appearTime;
+            remainTime -= Time.deltaTime;
+            currentAppearTime += Time.deltaTime;
+
+            timeSlider.value = remainTime / timeLimit;
+
+            if(currentAppearTime >= 60d / appearTime) // 노트 출현 간격
+            {
+                GameObject note = Instantiate(goNote, noteAppearTf.position, Quaternion.identity);
+                note.transform.SetParent(this.transform);
+                timingManager.boxNoteList.Add(note);
+                currentAppearTime -= 60d / appearTime;
+            }
         }
     }
 

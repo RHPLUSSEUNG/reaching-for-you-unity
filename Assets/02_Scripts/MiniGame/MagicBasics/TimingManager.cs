@@ -52,6 +52,7 @@ public class TimingManager : MonoBehaviour
                 }
             }
         }
+        score.IncreaseScore(3);
         judgementEffect.JudgementAnim(timingRect.Length);
     }
 }
