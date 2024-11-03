@@ -10,6 +10,7 @@ public class MouseHover : MonoBehaviour
     public Color hoverColor = Color.gray;
     // 큐브에 마우스가 올라와 있는지 여부를 나타내는 변수
     public bool isHovered = false;
+    public bool canWalk = true;
 
     // 스크립트가 시작될 때 실행되는 함수
     void Start()

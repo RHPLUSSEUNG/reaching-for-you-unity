@@ -2,13 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Data;
 using System.IO.Compression;
-
-public enum EObstacle
-{
-    Wall,
-    Obstacle,
-    Ground,
-}
+using Unity.Collections;
 
 public enum StageType
 {
@@ -20,7 +14,6 @@ public struct Map
 {
     public GameObject ObjectPrefab;
     public Vector3 ObjectLocation;
-    public EObstacle eObstacle;
     public bool CanWalk;
 }
 
@@ -104,6 +97,7 @@ public class CreateObject : MonoBehaviour
         PlaceObstacles();
         PlaceGimmicks();
         PlaceEnemy();
+        SetTileCanWalk();
 
         if(stageIndex == 0)
             desertMap.SetActive(true);
@@ -185,6 +179,7 @@ public class CreateObject : MonoBehaviour
                 Vector3 wallPosition = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, 0.8f, 0);
                 GameObject newWall = Instantiate(wallPrefab, wallPosition, Quaternion.identity);
                 newWall.transform.SetParent(mapHolder);
+                map[randomCoord.X, randomCoord.Z].CanWalk = false;
             }
             else 
             {
@@ -375,14 +370,8 @@ public class CreateObject : MonoBehaviour
                 obstacleInstance.transform.SetParent(mapHolder);
 
                 wallInMap[randomCoord.X, randomCoord.Z] = true;
+                map[randomCoord.X, randomCoord.Z].CanWalk = false;
 
-                // map[x, z].eObstacle = EObstacle.Obstacle;
-                // map[x, z].ObjectPrefab = Instantiate(selectedCoverData.coverGameObject, map[x, z].ObjectLocation, Quaternion.identity, this.transform);
-                // map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, coverDataArray[randomIndex].coverGameObject.transform.position.y, 0);
-                // map[x, z].ObjectPrefab.transform.position = map[x, z].ObjectLocation + new Vector3(0, 0.82f, 0);
-                // Vector3 newRotation = new Vector3(0f, 0, 0); // 원하는 각도로 변경
-                // map[x, z].ObjectPrefab.transform.rotation = Quaternion.Euler(newRotation);
-                // obstaclePositions.Add(new Vector2Int(x, z));
                 currentObstacleCount++;
             }
         }
@@ -391,5 +380,16 @@ public class CreateObject : MonoBehaviour
     public Map[,] GetMap()
     {
         return map;
+    }
+
+    void SetTileCanWalk()
+    {
+        for(int i = 0; i < Width; i++)
+        {
+            for(int j = 0; j < Height; j++) 
+            {
+                map[i, j].ObjectPrefab.GetComponent<MouseHover>().canWalk = map[i, j].CanWalk;
+            }
+        }
     }
 }
