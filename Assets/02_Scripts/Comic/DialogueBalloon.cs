@@ -13,7 +13,7 @@ public class DialogueBalloon : MonoBehaviour
 
     private void Start()
     {
-        dialogueText = GetComponentInChildren<TextMeshProUGUI>();
+        //dialogueText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     public void SetComicPage(ComicPage _comicPage)
@@ -21,16 +21,16 @@ public class DialogueBalloon : MonoBehaviour
         comicPage = _comicPage;
     }
 
-    public IEnumerator TypingScript()
-    {
-        dialogueText.text = "";
-        foreach (char letter in dialogue.ToCharArray())
-        {
-            dialogueText.text += letter;
-            yield return new WaitForSeconds(typingSpeed);
-        }
+    //public IEnumerator TypingScript()
+    //{
+    //    dialogueText.text = "";
+    //    foreach (char letter in dialogue.ToCharArray())
+    //    {
+    //        dialogueText.text += letter;
+    //        yield return new WaitForSeconds(typingSpeed);
+    //    }
 
-        comicPage.SetIsTyping(false);
-        comicPage.CheckAllDialogueShown();
-    }
+    //    comicPage.SetIsTyping(false);
+    //    comicPage.CheckAllDialogueShown();
+    //}
 }
