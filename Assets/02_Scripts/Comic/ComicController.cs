@@ -15,18 +15,19 @@ public class ComicController : MonoBehaviour
 {
     [SerializeField] ComicAnimationType animationType = ComicAnimationType.None;
     [SerializeField] ScrollRect scrollView;
-    [SerializeField] CanvasGroup fadeOverlay;
-    List<ComicPage> pages = new List<ComicPage>();
+    [SerializeField] CanvasGroup fadeOverlay;    
     [SerializeField] ComicData comicData;
-    Comic currentComic;
-
+    List<ComicPage> pages = new List<ComicPage>();
     Transform content;
-    int currentPageIndex = 0;
+    Comic currentComic;
+    
+    int currentPageIndex = 0;    
+    float fadeDuration = 0.75f;
+    float slideDuration = 0.25f;
+
+    [Header("Slide Option")]
     float smoothTime = 0.2f;
     float velocity = 0.0f;
-
-    float fadeInDuration = 0.5f;
-    float slideDuration = 0.25f;
 
     private void Awake()
     {
@@ -35,9 +36,7 @@ public class ComicController : MonoBehaviour
 
     void Start()
     {
-        fadeOverlay.alpha = 1.0f;
-                
-        DeactivateAllPages();     
+        fadeOverlay.alpha = 1.0f;                         
     }
 
     public void StartComic(ComicType comicType)
@@ -55,8 +54,7 @@ public class ComicController : MonoBehaviour
         
         foreach (ComicPage pageData in currentComic.GetComicPages)
         {
-            GameObject newPage = Instantiate(pageData.gameObject, transform);            
-            pages.Add(pageData);
+            GameObject newPage = Instantiate(pageData.gameObject, transform);                        
             
             ComicPage pageComponent = newPage.GetComponent<ComicPage>();
             if (pageComponent != null)
@@ -64,36 +62,12 @@ public class ComicController : MonoBehaviour
                 pages.Add(pageComponent);
                 pageComponent.SetComicController(this);
             }
-        }        
-        
-        //scrollView.horizontalNormalizedPosition = 0;
+            pageComponent.gameObject.SetActive(true);
+        }                        
 
         StartCoroutine(FadeInFirstPage());
     }
-
-    //public void StartComic(ComicType comicType)
-    //{
-    //    currentComic = comicData.GetComic(comicType);
-        
-    //    foreach (Transform child in content)
-    //    {
-    //        ComicPage page = child.GetComponent<ComicPage>();
-    //        if (page != null)
-    //        {
-    //            pages.Add(page);
-    //            page.SetComicController(this);
-    //        }
-    //    }
-    //}
-
-    private void DeactivateAllPages()
-    {
-        foreach (ComicPage page in pages)
-        {
-            page.gameObject.SetActive(false);
-        }
-    }
-
+  
     public void NextPage()
     {
         if (currentPageIndex >= pages.Count) return;
@@ -111,12 +85,25 @@ public class ComicController : MonoBehaviour
     }
 
     private void TransitionToNextPage()
-    {
-        pages[currentPageIndex++].gameObject.SetActive(false);
-        if (currentPageIndex < pages.Count)
+    {        
+        if (currentPageIndex + 1 < pages.Count)
         {
-            pages[currentPageIndex].gameObject.SetActive(true);
+            pages[currentPageIndex++].gameObject.SetActive(false);
         }
+        else
+        {
+            StartCoroutine(FadeOutLastPage());
+        }
+    }
+
+    private void DestroyCurrentPages()
+    {
+        for(int i = 0; i < pages.Count; i++)
+        {
+            Destroy(pages[i].gameObject);
+        }
+        pages.Clear();
+        currentPageIndex = 0;
     }
 
     public IEnumerator FadeInFirstPage()
@@ -127,10 +114,10 @@ public class ComicController : MonoBehaviour
 
         float elapsedTime = 0f;
 
-        while (elapsedTime < fadeInDuration)
+        while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
-            fadeOverlay.alpha = Mathf.Lerp(1, 0, elapsedTime / fadeInDuration);
+            fadeOverlay.alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
             yield return null;
         }
 
@@ -143,13 +130,14 @@ public class ComicController : MonoBehaviour
         float elapsedTime = 0f;
         fadeOverlay.blocksRaycasts = true;
 
-        while (elapsedTime < fadeInDuration)
+        while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
-            fadeOverlay.alpha = Mathf.Lerp(1, 0, elapsedTime / fadeInDuration);
+            fadeOverlay.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
             yield return null;
         }
-        fadeOverlay.alpha = 1;        
+        fadeOverlay.alpha = 1;
+        DestroyCurrentPages();
     }
 
     IEnumerator SlideToNextPage(float targetPosition)

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ComicPage : MonoBehaviour
 {
-    List<CanvasGroup> dialogueBalloons = new List<CanvasGroup>();    
+    [SerializeField] List<CanvasGroup> dialogueBalloons = new List<CanvasGroup>();    
     Button pageButton;
     int balloonIndex = 0;
     bool allDialoguesShown = false;
@@ -22,7 +22,7 @@ public class ComicPage : MonoBehaviour
     }
 
     void Start()
-    {
+    {        
         foreach (Transform child in transform)
         {
             CanvasGroup balloonGroup = child.GetComponent<CanvasGroup>();
@@ -45,11 +45,12 @@ public class ComicPage : MonoBehaviour
 
     public void OnPageClicked()
     {
+        CheckAllDialogueShown();
         if (!allDialoguesShown)
         {
-            if (balloonIndex < dialogueBalloons.Count && !isTyping)
+            if (balloonIndex < dialogueBalloons.Count)
             {
-                isTyping = true;
+                //isTyping = true;
                 StartCoroutine(ShowNextBalloon(dialogueBalloons[balloonIndex], 0.25f));
                 balloonIndex++;
             }
@@ -71,9 +72,9 @@ public class ComicPage : MonoBehaviour
             yield return null;
         }
 
-        yield return StartCoroutine(balloon.GetComponent<DialogueBalloon>().TypingScript());
+        //yield return StartCoroutine(balloon.GetComponent<DialogueBalloon>().TypingScript());
 
-        balloon.alpha = 1;
+        balloon.alpha = 1;        
     }    
 
     public void OnPageFinished()
