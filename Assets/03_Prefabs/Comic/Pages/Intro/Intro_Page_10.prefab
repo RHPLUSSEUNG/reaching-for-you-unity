@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &778621772880115721
+--- !u!1 &5242345250150537860
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,25 +8,25 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3422261805198936529}
-  - component: {fileID: 811768575514459012}
-  - component: {fileID: 1804118000345402448}
-  - component: {fileID: 38225749354254960}
-  - component: {fileID: 3259155389204679894}
+  - component: {fileID: 7435657038281633582}
+  - component: {fileID: 9207378942634395129}
+  - component: {fileID: 8082892300313101358}
+  - component: {fileID: 2188291817021680525}
+  - component: {fileID: 6202250879754231274}
   m_Layer: 5
-  m_Name: Chapter_1_Page_7
+  m_Name: Intro_Page_10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &3422261805198936529
+  m_IsActive: 0
+--- !u!224 &7435657038281633582
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 778621772880115721}
+  m_GameObject: {fileID: 5242345250150537860}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -34,26 +34,26 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &811768575514459012
+--- !u!222 &9207378942634395129
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 778621772880115721}
+  m_GameObject: {fileID: 5242345250150537860}
   m_CullTransparentMesh: 1
---- !u!114 &1804118000345402448
+--- !u!114 &8082892300313101358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 778621772880115721}
+  m_GameObject: {fileID: 5242345250150537860}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 85c26393d71e6a7458677400fd6fe0d2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 81eaa70dd1e0acb46bc029766dbd1df5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -77,25 +77,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &38225749354254960
+--- !u!114 &2188291817021680525
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 778621772880115721}
+  m_GameObject: {fileID: 5242345250150537860}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4481ccea692eec4ab4e21ae65d66fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3259155389204679894
+  dialogueBalloons: []
+--- !u!114 &6202250879754231274
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 778621772880115721}
+  m_GameObject: {fileID: 5242345250150537860}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -129,7 +130,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1804118000345402448}
+  m_TargetGraphic: {fileID: 8082892300313101358}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
