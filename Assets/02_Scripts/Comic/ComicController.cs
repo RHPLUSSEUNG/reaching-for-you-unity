@@ -20,14 +20,15 @@ public class ComicController : MonoBehaviour
     List<ComicPage> pages = new List<ComicPage>();
     Transform content;
     Comic currentComic;
-    
+    SceneType sceneType;
+
     int currentPageIndex = 0;    
     float fadeDuration = 0.75f;
     float slideDuration = 0.25f;
 
     [Header("Slide Option")]
     float smoothTime = 0.2f;
-    float velocity = 0.0f;
+    float velocity = 0.0f;        
 
     private void Awake()
     {
@@ -36,7 +37,8 @@ public class ComicController : MonoBehaviour
 
     void Start()
     {
-        fadeOverlay.alpha = 1.0f;                         
+        fadeOverlay.alpha = 0.0f;
+        fadeOverlay.gameObject.SetActive(false);
     }
 
     public void StartComic(ComicType comicType)
@@ -62,16 +64,15 @@ public class ComicController : MonoBehaviour
                 pages.Add(pageComponent);
                 pageComponent.SetComicController(this);
             }
-            pageComponent.gameObject.SetActive(true);
-        }                        
-
-        StartCoroutine(FadeInFirstPage());
+            pageComponent.gameObject.SetActive(false);
+        }
+        fadeOverlay.gameObject.SetActive(true);
+        StartCoroutine(FadeFirstPage());
     }
   
     public void NextPage()
     {
-        if (currentPageIndex >= pages.Count) return;
-
+        if (currentPageIndex >= pages.Count) return;        
         switch (animationType)
         {
             case ComicAnimationType.None:
@@ -89,10 +90,11 @@ public class ComicController : MonoBehaviour
         if (currentPageIndex + 1 < pages.Count)
         {
             pages[currentPageIndex++].gameObject.SetActive(false);
+            pages[currentPageIndex].gameObject.SetActive(true);
         }
         else
         {
-            StartCoroutine(FadeOutLastPage());
+            StartCoroutine(FadeLastPage());
         }
     }
 
@@ -104,15 +106,26 @@ public class ComicController : MonoBehaviour
         }
         pages.Clear();
         currentPageIndex = 0;
+        fadeOverlay.alpha = 0.0f;
+        fadeOverlay.gameObject.SetActive(false);
     }
 
-    public IEnumerator FadeInFirstPage()
+    public IEnumerator FadeFirstPage()
     {
-        fadeOverlay.blocksRaycasts = true;
-
-        pages[0].gameObject.SetActive(true);
-
         float elapsedTime = 0f;
+        fadeOverlay.alpha = 1;
+        fadeOverlay.blocksRaycasts = true;
+        fadeOverlay.gameObject.SetActive(true);
+
+        while(elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            fadeOverlay.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+            yield return null;
+        }
+        
+        elapsedTime = 0f;
+        pages[0].gameObject.SetActive(true);
 
         while (elapsedTime < fadeDuration)
         {
@@ -125,7 +138,7 @@ public class ComicController : MonoBehaviour
         fadeOverlay.blocksRaycasts = false;
     }
 
-    public IEnumerator FadeOutLastPage()
+    public IEnumerator FadeLastPage()
     {
         float elapsedTime = 0f;
         fadeOverlay.blocksRaycasts = true;
@@ -137,7 +150,15 @@ public class ComicController : MonoBehaviour
             yield return null;
         }
         fadeOverlay.alpha = 1;
+        fadeOverlay.gameObject.SetActive(false);
         DestroyCurrentPages();
+
+        SceneType targetScene = ComicManager.Instance.GetTargetScene();
+
+        if (targetScene != SceneType.NONE)
+        {
+            SceneChanger.Instance.ChangeScene(targetScene);
+        }
     }
 
     IEnumerator SlideToNextPage(float targetPosition)

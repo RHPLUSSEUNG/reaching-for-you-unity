@@ -11,6 +11,7 @@ public enum SceneType
     AM,
     PM_ADVENTURE,
     PM_COMBAT,
+    NONE,
 }
 
 public class LoadSceneManager : MonoBehaviour

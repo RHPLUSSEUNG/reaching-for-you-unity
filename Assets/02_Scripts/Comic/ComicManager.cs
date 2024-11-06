@@ -12,15 +12,57 @@ public enum ComicType
 
 public class ComicManager : MonoBehaviour
 {
+    public static ComicManager Instance;
     [SerializeField] ComicController comic;
-    
+    Canvas canvas;
+    SceneType targetScene = SceneType.NONE;    
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
     private void Start()
     {
-        //comic.gameObject.SetActive(false);
+        if (comic == null)
+        {
+            comic = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<ComicController>();
+        }
+        canvas = GetComponent<Canvas>();
     }
 
     public void ShowComic(ComicType comicType)
     {
+        canvas.sortingOrder = 1;
+        targetScene = GetSceneForComic(comicType);
         comic.StartComic(comicType);
+    }
+
+    private SceneType GetSceneForComic(ComicType comicType)
+    {
+        switch (comicType)
+        {
+            case ComicType.INTRO:
+                return SceneType.AM;
+            case ComicType.CHAPTER_1:
+                return SceneType.PM_ADVENTURE;
+            case ComicType.CHAPTER_2:
+                return SceneType.PM_COMBAT;
+            default:
+                return SceneType.NONE;
+        }
+    }
+
+    public SceneType GetTargetScene()
+    {
+        return targetScene;
     }
 }

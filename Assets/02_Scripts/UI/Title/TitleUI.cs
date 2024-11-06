@@ -10,16 +10,19 @@ public class TitleUI : MonoBehaviour
     [SerializeField] Button loadButton;
     [SerializeField] Button optionButton;
     [SerializeField] Button exitButton;
+    Canvas canvas;
 
     private void Awake()
-    {        
-        newGameButton.onClick.AddListener(()=>SceneChanger.Instance.ChangeScene(SceneType.AM));
+    {
+        canvas = GetComponent<Canvas>();
+        newGameButton.onClick.AddListener(OnClickNewGameButton);
         optionButton.onClick.AddListener(OnClickSettingPanel);
         exitButton.onClick.AddListener(()=>Application.Quit());
     }
 
     private void Start()
     {
+        canvas.enabled = true;
         settingPanel.SetActive(false);
     }
 
@@ -28,4 +31,8 @@ public class TitleUI : MonoBehaviour
         settingPanel.SetActive(true);
     }
 
+    void OnClickNewGameButton()
+    {        
+        ComicManager.Instance.ShowComic(ComicType.INTRO);
+    }    
 }
