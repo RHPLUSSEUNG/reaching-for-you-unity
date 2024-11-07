@@ -20,6 +20,7 @@ public class Slow : Debuff
         slow = attribute;
         remainTurn = turn;
         target.GetComponent<CharacterState>().AddDebuff(this, turnEnd);
+        MakeEffectAnim();
         StartEffect();
     }
 
@@ -28,7 +29,6 @@ public class Slow : Debuff
         if (target == null)
             return false;
         target.GetComponent<CharacterState>().ChangeSlow(true, slow);
-        StartAnimation();
         return true;
     }
 

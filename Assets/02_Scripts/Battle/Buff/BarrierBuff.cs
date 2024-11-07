@@ -9,6 +9,7 @@ public class BarrierBuff : Buff
         this.target = target;
         this.attribute = attribute;
         AddBuff(target, TurnEnd);
+        MakeEffectAnim();
         StartEffect();
     }
 

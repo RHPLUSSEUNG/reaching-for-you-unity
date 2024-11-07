@@ -59,11 +59,6 @@ public class BattleManager
         ObjectList.Clear();
         Managers.Party.AddParty("Player_Girl_Battle");
         GameObject player = Managers.Party.FindPlayer("Player_Girl_Battle");
-        player.GetComponent<SkillList>().AddSkill(2);
-        player.GetComponent<SkillList>().AddSkill(39);
-        player.GetComponent<SkillList>().AddSkill(3);
-        player.GetComponent<SkillList>().AddSkill(8);
-        player.GetComponent<SkillList>().AddSkill(9);
         battleState = BattleState.Start;
         turnCnt = -1;
         phase = 1;
@@ -97,10 +92,7 @@ public class BattleManager
         {
             phase++;
             Managers.BattleUI.turnUI.ResetPastPanel();
-            turnCnt %= ObjectList.Count;
-            #region 수정 코드
-            turnCnt = 0;        // 위 코드로 가면 몬스터가 죽으면서 turnCnt가 0으로 가는게 아니라 1로 가는 경우 발생
-            #endregion
+            turnCnt = 0;
 
 
             for (int i = 0; i < InstantAfterPhaseList.Count; i++)

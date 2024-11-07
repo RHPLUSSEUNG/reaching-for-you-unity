@@ -13,6 +13,7 @@ public class FireEnchant : Buff
     public override bool StartEffect()
     {
         target.GetComponent<CharacterState>().ChangeEnchantFire(1);
+        MakeEffectAnim();
         return true;
     }
 

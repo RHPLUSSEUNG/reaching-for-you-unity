@@ -27,6 +27,7 @@ public class Burn : Debuff
         remainTurn = turn;
         tickDmg = attribute;
         target.GetComponent<CharacterState>().AddDebuff(this, turnEnd);
+        MakeEffectAnim();
         StartEffect();
     }
 

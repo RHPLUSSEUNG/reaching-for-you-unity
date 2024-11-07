@@ -19,6 +19,7 @@ public class IncreaseSpeed : Buff
         this.remainTurn = turn;
         incMove = attribute;
         AddBuff(target, TurnEnd);
+        MakeEffectAnim();
         StartEffect();
     }
 

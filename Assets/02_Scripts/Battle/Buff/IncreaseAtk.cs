@@ -19,6 +19,7 @@ public class IncreaseAtk : Buff
         this.remainTurn = turn;
         incAtk = attribute;
         AddBuff(target, TurnEnd);
+        MakeEffectAnim();
         StartEffect();
     }
 
