@@ -11,6 +11,10 @@ public class TestTimingBar : MonoBehaviour
     RectTransform _trueAreaRect;
     RectTransform _scrollRect;
 
+    float duration = 0.75f;
+    float totalTime = 60f;
+    bool isIncreasing = true;
+
     private void Start()
     {
         SetTrueArea();
@@ -18,6 +22,11 @@ public class TestTimingBar : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SetTrueArea();
+            StartCoroutine(ScrollBarAnim());
+        }
         if(Input.GetKeyDown(KeyCode.E))
         {
             SetTrueArea();
@@ -30,10 +39,42 @@ public class TestTimingBar : MonoBehaviour
         float fotRangeValue = Random.Range(5f, 95f);
         float fotSize = Random.Range(20f, 100f);
 
-        Debug.Log($"x : {_scrollRect.sizeDelta.x}");
-        Debug.Log($"y : {_scrollRect.sizeDelta.y}");
         _trueAreaRect.gameObject.SetActive(true);
         _trueAreaRect.anchoredPosition = new Vector2(Mathf.Lerp(0, _scrollRect.sizeDelta.x, fotRangeValue / 100f), 0);
         _trueAreaRect.sizeDelta = new Vector2(fotSize, _scrollRect.sizeDelta.y);
     }
+
+    IEnumerator ScrollBarAnim()
+    {
+        float elapsed = 0f;
+
+        while (elapsed < totalTime)
+        {
+            float timer = 0f;
+
+            if (isIncreasing)
+            {
+                while (timer < duration)
+                {
+                    _scrollbar.value = Mathf.Lerp(0, 1, timer / duration);
+                    timer += Time.deltaTime;
+                    elapsed += Time.deltaTime;
+                    yield return null;
+                }
+            }
+            else
+            {
+                while (timer < duration)
+                {
+                    _scrollbar.value = Mathf.Lerp(1, 0, timer / duration);
+                    timer += Time.deltaTime;
+                    elapsed += Time.deltaTime;
+                    yield return null;
+                }
+            }
+
+            isIncreasing = !isIncreasing;
+        }
+    }
 }
+    
