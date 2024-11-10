@@ -1,6 +1,7 @@
 
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleGuideManager : MonoBehaviour
 {
@@ -14,8 +15,13 @@ public class BattleGuideManager : MonoBehaviour
     private bool canSpawnTime;
 
     protected int currentHitZone;
+    protected int currnetStage;
 
     [Header("Game Setting")]
+    [SerializeField]
+    Text timeText;
+    [SerializeField]
+    Text stageText;
     [SerializeField]
     public float maxTime;
     [SerializeField]
@@ -32,7 +38,7 @@ public class BattleGuideManager : MonoBehaviour
     BoxCollider boxCollider;
 
 
-    [Header("Phase 1")]
+    [Header("Basic Value")]
     [SerializeField]
     protected int maxSpawnCount;
     [SerializeField]
@@ -54,32 +60,54 @@ public class BattleGuideManager : MonoBehaviour
     [Range(0f, 5f)]
     protected float maxFillSpeed;
 
+    [Header("Stage Value")]
+    [SerializeField]
+    protected int maxSpawnCount_plus;
+    [SerializeField]
+    [Range(0f, 3f)]
+    protected float minSpwanInterval_minus;
+    [SerializeField]
+    [Range(0f, 3f)]
+    protected float maxSpwanInterval_minus;
+    [SerializeField]
+    [Range(0f, 5f)]
+    protected float minRadius_plus;
+    [SerializeField]
+    [Range(0f, 5f)]
+    protected float maxRadius_plus;
+    [Range(0f, 5f)]
+    [SerializeField]
+    protected float minFillSpeed_plus;
+    [SerializeField]
+    [Range(0f, 5f)]
+    protected float maxFillSpeed_plus;
+
+
     private void Awake()
     {
+        currnetStage = 1;
         hitTimer = 0;
-        currentTime = 0;
-        life = 3;
-        maxTime = 100;
+        currentTime = maxTime;
         currentHitZone = 0;
-        isPlaying = true;
+        isPlaying = false;
         canHit = true;
         boxCollider = plane.GetComponent<BoxCollider>();
     }
     private void Start()
     {
-        spawnHitZone();
-        StartCoroutine(spawnHitZoneCoroutine());
+        StartCoroutine(WaitAndExecute());
     }
 
     public void FixedUpdate()
     {
         if (isPlaying)
         {
-            currentTime += Time.deltaTime;
-            if (currentTime >= maxTime)
+            currentTime = currentTime - Time.deltaTime;
+            timeText.text = currentTime.ToString("F2");
+            if (currentTime <= 0)
             {
                 isPlaying = false;
-                GameOver();
+                NextStage();
             }
         }
     }
@@ -142,6 +170,29 @@ public class BattleGuideManager : MonoBehaviour
         StopAllCoroutines();
         score = currentTime * life;
     }
+    public void NextStage()
+    {
+
+        currnetStage += 1;
+        maxSpawnCount += maxSpawnCount_plus;
+        if (minSpwanInterval - minSpwanInterval_minus <= 0) //예외처리
+            minSpwanInterval = 0;
+        else
+            minSpwanInterval -= minSpwanInterval_minus;
+
+        if (maxSpwanInterval - maxSpwanInterval_minus <= 0) //예외처리
+            minSpwanInterval = 0;
+        else
+            maxSpwanInterval -= maxSpwanInterval_minus;
+        minRadius = minRadius_plus;
+        maxRadius =maxRadius_plus;
+        minFillSpeed = minFillSpeed_plus;
+        maxFillSpeed = maxFillSpeed_plus;
+
+        currentTime = maxTime;
+
+        StartCoroutine(WaitAndExecute());
+    }
     void HitTimeCheck()
     {
         canHit = false;
@@ -171,6 +222,13 @@ public class BattleGuideManager : MonoBehaviour
         }
 
         spawnHitZone();
+        StartCoroutine(spawnHitZoneCoroutine());
+    }
+    IEnumerator WaitAndExecute()
+    {
+        stageText.text = currnetStage.ToString();
+        yield return new WaitForSeconds(3f); // 3초 대기
+        isPlaying = true;
         StartCoroutine(spawnHitZoneCoroutine());
     }
     bool canSpawn()
