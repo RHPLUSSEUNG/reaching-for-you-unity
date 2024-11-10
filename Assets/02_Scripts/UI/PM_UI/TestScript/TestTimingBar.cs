@@ -11,8 +11,11 @@ public class TestTimingBar : MonoBehaviour
     RectTransform _trueAreaRect;
     RectTransform _scrollRect;
 
-    float duration = 0.75f;
+    float duration = 1.0f;
     float totalTime = 60f;
+
+    float trueAreaMin = 200f;
+    float trueAreaMax = 300f;
     bool isIncreasing = true;
 
     private void Start()
@@ -37,7 +40,7 @@ public class TestTimingBar : MonoBehaviour
     {
         _scrollRect = _scrollbar.GetComponent<RectTransform>();
         float fotRangeValue = Random.Range(5f, 95f);
-        float fotSize = Random.Range(20f, 100f);
+        float fotSize = Random.Range(trueAreaMin, trueAreaMax);
 
         _trueAreaRect.gameObject.SetActive(true);
         _trueAreaRect.anchoredPosition = new Vector2(Mathf.Lerp(0, _scrollRect.sizeDelta.x, fotRangeValue / 100f), 0);
