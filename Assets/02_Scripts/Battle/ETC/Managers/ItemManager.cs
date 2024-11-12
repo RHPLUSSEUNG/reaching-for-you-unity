@@ -13,7 +13,7 @@ public class ItemManager
     //[2024-09-13][LSH's Code]: [quest-objective-gather]
     public bool AddItem(int itemID, int num = 1)
     {
-        ItemData itemData = Managers.Data.GetItemData(itemID);
+        ItemData itemData = (ItemData)Managers.Data.ParsingData(itemID);
         if (itemData.ItemType == ItemType.Consume)
         {
             if (consumeInven.ContainsKey(itemID))
@@ -48,7 +48,7 @@ public class ItemManager
     //[2024-09-13][LSH's Code]: [quest-objective-gather]
     public bool RemoveItem(int itemID, int num = 1)
     {
-        ItemData itemData = Managers.Data.GetItemData(itemID);
+        ItemData itemData = (ItemData)Managers.Data.ParsingData(itemID);
         if (itemData.ItemType == ItemType.Consume)
         {
             if (consumeInven.ContainsKey(itemID) && consumeInven[itemID] >= num)
@@ -79,7 +79,7 @@ public class ItemManager
     //[2024-09-16][LSH's Code]: [quest-objective-gather]
     public int SearchItem(int itemID)
     {
-        ItemData itemData = Managers.Data.GetItemData(itemID);
+        ItemData itemData = (ItemData)Managers.Data.ParsingData(itemID);
         if (itemData.ItemType == ItemType.Consume)
         {
             if (consumeInven.ContainsKey(itemID))
@@ -105,13 +105,15 @@ public class ItemManager
 
     public GameObject InstantiateConsumeItem(int itemID)
     {
-        GameObject Item = Managers.Prefab.Instantiate($"Item/Consume/{Managers.Data.GetItemData(itemID).name}");
+        ItemData itemData = (ItemData)Managers.Data.ParsingData(itemID);
+        GameObject Item = Managers.Prefab.Instantiate($"Item/Consume/{itemData.ItemName}");
         return Item;
     }
 
     public GameObject InstantiateEquipmentItem(int itemID)
     {
-        GameObject Item = Managers.Prefab.Instantiate($"Item/Equipment/{Managers.Data.GetItemData(itemID).name}");
+        ItemData itemData = (ItemData)Managers.Data.ParsingData(itemID);
+        GameObject Item = Managers.Prefab.Instantiate($"Item/Equipment/{itemData.ItemName}");
         return Item;
     }
 
