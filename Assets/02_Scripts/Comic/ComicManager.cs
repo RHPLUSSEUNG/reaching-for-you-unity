@@ -10,7 +10,7 @@ public enum ComicType
     MAX_SIZE,
 }
 
-public class ComicManager : MonoBehaviour
+public class ComicManager : MonoBehaviour, ICanvasSortingOrder
 {
     public static ComicManager Instance;
     [SerializeField] ComicController comic;
@@ -41,7 +41,7 @@ public class ComicManager : MonoBehaviour
 
     public void ShowComic(ComicType comicType)
     {
-        canvas.sortingOrder = 1;
+        SetCanvasSortingOrder(1);
         targetScene = GetSceneForComic(comicType);
         comic.StartComic(comicType);
     }
@@ -64,5 +64,10 @@ public class ComicManager : MonoBehaviour
     public SceneType GetTargetScene()
     {
         return targetScene;
+    }
+
+    public void SetCanvasSortingOrder(int order)
+    {
+        canvas.sortingOrder = order;
     }
 }

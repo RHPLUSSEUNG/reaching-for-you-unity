@@ -98,7 +98,7 @@ public class ComicController : MonoBehaviour
         }
     }
 
-    private void DestroyCurrentPages()
+    private void InitializeComicController()
     {
         for(int i = 0; i < pages.Count; i++)
         {
@@ -108,6 +108,18 @@ public class ComicController : MonoBehaviour
         currentPageIndex = 0;
         fadeOverlay.alpha = 0.0f;
         fadeOverlay.gameObject.SetActive(false);
+        ComicManager.Instance.SetCanvasSortingOrder(0);
+        SceneChange();
+    }
+
+    void SceneChange()
+    {
+        SceneType targetScene = ComicManager.Instance.GetTargetScene();
+
+        if (targetScene != SceneType.NONE)
+        {
+            SceneChanger.Instance.ChangeScene(targetScene);
+        }
     }
 
     public IEnumerator FadeFirstPage()
@@ -151,14 +163,7 @@ public class ComicController : MonoBehaviour
         }
         fadeOverlay.alpha = 1;
         fadeOverlay.gameObject.SetActive(false);
-        DestroyCurrentPages();
-
-        SceneType targetScene = ComicManager.Instance.GetTargetScene();
-
-        if (targetScene != SceneType.NONE)
-        {
-            SceneChanger.Instance.ChangeScene(targetScene);
-        }
+        InitializeComicController();
     }
 
     IEnumerator SlideToNextPage(float targetPosition)
