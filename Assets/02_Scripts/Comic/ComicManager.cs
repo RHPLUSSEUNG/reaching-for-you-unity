@@ -41,7 +41,7 @@ public class ComicManager : MonoBehaviour
 
     public void ShowComic(ComicType comicType)
     {
-        canvas.sortingOrder = 1;
+        CanvasManager.Instance.ChangeCanvasOrder(canvas);
         targetScene = GetSceneForComic(comicType);
         comic.StartComic(comicType);
     }
@@ -51,7 +51,7 @@ public class ComicManager : MonoBehaviour
         switch (comicType)
         {
             case ComicType.INTRO:
-                return SceneType.AM;
+                return SceneType.ACADEMY;
             case ComicType.CHAPTER_1:
                 return SceneType.PM_ADVENTURE;
             case ComicType.CHAPTER_2:

@@ -41,7 +41,7 @@ public class SoundManager:MonoBehaviour
                     }
                     break;
                 }
-            case SceneType.AM:
+            case SceneType.ACADEMY:
                 {
                     foreach (AudioClip bgm in Resources.LoadAll<AudioClip>("Sounds/BGM/AM"))
                     {

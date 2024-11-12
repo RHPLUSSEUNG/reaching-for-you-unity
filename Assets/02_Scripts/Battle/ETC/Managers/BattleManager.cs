@@ -165,7 +165,7 @@ public class BattleManager
             Debug.Log("Defeat");
         }
         //CameraAllocate(null);
-        SceneChanger.Instance.ChangeScene(SceneType.AM);
+        SceneChanger.Instance.ChangeScene(SceneType.ACADEMY);
     }
 
     public IEnumerator NextTurnCoroutine()
