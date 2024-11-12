@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public enum SceneType
 {
-    TITLE,
+    MAINMENU,
     AM,
     PM_ADVENTURE,
     PM_COMBAT,
@@ -36,9 +36,9 @@ public class LoadSceneManager : MonoBehaviour
         
         switch (sceneType)
         {
-            case SceneType.TITLE:
+            case SceneType.MAINMENU:
                 {
-                    nextScene = "TITLE_PT_5";
+                    nextScene = "MainMenu";
                     break;
                 }
             case SceneType.AM:
@@ -62,14 +62,14 @@ public class LoadSceneManager : MonoBehaviour
                 }
         }
 
-        SceneManager.LoadScene("LOADING_PT_5");
+        SceneManager.LoadScene("LoadingScene");
     }
 
     void NextSceneBGMPlay(SceneType sceneType)
     {
         switch (sceneType)
         {
-            case SceneType.TITLE:
+            case SceneType.MAINMENU:
                 {
                     SoundManager.Instance.PlayMusic("Main_Theme");
                     break;
@@ -81,7 +81,7 @@ public class LoadSceneManager : MonoBehaviour
                 }
             case SceneType.PM_ADVENTURE:
                 {
-                    //SoundManager.Instance.PlayMusic("Main_Theme");
+                    SoundManager.Instance.PlayMusic("Main_Theme");
                     break;
                 }
             case SceneType.PM_COMBAT:

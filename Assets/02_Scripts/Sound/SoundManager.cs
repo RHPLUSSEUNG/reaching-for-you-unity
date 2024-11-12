@@ -33,9 +33,9 @@ public class SoundManager:MonoBehaviour
 
         switch (sceneType)
         {
-            case SceneType.TITLE:
+            case SceneType.MAINMENU:
                 {
-                    foreach (AudioClip bgm in Resources.LoadAll<AudioClip>("Sounds/BGM/Title"))
+                    foreach (AudioClip bgm in Resources.LoadAll<AudioClip>("Sounds/BGM/MainMenu"))
                     {
                         bgmClips[bgm.name] = bgm;
                     }
