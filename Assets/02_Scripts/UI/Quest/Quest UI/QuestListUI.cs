@@ -8,20 +8,18 @@ public class QuestListUI : MonoBehaviour
     [SerializeField] Transform subQuestContent;
     [SerializeField] Transform completedQuestContent;
     [SerializeField] QuestItemUI questPrefab;
-    [SerializeField] GameObject emptyText;
-    QuestList questList;
+    [SerializeField] GameObject emptyText;    
 
     private void Start()
-    {
-        questList = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponent<QuestList>();
-        questList.onUpdate += Redraw;
+    {        
+        QuestList.Instance.onUpdate += Redraw;
         Redraw();
     }
 
     private void Redraw()
-    {        
+    {
         foreach (Transform item in mainQuestContent)
-        {            
+        {
             Destroy(item.gameObject);
         }
         foreach (Transform item in subQuestContent)
@@ -33,7 +31,7 @@ public class QuestListUI : MonoBehaviour
             Destroy(item.gameObject);
         }
 
-        foreach (QuestStatus status in questList.GetStatuses())
+        foreach (QuestStatus status in QuestList.Instance.GetStatuses())
         {
             QuestItemUI uiInstance;
 
@@ -46,7 +44,7 @@ public class QuestListUI : MonoBehaviour
                     }
                 case QuestType.SUB_QUEST:
                     {
-                         uiInstance = Instantiate<QuestItemUI>(questPrefab, subQuestContent);
+                        uiInstance = Instantiate<QuestItemUI>(questPrefab, subQuestContent);
                         break;
                     }
                 case QuestType.COMPLETED_QUEST:
@@ -60,16 +58,8 @@ public class QuestListUI : MonoBehaviour
                         break;
                     }
             }
-            
-            uiInstance.Setup(status);
-        }
-    }
 
-    private void OnDestroy()
-    {        
-        if (questList != null)
-        {
-            questList.onUpdate -= Redraw;
+            uiInstance.Setup(status);
         }
     }
 }
