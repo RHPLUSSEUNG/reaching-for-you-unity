@@ -71,22 +71,22 @@ public class LoadSceneManager : MonoBehaviour
         {
             case SceneType.MAINMENU:
                 {
-                    SoundManager.Instance.PlayMusic("Main_Theme");
+                    SoundManager.Instance.PlayMusic("02_Main_Theme");
                     break;
                 }
             case SceneType.ACADEMY:
                 {
-                    SoundManager.Instance.PlayMusic("AM_School");
+                    SoundManager.Instance.PlayMusic("03_Academy");
                     break;
                 }
             case SceneType.PM_ADVENTURE:
                 {
-                    SoundManager.Instance.PlayMusic("Main_Theme");
+                    SoundManager.Instance.PlayMusic("04_Desert_Adventure");
                     break;
                 }
             case SceneType.PM_COMBAT:
                 {
-                    SoundManager.Instance.PlayMusic("Stage1_Battle");
+                    SoundManager.Instance.PlayMusic("06_Desert_InBattle");
                     break;
                 }
         }

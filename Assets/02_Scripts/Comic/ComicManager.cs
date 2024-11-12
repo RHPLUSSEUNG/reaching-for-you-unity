@@ -44,6 +44,7 @@ public class ComicManager : MonoBehaviour
         CanvasManager.Instance.ChangeCanvasOrder(canvas);
         targetScene = GetSceneForComic(comicType);
         comic.StartComic(comicType);
+        SoundManager.Instance.PlayMusic("01_Intro", false);
     }
 
     private SceneType GetSceneForComic(ComicType comicType)
