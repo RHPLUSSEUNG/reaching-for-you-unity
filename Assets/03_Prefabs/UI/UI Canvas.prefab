@@ -129,6 +129,7 @@ MonoBehaviour:
   toggleKey: 9
   uiContainer: {fileID: 2282742830646855062}
   exitButton: {fileID: 5396506930892491935}
+  canvasController: {fileID: 5065445499906932881}
 --- !u!1 &2195830266782748042
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,6 +525,7 @@ GameObject:
   - component: {fileID: 8153262042037739908}
   - component: {fileID: 6209720406424888865}
   - component: {fileID: 7183414934890744289}
+  - component: {fileID: 5065445499906932881}
   m_Layer: 5
   m_Name: UI Canvas
   m_TagString: Untagged
@@ -618,6 +620,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5065445499906932881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7328723476618754552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f74b103908acbf48b92537242187266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &830714954152638124
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1335,6 +1349,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3719555560510870983, guid: 592481439c81b1e4db70022904a292ca, type: 3}
+      propertyPath: canvasController
+      value: 
+      objectReference: {fileID: 5065445499906932881}
+    - target: {fileID: 3719555560510870983, guid: 592481439c81b1e4db70022904a292ca, type: 3}
       propertyPath: characterPortrait
       value: 
       objectReference: {fileID: 5680654989525550983}
@@ -1424,7 +1442,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5633218114061774448, guid: 592481439c81b1e4db70022904a292ca, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 668
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5633218114061774448, guid: 592481439c81b1e4db70022904a292ca, type: 3}
       propertyPath: m_AnchoredPosition.y

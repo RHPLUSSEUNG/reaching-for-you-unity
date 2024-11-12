@@ -6,6 +6,7 @@ using TMPro;
 
 public class DialogueUI : MonoBehaviour
 {
+    [SerializeField] CanvasController canvasController;
     PlayerConversant playerConversant;
     [SerializeField] TextMeshProUGUI NPCText;    
     [SerializeField] GameObject NPCResponse;
@@ -44,7 +45,8 @@ public class DialogueUI : MonoBehaviour
         {
             return;
         }
-        
+
+        canvasController.ChangeCanvasOrder();
         conversantName.text = playerConversant.GetCurrentConversantName();
         NPCResponse.SetActive(!playerConversant.IsChoosing());
         choiceRoot.gameObject.SetActive(playerConversant.IsChoosing());        

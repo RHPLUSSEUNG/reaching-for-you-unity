@@ -24,6 +24,7 @@ public class TitleUI : MonoBehaviour
     {
         canvas.enabled = true;
         settingPanel.SetActive(false);
+        CanvasManager.Instance.ChangeCanvasOrder(canvas);
     }
 
     void OnClickSettingPanel()
