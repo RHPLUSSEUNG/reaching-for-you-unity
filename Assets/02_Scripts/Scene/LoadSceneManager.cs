@@ -81,12 +81,30 @@ public class LoadSceneManager : MonoBehaviour
                 }
             case SceneType.PM_ADVENTURE:
                 {
-                    SoundManager.Instance.PlayMusic("04_Desert_Adventure");
+                    int stageNumber = AdventureManager.StageNumber;
+                    switch(stageNumber)
+                    {
+                        case 0:
+                            SoundManager.Instance.PlayMusic("04_Desert_Adventure");
+                            break;
+                        case 1:
+                            SoundManager.Instance.PlayMusic("08_Ocean_Adventure");
+                            break;
+                    }                    
                     break;
                 }
             case SceneType.PM_COMBAT:
                 {
-                    SoundManager.Instance.PlayMusic("06_Desert_InBattle");
+                    int stageNumber = AdventureManager.StageNumber;
+                    switch(stageNumber)
+                    {
+                        case 0:
+                            SoundManager.Instance.PlayMusic("06_Desert_InBattle");
+                            break;
+                        case 1:
+                            SoundManager.Instance.PlayMusic("08_Ocean_InBattle");
+                            break;
+                    }                    
                     break;
                 }
         }
