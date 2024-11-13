@@ -12,7 +12,8 @@ public class BasicHealthUI : UI_Scene
         RightProhibitedArea,
         Character,
         TimingBar,
-        TrueArea
+        TrueArea,
+        PerfectArea
     }
 
     [SerializeField]
@@ -21,13 +22,15 @@ public class BasicHealthUI : UI_Scene
     Scrollbar _scrollbar;
     [SerializeField]
     RectTransform _trueAreaRect;
+    [SerializeField]
+    RectTransform _perfectAreaRect;
     RectTransform _scrollRect;
 
     RectTransform characterRectTrnasform;
     RectTransform leftProhibit;
     RectTransform rightProhibit;
 
-    float duration = 0.5f;
+    float duration = 2.0f;
     float totalTime = 60f;
     float invincibilityTime = 2.0f;
     float knockbackTime = 5.0f;
@@ -35,8 +38,11 @@ public class BasicHealthUI : UI_Scene
     float trueAreaMin = 200f;
     float trueAreaMax = 300f;
 
+    float perfectAreaMin = 50f;
+    float perfectAreaMax = 100f;
+
     float moveDistance = 100f;
-    float knockbackDistance = 300f;
+    float knockbackDistance = 200f;
 
     bool isIncreasing = true;
     bool isInvincible = false;
@@ -49,6 +55,7 @@ public class BasicHealthUI : UI_Scene
         _scrollbar = GetObject((int)basicHealthUI.TimingBar).GetComponent<Scrollbar>();
         _scrollRect = _scrollbar.GetComponent<RectTransform>();
         _trueAreaRect = GetObject((int)basicHealthUI.TrueArea).GetComponent<RectTransform>();
+        _perfectAreaRect = GetObject((int)basicHealthUI.PerfectArea).GetComponent<RectTransform>();
 
         characterRectTrnasform = GetObject((int)basicHealthUI.Character).GetComponent<RectTransform>();
         leftProhibit = GetObject((int)basicHealthUI.LeftProhibitedArea).GetComponent<RectTransform>();
@@ -80,12 +87,15 @@ public class BasicHealthUI : UI_Scene
 
     void SetTrueArea()
     {
-        float fotRangeValue = Random.Range(10f, 90f);
-        float fotSize = Random.Range(trueAreaMin, trueAreaMax);
+        float rangeValue = Random.Range(10f, 90f);
+        float trueSize = Random.Range(trueAreaMin, trueAreaMax);
+        float perfectSize = Random.Range(perfectAreaMin, perfectAreaMax);
 
         _trueAreaRect.gameObject.SetActive(true);
-        _trueAreaRect.anchoredPosition = new Vector2(Mathf.Lerp(0, _scrollRect.sizeDelta.x, fotRangeValue / 100f), 0);
-        _trueAreaRect.sizeDelta = new Vector2(fotSize, _scrollRect.sizeDelta.y);
+        _trueAreaRect.anchoredPosition = new Vector2(Mathf.Lerp(0, _scrollRect.sizeDelta.x, rangeValue / 100f), 0);
+        _perfectAreaRect.anchoredPosition = new Vector2(Mathf.Lerp(0, _scrollRect.sizeDelta.x, rangeValue / 100f), 0);
+        _trueAreaRect.sizeDelta = new Vector2(trueSize, _scrollRect.sizeDelta.y);
+        _perfectAreaRect.sizeDelta = new Vector2(perfectSize, _scrollRect.sizeDelta.y);
     }
 
     IEnumerator MiniGameStart()
@@ -140,15 +150,28 @@ public class BasicHealthUI : UI_Scene
         float slidingAreaWidth = slidingArea.rect.width;
 
         float trueAreaPos = _trueAreaRect.anchoredPosition.x;
+        float perfectAreaPos = _perfectAreaRect.anchoredPosition.x;
 
         float trueAreaStart = trueAreaPos - (_trueAreaRect.rect.width * _trueAreaRect.pivot.x);
         float trueAreaEnd = trueAreaStart + _trueAreaRect.rect.width;
 
-        float imageStartValue = Mathf.Clamp01(trueAreaStart / slidingAreaWidth);
-        float imageEndValue = Mathf.Clamp01(trueAreaEnd / slidingAreaWidth);
+        float perfectAreaStart = perfectAreaPos - (_perfectAreaRect.rect.width * _perfectAreaRect.pivot.x);
+        float perfectAreaEnd = perfectAreaStart + _perfectAreaRect.rect.width;
 
-        if (value >= imageStartValue && value <= imageEndValue)
+        float trueStartValue = Mathf.Clamp01(trueAreaStart / slidingAreaWidth);
+        float trueEndValue = Mathf.Clamp01(trueAreaEnd / slidingAreaWidth);
+
+        float perfectStartValue = Mathf.Clamp01(perfectAreaStart / slidingAreaWidth);
+        float perfectEndValue = Mathf.Clamp01(perfectAreaEnd / slidingAreaWidth);
+
+        if (value >= trueStartValue && value <= trueEndValue)
         {
+            if(value >= perfectStartValue && value <= perfectEndValue)
+            {
+                Debug.Log("MiniGame Perfect");
+                MoveRight();
+                return true;
+            }
             Debug.Log("MiniGame Success");
             MoveRight();
             return true;
