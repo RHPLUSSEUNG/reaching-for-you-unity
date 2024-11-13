@@ -65,6 +65,11 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
         return statuses;
     }
 
+    public List<QuestStatus> GetQuestStatuses()
+    {
+        return statuses;
+    }
+
     public void CompleteObjective(Quest quest, string objective)
     {
         QuestStatus status = GetQuestStatus(quest);

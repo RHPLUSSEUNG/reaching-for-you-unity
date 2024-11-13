@@ -8,7 +8,7 @@ public class QuestListUI : MonoBehaviour
     [SerializeField] Transform subQuestContent;
     [SerializeField] Transform completedQuestContent;
     [SerializeField] QuestItemUI questPrefab;
-    [SerializeField] GameObject emptyText;    
+    [SerializeField] GameObject[] emptyText;    
 
     private void Start()
     {        
@@ -31,6 +31,10 @@ public class QuestListUI : MonoBehaviour
             Destroy(item.gameObject);
         }
 
+        bool hasMainQuest = false;
+        bool hasSubQuest = false;
+        bool hasCompletedQuest = false;
+
         foreach (QuestStatus status in QuestList.Instance.GetStatuses())
         {
             QuestItemUI uiInstance;
@@ -40,16 +44,19 @@ public class QuestListUI : MonoBehaviour
                 case QuestType.MAIN_QUEST:
                     {
                         uiInstance = Instantiate<QuestItemUI>(questPrefab, mainQuestContent);
+                        hasMainQuest = true;
                         break;
                     }
                 case QuestType.SUB_QUEST:
                     {
                         uiInstance = Instantiate<QuestItemUI>(questPrefab, subQuestContent);
+                        hasSubQuest = true;
                         break;
                     }
                 case QuestType.COMPLETED_QUEST:
                     {
                         uiInstance = Instantiate<QuestItemUI>(questPrefab, completedQuestContent);
+                        hasCompletedQuest = true;
                         break;
                     }
                 default:
@@ -60,6 +67,19 @@ public class QuestListUI : MonoBehaviour
             }
 
             uiInstance.Setup(status);
+        }
+
+        if (!hasMainQuest)
+        {
+            Instantiate(emptyText[0], mainQuestContent);
+        }
+        if (!hasSubQuest)
+        {
+            Instantiate(emptyText[1], subQuestContent);
+        }
+        if (!hasCompletedQuest)
+        {
+            Instantiate(emptyText[2], completedQuestContent);
         }
     }
 }
