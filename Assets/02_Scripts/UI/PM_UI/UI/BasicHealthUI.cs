@@ -150,21 +150,25 @@ public class BasicHealthUI : UI_Scene
         if (value >= imageStartValue && value <= imageEndValue)
         {
             Debug.Log("MiniGame Success");
-            SuccessTiming();
+            MoveRight();
             return true;
         }
         else
         {
             Debug.Log("MiniGame Fail");
-            FailTiming();
+            MoveLeft();
             return false;
         }
     }
 
-    void SuccessTiming()
+    void MoveRight(float distance = 0f)
     {
+        if (distance == 0f)
+        {
+            distance = moveDistance;
+        }
         Vector2 newPos = characterRectTrnasform.anchoredPosition;
-        newPos.x += moveDistance;
+        newPos.x += distance;
         if (newPos.x >= rightProhibit.position.x)
         {
             newPos.x = rightProhibit.position.x;
@@ -174,10 +178,14 @@ public class BasicHealthUI : UI_Scene
         CheckReachProhibitedArea();
     }
 
-    void FailTiming()
+    void MoveLeft(float distance = 0f)
     {
+        if (distance == 0f)
+        {
+            distance = moveDistance;
+        }
         Vector2 newPos = characterRectTrnasform.anchoredPosition;
-        newPos.x -= moveDistance;
+        newPos.x -= distance;
         if (newPos.x <= leftProhibit.position.x)
         {
             newPos.x = leftProhibit.position.x;
@@ -195,13 +203,13 @@ public class BasicHealthUI : UI_Scene
         if (leftCheck)
         {
             StartCoroutine(BlinkCharacter());
-            SuccessTiming();
+            MoveRight(characterRectTrnasform.rect.width);
             return true;
         }
         if (rightCheck)
         {
             StartCoroutine(BlinkCharacter());
-            FailTiming();
+            MoveLeft(characterRectTrnasform.rect.width);
             return true;
         }
         return false;
@@ -260,7 +268,6 @@ public class BasicHealthUI : UI_Scene
                 newPos.x = leftProhibit.position.x;
             }
             characterRectTrnasform.anchoredPosition = newPos;
-            Debug.Log($"character Rect : {newPos.x}");
 
             CheckReachProhibitedArea();
         }
