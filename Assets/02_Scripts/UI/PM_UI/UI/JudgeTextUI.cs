@@ -7,6 +7,7 @@ public class JudgeTextUI : UI_Base
 {
     Image textImage;
 
+    float offset = 100f;
     float distance = 100f;
     float duration = 1.0f;
     public override void Init()
@@ -16,7 +17,8 @@ public class JudgeTextUI : UI_Base
 
     public void SetJudgeTextImage(Vector3 instantiatePos)
     {
-        transform.position = instantiatePos + new Vector3(0, 100);
+        float instantiateY = instantiatePos.y + offset;
+        transform.position = new Vector3(instantiatePos.x, instantiateY, instantiatePos.z);
         StartCoroutine(TextAnimation());    
     }
 

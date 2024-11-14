@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,8 @@ public class BasicHealthUI : UI_Scene
         TimingBar,
         TrueArea,
         PerfectArea,
-        Handle
+        Handle,
+        StageNumberText
     }
 
     [SerializeField]
@@ -33,10 +35,23 @@ public class BasicHealthUI : UI_Scene
     RectTransform leftProhibit;
     RectTransform rightProhibit;
 
-    float duration = 2.0f;
-    float totalTime = 60f;
-    float invincibilityTime = 2.0f;
-    float knockbackTime = 5.0f;
+    TextMeshProUGUI stageNumberText;
+
+    int stageNumber = 5;
+    float knockbackTimeOffset = 1.0f;
+    float speedOffset = 0.4f;
+    float knockbackDistanceOffset = 50f;
+
+    float totalTime = 20f;
+    float baseSpeed = 3.0f;
+    float baseknockbackTime = 8.0f;
+    float baseknockbackDistance = 100f;
+    float moveDistance = 100f;
+    float invincibilityTime = 1.0f;
+
+    float speed;
+    float knockbackTime;
+    float knockbackDistance;
 
     float trueAreaMin = 200f;
     float trueAreaMax = 300f;
@@ -44,8 +59,6 @@ public class BasicHealthUI : UI_Scene
     float perfectAreaMin = 50f;
     float perfectAreaMax = 100f;
 
-    float moveDistance = 100f;
-    float knockbackDistance = 200f;
 
     bool isIncreasing = true;
     bool isInvincible = false;
@@ -60,13 +73,16 @@ public class BasicHealthUI : UI_Scene
         _trueAreaRect = GetObject((int)basicHealthUI.TrueArea).GetComponent<RectTransform>();
         _perfectAreaRect = GetObject((int)basicHealthUI.PerfectArea).GetComponent<RectTransform>();
         handle = GetObject((int)basicHealthUI.Handle);
+        stageNumberText = GetObject((int)basicHealthUI.StageNumberText).GetComponent<TextMeshProUGUI>();
 
         characterRectTrnasform = GetObject((int)basicHealthUI.Character).GetComponent<RectTransform>();
         leftProhibit = GetObject((int)basicHealthUI.LeftProhibitedArea).GetComponent<RectTransform>();
         rightProhibit = GetObject((int)basicHealthUI.RightProhibitedArea).GetComponent<RectTransform>();
 
+        SetLevel();
         SetTrueArea();
         StartCoroutine(MiniGameStart());
+        Debug.Log($"Stage {stageNumber}!");
     }
 
     private void Update()
@@ -81,12 +97,26 @@ public class BasicHealthUI : UI_Scene
                     SetTrueArea();
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                StartCoroutine(BlinkCharacter());
-            }
         }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            stageNumber++;
+            SetLevel();
+            SetTrueArea();
+            StartCoroutine(MiniGameStart());
+        }
+    }
+
+    public void SetLevel()
+    {
+        speed = baseSpeed - (speedOffset * stageNumber);
+        Debug.Log($"Speed : {speed}");
+        knockbackTime = baseknockbackTime - (knockbackTimeOffset * stageNumber);
+        Debug.Log($"knockbackTime : {knockbackTime}");
+        knockbackDistance = baseknockbackDistance + (knockbackDistanceOffset * stageNumber);
+        Debug.Log($"knockbackDistance : {knockbackDistance}");
+
+        stageNumberText.text = $"Stage : {stageNumber}";
     }
 
     void SetTrueArea()
@@ -114,9 +144,9 @@ public class BasicHealthUI : UI_Scene
 
             if (isIncreasing)
             {
-                while (timer < duration)
+                while (timer < speed)
                 {
-                    _scrollbar.value = Mathf.Lerp(0, 1, timer / duration);
+                    _scrollbar.value = Mathf.Lerp(0, 1, timer / speed);
                     timer += Time.deltaTime;
                     elapsed += Time.deltaTime;
                     yield return null;
@@ -124,9 +154,9 @@ public class BasicHealthUI : UI_Scene
             }
             else
             {
-                while (timer < duration)
+                while (timer < speed)
                 {
-                    _scrollbar.value = Mathf.Lerp(1, 0, timer / duration);
+                    _scrollbar.value = Mathf.Lerp(1, 0, timer / speed);
                     timer += Time.deltaTime;
                     elapsed += Time.deltaTime;
                     yield return null;
