@@ -13,7 +13,8 @@ public class BasicHealthUI : UI_Scene
         Character,
         TimingBar,
         TrueArea,
-        PerfectArea
+        PerfectArea,
+        Handle
     }
 
     [SerializeField]
@@ -24,6 +25,8 @@ public class BasicHealthUI : UI_Scene
     RectTransform _trueAreaRect;
     [SerializeField]
     RectTransform _perfectAreaRect;
+    [SerializeField]
+    GameObject handle;
     RectTransform _scrollRect;
 
     RectTransform characterRectTrnasform;
@@ -56,6 +59,7 @@ public class BasicHealthUI : UI_Scene
         _scrollRect = _scrollbar.GetComponent<RectTransform>();
         _trueAreaRect = GetObject((int)basicHealthUI.TrueArea).GetComponent<RectTransform>();
         _perfectAreaRect = GetObject((int)basicHealthUI.PerfectArea).GetComponent<RectTransform>();
+        handle = GetObject((int)basicHealthUI.Handle);
 
         characterRectTrnasform = GetObject((int)basicHealthUI.Character).GetComponent<RectTransform>();
         leftProhibit = GetObject((int)basicHealthUI.LeftProhibitedArea).GetComponent<RectTransform>();
@@ -166,19 +170,24 @@ public class BasicHealthUI : UI_Scene
 
         if (value >= trueStartValue && value <= trueEndValue)
         {
-            if(value >= perfectStartValue && value <= perfectEndValue)
+            JudgeTextUI judge = Managers.UI.MakeSubItem<JudgeTextUI>(transform, "JudgeText");
+            if (value >= perfectStartValue && value <= perfectEndValue)
             {
                 Debug.Log("MiniGame Perfect");
+                judge.SetJudgeTextImage(handle.transform.position);
                 MoveRight();
                 return true;
             }
             Debug.Log("MiniGame Success");
+            judge.SetJudgeTextImage(handle.transform.position);
             MoveRight();
             return true;
         }
         else
         {
             Debug.Log("MiniGame Fail");
+            JudgeTextUI judge = Managers.UI.MakeSubItem<JudgeTextUI>(transform, "JudgeText");
+            judge.SetJudgeTextImage(handle.transform.position);
             MoveLeft();
             return false;
         }
