@@ -128,7 +128,6 @@ public class EnemyAI_Snail : EnemyAI_Base
         if (isTurnEnd)
             return;
 
-        lastDamaged = 0;
         TurnEnd();
     }
     public override void RadomTile()
