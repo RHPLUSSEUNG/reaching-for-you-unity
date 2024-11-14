@@ -17,6 +17,7 @@ public class Bind : Debuff
         this.target = target;
         remainTurn = turn;
         target.GetComponent<CharacterState>().AddDebuff(this, turnEnd);
+        MakeEffectAnim();
         StartEffect();
     }
 

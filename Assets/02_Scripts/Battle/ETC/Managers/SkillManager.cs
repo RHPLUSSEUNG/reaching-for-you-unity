@@ -107,12 +107,16 @@ public class SkillManager
 
     public IEnumerator StartBuffEffect(GameObject effect, Vector3 pos)
     {
+        if (effect == null)
+            yield break;
+
         effect.transform.position = pos;
         effect.GetComponent<ParticleSystem>().Play();
         is_effect = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         effect.GetComponent<ParticleSystem>().Stop();
         is_effect = false;
+        yield break;
     }
     #endregion
 

@@ -11,6 +11,7 @@ public class Cold : Debuff
         this.target = target;
         this.stack = attribute;
         StartEffect();
+        MakeEffectAnim();
         target.GetComponent<CharacterState>().AddDebuff(this);
     }
 
