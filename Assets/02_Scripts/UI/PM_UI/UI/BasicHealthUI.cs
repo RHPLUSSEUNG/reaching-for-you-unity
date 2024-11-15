@@ -9,10 +9,12 @@ public class BasicHealthUI : UI_Scene
     enum basicHealthUI
     {
         TimeLimit,
+        ClockCenter,
         LeftProhibitedArea,
         RightProhibitedArea,
         Character,
         TimingBar,
+        FailArea,
         TrueArea,
         PerfectArea,
         Handle,
@@ -23,6 +25,7 @@ public class BasicHealthUI : UI_Scene
     Slider timeLimit;
     [SerializeField]
     Scrollbar _scrollbar;
+    RectTransform _failAreaRect;
     [SerializeField]
     RectTransform _trueAreaRect;
     [SerializeField]
@@ -30,14 +33,21 @@ public class BasicHealthUI : UI_Scene
     [SerializeField]
     GameObject handle;
     RectTransform _scrollRect;
+    [SerializeField]
+    Sprite perfectSprite;
+    [SerializeField]
+    Sprite greatSprite;
+    [SerializeField]
+    Sprite missSprite;
 
     RectTransform characterRectTrnasform;
     RectTransform leftProhibit;
     RectTransform rightProhibit;
+    RectTransform clockCenter;
 
     TextMeshProUGUI stageNumberText;
 
-    int stageNumber = 5;
+    int stageNumber = 3;
     float knockbackTimeOffset = 1.0f;
     float speedOffset = 0.4f;
     float knockbackDistanceOffset = 50f;
@@ -70,10 +80,12 @@ public class BasicHealthUI : UI_Scene
         timeLimit = GetObject((int)basicHealthUI.TimeLimit).GetComponent<Slider>();
         _scrollbar = GetObject((int)basicHealthUI.TimingBar).GetComponent<Scrollbar>();
         _scrollRect = _scrollbar.GetComponent<RectTransform>();
+        _failAreaRect = GetObject((int)basicHealthUI.FailArea).GetComponent<RectTransform>();
         _trueAreaRect = GetObject((int)basicHealthUI.TrueArea).GetComponent<RectTransform>();
         _perfectAreaRect = GetObject((int)basicHealthUI.PerfectArea).GetComponent<RectTransform>();
         handle = GetObject((int)basicHealthUI.Handle);
         stageNumberText = GetObject((int)basicHealthUI.StageNumberText).GetComponent<TextMeshProUGUI>();
+        clockCenter = GetObject((int)basicHealthUI.ClockCenter).GetComponent<RectTransform>();
 
         characterRectTrnasform = GetObject((int)basicHealthUI.Character).GetComponent<RectTransform>();
         leftProhibit = GetObject((int)basicHealthUI.LeftProhibitedArea).GetComponent<RectTransform>();
@@ -121,15 +133,15 @@ public class BasicHealthUI : UI_Scene
 
     void SetTrueArea()
     {
-        float rangeValue = Random.Range(10f, 90f);
+        float rangeValue = Random.Range(5f, 95f);
         float trueSize = Random.Range(trueAreaMin, trueAreaMax);
         float perfectSize = Random.Range(perfectAreaMin, perfectAreaMax);
 
         _trueAreaRect.gameObject.SetActive(true);
-        _trueAreaRect.anchoredPosition = new Vector2(Mathf.Lerp(0, _scrollRect.sizeDelta.x, rangeValue / 100f), 0);
-        _perfectAreaRect.anchoredPosition = new Vector2(Mathf.Lerp(0, _scrollRect.sizeDelta.x, rangeValue / 100f), 0);
-        _trueAreaRect.sizeDelta = new Vector2(trueSize, _scrollRect.sizeDelta.y);
-        _perfectAreaRect.sizeDelta = new Vector2(perfectSize, _scrollRect.sizeDelta.y);
+        _trueAreaRect.anchoredPosition = new Vector2(Mathf.Lerp(0, _failAreaRect.sizeDelta.x, rangeValue / 100f), 0);
+        _perfectAreaRect.anchoredPosition = new Vector2(Mathf.Lerp(0, _failAreaRect.sizeDelta.x, rangeValue / 100f), 0);
+        _trueAreaRect.sizeDelta = new Vector2(trueSize, _failAreaRect.sizeDelta.y);
+        _perfectAreaRect.sizeDelta = new Vector2(perfectSize, _failAreaRect.sizeDelta.y);
     }
 
     IEnumerator MiniGameStart()
@@ -137,6 +149,7 @@ public class BasicHealthUI : UI_Scene
         float elapsed = 0f;
 
         StartCoroutine(TimeLimitStart());
+        StartCoroutine(ClockRotate());
         StartCoroutine(KnockBackCharacter());
         while (elapsed < totalTime)
         {
@@ -149,6 +162,10 @@ public class BasicHealthUI : UI_Scene
                     _scrollbar.value = Mathf.Lerp(0, 1, timer / speed);
                     timer += Time.deltaTime;
                     elapsed += Time.deltaTime;
+                    if (elapsed >= totalTime)
+                    {
+                        yield break;
+                    }
                     yield return null;
                 }
             }
@@ -159,6 +176,10 @@ public class BasicHealthUI : UI_Scene
                     _scrollbar.value = Mathf.Lerp(1, 0, timer / speed);
                     timer += Time.deltaTime;
                     elapsed += Time.deltaTime;
+                    if (elapsed >= totalTime)
+                    {
+                        yield break;
+                    }
                     yield return null;
                 }
             }
@@ -204,12 +225,12 @@ public class BasicHealthUI : UI_Scene
             if (value >= perfectStartValue && value <= perfectEndValue)
             {
                 Debug.Log("MiniGame Perfect");
-                judge.SetJudgeTextImage(handle.transform.position);
+                judge.SetJudgeTextImage(perfectSprite, handle.transform.position);
                 MoveRight();
                 return true;
             }
             Debug.Log("MiniGame Success");
-            judge.SetJudgeTextImage(handle.transform.position);
+            judge.SetJudgeTextImage(greatSprite, handle.transform.position);
             MoveRight();
             return true;
         }
@@ -217,7 +238,7 @@ public class BasicHealthUI : UI_Scene
         {
             Debug.Log("MiniGame Fail");
             JudgeTextUI judge = Managers.UI.MakeSubItem<JudgeTextUI>(transform, "JudgeText");
-            judge.SetJudgeTextImage(handle.transform.position);
+            judge.SetJudgeTextImage(missSprite, handle.transform.position);
             MoveLeft();
             return false;
         }
@@ -332,6 +353,19 @@ public class BasicHealthUI : UI_Scene
             characterRectTrnasform.anchoredPosition = newPos;
 
             CheckReachProhibitedArea();
+        }
+    }
+
+    IEnumerator ClockRotate()
+    {
+        float rotateSpeed = 360f / totalTime;
+        float elapsed = 0f;
+
+        while (elapsed < totalTime)
+        {
+            clockCenter.Rotate(Vector3.forward, -rotateSpeed * Time.deltaTime);
+            elapsed += Time.deltaTime;
+            yield return null;
         }
     }
 }
