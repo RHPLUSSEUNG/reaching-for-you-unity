@@ -18,6 +18,7 @@ public class BasicHealthUI : UI_Scene
         TrueArea,
         PerfectArea,
         Handle,
+        RankBar,
         StageNumberText
     }
 
@@ -32,6 +33,8 @@ public class BasicHealthUI : UI_Scene
     RectTransform _perfectAreaRect;
     [SerializeField]
     GameObject handle;
+    [SerializeField]
+    RectTransform rankBar;
     RectTransform _scrollRect;
     [SerializeField]
     Sprite perfectSprite;
@@ -83,6 +86,7 @@ public class BasicHealthUI : UI_Scene
         _failAreaRect = GetObject((int)basicHealthUI.FailArea).GetComponent<RectTransform>();
         _trueAreaRect = GetObject((int)basicHealthUI.TrueArea).GetComponent<RectTransform>();
         _perfectAreaRect = GetObject((int)basicHealthUI.PerfectArea).GetComponent<RectTransform>();
+        rankBar = GetObject((int)basicHealthUI.RankBar).GetComponent<RectTransform>();
         handle = GetObject((int)basicHealthUI.Handle);
         stageNumberText = GetObject((int)basicHealthUI.StageNumberText).GetComponent<TextMeshProUGUI>();
         clockCenter = GetObject((int)basicHealthUI.ClockCenter).GetComponent<RectTransform>();
@@ -367,5 +371,21 @@ public class BasicHealthUI : UI_Scene
             elapsed += Time.deltaTime;
             yield return null;
         }
+    }
+    
+    void RankDown()
+    {
+        int enableIdx;
+        for(int i = 0; i < rankBar.childCount ; i++)
+        {
+            bool activeFlag = rankBar.GetChild(i).gameObject.activeSelf;
+            if(activeFlag)
+            {
+                rankBar.GetChild(i).gameObject.SetActive(false);
+                enableIdx = i;
+                break;
+            }
+        }
+        // TODO : Handle 조정 및 childBound 에러 수정
     }
 }
