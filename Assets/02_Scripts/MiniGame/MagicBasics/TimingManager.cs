@@ -50,7 +50,7 @@ public class TimingManager : MonoBehaviour
                 }
             }
         }
-        MagicBasicsScore.Instance.IncreaseScore(3);
-        judgementEffect.JudgementAnim(timingRect.Length);
+        MagicBasicsScore.Instance.IncreaseScore(timingRect.Length - 1);
+        judgementEffect.JudgementAnim(timingRect.Length - 1);
     }
 }

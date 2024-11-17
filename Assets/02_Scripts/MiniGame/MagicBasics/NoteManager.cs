@@ -61,7 +61,7 @@ public class NoteManager : MonoBehaviour
     {
         if(other.CompareTag("Note"))
         {
-            judgementEffect.JudgementAnim(4);
+            judgementEffect.JudgementAnim(2);
 
             timingManager.boxNoteList.Remove(other.gameObject);
             Destroy(other.gameObject, 0.1f);

@@ -28,6 +28,7 @@ public class MagicBasicsScore : MonoBehaviour
         currentScore = 0;
     }
 
+    // 점수 위치 (-247, 247)
     public void IncreaseScore(int judgementId)
     {
         float temp = increaseScore;

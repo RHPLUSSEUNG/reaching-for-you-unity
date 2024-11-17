@@ -14,17 +14,4 @@ public class JudgementEffect : MonoBehaviour
         judgementImage.sprite = judgementSprites[judgementId];
         judgementAnimator.SetTrigger("Hit");
     }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
