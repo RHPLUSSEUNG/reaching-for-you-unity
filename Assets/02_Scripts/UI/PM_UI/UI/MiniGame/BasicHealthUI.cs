@@ -17,6 +17,7 @@ public class BasicHealthUI : UI_Popup
         FailArea,
         TrueArea,
         Handle,
+        RankImage,
         RankBar,
         StageNumberText,
         CountDownText
@@ -44,12 +45,14 @@ public class BasicHealthUI : UI_Popup
     RectTransform rightProhibit;
     RectTransform clockCenter;
 
+    Image rankImg;
+
     TextMeshProUGUI stageNumberText;
     TextMeshProUGUI countdownText;
 
     int stageNumber = 1;
-    int curLife = 0;
-    int life = 4;
+    int life = 0;
+    int lifeEnd = 4;
     float knockbackTimeOffset = 1.0f;
     float speedOffset = 0.4f;
     float knockbackDistanceOffset = 50f;
@@ -85,6 +88,7 @@ public class BasicHealthUI : UI_Popup
         _trueAreaRect = GetObject((int)basicHealthUI.TrueArea).GetComponent<RectTransform>();
         rankBar = GetObject((int)basicHealthUI.RankBar).GetComponent<RectTransform>();
         handle = GetObject((int)basicHealthUI.Handle);
+        rankImg = GetObject((int)basicHealthUI.RankImage).GetComponent<Image>();
         stageNumberText = GetObject((int)basicHealthUI.StageNumberText).GetComponent<TextMeshProUGUI>();
         countdownText = GetObject((int)basicHealthUI.CountDownText).GetComponent<TextMeshProUGUI>();
         clockCenter = GetObject((int)basicHealthUI.ClockCenter).GetComponent<RectTransform>();
@@ -115,15 +119,11 @@ public class BasicHealthUI : UI_Popup
                 }
             }
         }
-        
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            GameSettingReset();
-            stageNumber++;
-            SetLevel();
-            SetTrueArea();
-            StartCoroutine(Countdown());
-        }
+    }
+
+    public int GetStageLevel()
+    {
+        return stageNumber;
     }
 
     public void SetLevel()
@@ -131,8 +131,6 @@ public class BasicHealthUI : UI_Popup
         speed = baseSpeed - (speedOffset * stageNumber);
         knockbackTime = baseknockbackTime - (knockbackTimeOffset * stageNumber);
         knockbackDistance = baseknockbackDistance + (knockbackDistanceOffset * stageNumber);
-
-        stageNumberText.text = $"Stage : {stageNumber}";
     }
 
     void SetTrueArea()
@@ -176,6 +174,7 @@ public class BasicHealthUI : UI_Popup
                     if (elapsed >= totalTime)
                     {
                         Debug.Log("Game End");
+                        GameClear();
                         isProgress = false;
                         yield break;
                     }
@@ -199,6 +198,7 @@ public class BasicHealthUI : UI_Popup
                     if (elapsed >= totalTime)
                     {
                         Debug.Log("Game End");
+                        GameClear();
                         isProgress = false;
                         yield break;
                     }
@@ -293,7 +293,7 @@ public class BasicHealthUI : UI_Popup
 
         if (leftCheck)
         {
-            curLife++;
+            life++;
             RankDown();
             isInvincible = true;
             knockBackElapsed = 0f;
@@ -306,7 +306,7 @@ public class BasicHealthUI : UI_Popup
         }
         if (rightCheck)
         {
-            curLife++;
+            life++;
             RankDown();
             isInvincible = true;
             knockBackElapsed = 0f;
@@ -392,24 +392,25 @@ public class BasicHealthUI : UI_Popup
     
     void RankDown()
     {
-        if(curLife > life)
+        if(life >= lifeEnd)
         {
             Debug.Log("Game End");
-            curLife = 4;
+            life = 4;
+            GameOver();
             return;
         }
-        int preRank = curLife - 1;
+        int preRank = life - 1;
         rankBar.GetChild(preRank).gameObject.SetActive(false);
-        rankBar.GetChild(curLife).gameObject.SetActive(true);
+        rankBar.GetChild(life).gameObject.SetActive(true);
     }
 
     void GameSettingReset()
     {
         characterRectTrnasform.anchoredPosition = initialPos;
         _timingbar.value = 0f;
-        rankBar.GetChild(curLife).gameObject.SetActive(false);
-        curLife = 0;
-        rankBar.GetChild(curLife).gameObject.SetActive(true);
+        rankBar.GetChild(life).gameObject.SetActive(false);
+        life = 0;
+        rankBar.GetChild(life).gameObject.SetActive(true);
         knockBackElapsed = 0f;
     }
 
@@ -454,5 +455,36 @@ public class BasicHealthUI : UI_Popup
 
         countdownText.gameObject.SetActive(false);
         StartCoroutine(MiniGameStart());
+    }
+
+    void GameClear()
+    {
+        GameClearPopupUI clearUI = Managers.UI.CreatePopupUI<GameClearPopupUI>("GameClearPopup");
+        clearUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
+        clearUI.SetRankImage(rankImg.sprite);
+    }
+
+    public void NextLevelStart()
+    {
+        GameSettingReset();
+        stageNumber++;
+        stageNumberText.text = $"Stage : {stageNumber}";
+        StartCoroutine(Countdown());
+    }
+
+    void GameOver()
+    {
+        isProgress = false;
+
+        StopAllCoroutines();
+
+        GameOverPopupUI overUI = Managers.UI.CreatePopupUI<GameOverPopupUI>("GameOverPopup");
+        overUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
+        overUI.SetRankImage(rankImg.sprite);
+    }
+
+    public void GameEnd()
+    {
+        Debug.Log("Game Over");
     }
 }
