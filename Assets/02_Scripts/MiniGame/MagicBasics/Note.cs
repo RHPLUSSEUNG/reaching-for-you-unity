@@ -1,0 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Note : MonoBehaviour
+{
+    public float noteSpeed = 300;
+
+    void Update()
+    {
+        transform.localPosition += Vector3.right * (noteSpeed * (NoteManager.timeLimit / NoteManager.remainTime)) * Time.deltaTime;
+    }
+}
