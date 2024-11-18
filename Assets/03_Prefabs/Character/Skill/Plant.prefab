@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 2857751278618711171}
   - component: {fileID: 3979649062912710212}
   - component: {fileID: 3802345096836478511}
-  m_Layer: 0
+  - component: {fileID: 7361621027862118850}
+  m_Layer: 8
   m_Name: Plant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,17 +51,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d82a25c15990a4f988996903077268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
-  _maxHp: 0
-  _hp: 0
-  _maxMp: 0
-  _mp: 0
-  _baseDamage: 0
-  _attackRange: 0
+  _level: 1
+  _maxHp: 100
+  _hp: 100
+  _maxMp: 50
+  _mp: 50
+  _baseDamage: 20
+  _attackRange: 1
   _movePoint: 0
   _maxMovePoint: 0
-  _actPoint: 0
-  _sight: 0
+  _actPoint: 100
+  _sight: 10
   _defense: 0
   _healReciveMultiply: 0
   _hidden: 0
@@ -151,6 +152,22 @@ MonoBehaviour:
   rotateSpeed: 5
   direction: 1
   cameraChanged: 0
+--- !u!114 &7361621027862118850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2775013803095486998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e057dafce5919e240b77edc5c41d3557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  targetTag: Enemy
+  detectUI: {fileID: 0}
+  isTurnEnd: 0
 --- !u!1 &2994126653509603772
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,7 +179,7 @@ GameObject:
   - component: {fileID: 4376514610713307921}
   - component: {fileID: 442428256251823790}
   - component: {fileID: 6611999084299295429}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +284,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7775392894175276665}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,7 +316,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8062057721113313534}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,7 +348,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5043061635244387070}
   - component: {fileID: 8169084505934673970}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
