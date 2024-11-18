@@ -138,7 +138,7 @@ public class LoadSceneManager : MonoBehaviour
                 if (progressBar.fillAmount == 1.0f)
                 {
                     
-                    yield return new WaitForSeconds(3.0f);
+                    yield return new WaitForSeconds(1.0f);
                     StopCoroutine(BlinkLogo());
                     NextSceneBGMPlay(sceneType);
                     op.allowSceneActivation = true;
