@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class ObjectiveTracer : MonoBehaviour
 {
-    public static ObjectiveTracer Instance;
-    QuestList questList;
+    public static ObjectiveTracer Instance;    
 
     private void Awake()
     {
@@ -17,12 +16,7 @@ public class ObjectiveTracer : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Start()
-    {
-        questList = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponent<QuestList>();
-    }
+    }    
 
     //[TODO:LSH][Require] ID of each Object
 
@@ -33,7 +27,7 @@ public class ObjectiveTracer : MonoBehaviour
         int target = _enemy.targetId;
         int count = 1;
 
-        questList.ReceiveReport(objectveType, target, count);
+        QuestList.Instance.ReceiveReport(objectveType, target, count);
     }
 
     //GATHER TYPE
@@ -43,7 +37,7 @@ public class ObjectiveTracer : MonoBehaviour
         int target = _itemID; //_item.ItemId;
         int count = Managers.Item.SearchItem(_itemID);
 
-        questList.ReceiveReport(objectveType, target, count);
+        QuestList.Instance.ReceiveReport(objectveType, target, count);
     }
 
     //MOVE TYPE
@@ -52,7 +46,7 @@ public class ObjectiveTracer : MonoBehaviour
         ObjectiveType objectveType = ObjectiveType.MOVE;
         string destination = _destination;
 
-        questList.ReceiveReport(objectveType, destination);
+        QuestList.Instance.ReceiveReport(objectveType, destination);
     }
 
     //TALK TYPE (Last Objective)
@@ -61,7 +55,7 @@ public class ObjectiveTracer : MonoBehaviour
         ObjectiveType objectveType = ObjectiveType.TALK;
         string npcName = _npcName;
 
-        questList.ReceiveReport(objectveType, npcName);
+        QuestList.Instance.ReceiveReport(objectveType, npcName);
     }
 
     //MOVE TYPE
@@ -70,6 +64,6 @@ public class ObjectiveTracer : MonoBehaviour
         ObjectiveType objectveType = ObjectiveType.MOVE;
         string npcName = _npcName;
 
-        questList.ReceiveReport(objectveType, npcName);
+        QuestList.Instance.ReceiveReport(objectveType, npcName);
     }
 }

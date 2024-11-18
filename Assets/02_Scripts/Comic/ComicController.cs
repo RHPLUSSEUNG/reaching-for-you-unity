@@ -154,7 +154,7 @@ public class ComicController : MonoBehaviour
     {
         float elapsedTime = 0f;
         fadeOverlay.blocksRaycasts = true;
-
+        SoundManager.Instance.StopMusic();
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;

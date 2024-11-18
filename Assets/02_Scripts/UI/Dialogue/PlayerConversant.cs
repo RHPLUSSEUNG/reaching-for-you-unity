@@ -135,7 +135,9 @@ public class PlayerConversant : MonoBehaviour
 
     IEnumerable<IPredicateEvaluator> GetEvaluators()
     {
-        return GetComponents<IPredicateEvaluator>();
+        //QuestList를 싱글턴으로 전환함으로써 evaluators 리스트에 QuestList.Instance를 추가
+        var evaluators = new List<IPredicateEvaluator> { QuestList.Instance };
+        return evaluators;
     }
 
     void TriggerEnterAction()

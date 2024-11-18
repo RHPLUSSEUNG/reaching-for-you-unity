@@ -17,9 +17,23 @@ public enum QuestPredicates
 
 public class QuestList : MonoBehaviour, IPredicateEvaluator
 {
+    public static QuestList Instance;
     List<QuestStatus> statuses = new List<QuestStatus>();    
 
     public event Action onUpdate;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public void AddQuest(Quest quest)
     {
@@ -47,6 +61,11 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
     }
 
     public IEnumerable<QuestStatus> GetStatuses()
+    {
+        return statuses;
+    }
+
+    public List<QuestStatus> GetQuestStatuses()
     {
         return statuses;
     }

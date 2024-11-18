@@ -8,20 +8,22 @@ public class QuestListUI : MonoBehaviour
     [SerializeField] Transform subQuestContent;
     [SerializeField] Transform completedQuestContent;
     [SerializeField] QuestItemUI questPrefab;
-    [SerializeField] GameObject emptyText;
-    QuestList questList;
+    [SerializeField] GameObject[] emptyText;    
 
     private void Start()
-    {
-        questList = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponent<QuestList>();
-        questList.onUpdate += Redraw;
+    {        
+        QuestList.Instance.onUpdate += Redraw;
         Redraw();
+    }
+    private void OnDestroy()
+    {
+        QuestList.Instance.onUpdate -= Redraw;
     }
 
     private void Redraw()
-    {        
+    {
         foreach (Transform item in mainQuestContent)
-        {            
+        {
             Destroy(item.gameObject);
         }
         foreach (Transform item in subQuestContent)
@@ -33,7 +35,11 @@ public class QuestListUI : MonoBehaviour
             Destroy(item.gameObject);
         }
 
-        foreach (QuestStatus status in questList.GetStatuses())
+        bool hasMainQuest = false;
+        bool hasSubQuest = false;
+        bool hasCompletedQuest = false;
+
+        foreach (QuestStatus status in QuestList.Instance.GetStatuses())
         {
             QuestItemUI uiInstance;
 
@@ -42,16 +48,19 @@ public class QuestListUI : MonoBehaviour
                 case QuestType.MAIN_QUEST:
                     {
                         uiInstance = Instantiate<QuestItemUI>(questPrefab, mainQuestContent);
+                        hasMainQuest = true;
                         break;
                     }
                 case QuestType.SUB_QUEST:
                     {
-                         uiInstance = Instantiate<QuestItemUI>(questPrefab, subQuestContent);
+                        uiInstance = Instantiate<QuestItemUI>(questPrefab, subQuestContent);
+                        hasSubQuest = true;
                         break;
                     }
                 case QuestType.COMPLETED_QUEST:
                     {
                         uiInstance = Instantiate<QuestItemUI>(questPrefab, completedQuestContent);
+                        hasCompletedQuest = true;
                         break;
                     }
                 default:
@@ -60,16 +69,21 @@ public class QuestListUI : MonoBehaviour
                         break;
                     }
             }
-            
+
             uiInstance.Setup(status);
         }
-    }
 
-    private void OnDestroy()
-    {        
-        if (questList != null)
+        if (!hasMainQuest)
         {
-            questList.onUpdate -= Redraw;
+            Instantiate(emptyText[0], mainQuestContent);
+        }
+        if (!hasSubQuest)
+        {
+            Instantiate(emptyText[1], subQuestContent);
+        }
+        if (!hasCompletedQuest)
+        {
+            Instantiate(emptyText[2], completedQuestContent);
         }
     }
 }

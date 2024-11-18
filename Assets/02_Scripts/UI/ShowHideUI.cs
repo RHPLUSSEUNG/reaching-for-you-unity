@@ -8,6 +8,7 @@ public class ShowHideUI : MonoBehaviour
     [SerializeField] KeyCode toggleKey = KeyCode.Escape;
     [SerializeField] GameObject uiContainer = null;
     [SerializeField] Button exitButton;
+    [SerializeField] CanvasController canvasController;
 
     private void Start()
     {
@@ -25,6 +26,7 @@ public class ShowHideUI : MonoBehaviour
 
     public void Toggle()
     {
+        canvasController.ChangeCanvasOrder();
         uiContainer.SetActive(!uiContainer.activeSelf);
     }
 }

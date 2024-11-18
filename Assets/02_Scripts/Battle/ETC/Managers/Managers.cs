@@ -54,7 +54,7 @@ public class Managers : MonoBehaviour
     public void Update()
     {
         //[2024-09-30][LSH's Code]: [enter-adventure-map-ui]
-        if (LoadSceneManager.sceneType != SceneType.AM)
+        if (LoadSceneManager.sceneType != SceneType.ACADEMY)
         {
             raycast.OnUpdate();
         }          

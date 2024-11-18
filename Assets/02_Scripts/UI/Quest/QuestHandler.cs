@@ -20,15 +20,13 @@ public class QuestHandler : MonoBehaviour
 
     public void GiveQuest()
     {
-        QuestList questList = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponent<QuestList>();
-        questList.AddQuest(questToGive);
+        QuestList.Instance.AddQuest(questToGive);
         plzLookAtMe = false;
     }    
 
     public void CompleteObjective()
-    {
-        QuestList questList = GameObject.FindGameObjectWithTag("Player").transform.GetChild(2).GetComponent<QuestList>();        
-        questList.CompleteObjective(questToComplete, objective);
+    {    
+        QuestList.Instance.CompleteObjective(questToComplete, objective);
     }
 
     public bool GetPlzLookAtMe()
@@ -38,6 +36,6 @@ public class QuestHandler : MonoBehaviour
 
     public void SetPlzLookAtMe(bool _plzLookAtMe)
     {
-        plzLookAtMe = true;
+        plzLookAtMe = _plzLookAtMe;
     }
 }
