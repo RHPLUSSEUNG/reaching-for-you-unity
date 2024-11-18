@@ -145,7 +145,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
     }
     public override void RadomTile()
     {
-        
+        BeforeTrunEnd();
     }
     public override void OnHit(int damage)
     {

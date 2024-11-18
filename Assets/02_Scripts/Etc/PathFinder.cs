@@ -114,7 +114,7 @@ struct PathRequest
     public UnityAction<List<GameObject>> skillRangeCallback;
 
     public RangeType type;
-    public PathRequest(Vector3 _start, Vector3 _end, UnityAction<List<Vector3>, bool> _callback)
+    public PathRequest(Vector3 _start, Vector3 _end, UnityAction<List<Vector3>, bool> _callback)    //대상까지의 길 요청
     {
         start =_start;
         end = _end;
@@ -128,7 +128,7 @@ struct PathRequest
 
         type = 0;
     }
-    public PathRequest(Vector3 _start, int _radius, string _tag, UnityAction<Vector3, GameObject, int, bool> _callback)
+    public PathRequest(Vector3 _start, int _radius, string _tag, UnityAction<Vector3, GameObject, int, bool> _callback) //범위 내의 가장 가까운 태그 대상 탐색
     {
         start = _start;
         radius = _radius;
@@ -142,7 +142,7 @@ struct PathRequest
 
         type = 0;
     }
-    public PathRequest(Vector3 _start, int _radius, UnityAction<Vector3> _callback)
+    public PathRequest(Vector3 _start, int _radius, UnityAction<Vector3> _callback) //범위 내의 이동 가능한 랜덤 위치 지정
     {
         start = _start;
         radius = _radius;

@@ -14,7 +14,7 @@ public class EnemyAI_Crab : EnemyAI_Base
         isHide = false;
         hideLapse = 0;
     }
-    public int lastDamaged = 0; //Ȯ�ο����� public
+    public int lastDamaged = 0;
     public bool isHide;
     public int hideLapse;
     public override void ProceedTurn()
@@ -82,24 +82,23 @@ public class EnemyAI_Crab : EnemyAI_Base
         if (isTurnEnd)
             return;
 
-        if (isHide) //��ũ�� ����
+        if (isHide)
         {
-            if (hideLapse < 2)  // ��ų ������ 2�� �̳��� ����
+            if (hideLapse < 2)
             {
-                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);   // ���� ����
-                hideLapse++;    // �� ����
+                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(gameObject);
+                hideLapse++;
                 BeforeTrunEnd();
             }
             else
             {
                 spriteController.SetAnimState(AnimState.Trigger2);
-                isHide = false; // 2�� ������ �� ����
+                isHide = false;
                 hideLapse = 0;
             }
         }
-        else if (lastDamaged >= 50 && stat.ActPoint >= 70 && stat.Mp >= 60)    // �� �Ͽ� ���� �̻� �ǰ� ��
+        else if (lastDamaged >= 50 && stat.ActPoint >= 70 && stat.Mp >= 60)
         {
-            // ��ũ���� ��ų ����
             Debug.Log("Skill Used!");
             spriteController.SetAnimState(AnimState.Trigger1);
             isAttacked = true;
@@ -135,7 +134,7 @@ public class EnemyAI_Crab : EnemyAI_Base
     }
     public override void RadomTile()
     {
-        
+        return;
     }
     public override void OnHit(int damage)
     {
