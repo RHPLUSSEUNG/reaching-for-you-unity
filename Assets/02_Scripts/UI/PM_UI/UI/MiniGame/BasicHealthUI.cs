@@ -1,0 +1,490 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class BasicHealthUI : UI_Popup
+{
+    enum basicHealthUI
+    {
+        TimeLimit,
+        ClockCenter,
+        LeftProhibitedArea,
+        RightProhibitedArea,
+        Character,
+        TimingBar,
+        FailArea,
+        TrueArea,
+        Handle,
+        RankImage,
+        RankBar,
+        StageNumberText,
+        CountDownText
+    }
+
+    [SerializeField]
+    Slider timeLimit;
+    [SerializeField]
+    Scrollbar _timingbar;
+    RectTransform _failAreaRect;
+    [SerializeField]
+    RectTransform _trueAreaRect;
+    [SerializeField]
+    GameObject handle;
+    [SerializeField]
+    RectTransform rankBar;
+    RectTransform _scrollRect;
+    [SerializeField]
+    Sprite greatSprite;
+    [SerializeField]
+    Sprite missSprite;
+
+    RectTransform characterRectTrnasform;
+    RectTransform leftProhibit;
+    RectTransform rightProhibit;
+    RectTransform clockCenter;
+
+    Image rankImg;
+
+    TextMeshProUGUI stageNumberText;
+    TextMeshProUGUI countdownText;
+
+    int stageNumber = 1;
+    int life = 0;
+    int lifeEnd = 4;
+    float knockbackTimeOffset = 1.0f;
+    float speedOffset = 0.4f;
+    float knockbackDistanceOffset = 50f;
+
+    float totalTime = 20f;
+    float baseSpeed = 3.0f;
+    float baseknockbackTime = 8.0f;
+    float baseknockbackDistance = 100f;
+    float moveDistance = 100f;
+    float invincibilityTime = 1.0f;
+
+    float speed;
+    float knockbackTime;
+    float knockbackDistance;
+    float knockBackElapsed = 0f;
+
+    Vector3 initialPos;
+    float trueAreaMin = 200f;
+    float trueAreaMax = 300f;
+
+    bool isIncreasing = true;
+    bool isInvincible = false;
+    bool isProgress = false;
+
+    public override void Init()
+    {
+        Bind<GameObject>(typeof(basicHealthUI));
+
+        timeLimit = GetObject((int)basicHealthUI.TimeLimit).GetComponent<Slider>();
+        _timingbar = GetObject((int)basicHealthUI.TimingBar).GetComponent<Scrollbar>();
+        _scrollRect = _timingbar.GetComponent<RectTransform>();
+        _failAreaRect = GetObject((int)basicHealthUI.FailArea).GetComponent<RectTransform>();
+        _trueAreaRect = GetObject((int)basicHealthUI.TrueArea).GetComponent<RectTransform>();
+        rankBar = GetObject((int)basicHealthUI.RankBar).GetComponent<RectTransform>();
+        handle = GetObject((int)basicHealthUI.Handle);
+        rankImg = GetObject((int)basicHealthUI.RankImage).GetComponent<Image>();
+        stageNumberText = GetObject((int)basicHealthUI.StageNumberText).GetComponent<TextMeshProUGUI>();
+        countdownText = GetObject((int)basicHealthUI.CountDownText).GetComponent<TextMeshProUGUI>();
+        clockCenter = GetObject((int)basicHealthUI.ClockCenter).GetComponent<RectTransform>();
+
+        characterRectTrnasform = GetObject((int)basicHealthUI.Character).GetComponent<RectTransform>();
+        leftProhibit = GetObject((int)basicHealthUI.LeftProhibitedArea).GetComponent<RectTransform>();
+        rightProhibit = GetObject((int)basicHealthUI.RightProhibitedArea).GetComponent<RectTransform>();
+
+        initialPos = characterRectTrnasform.anchoredPosition;
+        countdownText.gameObject.SetActive(false);
+
+        StartCoroutine(Countdown());
+    }
+
+    private void Update()
+    {
+        if(isProgress)
+        {
+            if (!isInvincible)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    bool check = CheckTrueArea(_timingbar.value);
+                    if (check)
+                    {
+                        SetTrueArea();
+                    }
+                }
+            }
+        }
+    }
+
+    public int GetStageLevel()
+    {
+        return stageNumber;
+    }
+
+    public void SetLevel()
+    {
+        speed = baseSpeed - (speedOffset * stageNumber);
+        knockbackTime = baseknockbackTime - (knockbackTimeOffset * stageNumber);
+        knockbackDistance = baseknockbackDistance + (knockbackDistanceOffset * stageNumber);
+    }
+
+    void SetTrueArea()
+    {
+        float rangeValue = Random.Range(5f, 95f);
+        float trueSize = Random.Range(trueAreaMin, trueAreaMax);
+
+        _trueAreaRect.gameObject.SetActive(true);
+        _trueAreaRect.anchoredPosition = new Vector2(Mathf.Lerp(0, _failAreaRect.sizeDelta.x, rangeValue / 100f), 0);
+        _trueAreaRect.sizeDelta = new Vector2(trueSize, _failAreaRect.sizeDelta.y);
+    }
+
+    IEnumerator MiniGameStart()
+    {
+        isProgress = true;
+        Debug.Log("Game Start");
+        SetLevel();
+        SetTrueArea();
+        float elapsed = 0f;
+
+        StartCoroutine(TimeLimitStart());
+        StartCoroutine(ClockRotate());
+        while (elapsed < totalTime)
+        {
+            float timer = 0f;
+
+            if (isIncreasing)
+            {
+                while (timer < speed)
+                {
+                    _timingbar.value = Mathf.Lerp(0, 1, timer / speed);
+                    timer += Time.deltaTime;
+                    elapsed += Time.deltaTime;
+                    knockBackElapsed += Time.deltaTime;
+
+                    if (knockBackElapsed >= knockbackTime && !isInvincible)
+                    {
+                        KnockBackCharacter();
+                        knockBackElapsed = 0f;
+                    }
+                    if (elapsed >= totalTime)
+                    {
+                        Debug.Log("Game End");
+                        GameClear();
+                        isProgress = false;
+                        yield break;
+                    }
+                    yield return null;
+                }
+            }
+            else
+            {
+                while (timer < speed)
+                {
+                    _timingbar.value = Mathf.Lerp(1, 0, timer / speed);
+                    timer += Time.deltaTime;
+                    elapsed += Time.deltaTime;
+                    knockBackElapsed += Time.deltaTime;
+
+                    if (knockBackElapsed >= knockbackTime && !isInvincible)
+                    {
+                        KnockBackCharacter();
+                        knockBackElapsed = 0f;
+                    }
+                    if (elapsed >= totalTime)
+                    {
+                        Debug.Log("Game End");
+                        GameClear();
+                        isProgress = false;
+                        yield break;
+                    }
+                    yield return null;
+                }
+            }
+
+            isIncreasing = !isIncreasing;
+        }
+    }
+
+    IEnumerator TimeLimitStart()
+    {
+        float elapsed = 0f;
+
+        while (elapsed < totalTime)
+        {
+            timeLimit.value = Mathf.Lerp(1, 0, elapsed / totalTime);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+    bool CheckTrueArea(float value)
+    {
+        RectTransform slidingArea = _timingbar.GetComponent<RectTransform>();
+        float slidingAreaWidth = slidingArea.rect.width;
+
+        float trueAreaPos = _trueAreaRect.anchoredPosition.x;
+
+        float trueAreaStart = trueAreaPos - (_trueAreaRect.rect.width * _trueAreaRect.pivot.x);
+        float trueAreaEnd = trueAreaStart + _trueAreaRect.rect.width;
+
+        float trueStartValue = Mathf.Clamp01(trueAreaStart / slidingAreaWidth);
+        float trueEndValue = Mathf.Clamp01(trueAreaEnd / slidingAreaWidth);
+
+        if (value >= trueStartValue && value <= trueEndValue)
+        {
+            JudgeTextUI judge = Managers.UI.MakeSubItem<JudgeTextUI>(transform, "JudgeText");
+            Debug.Log("MiniGame Success");
+            judge.SetJudgeTextImage(greatSprite, handle.transform.position);
+            MoveRight();
+            return true;
+        }
+        else
+        {
+            Debug.Log("MiniGame Fail");
+            JudgeTextUI judge = Managers.UI.MakeSubItem<JudgeTextUI>(transform, "JudgeText");
+            judge.SetJudgeTextImage(missSprite, handle.transform.position);
+            MoveLeft();
+            return false;
+        }
+    }
+
+    void MoveRight(float distance = 0f)
+    {
+        if (distance == 0f)
+        {
+            distance = moveDistance;
+        }
+        Vector2 newPos = characterRectTrnasform.anchoredPosition;
+        newPos.x += distance;
+        if (newPos.x >= rightProhibit.position.x)
+        {
+            newPos.x = rightProhibit.position.x;
+        }
+        characterRectTrnasform.anchoredPosition = newPos;
+
+        CheckReachProhibitedArea();
+    }
+
+    void MoveLeft(float distance = 0f)
+    {
+        if (distance == 0f)
+        {
+            distance = moveDistance;
+        }
+        Vector2 newPos = characterRectTrnasform.anchoredPosition;
+        newPos.x -= distance;
+        if (newPos.x <= leftProhibit.position.x)
+        {
+            newPos.x = leftProhibit.position.x;
+        }
+        characterRectTrnasform.anchoredPosition = newPos;
+
+        CheckReachProhibitedArea();
+    }
+
+    bool CheckReachProhibitedArea()
+    {
+        bool leftCheck = IsOverlapping(characterRectTrnasform, leftProhibit);
+        bool rightCheck = IsOverlapping(characterRectTrnasform, rightProhibit);
+
+        if (leftCheck)
+        {
+            life++;
+            RankDown();
+            isInvincible = true;
+            knockBackElapsed = 0f;
+            // MoveRight(characterRectTrnasform.rect.width);
+            Vector2 newPos = characterRectTrnasform.anchoredPosition;
+            newPos.x = leftProhibit.position.x + characterRectTrnasform.rect.width;
+            characterRectTrnasform.anchoredPosition = newPos;
+            StartCoroutine(BlinkCharacter());
+            return true;
+        }
+        if (rightCheck)
+        {
+            life++;
+            RankDown();
+            isInvincible = true;
+            knockBackElapsed = 0f;
+            Vector2 newPos = characterRectTrnasform.anchoredPosition;
+            newPos.x = rightProhibit.position.x - characterRectTrnasform.rect.width;
+            characterRectTrnasform.anchoredPosition = newPos;
+            StartCoroutine(BlinkCharacter());
+            return true;
+        }
+        return false;
+    }
+
+    bool IsOverlapping(RectTransform character, RectTransform prohibitArea)
+    {
+        Rect characterRect = GetWorldRect(character);
+        Rect prohibitRect = GetWorldRect(prohibitArea);
+
+        return characterRect.Overlaps(prohibitRect);
+    }
+
+    Rect GetWorldRect(RectTransform rect)
+    {
+        Vector3[] corners = new Vector3[4];
+        rect.GetWorldCorners(corners);
+
+        float xMin = corners[0].x;
+        float xMax = corners[2].x;
+        float yMin = corners[0].y;
+        float yMax = corners[2].y;
+
+        return new Rect(xMin, yMin, xMax - xMin, yMax - yMin);
+    }
+
+    IEnumerator BlinkCharacter()
+    {
+        float timer = 0f;
+
+        Image character = GetObject((int)basicHealthUI.Character).GetComponent<Image>();
+        Color characterColor = character.color;
+
+        while (timer < invincibilityTime)
+        {
+            character.color = new Color(characterColor.r, characterColor.g, characterColor.b, 0f);
+            yield return new WaitForSeconds(0.05f);
+            character.color = characterColor;
+            yield return new WaitForSeconds(0.05f);
+
+            timer += 0.1f;
+            //character.SetActive(!character.activeSelf);
+            //timer += Time.deltaTime;
+            //yield return null;
+        }
+        character.color = characterColor;
+        // character.SetActive(true);
+        isInvincible = false;
+    }
+
+    void KnockBackCharacter()
+    {
+        Vector2 newPos = characterRectTrnasform.anchoredPosition;
+        newPos.x -= knockbackDistance;
+        if (newPos.x <= leftProhibit.position.x)
+        {
+            newPos.x = leftProhibit.position.x;
+        }
+        characterRectTrnasform.anchoredPosition = newPos;
+
+        CheckReachProhibitedArea();
+    }
+
+    IEnumerator ClockRotate()
+    {
+        float rotateSpeed = 360f / totalTime;
+        float elapsed = 0f;
+
+        while (elapsed < totalTime)
+        {
+            clockCenter.Rotate(Vector3.forward, -rotateSpeed * Time.deltaTime);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+    
+    void RankDown()
+    {
+        if(life >= lifeEnd)
+        {
+            Debug.Log("Game End");
+            life = 4;
+            GameOver();
+            return;
+        }
+        int preRank = life - 1;
+        rankBar.GetChild(preRank).gameObject.SetActive(false);
+        rankBar.GetChild(life).gameObject.SetActive(true);
+    }
+
+    void GameSettingReset()
+    {
+        characterRectTrnasform.anchoredPosition = initialPos;
+        _timingbar.value = 0f;
+        rankBar.GetChild(life).gameObject.SetActive(false);
+        life = 0;
+        rankBar.GetChild(life).gameObject.SetActive(true);
+        knockBackElapsed = 0f;
+    }
+
+    IEnumerator Countdown()
+    {
+        countdownText.gameObject.SetActive(true);
+
+        Vector3 originalScale = countdownText.transform.localScale;
+
+        for (int i = 3; i > 0; i--)
+        {
+            countdownText.text = i.ToString();
+            countdownText.color = new Color(47f / 255f, 224f / 255f, 31f / 255f, 0);
+            countdownText.transform.localScale = originalScale * 0.5f;
+
+            for (float t = 0; t <0.5f; t += Time.deltaTime)
+            {
+                float alpha = Mathf.Lerp(0, 1, t / 0.5f);
+                float scale = Mathf.Lerp(0.5f, 1f, t / 0.5f);
+                countdownText.color = new Color(47f/ 255f, 224f / 255f, 31f / 255f, alpha);
+                countdownText.transform.localScale = originalScale * scale;
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(0.25f);
+        }
+
+        countdownText.text = "Start!";
+        countdownText.color = new Color(47f / 255f, 224f / 255f, 31f / 255f, 0);
+        countdownText.transform.localScale = originalScale * 0.5f;
+
+        for (float t = 0; t < 0.5f; t += Time.deltaTime)
+        {
+            float alpha = Mathf.Lerp(0, 1, t / 0.5f);
+            float scale = Mathf.Lerp(0.5f, 1f, t / 0.5f);
+            countdownText.color = new Color(47f / 255f, 224f / 255f, 31f / 255f, alpha);
+            countdownText.transform.localScale = originalScale * scale;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        countdownText.gameObject.SetActive(false);
+        StartCoroutine(MiniGameStart());
+    }
+
+    void GameClear()
+    {
+        GameClearPopupUI clearUI = Managers.UI.CreatePopupUI<GameClearPopupUI>("GameClearPopup");
+        clearUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
+        clearUI.SetRankImage(rankImg.sprite);
+    }
+
+    public void NextLevelStart()
+    {
+        GameSettingReset();
+        stageNumber++;
+        stageNumberText.text = $"Stage : {stageNumber}";
+        StartCoroutine(Countdown());
+    }
+
+    void GameOver()
+    {
+        isProgress = false;
+
+        StopAllCoroutines();
+
+        GameOverPopupUI overUI = Managers.UI.CreatePopupUI<GameOverPopupUI>("GameOverPopup");
+        overUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
+        overUI.SetRankImage(rankImg.sprite);
+    }
+
+    public void GameEnd()
+    {
+        Debug.Log("Game Over");
+    }
+}
