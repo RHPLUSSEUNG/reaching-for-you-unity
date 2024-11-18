@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EnemyAI_Soldier : EnemyAI_Base
 {
+    Dictionary<string, float> atkDebuffDic;
+    Dictionary<string, float> skillDebuffDic;
     private void Start()
     {
         stat = GetComponent<EnemyStat>();
@@ -17,6 +19,14 @@ public class EnemyAI_Soldier : EnemyAI_Base
         actDic = new Dictionary<string, float>();    //행동 확률
         actDic.Add("Attack", 0.5f);
         actDic.Add("Skill", 0.5f);
+
+        atkDebuffDic = new Dictionary<string, float>();    //기본 공격 디버프 확률
+        actDic.Add("Poison", 0.2f);
+        actDic.Add("None", 0.8f);
+
+        skillDebuffDic = new Dictionary<string, float>();    //기본 공격 디버프 확률
+        actDic.Add("Poison", 0.15f);
+        actDic.Add("None", 0.85f);
     }
     public override void ProceedTurn()
     {
@@ -68,10 +78,29 @@ public class EnemyAI_Soldier : EnemyAI_Base
             {
                 case "Attack":  // 기본 공격
                     Attack(50);
+                    switch (RandChoose(atkDebuffDic))  // 기본 공격 중독 확률
+                    {
+                        case "Poison":  // 중독
+                           Poision debuff = new Poision();
+                            debuff.SetDebuff(999,targetObj);
+                            break;
+                        case "None":   // 효과 없음
+                            break;
+                    }
+
                     break;
                 case "Skill":   // 스킬 사용
                     spriteController.SetAnimState(AnimState.Trigger1);
                     skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetObj.transform.parent.gameObject);
+                    switch (RandChoose(skillDebuffDic))  // 스킬 공격 중독 확률
+                    {
+                        case "Poison":  // 중독
+                            Poision debuff = new Poision();
+                            debuff.SetDebuff(999, targetObj);
+                            break;
+                        case "None":   // 효과 없음
+                            break;
+                    }
                     break;
             }
         }

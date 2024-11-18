@@ -11,7 +11,7 @@ public class EnemyAI_Mermaid : EnemyAI_Base
         spriteController = GetComponent<SpriteController>();
         isTurnEnd = true;
         skillList = GetComponent<SkillList>();
-        skillList.AddSkill(Managers.Skill.InstantiateSkill(0, true));
+        skillList.AddSkill(Managers.Skill.InstantiateSkill(0, true));   //TODO : 번호 수정 필요
     }
     public override void ProceedTurn()
     {
@@ -73,12 +73,19 @@ public class EnemyAI_Mermaid : EnemyAI_Base
             BeforeTrunEnd();
         Search(stat.Sight);
     }
-    public override void SpecialCheck()
+    public override void SpecialCheck() //TODO : 스킬 사용 위치 결정 로직 필요
     {
         if (isTurnEnd)
             return;
 
         // 범위 기술 로직 추가
+
+        PathFinder.RequestSkillRange(transform.position, 2, RangeType.Normal, OnSkillRangeFound);
+        stat.ActPoint -= 60;
+        stat.Mp -= 60;
+        spriteController.SetAnimState(AnimState.Trigger1);
+        skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetObj.transform.parent.gameObject);
+        BeforeTrunEnd();
     }
     public override void OnAttackSuccess()
     {

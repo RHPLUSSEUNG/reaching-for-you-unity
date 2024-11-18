@@ -41,7 +41,9 @@ public class EnemyAI_Snail : EnemyAI_Base
             if (CanAttack(stat.AttackRange))
             {
                 PathFinder.RequestSkillRange(transform.position, stat.AttackRange, RangeType.Normal, OnSkillRangeFound);
-                Attack(80); //추위 스탯 부여
+                Attack(80);
+                Cold debuff = new Cold(); //추위 스탯 부여
+                debuff.SetDebuff(2, targetObj); //2스택 부여로 변경 필요
             }
             else
             {

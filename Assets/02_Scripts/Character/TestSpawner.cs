@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class TestSpawner : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Button idle, hit, attack, skill1, skill2, skill3, crab, lizard, golem, worker, soldier, queen;
+    public Button idle, hit, attack, skill1, skill2, skill3, crab, lizard, golem, worker, soldier, queen, mermaid, snail, manta;
     public GameObject canvas;
     void Start()
     {
@@ -20,6 +20,9 @@ public class TestSpawner : MonoBehaviour
         worker = canvas.transform.GetChild(9).GetComponent<Button>();
         soldier = canvas.transform.GetChild(10).GetComponent<Button>();
         queen = canvas.transform.GetChild(11).GetComponent<Button>();
+        mermaid = canvas.transform.GetChild(12).GetComponent<Button>();
+        snail = canvas.transform.GetChild(13).GetComponent<Button>();
+        manta = canvas.transform.GetChild(14).GetComponent<Button>();
 
         crab.onClick.AddListener(() => this.SpawnCrab());
         lizard.onClick.AddListener(() => this.SpawnLizard());
@@ -27,6 +30,9 @@ public class TestSpawner : MonoBehaviour
         worker.onClick.AddListener(() => this.SpawnWorker());
         soldier.onClick.AddListener(() => this.SpawnSoldier());
         queen.onClick.AddListener(() => this.SpawnQueen());
+        mermaid.onClick.AddListener(() => this.SpawnMermaid());
+        snail.onClick.AddListener(() => this.SpawnSnail());
+        manta.onClick.AddListener(() => this.SpawnManta());
     }
 
 
@@ -72,6 +78,27 @@ public class TestSpawner : MonoBehaviour
     {
         Despawn();
         GameObject obj = Resources.Load<GameObject>("Prefabs/Monster/Enemy_Queen");
+        Instantiate(obj, Vector3.zero, Quaternion.identity);
+        SetButton();
+    }
+    public void SpawnMermaid()
+    {
+        Despawn();
+        GameObject obj = Resources.Load<GameObject>("Prefabs/Monster/Enemy_Mermaid");
+        Instantiate(obj, Vector3.zero, Quaternion.identity);
+        SetButton();
+    }
+    public void SpawnSnail()
+    {
+        Despawn();
+        GameObject obj = Resources.Load<GameObject>("Prefabs/Monster/Enemy_Seasnail");
+        Instantiate(obj, Vector3.zero, Quaternion.identity);
+        SetButton();
+    }
+    public void SpawnManta()
+    {
+        Despawn();
+        GameObject obj = Resources.Load<GameObject>("Prefabs/Monster/Enemy_BlueManta");
         Instantiate(obj, Vector3.zero, Quaternion.identity);
         SetButton();
     }

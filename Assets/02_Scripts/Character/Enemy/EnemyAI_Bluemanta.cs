@@ -73,12 +73,17 @@ public class EnemyAI_Bluemanta : EnemyAI_Base
             BeforeTrunEnd();
         Search(stat.Sight);
     }
-    public override void SpecialCheck()
+    public override void SpecialCheck() //TODO : 스킬 사용 위치 결정 로직 필요
     {
         if (isTurnEnd)
             return;
 
-        // 범위 기술 로직 추가
+        PathFinder.RequestSkillRange(transform.position, 3, RangeType.Normal, OnSkillRangeFound);
+        stat.ActPoint -= 60;
+        stat.Mp -= 60;
+        spriteController.SetAnimState(AnimState.Trigger1);
+        skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetObj.transform.parent.gameObject);
+        BeforeTrunEnd();
     }
     public override void OnAttackSuccess()
     {
