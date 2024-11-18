@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public enum SceneType
 {
-    TITLE,
-    AM,
+    MAINMENU,
+    ACADEMY,
     PM_ADVENTURE,
     PM_COMBAT,
     NONE,
@@ -36,14 +36,14 @@ public class LoadSceneManager : MonoBehaviour
         
         switch (sceneType)
         {
-            case SceneType.TITLE:
+            case SceneType.MAINMENU:
                 {
-                    nextScene = "TITLE_PT_5";
+                    nextScene = "02_MainMenu";
                     break;
                 }
-            case SceneType.AM:
+            case SceneType.ACADEMY:
                 {
-                    nextScene = "AM_PT_5";
+                    nextScene = "03_Academy";
                     break;
                 }
             case SceneType.PM_ADVENTURE:
@@ -62,31 +62,49 @@ public class LoadSceneManager : MonoBehaviour
                 }
         }
 
-        SceneManager.LoadScene("LOADING_PT_5");
+        SceneManager.LoadScene("01_LoadingScene");
     }
 
     void NextSceneBGMPlay(SceneType sceneType)
     {
         switch (sceneType)
         {
-            case SceneType.TITLE:
+            case SceneType.MAINMENU:
                 {
-                    SoundManager.Instance.PlayMusic("Main_Theme");
+                    SoundManager.Instance.PlayMusic("02_Main_Theme");
                     break;
                 }
-            case SceneType.AM:
+            case SceneType.ACADEMY:
                 {
-                    SoundManager.Instance.PlayMusic("AM_School");
+                    SoundManager.Instance.PlayMusic("03_Academy");
                     break;
                 }
             case SceneType.PM_ADVENTURE:
                 {
-                    //SoundManager.Instance.PlayMusic("Main_Theme");
+                    int stageNumber = AdventureManager.StageNumber;
+                    switch(stageNumber)
+                    {
+                        case 0:
+                            SoundManager.Instance.PlayMusic("04_Desert_Adventure");
+                            break;
+                        case 1:
+                            SoundManager.Instance.PlayMusic("08_Ocean_Adventure");
+                            break;
+                    }                    
                     break;
                 }
             case SceneType.PM_COMBAT:
                 {
-                    SoundManager.Instance.PlayMusic("Stage1_Battle");
+                    int stageNumber = AdventureManager.StageNumber;
+                    switch(stageNumber)
+                    {
+                        case 0:
+                            SoundManager.Instance.PlayMusic("06_Desert_InBattle");
+                            break;
+                        case 1:
+                            SoundManager.Instance.PlayMusic("08_Ocean_InBattle");
+                            break;
+                    }                    
                     break;
                 }
         }
@@ -120,7 +138,7 @@ public class LoadSceneManager : MonoBehaviour
                 if (progressBar.fillAmount == 1.0f)
                 {
                     
-                    yield return new WaitForSeconds(3.0f);
+                    yield return new WaitForSeconds(1.0f);
                     StopCoroutine(BlinkLogo());
                     NextSceneBGMPlay(sceneType);
                     op.allowSceneActivation = true;

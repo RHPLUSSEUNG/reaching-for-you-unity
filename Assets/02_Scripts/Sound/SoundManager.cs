@@ -27,23 +27,27 @@ public class SoundManager:MonoBehaviour
         }
     }
 
-    public void LoadAudioClips(SceneType sceneType)
+    public void LoadAudioClips(SceneType sceneType, string name =  "")
     {
         bgmClips.Clear();
 
         switch (sceneType)
         {
-            case SceneType.TITLE:
+            case SceneType.MAINMENU:
                 {
-                    foreach (AudioClip bgm in Resources.LoadAll<AudioClip>("Sounds/BGM/Title"))
+                    foreach (AudioClip bgm in Resources.LoadAll<AudioClip>("Sounds/BGM/MainMenu"))
+                    {
+                        bgmClips[bgm.name] = bgm;
+                    }
+                    foreach (AudioClip bgm in Resources.LoadAll<AudioClip>("Sounds/BGM/Intro"))
                     {
                         bgmClips[bgm.name] = bgm;
                     }
                     break;
                 }
-            case SceneType.AM:
+            case SceneType.ACADEMY:
                 {
-                    foreach (AudioClip bgm in Resources.LoadAll<AudioClip>("Sounds/BGM/AM"))
+                    foreach (AudioClip bgm in Resources.LoadAll<AudioClip>("Sounds/BGM/Academy"))
                     {
                         bgmClips[bgm.name] = bgm;
                     }
@@ -64,11 +68,11 @@ public class SoundManager:MonoBehaviour
                         bgmClips[bgm.name] = bgm;
                     }
                     break;
-                }
+                }             
         }
     }
 
-    public void PlayMusic(string bgmName, bool loop = true, float targetVolume = 1.0f)
+    public void PlayMusic(string bgmName, bool isSceneChange = true, bool loop = true, float targetVolume = 1.0f)
     {
         if (bgmClips.TryGetValue(bgmName, out AudioClip clip))
         {
@@ -76,8 +80,16 @@ public class SoundManager:MonoBehaviour
             {
                 StopCoroutine(currentFadeCoroutine);
             }
+
+            if (!isSceneChange)
+            {
+                currentFadeCoroutine = StartCoroutine(CrossFadeBGM(clip, loop, targetVolume));
+            }
+            else
+            {
+                currentFadeCoroutine = StartCoroutine(FadeIn(bgmAudio, clip, loop, targetVolume, 1.5f));
+            }
             
-            currentFadeCoroutine = StartCoroutine(FadeIn(bgmAudio, clip, loop, targetVolume, 1.5f));
         }
         else
         {

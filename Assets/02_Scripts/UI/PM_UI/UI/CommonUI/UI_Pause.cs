@@ -62,7 +62,7 @@ public class UI_Pause : UI_Popup
     public void OnExitGame(PointerEventData data)
     {
         Debug.Log("OnExitGame");
-        SceneChanger.Instance.ChangeScene(SceneType.TITLE);
+        SceneChanger.Instance.ChangeScene(SceneType.MAINMENU);
     }
 
     public void OnClosePause(PointerEventData data)

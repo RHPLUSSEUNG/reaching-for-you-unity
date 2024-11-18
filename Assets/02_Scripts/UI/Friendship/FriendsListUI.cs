@@ -7,6 +7,7 @@ public class FriendsListUI : MonoBehaviour
 {
     [SerializeField] Transform friendsContent;
     [SerializeField] FriendItemUI friendsInformationPrefab;
+    [SerializeField] GameObject emptyText;
     void Start()
     {
         FriendshipManager.Instance.onUpdate += Redraw;
@@ -20,10 +21,17 @@ public class FriendsListUI : MonoBehaviour
             Destroy(item.gameObject);
         }
 
+        bool hasFriends = false;
+
         foreach (AMCharacterData friend in FriendshipManager.Instance.GetFriends())
         {
             FriendItemUI uiInstance = Instantiate<FriendItemUI>(friendsInformationPrefab, friendsContent);
+            hasFriends = true;
             uiInstance.Setup(friend);
+        }
+        if (!hasFriends)
+        {
+            Instantiate(emptyText, friendsContent);
         }
     }
 

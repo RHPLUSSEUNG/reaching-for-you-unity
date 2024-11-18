@@ -49,7 +49,7 @@ public class DynamicSpawner : MonoBehaviour
         {
             gimmickCount -= Time.deltaTime;
             if(gimmickCount < 0f)
-                SceneChanger.Instance.ChangeScene(SceneType.AM);
+                SceneChanger.Instance.ChangeScene(SceneType.ACADEMY);
         }
     }
 
