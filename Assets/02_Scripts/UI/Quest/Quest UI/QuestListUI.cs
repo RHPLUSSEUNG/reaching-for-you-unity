@@ -15,6 +15,10 @@ public class QuestListUI : MonoBehaviour
         QuestList.Instance.onUpdate += Redraw;
         Redraw();
     }
+    private void OnDestroy()
+    {
+        QuestList.Instance.onUpdate -= Redraw;
+    }
 
     private void Redraw()
     {
