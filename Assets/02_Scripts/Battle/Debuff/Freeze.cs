@@ -10,6 +10,7 @@ public class Freeze : Debuff
         this.remainTurn = turn;
         this.target = target;
         target.GetComponent<CharacterState>().AddDebuff(this);
+        MakeEffectAnim();
         this.StartEffect();
     }
 

@@ -17,7 +17,8 @@ public class DecreaseDefence : Debuff
 		if (target == null)
 			return false;
 		Managers.Active.ModifyDefense(target, -1 * decShd);
-		TimeCheck();
+        MakeEffectAnim();
+        TimeCheck();
 		return true;
 	}
 

@@ -17,6 +17,7 @@ public class BurnRecoveryBuff : Buff
         this.target = target;
         this.remainTurn = turn;
         AddBuff(target, TurnEnd);
+        MakeEffectAnim();
         StartEffect();
     }
 

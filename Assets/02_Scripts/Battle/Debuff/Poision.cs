@@ -20,6 +20,7 @@ public class Poision : Debuff
         tickDmg = attribute;
         remainTurn = turn;
         target.GetComponent<CharacterState>().AddDebuff(this, turnEnd);
+        MakeEffectAnim();
         StartEffect();
     }
 

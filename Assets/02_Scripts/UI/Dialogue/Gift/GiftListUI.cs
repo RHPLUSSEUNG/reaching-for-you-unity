@@ -34,7 +34,7 @@ public class GiftListUI : MonoBehaviour
             int itemID = entry.Key;
             int itemCount = entry.Value;
 
-            ConsumeData itemData = Managers.Data.GetItemData(itemID, false) as ConsumeData;
+            ConsumeData itemData = Managers.Data.ParsingData(itemID) as ConsumeData;
             
             if (itemData != null)
             {

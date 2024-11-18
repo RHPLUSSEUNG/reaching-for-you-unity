@@ -437,7 +437,7 @@ public class CharacterState : MonoBehaviour
             foreach (Debuff debuff in debuffs)
             {
                 debuff.TimeCheck();
-                //Managers.Manager.StartCoroutine(Managers.Skill.StartBuffEffect(debuff.effect, pos));
+                Managers.Manager.StartCoroutine(Managers.Skill.StartBuffEffect(debuff.effect, pos));
 
             }
         }
@@ -447,7 +447,7 @@ public class CharacterState : MonoBehaviour
             foreach (Buff buff in buffs)
             {
                 buff.TimeCheck();
-                //Managers.Manager.StartCoroutine(Managers.Skill.StartBuffEffect(buff.effect, pos));
+                Managers.Manager.StartCoroutine(Managers.Skill.StartBuffEffect(buff.effect, pos));
             }
         }
 

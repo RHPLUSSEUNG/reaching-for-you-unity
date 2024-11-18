@@ -19,6 +19,7 @@ public class IncreaseDefence : Buff
         this.remainTurn = turn;
         incShd = attribute;
         AddBuff(target, TurnEnd);
+        MakeEffectAnim();
         StartEffect();
     }
 

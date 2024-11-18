@@ -12,6 +12,7 @@ public class BubbleDebuff : Debuff
         this.remainTurn = turn;
         this.damage = attribute;
         target.GetComponent<CharacterState>().AddDebuff(this, TurnEnd);
+        MakeEffectAnim();
         StartEffect();
     }
 

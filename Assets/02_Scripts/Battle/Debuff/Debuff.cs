@@ -18,7 +18,6 @@ public abstract class Debuff
         }
 
         target.GetComponent<CharacterState>().DelDebuff(this);
-        EndAnimation();
         return true;
     }
 
@@ -26,21 +25,8 @@ public abstract class Debuff
 
     public abstract void SetDebuff(int turn, GameObject target, short attribute = 0, bool TurnEnd = false);
 
-    public void StartAnimation()
+    public void MakeEffectAnim()
     {
-        effect = Managers.Skill.InstantiateEffect(name, target);
-        if (effect != null)
-        {
-            effect.GetComponent<ParticleSystem>().Play();
-        }
-    }
-
-    public void EndAnimation()
-    {
-        if (effect != null)
-        {
-            effect.GetComponent<ParticleSystem>().Pause();
-            Managers.Destroy(effect);
-        }
+        effect = Managers.Skill.InstantiateEffect(this.GetType().Name, target);
     }
 }

@@ -23,6 +23,7 @@ public class ElectricShock : Debuff
         remainTurn = turn;
         count = attribute;
         target.GetComponent<CharacterState>().AddDebuff(this, turnEnd);
+        MakeEffectAnim();
         StartEffect();
     }
 

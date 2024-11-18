@@ -16,7 +16,6 @@ public abstract class Buff
             return false;
         }
         target.GetComponent<CharacterState>().DelBuff(this);
-        EndAnimation();
         return true;
     }
 
@@ -27,18 +26,10 @@ public abstract class Buff
     public void AddBuff(GameObject target, bool TurnEnd)
     {
         target.GetComponent<CharacterState>().AddBuff(this, TurnEnd);
-        StartAnimation();
-    }
-    public void StartAnimation()
-    {
-        //effect = Managers.Skill.InstantiateEffect(name, target);
     }
 
-    public void EndAnimation()
+    public void MakeEffectAnim()
     {
-        if (effect != null)
-        {
-            Managers.Destroy(effect);
-        }
+        effect = Managers.Skill.InstantiateEffect(this.GetType().Name, target);
     }
 }

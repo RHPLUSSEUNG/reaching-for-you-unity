@@ -14,6 +14,8 @@ public class DataManager
         characterList = data.characterList;
         NPCList = data.npcList;
         monsterList = data.monsterList;
+        weaponList = data.weaponList;
+        armorList = data.armorList;
         Debug.Log("Data Loading Complete");
     }
 
@@ -105,28 +107,26 @@ public class DataManager
     {
         return consumeList[itemid];
     }
-    public ItemData GetEquipmentData(int itemid)
-    {
-        return equipmentList[itemid];
-    }
     public void SetItem(int itemid, Consume item)
     {
-        item.name = consumeList[itemid].name;
-        item.type = consumeList[itemid].ItemType;
-        item.reqLev = consumeList[itemid].reqLev;
-        item.targetObject = consumeList[itemid].target;
-        item.maxCapacity = consumeList[itemid].maxCapacity;
+        ConsumeData info = (ConsumeData)ParsingData(itemid);
+        item.name = info.name;
+        item.type = info.ItemType;
+        item.reqLev = info.reqLev;
+        item.targetObject = info.target;
+        item.maxCapacity = info.maxCapacity;
     }
 
     public void SetItem(int itemid, Equipment item)
     {
-        item.itemId = equipmentList[itemid].ItemID;
-        item.name = equipmentList[itemid].ItemName;
-        item.type = equipmentList[itemid].ItemType;
-        item.reqLev = equipmentList[itemid].reqLev;
+        EquipmentData info = (EquipmentData)ParsingData(itemid);
+        item.itemId = info.ItemID;
+        item.name = info.ItemName;
+        item.type = info.ItemType;
+        item.reqLev = info.reqLev;
 
-        item.part = equipmentList[itemid].part;
-        item.elementType = equipmentList[itemid].element;
+        item.part = info.part;
+        item.elementType = info.element;
     }
 
     public void SetPlayerSkill(int skillid, Passive skill)

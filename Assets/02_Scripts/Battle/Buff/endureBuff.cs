@@ -19,6 +19,7 @@ public class endureBuff : Buff
         this.target = target;
         this.remainTurn = turn;
         AddBuff(target, TurnEnd);
+        MakeEffectAnim();
         StartEffect();
     }
 

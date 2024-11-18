@@ -25,6 +25,7 @@ public class HealEveryTurn : Buff
         this.remainTurn = turn;
         this.healing = attribute;
         AddBuff(target, TurnEnd);
+        MakeEffectAnim();
         this.StartEffect();
     }
 }
