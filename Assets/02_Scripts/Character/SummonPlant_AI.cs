@@ -35,6 +35,8 @@ public class SummonPlant_AI : EnemyAI_Base
             {
                 PathFinder.RequestSkillRange(transform.position, stat.AttackRange, RangeType.Normal, OnSkillRangeFound);
                 Attack(30);
+                Poision debuff = new Poision();
+                debuff.SetDebuff(999, targetObj);
                 //독 적용 추가
             }
             else
