@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI_Mermaid : EnemyAI_Base
+public class EnemyAI_Bluemanta : EnemyAI_Base
 {
     private void Start()
     {
         stat = GetComponent<EnemyStat>();
-        stat.enemyName = "Mermaid";
+        stat.enemyName = "Bluemanta";
         spriteController = GetComponent<SpriteController>();
         isTurnEnd = true;
         skillList = GetComponent<SkillList>();
@@ -37,7 +37,7 @@ public class EnemyAI_Mermaid : EnemyAI_Base
             if (CanAttack(stat.AttackRange))
             {
                 PathFinder.RequestSkillRange(transform.position, stat.AttackRange, RangeType.Normal, OnSkillRangeFound);
-                Attack(80);
+                Attack(30);
             }
             else
             {

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 193768182575280557}
   - component: {fileID: 1306658776181404522}
   - component: {fileID: 1286910463240721153}
+  - component: {fileID: 4342948875046207755}
   m_Layer: 7
   m_Name: Enemy_Seasnail
   m_TagString: Monster
@@ -51,17 +52,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d82a25c15990a4f988996903077268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
-  _maxHp: 0
-  _hp: 0
-  _maxMp: 0
-  _mp: 0
-  _baseDamage: 0
-  _attackRange: 0
-  _movePoint: 0
-  _maxMovePoint: 0
-  _actPoint: 0
-  _sight: 0
+  _level: 1
+  _maxHp: 150
+  _hp: 150
+  _maxMp: 250
+  _mp: 250
+  _baseDamage: 20
+  _attackRange: 1
+  _movePoint: 2
+  _maxMovePoint: 2
+  _actPoint: 100
+  _sight: 6
   _defense: 0
   _healReciveMultiply: 0
   _hidden: 0
@@ -152,6 +153,24 @@ MonoBehaviour:
   rotateSpeed: 5
   direction: 1
   cameraChanged: 0
+--- !u!114 &4342948875046207755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259650628091860792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0e3d33cb65307419a9f56d31b1120a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  targetTag: Player
+  detectUI: {fileID: 0}
+  isTurnEnd: 0
+  isHide: 0
+  hideLapse: 0
 --- !u!1 &906882502854489234
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,6 +804,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5402784975273010640}
+  - component: {fileID: 9186669425460114854}
   m_Layer: 7
   m_Name: Base
   m_TagString: Untagged
@@ -801,12 +821,33 @@ Transform:
   m_GameObject: {fileID: 7066689100423601649}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.126, y: 0.126, z: 1}
+  m_LocalPosition: {x: 0, y: -1.02, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1847639538354032191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &9186669425460114854
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7066689100423601649}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!1 &7096474998788002840
 GameObject:
   m_ObjectHideFlags: 0
