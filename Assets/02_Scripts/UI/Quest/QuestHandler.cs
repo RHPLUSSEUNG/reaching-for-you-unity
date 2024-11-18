@@ -36,6 +36,6 @@ public class QuestHandler : MonoBehaviour
 
     public void SetPlzLookAtMe(bool _plzLookAtMe)
     {
-        plzLookAtMe = true;
+        plzLookAtMe = _plzLookAtMe;
     }
 }
