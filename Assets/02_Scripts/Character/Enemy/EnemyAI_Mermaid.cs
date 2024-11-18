@@ -78,8 +78,6 @@ public class EnemyAI_Mermaid : EnemyAI_Base
         if (isTurnEnd)
             return;
 
-        // 범위 기술 로직 추가
-
         PathFinder.RequestSkillRange(transform.position, 2, RangeType.Normal, OnSkillRangeFound);
         stat.ActPoint -= 60;
         stat.Mp -= 60;
