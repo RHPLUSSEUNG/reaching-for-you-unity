@@ -114,3 +114,10 @@ public enum characterType
 {
     NPC
 }
+
+public enum BTNodeState
+{
+    Success,
+    Failure,
+    Running
+}
