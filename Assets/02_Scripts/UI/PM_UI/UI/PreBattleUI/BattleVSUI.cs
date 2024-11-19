@@ -21,6 +21,9 @@ public class BattleVSUI : UI_Popup
     RectTransform enemySide;
     RectTransform friendlySide;
     Image fadeImage;
+
+    [SerializeField]
+    List<Sprite> character_sprite_List = new List<Sprite>();
     public override void Init()
     {
         base.Init();
@@ -32,9 +35,29 @@ public class BattleVSUI : UI_Popup
 
         fadeImage = GetObject((int)vsUI.FadeImage).GetComponent<Image>();
         fadeImage.gameObject.SetActive(false);
+    }
+
+    public void StartVersusUI()
+    {
+        SetCharacterImage();
         StartCoroutine(VSAnim());
     }
 
+    void SetCharacterImage()
+    {
+        GameObject enemyLayout = GetObject((int)vsUI.EnemyLayout);
+        GameObject friedlyLayout = GetObject((int)vsUI.FriendlyLayout);
+        for(int i = 0; i < Managers.Party.monsterParty.Count; i++)
+        {
+            GameObject newImg = new GameObject("CharacterImage");
+            newImg.transform.SetParent(enemyLayout.transform);
+            newImg.transform.rotation = Quaternion.Euler(0, 180, 0);
+            Image imgSprite = newImg.AddComponent<Image>();
+            imgSprite.preserveAspect = true;
+            Sprite sprite = ApplyTurnUISprite(Managers.Party.monsterParty[i].name);
+            imgSprite.sprite = sprite;
+        }
+    }
     IEnumerator VSAnim()
     {
         float elapsed = 0f;
@@ -107,7 +130,40 @@ public class BattleVSUI : UI_Popup
         fadeColor.a = 1f;
         fadeImage.color = fadeColor;
     }
+    Sprite ApplyTurnUISprite(string character_name)
+    {
+        Sprite character_sprite = null;
+        switch (character_name)
+        {
+            case "Player_Girl_Battle(Clone)":
+                character_sprite = character_sprite_List[0];
+                break;
+            case "Enemy_Crab(Clone)":
+                character_sprite = character_sprite_List[1];
+                break;
+            case "Enemy_Lizard(Clone)":
+                character_sprite = character_sprite_List[2];
+                break;
+            case "Enemy_Worker(Clone)":
+                character_sprite = character_sprite_List[3];
+                break;
+            case "Enemy_Soldier(Clone)":
+                character_sprite = character_sprite_List[4];
+                break;
+            case "Enmey_Golem(Clone)":
+                character_sprite = character_sprite_List[5];
+                break;
+            case "Enemy_Queen(Clone)":
+                character_sprite = character_sprite_List[6];
+                break;
 
+            default:
+                Debug.Log("Not In Character_Sprite List");
+                break;
+        }
+
+        return character_sprite;
+    }
     void DestroyUI()
     {
         Managers.Prefab.Destroy(gameObject);
