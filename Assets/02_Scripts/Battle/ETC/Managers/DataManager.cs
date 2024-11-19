@@ -127,6 +127,7 @@ public class DataManager
 
         item.part = info.part;
         item.elementType = info.element;
+        item.sprite = info.itemSprite;
     }
 
     public void SetPlayerSkill(int skillid, Passive skill)

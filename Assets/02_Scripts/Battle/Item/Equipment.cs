@@ -4,6 +4,7 @@ public abstract class Equipment : Item
 {
     public EquipPart part;
     public ElementType elementType;
+    public Sprite sprite;
     public abstract bool Equip(GameObject character);
     public abstract bool UnEquip(GameObject character);
     
