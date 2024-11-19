@@ -9,8 +9,15 @@ public class Drowning : Debuff
 
     public override void SetDebuff(int turn, GameObject target, short attribute = 0, bool TurnEnd = false)//turn = int.maxValue() attribute = startStack
     {
+        CharacterState status = target.GetComponent<CharacterState>();
+        Drowning pos = (Drowning)status.FindDebuff(this);
+        if (pos != null)
+        {
+            pos.stack += attribute;
+            return;
+        }
         this.target = target;
-        this.remainTurn = turn;
+        this.remainTurn = int.MaxValue;
         this.stack = attribute;
         target.GetComponent<CharacterState>().AddDebuff(this, TurnEnd);
         MakeEffectAnim();
