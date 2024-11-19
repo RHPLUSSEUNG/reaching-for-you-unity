@@ -11,8 +11,7 @@ public class AdventureProductionUI : UI_Popup
         EnterTextPanel,
         MapNameText,
         MapDescriptText,
-        EncounterSign,
-        EncounterPanel
+        EncounterSign
     }
 
     TextMeshProUGUI mapName;
@@ -29,10 +28,18 @@ public class AdventureProductionUI : UI_Popup
 
         Managers.BattleUI.productionUI = GetComponent<AdventureProductionUI>();
         GetObject((int)ProductionUI.EncounterSign).SetActive(false);
-        GetObject((int)ProductionUI.EncounterPanel).SetActive(false);
 
         SetMapText();
         StartEnterFadeEffect();
+    }
+
+    // Test
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            EncounterProduction();
+        }
     }
 
     public void SetMapText()
@@ -55,16 +62,11 @@ public class AdventureProductionUI : UI_Popup
         GetObject((int)ProductionUI.MapDescriptText).GetComponent<TextFadeEffect>().StartFadeEffect();
     }
 
-    public float EncounterProduction()
+    public void EncounterProduction()
     {
         GetObject((int)ProductionUI.EncounterSign).SetActive(true);
-        GetObject((int)ProductionUI.EncounterPanel).SetActive(true);
-        EncounterProduction production = GetObject((int)ProductionUI.EncounterPanel).GetComponent<EncounterProduction>();
-        StartCoroutine(production.Encounter());
-
-        float waitTime = production.AddWaitTime();
-
-        return waitTime;
+        EncounerProduction production = GetObject((int)ProductionUI.EncounterSign).GetComponent<EncounerProduction>();
+        StartCoroutine(production.Production());
     }
 
     void SettingDesertUI()
