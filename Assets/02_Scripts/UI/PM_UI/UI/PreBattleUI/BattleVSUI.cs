@@ -15,7 +15,6 @@ public class BattleVSUI : UI_Popup
     }
 
     float duration = 0.5f;
-    // float exitDuration = 0.25f;
     float waitTime = 3.0f;
 
     RectTransform enemySide;
