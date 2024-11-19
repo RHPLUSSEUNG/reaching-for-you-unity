@@ -7,6 +7,13 @@ public class Freeze : Debuff
 {
     public override void SetDebuff(int turn, GameObject target, short attribute = 0, bool TurnEnd = false)
     {
+        CharacterState status = target.GetComponent<CharacterState>();
+        Freeze pos = (Freeze)status.FindDebuff(this);
+        if (pos != null)
+        {
+            pos.remainTurn += remainTurn;
+            return;
+        }
         this.remainTurn = turn;
         this.target = target;
         target.GetComponent<CharacterState>().AddDebuff(this);
@@ -26,6 +33,7 @@ public class Freeze : Debuff
         
         if(remainTurn <= 0)
         {
+            target.GetComponent<CharacterState>().ChangeFreeze(false);
             DeleteEffect();
         }
     }
