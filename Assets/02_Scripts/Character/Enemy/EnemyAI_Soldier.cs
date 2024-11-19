@@ -21,12 +21,12 @@ public class EnemyAI_Soldier : EnemyAI_Base
         actDic.Add("Skill", 0.5f);
 
         atkDebuffDic = new Dictionary<string, float>();    //기본 공격 디버프 확률
-        actDic.Add("Poison", 0.2f);
-        actDic.Add("None", 0.8f);
+        atkDebuffDic.Add("Poison", 0.2f);
+        atkDebuffDic.Add("None", 0.8f);
 
         skillDebuffDic = new Dictionary<string, float>();    //기본 공격 디버프 확률
-        actDic.Add("Poison", 0.15f);
-        actDic.Add("None", 0.85f);
+        skillDebuffDic.Add("Poison", 0.15f);
+        skillDebuffDic.Add("None", 0.85f);
     }
     public override void ProceedTurn()
     {
