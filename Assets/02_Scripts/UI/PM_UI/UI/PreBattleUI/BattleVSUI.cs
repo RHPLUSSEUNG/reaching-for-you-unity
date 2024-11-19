@@ -35,6 +35,8 @@ public class BattleVSUI : UI_Popup
 
         fadeImage = GetObject((int)vsUI.FadeImage).GetComponent<Image>();
         fadeImage.gameObject.SetActive(false);
+
+        StartVersusUI();
     }
 
     public void StartVersusUI()
