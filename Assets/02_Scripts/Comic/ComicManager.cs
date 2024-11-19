@@ -22,7 +22,7 @@ public class ComicManager : MonoBehaviour, ICanvasSortingOrder
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
