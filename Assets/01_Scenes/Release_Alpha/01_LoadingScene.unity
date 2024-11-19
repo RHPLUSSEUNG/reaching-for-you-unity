@@ -287,6 +287,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   continueText: {fileID: 393659317}
+  sequenceText:
+  - {fileID: 559098099}
+  - {fileID: 1642517}
+  - {fileID: 1708941072}
+  - {fileID: 914945828}
   logoImage: {fileID: 1754346576}
   progressImage: {fileID: 127526786}
   speed: 1
@@ -605,7 +610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.25592878, g: 0.25104305, b: 0.2754717, a: 1}
+  m_Color: {r: 0.25490198, g: 0.2509804, b: 0.27450982, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1840,6 +1845,7 @@ GameObject:
   - component: {fileID: 1471212337}
   - component: {fileID: 1471212336}
   - component: {fileID: 1471212335}
+  - component: {fileID: 1471212338}
   m_Layer: 5
   m_Name: Loading Panel
   m_TagString: Untagged
@@ -1933,6 +1939,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471212333}
   m_CullTransparentMesh: 1
+--- !u!114 &1471212338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471212333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd841dc3d8034c64a9404ebaa3f6f41d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1588986434
 GameObject:
   m_ObjectHideFlags: 0
@@ -1970,7 +1988,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.1137255, g: 0.10980393, b: 0.12941177, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

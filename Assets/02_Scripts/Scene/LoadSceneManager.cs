@@ -20,8 +20,9 @@ public class LoadSceneManager : MonoBehaviour
     public static string nextScene;
     public static SceneType sceneType;
     [SerializeField] TMP_Text continueText;
+    [SerializeField] TMP_Text[] sequenceText;
     [SerializeField] Image logoImage;
-    [SerializeField] Image progressImage;
+    [SerializeField] Image progressImage;    
 
     public float speed = 1.0f;
     public float maxAlpha = 1.0f;
@@ -29,6 +30,7 @@ public class LoadSceneManager : MonoBehaviour
 
     private void Start()
     {
+        ChangeColorBySceneType(sceneType);
         continueText.text = "";
         StartCoroutine(LoadScene());
     }
@@ -36,7 +38,7 @@ public class LoadSceneManager : MonoBehaviour
     public static void LoadScene(SceneType _sceneType)
     {
         sceneType = _sceneType;
-
+        
         switch (sceneType)
         {
             case SceneType.MAINMENU:
@@ -115,12 +117,12 @@ public class LoadSceneManager : MonoBehaviour
 
     IEnumerator LoadScene()
     {
-        yield return null;
+        yield return null;        
         AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
         op.allowSceneActivation = false;
         float timer = 0.0f;
         SoundManager.Instance.StopMusic();
-        SoundManager.Instance.LoadAudioClips(sceneType);
+        SoundManager.Instance.LoadAudioClips(sceneType);        
 
         while (!op.isDone)
         {
@@ -159,6 +161,66 @@ public class LoadSceneManager : MonoBehaviour
             color.a = alpha;
             continueText.color = color;
         }
+    }
+    public void ChangeColorBySceneType(SceneType _sceneType)
+    {
+        sceneType = _sceneType;
+        switch (sceneType)
+        {
+            case SceneType.MAINMENU:
+                {
+                    Camera.main.backgroundColor = HexToColor("#FFFFFF");                    
+                    continueText.color = HexToColor("#000000");
+                    for (int i = 0; i < sequenceText.Length; i++)
+                    {
+                        sequenceText[i].color = HexToColor("#000000");
+                    }
+                    break;
+                }
+            case SceneType.ACADEMY:
+                {
+                    Camera.main.backgroundColor = HexToColor("#FFFFFF");                    
+                    continueText.color = HexToColor("#000000");
+                    for (int i = 0; i < sequenceText.Length; i++)
+                    {
+                        sequenceText[i].color = HexToColor("#000000");
+                    }
+                    break;
+                }
+            case SceneType.PM_ADVENTURE:
+                {
+                    Camera.main.backgroundColor = HexToColor("#1D1C21");
+                    continueText.color = HexToColor("#FFFFFF");
+                    for (int i = 0; i < sequenceText.Length; i++)
+                    {
+                        sequenceText[i].color = HexToColor("#FFFFFF");
+                    }
+                    break;
+                }
+            case SceneType.PM_COMBAT:
+                {
+                    Camera.main.backgroundColor = HexToColor("#1D1C21");                    
+                    continueText.color = HexToColor("#FFFFFF");
+                    for (int i = 0; i < sequenceText.Length; i++)
+                    {
+                        sequenceText[i].color = HexToColor("#FFFFFF");
+                    }
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+    }
+
+    private Color HexToColor(string hex)
+    {
+        if (ColorUtility.TryParseHtmlString(hex, out Color color))
+        {
+            return color;
+        }
+        return Color.white;
     }
 
     private void Update()
