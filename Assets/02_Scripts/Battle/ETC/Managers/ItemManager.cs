@@ -10,6 +10,14 @@ public class ItemManager
     short inventoryMaxCnt = 100;
     int gold = 0;    
 
+    public int GetGold()
+    {
+        return gold;
+    }
+    public void SetGold(int gold)
+    {
+        this.gold = gold;
+    }
     //[2024-09-13][LSH's Code]: [quest-objective-gather]
     public bool AddItem(int itemID, int num = 1)
     {
