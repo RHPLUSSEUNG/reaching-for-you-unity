@@ -13,7 +13,10 @@ public class Fire_Knife : Equipment
         character.GetComponent<CharacterState>().after_move = true;
         character.GetComponent<EntityStat>().AttackRange = 2;
 		Managers.Active.ModifySpeed(character, 10);
-		return true;
+
+        character.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = this.sprite;
+		character.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = true;
+        return true;
 	}
 
 	public override bool UnEquip(GameObject character)
@@ -21,6 +24,8 @@ public class Fire_Knife : Equipment
 		if (character == null) return false;
 		Managers.Active.ModifyAtk(character, -15);
         character.GetComponent<CharacterState>().after_move = false;
+        character.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
+        character.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = false;
         return true;
 	}
 }

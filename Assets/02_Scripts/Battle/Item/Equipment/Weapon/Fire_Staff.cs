@@ -11,6 +11,7 @@ public class Fire_Staff : Equipment
         character.GetComponent<CharacterState>().closeAttack = false;
         character.GetComponent <CharacterState>().AttackType = ElementType.Fire;
         character.GetComponent<EntityStat>().AttackRange = 4;
+        character.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = this.sprite;
         return true;
     }
 
@@ -18,6 +19,7 @@ public class Fire_Staff : Equipment
     {
         if (character == null) return false;
         Managers.Active.ModifyAtk(character, -20);
+        character.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
         return true;
     }
 }
