@@ -25,11 +25,13 @@ public class KeyBindManager : MonoBehaviour
     KeyCode[] defaultKeys = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.E, KeyCode.Tab };
 
     void Awake()
-    {       
-        //[USE] Input.GetKey(KeySetting.keys[KeyType.ACTION]);
+    {
         for (int i = 0; i < (int)KeyType.MAX_NUM; i++)
         {
-            KeySetting.keys.Add((KeyType)i, defaultKeys[i]);
+            if (!KeySetting.keys.ContainsKey((KeyType)i))
+            {
+                KeySetting.keys.Add((KeyType)i, defaultKeys[i]);
+            }
         }
     }
     
