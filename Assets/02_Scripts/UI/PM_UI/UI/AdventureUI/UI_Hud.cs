@@ -16,7 +16,8 @@ public class UI_Hud : UI_Scene
         MPBar,
         AcquireItemUI,
         SearchCountText,
-        EncounterText
+        EncounterText,
+        HomeButton
     }
 
     [SerializeField]
@@ -51,7 +52,9 @@ public class UI_Hud : UI_Scene
         debuffLayout = GetObject((int)HUDUI.DeBuffLayout);
         status_effectLayout = GetObject((int)HUDUI.Status_EffectLayout);
         GameObject acqItem = GetObject((int)HUDUI.AcquireItemUI);
+        GameObject homeBtn = GetObject((int)HUDUI.HomeButton);
         BindEvent(acqItem, ClickAcqItemUI, Define.UIEvent.Click);
+        BindEvent(homeBtn, ClickHomeButton, Define.UIEvent.Click);
 
         player = GameObject.Find("Player_Girl");            // 남캐일 때 문제 발생 + Player 교체 코드 필요
 
@@ -192,5 +195,18 @@ public class UI_Hud : UI_Scene
     public void ClickAcqItemUI(PointerEventData data)
     {
         Managers.UI.CreatePopupUI<AcquiredItemUI>("AcqItemUI");
+    }
+
+    public void ClickHomeButton(PointerEventData data)
+    {
+        CheckConfirmUI checkUI = Managers.UI.CreatePopupUI<CheckConfirmUI>("CheckConfirmUI");
+        checkUI.SetConfirmAction(ReturnHome);
+        checkUI.ChangeConfirmText("아카데미로 돌아갈까요?");
+    }
+
+    public void ReturnHome()
+    {
+        // TODO : 아카데미 씬 변경
+        Debug.Log("Return Home");
     }
 }
