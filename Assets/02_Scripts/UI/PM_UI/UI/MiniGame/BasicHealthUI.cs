@@ -297,7 +297,6 @@ public class BasicHealthUI : UI_Popup
             RankDown();
             isInvincible = true;
             knockBackElapsed = 0f;
-            // MoveRight(characterRectTrnasform.rect.width);
             Vector2 newPos = characterRectTrnasform.anchoredPosition;
             newPos.x = leftProhibit.position.x + characterRectTrnasform.rect.width;
             characterRectTrnasform.anchoredPosition = newPos;
@@ -355,12 +354,8 @@ public class BasicHealthUI : UI_Popup
             yield return new WaitForSeconds(0.05f);
 
             timer += 0.1f;
-            //character.SetActive(!character.activeSelf);
-            //timer += Time.deltaTime;
-            //yield return null;
         }
         character.color = characterColor;
-        // character.SetActive(true);
         isInvincible = false;
     }
 
@@ -416,21 +411,23 @@ public class BasicHealthUI : UI_Popup
 
     IEnumerator Countdown()
     {
+        _trueAreaRect.gameObject.SetActive(false);
         countdownText.gameObject.SetActive(true);
 
         Vector3 originalScale = countdownText.transform.localScale;
+        Color countdownColor = countdownText.color;
 
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
-            countdownText.color = new Color(47f / 255f, 224f / 255f, 31f / 255f, 0);
             countdownText.transform.localScale = originalScale * 0.5f;
 
             for (float t = 0; t <0.5f; t += Time.deltaTime)
             {
                 float alpha = Mathf.Lerp(0, 1, t / 0.5f);
                 float scale = Mathf.Lerp(0.5f, 1f, t / 0.5f);
-                countdownText.color = new Color(47f/ 255f, 224f / 255f, 31f / 255f, alpha);
+                countdownColor.a = alpha;
+                countdownText.color = countdownColor;
                 countdownText.transform.localScale = originalScale * scale;
                 yield return null;
             }
@@ -438,20 +435,20 @@ public class BasicHealthUI : UI_Popup
             yield return new WaitForSeconds(0.25f);
         }
 
-        countdownText.text = "Start!";
-        countdownText.color = new Color(47f / 255f, 224f / 255f, 31f / 255f, 0);
+        countdownText.text = "Start!";;
         countdownText.transform.localScale = originalScale * 0.5f;
 
         for (float t = 0; t < 0.5f; t += Time.deltaTime)
         {
             float alpha = Mathf.Lerp(0, 1, t / 0.5f);
             float scale = Mathf.Lerp(0.5f, 1f, t / 0.5f);
-            countdownText.color = new Color(47f / 255f, 224f / 255f, 31f / 255f, alpha);
+            countdownColor.a = alpha;
+            countdownText.color = countdownColor;
             countdownText.transform.localScale = originalScale * scale;
             yield return null;
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
 
         countdownText.gameObject.SetActive(false);
         StartCoroutine(MiniGameStart());

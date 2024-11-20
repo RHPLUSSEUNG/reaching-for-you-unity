@@ -41,12 +41,6 @@ public class GameOverPopupUI : UI_Popup
         rankImg.sprite = rank;      // TODO : 이미지 애니메이션?
     }
 
-    //public void StartButtonClick(PointerEventData data)
-    //{
-    //    healthUI.NextLevelStart();
-    //    StartCoroutine(ClosePopupUIAnim());
-    //}
-
     public void CloseButtonClick(PointerEventData data)
     {
         healthUI.GameEnd();
