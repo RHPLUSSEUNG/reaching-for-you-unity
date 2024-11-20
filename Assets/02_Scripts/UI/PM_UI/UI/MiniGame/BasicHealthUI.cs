@@ -63,7 +63,7 @@ public class BasicHealthUI : UI_Popup
     float baseSpeed = 3.0f;
     float baseknockbackTime = 8.0f;
     float baseknockbackDistance = 100f;
-    float moveDistance = 100f;
+    float moveDistance = 125f;
     float invincibilityTime = 1.0f;
 
     float speed;
@@ -81,6 +81,7 @@ public class BasicHealthUI : UI_Popup
 
     public override void Init()
     {
+        base.Init();
         Bind<GameObject>(typeof(basicHealthUI));
 
         timeLimit = GetObject((int)basicHealthUI.TimeLimit).GetComponent<Slider>();
@@ -102,6 +103,7 @@ public class BasicHealthUI : UI_Popup
         initialPos = characterRectTrnasform.anchoredPosition;
         countdownText.gameObject.SetActive(false);
 
+        SoundManager.Instance.StopMusic();
         StartCoroutine(Countdown());
     }
 
@@ -148,6 +150,10 @@ public class BasicHealthUI : UI_Popup
     IEnumerator MiniGameStart()
     {
         isProgress = true;
+        if(stageNumber == 1)
+        {
+            SoundManager.Instance.PlayMusic("BGM_MiniGame_BasicPhysiology_01");
+        }
         Debug.Log("Game Start");
         SetLevel();
         SetTrueArea();
@@ -300,7 +306,8 @@ public class BasicHealthUI : UI_Popup
             playerAnim.SetBool("isHit", true);
             StartCoroutine(BlinkCharacter());
             Vector2 newPos = characterRectTrnasform.anchoredPosition;
-            if(leftCheck)
+            SoundManager.Instance.PlaySFX("SFX_BasicPhysiology_Hit_01");
+            if (leftCheck)
             {
                 newPos.x = leftProhibit.position.x + characterRectTrnasform.rect.width;
                 characterRectTrnasform.anchoredPosition = newPos;
@@ -420,6 +427,7 @@ public class BasicHealthUI : UI_Popup
         Vector3 originalScale = countdownText.transform.localScale;
         Color countdownColor = countdownText.color;
 
+        SoundManager.Instance.PlaySFX("SFX_StartSign_01");
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
@@ -451,7 +459,7 @@ public class BasicHealthUI : UI_Popup
             yield return null;
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.0f);
 
         countdownText.gameObject.SetActive(false);
         StartCoroutine(MiniGameStart());
@@ -460,7 +468,11 @@ public class BasicHealthUI : UI_Popup
     void GameClear()
     {
         isProgress = false;
+        Image character = GetObject((int)basicHealthUI.Character).GetComponent<Image>();
+        Color characterColor = character.color;
+        character.color = new Color(characterColor.r, characterColor.g, characterColor.b, 1f);
         playerAnim.SetBool("isProgress", false);
+        SoundManager.Instance.PlaySFX("SFX_BasicPhysiology_Success_01");
 
         GameClearPopupUI clearUI = Managers.UI.CreatePopupUI<GameClearPopupUI>("GameClearPopup");
         clearUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
@@ -480,7 +492,11 @@ public class BasicHealthUI : UI_Popup
         isProgress = false;
 
         StopAllCoroutines();
+        Image character = GetObject((int)basicHealthUI.Character).GetComponent<Image>();
+        Color characterColor = character.color;
+        character.color = new Color(characterColor.r, characterColor.g, characterColor.b, 1f);
         playerAnim.SetBool("isProgress", false);
+        SoundManager.Instance.PlaySFX("SFX_MagicTheory_Miss_01");
 
         GameOverPopupUI overUI = Managers.UI.CreatePopupUI<GameOverPopupUI>("GameOverPopup");
         overUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
@@ -490,6 +506,7 @@ public class BasicHealthUI : UI_Popup
     public void GameEnd()
     {
         Debug.Log("Game Over");
+        SoundManager.Instance.PlayMusic("BGM_Academy_01");
         Managers.Prefab.Destroy(gameObject);
     }
 }

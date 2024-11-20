@@ -56,7 +56,7 @@ public class GameClearPopupUI : UI_Popup
 
     public void CloseButtonClick(PointerEventData data)
     {
-        Managers.Prefab.Destroy(healthUI.gameObject);
+        healthUI.GameEnd();
         StartCoroutine(ClosePopupUIAnim());
     }
 
