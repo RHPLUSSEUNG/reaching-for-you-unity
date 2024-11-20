@@ -490,5 +490,6 @@ public class BasicHealthUI : UI_Popup
     public void GameEnd()
     {
         Debug.Log("Game Over");
+        Managers.Prefab.Destroy(gameObject);
     }
 }
