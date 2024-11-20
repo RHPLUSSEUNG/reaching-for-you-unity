@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8334785553150780714}
   - component: {fileID: 6638946480990700866}
   - component: {fileID: 198492793158657858}
+  - component: {fileID: 7462745574070821953}
   m_Layer: 0
   m_Name: Player_Girl
   m_TagString: Player
@@ -98,6 +99,37 @@ MonoBehaviour:
   rotateSpeed: 4
   direction: 1
   cameraChanged: 0
+--- !u!114 &7462745574070821953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632515156684126824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b498d207a7f7b4487ee460e16bfe4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _level: 1
+  _maxHp: 100
+  _hp: 100
+  _maxMp: 100
+  _mp: 100
+  _baseDamage: 10
+  _attackRange: 1
+  _movePoint: 50
+  _maxMovePoint: 50
+  _actPoint: 100
+  _sight: 10
+  _defense: 10
+  _healReciveMultiply: 10
+  _hidden: 0
+  _burn: 0
+  _oxygen: 0
+  _bind: 0
+  _shock: 0
+  _canPassWall: 0
 --- !u!1 &2956717564471503432
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +403,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerName: "\uC544\uB098\uC2A4\uD0C0\uC0E4"
-  playerCharacterData: {fileID: 0}
 --- !u!114 &5919695833556733139
 MonoBehaviour:
   m_ObjectHideFlags: 0
