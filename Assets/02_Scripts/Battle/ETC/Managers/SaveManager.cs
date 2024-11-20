@@ -7,7 +7,8 @@ public class Data
 {
     #region item
     public Dictionary<int, int> consumeInven;
-    public List<int> equipmentInven;
+    public List<int> armorInven;
+    public List<int> weaponInven;
     public int gold;
     #endregion
 
@@ -28,7 +29,8 @@ public class SaveManager : MonoBehaviour
     private void GetData()
     {
         data.consumeInven = Managers.Item.consumeInven;
-        data.equipmentInven = Managers.Item.equipmentInven;
+        data.weaponInven = Managers.Item.weaponInven;
+        data.armorInven= Managers.Item.armorInven;
         data.gold = Managers.Item.GetGold();
 
         data.quests = QuestList.Instance.GetQuestStatuses();
@@ -39,7 +41,8 @@ public class SaveManager : MonoBehaviour
     public void SetData()
     {
         Managers.Item.consumeInven = data.consumeInven;
-        Managers.Item.equipmentInven = data.equipmentInven;
+        Managers.Item.weaponInven = data.weaponInven;
+        Managers.Item.armorInven = data.armorInven;
         Managers.Item.SetGold(data.gold);
 
         QuestList.Instance.SetQuestStatuses(data.quests);

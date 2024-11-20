@@ -98,11 +98,8 @@ public class PartyManager
     public GameObject InstantiatePlayer(string character)
     {
         GameObject go = Managers.Prefab.Instantiate($"Character/{character}");
-        if (AddParty(go))
-        {
-            return go;
-        }
-        return null;
+        
+        return go;
     }
     public GameObject InstantiateMonster(string character, bool afterTurn = false)
     {

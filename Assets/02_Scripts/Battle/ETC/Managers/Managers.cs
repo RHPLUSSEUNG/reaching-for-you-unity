@@ -78,7 +78,7 @@ public class Managers : MonoBehaviour
                 _battle.BattleReady();
                 _raycast.OnStart();
                 break;
-            case "TITLE_PT_5":
+            case "02_MainMenu":
                 _data.OnAwake();
                 break;
         }
