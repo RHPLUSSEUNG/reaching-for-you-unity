@@ -34,7 +34,6 @@ public class BasicHealthUI : UI_Popup
     GameObject handle;
     [SerializeField]
     RectTransform rankBar;
-    RectTransform _scrollRect;
     [SerializeField]
     Sprite greatSprite;
     [SerializeField]
@@ -70,10 +69,6 @@ public class BasicHealthUI : UI_Popup
     float moveDistance = 100f;
     float invincibilityTime = 1.0f;
 
-    float idleTime;
-    float runTime;
-    float hitTime;
-
     float speed;
     float knockbackTime;
     float knockbackDistance;
@@ -86,7 +81,6 @@ public class BasicHealthUI : UI_Popup
     bool isIncreasing = true;
     bool isInvincible = false;
     bool isProgress = false;
-    bool isHit = false;
 
     public override void Init()
     {
@@ -111,7 +105,6 @@ public class BasicHealthUI : UI_Popup
         initialPos = characterRectTrnasform.anchoredPosition;
         countdownText.gameObject.SetActive(false);
 
-        hitTime = invincibilityTime;
         StartCoroutine(Countdown());
     }
 
@@ -303,27 +296,24 @@ public class BasicHealthUI : UI_Popup
         bool leftCheck = IsOverlapping(characterRectTrnasform, leftProhibit);
         bool rightCheck = IsOverlapping(characterRectTrnasform, rightProhibit);
 
-        if (leftCheck)
+        if(leftCheck || rightCheck)
         {
             life++;
             RankDown();
             isInvincible = true;
             knockBackElapsed = 0f;
             Vector2 newPos = characterRectTrnasform.anchoredPosition;
-            newPos.x = leftProhibit.position.x + characterRectTrnasform.rect.width;
-            characterRectTrnasform.anchoredPosition = newPos;
-            StartCoroutine(BlinkCharacter());
-            return true;
-        }
-        if (rightCheck)
-        {
-            life++;
-            RankDown();
-            isInvincible = true;
-            knockBackElapsed = 0f;
-            Vector2 newPos = characterRectTrnasform.anchoredPosition;
-            newPos.x = rightProhibit.position.x - characterRectTrnasform.rect.width;
-            characterRectTrnasform.anchoredPosition = newPos;
+            if(leftCheck)
+            {
+                newPos.x = leftProhibit.position.x + characterRectTrnasform.rect.width;
+                characterRectTrnasform.anchoredPosition = newPos;
+            }
+            else if(rightCheck)
+            {
+                newPos.x = rightProhibit.position.x - characterRectTrnasform.rect.width;
+                characterRectTrnasform.anchoredPosition = newPos;
+            }
+
             StartCoroutine(BlinkCharacter());
             return true;
         }
@@ -396,20 +386,6 @@ public class BasicHealthUI : UI_Popup
             yield return null;
         }
     }
-
-    //IEnumerator PlayAnim()
-    //{
-    //    float elapsed = 0f;
-
-    //    while (elapsed < totalTime)
-    //    {
-    //        if (isHit)
-    //        {
-
-    //        }
-    //        elapsed += Time.deltaTime;
-    //    }
-    //}
 
     void RankDown()
     {
