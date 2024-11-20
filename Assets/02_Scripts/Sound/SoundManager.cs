@@ -97,6 +97,18 @@ public class SoundManager:MonoBehaviour
         }
     }
 
+    public void PlaySFX(string sfxName)
+    {
+        if (sfxClips.TryGetValue(sfxName, out AudioClip clip))
+        {
+            sfxAudio.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning("SFX not found: " + sfxName);
+        }
+    }
+
     public void StopMusic()
     {
         if (currentFadeCoroutine != null)
