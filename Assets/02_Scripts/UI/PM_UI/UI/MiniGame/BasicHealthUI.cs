@@ -39,11 +39,7 @@ public class BasicHealthUI : UI_Popup
     [SerializeField]
     Sprite missSprite;
     [SerializeField]
-    List<Sprite> idleAnim = new List<Sprite>();
-    [SerializeField]
-    List<Sprite> runAnim = new List<Sprite>();
-    [SerializeField]
-    List<Sprite> hitAnim = new List<Sprite>();
+    List<Sprite> rank = new List<Sprite>();
 
     RectTransform characterRectTrnasform;
     RectTransform leftProhibit;
@@ -298,10 +294,11 @@ public class BasicHealthUI : UI_Popup
 
         if(leftCheck || rightCheck)
         {
-            life++;
-            RankDown();
             isInvincible = true;
+            life++;
             knockBackElapsed = 0f;
+            playerAnim.SetBool("isHit", true);
+            StartCoroutine(BlinkCharacter());
             Vector2 newPos = characterRectTrnasform.anchoredPosition;
             if(leftCheck)
             {
@@ -314,8 +311,7 @@ public class BasicHealthUI : UI_Popup
                 characterRectTrnasform.anchoredPosition = newPos;
             }
 
-            playerAnim.SetBool("isHit", true);
-            StartCoroutine(BlinkCharacter());
+            RankDown();
             return true;
         }
         return false;
@@ -359,8 +355,8 @@ public class BasicHealthUI : UI_Popup
             timer += 0.1f;
         }
         character.color = characterColor;
-        isInvincible = false;
         playerAnim.SetBool("isHit", false);
+        isInvincible = false;
     }
 
     void KnockBackCharacter()
@@ -398,6 +394,8 @@ public class BasicHealthUI : UI_Popup
             GameOver();
             return;
         }
+
+        rankImg.sprite = rank[life];
         int preRank = life - 1;
         rankBar.GetChild(preRank).gameObject.SetActive(false);
         rankBar.GetChild(life).gameObject.SetActive(true);
@@ -410,6 +408,7 @@ public class BasicHealthUI : UI_Popup
         rankBar.GetChild(life).gameObject.SetActive(false);
         life = 0;
         rankBar.GetChild(life).gameObject.SetActive(true);
+        rankImg.sprite = rank[life];
         knockBackElapsed = 0f;
     }
 
@@ -485,7 +484,7 @@ public class BasicHealthUI : UI_Popup
 
         GameOverPopupUI overUI = Managers.UI.CreatePopupUI<GameOverPopupUI>("GameOverPopup");
         overUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
-        overUI.SetRankImage(rankImg.sprite);
+        overUI.SetRankImage();
     }
 
     public void GameEnd()
