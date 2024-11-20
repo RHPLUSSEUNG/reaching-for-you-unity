@@ -83,10 +83,10 @@ public class InvenUIManager
 
     public void SetInventory()
     {
-        for (int i = 0; i< Managers.Item.equipmentInven.Count; i++)
+        for (int i = 0; i< Managers.Item.GetArmorList().Count; i++)
         {
             EquipItemUI equipItem = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
-            equipItem.invenItemID = Managers.Item.equipmentInven[i];
+            equipItem.invenItemID = Managers.Item.GetArmorList()[i];
             equipItem.SetItemInfo();
             Managers.UI.HideUI(equipItem.gameObject);
         }
