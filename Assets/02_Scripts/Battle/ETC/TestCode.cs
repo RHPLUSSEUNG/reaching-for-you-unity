@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestCode : MonoBehaviour
+public class TestCode
 {
-    void Run()
+    public void Run()
     {
         //Conusme Item Add
         for(int i =0;i<= 14; i++)

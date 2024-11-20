@@ -57,11 +57,7 @@ public class BattleManager
         cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
 
         ObjectList.Clear();
-        Managers.Party.AddParty("Player_Girl_Battle");
-        GameObject player = Managers.Party.FindPlayer("Player_Girl_Battle");
         battleState = BattleState.Start;
-        Slow slow = new();
-        slow.SetDebuff(3, player, 10);
         phase = 1;
     }
 

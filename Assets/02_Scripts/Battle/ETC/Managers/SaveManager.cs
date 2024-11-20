@@ -21,7 +21,7 @@ public class Data
     #endregion
 }
 
-public class SaveManager : MonoBehaviour
+public class SaveManager
 {
     public Data data = new Data();
     string path  = Application.dataPath + "/";

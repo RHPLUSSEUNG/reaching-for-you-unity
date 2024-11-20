@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Data;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,6 +33,8 @@ public class Managers : MonoBehaviour
     public static BattleUIManager BattleUI { get { return _battleui; } }
     static InvenUIManager _invenui = new();
     public static InvenUIManager InvenUI { get { return _invenui; } }
+    static SaveManager _save = new();
+    public static RaycastManager Save { get { return _raycast; } }
 
     public void Awake()
     {
@@ -45,42 +48,57 @@ public class Managers : MonoBehaviour
             if (gameObject.GetComponent<Managers>() == null)
             {
                 gameObject.AddComponent<Managers>();
+
             }
             DontDestroyOnLoad(gameObject);
             _manager = gameObject.GetComponent<Managers>();
         }
     }
     #endregion
+    bool is_load_event_added = false;
     public void Update()
     {
+        if (!is_load_event_added)
+        {
+            Debug.Log("Scene Event Add");
+            SceneManager.sceneLoaded += OnSceneLoad;
+            is_load_event_added = true;
+            Test();
+        }
         //[2024-09-30][LSH's Code]: [enter-adventure-map-ui]
         if (LoadSceneManager.sceneType != SceneType.ACADEMY)
         {
             raycast.OnUpdate();
-        }          
+        }
     }
-
-    public void OnEnable()
+    public void Start()
     {
-        _data.OnAwake();
-        SceneManager.sceneLoaded += OnSceneLoad;
+        //_data.OnAwake();
+        //_skill.OnAwake();
+        //_raycast.OnStart();
+        //_battle.BattleReady();
+        //Test();
+    }
+    public void Test()
+    {
+        TestCode test = new();
+        test.Run();
     }
 
     void OnSceneLoad(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log(scene.name);
-        Debug.Log(mode);
-        
         switch (scene.name)
         {
             case "05_Battle":
+                _data.OnAwake();
                 _skill.OnAwake();
-                _battle.BattleReady();
                 _raycast.OnStart();
+                _battle.BattleReady();
                 break;
             case "02_MainMenu":
                 _data.OnAwake();
                 break;
         }
+
     }
 }
