@@ -73,7 +73,7 @@ public class Managers : MonoBehaviour
         
         switch (scene.name)
         {
-            case "Battle_PT_5":
+            case "05_Battle":
                 _skill.OnAwake();
                 _battle.BattleReady();
                 _raycast.OnStart();

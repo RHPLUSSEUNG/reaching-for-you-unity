@@ -12,8 +12,6 @@ public class Grass_Sword : Equipment
         character.GetComponent<CharacterState>().AttackType = ElementType.Grass;
         character.GetComponent<EntityStat>().AttackRange = 1;
 
-        character.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = this.sprite;
-        character.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = true;
         return true;
     }
 
@@ -21,8 +19,6 @@ public class Grass_Sword : Equipment
     {
         if (character == null) return false;
         Managers.Active.ModifyAtk(character, -30);
-        character.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
-        character.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = false;
         return true;
     }
 }
