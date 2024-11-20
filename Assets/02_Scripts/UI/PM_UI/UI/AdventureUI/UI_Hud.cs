@@ -101,8 +101,6 @@ public class UI_Hud : UI_Scene
     {
         hpBar.SetPlayerStat(stat.Hp, stat.MaxHp);
         mpBar.SetPlayerStat(stat.Mp, stat.MaxMp);
-        Sprite playerSprite = Util.FindChild(player, "Character", true).GetComponent<SpriteRenderer>().sprite;
-        profileImage.sprite = playerSprite;
         ChangeEffectUI(state);
     }
 
@@ -188,7 +186,7 @@ public class UI_Hud : UI_Scene
     {
         TextMeshProUGUI chanceText = GetObject((int)HUDUI.EncounterText).GetComponent<TextMeshProUGUI>();
 
-        chanceText.text = $"Á¶¿ì È®·ü : {chance * 100} %";
+        chanceText.text = $"Á¶¿ì È®·ü : {chance} %";
     }
 
     public void ClickAcqItemUI(PointerEventData data)

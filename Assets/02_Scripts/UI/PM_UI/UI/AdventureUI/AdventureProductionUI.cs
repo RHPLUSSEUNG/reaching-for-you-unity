@@ -17,6 +17,8 @@ public class AdventureProductionUI : UI_Popup
     TextMeshProUGUI mapName;
     TextMeshProUGUI mapDescript;
 
+    float waitOffset = 0.5f;
+
     public override void Init()
     {
         base.Init();
@@ -57,16 +59,19 @@ public class AdventureProductionUI : UI_Popup
 
     public void StartEnterFadeEffect()
     {
-        GetObject((int)ProductionUI.EnterTextPanel).GetComponent<ImageFadeEffect>().StartFadeEffect();
         GetObject((int)ProductionUI.MapNameText).GetComponent<TextFadeEffect>().StartFadeEffect();
         GetObject((int)ProductionUI.MapDescriptText).GetComponent<TextFadeEffect>().StartFadeEffect();
     }
 
-    public void EncounterProduction()
+    public float EncounterProduction()
     {
         GetObject((int)ProductionUI.EncounterSign).SetActive(true);
         EncounerProduction production = GetObject((int)ProductionUI.EncounterSign).GetComponent<EncounerProduction>();
         StartCoroutine(production.Production());
+
+        float waitTime = production.GetWaitTime() + waitOffset;
+
+        return waitTime;
     }
 
     void SettingDesertUI()
