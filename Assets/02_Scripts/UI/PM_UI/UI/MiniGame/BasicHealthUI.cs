@@ -54,6 +54,7 @@ public class BasicHealthUI : UI_Popup
 
     TextMeshProUGUI stageNumberText;
     TextMeshProUGUI countdownText;
+    Animator playerAnim;
 
     int stageNumber = 1;
     int life = 0;
@@ -88,7 +89,6 @@ public class BasicHealthUI : UI_Popup
 
         timeLimit = GetObject((int)basicHealthUI.TimeLimit).GetComponent<Slider>();
         _timingbar = GetObject((int)basicHealthUI.TimingBar).GetComponent<Scrollbar>();
-        _scrollRect = _timingbar.GetComponent<RectTransform>();
         _failAreaRect = GetObject((int)basicHealthUI.FailArea).GetComponent<RectTransform>();
         _trueAreaRect = GetObject((int)basicHealthUI.TrueArea).GetComponent<RectTransform>();
         rankBar = GetObject((int)basicHealthUI.RankBar).GetComponent<RectTransform>();
@@ -101,6 +101,7 @@ public class BasicHealthUI : UI_Popup
         characterRectTrnasform = GetObject((int)basicHealthUI.Character).GetComponent<RectTransform>();
         leftProhibit = GetObject((int)basicHealthUI.LeftProhibitedArea).GetComponent<RectTransform>();
         rightProhibit = GetObject((int)basicHealthUI.RightProhibitedArea).GetComponent<RectTransform>();
+        playerAnim = GetObject((int)basicHealthUI.Character).GetComponent<Animator>();
 
         initialPos = characterRectTrnasform.anchoredPosition;
         countdownText.gameObject.SetActive(false);
@@ -156,6 +157,7 @@ public class BasicHealthUI : UI_Popup
         SetTrueArea();
         float elapsed = 0f;
 
+        playerAnim.SetBool("isProgress", true);
         StartCoroutine(TimeLimitStart());
         StartCoroutine(ClockRotate());
         while (elapsed < totalTime)
@@ -180,7 +182,6 @@ public class BasicHealthUI : UI_Popup
                     {
                         Debug.Log("Game End");
                         GameClear();
-                        isProgress = false;
                         yield break;
                     }
                     yield return null;
@@ -204,7 +205,6 @@ public class BasicHealthUI : UI_Popup
                     {
                         Debug.Log("Game End");
                         GameClear();
-                        isProgress = false;
                         yield break;
                     }
                     yield return null;
@@ -244,7 +244,7 @@ public class BasicHealthUI : UI_Popup
             JudgeTextUI judge = Managers.UI.MakeSubItem<JudgeTextUI>(transform, "JudgeText");
             Debug.Log("MiniGame Success");
             judge.SetJudgeTextImage(greatSprite, handle.transform.position);
-            MoveRight();
+            MoveLeft();
             return true;
         }
         else
@@ -252,7 +252,7 @@ public class BasicHealthUI : UI_Popup
             Debug.Log("MiniGame Fail");
             JudgeTextUI judge = Managers.UI.MakeSubItem<JudgeTextUI>(transform, "JudgeText");
             judge.SetJudgeTextImage(missSprite, handle.transform.position);
-            MoveLeft();
+            MoveRight();
             return false;
         }
     }
@@ -314,6 +314,7 @@ public class BasicHealthUI : UI_Popup
                 characterRectTrnasform.anchoredPosition = newPos;
             }
 
+            playerAnim.SetBool("isHit", true);
             StartCoroutine(BlinkCharacter());
             return true;
         }
@@ -359,12 +360,13 @@ public class BasicHealthUI : UI_Popup
         }
         character.color = characterColor;
         isInvincible = false;
+        playerAnim.SetBool("isHit", false);
     }
 
     void KnockBackCharacter()
     {
         Vector2 newPos = characterRectTrnasform.anchoredPosition;
-        newPos.x -= knockbackDistance;
+        newPos.x += knockbackDistance;
         if (newPos.x <= leftProhibit.position.x)
         {
             newPos.x = leftProhibit.position.x;
@@ -458,6 +460,9 @@ public class BasicHealthUI : UI_Popup
 
     void GameClear()
     {
+        isProgress = false;
+        playerAnim.SetBool("isProgress", false);
+
         GameClearPopupUI clearUI = Managers.UI.CreatePopupUI<GameClearPopupUI>("GameClearPopup");
         clearUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
         clearUI.SetRankImage(rankImg.sprite);
@@ -475,7 +480,8 @@ public class BasicHealthUI : UI_Popup
     {
         isProgress = false;
 
-        StopAllCoroutines();        // ³Ë¹é¸¸ ²ô±â
+        StopAllCoroutines();
+        playerAnim.SetBool("isProgress", false);
 
         GameOverPopupUI overUI = Managers.UI.CreatePopupUI<GameOverPopupUI>("GameOverPopup");
         overUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
