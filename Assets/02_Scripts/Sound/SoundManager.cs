@@ -4,9 +4,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class SoundManager:MonoBehaviour
+public class SoundManager : MonoBehaviour
 {
-    public static SoundManager Instance;    
+    public static SoundManager Instance;
     [SerializeField] AudioSource bgmAudio;
     [SerializeField] AudioSource sfxAudio;
     Dictionary<string, AudioClip> bgmClips = new Dictionary<string, AudioClip>();
@@ -27,9 +27,10 @@ public class SoundManager:MonoBehaviour
         }
     }
 
-    public void LoadAudioClips(SceneType sceneType, string name =  "")
+    public void LoadAudioClips(SceneType sceneType, string name = "")
     {
         bgmClips.Clear();
+        sfxClips.Clear();
 
         switch (sceneType)
         {
@@ -51,6 +52,10 @@ public class SoundManager:MonoBehaviour
                     {
                         bgmClips[bgm.name] = bgm;
                     }
+                    foreach (AudioClip sfx in Resources.LoadAll<AudioClip>("Sounds/SFX/Academy/Minigame"))
+                    {
+                        sfxClips[sfx.name] = sfx;
+                    }
                     break;
                 }
             case SceneType.PM_ADVENTURE:
@@ -58,7 +63,7 @@ public class SoundManager:MonoBehaviour
                     foreach (AudioClip bgm in Resources.LoadAll<AudioClip>("Sounds/BGM/Adventure"))
                     {
                         bgmClips[bgm.name] = bgm;
-                    }
+                    }                   
                     break;
                 }
             case SceneType.PM_COMBAT:
@@ -66,9 +71,9 @@ public class SoundManager:MonoBehaviour
                     foreach (AudioClip bgm in Resources.LoadAll<AudioClip>("Sounds/BGM/Battle"))
                     {
                         bgmClips[bgm.name] = bgm;
-                    }
+                    }                    
                     break;
-                }             
+                }
         }
     }
 
@@ -89,11 +94,23 @@ public class SoundManager:MonoBehaviour
             {
                 currentFadeCoroutine = StartCoroutine(FadeIn(bgmAudio, clip, loop, targetVolume, 1.5f));
             }
-            
+
         }
         else
         {
             Debug.LogWarning("Requested BGM clip not found: " + bgmName);
+        }
+    }
+
+    public void PlaySFX(string sfxName)
+    {
+        if (sfxClips.TryGetValue(sfxName, out AudioClip clip))
+        {
+            sfxAudio.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogWarning("SFX not found: " + sfxName);
         }
     }
 
@@ -103,10 +120,9 @@ public class SoundManager:MonoBehaviour
         {
             StopCoroutine(currentFadeCoroutine);
         }
-        
+
         currentFadeCoroutine = StartCoroutine(FadeOut(bgmAudio, 1.5f));
     }
-
 
     IEnumerator FadeOut(AudioSource audioSource, float fadeTime)
     {
@@ -139,7 +155,7 @@ public class SoundManager:MonoBehaviour
     //씬 로드 없이 BGM이 바뀔 때 필요
     IEnumerator CrossFadeBGM(AudioClip newClip, bool loop, float targetVolume)
     {
-        float fadeTime = 1f;        
+        float fadeTime = 1f;
 
         while (bgmAudio.volume > 0)
         {
