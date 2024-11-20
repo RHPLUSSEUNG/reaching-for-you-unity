@@ -58,6 +58,7 @@ public class EquipUI : UI_Popup
         checkConfirmUI.ChangeConfirmText("정말로 버리시겠습니까?");
         checkConfirmUI.SetConfirmAction(() => {
             Managers.Item.RemoveItem(Managers.InvenUI.focusItemID);
+            bool removeCheck = Managers.Item.RemoveItem(Managers.InvenUI.focusItemID);
             Managers.InvenUI.UpdateItemUI(Managers.InvenUI.focusItemID);
         });
         Managers.Prefab.Destroy(gameObject);

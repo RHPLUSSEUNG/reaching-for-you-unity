@@ -22,6 +22,7 @@ public class InvenUIManager
     public EquipPart part;
     // public bool inven_state = false;
     public bool consume_equip_state = false;
+    public Sprite emptySprite;
 
     List<int> equip_consume_ui = new List<int>();
 
@@ -83,10 +84,10 @@ public class InvenUIManager
 
     public void SetInventory()
     {
-        for (int i = 0; i< Managers.Item.GetArmorList().Count; i++)
+        for (int i = 0; i< Managers.Item.GetWeaponList().Count; i++)
         {
             EquipItemUI equipItem = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
-            equipItem.invenItemID = Managers.Item.GetArmorList()[i];
+            equipItem.invenItemID = Managers.Item.GetWeaponList()[i];
             equipItem.SetItemInfo();
             Managers.UI.HideUI(equipItem.gameObject);
         }
@@ -99,9 +100,9 @@ public class InvenUIManager
         }
     }
 
-    public void UpdateItemUI(int itemID, bool equipment = false)       // 아이템 획득 시 인벤토리 최신화(생성 후)
+    public void UpdateItemUI(int itemID)       // 아이템 획득 시 인벤토리 최신화(생성 후)
     {
-        ItemData itemData = Managers.Data.GetItemData(itemID, equipment);
+        ItemData itemData = (ItemData)Managers.Data.ParsingData(itemID);
         if(itemData.ItemType == ItemType.Equipment)
         {
             EquipItemUI equipItem = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
@@ -224,7 +225,7 @@ public class InvenUIManager
         itemUI.SetItemInfo();        // 아이템 데이터를 적용
 
         Managers.Item.UnEquipItem(prev_Item, player);
-        equipIcon.sprite = null;
+        equipIcon.sprite = emptySprite;
     }
 
     public void ExchangeInvenUI()

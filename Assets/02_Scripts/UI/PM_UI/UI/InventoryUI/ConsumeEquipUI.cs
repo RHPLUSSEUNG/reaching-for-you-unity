@@ -31,7 +31,7 @@ public class ConsumeEquipUI : InvenItemUI
         Managers.InvenUI.consume_equip_state = false;
 
         Image equipIcon = GetObject((int)consumeEquipUI.EquipIcon).GetComponent<Image>();
-        equipIcon.sprite = null;
+        equipIcon.sprite = Managers.InvenUI.emptySprite;
         TextMeshProUGUI countText = GetObject((int)consumeEquipUI.ConsumeCount).GetComponent<TextMeshProUGUI>();
         countText.text = "";
         // Managers.UI.CreatePopupUI<ConsumeCountUI>();

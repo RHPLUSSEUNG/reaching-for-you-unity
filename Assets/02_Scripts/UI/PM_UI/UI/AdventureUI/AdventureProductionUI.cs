@@ -35,15 +35,6 @@ public class AdventureProductionUI : UI_Popup
         StartEnterFadeEffect();
     }
 
-    // Test
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.G))
-        {
-            EncounterProduction();
-        }
-    }
-
     public void SetMapText()
     {
         switch(AdventureManager.StageNumber)

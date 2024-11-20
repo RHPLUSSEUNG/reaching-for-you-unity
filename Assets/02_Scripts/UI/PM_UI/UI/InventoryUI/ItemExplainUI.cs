@@ -35,7 +35,7 @@ public class ItemExplainUI : UI_Popup
 
     public void SetItemInfo()
     {
-        ItemData itemData = Managers.Data.GetItemData(Managers.InvenUI.focusItemID);
+        ItemData itemData = (ItemData)Managers.Data.ParsingData(Managers.InvenUI.focusItemID);
         
         Image itemIcon = GetObject((int)itemExplainUI.ItemIcon).GetComponent<Image>();
         TextMeshProUGUI itemName = GetObject((int)itemExplainUI.ItemName).GetComponent<TextMeshProUGUI>();
