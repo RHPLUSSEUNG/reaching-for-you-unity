@@ -21,6 +21,10 @@ public class MagicBasicsScore : MonoBehaviour
     float totalScore = 100f; 
     [SerializeField] float[] weight = null;
 
+    [SerializeField] Image scoreDecoImage;
+    [SerializeField] Sprite[] scoreDecoSprite;
+    [SerializeField] Image rankImage;
+
     float currentScore = 0;
     
     void Awake()
@@ -45,29 +49,46 @@ public class MagicBasicsScore : MonoBehaviour
 
         // Slider에 반영
         scoreSlider.value = currentScore / totalScore;
+        ChangeScoreImage(scoreSlider.value);
     }
 
-    public void Ranking()
+    private void ChangeScoreImage(float scoreValue)
     {
-        if(currentScore >= 80)
+        if(scoreValue >= 0.76f)
         {
-            Debug.Log("A");
+            scoreDecoImage.sprite = scoreDecoSprite[0];
         }
-        else if(currentScore >= 60)
+        else if(scoreValue >= 0.5f)
         {
-            Debug.Log("B");
+            scoreDecoImage.sprite = scoreDecoSprite[1];
         }
-        else if(currentScore >= 40)
+        else if(scoreValue >= 0.23f)
         {
-            Debug.Log("C");
-        }
-        else if(currentScore >= 20)
-        {
-            Debug.Log("D");
+            scoreDecoImage.sprite = scoreDecoSprite[2];
         }
         else
         {
-            Debug.Log("F");
+            scoreDecoImage.sprite = scoreDecoSprite[3];
+        }
+    }
+
+    public void RankingUI()
+    {
+        if((currentScore / totalScore) >= 0.76f)
+        {
+            rankImage.sprite = scoreDecoSprite[0];
+        }
+        else if((currentScore / totalScore) >= 0.5f)
+        {
+            rankImage.sprite = scoreDecoSprite[1];
+        }
+        else if((currentScore / totalScore) >= 0.23f)
+        {
+            rankImage.sprite = scoreDecoSprite[2];
+        }
+        else
+        {
+            rankImage.sprite = scoreDecoSprite[3];
         }
     }
 }

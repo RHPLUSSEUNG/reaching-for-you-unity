@@ -44,8 +44,8 @@ public class NoteManager : MonoBehaviour
 
             if(currentAppearTime >= 60d / appearTime) // 노트 출현 간격
             {
-                GameObject note = Instantiate(goNote, noteAppearTf.position, Quaternion.identity);
-                note.transform.SetParent(this.transform);
+                GameObject note = Instantiate(goNote, noteAppearTf.position, Quaternion.identity, this.transform);
+                // note.transform.SetParent(this.transform);
                 timingManager.boxNoteList.Add(note);
                 currentAppearTime -= 60d / appearTime;
             }
@@ -54,7 +54,7 @@ public class NoteManager : MonoBehaviour
         {
             rankingPanel.SetActive(true);
             MagicBasicsScore.Instance.IsPlaying = false;
-            MagicBasicsScore.Instance.Ranking();
+            MagicBasicsScore.Instance.RankingUI();
         }
     }
 

@@ -8,6 +8,8 @@ public class PlayerNoteController : MonoBehaviour
 
     [SerializeField]
     private Animator anim;
+    [SerializeField]
+    ParticleSystem hit_magic;
 
     void Start()
     {
@@ -20,6 +22,7 @@ public class PlayerNoteController : MonoBehaviour
         {
             timingManager.CheckTiming();
             anim.SetTrigger("Hit");
+            hit_magic.Play();
         }
     }
 }
