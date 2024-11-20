@@ -6,6 +6,9 @@ public class PlayerNoteController : MonoBehaviour
 {
     TimingManager timingManager;
 
+    [SerializeField]
+    private Animator anim;
+
     void Start()
     {
         timingManager = FindObjectOfType<TimingManager>();    
@@ -13,9 +16,10 @@ public class PlayerNoteController : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && MagicBasicsScore.Instance.IsPlaying)
         {
             timingManager.CheckTiming();
+            anim.SetTrigger("Hit");
         }
     }
 }

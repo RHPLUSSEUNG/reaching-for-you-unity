@@ -9,6 +9,12 @@ public class MagicBasicsScore : MonoBehaviour
     static MagicBasicsScore instance = null;
     public static MagicBasicsScore Instance { get { return instance; } }
 
+    private bool isPlaying = true;
+    public bool IsPlaying { 
+        get { return isPlaying; }
+        set { isPlaying = value; }
+    }
+
     [SerializeField] Slider scoreSlider = null;
 
     [SerializeField] float increaseScore = 1;   

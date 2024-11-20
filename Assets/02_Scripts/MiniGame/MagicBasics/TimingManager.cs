@@ -31,21 +31,26 @@ public class TimingManager : MonoBehaviour
 
     public void CheckTiming()
     {
-        for (int i = 0; i < boxNoteList.Count; i++)
+        List<GameObject> boxes = new List<GameObject>(boxNoteList);
+
+        for (int i = 0; i < boxes.Count; i++)
         {
-            float notePosX = boxNoteList[i].transform.localPosition.x;
+            float notePosX = boxes[i].transform.localPosition.x;
 
             for(int j = 0; j < timingBoxs.Length; j++)
             {
                 if(timingBoxs[j].x <= notePosX && notePosX <= timingBoxs[j].y)
                 {
-                    Destroy(boxNoteList[i]);
-                    boxNoteList.RemoveAt(i);
-                    
+                    Destroy(boxes[i]);
+                    // boxes[i].GetComponent<Note>().gameObject.SetActive(false);
+                    boxes.RemoveAt(i);
+    
                     judgementEffect.JudgementAnim(j);
 
                     // 점수 증가
                     MagicBasicsScore.Instance.IncreaseScore(j);
+
+                    boxNoteList = boxes;
                     return;
                 }
             }
