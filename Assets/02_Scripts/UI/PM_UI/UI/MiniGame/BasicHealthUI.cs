@@ -39,6 +39,12 @@ public class BasicHealthUI : UI_Popup
     Sprite greatSprite;
     [SerializeField]
     Sprite missSprite;
+    [SerializeField]
+    List<Sprite> idleAnim = new List<Sprite>();
+    [SerializeField]
+    List<Sprite> runAnim = new List<Sprite>();
+    [SerializeField]
+    List<Sprite> hitAnim = new List<Sprite>();
 
     RectTransform characterRectTrnasform;
     RectTransform leftProhibit;
@@ -64,6 +70,10 @@ public class BasicHealthUI : UI_Popup
     float moveDistance = 100f;
     float invincibilityTime = 1.0f;
 
+    float idleTime;
+    float runTime;
+    float hitTime;
+
     float speed;
     float knockbackTime;
     float knockbackDistance;
@@ -76,6 +86,7 @@ public class BasicHealthUI : UI_Popup
     bool isIncreasing = true;
     bool isInvincible = false;
     bool isProgress = false;
+    bool isHit = false;
 
     public override void Init()
     {
@@ -100,6 +111,7 @@ public class BasicHealthUI : UI_Popup
         initialPos = characterRectTrnasform.anchoredPosition;
         countdownText.gameObject.SetActive(false);
 
+        hitTime = invincibilityTime;
         StartCoroutine(Countdown());
     }
 
@@ -384,7 +396,21 @@ public class BasicHealthUI : UI_Popup
             yield return null;
         }
     }
-    
+
+    //IEnumerator PlayAnim()
+    //{
+    //    float elapsed = 0f;
+
+    //    while (elapsed < totalTime)
+    //    {
+    //        if (isHit)
+    //        {
+
+    //        }
+    //        elapsed += Time.deltaTime;
+    //    }
+    //}
+
     void RankDown()
     {
         if(life >= lifeEnd)
@@ -473,7 +499,7 @@ public class BasicHealthUI : UI_Popup
     {
         isProgress = false;
 
-        StopAllCoroutines();
+        StopAllCoroutines();        // ³Ë¹é¸¸ ²ô±â
 
         GameOverPopupUI overUI = Managers.UI.CreatePopupUI<GameOverPopupUI>("GameOverPopup");
         overUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
