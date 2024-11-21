@@ -34,7 +34,7 @@ public class Managers : MonoBehaviour
     static InvenUIManager _invenui = new();
     public static InvenUIManager InvenUI { get { return _invenui; } }
     static SaveManager _save = new();
-    public static RaycastManager Save { get { return _raycast; } }
+    public static SaveManager Save { get { return _save; } }
 
     public void Awake()
     {
