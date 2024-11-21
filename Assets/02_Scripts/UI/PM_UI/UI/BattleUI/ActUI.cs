@@ -12,7 +12,6 @@ public class ActUI : UI_Popup
         ItemPanel,
         MagicUseButton,
         ItemUseButton,
-        DefenseButton,
         NextTurnButton,
         MagicButtonLayout,
         ItemLayout,
@@ -41,7 +40,6 @@ public class ActUI : UI_Popup
         Managers.BattleUI.actUI = gameObject.GetComponent<ActUI>();
         GameObject magicUseBtn = GetObject((int)actUI.MagicUseButton);
         GameObject itemUseBtn = GetObject((int)actUI.ItemUseButton);
-        GameObject defenseBtn = GetObject((int)actUI.DefenseButton);
         GameObject nextBtn = GetObject((int)actUI.NextTurnButton);
         GameObject moveBtn = GetObject((int)actUI.MoveButton);
         Managers.BattleUI.moveBtn = moveBtn;
@@ -60,7 +58,6 @@ public class ActUI : UI_Popup
 
         BindEvent(magicUseBtn, UseMagicButtonClick, Define.UIEvent.Click);
         BindEvent(itemUseBtn, UseItemButtonClick, Define.UIEvent.Click);
-        BindEvent(defenseBtn, UseDefenseButtonClick, Define.UIEvent.Click);
         BindEvent(nextBtn, NextButtonClick, Define.UIEvent.Click);
         BindEvent(moveBtn, MoveEndButtonClick, Define.UIEvent.Click);
         BindEvent(magicCancleBtn, MagicCancleButtonClick, Define.UIEvent.Click);
@@ -133,14 +130,6 @@ public class ActUI : UI_Popup
     {
         Managers.UI.ShowUI(itemPanel);
         Managers.UI.HideUI(magicPanel);
-    }
-
-    public void UseDefenseButtonClick(PointerEventData data)
-    {
-        Managers.UI.HideUI(gameObject);
-        cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
-        Managers.BattleUI.cameraMode = CameraMode.Follow;
-        Managers.Battle.NextTurn();
     }
 
     public void NextButtonClick(PointerEventData data)
