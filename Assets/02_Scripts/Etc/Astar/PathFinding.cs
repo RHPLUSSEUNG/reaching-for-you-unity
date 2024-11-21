@@ -15,9 +15,9 @@ public class PathFinding : MonoBehaviour
     {
         FindPath(startPos, targetPos, true);
     }
-    public void StartSearch(Vector3 startPos, int radius, string tag)
+    public void StartSearch(Vector3 startPos, int radius, RangeType type, string tag)
     {
-        Search(startPos, radius, tag);
+        Search(startPos, radius, type, tag);
     }
     public void StartRandomLoc(Vector3 startPos, int radius)
     {
@@ -164,27 +164,51 @@ public class PathFinding : MonoBehaviour
         Node targetNode = grid.GetNodeFromWorldPosition(target);
         return grid.CheckWalkable(targetNode.gridX, targetNode.gridY);
     }
-    void Search(Vector3 startPos, int radius, string tag)
+    void Search(Vector3 startPos, int radius, RangeType type, string tag)
     {
         Node startNode = grid.GetNodeFromWorldPosition(startPos);
         bool success = false;
         Vector3 targetPos = startPos;
         GameObject targetObj = null;
         int distance = 0;
-        for (int i = 1; i <= radius; i++)
+
+        switch (type)
         {
-            foreach (Node node in grid.GetNeighbours(startNode, i, RangeType.Normal))
-            {
-                targetObj = grid.CheckTag(node.gridX, node.gridY, tag);
-                if (targetObj != null)
+            case RangeType.Normal:
+                for (int i = 1; i <= radius; i++)
                 {
-                    success = true;
-                    targetPos = node.worldPosition;
-                    distance = i;
-                    break;
+                    foreach (Node node in grid.GetNeighbours(startNode, i, RangeType.Normal))
+                    {
+                        targetObj = grid.CheckTag(node.gridX, node.gridY, tag);
+                        if (targetObj != null)
+                        {
+                            success = true;
+                            targetPos = node.worldPosition;
+                            distance = i;
+                            break;
+                        }
+                    }
+                    if (success)
+                        break;
                 }
-            }
-            if (success)
+                break;
+            case RangeType.Cross:
+                for (int i = 1; i <= radius; i++)
+                {
+                    foreach (Node node in grid.GetNeighbours(startNode, i, RangeType.Cross))
+                    {
+                        targetObj = grid.CheckTag(node.gridX, node.gridY, tag);
+                        if (targetObj != null)
+                        {
+                            success = true;
+                            targetPos = node.worldPosition;
+                            distance = i;
+                            break;
+                        }
+                    }
+                    if (success)
+                        break;
+                }
                 break;
         }
         pathfinder.FinishProcessingSearch(targetPos, targetObj, distance, success);

@@ -23,7 +23,7 @@ public class EnemyAI_Golem : EnemyAI_Base
         SpecialCheck();
         if (!isTurnEnd)
         {
-            Search(stat.Sight);
+            Search(stat.Sight, RangeType.Normal);
         }
     }
     public override void OnTargetFoundSuccess()
@@ -72,7 +72,7 @@ public class EnemyAI_Golem : EnemyAI_Base
         SpecialCheck();
         if (isMoved && isAttacked)
             BeforeTrunEnd();
-        Search(stat.Sight);
+        Search(stat.Sight, RangeType.Normal);
     }
     public override void SpecialCheck()
     {

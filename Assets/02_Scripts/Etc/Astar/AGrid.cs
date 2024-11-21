@@ -83,7 +83,7 @@ public class AGrid : MonoBehaviour
                 }
             }
         }
-        else if (type == RangeType.Cross)
+        else if (type == RangeType.Cross)   //십자 모양 탐색
         {
             int checkX = node.gridX + radius;
             int checkY = node.gridY + radius;

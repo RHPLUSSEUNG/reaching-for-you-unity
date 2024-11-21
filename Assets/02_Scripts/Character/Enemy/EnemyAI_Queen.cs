@@ -41,7 +41,7 @@ public class EnemyAI_Queen : EnemyAI_Base
         OnTurnStart();
         if (!isAttacked)
         {
-            Search(stat.Sight);
+            Search(stat.Sight, RangeType.Normal);
         }
     }
     public override void OnTargetFoundSuccess()
