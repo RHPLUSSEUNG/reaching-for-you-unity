@@ -8,7 +8,6 @@ public class UI_Hud : UI_Scene
     public enum HUDUI
     {
         ProfileImage,
-        QuickLayout,
         BuffLayout,
         DeBuffLayout,
         Status_EffectLayout,

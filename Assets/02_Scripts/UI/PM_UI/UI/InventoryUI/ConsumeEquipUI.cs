@@ -28,6 +28,7 @@ public class ConsumeEquipUI : InvenItemUI
             return;
         }
         Managers.InvenUI.focusItemID = invenItemID;
+        invenItemID = -1;
         Managers.InvenUI.consume_equip_state = false;
 
         Image equipIcon = GetObject((int)consumeEquipUI.EquipIcon).GetComponent<Image>();

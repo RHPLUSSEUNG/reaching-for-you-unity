@@ -214,7 +214,8 @@ public class InvenUIManager
                 break;
         }
         if (prev_Item == null)
-        {   
+        {
+            Debug.Log("prev_Item Null");
             return;
         }
 
@@ -315,6 +316,29 @@ public class InvenUIManager
         consumeItem.SetItemInfo(remainValue);
         Managers.UI.HideUI(consumeItem.gameObject);
         invenUI.GetComponent<InvenUI>().MoveConsumeTab();
+    }
+
+    public void RemoveItemUI()
+    {
+        ItemData itemData = (ItemData)Managers.Data.ParsingData(focusItemID);
+        if(itemData.ItemType == ItemType.Consume)
+        {
+            ConsumeItemUI consumeItem;
+            if (Managers.Item.consumeInven.TryGetValue(focusItemID, out int remainValue))
+            {
+                for (int i = 0; i < invenContent.transform.childCount; i++)
+                {
+                    InvenItemUI invenItem = invenContent.transform.GetChild(i).GetComponent<InvenItemUI>();
+                    if (focusItemID == invenItem.invenItemID)
+                    {
+                        consumeItem = invenContent.transform.GetChild(i).GetComponent<ConsumeItemUI>();
+                        consumeItem.UpdateConsumeValue(remainValue);
+                        return;
+                    }
+                }
+            }
+        }
+        Managers.Prefab.Destroy(focusItem);
     }
 
     public void CreateEquipUI()
