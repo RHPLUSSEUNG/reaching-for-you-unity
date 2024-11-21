@@ -507,6 +507,7 @@ public class BasicHealthUI : UI_Popup
     {
         Debug.Log("Game Over");
         SoundManager.Instance.PlayMusic("BGM_Academy_01");
+        GameObject.FindWithTag("Player").GetComponent<PlayerController>().ChangeActive(true);
         Managers.Prefab.Destroy(gameObject);
     }
 }
