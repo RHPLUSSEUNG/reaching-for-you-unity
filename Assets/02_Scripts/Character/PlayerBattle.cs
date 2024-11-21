@@ -37,6 +37,7 @@ public class PlayerBattle : MonoBehaviour
     }
     private void Start()
     {
+        spriteController.SetAnimState(AnimState.Idle);
         cameraController.AddFollowList(this.gameObject);
     }
 
