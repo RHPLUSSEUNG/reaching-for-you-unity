@@ -169,7 +169,7 @@ public class SkillSelectUI : UI_Popup
             Debug.Log("Skill Not Select");
             return;
         }
-        if(Managers.BattleUI.player == null)
+        if(!Managers.BattleUI.player.CompareTag("Player"))
         {
             Managers.BattleUI.warningUI.SetText("캐릭터를 먼저 생성해주세요!");
             Managers.BattleUI.warningUI.ShowWarningUI();

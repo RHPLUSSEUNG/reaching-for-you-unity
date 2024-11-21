@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -52,12 +53,12 @@ public class MagicButtonUI : UI_Base
         }
 
         Image magicIcon = GetObject((int)magicButtonUI.MagicIcon).GetComponent<Image>();
-        Text magicName = GetObject((int)magicButtonUI.MagicName).GetComponent<Text>();
+        TextMeshProUGUI magicName = GetObject((int)magicButtonUI.MagicName).GetComponent<TextMeshProUGUI>();
         magicName.text = skill_Data.SkillName;
         Image elementIcon = GetObject((int)magicButtonUI.ElementIcon).GetComponent<Image>();
-        Text manaText = GetObject((int)magicButtonUI.ManaText).GetComponent<Text>();
+        TextMeshProUGUI manaText = GetObject((int)magicButtonUI.ManaText).GetComponent<TextMeshProUGUI>();
         manaText.text = skill_Data.mp.ToString();
-        Text attackText = GetObject((int)magicButtonUI.AttackText).GetComponent<Text>();
+        TextMeshProUGUI attackText = GetObject((int)magicButtonUI.AttackText).GetComponent<TextMeshProUGUI>();
 
         saveSkill = skill;
         saveSkill_ID = skill_ID;

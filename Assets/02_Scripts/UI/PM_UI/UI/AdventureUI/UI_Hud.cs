@@ -205,7 +205,6 @@ public class UI_Hud : UI_Scene
 
     public void ReturnHome()
     {
-        // TODO : 아카데미 씬 변경
-        Debug.Log("Return Home");
+        SceneChanger.Instance.ChangeScene(SceneType.ACADEMY);
     }
 }
