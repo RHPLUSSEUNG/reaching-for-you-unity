@@ -41,7 +41,7 @@ public class SaveManager
         data.quests = QuestList.Instance.GetQuestStatuses();
         data.friends = FriendshipManager.Instance.GetFriends();
         
-        if (LoadSceneManager.sceneType == SceneType.PM_COMBAT)
+        if ((LoadSceneManager.sceneType == SceneType.PM_COMBAT))
         {
             EntityStat stat = GameObject.Find("Player_Girl_Battle(Clone)").GetComponent<EntityStat>();
             SetStat(data.charStat, stat);

@@ -65,7 +65,11 @@ public class RaycastManager
                 switch (Managers.UI.uiState)
                 {
                     case UIState.Move:
-                        character.GetComponent<PlayerBattle>().Move(RaycastTile(ray));
+                        target = RaycastTile(ray);
+                        if (target != null)
+                        {
+                            character.GetComponent<PlayerBattle>().Move(target);
+                        }
                         target = null;
                         break;
                     case UIState.Idle:
