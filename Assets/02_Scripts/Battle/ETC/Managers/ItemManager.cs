@@ -154,8 +154,17 @@ public class ItemManager
     public GameObject InstantiateEquipmentItem(int itemID)
     {
         ItemData itemData = (ItemData)Managers.Data.ParsingData(itemID);
-        GameObject Item = Managers.Prefab.Instantiate($"Item/Equipment/{itemData.ItemName}");
-        return Item;
+        GameObject item = null;
+        if(itemID / 1000 == 4)
+        {
+            item = Managers.Prefab.Instantiate($"Item/Weapon/{itemData.ItemName}");
+        }
+        else if(itemData.ItemID / 1000 == 5)
+        {
+            item = Managers.Prefab.Instantiate($"Item/Armor/{itemData.ItemName}");
+        }
+        
+        return item;
     }
 
     #region gold

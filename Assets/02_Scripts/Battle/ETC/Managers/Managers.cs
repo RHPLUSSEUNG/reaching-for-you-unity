@@ -73,11 +73,7 @@ public class Managers : MonoBehaviour
     }
     public void Start()
     {
-        //_data.OnAwake();
-        //_skill.OnAwake();
-        //_raycast.OnStart();
-        //_battle.BattleReady();
-        //Test();
+        _data.OnAwake();
     }
     public void Test()
     {
