@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class GiftListUI : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class GiftListUI : MonoBehaviour
             int itemID = entry.Key;
             int itemCount = entry.Value;
 
-            ConsumeData itemData = Managers.Data.ParsingData(itemID) as ConsumeData;
+            ConsumeData itemData = (ItemData)Managers.Data.ParsingData(itemID) as ConsumeData;
             
             if (itemData != null)
             {
@@ -48,8 +49,8 @@ public class GiftListUI : MonoBehaviour
         
         foreach (int equipItemID in equipmentItems)
         {
-            EquipmentData equipData = Managers.Data.GetItemData(equipItemID, false) as EquipmentData;
-
+            EquipmentData equipData = (ItemData)Managers.Data.ParsingData(equipItemID) as EquipmentData;
+            
             if (equipData != null)
             {
                 GiftItemUI giftItemInstance = Instantiate(giftItemPrefab, giftContent);
