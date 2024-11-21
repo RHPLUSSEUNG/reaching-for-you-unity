@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6638946480990700866}
   - component: {fileID: 198492793158657858}
   - component: {fileID: 7462745574070821953}
+  - component: {fileID: 2364422292445838183}
+  - component: {fileID: 4408952941134258111}
   m_Layer: 0
   m_Name: Player_Girl
   m_TagString: Player
@@ -130,6 +132,48 @@ MonoBehaviour:
   _bind: 0
   _shock: 0
   _canPassWall: 0
+--- !u!114 &2364422292445838183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632515156684126824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803b0297dd10a9d4aa23191b495c810f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Head: {fileID: 0}
+  Body: {fileID: 0}
+  Weapon: {fileID: 0}
+  consume_cnt: 6
+--- !u!114 &4408952941134258111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632515156684126824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 441d20eb2beabd6439e595b22b090c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stun: 0
+  _shackle: 0
+  _silence: 0
+  _slow: 0
+  closeAttack: 0
+  AttackType: 5
+  knock_back: 0
+  after_move: 0
+  _electricEmmune: 0
+  can_shock: 0
+  can_immune: 0
+  capacity: 0
+  capacityStack: 0
+  cold: 0
 --- !u!1 &2956717564471503432
 GameObject:
   m_ObjectHideFlags: 0
