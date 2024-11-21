@@ -34,11 +34,12 @@ public class BasicHealthUI : UI_Popup
     GameObject handle;
     [SerializeField]
     RectTransform rankBar;
-    RectTransform _scrollRect;
     [SerializeField]
     Sprite greatSprite;
     [SerializeField]
     Sprite missSprite;
+    [SerializeField]
+    List<Sprite> rank = new List<Sprite>();
 
     RectTransform characterRectTrnasform;
     RectTransform leftProhibit;
@@ -49,6 +50,7 @@ public class BasicHealthUI : UI_Popup
 
     TextMeshProUGUI stageNumberText;
     TextMeshProUGUI countdownText;
+    Animator playerAnim;
 
     int stageNumber = 1;
     int life = 0;
@@ -61,7 +63,7 @@ public class BasicHealthUI : UI_Popup
     float baseSpeed = 3.0f;
     float baseknockbackTime = 8.0f;
     float baseknockbackDistance = 100f;
-    float moveDistance = 100f;
+    float moveDistance = 125f;
     float invincibilityTime = 1.0f;
 
     float speed;
@@ -79,11 +81,11 @@ public class BasicHealthUI : UI_Popup
 
     public override void Init()
     {
+        base.Init();
         Bind<GameObject>(typeof(basicHealthUI));
 
         timeLimit = GetObject((int)basicHealthUI.TimeLimit).GetComponent<Slider>();
         _timingbar = GetObject((int)basicHealthUI.TimingBar).GetComponent<Scrollbar>();
-        _scrollRect = _timingbar.GetComponent<RectTransform>();
         _failAreaRect = GetObject((int)basicHealthUI.FailArea).GetComponent<RectTransform>();
         _trueAreaRect = GetObject((int)basicHealthUI.TrueArea).GetComponent<RectTransform>();
         rankBar = GetObject((int)basicHealthUI.RankBar).GetComponent<RectTransform>();
@@ -96,10 +98,12 @@ public class BasicHealthUI : UI_Popup
         characterRectTrnasform = GetObject((int)basicHealthUI.Character).GetComponent<RectTransform>();
         leftProhibit = GetObject((int)basicHealthUI.LeftProhibitedArea).GetComponent<RectTransform>();
         rightProhibit = GetObject((int)basicHealthUI.RightProhibitedArea).GetComponent<RectTransform>();
+        playerAnim = GetObject((int)basicHealthUI.Character).GetComponent<Animator>();
 
         initialPos = characterRectTrnasform.anchoredPosition;
         countdownText.gameObject.SetActive(false);
 
+        SoundManager.Instance.StopMusic();
         StartCoroutine(Countdown());
     }
 
@@ -109,7 +113,7 @@ public class BasicHealthUI : UI_Popup
         {
             if (!isInvincible)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     bool check = CheckTrueArea(_timingbar.value);
                     if (check)
@@ -146,11 +150,16 @@ public class BasicHealthUI : UI_Popup
     IEnumerator MiniGameStart()
     {
         isProgress = true;
+        if(stageNumber == 1)
+        {
+            SoundManager.Instance.PlayMusic("BGM_MiniGame_BasicPhysiology_01");
+        }
         Debug.Log("Game Start");
         SetLevel();
         SetTrueArea();
         float elapsed = 0f;
 
+        playerAnim.SetBool("isProgress", true);
         StartCoroutine(TimeLimitStart());
         StartCoroutine(ClockRotate());
         while (elapsed < totalTime)
@@ -175,7 +184,6 @@ public class BasicHealthUI : UI_Popup
                     {
                         Debug.Log("Game End");
                         GameClear();
-                        isProgress = false;
                         yield break;
                     }
                     yield return null;
@@ -199,7 +207,6 @@ public class BasicHealthUI : UI_Popup
                     {
                         Debug.Log("Game End");
                         GameClear();
-                        isProgress = false;
                         yield break;
                     }
                     yield return null;
@@ -239,7 +246,7 @@ public class BasicHealthUI : UI_Popup
             JudgeTextUI judge = Managers.UI.MakeSubItem<JudgeTextUI>(transform, "JudgeText");
             Debug.Log("MiniGame Success");
             judge.SetJudgeTextImage(greatSprite, handle.transform.position);
-            MoveRight();
+            MoveLeft();
             return true;
         }
         else
@@ -247,7 +254,7 @@ public class BasicHealthUI : UI_Popup
             Debug.Log("MiniGame Fail");
             JudgeTextUI judge = Managers.UI.MakeSubItem<JudgeTextUI>(transform, "JudgeText");
             judge.SetJudgeTextImage(missSprite, handle.transform.position);
-            MoveLeft();
+            MoveRight();
             return false;
         }
     }
@@ -291,29 +298,27 @@ public class BasicHealthUI : UI_Popup
         bool leftCheck = IsOverlapping(characterRectTrnasform, leftProhibit);
         bool rightCheck = IsOverlapping(characterRectTrnasform, rightProhibit);
 
-        if (leftCheck)
+        if(leftCheck || rightCheck)
         {
-            life++;
-            RankDown();
             isInvincible = true;
-            knockBackElapsed = 0f;
-            // MoveRight(characterRectTrnasform.rect.width);
-            Vector2 newPos = characterRectTrnasform.anchoredPosition;
-            newPos.x = leftProhibit.position.x + characterRectTrnasform.rect.width;
-            characterRectTrnasform.anchoredPosition = newPos;
-            StartCoroutine(BlinkCharacter());
-            return true;
-        }
-        if (rightCheck)
-        {
             life++;
-            RankDown();
-            isInvincible = true;
             knockBackElapsed = 0f;
-            Vector2 newPos = characterRectTrnasform.anchoredPosition;
-            newPos.x = rightProhibit.position.x - characterRectTrnasform.rect.width;
-            characterRectTrnasform.anchoredPosition = newPos;
+            playerAnim.SetBool("isHit", true);
             StartCoroutine(BlinkCharacter());
+            Vector2 newPos = characterRectTrnasform.anchoredPosition;
+            SoundManager.Instance.PlaySFX("SFX_BasicPhysiology_Hit_01");
+            if (leftCheck)
+            {
+                newPos.x = leftProhibit.position.x + characterRectTrnasform.rect.width;
+                characterRectTrnasform.anchoredPosition = newPos;
+            }
+            else if(rightCheck)
+            {
+                newPos.x = rightProhibit.position.x - characterRectTrnasform.rect.width;
+                characterRectTrnasform.anchoredPosition = newPos;
+            }
+
+            RankDown();
             return true;
         }
         return false;
@@ -355,19 +360,16 @@ public class BasicHealthUI : UI_Popup
             yield return new WaitForSeconds(0.05f);
 
             timer += 0.1f;
-            //character.SetActive(!character.activeSelf);
-            //timer += Time.deltaTime;
-            //yield return null;
         }
         character.color = characterColor;
-        // character.SetActive(true);
+        playerAnim.SetBool("isHit", false);
         isInvincible = false;
     }
 
     void KnockBackCharacter()
     {
         Vector2 newPos = characterRectTrnasform.anchoredPosition;
-        newPos.x -= knockbackDistance;
+        newPos.x += knockbackDistance;
         if (newPos.x <= leftProhibit.position.x)
         {
             newPos.x = leftProhibit.position.x;
@@ -389,7 +391,7 @@ public class BasicHealthUI : UI_Popup
             yield return null;
         }
     }
-    
+
     void RankDown()
     {
         if(life >= lifeEnd)
@@ -399,6 +401,8 @@ public class BasicHealthUI : UI_Popup
             GameOver();
             return;
         }
+
+        rankImg.sprite = rank[life];
         int preRank = life - 1;
         rankBar.GetChild(preRank).gameObject.SetActive(false);
         rankBar.GetChild(life).gameObject.SetActive(true);
@@ -411,26 +415,30 @@ public class BasicHealthUI : UI_Popup
         rankBar.GetChild(life).gameObject.SetActive(false);
         life = 0;
         rankBar.GetChild(life).gameObject.SetActive(true);
+        rankImg.sprite = rank[life];
         knockBackElapsed = 0f;
     }
 
     IEnumerator Countdown()
     {
+        _trueAreaRect.gameObject.SetActive(false);
         countdownText.gameObject.SetActive(true);
 
         Vector3 originalScale = countdownText.transform.localScale;
+        Color countdownColor = countdownText.color;
 
+        SoundManager.Instance.PlaySFX("SFX_StartSign_01");
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
-            countdownText.color = new Color(47f / 255f, 224f / 255f, 31f / 255f, 0);
             countdownText.transform.localScale = originalScale * 0.5f;
 
             for (float t = 0; t <0.5f; t += Time.deltaTime)
             {
                 float alpha = Mathf.Lerp(0, 1, t / 0.5f);
                 float scale = Mathf.Lerp(0.5f, 1f, t / 0.5f);
-                countdownText.color = new Color(47f/ 255f, 224f / 255f, 31f / 255f, alpha);
+                countdownColor.a = alpha;
+                countdownText.color = countdownColor;
                 countdownText.transform.localScale = originalScale * scale;
                 yield return null;
             }
@@ -438,20 +446,20 @@ public class BasicHealthUI : UI_Popup
             yield return new WaitForSeconds(0.25f);
         }
 
-        countdownText.text = "Start!";
-        countdownText.color = new Color(47f / 255f, 224f / 255f, 31f / 255f, 0);
+        countdownText.text = "Start!";;
         countdownText.transform.localScale = originalScale * 0.5f;
 
         for (float t = 0; t < 0.5f; t += Time.deltaTime)
         {
             float alpha = Mathf.Lerp(0, 1, t / 0.5f);
             float scale = Mathf.Lerp(0.5f, 1f, t / 0.5f);
-            countdownText.color = new Color(47f / 255f, 224f / 255f, 31f / 255f, alpha);
+            countdownColor.a = alpha;
+            countdownText.color = countdownColor;
             countdownText.transform.localScale = originalScale * scale;
             yield return null;
         }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.0f);
 
         countdownText.gameObject.SetActive(false);
         StartCoroutine(MiniGameStart());
@@ -459,6 +467,13 @@ public class BasicHealthUI : UI_Popup
 
     void GameClear()
     {
+        isProgress = false;
+        Image character = GetObject((int)basicHealthUI.Character).GetComponent<Image>();
+        Color characterColor = character.color;
+        character.color = new Color(characterColor.r, characterColor.g, characterColor.b, 1f);
+        playerAnim.SetBool("isProgress", false);
+        SoundManager.Instance.PlaySFX("SFX_BasicPhysiology_Success_01");
+
         GameClearPopupUI clearUI = Managers.UI.CreatePopupUI<GameClearPopupUI>("GameClearPopup");
         clearUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
         clearUI.SetRankImage(rankImg.sprite);
@@ -477,14 +492,21 @@ public class BasicHealthUI : UI_Popup
         isProgress = false;
 
         StopAllCoroutines();
+        Image character = GetObject((int)basicHealthUI.Character).GetComponent<Image>();
+        Color characterColor = character.color;
+        character.color = new Color(characterColor.r, characterColor.g, characterColor.b, 1f);
+        playerAnim.SetBool("isProgress", false);
+        SoundManager.Instance.PlaySFX("SFX_MagicTheory_Miss_01");
 
         GameOverPopupUI overUI = Managers.UI.CreatePopupUI<GameOverPopupUI>("GameOverPopup");
         overUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
-        overUI.SetRankImage(rankImg.sprite);
+        overUI.SetRankImage();
     }
 
     public void GameEnd()
     {
         Debug.Log("Game Over");
+        SoundManager.Instance.PlayMusic("BGM_Academy_01");
+        Managers.Prefab.Destroy(gameObject);
     }
 }
