@@ -98,12 +98,12 @@ public class CreateObject : MonoBehaviour
         PlaceGimmicks();
         PlaceEnemy();
         SetTileCanWalk();
-
+        /*
         if(stageIndex == 0)
             desertMap.SetActive(true);
         else 
             desertMap.SetActive(false);
-
+        */
         manager.active = true;
     }
 

@@ -36,7 +36,7 @@ public class BattleItemUI : UI_Base
 
     public void SetItem(int item_ID, int itemCount)
     {
-        ItemData consume_Data = Managers.Data.GetItemData(item_ID, false);
+        ConsumeData consume_Data = Managers.Data.ParsingData(item_ID) as ConsumeData;
 
         Image itemIcon = GetObject((int)battleItemUI.ItemIcon).GetComponent<Image>();
         Text itemName = GetObject((int)battleItemUI.ItemName).GetComponent<Text>();

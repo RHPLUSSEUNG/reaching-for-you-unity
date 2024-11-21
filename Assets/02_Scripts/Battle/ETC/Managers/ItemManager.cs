@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public class ItemManager
 {
     public Dictionary<int, int> consumeInven = new();
-    public List<int> equipmentInven = new();
+    public List<int> weaponInven = new();
+    public List<int> armorInven = new();
     short inventoryCnt =  0;
     short inventoryMaxCnt = 100;
     int gold = 0;    
@@ -43,7 +45,15 @@ public class ItemManager
         {
             if (inventoryCnt < inventoryMaxCnt)
             {
-                equipmentInven.Add(itemID);
+                EquipmentData data = (EquipmentData)itemData;
+                if (data.part == EquipPart.Head)
+                {
+                    armorInven.Add(itemID);
+                }
+                else
+                {
+                    weaponInven.Add(itemID);
+                }
                 inventoryCnt++;                
                 ObjectiveTracer.Instance.ReportIItemCollected(itemID);                
                 return true;
@@ -73,10 +83,16 @@ public class ItemManager
         }
         else if (itemData.ItemType == ItemType.Equipment)
         {
-            if (equipmentInven.Contains(itemID))
+            if (weaponInven.Contains(itemID))
             {
-                equipmentInven.Remove(itemID);
+                weaponInven.Remove(itemID);
                 inventoryCnt--;                
+                ObjectiveTracer.Instance.ReportIItemCollected(itemID);
+                return true;
+            }else if (armorInven.Contains(itemID))
+            {
+                armorInven.Remove(itemID);
+                inventoryCnt--;
                 ObjectiveTracer.Instance.ReportIItemCollected(itemID);
                 return true;
             }
@@ -97,16 +113,33 @@ public class ItemManager
         }
         else if (itemData.ItemType == ItemType.Equipment)
         {
+            EquipmentData data = (EquipmentData)itemData;
             int equipCount = 0;
-            for (int i = 0; i < equipmentInven.Count; i++)
+            if(data.part== EquipPart.Head)
             {
-                if (equipmentInven[i] == itemID)
+                for (int i = 0; i < armorInven.Count; i++)
                 {
-                    equipCount++;
+                    if (armorInven[i] == itemID)
+                    {
+                        equipCount++;
+                    }
                 }
-            }
 
-            return equipCount;
+                return equipCount;
+            }
+            else if(data.part == EquipPart.Weapon)
+            {
+                for (int i = 0; i < weaponInven.Count; i++)
+                {
+                    if (weaponInven[i] == itemID)
+                    {
+                        equipCount++;
+                    }
+                }
+
+                return equipCount;
+            }
+            
         }
         return 0;
     }
@@ -147,10 +180,22 @@ public class ItemManager
     #region Equipment equip
     public bool EquipItem(int itemID, GameObject player)
     {
+        List<int> equipmentInven;
         GameObject item = InstantiateEquipmentItem(itemID);
         Equipment equip = item.GetComponent<Equipment>();
         Equip_Item equip_item = player.GetComponent<Equip_Item>();
         GameObject prev_item = null;
+
+        if(itemID / 1000 == 5)
+        {
+            equipmentInven = armorInven;
+        }
+        else
+        {
+            equipmentInven = weaponInven;
+        }
+
+
         if (equipmentInven.Contains(itemID) && equip != null)
         {
             switch(equip.part) 
@@ -184,6 +229,16 @@ public class ItemManager
 
     public void ExchangeEquip(GameObject prev, GameObject cur, GameObject player)
     {
+        List<int> equipmentInven;
+        if(prev.GetComponent<Equipment>().itemId/ 1000 == 5)
+        {
+            equipmentInven = armorInven;
+        }
+        else
+        {
+            equipmentInven = weaponInven;
+        }
+
         cur.GetComponent<Equipment>().Equip(player);
         prev.GetComponent<Equipment>().UnEquip(player);
         equipmentInven.Remove(cur.GetComponent<Equipment>().itemId);
@@ -198,19 +253,20 @@ public class ItemManager
             return false;
         }
         Equipment unequip = item.GetComponent<Equipment>();
-
+        List<int> equipmentInven;
         Equip_Item equip_item = player.GetComponent<Equip_Item>();
         switch (unequip.part)
         {
             case (EquipPart)0:
                 equip_item.Head = null;
-                break;
-            case (EquipPart)1:
-                equip_item.Body = null;
+                equipmentInven = armorInven;
                 break;
             case (EquipPart)2:
                 equip_item.Weapon = null;
+                equipmentInven = weaponInven;
                 break;
+            default:
+                return false;
         }
         item.GetComponent<Equipment>().UnEquip(player);
         equipmentInven.Add(item.GetComponent<Equipment>().itemId);
@@ -248,7 +304,15 @@ public class ItemManager
     
     public List<int> GetEquipmentItem()
     {
-        return equipmentInven;
+        return weaponInven;
+    }
+    public List<int> GetArmorList()
+    {
+        return armorInven;
+    }
+    public List<int> GetWeaponList()
+    {
+        return weaponInven;
     }
 }
 

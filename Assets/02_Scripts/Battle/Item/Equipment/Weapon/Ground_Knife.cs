@@ -14,8 +14,6 @@ public class Ground_Knife : Equipment
         character.GetComponent<EntityStat>().AttackRange = 2;
         Managers.Active.ModifySpeed(character, 10);
 
-        character.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = this.sprite;
-        character.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = true;
         return true;
     }
 
@@ -24,8 +22,6 @@ public class Ground_Knife : Equipment
         if (character == null) return false;
         Managers.Active.ModifyAtk(character, -30);
         character.GetComponent<CharacterState>().after_move = false;
-        character.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
-        character.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = false;
         return true;
     }
 }

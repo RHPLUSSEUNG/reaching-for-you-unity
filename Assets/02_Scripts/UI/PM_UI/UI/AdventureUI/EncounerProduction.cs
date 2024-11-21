@@ -9,6 +9,11 @@ public class EncounerProduction : MonoBehaviour
 
     float duration = 1.5f;
 
+    public float GetWaitTime()
+    {
+        return duration;
+    }
+
     public IEnumerator Production()
     {
         float elapsed = 0f;

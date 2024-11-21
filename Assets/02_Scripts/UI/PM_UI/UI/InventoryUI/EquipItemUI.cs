@@ -27,7 +27,7 @@ public class EquipItemUI : InvenItemUI
 
     public void SetItemInfo()
     {
-        EquipmentData itemData = Managers.Data.GetItemData(invenItemID, true) as EquipmentData;
+        EquipmentData itemData = Managers.Data.ParsingData(invenItemID) as EquipmentData;
         // 아이템의 정보로 변경
         itemType = itemData.ItemType;
         if (itemType == ItemType.Equipment)
@@ -56,6 +56,7 @@ public class EquipItemUI : InvenItemUI
     public void ClickInvenItem(PointerEventData data)
     {
         Managers.InvenUI.focusItem = gameObject;
+        Managers.InvenUI.focusItemID = invenItemID;
         Managers.InvenUI.type = itemType;
         Managers.InvenUI.part = equipPart;
         Image itemIcon = GetObject((int)invenItemUI.ItemIcon).GetComponent<Image>();

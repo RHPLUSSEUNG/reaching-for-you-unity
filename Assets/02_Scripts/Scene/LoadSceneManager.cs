@@ -53,12 +53,12 @@ public class LoadSceneManager : MonoBehaviour
                 }
             case SceneType.PM_ADVENTURE:
                 {
-                    nextScene = "Adventure_PT_5";
+                    nextScene = "04_Adventure";
                     break;
                 }
             case SceneType.PM_COMBAT:
                 {
-                    nextScene = "Battle_PT_5";
+                    nextScene = "05_Battle";
                     break;
                 }
             default:
@@ -76,12 +76,12 @@ public class LoadSceneManager : MonoBehaviour
         {
             case SceneType.MAINMENU:
                 {
-                    SoundManager.Instance.PlayMusic("02_Main_Theme");
+                    SoundManager.Instance.PlayMusic("BGM_MainMenu_01");
                     break;
                 }
             case SceneType.ACADEMY:
                 {
-                    SoundManager.Instance.PlayMusic("03_Academy");
+                    SoundManager.Instance.PlayMusic("BGM_Academy_01");
                     break;
                 }
             case SceneType.PM_ADVENTURE:
@@ -90,10 +90,10 @@ public class LoadSceneManager : MonoBehaviour
                     switch (stageNumber)
                     {
                         case 0:
-                            SoundManager.Instance.PlayMusic("04_Desert_Adventure");
+                            SoundManager.Instance.PlayMusic("BGM_Adventure_Desert_01");
                             break;
                         case 1:
-                            SoundManager.Instance.PlayMusic("08_Ocean_Adventure");
+                            SoundManager.Instance.PlayMusic("BGM_Adventure_Sea_01");
                             break;
                     }
                     break;
@@ -104,10 +104,10 @@ public class LoadSceneManager : MonoBehaviour
                     switch (stageNumber)
                     {
                         case 0:
-                            SoundManager.Instance.PlayMusic("06_Desert_InBattle");
+                            SoundManager.Instance.PlayMusic("BGM_Battle_Desert_01");
                             break;
                         case 1:
-                            SoundManager.Instance.PlayMusic("08_Ocean_InBattle");
+                            SoundManager.Instance.PlayMusic("BGM_Battle_Sea_01");
                             break;
                     }
                     break;

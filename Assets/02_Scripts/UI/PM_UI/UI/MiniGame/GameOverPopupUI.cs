@@ -8,8 +8,7 @@ public class GameOverPopupUI : UI_Popup
 {
     enum gameOverUI
     {
-        GameOverPanel,
-        GameRankImage,        
+        GameOverPanel,       
         CloseButton
     }
 
@@ -18,7 +17,6 @@ public class GameOverPopupUI : UI_Popup
     RectTransform gameOverPanel;
     Image rankImg;
 
-    Button startBtn;
     Button closeBtn;
 
     public override void Init()
@@ -29,23 +27,16 @@ public class GameOverPopupUI : UI_Popup
 
         gameOverPanel = GetObject((int)gameOverUI.GameOverPanel).GetComponent<RectTransform>();
         closeBtn = GetObject((int)gameOverUI.CloseButton).GetComponent<Button>();
-        rankImg = GetObject((int)gameOverUI.GameRankImage).GetComponent<Image>();
 
         BindEvent(closeBtn.gameObject, CloseButtonClick, Define.UIEvent.Click);
 
         StartCoroutine(AnimPopup(gameOverPanel));
     }
 
-    public void SetRankImage(Sprite rank)
+    public void SetRankImage()
     {
-        rankImg.sprite = rank;      // TODO : 이미지 애니메이션?
+        
     }
-
-    //public void StartButtonClick(PointerEventData data)
-    //{
-    //    healthUI.NextLevelStart();
-    //    StartCoroutine(ClosePopupUIAnim());
-    //}
 
     public void CloseButtonClick(PointerEventData data)
     {

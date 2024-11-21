@@ -57,10 +57,7 @@ public class BattleManager
         cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
 
         ObjectList.Clear();
-        Managers.Party.AddParty("Player_Girl_Battle");
-        GameObject player = Managers.Party.FindPlayer("Player_Girl_Battle");
         battleState = BattleState.Start;
-        turnCnt = -1;
         phase = 1;
     }
 
@@ -157,7 +154,7 @@ public class BattleManager
             Debug.Log("Defeat");
         }
         //CameraAllocate(null);
-        SceneChanger.Instance.ChangeScene(SceneType.ACADEMY);
+        SceneChanger.Instance.ChangeScene(SceneType.PM_ADVENTURE);
     }
 
     public IEnumerator NextTurnCoroutine()
@@ -174,10 +171,9 @@ public class BattleManager
             Result();
             yield break;
         }
-        CalcTurn();
         currentCharacter = ObjectList[turnCnt];
         Debug.Log($"Turn : {currentCharacter}");
-
+        CalcTurn();
         //camera setting
         cameraController.ChangeFollowTarget(currentCharacter, true);
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);

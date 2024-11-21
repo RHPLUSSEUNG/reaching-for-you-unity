@@ -12,7 +12,6 @@ public class MiniGameStartPopupUI : UI_Popup
         GameNameText,
         GameExImage,
         MiniGameDescription,
-        MiniGameRewardText,
         StartButton,
         CloseButton
     }

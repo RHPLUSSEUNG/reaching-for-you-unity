@@ -55,6 +55,11 @@ public class RaycastManager
                     case UIState.Idle:
                         target = null;
                         detect_ready = false;
+                        if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+                        {
+                            GameObject obj = hit.collider.transform.parent.gameObject;
+                            Managers.BattleUI.ShowBattleInfo(obj);
+                        }
                         break;
                     case UIState.SkillSet:
                         activeSkill = Managers.BattleUI.GetSkill();

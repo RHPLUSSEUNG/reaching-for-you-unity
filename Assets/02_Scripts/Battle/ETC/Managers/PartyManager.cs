@@ -9,7 +9,7 @@ public class PartyManager
 
     public bool AddParty(string character)
     {
-        if (playerParty.Count < 5 && FindPlayer(character)== null)
+        if (playerParty.Count < 5)
         {
             GameObject chr = Managers.Party.InstantiatePlayer(character);
             playerParty.Add(chr);
@@ -29,10 +29,10 @@ public class PartyManager
     }
     public bool AddParty(GameObject character)
     {
-        if (FindPlayer(character.name) != null)
-        {
-            return false;
-        }
+        //if (FindPlayer(character.name) != null)
+        //{
+        //    return false;
+        //}
         if (playerParty.Count > 5)
         {
             Debug.Log("Too many character in your party");
@@ -55,13 +55,17 @@ public class PartyManager
 
     public GameObject FindPlayer(string name)
     {
-        foreach(GameObject character in playerParty)
+        if(playerParty.Count > 0)
         {
-            if (character.name == $"{name}(Clone)")
+            foreach (GameObject character in playerParty)
             {
-                return character;
+                if (character.name == $"{name}(Clone)")
+                {
+                    return character;
+                }
             }
         }
+        
         return null;
     }
 
@@ -98,11 +102,8 @@ public class PartyManager
     public GameObject InstantiatePlayer(string character)
     {
         GameObject go = Managers.Prefab.Instantiate($"Character/{character}");
-        if (AddParty(go))
-        {
-            return go;
-        }
-        return null;
+        
+        return go;
     }
     public GameObject InstantiateMonster(string character, bool afterTurn = false)
     {

@@ -105,16 +105,15 @@ public class SkillManager
         is_effect = false;
     }
 
-    public IEnumerator StartBuffEffect(GameObject effect, Vector3 pos)
+    public IEnumerator StartBuffEffect(GameObject effect)
     {
         if (effect == null)
             yield break;
 
-        effect.transform.position = pos;
-        effect.GetComponent<ParticleSystem>().Play();
+        effect.SetActive(true);
         is_effect = true;
-        yield return new WaitForSeconds(0.5f);
-        effect.GetComponent<ParticleSystem>().Stop();
+        yield return new WaitForSeconds(1.5f);
+        effect.SetActive(false);
         is_effect = false;
         yield break;
     }
