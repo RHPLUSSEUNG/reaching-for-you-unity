@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FallingObject : MonoBehaviour
@@ -10,9 +11,9 @@ public class FallingObject : MonoBehaviour
     public float decreaseDuration = 5f; // HP 감소 기간 (초)
     public float decreaseAmount = 50; // 감소할 HP 양
 
-    private void OnCollisionEnter(Collision other) {
+    private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Player")) {
-            Transform parent = other.gameObject.transform;
+            Transform parent = other.gameObject.transform.parent;
             if(parent != null) 
             {
                 target = parent.GetComponentInChildren<EntityStat>();
@@ -24,7 +25,7 @@ public class FallingObject : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit(Collision other) {
+    private void OnTriggerExit(Collider other) {
         if (other.gameObject.CompareTag("Player")) {
             if (decreaseCoroutine != null) {
                 StopCoroutine(decreaseCoroutine);
@@ -43,7 +44,7 @@ public class FallingObject : MonoBehaviour
         {
             float newHP = Mathf.Lerp(initialHP, targetHP, elapsedTime / decreaseDuration);
             target.Hp = Mathf.RoundToInt(newHP);
-            Debug.Log(target.Hp);
+            // Debug.Log(target.Hp);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
