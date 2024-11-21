@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1168,6 +1168,82 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actPanel: {fileID: 69516967}
   itemDescript: {fileID: 230013668}
+--- !u!1 &207347721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 207347725}
+  - component: {fileID: 207347724}
+  - component: {fileID: 207347723}
+  - component: {fileID: 207347722}
+  m_Layer: 2
+  m_Name: Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &207347722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207347721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf1cfb67f27c6c74f89f44b38204e0d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &207347723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207347721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b829bfdabcce9f488f911ef19be342e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &207347724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207347721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b053c0984462a6448b602608a4bc7987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unwalkableMask:
+    serializedVersion: 2
+    m_Bits: 392
+  gridWorldSize: {x: 20, y: 20}
+  nodesize: 1
+  dontCrossCorner: 1
+--- !u!4 &207347725
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207347721}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 1, z: -0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &220623006
 GameObject:
   m_ObjectHideFlags: 0
@@ -3258,7 +3334,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &592267354
 Light:
   m_ObjectHideFlags: 0
@@ -3588,13 +3664,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8829c96a44e3ff43b25737cfada94d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
+  manager: {fileID: 207347721}
   seed: 10
   Width: 20
   Height: 20
   outlinePercent: 0.1
   wallPercent: 0.15
-  desertMap: {fileID: 0}
+  desertMap: {fileID: 5090331513374654132, guid: b529ce44ba69a554492ad5100dcdb20c, type: 3}
   Gimmicks:
   - {fileID: 1200882967452725796, guid: 8813d166e76cc1f4b8d5960dfb516a01, type: 3}
   - {fileID: 4325361710194012238, guid: fa330fb8d79742f4db2476be77ce5602, type: 3}
@@ -9495,6 +9571,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 592267355}
+  - {fileID: 207347725}
   - {fileID: 681191578}
   - {fileID: 1826895039}
   - {fileID: 110254975}

@@ -94,16 +94,16 @@ public class CreateObject : MonoBehaviour
         stageIndex = AdventureManager.StageNumber;
         GenerateMap();
 
+        // PlaceRandomEnemy();
+        PlaceEnemy();
+
         PlaceObstacles();
         PlaceGimmicks();
-        PlaceEnemy();
         SetTileCanWalk();
-        /*
+
         if(stageIndex == 0)
-            desertMap.SetActive(true);
-        else 
-            desertMap.SetActive(false);
-        */
+            Instantiate(desertMap, desertMap.transform.position, Quaternion.identity, this.transform);
+
         manager.active = true;
     }
 
@@ -277,6 +277,36 @@ public class CreateObject : MonoBehaviour
 
     public void PlaceEnemy()
     {
+        int monsterCount = 2;
+        Managers.Party.MakeMonsterParty(monsterCount);
+
+        for(int i = 0; i < monsterCount; )
+        {
+            Coord randomCoord = GetRandomCoord();
+            randomCoord = new Coord(randomCoord.X + 5, randomCoord.Z + 5);
+
+            if(!IsEnemySpawnPosition(randomCoord.X, randomCoord.Z)) 
+            {
+                wallInMap[randomCoord.X, randomCoord.Z] = true;
+
+                Managers.BattleUI.player = Managers.Party.monsterParty[i];
+                if (Managers.BattleUI.player == null)
+                {
+                    Debug.Log("Monster Null");
+                }
+                else {
+                    Managers.Party.monsterParty[i].transform.position = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, 1f, 0);
+                    i++;
+                }
+            }
+            else {
+                Debug.Log("is wall");
+            }
+        }
+    }
+
+    public void PlaceRandomEnemy()
+    {
         int monsterCount = 3;
         Managers.Party.MakeMonsterParty(monsterCount);
 
@@ -319,6 +349,7 @@ public class CreateObject : MonoBehaviour
             // 해당 위치가 벽과 충돌하지 않는지, 또는 장애물과 충돌하지 않는지 확인
             if (!IsWallAtPosition(randomCoord.X, randomCoord.Z))
             {
+                if(!IsEnemySpawnPosition(randomCoord.X, randomCoord.Z)) {
                 wallInMap[randomCoord.X, randomCoord.Z] = true;
                 // 기믹을 랜덤하게 선택하여 배치
                 int randomIndex = Random.Range(0, Gimmicks.Length);
@@ -350,6 +381,7 @@ public class CreateObject : MonoBehaviour
 
                 // 배치된 기믹의 위치를 리스트에 추가
                 gimmickCount--;
+                }
             }
         }
     }
