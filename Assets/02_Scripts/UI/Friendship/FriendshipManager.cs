@@ -61,4 +61,9 @@ public class FriendshipManager : MonoBehaviour
     {
         return friends;
     }
+
+    public void SetFriends(List<AMCharacterData> _friends)
+    {
+        friends = _friends;
+    }
 }
