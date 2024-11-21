@@ -113,7 +113,7 @@ public class BasicHealthUI : UI_Popup
         {
             if (!isInvincible)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     bool check = CheckTrueArea(_timingbar.value);
                     if (check)
