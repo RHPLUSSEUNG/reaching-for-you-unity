@@ -9,7 +9,10 @@ public class Emission : Active
         SkillExtent extent = Managers.Skill.extent.GetComponent<SkillExtent>();
         List<GameObject> targets = extent.SetArea(3, TargetObject.Enemy, target.transform.position, false);
         int damage = Managers.Battle.currentCharacter.GetComponent<CharacterState>().capacityStack * 5 * Managers.Battle.currentCharacter.GetComponent<EntityStat>().BaseDamage;
-
+        if(targets.Count <= 0)
+        {
+            return true;
+        }
         foreach(GameObject target in targets)
         {
             Debug.Log(target);

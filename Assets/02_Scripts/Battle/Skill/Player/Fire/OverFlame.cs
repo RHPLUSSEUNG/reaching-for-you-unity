@@ -8,7 +8,10 @@ public class OverFlame : Active
     {
         SkillExtent extent = Managers.Skill.extent.GetComponent<SkillExtent>();
         List<GameObject> opponents = extent.SetArea(2, TargetObject.Enemy, target.transform.position, true);
-
+        if (opponents.Count <= 0)
+        {
+            return true;
+        }
         foreach (GameObject opponent in opponents)
         {
             if (opponent != null || opponent.GetComponent<CharacterState>()!= null)

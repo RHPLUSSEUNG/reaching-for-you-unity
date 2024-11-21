@@ -18,7 +18,10 @@ public class Tsunami : Active
         SkillExtent extent = Managers.Skill.extent.GetComponent<SkillExtent>();
         List<GameObject> targets = extent.SetArea(range, target_object, Managers.Battle.currentCharacter.transform.position, false);
         targets.Sort(compareDistance);
-
+        if (targets.Count <= 0)
+        {
+            return true;
+        }
         switch (targets.Count) 
         {
             case 0:
@@ -47,7 +50,10 @@ public class Tsunami : Active
             Debug.Log("Fail to Active Skill");
             return false;
         }
-        
+        if(targets.Length == 0)
+        {
+            return true;
+        }
         foreach (GameObject go in targets)
         {
             Managers.Manager.StartCoroutine(Managers.Skill.StartEffect(Effect, go.transform.position));

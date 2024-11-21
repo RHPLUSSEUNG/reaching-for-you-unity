@@ -28,6 +28,8 @@ public abstract class Debuff
     public void MakeEffectAnim()
     {
         effect = Managers.Skill.InstantiateEffect(this.GetType().Name, target);
+        if (effect == null)
+            return;
         effect.SetActive(false);
     }
 }

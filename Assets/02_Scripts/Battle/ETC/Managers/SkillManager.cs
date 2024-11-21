@@ -120,8 +120,10 @@ public class SkillManager
 
         effect.SetActive(true);
         is_effect = true;
+        effect.GetComponent <ParticleSystem>().Play();
         yield return new WaitForSeconds(1.5f);
         effect.SetActive(false);
+        effect.GetComponent<ParticleSystem>().Pause();
         is_effect = false;
         yield break;
     }

@@ -56,6 +56,8 @@ public class ActiveManager
 
     public int Damage(GameObject target, int damage, ElementType element = ElementType.None, bool close = false)
     {
+        if (target == null)
+            return 0;
         //Debug.Log(target);
         if (damage <= 0 || target.GetComponent<EntityStat>() == null)
         {

@@ -146,6 +146,7 @@ public class BattleManager
         if (monsterLive == 0)
         {
             battleState = BattleState.Victory;
+            Managers.Save.GetData();
             Debug.Log("Victory");
         }
         else if (playerLive == 0)
