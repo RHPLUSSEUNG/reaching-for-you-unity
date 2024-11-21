@@ -24,6 +24,7 @@ public class MagicBasicsScore : MonoBehaviour
     [SerializeField] Image scoreDecoImage;
     [SerializeField] Sprite[] scoreDecoSprite;
     [SerializeField] Image rankImage;
+    [SerializeField] Sprite[] rankSprite;
 
     float currentScore = 0;
     
@@ -76,19 +77,19 @@ public class MagicBasicsScore : MonoBehaviour
     {
         if((currentScore / totalScore) >= 0.76f)
         {
-            rankImage.sprite = scoreDecoSprite[0];
+            rankImage.sprite = rankSprite[0];
         }
         else if((currentScore / totalScore) >= 0.5f)
         {
-            rankImage.sprite = scoreDecoSprite[1];
+            rankImage.sprite = rankSprite[1];
         }
         else if((currentScore / totalScore) >= 0.23f)
         {
-            rankImage.sprite = scoreDecoSprite[2];
+            rankImage.sprite = rankSprite[2];
         }
         else
         {
-            rankImage.sprite = scoreDecoSprite[3];
+            rankImage.sprite = rankSprite[3];
         }
     }
 }
