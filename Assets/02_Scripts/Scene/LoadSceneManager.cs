@@ -15,6 +15,7 @@ public enum SceneType
     NONE,
 }
 
+//[LSH:CODE] [Violates SOLID principles, Requiring refactoring]
 public class LoadSceneManager : MonoBehaviour
 {
     public static string nextScene;
@@ -22,17 +23,32 @@ public class LoadSceneManager : MonoBehaviour
     [SerializeField] TMP_Text continueText;
     [SerializeField] TMP_Text[] sequenceText;
     [SerializeField] Image logoImage;
-    [SerializeField] Image progressImage;    
+    [SerializeField] Image progressImage;
+    [SerializeField] GameObject loadingPanel;
+    [SerializeField] GameObject preMainMenuPanel;
+    [SerializeField] Image titleLogoImage;
 
     public float speed = 1.0f;
     public float maxAlpha = 1.0f;
     public float minAlpha = 0.0f;
+    bool isBlinking = true;
 
     private void Start()
     {
-        ChangeColorBySceneType(sceneType);
-        continueText.text = "";
         StartCoroutine(LoadScene());
+        if (sceneType == SceneType.MAINMENU)
+        {
+            preMainMenuPanel.SetActive(true);
+            loadingPanel.SetActive(false);
+            StartCoroutine(BlinkUIElement(titleLogoImage, 3));
+        }
+        else
+        {
+            loadingPanel.SetActive(true);
+            preMainMenuPanel.SetActive(false);
+            ChangeColorBySceneType(sceneType);
+            continueText.text = "";
+        }
     }
 
     public static void LoadScene(SceneType _sceneType)
@@ -134,41 +150,72 @@ public class LoadSceneManager : MonoBehaviour
                 if (progressImage.fillAmount >= op.progress)
                 {
                     timer = 0f;
-                }
-            }
+                }                
+            }            
             else
             {
-                progressImage.fillAmount = Mathf.Lerp(progressImage.fillAmount, 1f, timer);
-                if (progressImage.fillAmount == 1.0f)
+                if (sceneType != SceneType.MAINMENU)
                 {
-                    yield return new WaitForSeconds(1.0f);                    
-                    continueText.text = "-클릭하여 계속-";
-                    StartCoroutine(BlinkText());
-                    while (!op.allowSceneActivation)
-                    {
-                        if (continueText.gameObject.activeSelf && Input.GetMouseButtonDown(0))
-                        {
-                            NextSceneBGMPlay(sceneType);
+                    progressImage.fillAmount = Mathf.Lerp(progressImage.fillAmount, 1f, timer);
+                }
+                if (progressImage.fillAmount == 1.0f || sceneType == SceneType.MAINMENU)
+                {                                        
+                    if (sceneType == SceneType.MAINMENU)
+                    {                        
+                        if (titleLogoImage.color.a >= 0.95f && !isBlinking)
+                        {                                                                                    
                             op.allowSceneActivation = true;
-                        }
-                        yield return null;
+                            NextSceneBGMPlay(sceneType);
+                            StopAllCoroutines();
+                            yield break;
+                        }                        
+                    }
+                    else
+                    {
+                        continueText.text = "-클릭하여 계속-";
+                        StartCoroutine(BlinkUIElement(continueText));
+                        if (continueText.gameObject.activeSelf && Input.GetMouseButtonDown(0))
+                        {                            
+                            op.allowSceneActivation = true;
+                            NextSceneBGMPlay(sceneType);
+                            StopAllCoroutines();
+                            yield break;
+                        }                        
                     }
                 }
             }
         }
     }
 
-    IEnumerator BlinkText()
+    IEnumerator BlinkUIElement(Graphic uiElement, int maxBlinkCount = 0)
     {
+        int blinkCount = 0;
+        bool isIncreasing = true;
+
         while (true)
         {
             yield return null;
             float alpha = Mathf.PingPong(Time.time * speed, maxAlpha - minAlpha) + minAlpha;
-            Color color = continueText.color;
+            Color color = uiElement.color;
             color.a = alpha;
-            continueText.color = color;
+            uiElement.color = color;
+            if (maxBlinkCount > 0 && alpha >= 0.95f && isIncreasing)
+            {
+                blinkCount++;
+                isIncreasing = false;
+            }
+            else if (alpha <= 0.05f && !isIncreasing)
+            {
+                isIncreasing = true;
+            }
+
+            if (blinkCount >= maxBlinkCount)
+            {
+                isBlinking = false;
+            }
         }
     }
+
     public void ChangeColorBySceneType(SceneType _sceneType)
     {
         sceneType = _sceneType;
