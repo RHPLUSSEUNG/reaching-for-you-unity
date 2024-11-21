@@ -104,7 +104,7 @@ public class CreateObject : MonoBehaviour
         if(stageIndex == 0)
             Instantiate(desertMap, desertMap.transform.position, Quaternion.identity, this.transform);
 
-        manager.active = true;
+        //manager.active = true;
     }
 
     void ConvertStageType(StageType _type)
