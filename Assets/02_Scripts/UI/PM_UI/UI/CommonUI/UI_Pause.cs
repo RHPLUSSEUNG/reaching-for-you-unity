@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class UI_Pause : UI_Popup
 {
-    public bool state = false;
+    [SerializeField]
+    bool state = false;
     enum PauseButtons
     {
         GameSettingButton,

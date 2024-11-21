@@ -10,7 +10,6 @@ public class UI_Repair : UI_Popup
         SkillSelectPanel,
         Level,
         CharacterIcon,
-        ElementIcon,
         CharacterName,
         HPBar,
         MPBar,

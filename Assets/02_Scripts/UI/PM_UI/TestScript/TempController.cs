@@ -51,22 +51,6 @@ public class TempController : MonoBehaviour
             }
             // hud.ChangeProfile(playerList[tempTurn]);
         }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (pause.state == false)
-            {
-                Managers.UI.ShowUI(pause.gameObject);
-                pause.state = true;
-                Time.timeScale = 0;
-            }
-            else
-            {
-                Managers.UI.HideUI(pause.gameObject);
-                Time.timeScale = 1;
-                pause.state = false;
-            }
-        }
     }
 
     private void OnTriggerStay(Collider other)
