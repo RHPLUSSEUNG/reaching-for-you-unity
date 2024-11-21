@@ -9,11 +9,22 @@ public class MagicBasicsScore : MonoBehaviour
     static MagicBasicsScore instance = null;
     public static MagicBasicsScore Instance { get { return instance; } }
 
+    private bool isPlaying = true;
+    public bool IsPlaying { 
+        get { return isPlaying; }
+        set { isPlaying = value; }
+    }
+
     [SerializeField] Slider scoreSlider = null;
 
     [SerializeField] float increaseScore = 1;   
     float totalScore = 100f; 
     [SerializeField] float[] weight = null;
+
+    [SerializeField] Image scoreDecoImage;
+    [SerializeField] Sprite[] scoreDecoSprite;
+    [SerializeField] Image rankImage;
+    [SerializeField] Sprite[] rankSprite;
 
     float currentScore = 0;
     
@@ -39,29 +50,46 @@ public class MagicBasicsScore : MonoBehaviour
 
         // Slider에 반영
         scoreSlider.value = currentScore / totalScore;
+        ChangeScoreImage(scoreSlider.value);
     }
 
-    public void Ranking()
+    private void ChangeScoreImage(float scoreValue)
     {
-        if(currentScore >= 80)
+        if(scoreValue >= 0.76f)
         {
-            Debug.Log("A");
+            scoreDecoImage.sprite = scoreDecoSprite[0];
         }
-        else if(currentScore >= 60)
+        else if(scoreValue >= 0.5f)
         {
-            Debug.Log("B");
+            scoreDecoImage.sprite = scoreDecoSprite[1];
         }
-        else if(currentScore >= 40)
+        else if(scoreValue >= 0.23f)
         {
-            Debug.Log("C");
-        }
-        else if(currentScore >= 20)
-        {
-            Debug.Log("D");
+            scoreDecoImage.sprite = scoreDecoSprite[2];
         }
         else
         {
-            Debug.Log("F");
+            scoreDecoImage.sprite = scoreDecoSprite[3];
+        }
+    }
+
+    public void RankingUI()
+    {
+        if((currentScore / totalScore) >= 0.76f)
+        {
+            rankImage.sprite = rankSprite[0];
+        }
+        else if((currentScore / totalScore) >= 0.5f)
+        {
+            rankImage.sprite = rankSprite[1];
+        }
+        else if((currentScore / totalScore) >= 0.23f)
+        {
+            rankImage.sprite = rankSprite[2];
+        }
+        else
+        {
+            rankImage.sprite = rankSprite[3];
         }
     }
 }

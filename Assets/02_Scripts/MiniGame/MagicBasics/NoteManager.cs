@@ -44,8 +44,8 @@ public class NoteManager : MonoBehaviour
 
             if(currentAppearTime >= 60d / appearTime) // 노트 출현 간격
             {
-                GameObject note = Instantiate(goNote, noteAppearTf.position, Quaternion.identity);
-                note.transform.SetParent(this.transform);
+                GameObject note = Instantiate(goNote, noteAppearTf.position, Quaternion.identity, this.transform);
+                // note.transform.SetParent(this.transform);
                 timingManager.boxNoteList.Add(note);
                 currentAppearTime -= 60d / appearTime;
             }
@@ -53,7 +53,8 @@ public class NoteManager : MonoBehaviour
         else 
         {
             rankingPanel.SetActive(true);
-            MagicBasicsScore.Instance.Ranking();
+            MagicBasicsScore.Instance.IsPlaying = false;
+            MagicBasicsScore.Instance.RankingUI();
         }
     }
 
@@ -61,10 +62,14 @@ public class NoteManager : MonoBehaviour
     {
         if(other.CompareTag("Note"))
         {
+            // List<GameObject> boxes = new List<GameObject>(timingManager.boxNoteList);
             judgementEffect.JudgementAnim(2);
 
             timingManager.boxNoteList.Remove(other.gameObject);
-            Destroy(other.gameObject, 0.1f);
+            other.gameObject.SetActive(false);
+
+            Destroy(other.gameObject, 1f);
+            // timingManager.boxNoteList = boxes;
         }   
     }
 }
