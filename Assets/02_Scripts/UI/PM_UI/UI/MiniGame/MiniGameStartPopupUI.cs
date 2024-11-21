@@ -52,6 +52,7 @@ public class MiniGameStartPopupUI : UI_Popup
     {
         StartCoroutine(CloseAnimPopup(gamePanel));
         yield return new WaitForSeconds(animDuration);
+        GameObject.FindWithTag("Player").GetComponent<PlayerController>().ChangeActive(true);
         Managers.Prefab.Destroy(gameObject);
     }
 }

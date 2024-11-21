@@ -12,7 +12,7 @@ public class SkillList : MonoBehaviour
 
     public void AddSkill(int id)
     {
-        if (list.Count < count)
+        if (idList.Count < count)
         {
             idList.Add(id);
         }
@@ -24,7 +24,7 @@ public class SkillList : MonoBehaviour
 
     public void RemoveSkill(int id)
     {
-        if(list.Count > 0)
+        if(idList.Count > 0)
         {
             idList.Remove(id);
         }

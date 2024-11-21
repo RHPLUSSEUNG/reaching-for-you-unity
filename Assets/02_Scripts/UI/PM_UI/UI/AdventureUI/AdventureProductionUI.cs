@@ -56,6 +56,7 @@ public class AdventureProductionUI : UI_Popup
 
     public float EncounterProduction()
     {
+        GameObject.Find("Player_Girl").GetComponent<PlayerController>().ChangeActive(false);
         GetObject((int)ProductionUI.EncounterSign).SetActive(true);
         EncounerProduction production = GetObject((int)ProductionUI.EncounterSign).GetComponent<EncounerProduction>();
         StartCoroutine(production.Production());

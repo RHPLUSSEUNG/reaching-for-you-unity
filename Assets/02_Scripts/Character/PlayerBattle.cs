@@ -73,6 +73,7 @@ public class PlayerBattle : MonoBehaviour
                     Debug.Log("Can't Move There!");
                     Managers.BattleUI.warningUI.SetText("이동할 수 없습니다!");
                     Managers.BattleUI.warningUI.ShowWarningUI();
+                    Managers.BattleUI.moveBtn.SetActive(true);
                     return;
                 }
             }
@@ -107,6 +108,7 @@ public class PlayerBattle : MonoBehaviour
                 Debug.Log("행동력 or 이동력 부족!");
                 Managers.BattleUI.warningUI.SetText("이동할 수 없습니다!");
                 Managers.BattleUI.warningUI.ShowWarningUI();
+                Managers.BattleUI.moveBtn.SetActive(true);
                 return;
             }
             Managers.BattleUI.actUI.GetComponent<MoveRangeUI>().ShowPathRange(newpath);
@@ -127,6 +129,7 @@ public class PlayerBattle : MonoBehaviour
         isMoved = true;
         spriteController.SetAnimState(AnimState.Idle);
         Managers.BattleUI.actUI.GetComponent<MoveRangeUI>().ClearPathRange();
+        Managers.BattleUI.moveBtn.SetActive(true);
         //cameraController.ChangeCameraMode(CameraMode.Follow, true);
     }
 

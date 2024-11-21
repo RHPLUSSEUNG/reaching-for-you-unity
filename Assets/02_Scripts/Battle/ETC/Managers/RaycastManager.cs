@@ -68,6 +68,7 @@ public class RaycastManager
                         target = RaycastTile(ray);
                         if (target != null)
                         {
+                            Managers.BattleUI.moveBtn.SetActive(false);
                             character.GetComponent<PlayerBattle>().Move(target);
                         }
                         target = null;

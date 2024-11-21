@@ -64,7 +64,7 @@ public class BattleVSUI : UI_Popup
         float elapsed = 0f;
         Vector2 enemyInitialPos = enemySide.anchoredPosition;
         Vector2 friendlyInitialPos = friendlySide.anchoredPosition;
-        Vector2 enemyTargetPos = new Vector2(-500, 30);
+        Vector2 enemyTargetPos = new Vector2(-500, 15);
         Vector2 friendlyTargetPos = new Vector2(500, 0);
 
         while(elapsed < duration)
@@ -88,7 +88,7 @@ public class BattleVSUI : UI_Popup
 
         Vector2 enemyInitialPos = enemySide.anchoredPosition;
         Vector2 friendlyInitialPos = friendlySide.anchoredPosition;
-        Vector2 enemyTargetPos = new Vector2(-3000, 30);
+        Vector2 enemyTargetPos = new Vector2(-3000, 15);
         Vector2 friendlyTargetPos = new Vector2(3000, 0);
 
         Vector3 initialScale = new Vector3(1, 1);
