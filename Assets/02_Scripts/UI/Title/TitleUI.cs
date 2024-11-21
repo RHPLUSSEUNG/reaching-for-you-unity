@@ -44,7 +44,7 @@ public class TitleUI : MonoBehaviour
         float alpha = 0.0f;
         while (alpha < 1.0f)
         {
-            alpha += Time.deltaTime;
+            alpha += Time.deltaTime * 0.75f;
             titleImage.color = new Color(1, 1, 1, alpha);
             yield return null;
         }
