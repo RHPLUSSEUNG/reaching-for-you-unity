@@ -9,14 +9,15 @@ public class ItemExplainUI : UI_Popup
 {
     enum itemExplainUI
     {
+        Blocker,
         ItemExplainPanel,
         ItemIcon,
         ItemName,
         ItemExplain,
-        CloseButton
     }
 
     GameObject itemExplainPanel;
+    RectTransform panelRect;
     public override void Init()
     {
         base.Init();
@@ -26,16 +27,16 @@ public class ItemExplainUI : UI_Popup
         itemExplainPanel = GetObject((int)itemExplainUI.ItemExplainPanel);
         SetPosition();
 
-        GameObject closeBtn = GetObject((int)itemExplainUI.CloseButton);
-        BindEvent(closeBtn, ClickCloseButton, Define.UIEvent.Click);
+        GameObject blocker = GetObject((int)itemExplainUI.Blocker);
+        BindEvent(blocker, CloseUI, Define.UIEvent.Click);
 
-        RectTransform panelRect = GetObject((int)itemExplainUI.ItemExplainPanel).GetComponent<RectTransform>();
+        panelRect = GetObject((int)itemExplainUI.ItemExplainPanel).GetComponent<RectTransform>();
         StartCoroutine(AnimPopup(panelRect));
     }
 
     public void SetItemInfo()
     {
-        ItemData itemData = Managers.Data.GetItemData(Managers.InvenUI.focusItemID);
+        ItemData itemData = (ItemData)Managers.Data.ParsingData(Managers.InvenUI.focusItemID);
         
         Image itemIcon = GetObject((int)itemExplainUI.ItemIcon).GetComponent<Image>();
         TextMeshProUGUI itemName = GetObject((int)itemExplainUI.ItemName).GetComponent<TextMeshProUGUI>();
@@ -75,8 +76,15 @@ public class ItemExplainUI : UI_Popup
         uiTransform.position = uiPos;
     }
 
-    public void ClickCloseButton(PointerEventData data)
+    public void CloseUI(PointerEventData data)
     {
+        StartCoroutine(ClosePopupUIAnim());
+    }
+    
+    IEnumerator ClosePopupUIAnim()
+    {
+        StartCoroutine(CloseAnimPopup(panelRect));
+        yield return new WaitForSeconds(animDuration);
         Managers.Prefab.Destroy(gameObject);
     }
 }

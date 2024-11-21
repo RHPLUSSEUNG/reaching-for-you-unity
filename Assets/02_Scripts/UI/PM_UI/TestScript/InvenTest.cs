@@ -27,7 +27,7 @@ public class InvenTest : MonoBehaviour
             // Managers.Item.AddItem(15, 1, true);
             if (Managers.InvenUI.invenContent != null)
             {
-                Managers.InvenUI.UpdateItemUI(15, true);
+                Managers.InvenUI.UpdateItemUI(15);
             }
         }
     }   

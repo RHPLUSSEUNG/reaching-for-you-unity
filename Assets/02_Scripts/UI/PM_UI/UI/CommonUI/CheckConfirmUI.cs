@@ -20,6 +20,7 @@ public class CheckConfirmUI : UI_Popup
     TextMeshProUGUI checkConfirmText;
     Button confirmButton;
     Button cancleButton;
+    RectTransform panelRect;
 
     private Action confirmAction;
 
@@ -36,7 +37,7 @@ public class CheckConfirmUI : UI_Popup
         BindEvent(confirmButton.gameObject, ConfirmButtonClick, Define.UIEvent.Click);
         BindEvent(cancleButton.gameObject, CancleButtonClick, Define.UIEvent.Click);
 
-        RectTransform panelRect = GetObject((int)checkConfirmUI.WarningPanel).GetComponent<RectTransform>();
+        panelRect = GetObject((int)checkConfirmUI.WarningPanel).GetComponent<RectTransform>();
         StartCoroutine(AnimPopup(panelRect));
     }
 
@@ -60,11 +61,18 @@ public class CheckConfirmUI : UI_Popup
         {
             Debug.Log("Action is Null");
         }
-        Managers.Prefab.Destroy(gameObject);
+        StartCoroutine(ClosePopupUIAnim());
     }
 
     public void CancleButtonClick(PointerEventData data)
     {
+        StartCoroutine(ClosePopupUIAnim());
+    }
+
+    IEnumerator ClosePopupUIAnim()
+    {
+        StartCoroutine(CloseAnimPopup(panelRect));
+        yield return new WaitForSeconds(animDuration);
         Managers.Prefab.Destroy(gameObject);
     }
 }
