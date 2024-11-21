@@ -117,12 +117,12 @@ public class LoadSceneManager : MonoBehaviour
 
     IEnumerator LoadScene()
     {
-        yield return null;        
+        yield return null;
         AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
         op.allowSceneActivation = false;
         float timer = 0.0f;
         SoundManager.Instance.StopMusic();
-        SoundManager.Instance.LoadAudioClips(sceneType);        
+        SoundManager.Instance.LoadAudioClips(sceneType);
 
         while (!op.isDone)
         {
@@ -141,11 +141,18 @@ public class LoadSceneManager : MonoBehaviour
                 progressImage.fillAmount = Mathf.Lerp(progressImage.fillAmount, 1f, timer);
                 if (progressImage.fillAmount == 1.0f)
                 {
-                    yield return new WaitForSeconds(1.0f);
-                    NextSceneBGMPlay(sceneType);
+                    yield return new WaitForSeconds(1.0f);                    
                     continueText.text = "-클릭하여 계속-";
                     StartCoroutine(BlinkText());
-                    yield break;
+                    while (!op.allowSceneActivation)
+                    {
+                        if (continueText.gameObject.activeSelf && Input.GetMouseButtonDown(0))
+                        {
+                            NextSceneBGMPlay(sceneType);
+                            op.allowSceneActivation = true;
+                        }
+                        yield return null;
+                    }
                 }
             }
         }
@@ -225,9 +232,6 @@ public class LoadSceneManager : MonoBehaviour
 
     private void Update()
     {
-        if (continueText.gameObject.activeSelf && Input.GetMouseButtonDown(0))
-        {
-            SceneManager.LoadScene(nextScene);
-        }
+        
     }
 }
