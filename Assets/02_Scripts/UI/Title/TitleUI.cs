@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TitleUI : MonoBehaviour
 {
+    [SerializeField] Image titleImage;
     [SerializeField] GameObject settingPanel;
     [SerializeField] Button newGameButton;
     [SerializeField] Button loadButton;
@@ -17,7 +18,7 @@ public class TitleUI : MonoBehaviour
         canvas = GetComponent<Canvas>();
         newGameButton.onClick.AddListener(OnClickNewGameButton);
         optionButton.onClick.AddListener(OnClickSettingPanel);
-        exitButton.onClick.AddListener(()=>Application.Quit());
+        exitButton.onClick.AddListener(() => Application.Quit());
     }
 
     private void Start()
@@ -25,6 +26,7 @@ public class TitleUI : MonoBehaviour
         canvas.enabled = true;
         settingPanel.SetActive(false);
         CanvasManager.Instance.ChangeCanvasOrder(canvas);
+        StartCoroutine(FadeTitleImage());
     }
 
     void OnClickSettingPanel()
@@ -33,7 +35,18 @@ public class TitleUI : MonoBehaviour
     }
 
     void OnClickNewGameButton()
-    {        
+    {
         ComicManager.Instance.ShowComic(ComicType.INTRO);
-    }    
+    }
+
+    IEnumerator FadeTitleImage()
+    {
+        float alpha = 0.0f;
+        while (alpha < 1.0f)
+        {
+            alpha += Time.deltaTime;
+            titleImage.color = new Color(1, 1, 1, alpha);
+            yield return null;
+        }
+    }
 }
