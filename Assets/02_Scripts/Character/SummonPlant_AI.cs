@@ -21,7 +21,7 @@ public class SummonPlant_AI : EnemyAI_Base
         OnTurnStart();
         if (!isTurnEnd)
         {
-            Search(stat.Sight);
+            Search(stat.Sight, RangeType.Normal);
         }
     }
     public override void OnTargetFoundSuccess()

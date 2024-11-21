@@ -79,9 +79,9 @@ public abstract class EnemyAI_Base : MonoBehaviour
         isTurnEnd = true;
         Managers.Battle.NextTurn();
     }
-    public void Search(int radius)
+    public void Search(int radius, RangeType type)
     {
-         PathFinder.RequestSearch(transform.position, radius, targetTag, OnTargetFound);
+         PathFinder.RequestSearch(transform.position, radius, type, targetTag, OnTargetFound);
     }
     public void OnTargetFound(Vector3 newTargetPos, GameObject newTargetObj, int distance, bool succsess)
     {

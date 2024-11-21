@@ -34,7 +34,7 @@ public class EnemyAI_Soldier : EnemyAI_Base
             return;
 
         OnTurnStart();
-        Search(stat.Sight);
+        Search(stat.Sight, RangeType.Normal);
     }
     public override void OnTargetFoundSuccess()
     {
@@ -68,7 +68,7 @@ public class EnemyAI_Soldier : EnemyAI_Base
         if (isMoved && isAttacked)
             BeforeTrunEnd();
         else
-            Search(stat.Sight);
+            Search(stat.Sight, RangeType.Normal);
     }
     public override void SpecialCheck()
     {

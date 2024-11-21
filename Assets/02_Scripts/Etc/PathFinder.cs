@@ -26,9 +26,9 @@ public class PathFinder : MonoBehaviour
         instance.requestQueue.Enqueue(newPathRequest);
         instance.TryProcessNextRequest();
     }
-    public static void RequestSearch(Vector3 start, int radius, string tag, UnityAction<Vector3, GameObject, int, bool> callback)
+    public static void RequestSearch(Vector3 start, int radius, RangeType type, string tag, UnityAction<Vector3, GameObject, int, bool> callback)
     {
-        PathRequest newSearchRequest = new PathRequest(start, radius, tag, callback);
+        PathRequest newSearchRequest = new PathRequest(start, radius, type, tag, callback);
         instance.requestQueue.Enqueue(newSearchRequest);
         instance.TryProcessNextRequest();
     }
@@ -62,7 +62,7 @@ public class PathFinder : MonoBehaviour
             }
             else if(currentRequest.searchCallback != null)
             {
-                pathFinding.StartSearch(currentRequest.start, currentRequest.radius, currentRequest.tag);
+                pathFinding.StartSearch(currentRequest.start, currentRequest.radius, currentRequest.type, currentRequest.tag);
             }
             else if(currentRequest.randomLocCallback != null)
             {
@@ -128,7 +128,7 @@ struct PathRequest
 
         type = 0;
     }
-    public PathRequest(Vector3 _start, int _radius, string _tag, UnityAction<Vector3, GameObject, int, bool> _callback) //범위 내의 가장 가까운 태그 대상 탐색
+    public PathRequest(Vector3 _start, int _radius, RangeType _type, string _tag, UnityAction<Vector3, GameObject, int, bool> _callback) //범위 내의 가장 가까운 태그 대상 탐색
     {
         start = _start;
         radius = _radius;
@@ -140,7 +140,7 @@ struct PathRequest
         randomLocCallback = null;
         skillRangeCallback = null;
 
-        type = 0;
+        type = _type;
     }
     public PathRequest(Vector3 _start, int _radius, UnityAction<Vector3> _callback) //범위 내의 이동 가능한 랜덤 위치 지정
     {
