@@ -22,6 +22,22 @@ public class RaycastManager
     {
         extent= GameObject.Find("SkillExtent").GetComponent<SkillExtent>();
     }
+
+    public void RayClear()
+    {
+        target = null;
+        extent = null;
+        ranges = null;
+        targets = null;
+
+        character = null;
+        characterstat = null;
+        characterstate = null;
+
+        itemList = null;
+        activeSkill = null;
+        consume = null;
+    }
     public void OnUpdate()
     {
         if (Managers.Battle.currentCharacter != null && Managers.Battle.currentCharacter.CompareTag("Player"))

@@ -154,6 +154,11 @@ public class BattleManager
             Debug.Log("Defeat");
         }
         //CameraAllocate(null);
+        //Battle End Manager Object reset
+        BattleClear();
+        Managers.Party.ClearParty();
+        Managers.Skill.SkillClear();
+        Managers.raycast.RayClear();
         SceneChanger.Instance.ChangeScene(SceneType.PM_ADVENTURE);
     }
 
@@ -216,6 +221,17 @@ public class BattleManager
         Managers.BattleUI.turnUI.ProceedTurnUI(turnCnt);
         yield break;
     }
+
+    public void BattleClear()
+    {
+        currentCharacter = null;
+        totalTurnCnt = 0;
+        isPlayerTurn = false;
+        turnCnt = 0;
+        phase = 1;
+        Areas.Clear();
+        ObjectList.Clear();
+}
 
     #region Camera
     public void CameraAllocate(GameObject target)

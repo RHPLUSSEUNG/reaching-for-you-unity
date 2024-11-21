@@ -12,6 +12,15 @@ public class SkillManager
 
     public bool is_effect = false;
 
+    public void SkillClear()
+    {
+        skill = null;
+        target = null;
+        usingSkill = null;
+        usingEffect = null;
+        is_effect = false;
+    }
+
     public void OnAwake()
     {
         usingSkill = GameObject.Find("UsingSkill");

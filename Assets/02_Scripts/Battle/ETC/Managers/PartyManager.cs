@@ -120,4 +120,10 @@ public class PartyManager
         Managers.Battle.monsterLive++;
         return go;
     }
+
+    public void ClearParty()
+    {
+        monsterParty.Clear();
+        playerParty.Clear();
+    }
 }

@@ -66,7 +66,7 @@ public class Managers : MonoBehaviour
             Test();
         }
         //[2024-09-30][LSH's Code]: [enter-adventure-map-ui]
-        if (LoadSceneManager.sceneType != SceneType.ACADEMY)
+        if (LoadSceneManager.sceneType == SceneType.PM_COMBAT)
         {
             raycast.OnUpdate();
         }

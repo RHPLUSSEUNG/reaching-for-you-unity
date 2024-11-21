@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
-using UnityEngine.SceneManagement;
-using System.Xml.Serialization;
+using UnityEngine;
 
 public class Data
 {
@@ -27,9 +25,12 @@ public class Data
 
 public class SaveManager
 {
-    public Data data = new Data();
+    #region Attribute
+    Data data = new Data();
     string path  = Application.dataPath + "/";
     string filename = "savedata";
+    #endregion
+    #region Data Function
     public void GetData()
     {
         data.consumeInven = Managers.Item.consumeInven;
@@ -90,6 +91,8 @@ public class SaveManager
     {
         return data;
     }
+    #endregion
+    #region Game Save - Load Json
     public void SaveGame()
     {
         GetData();
@@ -105,7 +108,7 @@ public class SaveManager
         this.data = JsonUtility.FromJson<Data>(data);
         SetData();
     }
-
+    #endregion
 
     #region SetCharacterData
     private void SetStat(EntityStat stat, EntityStat saveStat)
