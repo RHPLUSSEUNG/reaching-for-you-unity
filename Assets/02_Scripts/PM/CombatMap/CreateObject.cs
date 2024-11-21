@@ -275,7 +275,7 @@ public class CreateObject : MonoBehaviour
         return true;
     }
 
-    public void PlaceEnemy()
+    public void PlaceEnemy() // 추후 삭제 예정 
     {
         int monsterCount = 2;
         Managers.Party.MakeMonsterParty(monsterCount);
@@ -285,22 +285,25 @@ public class CreateObject : MonoBehaviour
             Coord randomCoord = GetRandomCoord();
             randomCoord = new Coord(randomCoord.X + 5, randomCoord.Z + 5);
 
-            if(!IsEnemySpawnPosition(randomCoord.X, randomCoord.Z)) 
+            if (!IsWallAtPosition(randomCoord.X, randomCoord.Z))
             {
-                wallInMap[randomCoord.X, randomCoord.Z] = true;
-
-                Managers.BattleUI.player = Managers.Party.monsterParty[i];
-                if (Managers.BattleUI.player == null)
+                if(!IsEnemySpawnPosition(randomCoord.X, randomCoord.Z)) 
                 {
-                    Debug.Log("Monster Null");
+                    wallInMap[randomCoord.X, randomCoord.Z] = true;
+
+                    Managers.BattleUI.player = Managers.Party.monsterParty[i];
+                    if (Managers.BattleUI.player == null)
+                    {
+                        Debug.Log("Monster Null");
+                    }
+                    else {
+                        Managers.Party.monsterParty[i].transform.position = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, 1f, 0);
+                        i++;
+                    }
                 }
                 else {
-                    Managers.Party.monsterParty[i].transform.position = CoordToPosition(randomCoord.X, randomCoord.Z) + new Vector3(0, 1f, 0);
-                    i++;
+                    Debug.Log("is wall");
                 }
-            }
-            else {
-                Debug.Log("is wall");
             }
         }
     }
@@ -349,7 +352,7 @@ public class CreateObject : MonoBehaviour
             // 해당 위치가 벽과 충돌하지 않는지, 또는 장애물과 충돌하지 않는지 확인
             if (!IsWallAtPosition(randomCoord.X, randomCoord.Z))
             {
-                if(!IsEnemySpawnPosition(randomCoord.X, randomCoord.Z)) {
+                if(!IsEnemySpawnPosition(randomCoord.X, randomCoord.Z)) { // 추후 삭제 예정
                 wallInMap[randomCoord.X, randomCoord.Z] = true;
                 // 기믹을 랜덤하게 선택하여 배치
                 int randomIndex = Random.Range(0, Gimmicks.Length);
