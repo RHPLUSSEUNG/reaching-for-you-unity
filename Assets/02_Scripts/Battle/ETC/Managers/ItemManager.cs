@@ -192,6 +192,7 @@ public class ItemManager
         List<int> equipmentInven;
         GameObject item = InstantiateEquipmentItem(itemID);
         Equipment equip = item.GetComponent<Equipment>();
+        equip.Start();
         Equip_Item equip_item = player.GetComponent<Equip_Item>();
         GameObject prev_item = null;
 
