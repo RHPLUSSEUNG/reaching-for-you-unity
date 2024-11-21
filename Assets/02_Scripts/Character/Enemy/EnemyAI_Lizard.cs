@@ -36,7 +36,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
     {
         if (isTurnEnd)
             return;
-        if (!skillchecked)   // 스킬 사용
+        if (!skillchecked && !isSIzeMode)   // 스킬 사용
         {
             PathFinder.RequestSkillRange(transform.position, 2, RangeType.Cross, OnSkillRangeFound);
             Debug.Log("Skill Used!");
@@ -44,6 +44,8 @@ public class EnemyAI_Lizard : EnemyAI_Base
             stat.Mp -= 60;
             spriteController.SetAnimState(AnimState.Trigger2);
             skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetObj.transform.parent.gameObject);
+            isAttacked = true;
+            skillchecked = true;
             BeforeTrunEnd();
         }
         if (!isAttacked)
@@ -60,8 +62,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
             skillchecked = true;
             Search(stat.Sight, RangeType.Normal);
         }
-
-        if (!isMoved)
+        else if (!isMoved)
         {
             isSIzeMode = false;
             // 돌 없는 애니메이션 재생
@@ -73,7 +74,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
     }
     public override void OnPathFailed()
     {
-        GetRandomLoc(stat.MovePoint);
+        BeforeTrunEnd();    //TODO : 이동 경로 확보 불가 시 행동
     }
     public override void OnMoveEnd()
     {

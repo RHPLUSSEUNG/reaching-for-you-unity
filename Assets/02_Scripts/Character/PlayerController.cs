@@ -70,6 +70,10 @@ public class PlayerController : MonoBehaviour
         isBattleMode = false;
         isActive = true;
     }
+    private void Start()
+    {
+        spriteController.SetAnimState(AnimState.Idle);
+    }
     void Update()
     {
         if (!isActive || isBattleMode)

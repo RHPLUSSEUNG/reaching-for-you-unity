@@ -29,7 +29,6 @@ public class SpriteController : MonoBehaviour
         anim = character.GetComponent<Animator>();
         isIdle = true;
         mainCamera = GameObject.Find("Main Camera");
-        SetAnimState(AnimState.Idle);
     }
     private void LateUpdate()
     {

@@ -62,7 +62,7 @@ public class EnemyAI_Golem : EnemyAI_Base
     }
     public override void OnPathFailed()
     {
-        GetRandomLoc(stat.MovePoint);
+        BeforeTrunEnd();    //TODO : 이동 경로 확보 불가 시 행동
     }
     public override void OnMoveEnd()
     {
