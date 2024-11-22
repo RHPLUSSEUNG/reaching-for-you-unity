@@ -9,9 +9,7 @@ public class MagicButtonUI : UI_Base
     {
         MagicIcon,
         MagicName,
-        ElementIcon,
         ManaText,
-        AttackText,
         Disabled
     }
 
@@ -31,8 +29,6 @@ public class MagicButtonUI : UI_Base
     {
         Bind<GameObject>(typeof(magicButtonUI));
         BindEvent(gameObject, MagicButtonClick, Define.UIEvent.Click);
-        BindEvent(gameObject, MagicButtonEnter, Define.UIEvent.Enter);
-        BindEvent(gameObject, MagicButtonExit, Define.UIEvent.Exit);
 
         mainCamera = GameObject.Find("Main Camera");
         cameraController = mainCamera.GetComponent<CameraController>();
@@ -55,10 +51,8 @@ public class MagicButtonUI : UI_Base
         Image magicIcon = GetObject((int)magicButtonUI.MagicIcon).GetComponent<Image>();
         TextMeshProUGUI magicName = GetObject((int)magicButtonUI.MagicName).GetComponent<TextMeshProUGUI>();
         magicName.text = skill_Data.SkillName;
-        Image elementIcon = GetObject((int)magicButtonUI.ElementIcon).GetComponent<Image>();
         TextMeshProUGUI manaText = GetObject((int)magicButtonUI.ManaText).GetComponent<TextMeshProUGUI>();
         manaText.text = skill_Data.mp.ToString();
-        TextMeshProUGUI attackText = GetObject((int)magicButtonUI.AttackText).GetComponent<TextMeshProUGUI>();
 
         saveSkill = skill;
         saveSkill_ID = skill_ID;
@@ -106,15 +100,12 @@ public class MagicButtonUI : UI_Base
 
     public void MagicButtonEnter(PointerEventData data)
     {
-        Managers.UI.ShowUI(Managers.BattleUI.descriptPanel);
-        DescriptUI descript = Managers.BattleUI.descriptPanel.GetComponent<DescriptUI>();
-        descript.SetDescript(saveSkill, "마법에 대한 설명");
-        descript.SetPosition();
+        
     }
 
     public void MagicButtonExit(PointerEventData data)
     {
-        Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
+        
         cameraController.ChangeCameraMode(CameraMode.UI, false, true);
         Managers.BattleUI.cameraMode = CameraMode.UI;
     }

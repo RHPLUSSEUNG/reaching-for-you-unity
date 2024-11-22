@@ -15,7 +15,6 @@ public class ActUI : UI_Popup
         NextTurnButton,
         MagicButtonLayout,
         ItemLayout,
-        DescriptUI,
         MoveButton,
         MagicCancleButton
     }
@@ -30,7 +29,6 @@ public class ActUI : UI_Popup
     GameObject itemPanel;
     GameObject magicBtnLayout;
     GameObject itemLayout;
-    GameObject descriptPanel;
 
     public override void Init()
     {
@@ -53,8 +51,6 @@ public class ActUI : UI_Popup
         Managers.BattleUI.itemPanel = itemPanel;
         magicBtnLayout = GetObject((int)actUI.MagicButtonLayout);
         itemLayout = GetObject((int)actUI.ItemLayout);
-        descriptPanel = GetObject((int)actUI.DescriptUI);
-        Managers.BattleUI.descriptPanel = descriptPanel;
 
         BindEvent(magicUseBtn, UseMagicButtonClick, Define.UIEvent.Click);
         BindEvent(itemUseBtn, UseItemButtonClick, Define.UIEvent.Click);
@@ -63,7 +59,6 @@ public class ActUI : UI_Popup
         BindEvent(magicCancleBtn, MagicCancleButtonClick, Define.UIEvent.Click);
 
         Managers.UI.HideUI(itemPanel);
-        Managers.UI.HideUI(descriptPanel);
         Managers.UI.HideUI(magicCancleBtn);
 
         mainCamera = GameObject.Find("Main Camera");
@@ -108,7 +103,7 @@ public class ActUI : UI_Popup
         foreach (KeyValuePair<int, int> item in consumeList.Consumes)
         {
             BattleItemUI itemButton = Managers.UI.MakeSubItem<BattleItemUI>(itemLayout.transform, "ItemButton");
-            // itemButton.SetItem(item.Key, item.Value);
+            itemButton.SetItem(item.Key, item.Value);
         }
 
         Managers.UI.uiState = UIState.Move;

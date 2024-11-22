@@ -20,6 +20,8 @@ public class UI_PreBattle : UI_Scene
     UI_Pause pauseUI = null;
     CameraController cameraController;
 
+    public Button repairBtn;
+
     public override void Init()
     {
         base.Init();
@@ -28,7 +30,7 @@ public class UI_PreBattle : UI_Scene
         Util.GetOrAddComponent<UI_PreBattle>(gameObject);
         Button startBtn = GetButton((int)PreBattleButtons.StartButton);
         Button batchBtn = GetButton((int)PreBattleButtons.BatchButton);
-        Button repairBtn = GetButton((int)PreBattleButtons.RepairButton);
+        repairBtn = GetButton((int)PreBattleButtons.RepairButton);
         Button saveBtn = GetButton((int)PreBattleButtons.SaveButton);
         Button systemBtn = GetButton((int)PreBattleButtons.SystemButton);
         Button cameraBtn = GetButton((int)PreBattleButtons.MoveCameraButton);
@@ -37,9 +39,10 @@ public class UI_PreBattle : UI_Scene
         BindEvent(repairBtn.gameObject, OnRepairButton, Define.UIEvent.Click);
         BindEvent(saveBtn.gameObject, OnSaveButton, Define.UIEvent.Click);
         BindEvent(systemBtn.gameObject, OnSystemButton, Define.UIEvent.Click);
-       //  BindEvent(cameraBtn.gameObject, OnCameraButton, Define.UIEvent.Click);
+        // BindEvent(cameraBtn.gameObject, OnCameraButton, Define.UIEvent.Click);
 
         Managers.UI.HideUI(cameraBtn.gameObject);
+        repairBtn.gameObject.SetActive(false);
 
         CameraController cameraController = Camera.main.GetComponent<CameraController>();
 
@@ -62,15 +65,16 @@ public class UI_PreBattle : UI_Scene
         Managers.UI.HideUI(actUI.gameObject);
         if (batchUI != null)
         {
-            Managers.UI.ClosePopupUI(batchUI);
+            Managers.Prefab.Destroy(batchUI.gameObject);
         }
         if (repairUI != null)
         {
-            Managers.UI.ClosePopupUI(repairUI);
+            Managers.InvenUI.isRepair = false;
+            Managers.Prefab.Destroy(repairUI.gameObject);
         }
         if (saveUI != null)
         {
-            Managers.UI.ClosePopupUI(saveUI);
+            Managers.Prefab.Destroy(saveUI.gameObject);
         }
         Managers.Prefab.Destroy(gameObject);
     }

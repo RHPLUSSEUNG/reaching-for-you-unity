@@ -101,9 +101,14 @@ public class BatchUI : UI_Popup
         Managers.UI.HideUI(playerSpawn);
         Managers.UI.HideUI(finishBtn);
 
-        // TODO : 생성하는 Player가 2명 이상일 때 수정 필요
+        if (Managers.Party.playerParty.Contains(Managers.BattleUI.player))
+        {
+            Managers.UI.uiState = UIState.PlayerSet;
+            return;
+        }
         // Alpha Test Version Modify - PJH 11.21 06:18
         Managers.BattleUI.player = Managers.Party.InstantiatePlayer("Player_Girl_Battle");
+        
         Managers.Party.AddParty(Managers.BattleUI.player);
         if (Managers.BattleUI.player == null)
         {
@@ -128,6 +133,10 @@ public class BatchUI : UI_Popup
         Managers.UI.uiState = UIState.Idle;
         Managers.UI.HideUI(gameObject);
         Managers.UI.ShowUI(preBattleUI);
+        if(Managers.Party.playerParty.Contains(Managers.BattleUI.player))
+        {
+            preBattleUI.GetComponent<UI_PreBattle>().repairBtn.gameObject.SetActive(true);
+        }
 
         int colorCount = 0;
         for(int x = 0; x < mapWidth;x++)

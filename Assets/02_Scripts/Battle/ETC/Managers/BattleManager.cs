@@ -72,7 +72,7 @@ public class BattleManager
         ObjectList.Sort(compareDefense);
 
         Managers.BattleUI.turnUI.InstantiateAllTurnOrderUI();
-        Managers.BattleUI.turnUI.UpdateTurnUI(turnCnt);
+        Managers.BattleUI.turnUI.UpdateTurnUI();
 
         NextTurn();
     }
@@ -88,7 +88,6 @@ public class BattleManager
         if (turnCnt >= ObjectList.Count)
         {
             phase++;
-            Managers.BattleUI.turnUI.ResetPastPanel();
             turnCnt = 0;
 
 
@@ -99,7 +98,7 @@ public class BattleManager
             InstantAfterPhaseList.Clear();
 
             ObjectList.Sort(compareDefense);
-            Managers.BattleUI.turnUI.UpdateTurnUI(turnCnt);
+            Managers.BattleUI.turnUI.UpdateTurnUI();
         }
     }
     public bool CheckGameEnd()
@@ -138,6 +137,15 @@ public class BattleManager
 
     public void NextTurn()
     {
+        if(turnCnt != 0)
+        {
+            Managers.BattleUI.turnUI.ProceedTurnUI(turnCnt);
+        }
+        else
+        {
+            Managers.BattleUI.turnUI.ProceedTurnUI(turnCnt);
+            Managers.BattleUI.turnUI.ResetPastPanel();
+        }
         Managers.Manager.StartCoroutine(NextTurnCoroutine());
     }
 
@@ -219,7 +227,6 @@ public class BattleManager
         {
             Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Enemy Turn!"));
         }
-        Managers.BattleUI.turnUI.ProceedTurnUI(turnCnt);
         yield break;
     }
 

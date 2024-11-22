@@ -396,7 +396,6 @@ public class BasicHealthUI : UI_Popup
     {
         if(life >= lifeEnd)
         {
-            Debug.Log("Game End");
             life = 4;
             GameOver();
             return;
@@ -489,6 +488,7 @@ public class BasicHealthUI : UI_Popup
 
     void GameOver()
     {
+        Debug.Log("Game Over");
         isProgress = false;
 
         StopAllCoroutines();
@@ -505,7 +505,7 @@ public class BasicHealthUI : UI_Popup
 
     public void GameEnd()
     {
-        Debug.Log("Game Over");
+        Debug.Log("Game End");
         SoundManager.Instance.PlayMusic("BGM_Academy_01");
         GameObject.FindWithTag("Player").GetComponent<PlayerController>().ChangeActive(true);
         Managers.Prefab.Destroy(gameObject);

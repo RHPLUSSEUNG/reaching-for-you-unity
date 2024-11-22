@@ -101,6 +101,7 @@ public class CreateObject : MonoBehaviour
         PlaceGimmicks();
         SetTileCanWalk();
 
+        Managers.UI.CreatePopupUI<BattleVSUI>();
         if(stageIndex == 0)
             Instantiate(desertMap, desertMap.transform.position, Quaternion.identity, this.transform);
 

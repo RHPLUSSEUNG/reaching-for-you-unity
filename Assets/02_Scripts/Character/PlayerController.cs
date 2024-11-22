@@ -101,6 +101,10 @@ public class PlayerController : MonoBehaviour
         {
             Inventory();
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Managers.UI.CreatePopupUI<UI_Pause>("PauseUI");
+        }
     }
     private void FixedUpdate()
     {

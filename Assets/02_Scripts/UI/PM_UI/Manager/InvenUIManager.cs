@@ -22,6 +22,7 @@ public class InvenUIManager
     public EquipPart part;
     // public bool inven_state = false;
     public bool consume_equip_state = false;
+    public bool isRepair = false;
     public Sprite emptySprite;
 
     List<int> equip_consume_ui = new List<int>();
@@ -87,6 +88,10 @@ public class InvenUIManager
         for (int i = 0; i< Managers.Item.GetWeaponList().Count; i++)
         {
             EquipItemUI equipItem = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
+            if(isRepair)
+            {
+                equipItem.transform.localScale = new Vector2(0.7f, 0.7f);
+            }
             equipItem.invenItemID = Managers.Item.GetWeaponList()[i];
             equipItem.SetItemInfo();
             Managers.UI.HideUI(equipItem.gameObject);
@@ -94,6 +99,10 @@ public class InvenUIManager
         foreach (KeyValuePair<int, int> consume in Managers.Item.consumeInven)
         {
             ConsumeItemUI consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
+            if (isRepair)
+            {
+                consumeItem.transform.localScale = new Vector2(0.7f, 0.7f);
+            }
             consumeItem.invenItemID = consume.Key;
             consumeItem.SetItemInfo(consume.Value);      // test 스프라이트 적용
             Managers.UI.HideUI(consumeItem.gameObject);
@@ -106,6 +115,10 @@ public class InvenUIManager
         if(itemData.ItemType == ItemType.Equipment)
         {
             EquipItemUI equipItem = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
+            if (isRepair)
+            {
+                equipItem.transform.localScale = new Vector2(0.7f, 0.7f);
+            }
             equipItem.invenItemID = itemID;
             equipItem.SetItemInfo();
             Managers.UI.HideUI(equipItem.gameObject);
@@ -127,6 +140,10 @@ public class InvenUIManager
                 }
             }
             consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
+            if (isRepair)
+            {
+                consumeItem.transform.localScale = new Vector2(0.7f, 0.7f);
+            }
             consumeItem.invenItemID = itemID;
             consumeItem.SetItemInfo(count);      // test 스프라이트 적용
             Managers.UI.HideUI(consumeItem.gameObject);
@@ -220,7 +237,11 @@ public class InvenUIManager
         }
 
         Equipment equipItem = prev_Item.GetComponent<Equipment>();
-        EquipItemUI itemUI = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");        
+        EquipItemUI itemUI = Managers.UI.MakeSubItem<EquipItemUI>(invenContent.transform, "EquipItem");
+        if (isRepair)
+        {
+            itemUI.transform.localScale = new Vector2(0.7f, 0.7f);
+        }
         itemUI.invenItemID = equipItem.itemId;
         itemUI.invenItem = prev_Item;
         itemUI.SetItemInfo();        // 아이템 데이터를 적용
@@ -312,6 +333,10 @@ public class InvenUIManager
             }
         }
         consumeItem = Managers.UI.MakeSubItem<ConsumeItemUI>(Managers.InvenUI.invenContent.transform, "ConsumeItem");
+        if (isRepair)
+        {
+            consumeItem.transform.localScale = new Vector2(0.7f, 0.7f);
+        }
         consumeItem.invenItemID = focusItemID;
         consumeItem.SetItemInfo(remainValue);
         Managers.UI.HideUI(consumeItem.gameObject);
