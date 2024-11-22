@@ -132,7 +132,7 @@ public class AdventureManager : MonoBehaviour
     IEnumerator WaitAndChangeCombatScene(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        GameObject.Find("Player_Girl").GetComponent<PlayerController>().ChangeActive(false);
+        GameObject.Find("Player_Girl").GetComponent<PlayerController>().ChangeActive(true);
         SceneChanger.Instance.ChangeScene(SceneType.PM_COMBAT);
     }
 
