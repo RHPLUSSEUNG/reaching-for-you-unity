@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -16,6 +17,8 @@ public class MiniGameStartPopupUI : UI_Popup
         CloseButton
     }
 
+    [SerializeField]
+    List<MiniGameData> miniGameDataList = new List<MiniGameData>();
     RectTransform gamePanel;
 
     Button startBtn;
@@ -34,7 +37,21 @@ public class MiniGameStartPopupUI : UI_Popup
         BindEvent(startBtn.gameObject, StartButtonClick, Define.UIEvent.Click);
         BindEvent(closeBtn.gameObject, CloseButtonClick, Define.UIEvent.Click);
 
+
         StartCoroutine(AnimPopup(gamePanel));
+    }
+
+    public void SetGameInfo(int gameID)
+    {
+        TextMeshProUGUI nameText = GetObject((int)miniGameStartUI.GameNameText).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI gameDescript = GetObject((int)miniGameStartUI.MiniGameDescription).GetComponent<TextMeshProUGUI>();
+        Image gameImg = GetObject((int)miniGameStartUI.GameExImage).GetComponent<Image>();
+
+        MiniGameData gameData = miniGameDataList[gameID];
+
+        nameText.text = gameData.GetGameName();
+        gameDescript.text = gameData.GetGameDescript();
+        gameImg.sprite = gameData.GetGameImage();
     }
 
     public void StartButtonClick(PointerEventData data)
