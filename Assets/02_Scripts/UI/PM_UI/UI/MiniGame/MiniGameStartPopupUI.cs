@@ -19,10 +19,14 @@ public class MiniGameStartPopupUI : UI_Popup
 
     [SerializeField]
     List<MiniGameData> miniGameDataList = new List<MiniGameData>();
+    [SerializeField]
+    List<GameObject> miniGameList = new List<GameObject>();
     RectTransform gamePanel;
 
     Button startBtn;
     Button closeBtn;
+
+    int miniGameID;
 
     public override void Init()
     {
@@ -43,12 +47,14 @@ public class MiniGameStartPopupUI : UI_Popup
 
     public void SetGameInfo(int gameID)
     {
+        Debug.Log("Set Game Data");
         TextMeshProUGUI nameText = GetObject((int)miniGameStartUI.GameNameText).GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI gameDescript = GetObject((int)miniGameStartUI.MiniGameDescription).GetComponent<TextMeshProUGUI>();
         Image gameImg = GetObject((int)miniGameStartUI.GameExImage).GetComponent<Image>();
 
         MiniGameData gameData = miniGameDataList[gameID];
 
+        miniGameID = gameData.GetGameID();
         nameText.text = gameData.GetGameName();
         gameDescript.text = gameData.GetGameDescript();
         gameImg.sprite = gameData.GetGameImage();
@@ -56,7 +62,11 @@ public class MiniGameStartPopupUI : UI_Popup
 
     public void StartButtonClick(PointerEventData data)
     {
-        Managers.UI.CreatePopupUI<BasicHealthUI>("BasicHealthUI");
+        Debug.Log($"Game ID : {miniGameID}");
+        Debug.Log($"Game : {miniGameList[miniGameID]}");
+        Instantiate(miniGameList[miniGameID]);
+        
+        // Managers.UI.CreatePopupUI<BasicHealthUI>("BasicHealthUI");
         StartCoroutine(ClosePopupUIAnim());
     }
 
