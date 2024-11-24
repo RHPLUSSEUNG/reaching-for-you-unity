@@ -11,6 +11,7 @@ public class MiniGameData : ScriptableObject
     [SerializeField]
     string gameName;
     [SerializeField]
+    [TextArea]
     string gameDescript;
     [SerializeField]
     Sprite gameImg;
