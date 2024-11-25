@@ -8,6 +8,9 @@ public class ToMinigame : MonoBehaviour
 
     [SerializeField]
     PlayerController player;
+    [SerializeField]
+    int miniGameID;
+
     void Start()
     {
         button = GetComponentInChildren<Button>();
@@ -24,7 +27,8 @@ public class ToMinigame : MonoBehaviour
             button.gameObject.SetActive(false);
             isActive = false;
             player.ChangeActive(false);
-            Managers.UI.CreatePopupUI<MiniGameStartPopupUI>("MiniGameStartPopup");
+            MiniGameStartPopupUI gameUI = Managers.UI.CreatePopupUI<MiniGameStartPopupUI>("MiniGameStartPopup");
+            gameUI.SetGameInfo(miniGameID);
         }
     }
     private void OnTriggerEnter(Collider collider)
