@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class BattleGuideUI : UI_Popup
@@ -30,7 +31,7 @@ public class BattleGuideUI : UI_Popup
     [SerializeField]
     GameObject handle;
     [SerializeField]
-    List<Sprite> rank = new List<Sprite>();
+    List<GameObject> HPsprite;
 
     RectTransform characterRectTrnasform;
     RectTransform leftProhibit;
@@ -41,32 +42,16 @@ public class BattleGuideUI : UI_Popup
 
     TextMeshProUGUI stageNumberText;
     TextMeshProUGUI countdownText;
-    Animator playerAnim;
+
 
     int stageNumber = 1;
-    int life = 0;
-    int lifeEnd = 4;
-    float knockbackTimeOffset = 1.0f;
-    float speedOffset = 0.4f;
-    float knockbackDistanceOffset = 50f;
 
-    float totalTime = 20f;
-    float baseSpeed = 3.0f;
-    float baseknockbackTime = 8.0f;
-    float baseknockbackDistance = 100f;
-    float moveDistance = 125f;
-    float invincibilityTime = 1.0f;
-
-    float speed;
-    float knockbackTime;
-    float knockbackDistance;
-    float knockBackElapsed = 0f;
-
-    Vector3 initialPos;
-
-    bool isIncreasing = true;
     bool isInvincible = false;
     bool isProgress = false;
+
+    Vector2 inputVec;
+    Vector2 nextVec;
+    Vector3 initialPos;
 
     [Header("Game Setting")]
     [SerializeField]
@@ -74,21 +59,47 @@ public class BattleGuideUI : UI_Popup
     [SerializeField]
     Text stageText;
     [SerializeField]
-    public float maxTime;
-    [SerializeField]
-    GameObject player;
+    public float totalTime;
     [SerializeField]
     protected int life;
     [SerializeField]
-    protected float hitInterval;
+    BoxCollider2D spawnZone;
+    int currentHitZone = 0;
+    bool canSpawnTime = true;
+    float spawnTimer = 0;
+    float currnetTime = 0;
+    float nextRandSpwanTime;
+
+    [Header("Player Setting")]
     [SerializeField]
-    GameObject plane;
+    GameObject player;
+    [SerializeField]
+    Rigidbody2D rigid;
+    [SerializeField]
+    float moveSpeed;
+    [SerializeField]
+    float rollSpeed = 5f;
+    [SerializeField]
+    float rollDuration = 0.5f;
+    [SerializeField]
+    protected float hitInterval;
+    RectTransform playerCollider;
+
+    Animator playerAnim;
+    float hitTimer = 0;
+    bool isRolling = false;
+    bool isHit = false;
+
+    [Header("Object Pool Setting")]
     [SerializeField]
     GameObject hitZone;
+    [SerializeField]
+    int poolSize = 10;
 
-    BoxCollider boxCollider;
+    Queue<GameObject> hitZonePool;
+    List<GameObject> activeHitZone;
 
-    #region Game Setting
+    #region Difficulty Setting
     [Header("Basic Value")]
     [SerializeField]
     protected int maxSpawnCount;
@@ -128,56 +139,40 @@ public class BattleGuideUI : UI_Popup
     protected float maxRadius_plus;
     [Range(0f, 5f)]
     [SerializeField]
-    protected float minFillSpeed_plus;
+    protected float minFillSpeed_minus;
     [SerializeField]
     [Range(0f, 5f)]
-    protected float maxFillSpeed_plus;
+    protected float maxFillSpeed_minus;
     #endregion
+
 
     public override void Init()
     {
         base.Init();
-        Bind<GameObject>(typeof(basicHealthUI));
+        Bind<GameObject>(typeof(battleGuideUI));
 
-        timeLimit = GetObject((int)basicHealthUI.TimeLimit).GetComponent<Slider>();
-        _timingbar = GetObject((int)basicHealthUI.TimingBar).GetComponent<Scrollbar>();
-        _failAreaRect = GetObject((int)basicHealthUI.FailArea).GetComponent<RectTransform>();
-        _trueAreaRect = GetObject((int)basicHealthUI.TrueArea).GetComponent<RectTransform>();
-        rankBar = GetObject((int)basicHealthUI.RankBar).GetComponent<RectTransform>();
-        handle = GetObject((int)basicHealthUI.Handle);
-        rankImg = GetObject((int)basicHealthUI.RankImage).GetComponent<Image>();
-        stageNumberText = GetObject((int)basicHealthUI.StageNumberText).GetComponent<TextMeshProUGUI>();
-        countdownText = GetObject((int)basicHealthUI.CountDownText).GetComponent<TextMeshProUGUI>();
-        clockCenter = GetObject((int)basicHealthUI.ClockCenter).GetComponent<RectTransform>();
+        timeLimit = GetObject((int)battleGuideUI.TimeLimit).GetComponent<Slider>();
+        stageNumberText = GetObject((int)battleGuideUI.StageNumberText).GetComponent<TextMeshProUGUI>();
+        countdownText = GetObject((int)battleGuideUI.CountDownText).GetComponent<TextMeshProUGUI>();
+        clockCenter = GetObject((int)battleGuideUI.ClockCenter).GetComponent<RectTransform>();
+        //characterRectTrnasform = GetObject((int)battleGuideUI.Character).GetComponent<RectTransform>();
+        playerCollider = player.transform.GetChild(0).GetComponent<RectTransform>();
+        playerAnim = GetObject((int)battleGuideUI.Character).GetComponent<Animator>();
+        rigid = player.GetComponent<Rigidbody2D>();
 
-        characterRectTrnasform = GetObject((int)basicHealthUI.Character).GetComponent<RectTransform>();
-        leftProhibit = GetObject((int)basicHealthUI.LeftProhibitedArea).GetComponent<RectTransform>();
-        rightProhibit = GetObject((int)basicHealthUI.RightProhibitedArea).GetComponent<RectTransform>();
-        playerAnim = GetObject((int)basicHealthUI.Character).GetComponent<Animator>();
-
-        initialPos = characterRectTrnasform.anchoredPosition;
+        //initialPos = characterRectTrnasform.anchoredPosition;
         countdownText.gameObject.SetActive(false);
 
-        SoundManager.Instance.StopMusic();
+        GenerateObjectPool();
+       // SoundManager.Instance.StopMusic();
         StartCoroutine(Countdown());
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if(isProgress)
         {
             CharacterControl();
-            if (!isInvincible)
-            {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    bool check = CheckTrueArea(_timingbar.value);
-                    if (check)
-                    {
-                        SetTrueArea();
-                    }
-                }
-            }
         }
     }
 
@@ -188,15 +183,28 @@ public class BattleGuideUI : UI_Popup
 
     public void SetLevel()
     {
-        speed = baseSpeed - (speedOffset * stageNumber);
-        knockbackTime = baseknockbackTime - (knockbackTimeOffset * stageNumber);
-        knockbackDistance = baseknockbackDistance + (knockbackDistanceOffset * stageNumber);
-    }
+        maxSpawnCount += maxSpawnCount_plus;
+        minRadius += minRadius_plus;
+        maxRadius += maxRadius_plus;
+        if ((minFillSpeed -= minFillSpeed_minus) != 0)
+            minFillSpeed -= minFillSpeed_minus;
+        if ((maxFillSpeed -= maxFillSpeed_minus) != 0)
+            maxFillSpeed -= maxFillSpeed_minus;
+        if ((minSpwanInterval -= minSpwanInterval_minus)!=0)
+            minSpwanInterval -= minSpwanInterval_minus;
+        if ((maxSpwanInterval -= maxSpwanInterval) != 0)
+            maxSpwanInterval -= maxSpwanInterval_minus;
+}
     void CharacterControl()
     {
         if (Input.GetKeyDown(KeyCode.Space))    //±¸¸£±â
         {
+            StartRoll();
+        }
 
+        if (isRolling||isHit)
+        {
+            rigid.velocity = inputVec * rollSpeed;
         }
         else
         {
@@ -207,82 +215,98 @@ public class BattleGuideUI : UI_Popup
     {
         inputVec = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        if (inputVec)
-        sideDirection = new Vector3(mainCamera.transform.right.x, 0f, mainCamera.transform.right.z);
-        nextVec = (facingDirectrion * inputVec.y + sideDirection * inputVec.x).normalized;
-
-        nextVec = nextVec * moveSpeed * Time.fixedDeltaTime;
-
+        if (inputVec.x > 0)
+        {
+            player.transform.eulerAngles = new Vector2(0, 180);
+        }
+        else if (inputVec.x < 0)
+        {
+            player.transform.eulerAngles = new Vector2(0, 0);
+        }
+        if (inputVec.x == 0 && inputVec.y == 0)
+        {
+            playerAnim.SetInteger("State", 0);
+        }
+        else
+        {
+            playerAnim.SetInteger("State", 1);
+        }
+        nextVec = (inputVec.normalized) * moveSpeed;
         rigid.velocity = nextVec;
     }
+    void StartRoll()
+    {
+        isRolling = true;
+        playerAnim.SetInteger("State", 3);
+        isInvincible = true;
+    }
+    public void EndRoll()
+    {
+        isInvincible = false;
+        isRolling = false;
+        rigid.velocity = Vector2.zero;
+        playerAnim.SetInteger("State", 0);
+    }
+    public void Hit()
+    {
+        if (isInvincible)
+            return;
 
+        rigid.velocity = Vector2.zero;
+        isHit = true;
+        isInvincible = true;
+        StartCoroutine(BlinkCharacter());
+
+        rigid.velocity = Vector2.zero;
+        life--;
+        HPsprite[life].SetActive(false);
+        playerAnim.SetInteger("State", 2);
+        if (life <= 0)
+        {
+            life = 3;
+            GameOver();
+            return;
+        }
+
+    }
+    public void EndHit()
+    {
+        isHit = false;
+        playerAnim.SetInteger("State", 0);
+    }
     IEnumerator MiniGameStart()
     {
+        foreach (GameObject obj in HPsprite)
+        {
+            obj.SetActive(true);
+        }
         isProgress = true;
         if(stageNumber == 1)
         {
-            SoundManager.Instance.PlayMusic("BGM_MiniGame_BasicPhysiology_01");
+            //SoundManager.Instance.PlayMusic("BGM_MiniGame_BasicPhysiology_01");
+        }
+        else
+        {
+            SetLevel();
         }
         Debug.Log("Game Start");
-        SetLevel();
-        SetTrueArea();
         float elapsed = 0f;
 
-        playerAnim.SetBool("isProgress", true);
+        playerAnim.SetInteger("State", 0);
         StartCoroutine(TimeLimitStart());
         StartCoroutine(ClockRotate());
+        StartCoroutine(spawnHitZoneCoroutine());
         while (elapsed < totalTime)
         {
-            float timer = 0f;
-
-            if (isIncreasing)
+            elapsed += Time.deltaTime;
+            if (elapsed >= totalTime)
             {
-                while (timer < speed)
-                {
-                    _timingbar.value = Mathf.Lerp(0, 1, timer / speed);
-                    timer += Time.deltaTime;
-                    elapsed += Time.deltaTime;
-                    knockBackElapsed += Time.deltaTime;
-
-                    if (knockBackElapsed >= knockbackTime && !isInvincible)
-                    {
-                        KnockBackCharacter();
-                        knockBackElapsed = 0f;
-                    }
-                    if (elapsed >= totalTime)
-                    {
-                        Debug.Log("Game End");
-                        GameClear();
-                        yield break;
-                    }
-                    yield return null;
-                }
-            }
-            else
-            {
-                while (timer < speed)
-                {
-                    _timingbar.value = Mathf.Lerp(1, 0, timer / speed);
-                    timer += Time.deltaTime;
-                    elapsed += Time.deltaTime;
-                    knockBackElapsed += Time.deltaTime;
-
-                    if (knockBackElapsed >= knockbackTime && !isInvincible)
-                    {
-                        KnockBackCharacter();
-                        knockBackElapsed = 0f;
-                    }
-                    if (elapsed >= totalTime)
-                    {
-                        Debug.Log("Game End");
-                        GameClear();
-                        yield break;
-                    }
-                    yield return null;
-                }
+                Debug.Log("Game End");
+                GameClear();
+                yield break;
             }
 
-            isIncreasing = !isIncreasing;
+            yield return null;
         }
     }
 
@@ -296,109 +320,6 @@ public class BattleGuideUI : UI_Popup
             elapsed += Time.deltaTime;
             yield return null;
         }
-    }
-    bool CheckTrueArea(float value)
-    {
-        RectTransform slidingArea = _timingbar.GetComponent<RectTransform>();
-        float slidingAreaWidth = slidingArea.rect.width;
-
-        float trueAreaPos = _trueAreaRect.anchoredPosition.x;
-
-        float trueAreaStart = trueAreaPos - (_trueAreaRect.rect.width * _trueAreaRect.pivot.x);
-        float trueAreaEnd = trueAreaStart + _trueAreaRect.rect.width;
-
-        float trueStartValue = Mathf.Clamp01(trueAreaStart / slidingAreaWidth);
-        float trueEndValue = Mathf.Clamp01(trueAreaEnd / slidingAreaWidth);
-
-        if (value >= trueStartValue && value <= trueEndValue)
-        {
-            JudgeTextUI judge = Managers.UI.MakeSubItem<JudgeTextUI>(transform, "JudgeText");
-            Debug.Log("MiniGame Success");
-            judge.SetJudgeTextImage(greatSprite, handle.transform.position);
-            MoveLeft();
-            return true;
-        }
-        else
-        {
-            Debug.Log("MiniGame Fail");
-            JudgeTextUI judge = Managers.UI.MakeSubItem<JudgeTextUI>(transform, "JudgeText");
-            judge.SetJudgeTextImage(missSprite, handle.transform.position);
-            MoveRight();
-            return false;
-        }
-    }
-
-    void MoveRight(float distance = 0f)
-    {
-        if (distance == 0f)
-        {
-            distance = moveDistance;
-        }
-        Vector2 newPos = characterRectTrnasform.anchoredPosition;
-        newPos.x += distance;
-        if (newPos.x >= rightProhibit.position.x)
-        {
-            newPos.x = rightProhibit.position.x;
-        }
-        characterRectTrnasform.anchoredPosition = newPos;
-
-        CheckReachProhibitedArea();
-    }
-
-    void MoveLeft(float distance = 0f)
-    {
-        if (distance == 0f)
-        {
-            distance = moveDistance;
-        }
-        Vector2 newPos = characterRectTrnasform.anchoredPosition;
-        newPos.x -= distance;
-        if (newPos.x <= leftProhibit.position.x)
-        {
-            newPos.x = leftProhibit.position.x;
-        }
-        characterRectTrnasform.anchoredPosition = newPos;
-
-        CheckReachProhibitedArea();
-    }
-
-    bool CheckReachProhibitedArea()
-    {
-        bool leftCheck = IsOverlapping(characterRectTrnasform, leftProhibit);
-        bool rightCheck = IsOverlapping(characterRectTrnasform, rightProhibit);
-
-        if(leftCheck || rightCheck)
-        {
-            isInvincible = true;
-            life++;
-            knockBackElapsed = 0f;
-            playerAnim.SetBool("isHit", true);
-            StartCoroutine(BlinkCharacter());
-            Vector2 newPos = characterRectTrnasform.anchoredPosition;
-            SoundManager.Instance.PlaySFX("SFX_BasicPhysiology_Hit_01");
-            if (leftCheck)
-            {
-                newPos.x = leftProhibit.position.x + characterRectTrnasform.rect.width;
-                characterRectTrnasform.anchoredPosition = newPos;
-            }
-            else if(rightCheck)
-            {
-                newPos.x = rightProhibit.position.x - characterRectTrnasform.rect.width;
-                characterRectTrnasform.anchoredPosition = newPos;
-            }
-
-            RankDown();
-            return true;
-        }
-        return false;
-    }
-
-    bool IsOverlapping(RectTransform character, RectTransform prohibitArea)
-    {
-        Rect characterRect = GetWorldRect(character);
-        Rect prohibitRect = GetWorldRect(prohibitArea);
-
-        return characterRect.Overlaps(prohibitRect);
     }
 
     Rect GetWorldRect(RectTransform rect)
@@ -418,10 +339,10 @@ public class BattleGuideUI : UI_Popup
     {
         float timer = 0f;
 
-        Image character = GetObject((int)basicHealthUI.Character).GetComponent<Image>();
+        Image character = GetObject((int)battleGuideUI.Character).GetComponent<Image>();
         Color characterColor = character.color;
 
-        while (timer < invincibilityTime)
+        while (timer < hitInterval)
         {
             character.color = new Color(characterColor.r, characterColor.g, characterColor.b, 0f);
             yield return new WaitForSeconds(0.05f);
@@ -431,21 +352,8 @@ public class BattleGuideUI : UI_Popup
             timer += 0.1f;
         }
         character.color = characterColor;
-        playerAnim.SetBool("isHit", false);
+        playerAnim.SetInteger("State", 0);
         isInvincible = false;
-    }
-
-    void KnockBackCharacter()
-    {
-        Vector2 newPos = characterRectTrnasform.anchoredPosition;
-        newPos.x += knockbackDistance;
-        if (newPos.x <= leftProhibit.position.x)
-        {
-            newPos.x = leftProhibit.position.x;
-        }
-        characterRectTrnasform.anchoredPosition = newPos;
-
-        CheckReachProhibitedArea();
     }
 
     IEnumerator ClockRotate()
@@ -461,41 +369,14 @@ public class BattleGuideUI : UI_Popup
         }
     }
 
-    void RankDown()
-    {
-        if(life >= lifeEnd)
-        {
-            life = 4;
-            GameOver();
-            return;
-        }
-
-        rankImg.sprite = rank[life];
-        int preRank = life - 1;
-        rankBar.GetChild(preRank).gameObject.SetActive(false);
-        rankBar.GetChild(life).gameObject.SetActive(true);
-    }
-
-    void GameSettingReset()
-    {
-        characterRectTrnasform.anchoredPosition = initialPos;
-        _timingbar.value = 0f;
-        rankBar.GetChild(life).gameObject.SetActive(false);
-        life = 0;
-        rankBar.GetChild(life).gameObject.SetActive(true);
-        rankImg.sprite = rank[life];
-        knockBackElapsed = 0f;
-    }
-
     IEnumerator Countdown()
     {
-        _trueAreaRect.gameObject.SetActive(false);
         countdownText.gameObject.SetActive(true);
 
         Vector3 originalScale = countdownText.transform.localScale;
         Color countdownColor = countdownText.color;
 
-        SoundManager.Instance.PlaySFX("SFX_StartSign_01");
+        //SoundManager.Instance.PlaySFX("SFX_StartSign_01");
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
@@ -536,11 +417,13 @@ public class BattleGuideUI : UI_Popup
     void GameClear()
     {
         isProgress = false;
-        Image character = GetObject((int)basicHealthUI.Character).GetComponent<Image>();
+        RemoveAllHitZone();
+
+        Image character = GetObject((int)battleGuideUI.Character).GetComponent<Image>();
         Color characterColor = character.color;
         character.color = new Color(characterColor.r, characterColor.g, characterColor.b, 1f);
-        playerAnim.SetBool("isProgress", false);
-        SoundManager.Instance.PlaySFX("SFX_BasicPhysiology_Success_01");
+        playerAnim.SetInteger("State", 0);
+        //SoundManager.Instance.PlaySFX("SFX_BasicPhysiology_Success_01");
 
         GameClearPopupUI clearUI = Managers.UI.CreatePopupUI<GameClearPopupUI>("GameClearPopup");
         clearUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
@@ -549,7 +432,6 @@ public class BattleGuideUI : UI_Popup
 
     public void NextLevelStart()
     {
-        GameSettingReset();
         stageNumber++;
         stageNumberText.text = $"Stage : {stageNumber}";
         StartCoroutine(Countdown());
@@ -560,12 +442,13 @@ public class BattleGuideUI : UI_Popup
         Debug.Log("Game Over");
         isProgress = false;
 
+        RemoveAllHitZone();
         StopAllCoroutines();
-        Image character = GetObject((int)basicHealthUI.Character).GetComponent<Image>();
+        Image character = GetObject((int)battleGuideUI.Character).GetComponent<Image>();
         Color characterColor = character.color;
         character.color = new Color(characterColor.r, characterColor.g, characterColor.b, 1f);
-        playerAnim.SetBool("isProgress", false);
-        SoundManager.Instance.PlaySFX("SFX_MagicTheory_Miss_01");
+        playerAnim.SetInteger("State", 0);
+        //SoundManager.Instance.PlaySFX("SFX_MagicTheory_Miss_01");
 
         GameOverPopupUI overUI = Managers.UI.CreatePopupUI<GameOverPopupUI>("GameOverPopup");
         overUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
@@ -575,8 +458,114 @@ public class BattleGuideUI : UI_Popup
     public void GameEnd()
     {
         Debug.Log("Game End");
-        SoundManager.Instance.PlayMusic("BGM_Academy_01");
+        //SoundManager.Instance.PlayMusic("BGM_Academy_01");
         GameObject.FindWithTag("Player").GetComponent<PlayerController>().ChangeActive(true);
         Managers.Prefab.Destroy(gameObject);
+    }
+
+    public void SpawnHitZone()
+    {
+        currentHitZone++;
+        canSpawnTime = false;
+        spawnTimer = 0;
+        GameObject hitzone = GetFromPool();
+        hitzone.transform.position = GetRandPosition();
+        float radius = GetRandRadiusSize();
+        hitzone.transform.localScale = new Vector3(radius, radius, 1);
+        hitzone.GetComponentInChildren<CircleFill>().fillSpeed = GetRandFillSpeed();
+        nextRandSpwanTime = GetRandSpawnTime();
+    }
+    IEnumerator spawnHitZoneCoroutine()
+    {
+        while (isProgress)
+        {
+            spawnTimer += Time.deltaTime;
+            if (currentHitZone < maxSpawnCount && spawnTimer >= nextRandSpwanTime)
+            {
+                SpawnHitZone();
+                Debug.Log("spawn");
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
+    }
+    public Vector2 GetRandPosition()
+    {
+        Vector2 center = spawnZone.transform.position;
+        float width = spawnZone.bounds.size.x;
+        float height = spawnZone.bounds.size.z;
+
+        float randX = Random.Range(-width / 2f, width / 2f);
+        float randY = Random.Range(-height / 2f, height / 2f);
+
+        float y = center.y + 0.1f;
+
+        Vector2 randPoint = new Vector2(center.x + randX, center.y + randY);
+
+        return randPoint;
+    }
+    float GetRandSpawnTime()
+    {
+        return Random.Range(minSpwanInterval, maxSpwanInterval);
+    }
+    float GetRandRadiusSize()
+    {
+        return Random.Range(minRadius, maxRadius);
+    }
+    float GetRandFillSpeed()
+    {
+        return Random.Range(minFillSpeed, maxFillSpeed);
+    }
+    public void GenerateObjectPool()
+    {
+        hitZonePool = new Queue<GameObject>();
+        activeHitZone = new List<GameObject>();
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject obj = Instantiate(hitZone,this.transform);
+            obj.SetActive(false);
+            hitZonePool.Enqueue(obj);
+        }
+    }
+    public GameObject GetFromPool()
+    {
+        if (hitZonePool.Count > 0)
+        {
+            GameObject obj = hitZonePool.Dequeue();
+            activeHitZone.Add(obj);
+            obj.SetActive(true);
+            return obj;
+        }
+        else
+        {
+            GameObject obj = Instantiate(hitZone,this.transform);
+            activeHitZone.Add(obj);
+            return obj;
+        }
+    }
+    public void ReturnToPool(GameObject obj)
+    {
+        currentHitZone--;
+        activeHitZone.Remove(obj);
+        obj.SetActive(false);
+        hitZonePool.Enqueue(obj);
+    }
+
+    public void RemoveAllHitZone()
+    {
+        foreach(GameObject obj in activeHitZone)
+        {
+            ReturnToPool(obj);
+        }
+    }
+    public void CheckOverlap (RectTransform hitzone)
+    {
+        Rect characterRect = GetWorldRect(playerCollider);
+        Rect prohibitRect = GetWorldRect(hitzone);
+
+        if(characterRect.Overlaps(prohibitRect))
+        {
+            Hit();
+        }
     }
 }

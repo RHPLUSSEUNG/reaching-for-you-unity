@@ -23,7 +23,6 @@ public class CircleMaskFill : MonoBehaviour
         else
         {
             gameObject.GetComponentInParent<HitZone>().Activate();
-            Destroy(gameObject);
         }
     }
 }
