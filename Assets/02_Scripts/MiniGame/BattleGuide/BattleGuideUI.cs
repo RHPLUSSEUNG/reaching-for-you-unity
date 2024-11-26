@@ -32,6 +32,14 @@ public class BattleGuideUI : UI_Popup
     GameObject handle;
     [SerializeField]
     List<GameObject> HPsprite;
+    [SerializeField]
+    float minBoundsX;
+    [SerializeField]
+    float maxBoundsX;
+    [SerializeField]
+    float minBoundsY;
+    [SerializeField]
+    float maxBoundsY;
 
     RectTransform characterRectTrnasform;
     RectTransform leftProhibit;
@@ -204,12 +212,27 @@ public class BattleGuideUI : UI_Popup
 
         if (isRolling||isHit)
         {
-            rigid.velocity = inputVec * rollSpeed;
+            nextVec = (inputVec.normalized) * rollSpeed;
         }
         else
         {
             Move();
         }
+
+        Vector2 currentPosition = rigid.position;
+
+        Vector2 clampedPosition = new Vector2(Mathf.Clamp(currentPosition.x, minBoundsX, maxBoundsX), Mathf.Clamp(currentPosition.y, minBoundsY, maxBoundsY));
+
+        if (clampedPosition != currentPosition)
+            rigid.position = clampedPosition;
+
+        if(currentPosition.x <= minBoundsX && nextVec.x < 0) nextVec.x = 0;
+        if (currentPosition.x >= maxBoundsX && nextVec.x > 0) nextVec.x = 0;
+
+        if (currentPosition.y <= minBoundsY && nextVec.y < 0) nextVec.y = 0;
+        if (currentPosition.y >= maxBoundsY && nextVec.y > 0) nextVec.y = 0;
+
+        rigid.velocity = nextVec;
     }
     void Move()
     {
@@ -232,7 +255,6 @@ public class BattleGuideUI : UI_Popup
             playerAnim.SetInteger("State", 1);
         }
         nextVec = (inputVec.normalized) * moveSpeed;
-        rigid.velocity = nextVec;
     }
     void StartRoll()
     {
