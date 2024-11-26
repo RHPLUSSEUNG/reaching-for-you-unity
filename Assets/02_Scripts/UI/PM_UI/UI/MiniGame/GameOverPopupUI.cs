@@ -8,11 +8,11 @@ public class GameOverPopupUI : UI_Popup
 {
     enum gameOverUI
     {
-        GameOverPanel,       
+        GameOverPanel,
         CloseButton
     }
 
-    public BasicHealthUI healthUI;
+    public MiniGameBase gameUI;
 
     RectTransform gameOverPanel;
     Image rankImg;
@@ -40,7 +40,7 @@ public class GameOverPopupUI : UI_Popup
 
     public void CloseButtonClick(PointerEventData data)
     {
-        healthUI.GameEnd();
+        gameUI.GameEnd();
         StartCoroutine(ClosePopupUIAnim());
     }
 

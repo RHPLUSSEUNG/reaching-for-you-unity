@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BasicHealthUI : UI_Popup
+public class BasicHealthUI : MiniGameBase
 {
     enum basicHealthUI
     {
@@ -52,18 +52,17 @@ public class BasicHealthUI : UI_Popup
     TextMeshProUGUI countdownText;
     Animator playerAnim;
 
-    int stageNumber = 1;
     int life = 0;
     int lifeEnd = 4;
     float knockbackTimeOffset = 1.0f;
-    float speedOffset = 0.4f;
+    float speedOffset = 0.3f;
     float knockbackDistanceOffset = 50f;
 
     float totalTime = 20f;
-    float baseSpeed = 3.0f;
-    float baseknockbackTime = 8.0f;
-    float baseknockbackDistance = 100f;
-    float moveDistance = 125f;
+    float baseSpeed = 2.5f;
+    float baseknockbackTime = 2.0f;
+    float baseknockbackDistance = 150f;
+    float moveDistance = 150f;
     float invincibilityTime = 1.0f;
 
     float speed;
@@ -125,16 +124,13 @@ public class BasicHealthUI : UI_Popup
         }
     }
 
-    public int GetStageLevel()
-    {
-        return stageNumber;
-    }
-
     public void SetLevel()
     {
         speed = baseSpeed - (speedOffset * stageNumber);
-        knockbackTime = baseknockbackTime - (knockbackTimeOffset * stageNumber);
-        knockbackDistance = baseknockbackDistance + (knockbackDistanceOffset * stageNumber);
+        knockbackTime = baseknockbackTime;
+        // knockbackTime = baseknockbackTime - (knockbackTimeOffset * stageNumber);
+        knockbackDistance = baseknockbackDistance;
+        // knockbackDistance = baseknockbackDistance + (knockbackDistanceOffset * stageNumber);
     }
 
     void SetTrueArea()
@@ -474,16 +470,8 @@ public class BasicHealthUI : UI_Popup
         SoundManager.Instance.PlaySFX("SFX_BasicPhysiology_Success_01");
 
         GameClearPopupUI clearUI = Managers.UI.CreatePopupUI<GameClearPopupUI>("GameClearPopup");
-        clearUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
+        clearUI.gameUI = gameObject.GetComponent<BasicHealthUI>();
         clearUI.SetRankImage(rankImg.sprite);
-    }
-
-    public void NextLevelStart()
-    {
-        GameSettingReset();
-        stageNumber++;
-        stageNumberText.text = $"Stage : {stageNumber}";
-        StartCoroutine(Countdown());
     }
 
     void GameOver()
@@ -499,11 +487,17 @@ public class BasicHealthUI : UI_Popup
         SoundManager.Instance.PlaySFX("SFX_MagicTheory_Miss_01");
 
         GameOverPopupUI overUI = Managers.UI.CreatePopupUI<GameOverPopupUI>("GameOverPopup");
-        overUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
+        overUI.gameUI = gameObject.GetComponent<BasicHealthUI>();
         overUI.SetRankImage();
     }
-
-    public void GameEnd()
+    public override void NextLevel()
+    {
+        GameSettingReset();
+        stageNumber++;
+        stageNumberText.text = $"Stage : {stageNumber}";
+        StartCoroutine(Countdown());
+    }
+    public override void GameEnd()
     {
         Debug.Log("Game End");
         SoundManager.Instance.PlayMusic("BGM_Academy_01");
