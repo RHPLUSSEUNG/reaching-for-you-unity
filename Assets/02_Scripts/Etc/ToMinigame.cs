@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ToMinigame : MonoBehaviour
@@ -10,7 +10,7 @@ public class ToMinigame : MonoBehaviour
     PlayerController player;
     [SerializeField]
     int miniGameID;
-
+    
     void Start()
     {
         button = GetComponentInChildren<Button>();

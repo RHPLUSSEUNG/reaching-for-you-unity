@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class CharacterEventHandler : MonoBehaviour
 {
-    PlayerBattle playerBattle;
+    BattleGuideUI battleguide;
     void Start()
     {
-        //playerBattle = GetComponent<PlayerBattle>();
+        battleguide = GameObject.Find("BattleGuideUI(Clone)").GetComponent<BattleGuideUI>();
     }
 
     void HitEventEnd()
     {
-        //playerBattle.SetIdle();
+        battleguide.EndHit();
+    }
+    void RollEventEnd()
+    {
+        battleguide.EndRoll();
     }
 }

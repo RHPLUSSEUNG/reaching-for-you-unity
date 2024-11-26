@@ -1,29 +1,24 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HitZone : MonoBehaviour
 {
     [SerializeField]
     LayerMask playerMask;
 
-    BattleGuideManager bgManager;
-
+    BattleGuideUI battleGuideUI;
+    PolygonCollider2D collider;
     private void Awake()
     {
-        bgManager = GameObject.Find("BattleGuideManager").GetComponent<BattleGuideManager>();
+        battleGuideUI = GameObject.Find("BattleGuideUI(Clone)").GetComponent<BattleGuideUI>();
+        collider = gameObject.GetComponent<PolygonCollider2D>();
+        collider.enabled = false;
     }
     public void Activate()
     {
-        if (Physics.CheckSphere(gameObject.transform.position, gameObject.transform.localScale.x / 2, playerMask))
-        {
-            Debug.Log("player Detected");
-            bgManager.Hit();
-        }
-        bgManager.HitZoneDestroy();
-        Destroy(gameObject);
-    }
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, gameObject.transform.localScale.x / 2);
+        collider.enabled = true;
+        battleGuideUI.CheckOverlap(this.GetComponent<RectTransform>());
+        battleGuideUI.ReturnToPool(gameObject);
     }
 }
