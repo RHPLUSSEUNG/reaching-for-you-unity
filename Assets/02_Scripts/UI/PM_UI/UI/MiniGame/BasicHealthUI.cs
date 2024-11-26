@@ -56,14 +56,14 @@ public class BasicHealthUI : UI_Popup
     int life = 0;
     int lifeEnd = 4;
     float knockbackTimeOffset = 1.0f;
-    float speedOffset = 0.4f;
+    float speedOffset = 0.3f;
     float knockbackDistanceOffset = 50f;
 
     float totalTime = 20f;
-    float baseSpeed = 3.0f;
-    float baseknockbackTime = 8.0f;
-    float baseknockbackDistance = 100f;
-    float moveDistance = 125f;
+    float baseSpeed = 2.5f;
+    float baseknockbackTime = 2.0f;
+    float baseknockbackDistance = 150f;
+    float moveDistance = 150f;
     float invincibilityTime = 1.0f;
 
     float speed;
@@ -133,8 +133,10 @@ public class BasicHealthUI : UI_Popup
     public void SetLevel()
     {
         speed = baseSpeed - (speedOffset * stageNumber);
-        knockbackTime = baseknockbackTime - (knockbackTimeOffset * stageNumber);
-        knockbackDistance = baseknockbackDistance + (knockbackDistanceOffset * stageNumber);
+        knockbackTime = baseknockbackTime;
+        // knockbackTime = baseknockbackTime - (knockbackTimeOffset * stageNumber);
+        knockbackDistance = baseknockbackDistance;
+        // knockbackDistance = baseknockbackDistance + (knockbackDistanceOffset * stageNumber);
     }
 
     void SetTrueArea()

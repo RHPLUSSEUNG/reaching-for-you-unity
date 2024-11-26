@@ -42,7 +42,7 @@ public class GameClearPopupUI : UI_Popup
 
     public void SetRankImage(Sprite rank)
     {
-        if(healthUI.GetStageLevel() > 6)
+        if(healthUI.GetStageLevel() >= 6)
         {
             startBtn.gameObject.SetActive(false);
         }
