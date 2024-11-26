@@ -8,17 +8,19 @@ public class HitZone : MonoBehaviour
     LayerMask playerMask;
 
     BattleGuideUI battleGuideUI;
-    PolygonCollider2D collider;
+    RectTransform rect;
+    //PolygonCollider2D collider;
     private void Awake()
     {
         battleGuideUI = GameObject.Find("BattleGuideUI(Clone)").GetComponent<BattleGuideUI>();
-        collider = gameObject.GetComponent<PolygonCollider2D>();
-        collider.enabled = false;
+        rect = this.GetComponent<RectTransform>();
+        //collider = gameObject.GetComponent<PolygonCollider2D>();
+        //collider.enabled = false;
     }
-    public void Activate()
+        public void Activate()
     {
-        collider.enabled = true;
-        battleGuideUI.CheckOverlap(this.GetComponent<RectTransform>());
+        //collider.enabled = true;
+        battleGuideUI.CheckOverlap(rect);
         battleGuideUI.ReturnToPool(gameObject);
     }
 }

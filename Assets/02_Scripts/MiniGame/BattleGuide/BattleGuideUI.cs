@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
-public class BattleGuideUI : UI_Popup
+public class BattleGuideUI : MiniGameBase
 {
     enum battleGuideUI
     {
@@ -49,13 +49,11 @@ public class BattleGuideUI : UI_Popup
     RectTransform rightProhibit;
     RectTransform clockCenter;
 
-    Image rankImg;
-
     TextMeshProUGUI stageNumberText;
     TextMeshProUGUI countdownText;
 
 
-    int stageNumber = 1;
+   //int stageNumber = 1;
 
     bool isInvincible = false;
     bool isProgress = false;
@@ -108,7 +106,6 @@ public class BattleGuideUI : UI_Popup
     int poolSize = 10;
 
     Queue<GameObject> hitZonePool;
-    List<GameObject> activeHitZone;
 
     #region Difficulty Setting
     [Header("Basic Value")]
@@ -166,6 +163,7 @@ public class BattleGuideUI : UI_Popup
         stageNumberText = GetObject((int)battleGuideUI.StageNumberText).GetComponent<TextMeshProUGUI>();
         countdownText = GetObject((int)battleGuideUI.CountDownText).GetComponent<TextMeshProUGUI>();
         clockCenter = GetObject((int)battleGuideUI.ClockCenter).GetComponent<RectTransform>();
+        //rankImg = GetObject((int)battleGuideUI.RankImage).GetComponent<Image>();
         //characterRectTrnasform = GetObject((int)battleGuideUI.Character).GetComponent<RectTransform>();
         playerCollider = player.transform.GetChild(0).GetComponent<RectTransform>();
         playerAnim = GetObject((int)battleGuideUI.Character).GetComponent<Animator>();
@@ -194,16 +192,21 @@ public class BattleGuideUI : UI_Popup
 
     public void SetLevel()
     {
+        life = 3;
         maxSpawnCount += maxSpawnCount_plus;
         minRadius += minRadius_plus;
         maxRadius += maxRadius_plus;
-        if ((minFillSpeed -= minFillSpeed_minus) != 0)
+        if ((minFillSpeed - minFillSpeed_minus) != 0)
             minFillSpeed -= minFillSpeed_minus;
-        if ((maxFillSpeed -= maxFillSpeed_minus) != 0)
+        else
+            minFillSpeed = 0.2f;
+        if ((maxFillSpeed - maxFillSpeed_minus) != 0)
             maxFillSpeed -= maxFillSpeed_minus;
-        if ((minSpwanInterval -= minSpwanInterval_minus)!=0)
+        else
+            maxFillSpeed = 0.2f;
+        if ((minSpwanInterval - minSpwanInterval_minus)!=0)
             minSpwanInterval -= minSpwanInterval_minus;
-        if ((maxSpwanInterval -= maxSpwanInterval) != 0)
+        if ((maxSpwanInterval - maxSpwanInterval) != 0)
             maxSpwanInterval -= maxSpwanInterval_minus;
 }
     void CharacterControl()
@@ -277,17 +280,19 @@ public class BattleGuideUI : UI_Popup
         if (isInvincible)
             return;
 
+        //playerAnim.SetInteger("State", 2);
+        playerAnim.SetTrigger("Hit");
+        rigid.velocity = Vector2.zero;
         SoundManager.Instance.PlaySFX("SFX_PracticalCombat_Fail_01"); 
         rigid.velocity = Vector2.zero;
         isHit = true;
         isInvincible = true;
         StartCoroutine(BlinkCharacter());
 
-        rigid.velocity = Vector2.zero;
+
         life--;
         HPsprite[life].SetActive(false);
-        rankImg.sprite = rank[life];
-        playerAnim.SetInteger("State", 2);
+
         if (life <= 0)
         {
             life = 3;
@@ -444,8 +449,7 @@ public class BattleGuideUI : UI_Popup
     void GameClear()
     {
         isProgress = false;
-        RemoveAllHitZone();
-
+        rigid.velocity= Vector2.zero;
         Image character = GetObject((int)battleGuideUI.Character).GetComponent<Image>();
         Color characterColor = character.color;
         character.color = new Color(characterColor.r, characterColor.g, characterColor.b, 1f);
@@ -453,23 +457,15 @@ public class BattleGuideUI : UI_Popup
         SoundManager.Instance.PlaySFX("SFX_BasicPhysiology_Success_01");
 
         GameClearPopupUI clearUI = Managers.UI.CreatePopupUI<GameClearPopupUI>("GameClearPopup");
-        clearUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
-        clearUI.SetRankImage(rankImg.sprite);
-    }
-
-    public void NextLevelStart()
-    {
-        stageNumber++;
-        stageNumberText.text = $"Stage : {stageNumber}";
-        StartCoroutine(Countdown());
+        clearUI.gameUI = gameObject.GetComponent<BattleGuideUI>();
+        clearUI.SetRankImage(rank[life]);
     }
 
     void GameOver()
     {
         Debug.Log("Game Over");
         isProgress = false;
-
-        RemoveAllHitZone();
+        rigid.velocity = Vector2.zero;
         StopAllCoroutines();
         Image character = GetObject((int)battleGuideUI.Character).GetComponent<Image>();
         Color characterColor = character.color;
@@ -478,16 +474,8 @@ public class BattleGuideUI : UI_Popup
         SoundManager.Instance.PlaySFX("SFX_MagicTheory_Miss_01");
 
         GameOverPopupUI overUI = Managers.UI.CreatePopupUI<GameOverPopupUI>("GameOverPopup");
-        overUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
+        overUI.gameUI = gameObject.GetComponent<BattleGuideUI>();
         overUI.SetRankImage();
-    }
-
-    public void GameEnd()
-    {
-        Debug.Log("Game End");
-        SoundManager.Instance.PlayMusic("BGM_Academy_01");
-        GameObject.FindWithTag("Player").GetComponent<PlayerController>().ChangeActive(true);
-        Managers.Prefab.Destroy(gameObject);
     }
 
     public void SpawnHitZone()
@@ -498,6 +486,7 @@ public class BattleGuideUI : UI_Popup
         GameObject hitzone = GetFromPool();
         hitzone.transform.position = GetRandPosition();
         float radius = GetRandRadiusSize();
+        SoundManager.Instance.PlaySFX("SFX_PracticalCombat_Attack_01");
         hitzone.transform.localScale = new Vector3(radius, radius, 1);
         hitzone.GetComponentInChildren<CircleFill>().fillSpeed = GetRandFillSpeed();
         nextRandSpwanTime = GetRandSpawnTime();
@@ -546,7 +535,6 @@ public class BattleGuideUI : UI_Popup
     public void GenerateObjectPool()
     {
         hitZonePool = new Queue<GameObject>();
-        activeHitZone = new List<GameObject>();
         for (int i = 0; i < poolSize; i++)
         {
             GameObject obj = Instantiate(hitZone,this.transform);
@@ -559,31 +547,20 @@ public class BattleGuideUI : UI_Popup
         if (hitZonePool.Count > 0)
         {
             GameObject obj = hitZonePool.Dequeue();
-            activeHitZone.Add(obj);
             obj.SetActive(true);
             return obj;
         }
         else
         {
             GameObject obj = Instantiate(hitZone,this.transform);
-            activeHitZone.Add(obj);
             return obj;
         }
     }
     public void ReturnToPool(GameObject obj)
     {
         currentHitZone--;
-        activeHitZone.Remove(obj);
         obj.SetActive(false);
         hitZonePool.Enqueue(obj);
-    }
-
-    public void RemoveAllHitZone()
-    {
-        foreach(GameObject obj in activeHitZone)
-        {
-            ReturnToPool(obj);
-        }
     }
     public void CheckOverlap (RectTransform hitzone)
     {
@@ -594,5 +571,20 @@ public class BattleGuideUI : UI_Popup
         {
             Hit();
         }
+    }
+
+    public override void GameEnd()
+    {
+        Debug.Log("Game End");
+        SoundManager.Instance.PlayMusic("BGM_Academy_01");
+        GameObject.FindWithTag("Player").GetComponent<PlayerController>().ChangeActive(true);
+        Managers.Prefab.Destroy(gameObject);
+    }
+
+    public override void NextLevel()
+    {
+        stageNumber++;
+        stageNumberText.text = $"Stage : {stageNumber}";
+        StartCoroutine(Countdown());
     }
 }
