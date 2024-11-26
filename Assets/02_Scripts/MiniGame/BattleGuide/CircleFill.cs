@@ -14,6 +14,7 @@ public class CircleFill : MonoBehaviour
     {
         image = GetComponent<RectTransform>();
         image.localScale = startScale;
+        SoundManager.Instance.PlaySFX("SFX_PracticalCombat_Attack_01");
     }
 
     void FixedUpdate()
