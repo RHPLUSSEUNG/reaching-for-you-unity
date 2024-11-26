@@ -116,8 +116,7 @@ public class AdventureManager : MonoBehaviour
     //Edit : Encounter Chance Function
     public void EncounterChance()
     {
-        // if (roomCount > 1 && roll <= currentStep)
-        if (roomCount > 4)
+        if (roomCount > 1 && roll <= currentStep)
         {
             currentStep = 0;
             roomCount = 0;
