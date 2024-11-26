@@ -7,14 +7,18 @@ public class CircleFill : MonoBehaviour
     public float fillSpeed = 5f;
 
     float elapsedTime = 0f;
+    bool loading;
 
     Vector2 startScale = new Vector2(0.1f, 0.1f); 
     Vector2 endScale = new Vector2(1f, 1f);
-    void Start()
+    void Awake()
     {
         image = GetComponent<RectTransform>();
+    }
+    private void OnEnable()
+    {
         image.localScale = startScale;
-        SoundManager.Instance.PlaySFX("SFX_PracticalCombat_Attack_01");
+        elapsedTime = 0f;
     }
 
     void FixedUpdate()
