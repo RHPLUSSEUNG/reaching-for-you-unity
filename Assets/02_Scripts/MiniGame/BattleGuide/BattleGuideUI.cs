@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
@@ -32,6 +33,8 @@ public class BattleGuideUI : UI_Popup
     GameObject handle;
     [SerializeField]
     List<GameObject> HPsprite;
+    [SerializeField]
+    List<Sprite> rank = new List<Sprite>();
     [SerializeField]
     float minBoundsX;
     [SerializeField]
@@ -172,13 +175,13 @@ public class BattleGuideUI : UI_Popup
         countdownText.gameObject.SetActive(false);
 
         GenerateObjectPool();
-       // SoundManager.Instance.StopMusic();
+        SoundManager.Instance.StopMusic();
         StartCoroutine(Countdown());
     }
 
     private void FixedUpdate()
     {
-        if(isProgress)
+        if(isProgress && !isHit)
         {
             CharacterControl();
         }
@@ -210,7 +213,7 @@ public class BattleGuideUI : UI_Popup
             StartRoll();
         }
 
-        if (isRolling||isHit)
+        if (isRolling)
         {
             nextVec = (inputVec.normalized) * rollSpeed;
         }
@@ -274,6 +277,7 @@ public class BattleGuideUI : UI_Popup
         if (isInvincible)
             return;
 
+        SoundManager.Instance.PlaySFX("SFX_PracticalCombat_Fail_01"); 
         rigid.velocity = Vector2.zero;
         isHit = true;
         isInvincible = true;
@@ -282,6 +286,7 @@ public class BattleGuideUI : UI_Popup
         rigid.velocity = Vector2.zero;
         life--;
         HPsprite[life].SetActive(false);
+        rankImg.sprite = rank[life];
         playerAnim.SetInteger("State", 2);
         if (life <= 0)
         {
@@ -305,7 +310,7 @@ public class BattleGuideUI : UI_Popup
         isProgress = true;
         if(stageNumber == 1)
         {
-            //SoundManager.Instance.PlayMusic("BGM_MiniGame_BasicPhysiology_01");
+            SoundManager.Instance.PlayMusic("BGM_MiniGame_PracticalCombat_01");
         }
         else
         {
@@ -398,7 +403,7 @@ public class BattleGuideUI : UI_Popup
         Vector3 originalScale = countdownText.transform.localScale;
         Color countdownColor = countdownText.color;
 
-        //SoundManager.Instance.PlaySFX("SFX_StartSign_01");
+        SoundManager.Instance.PlaySFX("SFX_StartSign_01");
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
@@ -445,7 +450,7 @@ public class BattleGuideUI : UI_Popup
         Color characterColor = character.color;
         character.color = new Color(characterColor.r, characterColor.g, characterColor.b, 1f);
         playerAnim.SetInteger("State", 0);
-        //SoundManager.Instance.PlaySFX("SFX_BasicPhysiology_Success_01");
+        SoundManager.Instance.PlaySFX("SFX_BasicPhysiology_Success_01");
 
         GameClearPopupUI clearUI = Managers.UI.CreatePopupUI<GameClearPopupUI>("GameClearPopup");
         clearUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
@@ -470,7 +475,7 @@ public class BattleGuideUI : UI_Popup
         Color characterColor = character.color;
         character.color = new Color(characterColor.r, characterColor.g, characterColor.b, 1f);
         playerAnim.SetInteger("State", 0);
-        //SoundManager.Instance.PlaySFX("SFX_MagicTheory_Miss_01");
+        SoundManager.Instance.PlaySFX("SFX_MagicTheory_Miss_01");
 
         GameOverPopupUI overUI = Managers.UI.CreatePopupUI<GameOverPopupUI>("GameOverPopup");
         overUI.healthUI = gameObject.GetComponent<BasicHealthUI>();
@@ -480,7 +485,7 @@ public class BattleGuideUI : UI_Popup
     public void GameEnd()
     {
         Debug.Log("Game End");
-        //SoundManager.Instance.PlayMusic("BGM_Academy_01");
+        SoundManager.Instance.PlayMusic("BGM_Academy_01");
         GameObject.FindWithTag("Player").GetComponent<PlayerController>().ChangeActive(true);
         Managers.Prefab.Destroy(gameObject);
     }
