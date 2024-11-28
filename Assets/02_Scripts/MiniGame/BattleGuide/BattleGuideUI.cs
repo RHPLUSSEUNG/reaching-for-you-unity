@@ -156,7 +156,6 @@ public class BattleGuideUI : MiniGameBase
 
     public override void Init()
     {
-
         base.Init();
         Bind<GameObject>(typeof(battleGuideUI));
 

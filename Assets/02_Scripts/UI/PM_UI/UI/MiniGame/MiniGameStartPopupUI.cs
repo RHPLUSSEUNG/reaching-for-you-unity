@@ -73,13 +73,14 @@ public class MiniGameStartPopupUI : UI_Popup
     public void CloseButtonClick(PointerEventData data)
     {
         StartCoroutine(ClosePopupUIAnim());
+        GameObject.FindWithTag("Player").GetComponent<PlayerController>().ChangeActive(true);
     }
 
     IEnumerator ClosePopupUIAnim()
     {
         StartCoroutine(CloseAnimPopup(gamePanel));
         yield return new WaitForSeconds(animDuration);
-        GameObject.FindWithTag("Player").GetComponent<PlayerController>().ChangeActive(true);
+        //GameObject.FindWithTag("Player").GetComponent<PlayerController>().ChangeActive(true);
         Managers.Prefab.Destroy(gameObject);
     }
 }

@@ -156,6 +156,8 @@ public class NoteManager : MonoBehaviour
     {
         Debug.Log("Game End");
         SoundManager.Instance.PlayMusic("BGM_Academy_01");
+        // 권희준 - 미니게임 끝나고 아카데미 씬 플레이어 다시 활성화
+        GameObject.FindWithTag("Player").GetComponent<PlayerController>().ChangeActive(true);
 
         GameObject parent = transform.parent.gameObject;
         Managers.Prefab.Destroy(parent);
