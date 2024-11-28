@@ -156,6 +156,7 @@ public class BattleGuideUI : MiniGameBase
 
     public override void Init()
     {
+
         base.Init();
         Bind<GameObject>(typeof(battleGuideUI));
 
@@ -199,16 +200,20 @@ public class BattleGuideUI : MiniGameBase
         if ((minFillSpeed - minFillSpeed_minus) != 0)
             minFillSpeed -= minFillSpeed_minus;
         else
-            minFillSpeed = 0.2f;
+            minFillSpeed = 0.1f;    //최소치 지정
         if ((maxFillSpeed - maxFillSpeed_minus) != 0)
             maxFillSpeed -= maxFillSpeed_minus;
         else
-            maxFillSpeed = 0.2f;
-        if ((minSpwanInterval - minSpwanInterval_minus)!=0)
+            maxFillSpeed = 0.1f;    //최소치 지정
+        if ((minSpwanInterval - minSpwanInterval_minus) != 0)
             minSpwanInterval -= minSpwanInterval_minus;
+        else
+            minSpwanInterval = 0.1f; //최소치 지정
         if ((maxSpwanInterval - maxSpwanInterval) != 0)
             maxSpwanInterval -= maxSpwanInterval_minus;
-}
+        else
+            maxSpwanInterval = 0.1f; //최소치 지정
+    }
     void CharacterControl()
     {
         if (Input.GetKeyDown(KeyCode.Space))    //구르기
@@ -507,9 +512,9 @@ public class BattleGuideUI : MiniGameBase
     }
     public Vector2 GetRandPosition()
     {
-        Vector2 center = spawnZone.transform.position;
+        Vector2 center = new Vector2 (spawnZone.transform.position.x + spawnZone.offset.x, spawnZone.transform.position.y + spawnZone.offset.y);
         float width = spawnZone.bounds.size.x;
-        float height = spawnZone.bounds.size.z;
+        float height = spawnZone.bounds.size.y;
 
         float randX = Random.Range(-width / 2f, width / 2f);
         float randY = Random.Range(-height / 2f, height / 2f);
