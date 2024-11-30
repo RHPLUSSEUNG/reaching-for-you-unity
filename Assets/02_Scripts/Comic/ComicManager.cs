@@ -22,7 +22,7 @@ public class ComicManager : MonoBehaviour, ICanvasSortingOrder
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -44,7 +44,7 @@ public class ComicManager : MonoBehaviour, ICanvasSortingOrder
         CanvasManager.Instance.ChangeCanvasOrder(canvas);
         targetScene = GetSceneForComic(comicType);
         comic.StartComic(comicType);
-        SoundManager.Instance.PlayMusic("01_Intro", false);
+        SoundManager.Instance.PlayMusic("BGM_Intro_01", false);
     }
 
     private SceneType GetSceneForComic(ComicType comicType)

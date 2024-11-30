@@ -62,14 +62,8 @@ public class AdventureManager : MonoBehaviour
         roll = Random.Range(1, 100);
         currentStep += 5;
         roomCount++;
-
-        if(roomCount > 1 && roll <= currentStep)
-        {
-            currentStep = 0;
-            roomCount = 0;
-
-            SceneChanger.Instance.ChangeScene(SceneType.PM_COMBAT);
-        }
+        Managers.BattleUI.hudUI.UpdateSearchCountTextUI(roomCount);
+        Managers.BattleUI.hudUI.UpdateEncounterTextUI(currentStep);
 
         if(StageNumber > 0) // 2 스테이지부터 기믹 有
         {
@@ -117,6 +111,28 @@ public class AdventureManager : MonoBehaviour
                 randomPlane.SpawnCure();
             }
         }
+    }
+
+    //Edit : Encounter Chance Function
+    public void EncounterChance()
+    {
+        if (roomCount > 1 && roll <= currentStep)
+        {
+            currentStep = 0;
+            roomCount = 0;
+
+            float waitTime = Managers.BattleUI.productionUI.EncounterProduction();
+
+            StartCoroutine(WaitAndChangeCombatScene(waitTime));
+        }
+    }
+
+    //Edit : Encounter Chance Function
+    IEnumerator WaitAndChangeCombatScene(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        GameObject.Find("Player_Girl").GetComponent<PlayerController>().ChangeActive(true);
+        SceneChanger.Instance.ChangeScene(SceneType.PM_COMBAT);
     }
 
     public void SpawnPlane(Collider collider)

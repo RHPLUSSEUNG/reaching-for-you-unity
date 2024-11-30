@@ -57,10 +57,7 @@ public class BattleManager
         cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
 
         ObjectList.Clear();
-        Managers.Party.AddParty("Player_Girl_Battle");
-        GameObject player = Managers.Party.FindPlayer("Player_Girl_Battle");
         battleState = BattleState.Start;
-        turnCnt = -1;
         phase = 1;
     }
 
@@ -75,7 +72,7 @@ public class BattleManager
         ObjectList.Sort(compareDefense);
 
         Managers.BattleUI.turnUI.InstantiateAllTurnOrderUI();
-        Managers.BattleUI.turnUI.UpdateTurnUI(turnCnt);
+        Managers.BattleUI.turnUI.UpdateTurnUI();
 
         NextTurn();
     }
@@ -91,7 +88,6 @@ public class BattleManager
         if (turnCnt >= ObjectList.Count)
         {
             phase++;
-            Managers.BattleUI.turnUI.ResetPastPanel();
             turnCnt = 0;
 
 
@@ -102,7 +98,7 @@ public class BattleManager
             InstantAfterPhaseList.Clear();
 
             ObjectList.Sort(compareDefense);
-            Managers.BattleUI.turnUI.UpdateTurnUI(turnCnt);
+            Managers.BattleUI.turnUI.UpdateTurnUI();
         }
     }
     public bool CheckGameEnd()
@@ -141,6 +137,15 @@ public class BattleManager
 
     public void NextTurn()
     {
+        if(turnCnt != 0)
+        {
+            Managers.BattleUI.turnUI.ProceedTurnUI(turnCnt);
+        }
+        else
+        {
+            Managers.BattleUI.turnUI.ProceedTurnUI(turnCnt);
+            Managers.BattleUI.turnUI.ResetPastPanel();
+        }
         Managers.Manager.StartCoroutine(NextTurnCoroutine());
     }
 
@@ -149,6 +154,7 @@ public class BattleManager
         if (monsterLive == 0)
         {
             battleState = BattleState.Victory;
+            Managers.Save.GetData();
             Debug.Log("Victory");
         }
         else if (playerLive == 0)
@@ -157,7 +163,12 @@ public class BattleManager
             Debug.Log("Defeat");
         }
         //CameraAllocate(null);
-        SceneChanger.Instance.ChangeScene(SceneType.ACADEMY);
+        //Battle End Manager Object reset
+        BattleClear();
+        Managers.Party.ClearParty();
+        Managers.Skill.SkillClear();
+        Managers.raycast.RayClear();
+        SceneChanger.Instance.ChangeScene(SceneType.PM_ADVENTURE);
     }
 
     public IEnumerator NextTurnCoroutine()
@@ -174,10 +185,9 @@ public class BattleManager
             Result();
             yield break;
         }
-        CalcTurn();
         currentCharacter = ObjectList[turnCnt];
         Debug.Log($"Turn : {currentCharacter}");
-
+        CalcTurn();
         //camera setting
         cameraController.ChangeFollowTarget(currentCharacter, true);
         cameraController.ChangeCameraMode(CameraMode.Follow, false, true);
@@ -217,9 +227,19 @@ public class BattleManager
         {
             Managers.BattleUI.battleUI.StartCoroutine(Managers.BattleUI.battleUI.StartSlide("Enemy Turn!"));
         }
-        Managers.BattleUI.turnUI.ProceedTurnUI(turnCnt);
         yield break;
     }
+
+    public void BattleClear()
+    {
+        currentCharacter = null;
+        totalTurnCnt = 0;
+        isPlayerTurn = false;
+        turnCnt = 0;
+        phase = 1;
+        Areas.Clear();
+        ObjectList.Clear();
+}
 
     #region Camera
     public void CameraAllocate(GameObject target)

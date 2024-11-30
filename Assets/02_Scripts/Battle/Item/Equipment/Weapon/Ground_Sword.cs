@@ -11,6 +11,7 @@ public class Ground_Sword : Equipment
         character.GetComponent<CharacterState>().closeAttack = true;
         character.GetComponent<CharacterState>().AttackType = ElementType.Ground;
         character.GetComponent<EntityStat>().AttackRange = 1;
+
         return true;
     }
 

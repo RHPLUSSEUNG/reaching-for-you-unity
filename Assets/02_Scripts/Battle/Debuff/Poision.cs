@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class Poision : Debuff
 {
-    int tickDmg;
+    int tickDmg =10;
+    string debuffname = "Poision";
     public override void TimeCheck()
     {
         remainTurn--;
         Managers.Active.Damage(target, tickDmg, ElementType.Grass);
-        tickDmg = tickDmg/2*3;
+        tickDmg = tickDmg/10*2;
         if (remainTurn == 0)
         {
             DeleteEffect();
@@ -16,6 +17,13 @@ public class Poision : Debuff
 
     public override void SetDebuff(int turn, GameObject target, short attribute = 0, bool turnEnd = false)
     {
+        CharacterState status = target.GetComponent<CharacterState>();
+        Debuff pos = status.FindDebuff(this);
+        if(pos != null)
+        {
+            pos.remainTurn += remainTurn;
+            return;
+        }
         this.target = target;
         tickDmg = attribute;
         remainTurn = turn;

@@ -8,7 +8,6 @@ public class UI_Hud : UI_Scene
     public enum HUDUI
     {
         ProfileImage,
-        QuickLayout,
         BuffLayout,
         DeBuffLayout,
         Status_EffectLayout,
@@ -16,7 +15,8 @@ public class UI_Hud : UI_Scene
         MPBar,
         AcquireItemUI,
         SearchCountText,
-        EncounterText
+        EncounterText,
+        HomeButton
     }
 
     [SerializeField]
@@ -51,7 +51,9 @@ public class UI_Hud : UI_Scene
         debuffLayout = GetObject((int)HUDUI.DeBuffLayout);
         status_effectLayout = GetObject((int)HUDUI.Status_EffectLayout);
         GameObject acqItem = GetObject((int)HUDUI.AcquireItemUI);
+        GameObject homeBtn = GetObject((int)HUDUI.HomeButton);
         BindEvent(acqItem, ClickAcqItemUI, Define.UIEvent.Click);
+        BindEvent(homeBtn, ClickHomeButton, Define.UIEvent.Click);
 
         player = GameObject.Find("Player_Girl");            // 남캐일 때 문제 발생 + Player 교체 코드 필요
 
@@ -59,33 +61,6 @@ public class UI_Hud : UI_Scene
         playerState = player.GetComponent<CharacterState>();
 
         Managers.BattleUI.hudUI = GetComponent<UI_Hud>();
-
-        #region Test Setting
-        IncreaseAtk testBuff_1 = new IncreaseAtk();
-        testBuff_1.SetBuff(5, player, 30);
-
-        IncreaseDefence testBuff_2 = new IncreaseDefence();
-        testBuff_2.SetBuff(3, player, 30);
-
-        BarrierBuff testBuff_3 = new BarrierBuff();
-        testBuff_3.SetBuff(1, player, 30);
-
-        IncreaseSpeed testBuff_4 = new IncreaseSpeed();
-        testBuff_4.SetBuff(2, player, 30);
-
-        Freeze testDebuff_1 = new Freeze();
-        testDebuff_1.SetDebuff(5, player, 30);
-
-        Poision testDebuff_3 = new Poision();
-        testDebuff_3.SetDebuff(2, player);
-
-        Slow testDebuff_4 = new Slow();
-        testDebuff_4.SetDebuff(1, player);
-
-        Burn testDebuff_5 = new Burn();
-        testDebuff_5.SetDebuff(2, player, 30);
-        #endregion
-
     }
 
     private void Start()
@@ -97,27 +72,6 @@ public class UI_Hud : UI_Scene
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            ChangeProfile(playerStat, playerState);
-        }
-        // Test : KeyCode를 통해 인게임하면서 State 생성, 삭제와 같이 갱신 잘 되는지 확인
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            GhostBuff ghost_Buff = new GhostBuff();
-            ghost_Buff.SetBuff(2, player);
-            ChangeProfile(playerStat, playerState);
-        }
-
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            Freeze freeze = new Freeze();
-            freeze.SetDebuff(2, player);
-            ChangeProfile(playerStat, playerState);
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            playerState.CalcTurn();
             ChangeProfile(playerStat, playerState);
         }
     }
@@ -149,8 +103,6 @@ public class UI_Hud : UI_Scene
     {
         hpBar.SetPlayerStat(stat.Hp, stat.MaxHp);
         mpBar.SetPlayerStat(stat.Mp, stat.MaxMp);
-        Sprite playerSprite = Util.FindChild(player, "Character", true).GetComponent<SpriteRenderer>().sprite;
-        profileImage.sprite = playerSprite;
         ChangeEffectUI(state);
     }
 
@@ -236,11 +188,23 @@ public class UI_Hud : UI_Scene
     {
         TextMeshProUGUI chanceText = GetObject((int)HUDUI.EncounterText).GetComponent<TextMeshProUGUI>();
 
-        chanceText.text = $"조우 확률 : {chance * 100} %";
+        chanceText.text = $"조우 확률 : {chance} %";
     }
 
     public void ClickAcqItemUI(PointerEventData data)
     {
         Managers.UI.CreatePopupUI<AcquiredItemUI>("AcqItemUI");
+    }
+
+    public void ClickHomeButton(PointerEventData data)
+    {
+        CheckConfirmUI checkUI = Managers.UI.CreatePopupUI<CheckConfirmUI>("CheckConfirmUI");
+        checkUI.SetConfirmAction(ReturnHome);
+        checkUI.ChangeConfirmText("아카데미로 돌아갈까요?");
+    }
+
+    public void ReturnHome()
+    {
+        SceneChanger.Instance.ChangeScene(SceneType.ACADEMY);
     }
 }

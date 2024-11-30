@@ -11,12 +11,13 @@ public class AdventureProductionUI : UI_Popup
         EnterTextPanel,
         MapNameText,
         MapDescriptText,
-        EncounterSign,
-        EncounterPanel
+        EncounterSign
     }
 
     TextMeshProUGUI mapName;
     TextMeshProUGUI mapDescript;
+
+    float waitOffset = 0.5f;
 
     public override void Init()
     {
@@ -29,7 +30,6 @@ public class AdventureProductionUI : UI_Popup
 
         Managers.BattleUI.productionUI = GetComponent<AdventureProductionUI>();
         GetObject((int)ProductionUI.EncounterSign).SetActive(false);
-        GetObject((int)ProductionUI.EncounterPanel).SetActive(false);
 
         SetMapText();
         StartEnterFadeEffect();
@@ -50,19 +50,18 @@ public class AdventureProductionUI : UI_Popup
 
     public void StartEnterFadeEffect()
     {
-        GetObject((int)ProductionUI.EnterTextPanel).GetComponent<ImageFadeEffect>().StartFadeEffect();
         GetObject((int)ProductionUI.MapNameText).GetComponent<TextFadeEffect>().StartFadeEffect();
         GetObject((int)ProductionUI.MapDescriptText).GetComponent<TextFadeEffect>().StartFadeEffect();
     }
 
     public float EncounterProduction()
     {
+        GameObject.Find("Player_Girl").GetComponent<PlayerController>().ChangeActive(false);
         GetObject((int)ProductionUI.EncounterSign).SetActive(true);
-        GetObject((int)ProductionUI.EncounterPanel).SetActive(true);
-        EncounterProduction production = GetObject((int)ProductionUI.EncounterPanel).GetComponent<EncounterProduction>();
-        StartCoroutine(production.Encounter());
+        EncounerProduction production = GetObject((int)ProductionUI.EncounterSign).GetComponent<EncounerProduction>();
+        StartCoroutine(production.Production());
 
-        float waitTime = production.AddWaitTime();
+        float waitTime = production.GetWaitTime() + waitOffset;
 
         return waitTime;
     }

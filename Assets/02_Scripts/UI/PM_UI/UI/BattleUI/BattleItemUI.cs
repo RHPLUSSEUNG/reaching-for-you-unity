@@ -36,9 +36,10 @@ public class BattleItemUI : UI_Base
 
     public void SetItem(int item_ID, int itemCount)
     {
-        ItemData consume_Data = Managers.Data.GetItemData(item_ID, false);
+        ConsumeData consume_Data = Managers.Data.ParsingData(item_ID) as ConsumeData;
 
         Image itemIcon = GetObject((int)battleItemUI.ItemIcon).GetComponent<Image>();
+        itemIcon.sprite = consume_Data.itemSprite;
         Text itemName = GetObject((int)battleItemUI.ItemName).GetComponent<Text>();
         itemName.text = consume_Data.ItemName;
         Text count = GetObject((int)battleItemUI.ItemCount).GetComponent<Text>();
@@ -55,7 +56,6 @@ public class BattleItemUI : UI_Base
         Managers.BattleUI.item = saveItem;
         Managers.BattleUI.item_ID = saveItem_ID;
 
-        Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
         Managers.UI.HideUI(Managers.BattleUI.itemPanel);
         Managers.UI.HideUI(Managers.BattleUI.actUI.gameObject);
 
@@ -65,14 +65,11 @@ public class BattleItemUI : UI_Base
 
     public void ItemButtonEnter(PointerEventData data)
     {
-        Managers.UI.ShowUI(Managers.BattleUI.descriptPanel);
-        DescriptUI descript = Managers.BattleUI.descriptPanel.GetComponent<DescriptUI>();
-        descript.SetDescript(saveItem, "아이템에 대한 설명");
-        descript.SetPosition();
+
     }
 
     public void ItemButtonExit(PointerEventData data)
     {
-        Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
+        
     }
 }

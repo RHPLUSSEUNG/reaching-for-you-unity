@@ -10,7 +10,6 @@ public class UI_Repair : UI_Popup
         SkillSelectPanel,
         Level,
         CharacterIcon,
-        ElementIcon,
         CharacterName,
         HPBar,
         MPBar,
@@ -45,6 +44,8 @@ public class UI_Repair : UI_Popup
 
         repairPanel = GetObject((int)repairUI.RepairPanel);
         skillPanel = GetObject((int)repairUI.SkillSelectPanel);
+
+        Managers.InvenUI.isRepair = true;
     }
 
     public void UpdatePlayerInfo()

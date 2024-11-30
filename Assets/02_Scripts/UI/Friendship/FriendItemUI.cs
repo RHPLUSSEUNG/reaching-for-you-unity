@@ -38,7 +38,8 @@ public class FriendItemUI : MonoBehaviour
         {
             if(giftCount < friend.GetPreferenceItemID().Count)
             {
-                preferenceGift[giftCount++].sprite = Managers.Data.GetItemData(itemID, false).itemSprite;
+                ItemData data = (ItemData)Managers.Data.ParsingData(itemID);
+                preferenceGift[giftCount++].sprite = data.itemSprite;
             }     
             else
             {

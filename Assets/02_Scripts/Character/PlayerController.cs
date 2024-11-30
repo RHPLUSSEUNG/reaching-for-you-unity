@@ -70,6 +70,10 @@ public class PlayerController : MonoBehaviour
         isBattleMode = false;
         isActive = true;
     }
+    private void Start()
+    {
+        spriteController.SetAnimState(AnimState.Idle);
+    }
     void Update()
     {
         if (!isActive || isBattleMode)
@@ -96,6 +100,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             Inventory();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Managers.UI.CreatePopupUI<UI_Pause>("PauseUI");
         }
     }
     private void FixedUpdate()

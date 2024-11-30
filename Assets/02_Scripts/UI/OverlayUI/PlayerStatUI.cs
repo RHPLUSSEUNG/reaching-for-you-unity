@@ -13,15 +13,15 @@ public class PlayerStatUI : MonoBehaviour
 
     private void Start()
     {
-        //playerStat = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStat>();
-        //Redraw();
+        playerStat = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStat>();
+        Redraw();
     }
 
     void Redraw()
     {
-        hpText.text = playerStat.Hp.ToString() + "/" + playerStat.MaxHp.ToString();
-        acText.text = playerStat.Defense.ToString();
-        manaText.text = playerStat.Mp.ToString() + "/" + playerStat.MaxMp.ToString();
-        mobilityText.text = playerStat.MovePoint.ToString() + "/" + playerStat.MaxMovePoint.ToString();
+        hpText.text = "HP " + playerStat.Hp.ToString() + "/" + playerStat.MaxHp.ToString();
+        acText.text = "AC " + playerStat.Defense.ToString();
+        manaText.text = "MP " + playerStat.Mp.ToString() + "/" + playerStat.MaxMp.ToString();
+        mobilityText.text = "MB " + playerStat.MovePoint.ToString() + "/" + playerStat.MaxMovePoint.ToString();
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,20 +15,40 @@ public enum SceneType
     NONE,
 }
 
+//[LSH:CODE] [Violates SOLID principles, Requiring refactoring]
 public class LoadSceneManager : MonoBehaviour
 {
     public static string nextScene;
-    public static SceneType sceneType;    
+    public static SceneType sceneType;
+    [SerializeField] TMP_Text continueText;
+    [SerializeField] TMP_Text[] sequenceText;
     [SerializeField] Image logoImage;
-    [SerializeField] Image progressBar;
-    
+    [SerializeField] Image progressImage;
+    [SerializeField] GameObject loadingPanel;
+    [SerializeField] GameObject preMainMenuPanel;
+    [SerializeField] Image titleLogoImage;
+
     public float speed = 1.0f;
     public float maxAlpha = 1.0f;
     public float minAlpha = 0.0f;
+    bool isBlinking = true;
 
     private void Start()
-    {        
+    {
         StartCoroutine(LoadScene());
+        if (sceneType == SceneType.MAINMENU)
+        {
+            preMainMenuPanel.SetActive(true);
+            loadingPanel.SetActive(false);
+            StartCoroutine(BlinkUIElement(titleLogoImage, 3));
+        }
+        else
+        {
+            loadingPanel.SetActive(true);
+            preMainMenuPanel.SetActive(false);
+            ChangeColorBySceneType(sceneType);
+            continueText.text = "";
+        }
     }
 
     public static void LoadScene(SceneType _sceneType)
@@ -48,12 +69,12 @@ public class LoadSceneManager : MonoBehaviour
                 }
             case SceneType.PM_ADVENTURE:
                 {
-                    nextScene = "Adventure_PT_5";
+                    nextScene = "04_Adventure";
                     break;
                 }
             case SceneType.PM_COMBAT:
                 {
-                    nextScene = "Battle_PT_5";
+                    nextScene = "05_Battle";
                     break;
                 }
             default:
@@ -71,47 +92,47 @@ public class LoadSceneManager : MonoBehaviour
         {
             case SceneType.MAINMENU:
                 {
-                    SoundManager.Instance.PlayMusic("02_Main_Theme");
+                    SoundManager.Instance.PlayMusic("BGM_MainMenu_01");
                     break;
                 }
             case SceneType.ACADEMY:
                 {
-                    SoundManager.Instance.PlayMusic("03_Academy");
+                    SoundManager.Instance.PlayMusic("BGM_Academy_01");
                     break;
                 }
             case SceneType.PM_ADVENTURE:
                 {
                     int stageNumber = AdventureManager.StageNumber;
-                    switch(stageNumber)
+                    switch (stageNumber)
                     {
                         case 0:
-                            SoundManager.Instance.PlayMusic("04_Desert_Adventure");
+                            SoundManager.Instance.PlayMusic("BGM_Adventure_Desert_01");
                             break;
                         case 1:
-                            SoundManager.Instance.PlayMusic("08_Ocean_Adventure");
+                            SoundManager.Instance.PlayMusic("BGM_Adventure_Sea_01");
                             break;
-                    }                    
+                    }
                     break;
                 }
             case SceneType.PM_COMBAT:
                 {
                     int stageNumber = AdventureManager.StageNumber;
-                    switch(stageNumber)
+                    switch (stageNumber)
                     {
                         case 0:
-                            SoundManager.Instance.PlayMusic("06_Desert_InBattle");
+                            SoundManager.Instance.PlayMusic("BGM_Battle_Desert_01");
                             break;
                         case 1:
-                            SoundManager.Instance.PlayMusic("08_Ocean_InBattle");
+                            SoundManager.Instance.PlayMusic("BGM_Battle_Sea_01");
                             break;
-                    }                    
+                    }
                     break;
                 }
         }
     }
 
     IEnumerator LoadScene()
-    {        
+    {
         yield return null;
         AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
         op.allowSceneActivation = false;
@@ -122,43 +143,142 @@ public class LoadSceneManager : MonoBehaviour
         while (!op.isDone)
         {
             yield return null;
-            StartCoroutine(BlinkLogo());
             timer += Time.deltaTime;
             if (op.progress < 0.9f)
             {
-                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, op.progress, timer);
-                if (progressBar.fillAmount >= op.progress)
+                progressImage.fillAmount = Mathf.Lerp(progressImage.fillAmount, op.progress, timer);
+                if (progressImage.fillAmount >= op.progress)
                 {
                     timer = 0f;
-                }
-            }
+                }                
+            }            
             else
             {
-                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
-                if (progressBar.fillAmount == 1.0f)
+                if (sceneType != SceneType.MAINMENU)
                 {
-                    
-                    yield return new WaitForSeconds(1.0f);
-                    StopCoroutine(BlinkLogo());
-                    NextSceneBGMPlay(sceneType);
-                    op.allowSceneActivation = true;
-                    yield break;
+                    progressImage.fillAmount = Mathf.Lerp(progressImage.fillAmount, 1f, timer);
+                }
+                if (progressImage.fillAmount == 1.0f || sceneType == SceneType.MAINMENU)
+                {                                        
+                    if (sceneType == SceneType.MAINMENU)
+                    {                        
+                        if (titleLogoImage.color.a >= 0.95f && !isBlinking)
+                        {                                                                                    
+                            op.allowSceneActivation = true;
+                            NextSceneBGMPlay(sceneType);
+                            StopAllCoroutines();
+                            yield break;
+                        }                        
+                    }
+                    else
+                    {
+                        continueText.text = "-클릭하여 계속-";
+                        StartCoroutine(BlinkUIElement(continueText));
+                        if (continueText.gameObject.activeSelf && Input.GetMouseButtonDown(0))
+                        {                            
+                            op.allowSceneActivation = true;
+                            NextSceneBGMPlay(sceneType);
+                            StopAllCoroutines();
+                            yield break;
+                        }                        
+                    }
                 }
             }
         }
     }
 
-    IEnumerator BlinkLogo()
-    {        
+    IEnumerator BlinkUIElement(Graphic uiElement, int maxBlinkCount = 0)
+    {
+        int blinkCount = 0;
+        bool isIncreasing = true;
+
         while (true)
         {
             yield return null;
-
-            float alpha = Mathf.PingPong(Time.time * speed, maxAlpha - minAlpha) + minAlpha;            
-
-            Color color = logoImage.color;           
+            float alpha = Mathf.PingPong(Time.time * speed, maxAlpha - minAlpha) + minAlpha;
+            Color color = uiElement.color;
             color.a = alpha;
-            logoImage.color = color;
+            uiElement.color = color;
+            if (maxBlinkCount > 0 && alpha >= 0.95f && isIncreasing)
+            {
+                blinkCount++;
+                isIncreasing = false;
+            }
+            else if (alpha <= 0.05f && !isIncreasing)
+            {
+                isIncreasing = true;
+            }
+
+            if (blinkCount >= maxBlinkCount)
+            {
+                isBlinking = false;
+            }
         }
+    }
+
+    public void ChangeColorBySceneType(SceneType _sceneType)
+    {
+        sceneType = _sceneType;
+        switch (sceneType)
+        {
+            case SceneType.MAINMENU:
+                {
+                    Camera.main.backgroundColor = HexToColor("#FFFFFF");                    
+                    continueText.color = HexToColor("#000000");
+                    for (int i = 0; i < sequenceText.Length; i++)
+                    {
+                        sequenceText[i].color = HexToColor("#000000");
+                    }
+                    break;
+                }
+            case SceneType.ACADEMY:
+                {
+                    Camera.main.backgroundColor = HexToColor("#FFFFFF");                    
+                    continueText.color = HexToColor("#000000");
+                    for (int i = 0; i < sequenceText.Length; i++)
+                    {
+                        sequenceText[i].color = HexToColor("#000000");
+                    }
+                    break;
+                }
+            case SceneType.PM_ADVENTURE:
+                {
+                    Camera.main.backgroundColor = HexToColor("#1D1C21");
+                    continueText.color = HexToColor("#FFFFFF");
+                    for (int i = 0; i < sequenceText.Length; i++)
+                    {
+                        sequenceText[i].color = HexToColor("#FFFFFF");
+                    }
+                    break;
+                }
+            case SceneType.PM_COMBAT:
+                {
+                    Camera.main.backgroundColor = HexToColor("#1D1C21");                    
+                    continueText.color = HexToColor("#FFFFFF");
+                    for (int i = 0; i < sequenceText.Length; i++)
+                    {
+                        sequenceText[i].color = HexToColor("#FFFFFF");
+                    }
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+    }
+
+    private Color HexToColor(string hex)
+    {
+        if (ColorUtility.TryParseHtmlString(hex, out Color color))
+        {
+            return color;
+        }
+        return Color.white;
+    }
+
+    private void Update()
+    {
+        
     }
 }

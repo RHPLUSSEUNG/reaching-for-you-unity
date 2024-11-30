@@ -32,8 +32,8 @@ public class SkillSelectUI : UI_Popup
     [SerializeField]
     int max_equip_skill = 5;
 
-    [SerializeField]
-    GameObject player;
+    //[SerializeField]
+    //GameObject player;
 
     // [TODO] : 동료 추가 시 동료 스킬 반영
 
@@ -47,9 +47,6 @@ public class SkillSelectUI : UI_Popup
         GameObject skillEquipBtn = GetObject((int)SelectUI.SkillEquipButton);
         BindEvent(skillEquipBtn, ClickSkillEquipButton, Define.UIEvent.Click);
 
-        player = Managers.Party.playerParty[0];         // Temp(동료 추가 시 변경 고려)
-        Debug.Log($"player : {player}");
-
         SetCharacterInfo();
         AddAllSelectSkill();
     }
@@ -57,7 +54,6 @@ public class SkillSelectUI : UI_Popup
     public void SetCharacterInfo()
     {
         Image portrait = GetObject((int)SelectUI.CharacterPortrait).GetComponent<Image>();
-        // portrait.sprite = TODO : sprite 삽입;
 
         TextMeshProUGUI charName = GetObject((int)SelectUI.PortraitName).GetComponent<TextMeshProUGUI>();
         charName.text = "아나스타샤";        // 캐릭터 이름 설정
@@ -159,7 +155,7 @@ public class SkillSelectUI : UI_Popup
         }
         equip_Skill_Count--;
         equip_skill_list.Remove(id);
-        SkillList skillList = player.GetComponent<SkillList>();
+        SkillList skillList = Managers.BattleUI.player.GetComponent<SkillList>();
         skillList.RemoveSkill(id);
 
         AddSelectSkill(id);
@@ -167,13 +163,20 @@ public class SkillSelectUI : UI_Popup
 
     public void ClickSkillEquipButton(PointerEventData data)
     {
+        Debug.Log($"Player : {Managers.BattleUI.player}");
         if(select_skill_list.Count == 0)
         {
             Debug.Log("Skill Not Select");
             return;
         }
+        if(!Managers.BattleUI.player.CompareTag("Player"))
+        {
+            Managers.BattleUI.warningUI.SetText("캐릭터를 먼저 생성해주세요!");
+            Managers.BattleUI.warningUI.ShowWarningUI();
+            return;
+        }
 
-        SkillList skillList = player.GetComponent<SkillList>();
+        SkillList skillList = Managers.BattleUI.player.GetComponent<SkillList>();
         int equipCount = skillList.idList.Count + select_Skill_Count;
         if(equipCount > max_equip_skill)
         {

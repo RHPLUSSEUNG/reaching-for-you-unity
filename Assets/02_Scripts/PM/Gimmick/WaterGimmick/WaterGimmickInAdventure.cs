@@ -5,11 +5,10 @@ using UnityEngine.UI;
 
 public class WaterGimmickInAdventure : MonoBehaviour
 {
+    // 해제할 때까지 hp - 5;
     bool isActive;
     bool isClear = false;
     Button button;
-
-    public float gimmickCount = 7; // 특정 시간 내에 기믹 해제 실패 시 오전 맵으로
 
     public delegate void ClearGimmickDelegate();
     public ClearGimmickDelegate clearGimmickDelegate;

@@ -13,7 +13,6 @@ public class InvenUI : UI_Base
         WeaponEquip,
         InvenContent,
         ConsumeLayout,
-        CharacterLayout,
         WeaponTab,
         ArmorTab,
         ConsumeTab,
@@ -21,6 +20,7 @@ public class InvenUI : UI_Base
 
     [SerializeField] Sprite activeTab;
     [SerializeField] Sprite disabledTab;
+    [SerializeField] Sprite emptySprite;
 
     RectTransform weaponRect;
     RectTransform armorRect;
@@ -54,7 +54,17 @@ public class InvenUI : UI_Base
 
         Managers.InvenUI.player = GameObject.FindGameObjectWithTag("Player");        
         Managers.InvenUI.invenUI = gameObject;
+        Managers.InvenUI.emptySprite = emptySprite;
         // Managers.InvenUI.inven_state = false;
+
+        // Inventory Test
+        Managers.Item.AddItem(4001);
+        Managers.Item.AddItem(4014);
+        Managers.Item.AddItem(4008);
+
+        Managers.Item.AddItem(6000, 1);
+        Managers.Item.AddItem(6008, 3);
+        Managers.Item.AddItem(6004, 5);
 
         Managers.InvenUI.SetInventory();
     }

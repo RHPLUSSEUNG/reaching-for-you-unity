@@ -13,6 +13,7 @@ public class Water_Knife : Equipment
         character.GetComponent<CharacterState>().after_move = true;
         character.GetComponent<EntityStat>().AttackRange = 2;
         Managers.Active.ModifySpeed(character, 10);
+
         return true;
     }
 

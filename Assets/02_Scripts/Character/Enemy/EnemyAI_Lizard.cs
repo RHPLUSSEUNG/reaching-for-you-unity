@@ -11,6 +11,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
     Transform tailPos;
     LayerMask coverLayer;
 
+    bool skillchecked;
     private void Start()
     {
         coverLayer = 1 << LayerMask.NameToLayer("EnvironmentObject");
@@ -21,6 +22,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
         skillList = GetComponent<SkillList>();
         skillList.AddSkill(Managers.Skill.InstantiateSkill(1, true));
         isTurnEnd = true;
+        skillchecked = false;
     }
     public override void ProceedTurn()
     {
@@ -28,13 +30,24 @@ public class EnemyAI_Lizard : EnemyAI_Base
             return;
 
         OnTurnStart();
-        Search(stat.Sight);
+        Search(2, RangeType.Cross);    //스킬 범위 먼저 체크
     }
     public override void OnTargetFoundSuccess()
     {
         if (isTurnEnd)
             return;
-
+        if (!skillchecked && !isSIzeMode)   // 스킬 사용
+        {
+            PathFinder.RequestSkillRange(transform.position, 2, RangeType.Cross, OnSkillRangeFound);
+            Debug.Log("Skill Used!");
+            stat.ActPoint -= 60;
+            stat.Mp -= 60;
+            spriteController.SetAnimState(AnimState.Trigger2);
+            skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetObj.transform.parent.gameObject);
+            isAttacked = true;
+            skillchecked = true;
+            BeforeTrunEnd();
+        }
         if (!isAttacked)
             SpecialCheck();
         else
@@ -44,8 +57,12 @@ public class EnemyAI_Lizard : EnemyAI_Base
     {
         if (isTurnEnd)
             return;
-
-        if (!isMoved)
+        if (!skillchecked)
+        {
+            skillchecked = true;
+            Search(stat.Sight, RangeType.Normal);
+        }
+        else if (!isMoved)
         {
             isSIzeMode = false;
             // 돌 없는 애니메이션 재생
@@ -57,7 +74,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
     }
     public override void OnPathFailed()
     {
-        GetRandomLoc(stat.MovePoint);
+        BeforeTrunEnd();    //TODO : 이동 경로 확보 불가 시 행동
     }
     public override void OnMoveEnd()
     {
@@ -101,16 +118,6 @@ public class EnemyAI_Lizard : EnemyAI_Base
                 Attack(50);
                 spriteController.SetAnimState(AnimState.Idle);
             }
-            else if (targetDistance <= 2) // 장전상태가 아니고, 적이 2칸 이내에 있을 경우
-            {
-                PathFinder.RequestSkillRange(transform.position, 2, RangeType.Cross, OnSkillRangeFound);
-                Debug.Log("Skill Used!");
-                stat.ActPoint -= 60;
-                stat.Mp -= 60;
-                spriteController.SetAnimState(AnimState.Trigger2);
-                skillList.list[0].GetComponent<MonsterSkill>().SetTarget(targetObj.transform.parent.gameObject);
-                BeforeTrunEnd();
-            }
             else  // 장전상태가 아니고, 적이 2칸 밖에 있을 경우
             {
                 spriteController.SetAnimState(AnimState.Move);  // Idle 상태 복귀 방지를 위한 변경
@@ -141,6 +148,7 @@ public class EnemyAI_Lizard : EnemyAI_Base
 
     public override void BeforeTrunEnd()
     {
+        skillchecked = false;
         TurnEnd();
     }
     public override void RadomTile()

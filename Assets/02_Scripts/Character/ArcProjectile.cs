@@ -26,8 +26,8 @@ public class ArcProjectile : MonoBehaviour
 
     public void Shoot(Transform startpos, Transform targetpos)
     {
-        target = targetpos;
         transform.position = startpos.position;
+        target = targetpos;
         gameObject.SetActive(true);
 
         StartCoroutine(Flight());

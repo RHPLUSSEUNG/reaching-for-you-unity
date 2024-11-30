@@ -7,6 +7,7 @@ public class Fire_Hat : Equipment
     public override bool Equip(GameObject character)
     {
         Managers.Active.ModifyDefense(character, 10);
+        character.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = this.sprite;
         return true;
     }
 

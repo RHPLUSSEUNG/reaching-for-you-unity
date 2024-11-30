@@ -11,6 +11,7 @@ public class Water_Sword : Equipment
         character.GetComponent<CharacterState>().closeAttack = true;
         character.GetComponent<CharacterState>().AttackType = ElementType.Water;
         character.GetComponent<EntityStat>().AttackRange = 1;
+
         return true;
     }
 

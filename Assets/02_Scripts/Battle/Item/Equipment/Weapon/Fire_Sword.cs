@@ -11,6 +11,7 @@ public class Fire_Sword : Equipment
         character.GetComponent<CharacterState>().closeAttack = true;
         character.GetComponent<CharacterState>().AttackType = ElementType.Fire;
         character.GetComponent<EntityStat>().AttackRange = 1;
+
         return true;
     }
 

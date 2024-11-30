@@ -69,7 +69,11 @@ public class QuestList : MonoBehaviour, IPredicateEvaluator
     {
         return statuses;
     }
-
+    //2024.11.19 PJH Code - SaveManager Ref
+    public void SetQuestStatuses(List<QuestStatus> statuses)
+    {
+        this.statuses = statuses;
+    }
     public void CompleteObjective(Quest quest, string objective)
     {
         QuestStatus status = GetQuestStatus(quest);

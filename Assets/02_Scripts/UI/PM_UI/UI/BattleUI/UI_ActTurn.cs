@@ -31,6 +31,8 @@ public class UI_ActTurn : UI_Scene
 
     RectTransform uiRect;
     RectTransform turnRect;
+
+    List<GameObject> ObjectTurn = new();
     public override void Init()
     {
         base.Init();
@@ -47,6 +49,11 @@ public class UI_ActTurn : UI_Scene
 
         Managers.BattleUI.turnUI = gameObject.GetComponent<UI_ActTurn>();
         turnUIBtn.gameObject.SetActive(false);
+
+        for(int i = 0; i < Managers.Battle.ObjectList.Count; i++)
+        {
+            ObjectTurn.Add(Managers.Battle.ObjectList[i]);
+        }
     }
 
     public void InstantiateTurnOrderUI()
@@ -64,26 +71,15 @@ public class UI_ActTurn : UI_Scene
         ShowTurnOrderUI();
     }
 
-    public void UpdateTurnUI(int turnCnt)
+    public void UpdateTurnUI()
     {
-        if(turnCnt == -1)
-        {
-            turnCnt = 0;
-        }
-        int circleIdx = turnCnt;
-        for (int i = 0; i < Managers.Battle.ObjectList.Count; i++)
+        for (int i = 0; i < ObjectTurn.Count; i++)
         {
             TurnUI turnUI = turnPanel.transform.GetChild(i).GetComponent<TurnUI>();
             Image turnImg = turnUI.GetTurnImage();
-            // Sprite charSprite = Util.FindChild(Managers.Battle.ObjectList[circleIdx], "Character", true).GetComponent<SpriteRenderer>().sprite;
-            Sprite charSprite = ApplyTurnUISprite(Managers.Battle.ObjectList[circleIdx].name);
+            Sprite charSprite = ApplyTurnUISprite(ObjectTurn[i].name);
 
             turnImg.sprite = charSprite;
-            circleIdx++;
-            if (circleIdx == Managers.Battle.ObjectList.Count)
-            {
-                circleIdx = 0;
-            }
         }
     }
 
@@ -91,7 +87,7 @@ public class UI_ActTurn : UI_Scene
     {
         // 소환 스킬을 했을 때, 소환수가 이번 페이즈에 행동하는가? 아니면 다음 행동부터 행동하는지 구별할 게 필요
         InstantiateTurnOrderUI();
-        UpdateTurnUI(turnCnt);
+        UpdateTurnUI();
 
         // 소환수가 이번 페이즈에 행동을 할 때
         // 소환수 스킬 더 추가 시 모듈화 또는 수정 필요
@@ -107,14 +103,10 @@ public class UI_ActTurn : UI_Scene
         }
     }
 
-    public void DestroyTurnUI(int dead_Index)
+    public void DestroyTurnUI(GameObject character)
     {
-        Destroy(turnPanel.transform.GetChild(0).gameObject);
-        if(dead_Index < turnCnt)
-        {
-            turnCnt--;
-        }
-        UpdateTurnUI(turnCnt);
+        ObjectTurn.Remove(character);
+        StartCoroutine(DeadTurnAnim());
     }
 
     public void ProceedTurnUI(int turnCnt)
@@ -128,10 +120,21 @@ public class UI_ActTurn : UI_Scene
         
     }
 
+    void UpdateObjectTurn()
+    {
+        GameObject pastTurn = ObjectTurn[0];
+        for (int i = 1; i < ObjectTurn.Count; i++)
+        {
+            ObjectTurn[i - 1] = ObjectTurn[i];
+        }
+        ObjectTurn[ObjectTurn.Count - 1] = pastTurn;
+    }
+
     IEnumerator MoveTurnUIAnim()
     {
         isMoving = true;
         turnUIBtn.interactable = false;
+        UpdateObjectTurn();
         CanvasGroup firstChildCanvasGroup = turnPanel.transform.GetChild(0).GetComponent<CanvasGroup>();
 
         Vector3 startPos = turnRect.anchoredPosition;
@@ -151,7 +154,7 @@ public class UI_ActTurn : UI_Scene
         turnRect.anchoredPosition = endPos;
 
         turnPanel.transform.GetChild(0).SetSiblingIndex(turnPanel.transform.childCount - 1);
-        GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - 1).GetChild(1).gameObject;
+        GameObject pastPanel = turnPanel.transform.GetChild(ObjectTurn.Count - 1).GetChild(1).gameObject;
         pastPanel.SetActive(true);
 
         turnRect.anchoredPosition = startPos;
@@ -166,6 +169,10 @@ public class UI_ActTurn : UI_Scene
         float elapsedTime = 0;
         while (elapsedTime < duration)
         {
+            if (canvasGroup == null)
+            {
+                yield break;
+            }
             canvasGroup.alpha = Mathf.Lerp(1, 0, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -178,11 +185,40 @@ public class UI_ActTurn : UI_Scene
         float elapsedTime = 0;
         while (elapsedTime < duration)
         {
+            if (canvasGroup == null)
+            {
+                yield break;
+            }
             canvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         canvasGroup.alpha = 1;
+    }
+
+    IEnumerator DeadTurnAnim()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        Destroy(turnPanel.transform.GetChild(0).gameObject);
+        UpdateTurnUI();
+        //turn.AddComponent<LayoutElement>().ignoreLayout = true;
+        //float deadDistance = 100f;
+        //float deadDuration = 0.4f;
+        //float elapsed = 0f;
+        //CanvasGroup deadChild = turn.GetComponent<CanvasGroup>();
+
+        //RectTransform turnRect = turn.GetComponent<RectTransform>();
+        //Vector3 startPos = turnRect.anchoredPosition;
+        //Vector3 endPos = startPos + new Vector3(0, -deadDistance, 0);
+        //StartCoroutine(FadeOut(deadChild, animDuration));
+        //while (elapsed < deadDuration)
+        //{
+        //    turnRect.anchoredPosition = Vector3.Lerp(startPos, endPos, elapsed / deadDuration);
+        //    elapsed += Time.deltaTime;
+        //    yield return null;
+        //}
+        //turnRect.anchoredPosition = endPos;
     }
 
     public void ShowTurnOrderUI()
@@ -228,10 +264,11 @@ public class UI_ActTurn : UI_Scene
 
     public void ResetPastPanel()
     {
-        turnPanel.transform.GetChild(0).SetSiblingIndex(turnPanel.transform.childCount - 1);
-        GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - 1).GetChild(1).gameObject;
-        pastPanel.SetActive(true);
+        //turnPanel.transform.GetChild(0).SetSiblingIndex(turnPanel.transform.childCount - 1);
+        //GameObject pastPanel = turnPanel.transform.GetChild(Managers.Battle.ObjectList.Count - 1).GetChild(1).gameObject;
+        //pastPanel.SetActive(true);
 
+        GameObject pastPanel;
         for (int i = 0; i < turnPanel.transform.childCount; i++)
         {
             pastPanel = turnPanel.transform.GetChild(i).GetChild(1).gameObject;

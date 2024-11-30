@@ -22,7 +22,7 @@ public class ConsumeItemUI : InvenItemUI
     public void SetItemInfo(int value)
     {
         // 아이템의 정보로 변경
-        ItemData itemData = Managers.Data.GetItemData(invenItemID);
+        ConsumeData itemData = Managers.Data.ParsingData(invenItemID) as ConsumeData;
         itemType = itemData.ItemType;
 
         itemIcon = GetObject((int)consumeItemUI.ItemIcon).GetComponent<Image>();

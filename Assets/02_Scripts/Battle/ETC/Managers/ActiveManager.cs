@@ -31,7 +31,7 @@ public class ActiveManager
         int dead_Index = Managers.Battle.ObjectList.IndexOf(character);         // 추가 : UI 생성
         Managers.Battle.ObjectList.Remove(character);
         character.SetActive(false);
-        Managers.BattleUI.turnUI.DestroyTurnUI(dead_Index);     // 추가 : UI 생성
+        Managers.BattleUI.turnUI.DestroyTurnUI(character);     // 추가 : UI 생성
 
         #region 임시 결과 조건
         if (Managers.Battle.monsterLive == 0 || Managers.Battle.playerLive == 0)
@@ -56,6 +56,8 @@ public class ActiveManager
 
     public int Damage(GameObject target, int damage, ElementType element = ElementType.None, bool close = false)
     {
+        if (target == null)
+            return 0;
         //Debug.Log(target);
         if (damage <= 0 || target.GetComponent<EntityStat>() == null)
         {

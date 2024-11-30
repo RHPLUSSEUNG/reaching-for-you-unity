@@ -94,17 +94,16 @@ public class CreateObject : MonoBehaviour
         stageIndex = AdventureManager.StageNumber;
         GenerateMap();
 
+        PlaceRandomEnemy();
         PlaceObstacles();
         PlaceGimmicks();
-        PlaceEnemy();
         SetTileCanWalk();
 
+        Managers.UI.CreatePopupUI<BattleVSUI>();
         if(stageIndex == 0)
-            desertMap.SetActive(true);
-        else 
-            desertMap.SetActive(false);
+            Instantiate(desertMap, desertMap.transform.position, Quaternion.identity, this.transform);
 
-        manager.active = true;
+        //manager.active = true;
     }
 
     void ConvertStageType(StageType _type)
@@ -275,7 +274,7 @@ public class CreateObject : MonoBehaviour
         return true;
     }
 
-    public void PlaceEnemy()
+    public void PlaceRandomEnemy()
     {
         int monsterCount = 3;
         Managers.Party.MakeMonsterParty(monsterCount);
@@ -319,6 +318,7 @@ public class CreateObject : MonoBehaviour
             // 해당 위치가 벽과 충돌하지 않는지, 또는 장애물과 충돌하지 않는지 확인
             if (!IsWallAtPosition(randomCoord.X, randomCoord.Z))
             {
+                if(!IsEnemySpawnPosition(randomCoord.X, randomCoord.Z)) { // 추후 삭제 예정
                 wallInMap[randomCoord.X, randomCoord.Z] = true;
                 // 기믹을 랜덤하게 선택하여 배치
                 int randomIndex = Random.Range(0, Gimmicks.Length);
@@ -350,6 +350,7 @@ public class CreateObject : MonoBehaviour
 
                 // 배치된 기믹의 위치를 리스트에 추가
                 gimmickCount--;
+                }
             }
         }
     }

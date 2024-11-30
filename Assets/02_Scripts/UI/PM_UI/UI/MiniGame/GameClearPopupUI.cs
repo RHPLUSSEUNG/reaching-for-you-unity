@@ -15,7 +15,7 @@ public class GameClearPopupUI : UI_Popup
         CloseButton
     }
 
-    public BasicHealthUI healthUI;
+    public MiniGameBase gameUI;
 
     RectTransform clearPanel;
     Image rankImg;
@@ -42,7 +42,7 @@ public class GameClearPopupUI : UI_Popup
 
     public void SetRankImage(Sprite rank)
     {
-        if(healthUI.GetStageLevel() > 6)
+        if(gameUI.GetStageLevel() >= 6)
         {
             startBtn.gameObject.SetActive(false);
         }
@@ -50,13 +50,13 @@ public class GameClearPopupUI : UI_Popup
     }
     public void StartButtonClick(PointerEventData data)
     {
-        healthUI.NextLevelStart();
+        gameUI.NextLevel();
         StartCoroutine(ClosePopupUIAnim());
     }
 
     public void CloseButtonClick(PointerEventData data)
     {
-        Managers.Prefab.Destroy(healthUI.gameObject);
+        gameUI.GameEnd();
         StartCoroutine(ClosePopupUIAnim());
     }
 

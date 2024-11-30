@@ -22,6 +22,22 @@ public class RaycastManager
     {
         extent= GameObject.Find("SkillExtent").GetComponent<SkillExtent>();
     }
+
+    public void RayClear()
+    {
+        target = null;
+        extent = null;
+        ranges = null;
+        targets = null;
+
+        character = null;
+        characterstat = null;
+        characterstate = null;
+
+        itemList = null;
+        activeSkill = null;
+        consume = null;
+    }
     public void OnUpdate()
     {
         if (Managers.Battle.currentCharacter != null && Managers.Battle.currentCharacter.CompareTag("Player"))
@@ -49,12 +65,22 @@ public class RaycastManager
                 switch (Managers.UI.uiState)
                 {
                     case UIState.Move:
-                        character.GetComponent<PlayerBattle>().Move(RaycastTile(ray));
+                        target = RaycastTile(ray);
+                        if (target != null)
+                        {
+                            Managers.BattleUI.moveBtn.SetActive(false);
+                            character.GetComponent<PlayerBattle>().Move(target);
+                        }
                         target = null;
                         break;
                     case UIState.Idle:
                         target = null;
                         detect_ready = false;
+                        if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+                        {
+                            GameObject obj = hit.collider.transform.parent.gameObject;
+                            Managers.BattleUI.ShowBattleInfo(obj);
+                        }
                         break;
                     case UIState.SkillSet:
                         activeSkill = Managers.BattleUI.GetSkill();

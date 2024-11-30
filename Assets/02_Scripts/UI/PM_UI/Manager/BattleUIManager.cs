@@ -19,7 +19,6 @@ public class BattleUIManager
     public GameObject actPanel;
     public GameObject magicPanel;
     public GameObject itemPanel;
-    public GameObject descriptPanel;
     public GameObject moveBtn;
     public GameObject cancleBtn;
 
@@ -126,7 +125,6 @@ public class BattleUIManager
         Managers.UI.ShowUI(moveBtn);
         Managers.UI.ShowUI(Managers.BattleUI.turnUI.turnUIBtn.gameObject);
         Managers.UI.HideUI(actPanel);
-        Managers.UI.HideUI(descriptPanel);
         Managers.UI.HideUI(cancleBtn);
     }
 
@@ -140,7 +138,6 @@ public class BattleUIManager
 
     public void PlayerActPhaseUI()
     {
-        Managers.UI.HideUI(Managers.BattleUI.descriptPanel);
         Managers.UI.HideUI(Managers.BattleUI.actPanel);
         Managers.UI.ShowUI(Managers.BattleUI.cancleBtn);
     }

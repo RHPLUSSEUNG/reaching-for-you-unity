@@ -12,6 +12,15 @@ public class SkillManager
 
     public bool is_effect = false;
 
+    public void SkillClear()
+    {
+        skill = null;
+        target = null;
+        usingSkill = null;
+        usingEffect = null;
+        is_effect = false;
+    }
+
     public void OnAwake()
     {
         usingSkill = GameObject.Find("UsingSkill");
@@ -79,7 +88,6 @@ public class SkillManager
     public GameObject InstantiateEffect(string name, GameObject target)
     {
         GameObject effect = Managers.Prefab.Instantiate($"Effect/BuffDebuff/{name}", target.transform);
-        effect.transform.localPosition = new Vector3(0, 0, -0.5f);
         return effect;
     }
     #endregion
@@ -105,16 +113,17 @@ public class SkillManager
         is_effect = false;
     }
 
-    public IEnumerator StartBuffEffect(GameObject effect, Vector3 pos)
+    public IEnumerator StartBuffEffect(GameObject effect)
     {
         if (effect == null)
             yield break;
 
-        effect.transform.position = pos;
-        effect.GetComponent<ParticleSystem>().Play();
+        effect.SetActive(true);
         is_effect = true;
-        yield return new WaitForSeconds(0.5f);
-        effect.GetComponent<ParticleSystem>().Stop();
+        effect.GetComponent <ParticleSystem>().Play();
+        yield return new WaitForSeconds(1.5f);
+        effect.SetActive(false);
+        effect.GetComponent<ParticleSystem>().Pause();
         is_effect = false;
         yield break;
     }
