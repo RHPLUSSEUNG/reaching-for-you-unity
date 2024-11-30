@@ -1,70 +1,66 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=275&section=header&text=reaching%20for%20you&fontSize=72&fontAlign=50&fontAlignY=40&desc=UNITY&descSize=18&descAlign=79&descAlignY=51" />
-
----
-![unity](https://img.shields.io/badge/Unity-100000?style=for-the-badge&logo=unity&logoColor=white)
-![visualstudio](https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual%20studio&logoColor=white)
-![csharp](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
-
-<a href="https://github.com/RHPLUSSEUNG/reaching-for-you-unity"><img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=GitHub&logoColor=white"/></a>
-<a href=""><img src="https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=Discord&logoColor=white"/></a>
-
-##### private issues
-
-[![Commit activity](https://img.shields.io/github/commit-activity/t/RHPLUSSEUNG/reaching-for-you-unity?cacheSeconds=0)](https://github.com/RHPLUSSEUNG/reaching-for-you-unity/commits/main)
-![last commit](https://img.shields.io/github/last-commit/RHPLUSSEUNG/reaching-for-you-unity)
-
-# Reaching For You
-### 유니티 엔진을 이용한 턴제 어드벤쳐 게임 프로젝트
-
----
-</div>
-
-For Collaborators
-# 1. Unity Project Convention
-- Code Style: Allman
-- Ref: [유니티 프로젝트를 구성하기 위한 방법](https://velog.io/@jaehyeoksong0/unity-organizing-your-project)
-
-
-
-# 2. Git Hub Commit Convention
-- Ref: [Git Commit Message Convention](https://github.com/gyoogle/tech-interview-for-developer/blob/master/ETC/Git%20Commit%20Message%20Convention.md)
-### 커밋 메세지 형식
-
-```
-type: Subject (제목)
-
-body (본문)
-
-footer (꼬리말)
-```
-
-- ```feat``` : 새로운 기능에 대한 커밋
-- ```fix``` : 버그 수정에 대한 커밋
-- ```build``` : 빌드 관련 파일 수정에 대한 커밋
-- ```chore``` : 그 외 자잘한 수정에 대한 커밋
-- ```ci``` : CI관련 설정 수정에 대한 커밋
-- ```docs``` : 문서 수정에 대한 커밋
-- ```style``` : 코드 스타일 혹은 포맷 등에 관한 커밋
-- ```refactor``` :  코드 리팩토링에 대한 커밋
-- ```test``` : 테스트 코드 수정에 대한 커밋
-
-### Subject (제목)
-- *한글*로 간결하게 작성
-
-### Body (본문)
-- 상세히 작성, 기본적으로 무엇을 왜 진행 하였는지 작성
-
-### footer (꼬리말)
-- 참고사항
+  ![GameLogo](https://github.com/user-attachments/assets/ef955956-f052-45a1-9a6c-52173e8a184a)
+  
+  ![Version](https://img.shields.io/badge/version-v0.1.0_alpha-6E74E6?style=for-the-badge&labelColor=293DB9)
 
   
+  ![unity](https://img.shields.io/badge/Unity-100000?style=for-the-badge&logo=unity&logoColor=white)
 
-# 3. Branch Rule
-- Ref: [Git Branch & Naming](https://ej-developer.tistory.com/75)
-### 크게 3가지 유형의 브랜치로 분기하여 사용
+  <hr>
+  
+  [![Commit activity](https://img.shields.io/github/commit-activity/t/RHPLUSSEUNG/reaching-for-you-unity?cacheSeconds=0)](https://github.com/RHPLUSSEUNG/reaching-for-you-unity/commits/main)
+  ![last commit](https://img.shields.io/github/last-commit/RHPLUSSEUNG/reaching-for-you-unity)
+  [![Opened issues](https://img.shields.io/github/issues/Gourieff/reaching-for-you?color=red)](https://github.com/Gourieff/sd-webui-reactor/issues?cacheSeconds=0)
+  [![Closed issues](https://img.shields.io/github/issues-closed/RHPLUSSEUNG/reaching-for-you?color=green&cacheSeconds=0)](https://github.com/Gourieff/sd-webui-reactor/issues?q=is%3Aissue+is%3Aclosed)
 
-- ```main``` : 유저에게 배포가능한 상태를 관리하는 브랜치. 절대 함부로 병합 시키지 말것
-- ```develop``` : 기능개발을 위한 브랜들을 병합시키는 브랜치. feature/... 브랜치는 이곳에서 분기하여 병합, 안정적인 상태일때, main에 병합
-- ```feature/...``` : 새로운 기능 및 버그 수정이 필요할 때 사용하는 브랜치. develop 브랜치에서 분기하여 병합, 더 이상 필요가 없다면 삭제 naming ex) feature/dialogue
+
+# Reaching For You
+
+### 전략적 전투와 성장을 즐기는 턴제 그리드 RPG 게임
+
+</div>
+
+---
+
+## 🤗 게임 소개
+
+
+![introduction](https://github.com/user-attachments/assets/05b93183-cdd6-43d2-bd98-72972fb7e934)
+
+
+<details>
+	<summary><a>✨조작법</a></summary>
+
+### 조작법
+[학교]
+![School_Image](https://github.com/user-attachments/assets/771b7acf-7e57-4847-8305-70ec7bf6d44f)
+- W, A, S, D로 플레이어 캐릭터를 조작
+- 대화와 퀘스트를 통하여 스토리 진행
+
+[탐험]
+![Adventure_Image](https://github.com/user-attachments/assets/2dc47ab1-bfe3-4d2c-9d7e-9ed2910c26b8)
+- 여러 방을 돌아다니며 인카운터 형식으로 전투 돌입
+
+[전투]
+![Battle_Image](https://github.com/user-attachments/assets/009915f0-9446-4539-adfd-21f3cfbcdb39)
+- 턴제 그리드 형식의 전투
+- 이동력을 이용하여 그리드 이동
+- 스킬을 이용하여 몬스터를 공격
+
+</details>
+
+
+## 📝개발자
+
+### Team 경주이씨익재공파40세손이승형대장의팀
+| **소속** | **이승형** | **권희준** | **박주현** | **변채원** | **이지훈** |
+| :------: | :------: |  :------: | :------: | :------: | :------: |
+|![YULogo](https://github.com/user-attachments/assets/39d0a5a6-8a63-49f0-84b8-ddf0e325b8c3)</br>[컴퓨터공학과](https://cse.yu.ac.kr/cse/index.do)|게임시스템, UI</br>[RHPLUSSEUNG](https://github.com/RHPLUSSEUNG)|캐릭터, 카메라</br>[REofCC](https://github.com/REofCC)|스킬, 전투시스템</br>[yeochi1201](https://github.com/yeochi1201)|맵</br>[dnaeuuonn](https://github.com/bye-on)|UI</br>[LeeJiHun](https://github.com/JiHoon-Lee-Tony)|
+
+### Team STAR
+| **소속** | **성현** | **강민지** | **김민경** | **심재경** | **이채은** | **최가영** |
+| :------: | :------: | :------: |  :------: | :------: | :------: | :------: |
+|![GULogo](https://github.com/user-attachments/assets/c6143b14-094d-43b1-9c77-1bf774a23175)</br>[비주얼게임콘텐츠스쿨](https://www.gumi.ac.kr/HOME/vgc/sub.htm?nav_code=vgc1588847794)|기획, 3D|UI|오브젝트,만화|캐릭터|애니메이션|3D배경|
+
+
