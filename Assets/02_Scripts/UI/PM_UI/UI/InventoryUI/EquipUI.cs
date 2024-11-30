@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -5,11 +6,14 @@ public class EquipUI : UI_Popup
 {
     enum equipUI
     {
+        Blocker,
         EquipPanel,
         EquipButton,
         ExplainButton,
         WasteButton
     }
+
+    RectTransform panelRect;
 
     public override void Init()
     {
@@ -21,8 +25,10 @@ public class EquipUI : UI_Popup
         BindEvent(explainBtn, ExplainButtonClick, Define.UIEvent.Click);
         GameObject wasteBtn = GetObject((int)equipUI.WasteButton);
         BindEvent(wasteBtn, WasteButtonClick, Define.UIEvent.Click);
+        GameObject blocker = GetObject((int)equipUI.Blocker);
+        BindEvent(blocker, CloseEquipUI, Define.UIEvent.Click);
 
-        RectTransform panelRect = GetObject((int)equipUI.EquipPanel).GetComponent<RectTransform>();
+        panelRect = GetObject((int)equipUI.EquipPanel).GetComponent<RectTransform>();
         StartCoroutine(AnimPopup(panelRect));
     }
 
@@ -30,7 +36,7 @@ public class EquipUI : UI_Popup
     {
         GameObject equipPanel = GetObject((int)equipUI.EquipPanel);
         RectTransform uiPos = equipPanel.GetComponent<RectTransform>();
-        Vector3 newPosition = Input.mousePosition + new Vector3(uiPos.rect.width, 0, 0);
+        Vector3 newPosition = Input.mousePosition + new Vector3(uiPos.rect.width / 2, 0, 0);
         uiPos.position = newPosition;
     }
     public void EquipButtonClick(PointerEventData data)
@@ -60,6 +66,18 @@ public class EquipUI : UI_Popup
             bool removeCheck = Managers.Item.RemoveItem(Managers.InvenUI.focusItemID);
             Managers.InvenUI.RemoveItemUI();
         });
+        Managers.Prefab.Destroy(gameObject);
+    }
+
+    public void CloseEquipUI(PointerEventData data)
+    {
+        StartCoroutine(ClosePopupUIAnim());
+    }
+
+    IEnumerator ClosePopupUIAnim()
+    {
+        StartCoroutine(CloseAnimPopup(panelRect));
+        yield return new WaitForSeconds(animDuration);
         Managers.Prefab.Destroy(gameObject);
     }
 }

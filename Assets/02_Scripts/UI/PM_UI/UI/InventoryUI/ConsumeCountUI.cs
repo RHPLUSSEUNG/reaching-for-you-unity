@@ -9,13 +9,16 @@ public class ConsumeCountUI : UI_Popup
 {
     enum consumeCntUI
     {
+        CountPanel,
         CountText,
         DecreaseButton,
         ValueSlider,
         IncreaseButton,
-        DecisionButton
+        DecisionButton,
+        CloseButton
     }
 
+    RectTransform panelRect;
     TextMeshProUGUI countText;
     Slider valueSlider;
     int count;
@@ -33,9 +36,12 @@ public class ConsumeCountUI : UI_Popup
         GameObject decreaseBtn = GetObject((int)consumeCntUI.DecreaseButton);
         GameObject increaseBtn = GetObject((int)consumeCntUI.IncreaseButton);
         GameObject decisionBtn = GetObject((int)consumeCntUI.DecisionButton);
+        panelRect = GetObject((int)consumeCntUI.CountPanel).GetComponent<RectTransform>();
+        GameObject closeBtn = GetObject((int)consumeCntUI.CloseButton);
         BindEvent(decreaseBtn, ClickDecreaseButton, Define.UIEvent.Click);
         BindEvent(increaseBtn, ClickIncreaseButton, Define.UIEvent.Click);
         BindEvent(decisionBtn, ClickDecisionButton, Define.UIEvent.Click);
+        BindEvent(closeBtn, ClickCloseButton, Define.UIEvent.Click);
     }
 
     void ChangeCountText(bool changeState)
@@ -83,6 +89,18 @@ public class ConsumeCountUI : UI_Popup
     public void ClickDecisionButton(PointerEventData data)
     {
         Managers.InvenUI.UpdateInvenUI(count);
+        Managers.Prefab.Destroy(gameObject);
+    }
+
+    public void ClickCloseButton(PointerEventData data)
+    {
+        StartCoroutine(ClosePopupUIAnim());
+    }
+
+    IEnumerator ClosePopupUIAnim()
+    {
+        StartCoroutine(CloseAnimPopup(panelRect));
+        yield return new WaitForSeconds(animDuration);
         Managers.Prefab.Destroy(gameObject);
     }
 }
