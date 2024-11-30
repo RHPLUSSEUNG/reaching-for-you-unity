@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3796763732599999119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 618e15b0-f596-48c4-85b2-26111006cbde
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uB300\uD68C\uB9CC \uACC4\uC18D\uB418\uBA74 \uC88B\uACA0\uB124.."
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 218.40002
+    y: -2.399994
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and: []
+--- !u!114 &-192130231795789805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: cc62bad1-d27f-40b3-bdb9-f78e10cc7f68
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uBC8C\uC368 \uACB0\uC2B9\uC804\uC774\uB77C\uB2C8, \uB0B4\uC77C\uBD80\uD130
+    \uC815\uC0C1\uC218\uC5C5\uC774\uB77C\uB2C8!!"
+  children:
+  - 618e15b0-f596-48c4-85b2-26111006cbde
+  rect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f00cc4d1c5b96842abc1f50692b7245, type: 3}
+  m_Name: BN_Dialogue06
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: -192130231795789805}
+  - {fileID: -3796763732599999119}

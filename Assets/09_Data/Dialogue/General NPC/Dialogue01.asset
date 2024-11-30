@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1573993911995417128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: a3e6e029-930d-418f-b83d-8209d5d7feeb
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uC73D.. \uC6B4\uB3D9\uC774\uB77C\uB2C8.."
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 445.60004
+    y: -1.6000061
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f00cc4d1c5b96842abc1f50692b7245, type: 3}
+  m_Name: Dialogue01
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 4192615409106756355}
+  - {fileID: 3206007849806456085}
+  - {fileID: -1573993911995417128}
+--- !u!114 &3206007849806456085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: d51b4dda-f58a-440b-8d74-9a8501d3fdd6
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 1
+  text: "\uC544\uB9C8 \uAE30\uCD08\uCCB4\uB825\uD559\uC77C\uAEC4?"
+  children:
+  - a3e6e029-930d-418f-b83d-8209d5d7feeb
+  rect:
+    serializedVersion: 2
+    x: 227.2
+    y: 0
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and: []
+--- !u!114 &4192615409106756355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57417245883834243aaa4d2eaaab780f, type: 3}
+  m_Name: 936e2ecd-cc7f-4573-ae29-b5465053439a
+  m_EditorClassIdentifier: 
+  isPlayerSpeaking: 0
+  text: "\uB2E4\uC74C \uC218\uC5C5 \uBB50\uB354\uB77C?"
+  children:
+  - d51b4dda-f58a-440b-8d74-9a8501d3fdd6
+  rect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 200
+    height: 100
+  onEnterAction: 0
+  onExitAction: 0
+  condition:
+    and: []
