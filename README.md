@@ -11,8 +11,8 @@
   
   [![Commit activity](https://img.shields.io/github/commit-activity/t/RHPLUSSEUNG/reaching-for-you-unity?cacheSeconds=0)](https://github.com/RHPLUSSEUNG/reaching-for-you-unity/commits/main)
   ![last commit](https://img.shields.io/github/last-commit/RHPLUSSEUNG/reaching-for-you-unity)
-  [![Opened issues](https://img.shields.io/github/issues/Gourieff/reaching-for-you?color=red)](https://github.com/Gourieff/sd-webui-reactor/issues?cacheSeconds=0)
-  [![Closed issues](https://img.shields.io/github/issues-closed/RHPLUSSEUNG/reaching-for-you?color=green&cacheSeconds=0)](https://github.com/Gourieff/sd-webui-reactor/issues?q=is%3Aissue+is%3Aclosed)
+  [![Opened issues](https://img.shields.io/github/issues/RHPLUSSEUNG/reaching-for-you?color=red)](https://github.com/RHPLUSSEUNG/reaching-for-you-unity/issues?cacheSeconds=0)
+  [![Closed issues](https://img.shields.io/github/issues-closed/RHPLUSSEUNG/reaching-for-you?color=green&cacheSeconds=0)](https://github.com/RHPLUSSEUNG/reaching-for-you/issues?q=is%3Aissue+is%3Aclosed)
 
 
 # Reaching For You
