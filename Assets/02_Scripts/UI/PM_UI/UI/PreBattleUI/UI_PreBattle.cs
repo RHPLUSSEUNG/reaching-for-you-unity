@@ -58,6 +58,12 @@ public class UI_PreBattle : UI_Scene
             Managers.BattleUI.warningUI.ShowWarningUI();
             return;
         }
+        if(Managers.BattleUI.player.GetComponent<SkillList>().idList.Count == 0)
+        {
+            Managers.BattleUI.warningUI.SetText("플레이어의 스킬을 장착해주세요!");
+            Managers.BattleUI.warningUI.ShowWarningUI();
+            return;
+        }
         Managers.UI.CreateSceneUI<BattleUI>("BattleUI");
         ActUI actUI = Managers.UI.CreatePopupUI<ActUI>("ActUI");
         Managers.BattleUI.actUI = actUI;
