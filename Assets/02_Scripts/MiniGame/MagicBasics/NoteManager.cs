@@ -36,8 +36,10 @@ public class NoteManager : MiniGameBase
         SoundManager.Instance.StopMusic();
         StartCoroutine(Countdown());
 
-        HUD = GameObject.Find("HUD UI");
-        HUD.SetActive(false);
+        HUD = GameObject.Find("UI Canvas").transform.GetChild(0).gameObject;
+
+        if(HUD != null)
+            HUD.SetActive(false);
     }
 
     IEnumerator Countdown()
@@ -169,12 +171,15 @@ public class NoteManager : MiniGameBase
         GameObject parent = transform.parent.gameObject;
         Managers.Prefab.Destroy(parent);
         
+        // HUD = GameObject.Find("HUD UI");
         HUD.SetActive(true);
     }
 
     public override void NextLevel()
     {
         MagicBasicsScore.Instance.Init();
+        remainTime = timeLimit;
+        timeSlider.value = remainTime / timeLimit;
         Init();
     }
 }
