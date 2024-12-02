@@ -26,6 +26,8 @@ public class NoteManager : MiniGameBase
     TimingManager timingManager = null;
     JudgementEffect judgementEffect = null;
 
+    GameObject HUD;
+
     public override void Init()
     {
         timingManager = GetComponent<TimingManager>();
@@ -33,6 +35,9 @@ public class NoteManager : MiniGameBase
 
         SoundManager.Instance.StopMusic();
         StartCoroutine(Countdown());
+
+        HUD = GameObject.Find("HUD UI");
+        HUD.SetActive(false);
     }
 
     IEnumerator Countdown()
@@ -163,6 +168,8 @@ public class NoteManager : MiniGameBase
 
         GameObject parent = transform.parent.gameObject;
         Managers.Prefab.Destroy(parent);
+        
+        HUD.SetActive(true);
     }
 
     public override void NextLevel()
