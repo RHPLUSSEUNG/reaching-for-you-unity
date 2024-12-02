@@ -66,4 +66,9 @@ public class GameClearPopupUI : UI_Popup
         yield return new WaitForSeconds(animDuration);
         Managers.Prefab.Destroy(gameObject);
     }
+
+    public Button GetStartBtn()
+    {
+        return startBtn;
+    }
 }

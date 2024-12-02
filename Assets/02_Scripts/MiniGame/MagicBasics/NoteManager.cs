@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NoteManager : MonoBehaviour
+public class NoteManager : MiniGameBase
 {
     // 제한시간
     public static float timeLimit = 30f;
@@ -13,8 +13,6 @@ public class NoteManager : MonoBehaviour
 
     [SerializeField]
     Slider timeSlider;
-    [SerializeField]
-    GameObject rankingPanel;
 
     // 노트 출현
     public int appearTime = 0;
@@ -28,11 +26,10 @@ public class NoteManager : MonoBehaviour
     TimingManager timingManager = null;
     JudgementEffect judgementEffect = null;
 
-    void Start()
+    public override void Init()
     {
         timingManager = GetComponent<TimingManager>();
         judgementEffect = GetComponent<JudgementEffect>();
-        rankingPanel.SetActive(false);
 
         SoundManager.Instance.StopMusic();
         StartCoroutine(Countdown());
@@ -85,9 +82,10 @@ public class NoteManager : MonoBehaviour
 
     IEnumerator MiniGameStart()
     {
+        MagicBasicsScore.Instance.IsPlaying = true;
         SoundManager.Instance.PlayMusic("BGM_MiniGame_MagicTheory_01");
         float elapsed = 0f;
-        remainTime = 30f;
+        remainTime = timeLimit;
         StartCoroutine(ClockRotate());
 
         while (elapsed < timeLimit)
@@ -108,20 +106,24 @@ public class NoteManager : MonoBehaviour
             yield return null;
         }
 
-        ScoreUI();
+        GameOver();
         yield return null;
     }
 
-    void ScoreUI()
+    void GameOver()
     {
-        rankingPanel.SetActive(true);
-        MagicBasicsScore.Instance.IsPlaying = false;
-        MagicBasicsScore.Instance.RankingUI();
-
         Debug.Log("Game Over");
+        MagicBasicsScore.Instance.IsPlaying = false;
 
         StopAllCoroutines();
-        SoundManager.Instance.PlaySFX("SFX_MagicTheory_Miss_01");
+        SoundManager.Instance.PlaySFX("SFX_MagicTheory_Result_01");
+
+        GameClearPopupUI clearUI = Managers.UI.CreatePopupUI<GameClearPopupUI>("GameClearPopup");
+        clearUI.gameUI = gameObject.GetComponent<NoteManager>();
+        clearUI.SetRankImage(MagicBasicsScore.Instance.GetScoreImage().sprite);
+
+        TMP_Text startTxt = clearUI.GetStartBtn().GetComponentInChildren<TMP_Text>();
+        startTxt.text = "다시 시작";
     }
 
     IEnumerator ClockRotate()
@@ -152,7 +154,7 @@ public class NoteManager : MonoBehaviour
         }   
     }
 
-    public void GameEnd()
+    public override void GameEnd()
     {
         Debug.Log("Game End");
         SoundManager.Instance.PlayMusic("BGM_Academy_01");
@@ -161,5 +163,11 @@ public class NoteManager : MonoBehaviour
 
         GameObject parent = transform.parent.gameObject;
         Managers.Prefab.Destroy(parent);
+    }
+
+    public override void NextLevel()
+    {
+        MagicBasicsScore.Instance.Init();
+        Init();
     }
 }

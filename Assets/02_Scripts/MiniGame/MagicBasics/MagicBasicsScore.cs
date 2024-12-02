@@ -9,7 +9,7 @@ public class MagicBasicsScore : MonoBehaviour
     static MagicBasicsScore instance = null;
     public static MagicBasicsScore Instance { get { return instance; } }
 
-    private bool isPlaying = true;
+    private bool isPlaying = false;
     public bool IsPlaying { 
         get { return isPlaying; }
         set { isPlaying = value; }
@@ -23,20 +23,22 @@ public class MagicBasicsScore : MonoBehaviour
 
     [SerializeField] Image scoreDecoImage;
     [SerializeField] Sprite[] scoreDecoSprite;
-    [SerializeField] Image rankImage;
-    [SerializeField] Sprite[] rankSprite;
 
-    float currentScore = 0;
+    public float currentScore = 0;
     
     void Awake()
     {
         if(instance == null)
             instance = this;
+
+        Init();
     }
 
-    void Start()
+    public void Init()
     {
         currentScore = 0;
+        scoreSlider.value = currentScore / totalScore;
+        ChangeScoreImage(scoreSlider.value);
     }
 
     // 점수 위치 (-247, 247)
@@ -73,23 +75,8 @@ public class MagicBasicsScore : MonoBehaviour
         }
     }
 
-    public void RankingUI()
+    public Image GetScoreImage()
     {
-        if((currentScore / totalScore) >= 0.76f)
-        {
-            rankImage.sprite = rankSprite[0];
-        }
-        else if((currentScore / totalScore) >= 0.5f)
-        {
-            rankImage.sprite = rankSprite[1];
-        }
-        else if((currentScore / totalScore) >= 0.23f)
-        {
-            rankImage.sprite = rankSprite[2];
-        }
-        else
-        {
-            rankImage.sprite = rankSprite[3];
-        }
+        return scoreDecoImage;
     }
 }
